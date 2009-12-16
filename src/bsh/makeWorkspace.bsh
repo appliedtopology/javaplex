@@ -1,0 +1,158 @@
+/**
+ * Creates a JConsole in a JInternalFrame and adds it to the desktop 
+ *
+ * @return this (the workspace scripted object for allowing access to the 
+ *          frame, interpreter, etc.)
+ *
+ * @author Pat Niemeyer
+ * @author Daniel Leuck (bug fixes)
+ * @author Harlan Sexton (modified for Plex use)
+ */
+
+import javax.swing.*;
+import bsh.Interpreter;
+import bsh.PlexInterpreter;
+import bsh.BshClassManager;
+import bsh.ClassPathException;
+import bsh.util.JConsole;
+import bsh.util.NameCompletionTable;
+
+makeWorkspace( String name ) 
+{
+	if ( bsh.system.desktop == void ) {
+		print("No desktop...");
+		return;
+	}
+
+	this.console = new JConsole();
+	this.name="Plex Workspace: "+name;
+
+	bsh.PlexInterpreter interp = new bsh.PlexInterpreter( console , name );
+
+  this.interpreter = interp;
+
+	// provide name completion for console, name source is global namespace
+	// move this into JConsole?
+
+	// Access to read classpath is protected 
+	try {
+    this.nct = new NameCompletionTable();
+    nct.add( interpreter.getNameSpace() );
+    try {
+      this.bcm = this.caller.namespace.getClassManager();
+      if ( bcm != null ) {
+        classNamesSource = bcm.getClassPath();
+        nct.add( classNamesSource );
+      }
+    } catch ( ClassPathException e ) {
+      error("classpath exception in name compl:"+e);
+    }
+    console.setNameCompletion( nct );
+    // end setup name completion
+	} catch ( SecurityException e ) { }
+
+	// for convenience and backwards compatability
+	interpreter.set( "bsh.desktop",  bsh.system.desktop );
+
+  // turn on printing by default -- Plex change
+  interpreter.setShowResults(true);
+  // import plex commands -- Plex change
+  interpreter.eval("import edu.stanford.math.plex.*;");
+
+	this.frame = bsh.system.desktop.makeInternalFrame( name );
+	frame.frameIcon=bsh.system.icons.workspace;
+	
+	/*
+		Notes: Careful not to print anything before returning sys io...
+		console is now gone.
+	*/
+	internalFrameClosing( e ) {
+
+	}
+	internalFrameActivated(ife) {}
+	internalFrameDeactivated(ife) {}
+	internalFrameClosed(ife) {}
+	internalFrameOpened(ife) {}
+	internalFrameIconified(ife) {}
+	internalFrameDeiconified(ife) {}	
+	
+	frame.addInternalFrameListener(this);
+
+	actionPerformed( e ) 
+	{
+		this.com = e.getActionCommand();
+		if ( com.equals("Workspace Editor") )
+			workspaceEditor( interpreter, name );
+		else if ( com.equals("Enable logging") )
+			enableLogging();
+		else if ( com.equals("Disable logging") )
+			disableLogging();
+		else if ( com.equals("Logging status") )
+			logStatus();
+		else if	( com.equals("Close") )	{
+			frame.setClosed(true);
+		}
+	}
+
+	this.menubar = new JMenuBar();
+	this.menu=new JMenu("File");
+	this.mi=new JMenuItem("Workspace Editor");
+	mi.addActionListener(this);
+	menu.add(mi);
+  // Plex changes -- add menu items for input logging
+	mi=new JMenuItem("Enable logging");
+	mi.addActionListener(this);
+	menu.add(mi);
+	mi=new JMenuItem("Disable logging");
+	mi.addActionListener(this);
+	menu.add(mi);
+	mi=new JMenuItem("Logging status");
+	mi.addActionListener(this);
+	menu.add(mi);
+	mi=new JMenuItem("Close");
+	mi.addActionListener(this);
+	menu.add(mi);
+	menubar.add(menu);
+
+	menu = fontMenu(console);
+	menubar.add(menu);
+
+	frame.setMenuBar(menubar);
+
+	frame.getContentPane().add("Center", console);
+	//frame.pack();
+	this.thread = new Thread( interpreter );
+	thread.start();
+
+	frame.setBounds(5,5,600,300);
+	// cascade windows?
+	//off=bsh.system.desktop.windowCount*10;
+	//frame.setLocation( off, off );
+	//frame.validate();
+	bsh.system.desktop.addInternalFrame( frame	);
+	frame.toFront();
+	frame.setSelected(true);
+
+	this.haveSysIO=false;
+	this.sysIn = System.in;
+	this.sysOut = System.out;
+	this.sysErr = System.err;
+
+  // Plex changes -- add menu items for input logging
+  enableLogging() {
+    interpreter.enableLogging();
+	}
+
+  // Plex changes -- add menu items for input logging
+  disableLogging() {
+    interpreter.disableLogging();
+	}
+
+  // Plex changes -- add menu items for input logging
+  logStatus() {
+    interpreter.print("\n" + interpreter.logStatus() + "\n" + getBshPrompt());
+	}
+
+	return this;
+}
+

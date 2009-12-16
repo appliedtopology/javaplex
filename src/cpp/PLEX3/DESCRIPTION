@@ -1,0 +1,10 @@
+Package: PLEX3
+Type: Package
+Title: R Interface for the PLEX3 Library
+Version: 2.4.0 
+Date: 2008-02-05
+Author: John Chakerian
+Maintainer: John Chakerian <chakj@stanford.edu>
+Description: Provides an interface to the PLEX3 Java library. 
+License: BSD 
+URL: http://math.stanford.edu/

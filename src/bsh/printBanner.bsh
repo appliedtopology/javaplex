@@ -1,0 +1,36 @@
+/**
+	Print the BeanShell banner (version and author line) - GUI or non GUI.
+
+	@author Daniel Leuck
+	@author Harlan Sexton (Plex revision)
+*/
+
+import javax.swing.ImageIcon;
+import java.awt.*;
+import bsh.Interpreter;
+import bsh.Capabilities;
+import bsh.util.JConsole;
+
+/*
+	Note: any errors thrown in here will be caught by interpreter and
+	ignored... printing the default message.
+*/
+printBanner() 
+{
+	if ((bsh.console != void) && 
+      Capabilities.haveSwing() && 
+      (bsh.console instanceof JConsole)) {
+
+    this.jconsole = bsh.console;
+
+    jconsole.println(new ImageIcon());
+    jconsole.print( " Plex 3.0 (comptop.stanford.edu) \n ",
+                    new Font("SansSerif", Font.BOLD, 12), 
+                    new Color(100,100,100) );
+    jconsole.println();
+	} else
+		print( " Plex 3.0 (comptop.stanford.edu) \n ");
+
+  // turn on printing by default -- Plex change
+  this.interpreter.setShowResults(true);
+}

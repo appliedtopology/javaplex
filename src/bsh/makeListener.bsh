@@ -1,0 +1,62 @@
+/**
+ * Creates an interpreter loop and returns it.
+ *
+ * @return this (the workspace scripted object for allowing access to the 
+ *          frame, interpreter, etc.)
+ *
+ * @author Pat Niemeyer
+ * @author Daniel Leuck (bug fixes)
+ * @author Harlan Sexton (modified for Plex use)
+ */
+
+import bsh.Interpreter;
+import bsh.PlexInterpreter;
+import bsh.BshClassManager;
+import bsh.ClassPathException;
+import bsh.util.JConsole;
+import bsh.util.NameCompletionTable;
+
+makeListener( String name ) 
+{
+	this.console = null;
+	this.name="Plex Listener: "+name;
+
+	bsh.PlexInterpreter interp = new bsh.PlexInterpreter( name );
+
+  this.interpreter = interp;
+
+	// provide name completion for console, name source is global namespace
+	// move this into JConsole?
+
+	// Access to read classpath is protected 
+	try {
+    this.nct = new NameCompletionTable();
+    nct.add( interpreter.getNameSpace() );
+    try {
+      this.bcm = this.caller.namespace.getClassManager();
+      if ( bcm != null ) {
+        classNamesSource = bcm.getClassPath();
+        nct.add( classNamesSource );
+      }
+    } catch ( ClassPathException e ) {
+      error("classpath exception in name compl:"+e);
+    }
+    // end setup name completion
+	} catch ( SecurityException e ) { }
+
+  // turn on printing by default -- Plex change
+  interpreter.setShowResults(true);
+  // import plex commands -- Plex change
+  interpreter.eval("import edu.stanford.math.plex.*;");
+
+	this.thread = new Thread( interpreter );
+	thread.start();
+
+	this.haveSysIO=false;
+	this.sysIn = System.in;
+	this.sysOut = System.out;
+	this.sysErr = System.err;
+
+	return this;
+}
+
