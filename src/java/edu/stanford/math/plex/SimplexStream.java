@@ -1,29 +1,6 @@
-// 
-//  SimplexStream.java
-// 
-//  ***************************************************************************
-// 
-//  Copyright 2008, Stanford University
-// 
-//  Permission to use, copy, modify, and distribute this software and its
-//  documentation for any purpose and without fee is hereby granted,
-//  provided that the above copyright notice appear in all copies and that
-//  both that copyright notice and this permission notice appear in
-//  supporting documentation, and that the name of Stanford University not
-//  be used in advertising or publicity pertaining to distribution of the
-//  software without specific, written prior permission.  Stanford
-//  University makes no representations about the suitability of this
-//  software for any purpose.  It is provided "as is" without express or
-//  implied warranty.
-// 
-//  ***************************************************************************
-// 
-//  Stream out simplices in persistence/dimension order.
-// 
-//  $Id$
-// 
 
 package edu.stanford.math.plex;
+
 import java.util.*;
 
 /**
@@ -45,677 +22,677 @@ import java.util.*;
  */
 
 public abstract class SimplexStream 
-  implements Iterable<Simplex>, Iterator<Simplex> {
+implements Iterable<Simplex>, Iterator<Simplex> {
 
-  /**
-   * Is there a next Simplex in the stream?
-   *
-   * <p>
-   * @return     Return true if the stream is not yet empty.
-   *
-   */
-  public abstract boolean hasNext();
+	/**
+	 * Is there a next Simplex in the stream?
+	 *
+	 * <p>
+	 * @return     Return true if the stream is not yet empty.
+	 *
+	 */
+	public abstract boolean hasNext();
 
-  /**
-   * Next Simplex in the stream.
-   *
-   * <p>
-   * @return     Return the smallest remaining Simplex instance.
-   *
-   */
-  public abstract Simplex next();
+	/**
+	 * Next Simplex in the stream.
+	 *
+	 * <p>
+	 * @return     Return the smallest remaining Simplex instance.
+	 *
+	 */
+	public abstract Simplex next();
 
-  /**
-   * Unsupported remove() operation.
-   *
-   * @exception UnsupportedOperationException 
-   */
-  public void remove() {
-    throw new UnsupportedOperationException();
-  }
+	/**
+	 * Unsupported remove() operation.
+	 *
+	 * @exception UnsupportedOperationException 
+	 */
+	public void remove() {
+		throw new UnsupportedOperationException();
+	}
 
-  /**
-   * How many simplices are in the stream?
-   *
-   * <p>
-   * @return     The number of simplices in the stream.
-   *
-   */
-  public abstract int size();
+	/**
+	 * How many simplices are in the stream?
+	 *
+	 * <p>
+	 * @return     The number of simplices in the stream.
+	 *
+	 */
+	public abstract int size();
 
-  /**
-   * Max dimension of simplices in the stream.
-   *
-   * <p>
-   * @return     Max dimension of simplices in the stream.
-   *
-   */
-  public abstract int maxDimension();
+	/**
+	 * Max dimension of simplices in the stream.
+	 *
+	 * <p>
+	 * @return     Max dimension of simplices in the stream.
+	 *
+	 */
+	public abstract int maxDimension();
 
-  /**
-   * Convert a PersistenceInterval into Float format in a stream-specific manner.
-   *
-   * <p>
-   * @param      p PersistenceInterval to convert.
-   * @return     Converted PersistenceInterval.Float.
-   *
-   */
-  public PersistenceInterval.Float convertInterval(PersistenceInterval p) {
-    if (p instanceof PersistenceInterval.Float)
-      return (PersistenceInterval.Float) p;
-    else {
-      PersistenceInterval.Int pi = (PersistenceInterval.Int) p;
-      double start = convert_filtration_index(pi.start);
-      double end = p.infiniteExtent()?
-        PersistenceInterval.Float.MAX_END:
-        convert_filtration_index(pi.end);
-      return new PersistenceInterval.Float(pi.dimension, start, end);
-    } 
-  }
+	/**
+	 * Convert a PersistenceInterval into Float format in a stream-specific manner.
+	 *
+	 * <p>
+	 * @param      p PersistenceInterval to convert.
+	 * @return     Converted PersistenceInterval.Float.
+	 *
+	 */
+	public PersistenceInterval.Float convertInterval(PersistenceInterval p) {
+		if (p instanceof PersistenceInterval.Float)
+			return (PersistenceInterval.Float) p;
+		else {
+			PersistenceInterval.Int pi = (PersistenceInterval.Int) p;
+			double start = convert_filtration_index(pi.start);
+			double end = p.infiniteExtent()?
+					PersistenceInterval.Float.MAX_END:
+						convert_filtration_index(pi.end);
+			return new PersistenceInterval.Float(pi.dimension, start, end);
+		} 
+	}
 
-  /**
-   * convert a PersistenceBasisInterval into Float format in a stream-specific manner.
-   *
-   * <p>
-   * @param    p PersistenceBasisInterval to convert.
-   * @return   Converted PersistenceBasisInterval.Float.
-   */
-  public PersistenceBasisInterval.Float convertInterval(PersistenceBasisInterval p) {
-      if(p instanceof PersistenceBasisInterval.Float)
-          return (PersistenceBasisInterval.Float) p;
-      else {
-          PersistenceBasisInterval.Int pbi = (PersistenceBasisInterval.Int) p;
-          PersistenceInterval.Int pii = 
-              new PersistenceInterval.Int(pbi.dimension, pbi.start, pbi.end);
-          PersistenceInterval.Float pif = convertInterval(pii);
-          return new PersistenceBasisInterval.Float(pbi.basisElement,
-                  pif.start, pif.end);
-      }
-  }
-
-
-  /**
-   * Convert a filtration index into a persistence parameter (i.e., double)
-   * -- gets overloaded by some subclasses.
-   *
-   * <p>
-   * @param      fi Filtration index to convert.
-   * @return     double persistence parameter.
-   *
-   */
-  public double convert_filtration_index(int fi) {
-    return (double) fi;
-  }
+	/**
+	 * convert a PersistenceBasisInterval into Float format in a stream-specific manner.
+	 *
+	 * <p>
+	 * @param    p PersistenceBasisInterval to convert.
+	 * @return   Converted PersistenceBasisInterval.Float.
+	 */
+	public PersistenceBasisInterval.Float convertInterval(PersistenceBasisInterval p) {
+		if(p instanceof PersistenceBasisInterval.Float)
+			return (PersistenceBasisInterval.Float) p;
+		else {
+			PersistenceBasisInterval.Int pbi = (PersistenceBasisInterval.Int) p;
+			PersistenceInterval.Int pii = 
+				new PersistenceInterval.Int(pbi.dimension, pbi.start, pbi.end);
+			PersistenceInterval.Float pif = convertInterval(pii);
+			return new PersistenceBasisInterval.Float(pbi.basisElement,
+					pif.start, pif.end);
+		}
+	}
 
 
-  /**
-   * Check the stream as much as possible.
-   *
-   * <p>
-   * @return     True if the stream is consistent, else false.
-   *
-   */
-  public boolean verify() {
-    SimplexTable faces = new SimplexTable(size());
-    for(Simplex s : this) {
-      Simplex[] bdy = s.boundaryArray();
-      if (bdy != null) {
-        for(Simplex f : bdy) {
-          Simplex tmp = faces.get(f);
-          if ((tmp == null) || (tmp.findex() > s.findex()))
-            return false;
-        }
-      }
-      faces.put(s);
-    }
-    return true;
-  }
-
-  public enum ComparisonType { LT, LE, EQ, GE, GT };
-
-  // As we are constructing the stream contents, we need to temporarily
-  // store simplices in a FIFO queue. Since we want to deal with the case
-  // where we have a LOT of simplices in the stream, we make some
-  // special-purpose classes with a very small amounts of overhead. NOTE:
-  // The FIFO queue functionality requires using both the Tail, to
-  // which objects are added, and the Head, from which they are
-  // extracted.
-
-  /**
-   * An instance of <code>Tail</code> provides the FI part of a FIFO
-   * queue. To retrieve the enqueued simplices in FO order, attach a
-   * <code>Head</code> to this instance.
-   */
-  public final static class Tail {
-
-    static final int ENTRIES_DEFAULT_LENGTH = 100;
-    Simplex[] entries;
-    int current;
-    Tail next;
-        
-    // make an empty SimplexStream.Segment with the default length
-    public Tail() {
-      entries = new Simplex[ENTRIES_DEFAULT_LENGTH];
-      current = 0;
-      next = null;
-    }
-
-    // make an empty SimplexStream.Segment with the given length
-    public Tail(int len) {
-      entries = new Simplex[len];
-      current = 0;
-      next = null;
-    }
-
-    public String toString() {
-      return String.format("[QT(%d:%d): {%d}%s]",
-                           current, entries.length, 
-                           System.identityHashCode(entries),
-                           (next != null)?("->"+next.toString()):"");
-    }
-
-    public final Tail enqueue(Simplex s) {
-      if (current < entries.length) {
-        assert(next == null);
-        entries[current++] = s;
-        return this;
-      } else {
-        next = new Tail(entries.length);
-        next.entries[next.current++] = s;
-        return next;
-      }
-    }
-  }
-
-  /**
-   * A <code>Head</code> provides the FO part of a FIFO queue when
-   * attached to a <code>Tail</code> to which simplices have been
-   * enqueued.
-   *
-   */
-  public static final class Head {
-
-    Simplex[] entries;
-    int current;
-    Tail orig;
-
-    // don't use
-    private Head() {
-    }
-
-    // make a head for a Tail
-    public Head(Tail q) {
-      entries = q.entries;
-      current = q.current;
-      orig = q;
-    }
-
-    // Duplicate a Head. Note that interating with a copy has no effect
-    // on the original, and no effect on the underlying Tail.
-    public Head copy() {
-      Head tmp = new Head();
-      tmp.entries = entries;
-      tmp.current = current;
-      tmp.orig = orig;
-      return tmp;
-    }
-
-    public String toString() {
-      return String.format("[QH(%d:%d): {%d} (%s)]",
-                           current, entries.length, 
-                           System.identityHashCode(entries),
-                           orig.toString());
-    }
-
-    /**
-     * Get the next entry from the underlying Queue.
-     *
-     * <p> 
-     * This only works is we don't outrun the underlying Tail.
-     * <p>
-     * @return     next Simplex in the Queue.
-     *
-     */
-    public final Simplex nextEntry() {
-      if (current == entries.length) {
-        // System.out.printf("nextEntry() for %s\n", toString());
-        Tail n = orig.next;
-        entries = n.entries;
-        current = 0;
-        orig = n;
-      }
-      return entries[current++];
-    }
-
-    /**
-     * Compare one Head to another.
-     *
-     * <p> This is a very fast comparison that will only work if both
-     * Head instances are heads for the same Tail. 
-     * <p>
-     * @param      q  Head to compare
-     * @return     true if this is prior to q, else false.
-     *
-     */
-    public final boolean lessThan (Head q) {
-      return ((entries != q.entries) || (current < q.current));
-    }
+	/**
+	 * Convert a filtration index into a persistence parameter (i.e., double)
+	 * -- gets overloaded by some subclasses.
+	 *
+	 * <p>
+	 * @param      fi Filtration index to convert.
+	 * @return     double persistence parameter.
+	 *
+	 */
+	public double convert_filtration_index(int fi) {
+		return (double) fi;
+	}
 
 
-    /**
-     * Check equality of Head with another.
-     *
-     * <p> This is used only by assertions.
-     * <p>
-     * @param      q  Head to compare
-     * @return     true if this is equal to q, else false.
-     *
-     */
-    public final boolean eql(Head q) {
-      return ((entries == q.entries) || (current == q.current));
-    }
-  }
-   
-  /**
-   * <code>Stack</code> is a multiway segmented stack for sorted storage
-   * of simplices.
-   *
-   * <p> The class <code>SimplexStream.Stack</code> provides a simple,
-   * fast, scalable implementation of SimplexStream. Instances are arrays
-   * of segmented stacks of simplices, simplices are less than,
-   * equivalent, or greater than one another (for the purposes of the
-   * Persistence computations) if and only if the corresponding indices
-   * for their segmented stacks are <, ==, or >. In addition, the next()
-   * method drops references to the segments as soon as possible, which
-   * means that the stack consumes progressively less memory as its
-   * contents are processed.
-   */
-  public static final class Stack extends SimplexStream {
+	/**
+	 * Check the stream as much as possible.
+	 *
+	 * <p>
+	 * @return     True if the stream is consistent, else false.
+	 *
+	 */
+	public boolean verify() {
+		SimplexTable faces = new SimplexTable(size());
+		for(Simplex s : this) {
+			Simplex[] bdy = s.boundaryArray();
+			if (bdy != null) {
+				for(Simplex f : bdy) {
+					Simplex tmp = faces.get(f);
+					if ((tmp == null) || (tmp.findex() > s.findex()))
+						return false;
+				}
+			}
+			faces.put(s);
+		}
+		return true;
+	}
 
-    // Rather like the Queue code above, but this is even simpler --
-    // the building block of a segmented stack.
-    private static final class Segment {
-      private final Simplex[] entries;
-      private int current;
-      private Segment next;
-        
-      // don't use
-      private Segment() {
-        entries = null;
-        current = 0;
-        next = null;
-      }
+	public enum ComparisonType { LT, LE, EQ, GE, GT };
 
-      // make an empty SimplexStream.Segment with a specified length
-      private Segment(int len) {
-        entries = new Simplex[len];
-        current = 0;
-        next = null;
-      }
+	// As we are constructing the stream contents, we need to temporarily
+	// store simplices in a FIFO queue. Since we want to deal with the case
+	// where we have a LOT of simplices in the stream, we make some
+	// special-purpose classes with a very small amounts of overhead. NOTE:
+	// The FIFO queue functionality requires using both the Tail, to
+	// which objects are added, and the Head, from which they are
+	// extracted.
 
-      public String toString() {
-        return String.format("[Seg(%d:%d): {%d}%s]",
-                             current, entries.length, 
-                             System.identityHashCode(entries),
-                             (next != null)?("->"+next.toString()):"");
-      }
+	/**
+	 * An instance of <code>Tail</code> provides the FI part of a FIFO
+	 * queue. To retrieve the enqueued simplices in FO order, attach a
+	 * <code>Head</code> to this instance.
+	 */
+	public static class Tail {
 
-      private final Segment push(Simplex s) {
-        if (current < entries.length) {
-          entries[current++] = s;
-          return this;
-        } else {
-          Segment tmp = new Segment(entries.length);
-          tmp.next = this;
-          tmp.entries[tmp.current++] = s;
-          return tmp;
-        }
-      }
-    }
+		static final int ENTRIES_DEFAULT_LENGTH = 100;
+		Simplex[] entries;
+		int current;
+		Tail next;
 
-    private static final int STACK_SEGMENT_LENGTH = 10;
+		// make an empty SimplexStream.Segment with the default length
+		public Tail() {
+			entries = new Simplex[ENTRIES_DEFAULT_LENGTH];
+			current = 0;
+			next = null;
+		}
 
-    private final Segment[] segments;
-    private final int findex_bound;
-    private final int dimension_bound;
-    private final int segment_length;
-    private int size;
+		// make an empty SimplexStream.Segment with the given length
+		public Tail(int len) {
+			entries = new Simplex[len];
+			current = 0;
+			next = null;
+		}
 
-    private int segments_index;
-    private int simplex_index;
+		public String toString() {
+			return String.format("[QT(%d:%d): {%d}%s]",
+					current, entries.length, 
+					System.identityHashCode(entries),
+					(next != null)?("->"+next.toString()):"");
+		}
 
-    // don't use
-    private Stack() {
-      segment_length = 0;
-      segments = null;
-      dimension_bound = 0;
-      findex_bound = 0;
-      segments_index = 0;
-      simplex_index = 0;
-      size = 0;
-    }
+		public Tail enqueue(Simplex s) {
+			if (current < entries.length) {
+				assert(next == null);
+				entries[current++] = s;
+				return this;
+			} else {
+				next = new Tail(entries.length);
+				next.entries[next.current++] = s;
+				return next;
+			}
+		}
+	}
 
-    /**
-     * Constructor for Stack.
-     *
-     * <p>
-     * Make a multi-way stack that automatically sorts simplices.
-     * <p>
-     * @param      max_findex Maximum Filtration Index we'll use.
-     * @param      max_d Maximum dimension of a Simplex to be pushed.
-     *
-     */
-    public Stack(int max_findex, int max_d) {
-      segment_length = STACK_SEGMENT_LENGTH;
-      dimension_bound = (max_d + 1);
-      findex_bound = (max_findex + 1);
-      segments = new Segment[dimension_bound * findex_bound];
-      segments_index = 0;
-      simplex_index = 0;
-      size = 0;
-    }
+	/**
+	 * A <code>Head</code> provides the FO part of a FIFO queue when
+	 * attached to a <code>Tail</code> to which simplices have been
+	 * enqueued.
+	 *
+	 */
+	public static class Head {
 
-    public final String toString() {
-      return String.format("[STK(%d,%d): %d/%d, si=%d/%d]",
-                           dimension_bound, findex_bound, 
-                           segments_index, segments.length,
-                           simplex_index, segment_length);
-    }
+		Simplex[] entries;
+		int current;
+		Tail orig;
 
-    private final int simplexIndex(Simplex s) {
-      assert((s.findex() < findex_bound) && (s.dimension() < dimension_bound));
-      return (s.findex() * dimension_bound) + s.dimension();
-    }
+		// don't use
+		protected Head() {
+		}
 
-    /**
-     * Push a Simplex into the stream.
-     *
-     * <p> Add the Simplex s to the stream so that it will be retrieved
-     * in the proper order. 
-     * <p>
-     * @param      s  Simplex instance to push.
-     * @return     s
-     *
-     */
-    public final Simplex push(Simplex s) {
-      int index = simplexIndex(s);
-      size++;
-      if (segments[index] == null) 
-        segments[index] = new Segment(segment_length);
-      segments[index] = (segments[index]).push(s);
-      return s;
-    }
+		// make a head for a Tail
+		public Head(Tail q) {
+			entries = q.entries;
+			current = q.current;
+			orig = q;
+		}
 
-    /**
-     * How many simplices are in the stream?
-     *
-     * <p>
-     * @return     The number of simplices in the stream.
-     *
-     */
-    public final int size() {
-      return size;
-    }
+		// Duplicate a Head. Note that interating with a copy has no effect
+		// on the original, and no effect on the underlying Tail.
+		public Head copy() {
+			Head tmp = new Head();
+			tmp.entries = entries;
+			tmp.current = current;
+			tmp.orig = orig;
+			return tmp;
+		}
 
-    /**
-     * Max dimension of simplices in the stream.
-     *
-     * <p>
-     * @return     Max dimension of simplices in the stream.
-     *
-     */
-    public final int maxDimension() {
-      return (dimension_bound - 1);
-    }
+		public String toString() {
+			return String.format("[QH(%d:%d): {%d} (%s)]",
+					current, entries.length, 
+					System.identityHashCode(entries),
+					orig.toString());
+		}
 
-    /**
-     * Is there a next Simplex in the stream?
-     *
-     * <p>
-     * @return     Return true if the stream is not yet empty.
-     *
-     */
-    public boolean hasNext() {
-      if (segments[segments_index] != null) {
-        if (simplex_index < segments[segments_index].current)
-          return true;
-        else {
-          simplex_index = 0;
-          Segment next = segments[segments_index].next;
-          segments[segments_index] = next;
-          if (next != null) {
-            assert(0 < next.current);
-            return true;
-          }
-        }
-      }
+		/**
+		 * Get the next entry from the underlying Queue.
+		 *
+		 * <p> 
+		 * This only works is we don't outrun the underlying Tail.
+		 * <p>
+		 * @return     next Simplex in the Queue.
+		 *
+		 */
+		public Simplex nextEntry() {
+			if (current == entries.length) {
+				// System.out.printf("nextEntry() for %s\n", toString());
+				Tail n = orig.next;
+				entries = n.entries;
+				current = 0;
+				orig = n;
+			}
+			return entries[current++];
+		}
 
-      assert(segments[segments_index] == null);
-      assert(simplex_index == 0);
+		/**
+		 * Compare one Head to another.
+		 *
+		 * <p> This is a very fast comparison that will only work if both
+		 * Head instances are heads for the same Tail. 
+		 * <p>
+		 * @param      q  Head to compare
+		 * @return     true if this is prior to q, else false.
+		 *
+		 */
+		public boolean lessThan (Head q) {
+			return ((entries != q.entries) || (current < q.current));
+		}
 
-      while ((segments_index < segments.length) && 
-             (segments[segments_index] == null))
-        segments_index++;
 
-      if (segments_index == segments.length)
-        return false;
+		/**
+		 * Check equality of Head with another.
+		 *
+		 * <p> This is used only by assertions.
+		 * <p>
+		 * @param      q  Head to compare
+		 * @return     true if this is equal to q, else false.
+		 *
+		 */
+		public boolean eql(Head q) {
+			return ((entries == q.entries) || (current == q.current));
+		}
+	}
 
-      assert(segments[segments_index] != null);
-      assert(0 < segments[segments_index].current);
-      return true;
-    }
+	/**
+	 * <code>Stack</code> is a multiway segmented stack for sorted storage
+	 * of simplices.
+	 *
+	 * <p> The class <code>SimplexStream.Stack</code> provides a simple,
+	 * fast, scalable implementation of SimplexStream. Instances are arrays
+	 * of segmented stacks of simplices, simplices are less than,
+	 * equivalent, or greater than one another (for the purposes of the
+	 * Persistence computations) if and only if the corresponding indices
+	 * for their segmented stacks are <, ==, or >. In addition, the next()
+	 * method drops references to the segments as soon as possible, which
+	 * means that the stack consumes progressively less memory as its
+	 * contents are processed.
+	 */
+	public static class Stack extends SimplexStream {
 
-    /**
-     * Return the next Simplex in the stream. This operations
-     * <em>removes</em> the simplex returned from the stream, so
-     * repeated iterations are impossible with the method.
-     *
-     * <p>
-     * @return     The smallest remaining Simplex instance.
-     *
-     */
-    public Simplex next() {
-      Segment seg = segments[segments_index];
-      Simplex s;
-      if (seg != null) {
-        if (simplex_index < seg.current) {
-          s = seg.entries[simplex_index];
-          seg.entries[simplex_index++] = null;
-          assert(size > 0);
-          size--;
-          return s;
-        } else {
-          simplex_index = 0;
-          seg = segments[segments_index] = segments[segments_index].next;
-          if (seg != null) {
-            assert(0 < seg.current);
-            s = seg.entries[simplex_index];
-            seg.entries[simplex_index++] = null;
-            assert(size > 0);
-            size--;
-            return s;
-          }
-        }
-      }
+		// Rather like the Queue code above, but this is even simpler --
+		// the building block of a segmented stack.
+		protected static class Segment {
+			protected final Simplex[] entries;
+			protected int current;
+			protected Segment next;
 
-      assert(segments[segments_index] == null);
-      assert(simplex_index == 0);
+			// don't use
+			protected Segment() {
+				entries = null;
+				current = 0;
+				next = null;
+			}
 
-      while ((segments_index < segments.length) && 
-             ((seg = segments[segments_index]) == null))
-        segments_index++;
+			// make an empty SimplexStream.Segment with a specified length
+			protected Segment(int len) {
+				entries = new Simplex[len];
+				current = 0;
+				next = null;
+			}
 
-      if (segments_index == segments.length)
-        return null;
+			public String toString() {
+				return String.format("[Seg(%d:%d): {%d}%s]",
+						current, entries.length, 
+						System.identityHashCode(entries),
+						(next != null)?("->"+next.toString()):"");
+			}
 
-      assert(segments[segments_index] != null);
-      assert(0 < seg.current);
-      s = seg.entries[simplex_index];
-      seg.entries[simplex_index++] = null;
-      assert(size > 0);
-      size--;
-      return s;
-    }
+			protected Segment push(Simplex s) {
+				if (current < entries.length) {
+					entries[current++] = s;
+					return this;
+				} else {
+					Segment tmp = new Segment(entries.length);
+					tmp.next = this;
+					tmp.entries[tmp.current++] = s;
+					return tmp;
+				}
+			}
+		}
 
-    /**
-     * Instances provide Iterator<Simplex> for non-destructive
-     * iterating over Stack entries. That is, repeated iteration over a
-     * Stack instance is possible with multiple instances of this
-     * class.
-     */
-    private static final class StackIterator implements Iterator<Simplex> {
-      private Segment[] segments;
-      private int segments_index;
-      private Segment current_seg;
-      private int simplex_index;
-      private int fixed_dimension;
-      private final int dimension_bound;
+		protected static int STACK_SEGMENT_LENGTH = 10;
 
-      private StackIterator() {
-        segments = null;
-        segments_index = 0;
-        current_seg = null;
-        simplex_index = 0;
-        fixed_dimension = -1;
-        dimension_bound = 0;
-      }
+		protected final Segment[] segments;
+		protected final int findex_bound;
+		protected final int dimension_bound;
+		protected final int segment_length;
+		protected int size;
 
-      public StackIterator(Stack stack) {
-        segments = stack.segments;
-        segments_index = 0;
-        current_seg = null;
-        simplex_index = 0;
-        fixed_dimension = -1;
-        dimension_bound = stack.dimension_bound;
-      }
+		protected int segments_index;
+		protected int simplex_index;
 
-      public StackIterator(Stack stack, int dimension) {
-        segments = stack.segments;
-        segments_index = -1;
-        current_seg = null;
-        simplex_index = 0;
-        if ((dimension < 0) || (dimension >= stack.dimension_bound))
-          throw new IllegalArgumentException(dimension + 
-                                             " must be >= 0 and <= " + 
-                                             stack.dimension_bound); 
-        fixed_dimension = dimension;
-        dimension_bound = stack.dimension_bound;
-      }
+		// don't use
+		protected Stack() {
+			segment_length = 0;
+			segments = null;
+			dimension_bound = 0;
+			findex_bound = 0;
+			segments_index = 0;
+			simplex_index = 0;
+			size = 0;
+		}
 
-      /**
-       * Returns <tt>true</tt> if the iterator has more simplices.
-       *
-       * @return <tt>true</tt> if the iterator has more simplices, else
-       * <tt>false</tt>.
-       */
-      public final boolean hasNext() {
-        while(true) {
-          while (current_seg == null) {
-            if (segments_index >= segments.length)
-              return false;
-            else {
-              if (fixed_dimension >= 0) {
-                if (segments_index < 0)
-                  segments_index = fixed_dimension;
-                else
-                  segments_index += dimension_bound;
-                if (segments_index >= segments.length)
-                  return false;
-                else
-                  current_seg = segments[segments_index];
-              } else
-                current_seg = segments[segments_index++];
-            }
-          }
-          while (current_seg != null) {
-            while ((simplex_index < current_seg.current) &&
-                   (current_seg.entries[simplex_index] == null))
-              simplex_index++;
-            if (simplex_index < current_seg.current)
-              return true;
-            else {
-              simplex_index = 0;
-              current_seg = current_seg.next;
-            }
-          }
-        }
-      }
+		/**
+		 * Constructor for Stack.
+		 *
+		 * <p>
+		 * Make a multi-way stack that automatically sorts simplices.
+		 * <p>
+		 * @param      max_findex Maximum Filtration Index we'll use.
+		 * @param      max_d Maximum dimension of a Simplex to be pushed.
+		 *
+		 */
+		public Stack(int max_findex, int max_d) {
+			segment_length = STACK_SEGMENT_LENGTH;
+			dimension_bound = (max_d + 1);
+			findex_bound = (max_findex + 1);
+			segments = new Segment[dimension_bound * findex_bound];
+			segments_index = 0;
+			simplex_index = 0;
+			size = 0;
+		}
 
-      /**
-       * Returns the next Simplex in the iteration of the Stack.
-       * Used in concert with the {@link #hasNext()} method returns
-       * return each Simplex in the Stack exactly once. Does
-       * <em>not</em> have any side effects on the stream.
-       * <p>
-       * @return the next Simplex in the Stack.
-       * @exception NoSuchElementException Stack has no more elements.
-       */
-      public final Simplex next() {
-        while(true) {
-          while (current_seg == null) {
-            if (segments_index >= segments.length)
-              throw new NoSuchElementException();
-            else {
-              if (fixed_dimension >= 0) {
-                if (segments_index < 0)
-                  segments_index = fixed_dimension;
-                else
-                  segments_index += dimension_bound;
-                if (segments_index >= segments.length)
-                  throw new NoSuchElementException();
-                else
-                  current_seg = segments[segments_index];
-              } else
-                current_seg = segments[segments_index++];
-            }
-          }
-          while (current_seg != null) {
-            while ((simplex_index < current_seg.current) &&
-                   (current_seg.entries[simplex_index] == null))
-              simplex_index++;
-            if (simplex_index < current_seg.current) {
-              return current_seg.entries[simplex_index++];
-            } else {
-              simplex_index = 0;
-              current_seg = current_seg.next;
-            }
-          }
-        }
-      }
+		public String toString() {
+			return String.format("[STK(%d,%d): %d/%d, si=%d/%d]",
+					dimension_bound, findex_bound, 
+					segments_index, segments.length,
+					simplex_index, segment_length);
+		}
 
-      /**
-       * Unsupported remove() operation.
-       *
-       * @exception UnsupportedOperationException 
-       */
-      public void remove() {
-        throw new UnsupportedOperationException();
-      }
-    }
+		protected int simplexIndex(Simplex s) {
+			assert((s.findex() < findex_bound) && (s.dimension() < dimension_bound));
+			return (s.findex() * dimension_bound) + s.dimension();
+		}
 
-    /**
-     * Make a non-destructive iterator for the Stack.
-     * <p>
-     *
-     * @return  Iterator<Simplex> instance for the stack.
-     *
-     * @see        java.util.Iterator
-     */
-    public Iterator<Simplex> iterator() {
-      return new StackIterator(this);
-    }
+		/**
+		 * Push a Simplex into the stream.
+		 *
+		 * <p> Add the Simplex s to the stream so that it will be retrieved
+		 * in the proper order. 
+		 * <p>
+		 * @param      s  Simplex instance to push.
+		 * @return     s
+		 *
+		 */
+		public Simplex push(Simplex s) {
+			int index = simplexIndex(s);
+			size++;
+			if (segments[index] == null) 
+				segments[index] = new Segment(segment_length);
+			segments[index] = (segments[index]).push(s);
+			return s;
+		}
 
-    /**
-     * Make a non-destructive iterator for fixed dimensional entries in the Stack.
-     * <p>
-     *
-     * @param      d  dimension of entries we want to iterate over
-     * @return  Iterator<Simplex> instance for the stack.
-     *
-     * @see        java.util.Iterator
-     */
-    public Iterator<Simplex> iterator(int d) {
-      return new StackIterator(this, d);
-    }
-  }
+		/**
+		 * How many simplices are in the stream?
+		 *
+		 * <p>
+		 * @return     The number of simplices in the stream.
+		 *
+		 */
+		public int size() {
+			return size;
+		}
+
+		/**
+		 * Max dimension of simplices in the stream.
+		 *
+		 * <p>
+		 * @return     Max dimension of simplices in the stream.
+		 *
+		 */
+		public int maxDimension() {
+			return (dimension_bound - 1);
+		}
+
+		/**
+		 * Is there a next Simplex in the stream?
+		 *
+		 * <p>
+		 * @return     Return true if the stream is not yet empty.
+		 *
+		 */
+		public boolean hasNext() {
+			if (segments[segments_index] != null) {
+				if (simplex_index < segments[segments_index].current)
+					return true;
+				else {
+					simplex_index = 0;
+					Segment next = segments[segments_index].next;
+					segments[segments_index] = next;
+					if (next != null) {
+						assert(0 < next.current);
+						return true;
+					}
+				}
+			}
+
+			assert(segments[segments_index] == null);
+			assert(simplex_index == 0);
+
+			while ((segments_index < segments.length) && 
+					(segments[segments_index] == null))
+				segments_index++;
+
+			if (segments_index == segments.length)
+				return false;
+
+			assert(segments[segments_index] != null);
+			assert(0 < segments[segments_index].current);
+			return true;
+		}
+
+		/**
+		 * Return the next Simplex in the stream. This operations
+		 * <em>removes</em> the simplex returned from the stream, so
+		 * repeated iterations are impossible with the method.
+		 *
+		 * <p>
+		 * @return     The smallest remaining Simplex instance.
+		 *
+		 */
+		public Simplex next() {
+			Segment seg = segments[segments_index];
+			Simplex s;
+			if (seg != null) {
+				if (simplex_index < seg.current) {
+					s = seg.entries[simplex_index];
+					seg.entries[simplex_index++] = null;
+					assert(size > 0);
+					size--;
+					return s;
+				} else {
+					simplex_index = 0;
+					seg = segments[segments_index] = segments[segments_index].next;
+					if (seg != null) {
+						assert(0 < seg.current);
+						s = seg.entries[simplex_index];
+						seg.entries[simplex_index++] = null;
+						assert(size > 0);
+						size--;
+						return s;
+					}
+				}
+			}
+
+			assert(segments[segments_index] == null);
+			assert(simplex_index == 0);
+
+			while ((segments_index < segments.length) && 
+					((seg = segments[segments_index]) == null))
+				segments_index++;
+
+			if (segments_index == segments.length)
+				return null;
+
+			assert(segments[segments_index] != null);
+			assert(0 < seg.current);
+			s = seg.entries[simplex_index];
+			seg.entries[simplex_index++] = null;
+			assert(size > 0);
+			size--;
+			return s;
+		}
+
+		/**
+		 * Instances provide Iterator<Simplex> for non-destructive
+		 * iterating over Stack entries. That is, repeated iteration over a
+		 * Stack instance is possible with multiple instances of this
+		 * class.
+		 */
+		protected static class StackIterator implements Iterator<Simplex> {
+			protected Segment[] segments;
+			protected int segments_index;
+			protected Segment current_seg;
+			protected int simplex_index;
+			protected int fixed_dimension;
+			protected final int dimension_bound;
+
+			protected StackIterator() {
+				segments = null;
+				segments_index = 0;
+				current_seg = null;
+				simplex_index = 0;
+				fixed_dimension = -1;
+				dimension_bound = 0;
+			}
+
+			public StackIterator(Stack stack) {
+				segments = stack.segments;
+				segments_index = 0;
+				current_seg = null;
+				simplex_index = 0;
+				fixed_dimension = -1;
+				dimension_bound = stack.dimension_bound;
+			}
+
+			public StackIterator(Stack stack, int dimension) {
+				segments = stack.segments;
+				segments_index = -1;
+				current_seg = null;
+				simplex_index = 0;
+				if ((dimension < 0) || (dimension >= stack.dimension_bound))
+					throw new IllegalArgumentException(dimension + 
+							" must be >= 0 and <= " + 
+							stack.dimension_bound); 
+				fixed_dimension = dimension;
+				dimension_bound = stack.dimension_bound;
+			}
+
+			/**
+			 * Returns <tt>true</tt> if the iterator has more simplices.
+			 *
+			 * @return <tt>true</tt> if the iterator has more simplices, else
+			 * <tt>false</tt>.
+			 */
+			public boolean hasNext() {
+				while(true) {
+					while (current_seg == null) {
+						if (segments_index >= segments.length)
+							return false;
+						else {
+							if (fixed_dimension >= 0) {
+								if (segments_index < 0)
+									segments_index = fixed_dimension;
+								else
+									segments_index += dimension_bound;
+								if (segments_index >= segments.length)
+									return false;
+								else
+									current_seg = segments[segments_index];
+							} else
+								current_seg = segments[segments_index++];
+						}
+					}
+					while (current_seg != null) {
+						while ((simplex_index < current_seg.current) &&
+								(current_seg.entries[simplex_index] == null))
+							simplex_index++;
+						if (simplex_index < current_seg.current)
+							return true;
+						else {
+							simplex_index = 0;
+							current_seg = current_seg.next;
+						}
+					}
+				}
+			}
+
+			/**
+			 * Returns the next Simplex in the iteration of the Stack.
+			 * Used in concert with the {@link #hasNext()} method returns
+			 * return each Simplex in the Stack exactly once. Does
+			 * <em>not</em> have any side effects on the stream.
+			 * <p>
+			 * @return the next Simplex in the Stack.
+			 * @exception NoSuchElementException Stack has no more elements.
+			 */
+			public Simplex next() {
+				while(true) {
+					while (current_seg == null) {
+						if (segments_index >= segments.length)
+							throw new NoSuchElementException();
+						else {
+							if (fixed_dimension >= 0) {
+								if (segments_index < 0)
+									segments_index = fixed_dimension;
+								else
+									segments_index += dimension_bound;
+								if (segments_index >= segments.length)
+									throw new NoSuchElementException();
+								else
+									current_seg = segments[segments_index];
+							} else
+								current_seg = segments[segments_index++];
+						}
+					}
+					while (current_seg != null) {
+						while ((simplex_index < current_seg.current) &&
+								(current_seg.entries[simplex_index] == null))
+							simplex_index++;
+						if (simplex_index < current_seg.current) {
+							return current_seg.entries[simplex_index++];
+						} else {
+							simplex_index = 0;
+							current_seg = current_seg.next;
+						}
+					}
+				}
+			}
+
+			/**
+			 * Unsupported remove() operation.
+			 *
+			 * @exception UnsupportedOperationException 
+			 */
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}
+		}
+
+		/**
+		 * Make a non-destructive iterator for the Stack.
+		 * <p>
+		 *
+		 * @return  Iterator<Simplex> instance for the stack.
+		 *
+		 * @see        java.util.Iterator
+		 */
+		public Iterator<Simplex> iterator() {
+			return new StackIterator(this);
+		}
+
+		/**
+		 * Make a non-destructive iterator for fixed dimensional entries in the Stack.
+		 * <p>
+		 *
+		 * @param      d  dimension of entries we want to iterate over
+		 * @return  Iterator<Simplex> instance for the stack.
+		 *
+		 * @see        java.util.Iterator
+		 */
+		public Iterator<Simplex> iterator(int d) {
+			return new StackIterator(this, d);
+		}
+	}
 }

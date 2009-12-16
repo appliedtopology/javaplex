@@ -25,14 +25,6 @@
 
 package bsh;
 
-import java.io.*;
-import java.util.*;
-import bsh.util.*;
-import bsh.*;
-import java.util.Vector;
-import java.io.*;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * The <code>PlexInterpreter</code> class is a wrapper for Interpreter

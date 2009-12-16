@@ -25,9 +25,8 @@
 
 package bsh.commands;
 
-import java.io.*;
-import bsh.*;
-import bsh.PlexReader;
+import bsh.CallStack;
+import bsh.Interpreter;
 import bsh.PlexInterpreter;
 
 /**

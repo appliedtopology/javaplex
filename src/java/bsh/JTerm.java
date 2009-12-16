@@ -25,12 +25,6 @@ package bsh;
 //  $Id: JTerm.java,v 1.1 2008/09/16 17:21:32 hsexton Exp $
 // 
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.Vector;
-import bsh.util.*;
-import bsh.*;
 
 /**
  * The <code>JTerm</code> class is the entry point for Plex users into

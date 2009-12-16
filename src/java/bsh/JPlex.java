@@ -25,13 +25,7 @@ package bsh;
 //  $Id: JPlex.java,v 1.2 2008/09/25 17:50:25 hsexton Exp $
 // 
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.Vector;
-import bsh.util.*;
-import bsh.*;
-import edu.stanford.math.plex.*;
+import edu.stanford.math.plex.Plex;
 
 /**
  * The <code>JPlex</code> class is the entry point for Plex users into Beanshell.

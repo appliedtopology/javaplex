@@ -1,32 +1,7 @@
-// 
-//  RDirectBufferData.java
-// 
-//  ***************************************************************************
-// 
-//  Copyright 2008, Stanford University
-// 
-//  Permission to use, copy, modify, and distribute this software and its
-//  documentation for any purpose and without fee is hereby granted,
-//  provided that the above copyright notice appear in all copies and that
-//  both that copyright notice and this permission notice appear in
-//  supporting documentation, and that the name of Stanford University not
-//  be used in advertising or publicity pertaining to distribution of the
-//  software without specific, written prior permission.  Stanford
-//  University makes no representations about the suitability of this
-//  software for any purpose.  It is provided "as is" without express or
-//  implied warranty.
-// 
-//  ***************************************************************************
-// 
-//  RDirectBufferData.java
-// 
-//  $Id$
-// 
-
 package edu.stanford.math.plex;
-import java.util.*;
-import java.nio.*;
-import java.lang.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.DoubleBuffer;
 
 
 /**
@@ -35,14 +10,14 @@ import java.lang.*;
  *
  * @version $Id$
  */
-public final class RDirectBufferData extends PointData {
+public class RDirectBufferData extends PointData {
   
   /**
    * Max number of points.
    */
-  private final int p_max;
+  protected final int p_max;
 
-  private final DoubleBuffer distanceBuffer;
+  protected final DoubleBuffer distanceBuffer;
 		  
   /**
    * Use a pre-allocated buffer of doubles as the distance matrix.
@@ -76,13 +51,13 @@ public final class RDirectBufferData extends PointData {
    * @param     p2   the second point
    * @return    the distance between p1 and p2
    */
-  public final double distance(int p1, int p2) {
+  public double distance(int p1, int p2) {
     if(p1 == p2)
       return 0.0;
     return distanceBuffer.get(p_max*(p2-1) + (p1-1));
   }
 
-  public final int count() {
+  public int count() {
     return p_max;
   }
 }
