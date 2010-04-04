@@ -1,6 +1,8 @@
 package edu.stanford.math.plex;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * The <code>WitnessStreamTest</code> class.

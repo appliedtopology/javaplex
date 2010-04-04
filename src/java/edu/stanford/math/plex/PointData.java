@@ -1,5 +1,7 @@
 package edu.stanford.math.plex;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Random;
 
 /**
  * A <code>PointData</code> instance encodes distance information for a

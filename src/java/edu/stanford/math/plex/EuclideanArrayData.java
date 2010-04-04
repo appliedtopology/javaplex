@@ -1,6 +1,6 @@
 package edu.stanford.math.plex;
 
-import java.util.*;
+import java.util.Random;
 
 /**
  * The <code>EuclideanArrayData</code> class is the simplest implementation

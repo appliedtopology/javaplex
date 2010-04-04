@@ -55,7 +55,7 @@ public class CoefficientObjectPair<K, T extends Comparable<T>> implements Compar
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof CoefficientObjectPair))
+		if (!(obj instanceof CoefficientObjectPair<?, ?>))
 			return false;
 		CoefficientObjectPair<?, ?> other = (CoefficientObjectPair<?, ?>) obj;
 		if (coefficient == null) {

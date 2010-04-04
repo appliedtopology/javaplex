@@ -1,6 +1,9 @@
 package edu.stanford.math.plex;
 
-import static java.lang.Math.*;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
 
 /**
  * A <code>Torus</code> instance is  discrete simulation of a d-dimensional torus. For testing.

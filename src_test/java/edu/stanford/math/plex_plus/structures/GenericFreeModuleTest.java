@@ -6,10 +6,10 @@ import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.homology.ArraySimplex;
 import edu.stanford.math.plex_plus.homology.Simplex;
-import edu.stanford.math.plex_plus.math.structures.GenericFreeModule;
-import edu.stanford.math.plex_plus.math.structures.IntFreeModule;
-import edu.stanford.math.plex_plus.math.structures.ModularIntField;
-import edu.stanford.math.plex_plus.math.structures.RationalField;
+import edu.stanford.math.plex_plus.math.structures.impl.GenericFreeModule;
+import edu.stanford.math.plex_plus.math.structures.impl.IntFreeModule;
+import edu.stanford.math.plex_plus.math.structures.impl.ModularIntField;
+import edu.stanford.math.plex_plus.math.structures.impl.RationalField;
 
 /**
  * 

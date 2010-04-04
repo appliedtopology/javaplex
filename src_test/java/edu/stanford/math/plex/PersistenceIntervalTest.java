@@ -1,7 +1,10 @@
 package edu.stanford.math.plex;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * The <code>PersistenceIntervalTest</code> class.

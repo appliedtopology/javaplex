@@ -1,10 +1,18 @@
 package edu.stanford.math.plex;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-import java.util.*;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import static java.lang.Math.*;
+import java.util.Iterator;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * The <code>RipsStreamTest</code> class.

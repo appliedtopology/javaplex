@@ -1,6 +1,7 @@
 package edu.stanford.math.plex;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A <code>SimplexTable</code> is an interning table for instances of

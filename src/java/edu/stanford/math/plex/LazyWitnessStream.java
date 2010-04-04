@@ -1,9 +1,15 @@
 package edu.stanford.math.plex;
 
-import java.util.*;
-//Share some "protected" functions defined in WitnessStream.
-import static edu.stanford.math.plex.WitnessStream.*;
-import static edu.stanford.math.plex.RipsStream.*;
+import static edu.stanford.math.plex.RipsStream.all_edges_present;
+import static edu.stanford.math.plex.RipsStream.edge_index;
+import static edu.stanford.math.plex.WitnessStream.D_index;
+import static edu.stanford.math.plex.WitnessStream.HUGE;
+import static edu.stanford.math.plex.WitnessStream.distance_ln;
+import static edu.stanford.math.plex.WitnessStream.max;
+import static edu.stanford.math.plex.WitnessStream.min;
+
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * <p>A LazyWitnessStream is a SimplexStream whose elements are the

@@ -1,6 +1,9 @@
 package edu.stanford.math.plex;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Random;
 
 /**
  * A <code>WitnessStream</code> is an iterable Witness complex.

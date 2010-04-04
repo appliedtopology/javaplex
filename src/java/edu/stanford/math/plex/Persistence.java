@@ -1,6 +1,8 @@
 package edu.stanford.math.plex;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * The <code>Persistence</code> class class implements the algorithm of

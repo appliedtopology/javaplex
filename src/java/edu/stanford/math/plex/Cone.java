@@ -1,5 +1,8 @@
 package edu.stanford.math.plex;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * The class Cone provides support for computing persistence across a 

@@ -1,9 +1,13 @@
 
 package edu.stanford.math.plex;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-import java.util.*;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Random;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * The <code>PlexSortTest</code> class provides tests for PlexSort.java.

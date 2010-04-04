@@ -1,7 +1,12 @@
 package edu.stanford.math.plex;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * The <code>SimplexFaceIteratorTest</code> class.

@@ -1,6 +1,5 @@
 package edu.stanford.math.plex_plus.datastructures;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,39 +52,7 @@ public class LabeledGrid<T extends Comparable<T>, U extends Comparable<U>, V> {
 		
 		return list;
 	}
-	
-	public V[][] getDenseMatrixForm() {
-		SortedMap<T, Integer> rowLabelIndexMap = new TreeMap<T, Integer>();
-		SortedMap<U, Integer> columnLabelIndexMap = new TreeMap<U, Integer>();
-		
-		List<T> rowLabelList = this.getRowLabelList();
-		List<U> columnLabelList = this.getColumnLabelSet();
-		
-		for (int i = 0; i < rowLabelList.size(); i++) {
-			rowLabelIndexMap.put(rowLabelList.get(i), i);
-		}
-		
-		for (int i = 0; i < columnLabelList.size(); i++) {
-			columnLabelIndexMap.put(columnLabelList.get(i), i);
-		}
-		
-		
-		Set<Map.Entry<GenericOrderedPair<T, U>, V> > entrySet = map.entrySet();
-		int row = 0;
-		int column = 0;
-		V[][] matrix = null;
-		if (!entrySet.isEmpty()) {
-			matrix = (V[][]) Array.newInstance(entrySet.iterator().next().getValue().getClass(), new int[]{rowLabelList.size(), columnLabelList.size()});
-		}
-		for (Map.Entry<GenericOrderedPair<T, U>, V> entry : entrySet) {
-			row = rowLabelIndexMap.get(entry.getKey().getFirst());
-			column = columnLabelIndexMap.get(entry.getKey().getSecond());
-			matrix[row][column] = entry.getValue();
-		}
-		
-		return matrix;
-	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

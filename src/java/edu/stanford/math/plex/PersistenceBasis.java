@@ -1,6 +1,13 @@
 package edu.stanford.math.plex;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Vector;
 
 /** The class PersistenceBasis implements the Persistence algorithm by 
  *  Carlsson-Zomorodian, with additional basis element tracking to make

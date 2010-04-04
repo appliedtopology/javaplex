@@ -1,8 +1,12 @@
 package edu.stanford.math.plex;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-import java.util.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Iterator;
+
+import org.junit.Test;
 
 /**
  * The <code>ExplicitStreamTest</code> class.

@@ -1,8 +1,10 @@
 package edu.stanford.math.plex;
 
-import java.util.*;
+import static edu.stanford.math.plex.WitnessStream.HUGE;
 
-import static edu.stanford.math.plex.WitnessStream.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * A <code>RipsStream</code> instance is SimplexStream whose elements are

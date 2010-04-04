@@ -1,7 +1,8 @@
 
 package edu.stanford.math.plex;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * An instance of the abstract class <code>SimplexStream</code> provides

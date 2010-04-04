@@ -1,7 +1,8 @@
 
 package edu.stanford.math.plex;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * The <code>TmpStream</code> class. Test code. The <code>next()</code>

@@ -1,8 +1,5 @@
 package edu.stanford.math.plex_plus.homology;
 
-import edu.stanford.math.plex_plus.homology.ArraySimplex;
-import edu.stanford.math.plex_plus.homology.FullSimplicialComplex;
-import edu.stanford.math.plex_plus.homology.SimplicialComplex;
 
 
 /**
@@ -29,7 +26,10 @@ public class BasicHomologyTest {
 		// print the entire complex
 		System.out.println(complex.toString());
 		
-		// print the 2-boundary matrix in sparse form 
-		System.out.println(complex.getBoundaryMatrix(1).toString());	
+		// print the 1-boundary matrix in sparse form 
+		System.out.println(complex.getBoundaryMatrix(1).toString());
+		
+		// print the 3-boundary matrix in sparse form 
+		System.out.println(complex.getBoundaryMatrix(3).toString());
 	}
 }

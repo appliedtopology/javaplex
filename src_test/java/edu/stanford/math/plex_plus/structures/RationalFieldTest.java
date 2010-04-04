@@ -3,7 +3,7 @@
  */
 package edu.stanford.math.plex_plus.structures;
 
-import edu.stanford.math.plex_plus.math.structures.RationalField;
+import edu.stanford.math.plex_plus.math.structures.impl.RationalField;
 
 /**
  * @author Andrew Tausz

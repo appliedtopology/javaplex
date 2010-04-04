@@ -61,7 +61,7 @@ public class GenericPair<T, U> {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof GenericPair))
+		if (!(obj instanceof GenericPair<?, ?>))
 			return false;
 		GenericPair<?,?> other = (GenericPair<?,?>) obj;
 		if (first == null) {
