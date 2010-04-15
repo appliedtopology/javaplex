@@ -16,8 +16,15 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  *
  */
 public abstract class Simplex implements Comparable<Simplex> {
+	private int filtrationIndex = 0;
+	
 	public abstract int[] getVertices();
-	public abstract int dimension();
+	public abstract int getDimension();
+	public abstract Simplex[] getBoundaryArray();
+	
+	public int getFiltrationIndex() {
+		return this.filtrationIndex;
+	}
 	
 	@Override
 	public int compareTo(Simplex o) {

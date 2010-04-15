@@ -24,15 +24,18 @@ public class IntFormalSum<M> {
 		this.put(coefficient, object);
 	}
 	
+	public IntFormalSum(M object) {
+		this.put(1, object);
+	}
+	
 	private IntFormalSum(TObjectIntHashMap<M> map) {
 		ExceptionUtility.verifyNonNull(map);
 		this.map.putAll(map);
 	}
-	
-	public IntFormalSum(IntFormalSum<M> formalSum) {
+		public IntFormalSum(IntFormalSum<M> formalSum) {
 		this(formalSum.map);
 	}
-	
+		
 	public void put(int coefficient, M object) {
 		ExceptionUtility.verifyNonNull(object);
 		this.map.put(object, coefficient);
@@ -57,6 +60,10 @@ public class IntFormalSum<M> {
 		return this.map.size();
 	}
 	
+	public boolean isEmpty() {
+		return this.map.isEmpty();
+	}
+	
 	public TObjectIntIterator<M> iterator() {
 		return this.map.iterator();
 	}
@@ -76,5 +83,30 @@ public class IntFormalSum<M> {
 			index++;
 		}
 		return builder.toString();
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((map == null) ? 0 : map.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		IntFormalSum<?> other = (IntFormalSum<?>) obj;
+		if (map == null) {
+			if (other.map != null)
+				return false;
+		} else if (!map.equals(other.map))
+			return false;
+		return true;
 	}
 }

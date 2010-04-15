@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.stanford.math.plex_plus.math.metric;
+package edu.stanford.math.plex_plus.math.metric.interfaces;
 
 /**
  * @author Andrew Tausz

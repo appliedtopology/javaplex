@@ -1,11 +1,10 @@
 package edu.stanford.math.plex_plus.homology;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import edu.stanford.math.plex_plus.utility.ArrayUtility;
+import edu.stanford.math.plex_plus.homology.utility.HomologyUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 /**
@@ -16,46 +15,39 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  * currently stores all of the simplicies in the simplicial complex,
  * thus there is considerable redundancy.
  * 
- * @author Andris
+ * @author Andrew Tausz
  *
  */
-public class FullSimplicialComplex extends SimplicialComplex {
-	private Map<Integer, SortedSet<Simplex>> skeletons = new HashMap<Integer, SortedSet<Simplex>>();
-	private int maxDimension = 0;
-
-	@Override
+public class FullSimplicialComplex implements SimplexStream {
+	private SortedSet<Simplex> simplices = new TreeSet<Simplex>();
+	
 	public void addSimplex(Simplex simplex) {
 		ExceptionUtility.verifyNonNull(simplex);
-		int d = simplex.dimension();
-		this.maxDimension = Math.max(this.maxDimension, d);
-
-		if (!skeletons.containsKey(d)) {
-			skeletons.put(d, new TreeSet<Simplex>());
-		}
-		skeletons.get(d).add(simplex);
+		
+		this.simplices.add(simplex);
+		
 		int[] vertices = simplex.getVertices();
 		if (vertices.length > 1) {
 			for (int i = 0; i < vertices.length; i++) {
-				this.addSimplex(new ArraySimplex(ArrayUtility.removeIndex(vertices, i)));
+				this.addSimplex(new ArraySimplex(HomologyUtility.removeIndex(vertices, i)));
 			}
 		}
 	}
 
 	@Override
-	public int[][] getDenseBoundaryMatrix(int k) {
-		ExceptionUtility.verifyPositive(k);		
-		// TODO Auto-generated method stub
-		return null;		
+	public Iterator<Simplex> iterator() {
+		return this.simplices.iterator();
 	}
 
 	@Override
-	public int getDimension() {
-		return this.maxDimension;
-	}
-
-	@Override
-	public SortedSet<Simplex> getSkeleton(int k) {
-		ExceptionUtility.verifyNonNegative(k);
-		return this.skeletons.get(k);
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("{");
+		for (Simplex simplex : this.simplices) {
+			builder.append(simplex.toString());
+			builder.append(" ");
+		}
+		builder.append("}");
+		return builder.toString();
 	}
 }

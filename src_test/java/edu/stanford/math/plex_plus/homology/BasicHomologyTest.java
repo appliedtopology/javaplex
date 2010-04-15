@@ -1,5 +1,8 @@
 package edu.stanford.math.plex_plus.homology;
 
+import edu.stanford.math.plex_plus.math.structures.impl.ModularIntField;
+
+
 
 
 /**
@@ -15,21 +18,19 @@ public class BasicHomologyTest {
 	
 	public static void basicTest() {
 		// create a new simplicial complex
-		SimplicialComplex complex = new FullSimplicialComplex();
+		FullSimplicialComplex stream = new FullSimplicialComplex();
 		
 		// add simplices
-		complex.addSimplex(new ArraySimplex(new int[]{0, 1}));
-		complex.addSimplex(new ArraySimplex(new int[]{1, 2}));
-		complex.addSimplex(new ArraySimplex(new int[]{2, 0}));
-		complex.addSimplex(new ArraySimplex(new int[]{2, 3, 4, 5}));
+		stream.addSimplex(new ArraySimplex(new int[]{0, 1}));
+		stream.addSimplex(new ArraySimplex(new int[]{1, 2}));
+		stream.addSimplex(new ArraySimplex(new int[]{2, 0}));
+		//stream.addSimplex(new ArraySimplex(new int[]{2, 3, 4, 5}));
 		
 		// print the entire complex
-		System.out.println(complex.toString());
+		System.out.println(stream.toString());
 		
-		// print the 1-boundary matrix in sparse form 
-		System.out.println(complex.getBoundaryMatrix(1).toString());
-		
-		// print the 3-boundary matrix in sparse form 
-		System.out.println(complex.getBoundaryMatrix(3).toString());
+		PersistentHomology homology = new PersistentHomology(ModularIntField.getInstance(7));
+		BarcodeCollection barcodes = homology.computeIntervals(stream);
+		System.out.println(barcodes);
 	}
 }

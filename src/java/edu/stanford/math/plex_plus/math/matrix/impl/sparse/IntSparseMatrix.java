@@ -76,6 +76,15 @@ public class IntSparseMatrix implements IntAbstractMatrix {
 		return new IntSparseMatrixIterator(this);
 	}
 	
+	public int[][] getDenseForm() {
+		int[][] array = new int[this.rows][this.columns];
+		for (IntAbstractMatrixIterator iterator = this.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			array[iterator.row()][iterator.column()] = iterator.value();
+		}
+		return array;
+	}
+	
 	@Override
 	public IntAbstractVector multiply(IntAbstractVector vector) {
 		IntAbstractVector result = new IntSparseVector(this.rows);

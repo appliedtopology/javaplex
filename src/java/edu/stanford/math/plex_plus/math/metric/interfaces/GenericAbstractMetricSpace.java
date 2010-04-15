@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.stanford.math.plex_plus.math.metric;
+package edu.stanford.math.plex_plus.math.metric.interfaces;
 
 /**
  * This interface defines the functionality of
@@ -11,6 +11,6 @@ package edu.stanford.math.plex_plus.math.metric;
  *
  * @param <T> The type over which the metric space is defined
  */
-public interface GenericMetricSpace<T> {
+public interface GenericAbstractMetricSpace<T> {
 	public double distance(T a, T b);
 }

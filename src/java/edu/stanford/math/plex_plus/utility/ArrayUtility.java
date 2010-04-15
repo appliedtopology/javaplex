@@ -1,5 +1,7 @@
 package edu.stanford.math.plex_plus.utility;
 
+import java.util.List;
+
 /**
  * This class contains static helper functions for
  * manipulating arrays.
@@ -8,26 +10,6 @@ package edu.stanford.math.plex_plus.utility;
  *
  */
 public class ArrayUtility {
-	public static int[] removeIndex(int[] array, int index) {
-		ExceptionUtility.verifyNonNull(array);
-		ExceptionUtility.verifyIndex(array.length, index);
-		ExceptionUtility.verifyNonEmpty(array);
-		
-		int[] result = new int[array.length - 1];
-		int newIndex = 0;
-		int oldIndex = 0;
-		while (oldIndex < array.length) {
-			if (oldIndex == index) {
-				oldIndex++;
-			} else {
-				result[newIndex] = array[oldIndex];
-				newIndex++;
-				oldIndex++;
-			}
-		}
-		return result;
-	}
-	
 	public static <T> String toString(T[][] array) {
 		ExceptionUtility.verifyNonNull(array);
 		
@@ -103,5 +85,49 @@ public class ArrayUtility {
 		}
 		builder.append("]");
 		return builder.toString();		
+	}
+
+	/**
+	 * This function swaps two values in the supplied array.
+	 * The array is modified in-place.
+	 * 
+	 * @param array the array to perform the swap on
+	 * @param i the first index
+	 * @param j the second index
+	 */
+	public static void swap(int[] array, int i, int j) {
+		int temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	}
+	
+	public static <T> void swap(T[] array, int i, int j) {
+		T temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	}
+	
+	public static <T> void swap(List<T> array, int i, int j) {
+		T temp = array.get(i);
+		array.set(i, array.get(j));
+		array.set(j, temp);
+	}
+
+	public static double squaredDistance(double[] point1, double[] point2) {
+		ExceptionUtility.verifyNonNull(point1);
+		ExceptionUtility.verifyNonNull(point2);
+		ExceptionUtility.verifyEqual(point1.length, point2.length);
+		double squaredDistance = 0;
+		double difference = 0;
+		for (int i = 0; i < point1.length; i++) {
+			difference = (point1[i] - point2[i]);
+			squaredDistance += difference * difference;
+		}
+		return squaredDistance;
+	}
+
+	public static double squaredDistance(double point1, double point2) {
+		double difference = (point1 - point2);
+		return difference * difference;
 	}
 }

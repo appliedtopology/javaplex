@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.homology;
+package edu.stanford.math.plex_plus.datastructures;
 
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
