@@ -1,9 +1,10 @@
-package edu.stanford.math.plex_plus.homology;
+package edu.stanford.math.plex_plus.homology.simplicial_complex;
 
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import edu.stanford.math.plex_plus.homology.simplex.Simplex;
 import edu.stanford.math.plex_plus.homology.utility.HomologyUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
@@ -18,7 +19,7 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  * @author Andrew Tausz
  *
  */
-public class FullSimplicialComplex implements SimplexStream {
+public class FullSimplicialComplex {
 	private SortedSet<Simplex> simplices = new TreeSet<Simplex>();
 	
 	public void addSimplex(Simplex simplex) {
@@ -29,12 +30,11 @@ public class FullSimplicialComplex implements SimplexStream {
 		int[] vertices = simplex.getVertices();
 		if (vertices.length > 1) {
 			for (int i = 0; i < vertices.length; i++) {
-				this.addSimplex(new ArraySimplex(HomologyUtility.removeIndex(vertices, i)));
+				this.addSimplex(new Simplex(HomologyUtility.removeIndex(vertices, i)));
 			}
 		}
 	}
 
-	@Override
 	public Iterator<Simplex> iterator() {
 		return this.simplices.iterator();
 	}

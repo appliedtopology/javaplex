@@ -27,6 +27,16 @@ public class MathUtility {
 		}
 	}
 	
+	public static int signum(double l) {
+		if (l > 0) {
+			return 1;
+		} else if (l < 0) {
+			return -1;
+		} else {
+			return 0;
+		}
+	}
+	
 	/**
 	 * This function returns the multiplicative inverses of the integers
 	 * [0, 1, ..., p-1] in mod p arithmetic. Note that the 0-th index is 

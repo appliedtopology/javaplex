@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.homology;
+package edu.stanford.math.plex_plus.homology.barcodes;
 
 import gnu.trove.iterator.TIntObjectIterator;
 import gnu.trove.map.hash.TIntObjectHashMap;

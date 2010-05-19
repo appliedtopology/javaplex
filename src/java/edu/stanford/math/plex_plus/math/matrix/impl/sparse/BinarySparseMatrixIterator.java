@@ -1,15 +1,22 @@
+/**
+ * 
+ */
 package edu.stanford.math.plex_plus.math.matrix.impl.sparse;
 
-import edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractMatrixIterator;
-import edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractVectorIterator;
+import edu.stanford.math.plex_plus.math.matrix.interfaces.BinaryAbstractMatrixIterator;
+import edu.stanford.math.plex_plus.math.matrix.interfaces.BinaryAbstractVectorIterator;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TIntObjectIterator;
 
-public class DoubleSparseMatrixIterator implements DoubleAbstractMatrixIterator {
-	private final TIntObjectIterator<DoubleSparseVector> rowIterator;
-	private DoubleAbstractVectorIterator columnIterator = null;
+/**
+ * @author atausz
+ *
+ */
+public class BinarySparseMatrixIterator implements BinaryAbstractMatrixIterator {
+	private final TIntObjectIterator<BinarySparseVector> rowIterator;
+	private BinaryAbstractVectorIterator columnIterator = null;
 	
-	public DoubleSparseMatrixIterator(DoubleSparseMatrix matrix) {
+	public BinarySparseMatrixIterator(BinarySparseMatrix matrix) {
 		ExceptionUtility.verifyNonNull(matrix);
 		this.rowIterator = matrix.map.iterator();
 		this.rowIterator.advance();
@@ -52,8 +59,7 @@ public class DoubleSparseMatrixIterator implements DoubleAbstractMatrixIterator 
 	}
 	
 	@Override
-	public double value() {
+	public boolean value() {
 		return this.columnIterator.value();
 	}
-	
 }

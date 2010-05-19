@@ -3,13 +3,12 @@
  */
 package edu.stanford.math.plex_plus.math.metric.impl;
 
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 import edu.stanford.math.plex_plus.tree.KDNode;
 import edu.stanford.math.plex_plus.utility.ArrayUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
+import gnu.trove.set.hash.TIntHashSet;
 
 /**
  * @author Andrew Tausz
@@ -50,17 +49,17 @@ public class KDTree {
 		}
 		if (startIndex == endIndex) {
 			System.out.println(ArrayUtility.toString(dataPoints[startIndex]));
-			return new KDNode(dataPoints[startIndex]);
+			return new KDNode(startIndex);
 		}
 		int axis = depth % this.dimension;
 		int medianIndex = startIndex + (endIndex - startIndex + 1) / 2;
 		
-		double[] medianPoint = randomizedSelect(dataPoints, startIndex, endIndex, medianIndex, axis);
+		int randomizedIndex = randomizedSelect(dataPoints, startIndex, endIndex, medianIndex, axis);
 		System.out.println("StartIndex: " + startIndex + " EndIndex: " + endIndex);
 		//System.out.println(ArrayUtility.toString(dataPoints));
-		System.out.println(ArrayUtility.toString(medianPoint));
+		System.out.println(ArrayUtility.toString(this.dataPoints[randomizedIndex]));
 		System.out.println("Median index: " + medianIndex);
-		KDNode node = new KDNode(medianPoint);
+		KDNode node = new KDNode(randomizedIndex);
 		
 		node.setLeft(this.kdIteration(depth + 1, startIndex, medianIndex - 1));
 		node.setRight(this.kdIteration(depth + 1, medianIndex + 1, endIndex));
@@ -68,28 +67,28 @@ public class KDTree {
 		return node;
 	}
 	
-	public double[] nearestNeighborSearch(double[] queryPoint) {
-		return nearestNeighborSearch(this.root, queryPoint, this.root.getPoint(), 0);
+	public int nearestNeighborSearch(double[] queryPoint) {
+		return nearestNeighborSearch(this.root, queryPoint, this.root.getIndex(), 0);
 	}
 	
-	private double[] nearestNeighborSearch(KDNode node, double[] queryPoint, double[] bestPoint, int depth) {
+	private int nearestNeighborSearch(KDNode node, double[] queryPoint, int bestIndex, int depth) {
 		if (node == null) {
-			return bestPoint;
+			return bestIndex;
 		}
-		if (bestPoint == null) {
-			bestPoint = node.getPoint();
-		}
+		double[] bestPoint = this.dataPoints[bestIndex];
 		
 		// get the current axis
 		int axis = depth % this.dimension;
 		// get the current point
-		double[] currentPoint = node.getPoint();
+		int currentIndex = node.getIndex();
+		double[] currentPoint = this.dataPoints[currentIndex];
 		
 		// Calculate whether current node is the best so far
 		double currentSquaredDistance = ArrayUtility.squaredDistance(queryPoint, currentPoint);
 		double bestSquaredDistance = ArrayUtility.squaredDistance(queryPoint, bestPoint);
 		if (currentSquaredDistance < bestSquaredDistance) {
 			bestPoint = currentPoint;
+			bestIndex = currentIndex;
 		}
 		
 		// determine which side of the hyperplane the query point is in
@@ -108,24 +107,24 @@ public class KDTree {
 		}
 		
 		// search the current half-space (the half-space containing the query point)
-		bestPoint = nearestNeighborSearch(nearChild, queryPoint, bestPoint, depth + 1);
+		bestIndex = nearestNeighborSearch(nearChild, queryPoint, bestIndex, depth + 1);
 		
 		// test to see if we need to search other half-space
 		double separatingPlaneDistance = ArrayUtility.squaredDistance(queryPoint[axis], currentPoint[axis]);
 		if (bestSquaredDistance > separatingPlaneDistance) {
-			bestPoint = nearestNeighborSearch(farChild, queryPoint, bestPoint, depth + 1);
+			bestIndex = nearestNeighborSearch(farChild, queryPoint, bestIndex, depth + 1);
 		}
 		
-		return bestPoint;		
+		return bestIndex;		
 	}
 	
-	public Set<double[]> epsilonNeighborhoodSearch(double[] queryPoint, double epsilon) {
-		Set<double[]> neighborhood = new HashSet<double[]>();
+	public TIntHashSet epsilonNeighborhoodSearch(double[] queryPoint, double epsilon) {
+		TIntHashSet neighborhood = new TIntHashSet();
 		epsilonNeighborhoodSearch(this.root, queryPoint, neighborhood, 0, epsilon * epsilon);
 		return neighborhood;
 	}
 	
-	private void epsilonNeighborhoodSearch(KDNode node, double[] queryPoint, Set<double[]> neighborhood, int depth, double epsilonSquared) {		
+	private void epsilonNeighborhoodSearch(KDNode node, double[] queryPoint, TIntHashSet neighborhood, int depth, double epsilonSquared) {		
 		if (node == null) {
 			return;
 		}
@@ -133,13 +132,14 @@ public class KDTree {
 		// get the current axis
 		int axis = depth % this.dimension;
 		// get the current point
-		double[] currentPoint = node.getPoint();
+		int currentIndex = node.getIndex();
+		double[] currentPoint = this.dataPoints[currentIndex];
 
 		// calculate whether the current node belongs in the epsilon-neighborhood
 		// of the query point
 		double currentSquaredDistance = ArrayUtility.squaredDistance(queryPoint, currentPoint);
 		if (currentSquaredDistance < epsilonSquared) {
-			neighborhood.add(currentPoint);
+			neighborhood.add(currentIndex);
 		}
 		
 		// determine which side of the hyperplane the query point is in
@@ -200,9 +200,9 @@ public class KDTree {
 		return partition(array, startIndex, endIndex, axis);
 	}
 
-	private static double[] randomizedSelect(double[][] array, int startIndex, int endIndex, int i, int axis) {
+	private static int randomizedSelect(double[][] array, int startIndex, int endIndex, int i, int axis) {
 		if (startIndex == endIndex) {
-			return array[startIndex];
+			return startIndex;
 		}
 
 		int partitionBoundaryIndex = randomizedPartition(array, startIndex, endIndex, axis);

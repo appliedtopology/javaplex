@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.datastructures;
+package edu.stanford.math.plex_plus.datastructures.pairs;
 
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 

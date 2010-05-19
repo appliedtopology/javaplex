@@ -3,11 +3,13 @@ package edu.stanford.math.plex_plus.math.matrix.impl.sparse;
 import edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractMatrix;
 import edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractMatrixIterator;
 import edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractVector;
+import edu.stanford.math.plex_plus.math.matrix.interfaces.GenericAbstractMatrix;
+import edu.stanford.math.plex_plus.math.matrix.interfaces.GenericAbstractMatrixIterator;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TIntObjectIterator;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
-public class DoubleSparseMatrix implements DoubleAbstractMatrix {
+public class DoubleSparseMatrix extends DoubleAbstractMatrix {
 	
 	/**
 	 * We use a row-wise storage scheme. The variable map stores
@@ -25,6 +27,54 @@ public class DoubleSparseMatrix implements DoubleAbstractMatrix {
 		ExceptionUtility.verifyNonNegative(columns);
 		this.rows = rows;
 		this.columns = columns;
+	}
+	
+	/**
+	 * This constructor initializes the matrix from a block matrix.
+	 * 
+	 * @param blockMatrix
+	 */
+	public DoubleSparseMatrix(GenericAbstractMatrix<DoubleAbstractMatrix> blockMatrix) {
+		// verify consistency of blocks
+		int blockWidth = -1;
+		int blockHeight = -1;
+		for (GenericAbstractMatrixIterator<DoubleAbstractMatrix> blockIterator = blockMatrix.iterator(); blockIterator.hasNext(); ) {
+			blockIterator.advance();
+			if (blockWidth == -1 || blockHeight == -1) {
+				blockWidth = blockIterator.value().getNumColumns();
+				blockHeight = blockIterator.value().getNumRows();
+			} else if (blockWidth != blockIterator.value().getNumColumns() || blockHeight != blockIterator.value().getNumRows()) {
+				throw new IllegalArgumentException("Block matrix must have same-sized blocks");
+			}
+		}
+		
+		this.rows = blockHeight * blockMatrix.getNumRows();
+		this.columns = blockWidth * blockMatrix.getNumColumns();
+		
+		for (GenericAbstractMatrixIterator<DoubleAbstractMatrix> blockIterator = blockMatrix.iterator(); blockIterator.hasNext(); ) {
+			blockIterator.advance();
+			int startingRow = blockHeight * blockIterator.row();
+			int startingColumn = blockWidth * blockIterator.column();
+			
+			for (DoubleAbstractMatrixIterator indexIterator = blockIterator.value().iterator(); indexIterator.hasNext(); ) {
+				indexIterator.advance();
+				this.set(startingRow + indexIterator.row(), startingColumn + indexIterator.column(), indexIterator.value());
+			}
+		}
+	}
+	
+	public DoubleAbstractMatrix createIdentityMatrix(int size) {
+		ExceptionUtility.verifyNonNegative(size);
+		DoubleAbstractMatrix result = new DoubleSparseMatrix(size, size);
+		for (int i = 0; i < size; i++) {
+			result.set(i, i, 1);
+		}
+		return result;
+	}
+	
+	@Override
+	public DoubleAbstractMatrix like(int rows, int columns) {
+		return new DoubleSparseMatrix(rows, columns);
 	}
 	
 	@Override
@@ -77,31 +127,6 @@ public class DoubleSparseMatrix implements DoubleAbstractMatrix {
 	}
 	
 	@Override
-	public DoubleAbstractVector multiply(DoubleAbstractVector vector) {
-		DoubleAbstractVector result = new DoubleSparseVector(this.rows);
-		double innerProductValue = 0;
-		for (TIntObjectIterator<DoubleSparseVector> iterator = this.map.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			innerProductValue = iterator.value().innerProduct(vector);
-			if (innerProductValue != 0) {
-				result.set(iterator.key(), innerProductValue);
-			}
-		}
-		
-		return result;
-	}
-
-	@Override
-	public DoubleAbstractMatrix transpose() {
-		DoubleSparseMatrix result = new DoubleSparseMatrix(this.columns, this.rows);
-		for (DoubleAbstractMatrixIterator iterator = this.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			result.set(iterator.column(), iterator.row(), iterator.value());
-		}
-		return result;
-	}
-	
-	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		
@@ -116,5 +141,44 @@ public class DoubleSparseMatrix implements DoubleAbstractMatrix {
 		}
 		
 		return builder.toString();
+	}
+
+	@Override
+	public DoubleAbstractVector multiply(DoubleAbstractVector vector) {
+		DoubleAbstractVector result = new DoubleSparseVector(this.rows);
+		double innerProductValue = 0;
+		for (TIntObjectIterator<DoubleSparseVector> iterator = this.map.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			innerProductValue = iterator.value().innerProduct(vector);
+			if (innerProductValue != 0) {
+				result.set(iterator.key(), innerProductValue);
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * This function computes the product A * B^T, ie. the product of this with the
+	 * transpose of the argument. 
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public DoubleAbstractMatrix multiplyTranspose(DoubleSparseMatrix other) {
+		ExceptionUtility.verifyEqual(this.columns, other.columns);
+		DoubleAbstractMatrix result = this.like(this.getNumRows(), other.getNumRows());
+		
+		for (TIntObjectIterator<DoubleSparseVector> thisIterator = this.map.iterator(); thisIterator.hasNext(); ) {
+			thisIterator.advance();
+			
+			for (TIntObjectIterator<DoubleSparseVector> otherIterator = other.map.iterator(); otherIterator.hasNext(); ) {
+				otherIterator.advance();
+				
+				result.set(thisIterator.key(), otherIterator.key(), thisIterator.value().innerProduct(otherIterator.value()));
+			}
+		}
+		
+		return result;
 	}
 }

@@ -1,13 +1,9 @@
-/**
- * 
- */
 package edu.stanford.math.plex_plus.math.metric.impl;
-
-import java.util.Set;
 
 import edu.stanford.math.plex_plus.math.metric.interfaces.GenericAbstractFiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.ArrayUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
+import gnu.trove.set.hash.TIntHashSet;
 
 /**
  * @author Andrew Tausz
@@ -21,21 +17,22 @@ public class EuclideanMetricSpace implements GenericAbstractFiniteMetricSpace<do
 		ExceptionUtility.verifyNonNull(dataPoints);
 		this.dataPoints = dataPoints;
 		this.tree = new KDTree(dataPoints);
+		this.tree.constructTree();
 	}
 	
 	@Override
-	public Set<double[]> getKNearestNeighbors(double[] queryPoint, int k) {
+	public TIntHashSet getKNearestNeighbors(double[] queryPoint, int k) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public double[] getNearestPoint(double[] queryPoint) {
+	public int getNearestPoint(double[] queryPoint) {
 		return this.tree.nearestNeighborSearch(queryPoint);
 	}
 
 	@Override
-	public Set<double[]> getNeighborhood(double[] queryPoint, double epsilon) {
+	public TIntHashSet getNeighborhood(double[] queryPoint, double epsilon) {
 		return this.tree.epsilonNeighborhoodSearch(queryPoint, epsilon);
 	}
 
@@ -46,7 +43,18 @@ public class EuclideanMetricSpace implements GenericAbstractFiniteMetricSpace<do
 
 	@Override
 	public double distance(double[] a, double[] b) {
-		return ArrayUtility.squaredDistance(a, b);
+		return Math.sqrt(ArrayUtility.squaredDistance(a, b));
+	}
+
+	@Override
+	public double[] getPoint(int index) {
+		ExceptionUtility.verifyIndex(this.dataPoints.length, index);
+		return this.dataPoints[index];
+	}
+
+	@Override
+	public double distance(int i, int j) {
+		return this.distance(this.dataPoints[i], this.dataPoints[j]);
 	}
 	
 }

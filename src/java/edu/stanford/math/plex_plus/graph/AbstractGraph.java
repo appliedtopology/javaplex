@@ -1,5 +1,6 @@
 package edu.stanford.math.plex_plus.graph;
 
+
 public interface AbstractGraph {
 	
 	public int getNumVertices();

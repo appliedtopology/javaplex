@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.homology;
+package edu.stanford.math.plex_plus.homology.barcodes;
 
 import java.util.ArrayList;
 import java.util.List;

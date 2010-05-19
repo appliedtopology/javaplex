@@ -6,13 +6,18 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TIntDoubleIterator;
 import gnu.trove.map.hash.TIntDoubleHashMap;
 
-public class DoubleSparseVector implements DoubleAbstractVector {
+public class DoubleSparseVector extends DoubleAbstractVector {
 	protected final TIntDoubleHashMap map = new TIntDoubleHashMap();
 	protected final int size;
 	
 	public DoubleSparseVector(int size) {
 		ExceptionUtility.verifyNonNegative(size);
 		this.size = size;
+	}
+	
+	@Override
+	public DoubleAbstractVector like(int size) {
+		return new DoubleSparseVector(size);
 	}
 	
 	public int getNumNonzeroElements() {

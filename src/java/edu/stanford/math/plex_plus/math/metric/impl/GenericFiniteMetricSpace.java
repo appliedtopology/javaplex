@@ -1,58 +1,63 @@
 package edu.stanford.math.plex_plus.math.metric.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import edu.stanford.math.plex_plus.math.metric.interfaces.GenericAbstractFiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
+import gnu.trove.set.hash.TIntHashSet;
 
 public abstract class GenericFiniteMetricSpace<T> implements GenericAbstractFiniteMetricSpace<T> {
 	List<T> elements = new ArrayList<T>();
 	
 	@Override
-	public Set<T> getKNearestNeighbors(T queryPoint, int k) {
+	public TIntHashSet getKNearestNeighbors(T queryPoint, int k) {
 		// TODO: complete
 		return null;
 	}
 
 	@Override
-	public T getNearestPoint(T queryPoint) {
+	public int getNearestPoint(T queryPoint) {
 		ExceptionUtility.verifyNonNull(queryPoint);
 		
 		if (this.elements.isEmpty()) {
-			return null;
+			throw new IllegalStateException();
 		}
 		
 		double minimumDistance = Double.MAX_VALUE;
 		double currentDistance = 0;
-		T nearestPoint = null;
-		for (T element : elements) {
-			currentDistance = this.distance(queryPoint, element);
+		int nearestIndex = 0;
+		int n = this.elements.size();
+		
+		for (int i = 0; i < n; i++) {
+			currentDistance = this.distance(queryPoint, this.elements.get(i));
 			if (currentDistance < minimumDistance) {
 				minimumDistance = currentDistance;
-				nearestPoint = element;
+				nearestIndex = i;
 			}
 		}
 		
-		return nearestPoint;
+		return nearestIndex;
 	}
 
 	@Override
-	public Set<T> getNeighborhood(T queryPoint, double epsilon) {
+	public TIntHashSet getNeighborhood(T queryPoint, double epsilon) {
 		ExceptionUtility.verifyNonNull(queryPoint);
 		ExceptionUtility.verifyNonNegative(epsilon);
 		
-		Set<T> neighborhood = new HashSet<T>();
+		TIntHashSet neighborhood = new TIntHashSet();
 		if (epsilon == 0) {
 			return neighborhood;
 		}
-		for (T element : elements) {
-			if (this.distance(queryPoint, element) < epsilon) {
-				neighborhood.add(element);
-			}
+		
+		int n = this.elements.size();
+		
+		for (int i = 0; i < n; i++) {
+			if (this.distance(queryPoint, this.elements.get(i)) < epsilon) {
+				neighborhood.add(i);
+			}	
 		}
+
 		return neighborhood;
 	}
 
@@ -64,4 +69,9 @@ public abstract class GenericFiniteMetricSpace<T> implements GenericAbstractFini
 	@Override
 	public abstract double distance(T a, T b);
 
+	@Override
+	public T getPoint(int index) {
+		ExceptionUtility.verifyIndex(this.elements.size(), index);
+		return this.elements.get(index);
+	}
 }

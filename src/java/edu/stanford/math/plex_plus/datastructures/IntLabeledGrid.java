@@ -1,5 +1,6 @@
 package edu.stanford.math.plex_plus.datastructures;
 
+import edu.stanford.math.plex_plus.datastructures.pairs.GenericOrderedPair;
 import edu.stanford.math.plex_plus.math.matrix.impl.sparse.IntSparseMatrix;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TObjectIntIterator;
@@ -45,7 +46,7 @@ public class IntLabeledGrid<T extends Comparable<T>> {
 		// Add contents
 		for (TObjectIntIterator<GenericOrderedPair<T, T>> iterator = this.map.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
-			matrix.set(this.rowIndexmap.get(iterator.key().first), this.colIndexmap.get(iterator.key().second), iterator.value());
+			matrix.set(this.rowIndexmap.get(iterator.key().getFirst()), this.colIndexmap.get(iterator.key().getSecond()), iterator.value());
 		}		
 		
 		return matrix;

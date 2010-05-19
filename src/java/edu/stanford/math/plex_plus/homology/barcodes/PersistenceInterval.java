@@ -1,6 +1,5 @@
-package edu.stanford.math.plex_plus.homology;
+package edu.stanford.math.plex_plus.homology.barcodes;
 
-import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import edu.stanford.math.plex_plus.utility.Infinity;
 
 public class PersistenceInterval {
@@ -8,7 +7,7 @@ public class PersistenceInterval {
 	private final double end;
 	
 	public PersistenceInterval(double start, double end) {
-		ExceptionUtility.verifyLessThanOrEqual(start, end);
+		//ExceptionUtility.verifyLessThanOrEqual(start, end);
 		this.start = start;
 		this.end = end;
 	}

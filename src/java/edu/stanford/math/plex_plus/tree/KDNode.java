@@ -1,16 +1,16 @@
 package edu.stanford.math.plex_plus.tree;
 
 public class KDNode {
-	private final double[] point;
+	private final int index;
 	private KDNode left;
 	private KDNode right;
 	
-	public KDNode(double[] point) {
-		this.point = point;
+	public KDNode(int index) {
+		this.index = index;
 	}
 	
-	public double[] getPoint() {
-		return this.point;
+	public int getIndex() {
+		return this.index;
 	}
 	
 	public KDNode getLeft() {

@@ -50,8 +50,7 @@ public class GenericSparseVector<T> implements GenericAbstractVector<T> {
 	 */
 	@Override
 	public GenericAbstractVectorIterator<T> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new GenericSparseVectorIterator<T>(this);
 	}
 	
 	@Override

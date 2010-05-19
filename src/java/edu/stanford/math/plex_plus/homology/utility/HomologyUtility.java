@@ -46,4 +46,14 @@ public class HomologyUtility {
 		}
 		return result;
 	}
+	
+	public static int[] appendToArray(int[] array, int newValue) {
+		ExceptionUtility.verifyNonNull(array);
+		int[] result = new int[array.length + 1];
+		for (int i = 0; i < array.length; i++) {
+			result[i] = array[i];
+		}
+		result[array.length] = newValue;
+		return result;
+	}
 }

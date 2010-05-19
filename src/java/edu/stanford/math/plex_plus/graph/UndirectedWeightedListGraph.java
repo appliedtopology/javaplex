@@ -83,5 +83,4 @@ public class UndirectedWeightedListGraph implements AbstractWeightedGraph {
 		int y = (i < j ? j : i);
 		this.matrix.set(x, y, 0);
 	}
-
 }

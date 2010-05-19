@@ -46,7 +46,11 @@ public final class ModularIntField extends IntField {
 		if ((a % p) == 0) {
 			throw new ArithmeticException();
 		}
-		return this.inverses[a % p];
+		a = a % p;
+		if (a < 0) {
+			a += p;
+		}
+		return this.inverses[a];
 	}
 
 	@Override

@@ -1,9 +1,10 @@
-package edu.stanford.math.plex_plus.homology;
+package edu.stanford.math.plex_plus.homology.simplicial_complex;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.stanford.math.plex_plus.datastructures.IntLabeledGrid;
+import edu.stanford.math.plex_plus.homology.simplex.Simplex;
 import edu.stanford.math.plex_plus.homology.utility.HomologyUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.set.hash.THashSet;
@@ -30,7 +31,7 @@ public abstract class SimplicialComplex {
 			int[] vertices = kSkeleton.get(i).getVertices();
 			for (int j = 0; j < vertices.length; j++) {
 				int[] boundaryVertex = HomologyUtility.removeIndex(vertices, j);
-				grid.setEntry(new ArraySimplex(boundaryVertex), kSkeleton.get(i), (j % 2 == 0 ? 1 : -1));
+				grid.setEntry(new Simplex(boundaryVertex), kSkeleton.get(i), (j % 2 == 0 ? 1 : -1));
 			}
 		}
 		return grid;		
