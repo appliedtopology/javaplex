@@ -14,6 +14,12 @@ public class GenericPair<T, U> {
 	protected final T first;
 	protected final U second;
 	
+	/**
+	 * Constructor which initializes the pair.
+	 * 
+	 * @param first the value of the first component
+	 * @param second the value of the second component
+	 */
 	public GenericPair(T first, U second) {
 		ExceptionUtility.verifyNonNull(first);
 		ExceptionUtility.verifyNonNull(second);
@@ -21,16 +27,31 @@ public class GenericPair<T, U> {
 		this.second = second;
 	}
 	
+	/**
+	 * Constructor which initializes from another GenericPair.
+	 * 
+	 * @param pair the GenericPair to initialize from
+	 */
 	public GenericPair(GenericPair<T, U> pair) {
 		ExceptionUtility.verifyNonNull(pair);
 		this.first = pair.first;
 		this.second = pair.second;
 	}
 	
+	/**
+	 * Get the first component.
+	 * 
+	 * @return the first component
+	 */
 	public T getFirst() {
 		return this.first;
 	}
 	
+	/**
+	 * Get the second component.
+	 * 
+	 * @return the second component
+	 */
 	public U getSecond() {
 		return this.second;
 	}

@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.datastructures;
+package edu.stanford.math.plex_plus.deprecated;
 
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericOrderedPair;
 import edu.stanford.math.plex_plus.math.matrix.impl.sparse.IntSparseMatrix;

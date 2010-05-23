@@ -1,8 +1,10 @@
 package edu.stanford.math.plex_plus.homology;
 
+import java.util.Comparator;
+
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
-import edu.stanford.math.plex_plus.homology.simplex.Simplex;
+import edu.stanford.math.plex_plus.homology.simplex.ChainComplexBasisElement;
 import edu.stanford.math.plex_plus.homology.simplex_streams.SimplexStream;
 import edu.stanford.math.plex_plus.math.structures.impl.IntFreeModule;
 import edu.stanford.math.plex_plus.math.structures.interfaces.IntField;
@@ -11,22 +13,24 @@ import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.map.hash.THashMap;
 import gnu.trove.set.hash.THashSet;
 
-public class PersistentHomology {
-	private final THashSet<Simplex> markedSimplices = new THashSet<Simplex>();
-	private final THashMap<Simplex, IntFormalSum<Simplex>> T = new THashMap<Simplex, IntFormalSum<Simplex>>();
+public class PersistentHomology<BasisElementType extends ChainComplexBasisElement> {
+	private final THashSet<BasisElementType> markedSimplices = new THashSet<BasisElementType>();
+	private final THashMap<BasisElementType, IntFormalSum<BasisElementType>> T = new THashMap<BasisElementType, IntFormalSum<BasisElementType>>();
 	private final IntField field;
-	private SimplexStream currentStream = null;
+	private SimplexStream<BasisElementType> currentStream = null;
+	private final Comparator<BasisElementType> comparator;
 	
-	public PersistentHomology(IntField field) {
+	public PersistentHomology(IntField field, Comparator<BasisElementType> comparator) {
 		this.field = field;
+		this.comparator = comparator;
 	}
 	
-	public BarcodeCollection computeIntervals(SimplexStream stream, int maxDimension) {
+	public BarcodeCollection computeIntervals(SimplexStream<BasisElementType> stream, int maxDimension) {
 		BarcodeCollection barcodeCollection = new BarcodeCollection();
 
 		this.currentStream = stream;
 		
-		for (Simplex simplex : stream) {
+		for (BasisElementType simplex : stream) {
 			
 			if (simplex.getDimension() > maxDimension) {
 				break;
@@ -42,50 +46,52 @@ public class PersistentHomology {
 
 			this.T.remove(simplex);
 			
-			IntFormalSum<Simplex> d = this.removePivotRows(simplex);
+			IntFormalSum<BasisElementType> d = this.removePivotRows(simplex);
 			
 			if (d.isEmpty()) {
 				this.markedSimplices.add(simplex);
 			} else {
-				Simplex sigma_j = simplex;
-				Simplex sigma_i = getMaximumObject(d);
+				BasisElementType sigma_j = simplex;
+				BasisElementType sigma_i = getMaximumObject(d);
 				int k = sigma_i.getDimension();
 				
 				// store j and d in T[i]
 				this.T.put(sigma_i, d);
 				
 				// store interval
-				double degree_i = stream.getFiltrationIndex(sigma_i);
-				double degree_j = stream.getFiltrationIndex(sigma_j);
+				double degree_i = stream.getFiltrationValue(sigma_i);
+				double degree_j = stream.getFiltrationValue(sigma_j);
 				
 				if (degree_j < degree_i) {
 					System.out.println("ERROR!!!!!!!!!!!!!");
 				}
 				
 				// don't store intervals that are simultaneously created and destroyed
-				if (degree_i != degree_j) {
+				if (degree_i != degree_j && k < maxDimension) {
 					barcodeCollection.addInterval(k, degree_i, degree_j);
 				}
 			}
 		}
 		
-		for (Simplex simplex : this.markedSimplices) {
+		for (BasisElementType simplex : this.markedSimplices) {
 			if (!this.T.containsKey(simplex) || this.T.get(simplex).isEmpty()) {
 				int k = simplex.getDimension();
-				barcodeCollection.addInterval(k, stream.getFiltrationIndex(simplex));
+				if (k < maxDimension) {
+					barcodeCollection.addInterval(k, stream.getFiltrationValue(simplex));
+				}
 			}
 		}
 	
 		return barcodeCollection;
 	}
 	
-	private IntFormalSum<Simplex> removePivotRows(Simplex simplex) {
+	private IntFormalSum<BasisElementType> removePivotRows(BasisElementType simplex) {
 		ExceptionUtility.verifyNonNull(simplex);
-		IntFormalSum<Simplex> d = createBoundaryChain(simplex.getBoundaryArray());
-		IntFreeModule<Simplex> chainModule = new IntFreeModule<Simplex>(this.field);
+		IntFormalSum<BasisElementType> d = createBoundaryChain(simplex.getBoundaryArray());
+		IntFreeModule<BasisElementType> chainModule = new IntFreeModule<BasisElementType>(this.field);
 		
 		// remove unmarked terms from d
-		for (TObjectIntIterator<Simplex> iterator = d.iterator(); iterator.hasNext(); ) {
+		for (TObjectIntIterator<BasisElementType> iterator = d.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			if (!this.markedSimplices.contains(iterator.key())) {
 				iterator.remove();
@@ -93,7 +99,7 @@ public class PersistentHomology {
 		}
 		
 		while (!d.isEmpty()) {
-			Simplex sigma_i = getMaximumObject(d);
+			BasisElementType sigma_i = getMaximumObject(d);
 			
 			if (!this.T.containsKey(sigma_i) || this.T.get(sigma_i).isEmpty()) {
 				break;
@@ -112,10 +118,23 @@ public class PersistentHomology {
 	}
 	
 	/**
-	 * This static method creates a formal alternating sum
-	 * @param boundaryObjects
+	 * 
+	 * @param abstractChainBasisElements
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
+	private IntFormalSum<BasisElementType> createBoundaryChain(ChainComplexBasisElement[] abstractChainBasisElements) {
+		ExceptionUtility.verifyNonNull(abstractChainBasisElements);
+		IntFormalSum<BasisElementType> sum = new IntFormalSum<BasisElementType>();
+		
+		for (int i = 0; i < abstractChainBasisElements.length; i++) {
+			sum.put((i % 2 == 0 ? 1 : -1), (BasisElementType) abstractChainBasisElements[i]);
+		}
+		
+		return sum;
+	}
+	
+	/*
 	private static <M extends Comparable<M>> IntFormalSum<M> createBoundaryChain(M[] boundaryObjects) {
 		ExceptionUtility.verifyNonNull(boundaryObjects);
 		IntFormalSum<M> sum = new IntFormalSum<M>();
@@ -126,13 +145,14 @@ public class PersistentHomology {
 		
 		return sum;
 	}
+	*/
 	
 	/*
-	private Simplex getMaximumObject(IntFormalSum<Simplex> chain) {
-		Simplex maxObject = null;
+	private AbstractSimplex getMaximumObject(IntFormalSum<AbstractSimplex> chain) {
+		AbstractSimplex maxObject = null;
 		double maxFiltration = Infinity.getNegativeInfinity();
 		
-		for (TObjectIntIterator<Simplex> iterator = chain.iterator(); iterator.hasNext(); ) {
+		for (TObjectIntIterator<AbstractSimplex> iterator = chain.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			if (maxObject == null) {
 				maxObject = iterator.key();
@@ -154,15 +174,16 @@ public class PersistentHomology {
 	}
 	*/
 	
-	private Simplex getMaximumObject(IntFormalSum<Simplex> chain) {
-		Simplex maxObject = null;
+	private BasisElementType getMaximumObject(IntFormalSum<BasisElementType> chain) {
+		BasisElementType maxObject = null;
 
-		for (TObjectIntIterator<Simplex> iterator = chain.iterator(); iterator.hasNext(); ) {
+		for (TObjectIntIterator<BasisElementType> iterator = chain.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			if (maxObject == null) {
 				maxObject = iterator.key();
 			}
-			if (iterator.key().compareTo(maxObject) > 0) {
+			
+			if (this.comparator.compare(iterator.key(), maxObject) > 0) {
 				maxObject = iterator.key();
 			}
 		}

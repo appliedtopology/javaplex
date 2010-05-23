@@ -3,20 +3,32 @@
  */
 package edu.stanford.math.plex_plus.graph;
 
-import edu.stanford.math.plex_plus.math.matrix.impl.sparse.DoubleSparseMatrix;
-import edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractMatrix;
+import edu.stanford.math.plex_plus.utility.ExceptionUtility;
+import gnu.trove.map.hash.TIntDoubleHashMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
 
 /**
- * @author atausz
+ * This class implements the functionality of an undirected weighted graph.
+ * It uses an adjacency list representation. See the class
+ * UndirectedListGraph for more information about the internal representation.
+ * 
+ * @author Andrew Tausz
  *
  */
 public class UndirectedWeightedListGraph implements AbstractWeightedGraph {
-	private final DoubleAbstractMatrix matrix;
+	private final TIntObjectHashMap<TIntDoubleHashMap> adjacencySets = new TIntObjectHashMap<TIntDoubleHashMap>();
 	private final int numVertices;
 	
+	/**
+	 * Constructor which initializes the graph to consist of disconnected
+	 * vertices. The number of vertices is initialized to numVertices.
+	 * 
+	 * @param numVertices the number of vertices to initialize the graph with
+	 */
 	public UndirectedWeightedListGraph(int numVertices) {
 		this.numVertices = numVertices;
-		this.matrix = new DoubleSparseMatrix(this.numVertices, this.numVertices);
 	}
 	
 	/* (non-Javadoc)
@@ -24,9 +36,14 @@ public class UndirectedWeightedListGraph implements AbstractWeightedGraph {
 	 */
 	@Override
 	public void addEdge(int i, int j, double weight) {
+		ExceptionUtility.verifyIndex(this.numVertices, i);
+		ExceptionUtility.verifyIndex(this.numVertices, j);
 		int x = (i < j ? i : j);
 		int y = (i < j ? j : i);
-		this.matrix.set(x, y, weight);
+		if (!this.adjacencySets.containsKey(y)) {
+			this.adjacencySets.put(y, new TIntDoubleHashMap());
+		}
+		this.adjacencySets.get(y).put(x, weight);
 	}
 
 	/* (non-Javadoc)
@@ -34,9 +51,14 @@ public class UndirectedWeightedListGraph implements AbstractWeightedGraph {
 	 */
 	@Override
 	public double getWeight(int i, int j) {
+		ExceptionUtility.verifyIndex(this.numVertices, i);
+		ExceptionUtility.verifyIndex(this.numVertices, j);
 		int x = (i < j ? i : j);
 		int y = (i < j ? j : i);
-		return this.matrix.get(x, y);
+		if (!this.adjacencySets.containsKey(y)) {
+			return 0;
+		}
+		return this.adjacencySets.get(y).get(x);
 	}
 
 	/* (non-Javadoc)
@@ -44,9 +66,7 @@ public class UndirectedWeightedListGraph implements AbstractWeightedGraph {
 	 */
 	@Override
 	public void addEdge(int i, int j) {
-		int x = (i < j ? i : j);
-		int y = (i < j ? j : i);
-		this.matrix.set(x, y, 1);
+		this.addEdge(i, j, 1);
 	}
 
 	/* (non-Javadoc)
@@ -62,8 +82,8 @@ public class UndirectedWeightedListGraph implements AbstractWeightedGraph {
 	 */
 	@Override
 	public int getNumEdges() {
-		// TODO Auto-generated method stub
-		return 0;
+		// TODO: complete
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -79,8 +99,29 @@ public class UndirectedWeightedListGraph implements AbstractWeightedGraph {
 	 */
 	@Override
 	public void removeEdge(int i, int j) {
+		ExceptionUtility.verifyIndex(this.numVertices, i);
+		ExceptionUtility.verifyIndex(this.numVertices, j);
 		int x = (i < j ? i : j);
 		int y = (i < j ? j : i);
-		this.matrix.set(x, y, 0);
+		if (!this.adjacencySets.containsKey(y)) {
+			return;
+		}
+		this.adjacencySets.get(y).remove(x);
+	}
+	
+	/**
+	 * This function returns the set of neighbors of vertex i in the graph
+	 * which have indices less than i.
+	 * 
+	 * @param i the vertex to query
+	 * @return the set of j such that j < i and i ~ j
+	 */
+	public TIntSet getLowerNeighbors(int i) {
+		ExceptionUtility.verifyIndex(this.numVertices, i);
+		if (this.adjacencySets.contains(i)) {
+			return this.adjacencySets.get(i).keySet();
+		} else {
+			return new TIntHashSet();
+		}
 	}
 }

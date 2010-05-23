@@ -7,55 +7,83 @@ import edu.stanford.math.plex_plus.utility.CRC;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 /**
- * This class defines the functionality of a simplex. It stores the verties 
- * in an array of ints.
+ * This class implements the functionality of a simplex. A simplex
+ * is an n-dimensional polytope which is the convex hull of its 
+ * vertices. For our purposes, we simply represent a simplex by its
+ * vertices which are labeled by integers. For example, a 2-simplex 
+ * could be [0, 5, 9].
  * 
- * TODO: Produce bit-packed implementations as in the previous version
- * of plex. (MAYBE)
+ * The vertices of a simplex are specified by non-negative integers. It uses
+ * an array implementation to store the indices of the vertices of the 
+ * simplex. 
+ * 
+ * This class is designed to be the standard implementation of the AbstractSimplex
+ * interface. It is also immutable and implements value semantics. It also
+ * implements the Comparable interface. The ordering of simplicies is
+ * first defined by dimension, and then by dictionary ordering of its
+ * vertices.
+ * 
+ * TODO: Previous versions of plex used bit-packed implementations. 
+ * Maybe we can do this, although it seems that we can get better mileage
+ * from using improved algorithms.
  * 
  * @author Andrew Tausz
  *
  */
-public class Simplex implements Comparable<Simplex>, AbstractSimplex {
-	final int[] vertices;
+public class Simplex implements ChainComplexBasisElement {
 	
+	/**
+	 * This stores the actual vertices of the simplex.
+	 */
+	private final int[] vertices;
+	
+	/**
+	 * Stored cache of the hash code to prevent recomputing it.
+	 */
+	private final int cachedHashCode;
+	
+	/**
+	 * This constructor initializes the simplex from a supplied array
+	 * of integers.
+	 * 
+	 * @param vertices the vertices to 
+	 */
 	public Simplex(int[] vertices) {
 		ExceptionUtility.verifyNonNull(vertices);
+		
+		// store the vertices
 		this.vertices = vertices;
+		
+		// make sure that the vertices are sorted
 		Arrays.sort(this.vertices);
+		
+		// compute the hash code via CRC hashing
+		this.cachedHashCode = CRC.hash32(this.getVertices());
 	}
 	
+	@Override
 	public int getDimension() {
 		return (this.vertices.length - 1);
 	}
 
+	//@Override
 	public int[] getVertices() {
 		return this.vertices;
 	}
 
+	@Override
 	public Simplex[] getBoundaryArray() {
+		// if this a point, return an empty array
 		if (this.getDimension() == 0) {
 			return new Simplex[0];
 		}
+		
 		Simplex[] boundaryArray = new Simplex[this.vertices.length];		
 		for (int i = 0; i < this.vertices.length; i++) {
 			boundaryArray[i] = new Simplex(HomologyUtility.removeIndex(this.vertices, i));
 		}
 		return boundaryArray;
 	}
-	
-	
-	@Override
-	public int compareTo(Simplex o) {
-		ExceptionUtility.verifyNonNull(o);
-		return HomologyUtility.compareIntArrays(this.getVertices(), o.getVertices());
-	}
-	
-	/*
-	 * TODO: 
-	 * - possibly cache the hashcode for faster performance
-	 * 
-	 */
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -71,7 +99,7 @@ public class Simplex implements Comparable<Simplex>, AbstractSimplex {
 	
 	@Override
 	public int hashCode() {
-		return CRC.hash32(this.getVertices());
+		return this.cachedHashCode;
 	}
 	
 	@Override

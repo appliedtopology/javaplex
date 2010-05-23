@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.graph.utility;
+package edu.stanford.math.plex_plus.deprecated;
 
 import edu.stanford.math.plex_plus.graph.AbstractGraph;
 import gnu.trove.iterator.TIntIterator;

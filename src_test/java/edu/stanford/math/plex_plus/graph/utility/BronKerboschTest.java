@@ -1,5 +1,6 @@
 package edu.stanford.math.plex_plus.graph.utility;
 
+import edu.stanford.math.plex_plus.deprecated.BronKerboschAlgorithm;
 import edu.stanford.math.plex_plus.graph.UndirectedListGraph;
 import gnu.trove.set.hash.THashSet;
 import gnu.trove.set.hash.TIntHashSet;

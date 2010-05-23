@@ -48,17 +48,17 @@ public class KDTree {
 			return null;
 		}
 		if (startIndex == endIndex) {
-			System.out.println(ArrayUtility.toString(dataPoints[startIndex]));
+			//System.out.println(ArrayUtility.toString(dataPoints[startIndex]));
 			return new KDNode(startIndex);
 		}
 		int axis = depth % this.dimension;
 		int medianIndex = startIndex + (endIndex - startIndex + 1) / 2;
 		
 		int randomizedIndex = randomizedSelect(dataPoints, startIndex, endIndex, medianIndex, axis);
-		System.out.println("StartIndex: " + startIndex + " EndIndex: " + endIndex);
+		//System.out.println("StartIndex: " + startIndex + " EndIndex: " + endIndex);
 		//System.out.println(ArrayUtility.toString(dataPoints));
-		System.out.println(ArrayUtility.toString(this.dataPoints[randomizedIndex]));
-		System.out.println("Median index: " + medianIndex);
+		//System.out.println(ArrayUtility.toString(this.dataPoints[randomizedIndex]));
+		//System.out.println("Median index: " + medianIndex);
 		KDNode node = new KDNode(randomizedIndex);
 		
 		node.setLeft(this.kdIteration(depth + 1, startIndex, medianIndex - 1));

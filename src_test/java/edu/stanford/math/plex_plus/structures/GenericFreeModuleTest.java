@@ -27,10 +27,10 @@ public class GenericFreeModuleTest {
 		System.out.println(sum.toString());
 		
 		// Formal sums of Simplex objects with Fraction coefficients
-		GenericFreeModule<Fraction, Simplex> C = new  GenericFreeModule<Fraction, Simplex>(RationalField.getInstance());
-		GenericFormalSum<Fraction, Simplex> chain = C.add(new Simplex(new int[]{0, 1}), new Simplex(new int[]{2, 1}));
-		chain = C.add(chain, chain);
-		System.out.println(chain);
+		//GenericFreeModule<Fraction, AbstractChainBasisElement> C = new  GenericFreeModule<Fraction, AbstractChainBasisElement>(RationalField.getInstance());
+		//GenericFormalSum<Fraction, AbstractChainBasisElement> chain = C.add(new Simplex(new int[]{0, 1}), new Simplex(new int[]{2, 1}));
+		//chain = C.add(chain, chain);
+		//System.out.println(chain);
 		
 		// Formal sums of Simplex objects with int coefficients
 		IntFreeModule<Simplex> D = new IntFreeModule<Simplex>(ModularIntField.getInstance(3));

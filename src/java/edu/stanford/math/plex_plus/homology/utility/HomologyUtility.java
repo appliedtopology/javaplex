@@ -1,6 +1,9 @@
 package edu.stanford.math.plex_plus.homology.utility;
 
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
+import gnu.trove.iterator.TIntIterator;
+import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
 
 /**
  * This class contains static utility functions to aid
@@ -10,6 +13,7 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  *
  */
 public class HomologyUtility {
+	
 	public static int compareIntArrays (int[] array1, int[] array2) {
 		ExceptionUtility.verifyNonNull(array1);
 		ExceptionUtility.verifyNonNull(array2);
@@ -55,5 +59,29 @@ public class HomologyUtility {
 		}
 		result[array.length] = newValue;
 		return result;
+	}
+	
+	public static TIntSet computeIntersection(TIntSet set1, TIntSet set2) {
+		TIntSet smallerSet = null;
+		TIntSet largerSet = null;
+		if (set1.size() < set2.size()) {
+			smallerSet = set1;
+			largerSet = set2;
+		} else {
+			smallerSet = set2;
+			largerSet = set1;
+		}
+		
+		TIntHashSet intersection = new TIntHashSet();
+		
+		TIntIterator iterator = smallerSet.iterator();
+		while (iterator.hasNext()) {
+			int element = iterator.next();
+			if (largerSet.contains(element)) {
+				intersection.add(element);
+			}
+		}
+		
+		return intersection;
 	}
 }
