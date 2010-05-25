@@ -19,6 +19,8 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  * @author Andrew Tausz
  *
  */
+
+@Deprecated
 public class FullSimplicialComplex {
 	private SortedSet<Simplex> simplices = new TreeSet<Simplex>();
 	

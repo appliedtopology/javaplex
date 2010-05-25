@@ -6,6 +6,7 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
+@Deprecated
 public class IntLabeledGrid<T extends Comparable<T>> {
 	protected final TObjectIntHashMap<GenericOrderedPair<T, T>> map = new TObjectIntHashMap<GenericOrderedPair<T, T>>();
 	protected final TObjectIntHashMap<T> rowIndexmap = new TObjectIntHashMap<T>();

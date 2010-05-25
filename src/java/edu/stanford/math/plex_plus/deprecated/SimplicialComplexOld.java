@@ -16,6 +16,8 @@ import gnu.trove.set.hash.THashSet;
  * @author Andrew Tausz
  *
  */
+
+@Deprecated
 public abstract class SimplicialComplexOld {
 	
 	/**

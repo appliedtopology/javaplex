@@ -2,6 +2,7 @@ package edu.stanford.math.plex_plus.deprecated;
 
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
+@Deprecated
 public class CoefficientObjectPair<K, T extends Comparable<T>> implements Comparable<CoefficientObjectPair<K, T>> {
 	
 	private final K coefficient;

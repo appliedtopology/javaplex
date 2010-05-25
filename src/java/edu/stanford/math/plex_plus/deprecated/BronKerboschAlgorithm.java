@@ -10,6 +10,7 @@ import gnu.trove.set.hash.TIntHashSet;
  * @author Andrew Tausz
  *
  */
+@Deprecated
 public class BronKerboschAlgorithm {
 	
 	public static THashSet<TIntHashSet> getAllMaximalCliques(AbstractGraph graph) {
