@@ -167,8 +167,11 @@ public class IntFormalSum<M> {
 			if (index > 0) {
 				builder.append(" + ");
 			}
-			builder.append(iterator.value());
-			builder.append(" ");
+			if (iterator.value() == -1) {
+				builder.append('-');
+			} else if (iterator.value() != 1) {
+				builder.append(iterator.value());
+			}
 			builder.append(iterator.key().toString());
 			index++;
 		}

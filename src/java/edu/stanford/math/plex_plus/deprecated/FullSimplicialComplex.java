@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.homology.simplicial_complex;
+package edu.stanford.math.plex_plus.deprecated;
 
 import java.util.Iterator;
 import java.util.SortedSet;

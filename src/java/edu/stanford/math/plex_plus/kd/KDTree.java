@@ -1,11 +1,10 @@
 /**
  * 
  */
-package edu.stanford.math.plex_plus.math.metric.impl;
+package edu.stanford.math.plex_plus.kd;
 
 import java.util.Random;
 
-import edu.stanford.math.plex_plus.tree.KDNode;
 import edu.stanford.math.plex_plus.utility.ArrayUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.set.hash.TIntHashSet;

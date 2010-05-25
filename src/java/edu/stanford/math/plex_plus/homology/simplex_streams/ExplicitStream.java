@@ -12,6 +12,7 @@ import java.util.List;
 import edu.stanford.math.plex_plus.datastructures.pairs.DoubleGenericPair;
 import edu.stanford.math.plex_plus.datastructures.pairs.DoubleGenericPairComparator;
 import edu.stanford.math.plex_plus.datastructures.pairs.DoubleOrderedIterator;
+import edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.map.hash.TObjectDoubleHashMap;
 
@@ -22,7 +23,7 @@ import gnu.trove.map.hash.TObjectDoubleHashMap;
  * @author Andrew Tausz
  *
  */
-public class ExplicitStream<T> implements SimplexStream<T> {
+public class ExplicitStream<T extends AbstractSimplex> implements SimplexStream<T> {
 	
 	/**
 	 * This contains the simplicies of the complex ordered in order of filtration value.
@@ -43,6 +44,11 @@ public class ExplicitStream<T> implements SimplexStream<T> {
 	 * Boolean which indicates whether stream has been finalized or not
 	 */
 	private boolean isFinalized = false;
+	
+	/**
+	 * Stores the maximum dimension in the complex
+	 */
+	private int dimension = 0;
 	
 	/**
 	 * Constructor which accepts a comparator for comparing the type T.
@@ -71,17 +77,52 @@ public class ExplicitStream<T> implements SimplexStream<T> {
 		
 		this.simplices.add(new DoubleGenericPair<T>(filtrationIndex, simplex));
 		this.filtrationValues.put(simplex, filtrationIndex);
+		this.dimension = Math.max(this.dimension, simplex.getDimension());
 	}
 	
 	/**
-	 * This function verifies the consistency of the filtration. 
+	 * This function validates the stream to make sure that it
+	 * contains a valid filtered simplicial complex. It checks the
+	 * two following conditions:
+	 * 1. For each simplex in the complex, all of the faces of the simplex
+	 * also belong to the simplicial complex.
+	 * 2. The faces of each simplex have filtration values that are
+	 * less than or equal to those of its cofaces.
 	 * 
-	 * @return true if the filtration is consistent, and false otherwise
+	 * @return true if the stream is consistent, false otherwise
 	 */
-	public boolean verifyConsistency() {
-		// TODO: Complete
+	public boolean validate() {	
+		for (DoubleGenericPair<T> pair: this.simplices) {
+			AbstractSimplex ChainComplexBasisElement = pair.getSecond();
+			double filtrationValue = pair.getFirst();
+			if (pair.getSecond().getDimension() > 0) {
+				
+				// get the boundary
+				AbstractSimplex[] boundary = ChainComplexBasisElement.getBoundaryArray();
+				
+				// make sure that each boundary element is also inside the
+				// complex with a filtration value less than or equal to the
+				// current simplex
+				for (AbstractSimplex face: boundary) {
+					
+					// if the face is not in the complex, then the stream
+					// is inconsistent
+					if (!this.filtrationValues.contains(face)) {
+						return false;
+					}
+					
+					// if the face's filtration value is greater than that of the
+					// current simplex, the stream is also inconsistent
+					if (this.filtrationValues.get(face) > filtrationValue) {
+						return false;
+					}
+				}
+			}
+		}
+		
+		// all simplices in the complex have been checked - good, return true
 		return true;
-	}	
+	}
 	
 	@Override
 	public Iterator<T> iterator() {
@@ -114,5 +155,10 @@ public class ExplicitStream<T> implements SimplexStream<T> {
 	@Override
 	public boolean isFinalized() {
 		return this.isFinalized;
+	}
+
+	@Override
+	public int getDimension() {
+		return this.dimension;
 	}	
 }

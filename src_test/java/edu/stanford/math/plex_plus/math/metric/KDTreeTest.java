@@ -1,6 +1,6 @@
 package edu.stanford.math.plex_plus.math.metric;
 
-import edu.stanford.math.plex_plus.math.metric.impl.KDTree;
+import edu.stanford.math.plex_plus.kd.KDTree;
 import edu.stanford.math.plex_plus.utility.ArrayUtility;
 import gnu.trove.set.hash.TIntHashSet;
 

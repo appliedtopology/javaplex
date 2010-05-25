@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
-import edu.stanford.math.plex_plus.homology.simplex.ChainComplexBasisElement;
+import edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex;
 import edu.stanford.math.plex_plus.homology.simplex_streams.SimplexStream;
 import edu.stanford.math.plex_plus.math.structures.impl.IntFreeModule;
 import edu.stanford.math.plex_plus.math.structures.interfaces.IntField;
@@ -13,7 +13,7 @@ import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.map.hash.THashMap;
 import gnu.trove.set.hash.THashSet;
 
-public class PersistentHomology<BasisElementType extends ChainComplexBasisElement> {
+public class PersistentHomology<BasisElementType extends AbstractSimplex> {
 	private final THashSet<BasisElementType> markedSimplices = new THashSet<BasisElementType>();
 	private final THashMap<BasisElementType, IntFormalSum<BasisElementType>> T = new THashMap<BasisElementType, IntFormalSum<BasisElementType>>();
 	private final IntField field;
@@ -82,6 +82,11 @@ public class PersistentHomology<BasisElementType extends ChainComplexBasisElemen
 			}
 		}
 	
+		System.out.println("T");
+		System.out.println(this.T);
+		System.out.println("marked simplices");
+		System.out.println(this.markedSimplices);
+		
 		return barcodeCollection;
 	}
 	
@@ -123,7 +128,7 @@ public class PersistentHomology<BasisElementType extends ChainComplexBasisElemen
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private IntFormalSum<BasisElementType> createBoundaryChain(ChainComplexBasisElement[] abstractChainBasisElements) {
+	private IntFormalSum<BasisElementType> createBoundaryChain(AbstractSimplex[] abstractChainBasisElements) {
 		ExceptionUtility.verifyNonNull(abstractChainBasisElements);
 		IntFormalSum<BasisElementType> sum = new IntFormalSum<BasisElementType>();
 		

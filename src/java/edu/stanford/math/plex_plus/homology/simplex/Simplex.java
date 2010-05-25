@@ -30,7 +30,7 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  * @author Andrew Tausz
  *
  */
-public class Simplex implements ChainComplexBasisElement {
+public class Simplex implements AbstractSimplex {
 	
 	/**
 	 * This stores the actual vertices of the simplex.
@@ -83,6 +83,30 @@ public class Simplex implements ChainComplexBasisElement {
 			boundaryArray[i] = new Simplex(HomologyUtility.removeIndex(this.vertices, i));
 		}
 		return boundaryArray;
+	}
+	
+	@Override
+	public int getCoboundaryCoefficient(AbstractSimplex element) {
+		if (!(element instanceof Simplex)) {
+			return 0;
+		}
+		Simplex proposedBoundaryElement = (Simplex) element;
+		
+		// make sure that this has dimension 1 greater than the proposal
+		if (this.getDimension() != (proposedBoundaryElement.getDimension() + 1)) {
+			return 0;
+		}
+		
+		int coefficient = 1;
+		for (int i = 0; i < this.vertices.length; i++) {
+			int[] testArray = HomologyUtility.removeIndex(this.vertices, i);
+			if (HomologyUtility.compareIntArrays(testArray, proposedBoundaryElement.getVertices()) == 0) {
+				return coefficient;
+			}
+			coefficient *= -1;
+		}
+		
+		return 0;
 	}
 	
 	@Override

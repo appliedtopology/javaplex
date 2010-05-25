@@ -246,5 +246,29 @@ public class ExceptionUtility {
 		if ((value < lowerBound) || (value >= upperBound)) {
 			throw new IllegalArgumentException("Argument is outside the interval [" + lowerBound + ", " + upperBound + ") Value: " + value);
 		}
-	}	
+	}
+	
+	public static void verifyTrue(boolean condition) {
+		if (!condition) {
+			throw new IllegalArgumentException("Condition must be true");
+		}
+	}
+	
+	public static void verifyFalse(boolean condition) {
+		if (condition) {
+			throw new IllegalArgumentException("Condition must be false");
+		}
+	}
+	
+	public static void verifyTrue(boolean condition, String message) {
+		if (!condition) {
+			throw new IllegalArgumentException(message);
+		}
+	}
+	
+	public static void verifyFalse(boolean condition, String message) {
+		if (condition) {
+			throw new IllegalArgumentException(message);
+		}
+	}
 }

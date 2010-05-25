@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.tree;
+package edu.stanford.math.plex_plus.kd;
 
 public class KDNode {
 	private final int index;

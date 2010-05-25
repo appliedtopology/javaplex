@@ -70,6 +70,11 @@ public abstract class MaximalStream implements SimplexStream<Simplex> {
 	protected final DoubleGenericPairComparator<Simplex> comparator = new DoubleGenericPairComparator<Simplex>(SimplexComparator.getInstance());
 	
 	/**
+	 * Stores the maximum dimension in the complex
+	 */
+	private int dimension = 0;
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param maxDistance the maximum allowable distance in the complex
@@ -111,6 +116,7 @@ public abstract class MaximalStream implements SimplexStream<Simplex> {
 	protected void incrementalExpansion(UndirectedWeightedListGraph G, int k) {
 		int n = G.getNumVertices();
 		
+		// inductively add all of the singletons as well as their cofaces
 		for (int u = 0; u < n; u++) {
 			this.addCofaces(G, k, new Simplex(new int[]{u}), G.getLowerNeighbors(u), 0);
 		}
@@ -179,6 +185,7 @@ public abstract class MaximalStream implements SimplexStream<Simplex> {
 	protected void addSimplex(Simplex simplex, double filtrationValue) {
 		this.simplices.add(new DoubleGenericPair<Simplex>(filtrationValue, simplex));
 		this.filtrationValues.put(simplex, filtrationValue);
+		this.dimension = Math.max(this.dimension, simplex.getDimension());
 	}
 	
 	@Override
@@ -213,4 +220,9 @@ public abstract class MaximalStream implements SimplexStream<Simplex> {
 		
 		return builder.toString();
 	}
+	
+	@Override
+	public int getDimension() {
+		return this.dimension;
+	}	
 }

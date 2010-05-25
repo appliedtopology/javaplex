@@ -1,6 +1,6 @@
-package edu.stanford.math.plex_plus.homology.simplicial_complex;
+package edu.stanford.math.plex_plus.deprecated;
 
-import edu.stanford.math.plex_plus.homology.simplex.ChainComplexBasisElement;
+import edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex;
 import gnu.trove.set.hash.THashSet;
 
 /**
@@ -16,14 +16,14 @@ import gnu.trove.set.hash.THashSet;
  * @author Andrew Tausz
  *
  */
-public abstract class SimplicialComplex {
+public abstract class SimplicialComplexOld {
 	
 	/**
 	 * This function adds a simplex to the simplicial complex.
 	 * 
 	 * @param simplex the simplex to add
 	 */
-	public abstract void addSimplex(ChainComplexBasisElement simplex);
+	public abstract void addSimplex(AbstractSimplex simplex);
 	
 	/**
 	 * This function returns the maximum dimension of the simplices
@@ -41,7 +41,7 @@ public abstract class SimplicialComplex {
 	 * @param k the dimension
 	 * @return the k-skeleton of the simplicial complex
 	 */
-	public abstract THashSet<ChainComplexBasisElement> getSkeleton(int k);
+	public abstract THashSet<AbstractSimplex> getSkeleton(int k);
 	
 	/**
 	 * This function returns the index of the supplied simplex,
@@ -50,7 +50,7 @@ public abstract class SimplicialComplex {
 	 * @param simplex the simplex to query
 	 * @return the index of the simplex within the complex
 	 */
-	public abstract int getIndex(ChainComplexBasisElement simplex);
+	public abstract int getIndex(AbstractSimplex simplex);
 	
 	/**
 	 * This function returns the simplex at the supplied index.
@@ -59,7 +59,7 @@ public abstract class SimplicialComplex {
 	 * @param index the index of the simplex to retrieve
 	 * @return the simplex at the given index within the complex
 	 */
-	public abstract ChainComplexBasisElement getAtIndex(int index);
+	public abstract AbstractSimplex getAtIndex(int index);
 	
 	/*
 	IntLabeledGrid<AbstractChainBasisElement> getBoundaryMatrix(int k) {
@@ -86,8 +86,8 @@ public abstract class SimplicialComplex {
 		for (int d = 0; d <= this.getDimension(); d++) {
 			builder.append(d + ": ");
 			builder.append('{');
-			THashSet<ChainComplexBasisElement> skeleton = this.getSkeleton(d);
-			for (ChainComplexBasisElement simplex : skeleton) {
+			THashSet<AbstractSimplex> skeleton = this.getSkeleton(d);
+			for (AbstractSimplex simplex : skeleton) {
 				builder.append(simplex.toString());
 				builder.append(' ');
 			}

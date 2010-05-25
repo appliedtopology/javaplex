@@ -39,4 +39,6 @@ public interface SimplexStream<T> extends Iterable<T> {
 	 * @return true if the stream has been finalized, and false otherwise
 	 */
 	public boolean isFinalized();
+	
+	public int getDimension();
 }

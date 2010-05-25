@@ -130,7 +130,7 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 		return this.negate(new IntFormalSum<M>(ring.getOne(), a));
 	}
 	
-	private void addObject(IntFormalSum<M> formalSum, int coefficient, M object) {
+	public void addObject(IntFormalSum<M> formalSum, int coefficient, M object) {
 		ExceptionUtility.verifyNonNull(object);
 		ExceptionUtility.verifyNonNull(formalSum);
 		if (formalSum.containsObject(object)) {

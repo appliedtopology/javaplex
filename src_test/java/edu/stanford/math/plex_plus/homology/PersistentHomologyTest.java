@@ -4,12 +4,14 @@
 package edu.stanford.math.plex_plus.homology;
 
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
+import edu.stanford.math.plex_plus.homology.complex.IntSimplicialComplex;
 import edu.stanford.math.plex_plus.homology.simplex.Simplex;
 import edu.stanford.math.plex_plus.homology.simplex.SimplexComparator;
 import edu.stanford.math.plex_plus.homology.simplex_streams.ExplicitStream;
 import edu.stanford.math.plex_plus.homology.simplex_streams.VietorisRipsStream;
 import edu.stanford.math.plex_plus.math.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex_plus.math.structures.impl.ModularIntField;
+import edu.stanford.math.plex_plus.utility.ArrayUtility;
 import edu.stanford.math.plex_plus.utility.RandomUtility;
 
 /**
@@ -22,7 +24,7 @@ public class PersistentHomologyTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		testTorus();
+		testTriangle();
 	}
 
 	/**
@@ -71,8 +73,46 @@ public class PersistentHomologyTest {
 		stream.addSimplex(new Simplex(new int[]{0, 1}), 0);
 		stream.addSimplex(new Simplex(new int[]{1, 2}), 0);
 		stream.addSimplex(new Simplex(new int[]{2, 0}), 0);
-		stream.addSimplex(new Simplex(new int[]{0, 1, 2}), 3);
+		//stream.addSimplex(new Simplex(new int[]{0, 1, 2}), 3);
 
+		stream.finalizeStream();
+		
+		System.out.println(stream);
+		
+		PersistentHomology<Simplex> homology = new PersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
+		BarcodeCollection barcodes = homology.computeIntervals(stream, 3);
+		System.out.println(barcodes);
+		
+		IntSimplicialComplex<Simplex> staticComplex = new IntSimplicialComplex<Simplex>(stream, SimplexComparator.getInstance());
+		
+		System.out.println(staticComplex.getSkeleton(0));
+		System.out.println(staticComplex.getSkeleton(1));
+		System.out.println(staticComplex.getSkeleton(2));
+		
+		int[][] boundary = staticComplex.getDenseBoundaryMatrix(1);
+		System.out.println(ArrayUtility.toString(boundary));
+	}
+	
+	public static void testTetrahedron() {
+		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
+
+		stream.addSimplex(new Simplex(new int[]{0}), 0);
+		stream.addSimplex(new Simplex(new int[]{1}), 0);
+		stream.addSimplex(new Simplex(new int[]{2}), 0);
+		stream.addSimplex(new Simplex(new int[]{3}), 0);
+		stream.addSimplex(new Simplex(new int[]{0, 1}), 0);
+		stream.addSimplex(new Simplex(new int[]{1, 2}), 0);
+		stream.addSimplex(new Simplex(new int[]{0, 2}), 0);
+		stream.addSimplex(new Simplex(new int[]{0, 3}), 0);
+		stream.addSimplex(new Simplex(new int[]{1, 3}), 0);
+		stream.addSimplex(new Simplex(new int[]{2, 3}), 0);
+		stream.addSimplex(new Simplex(new int[]{0, 1, 2}), 0);
+		stream.addSimplex(new Simplex(new int[]{0, 1, 3}), 0);
+		stream.addSimplex(new Simplex(new int[]{0, 2, 3}), 0);
+		stream.addSimplex(new Simplex(new int[]{1, 2, 3}), 0);
+
+		System.out.println(stream.validate());
+		
 		stream.finalizeStream();
 		
 		System.out.println(stream);

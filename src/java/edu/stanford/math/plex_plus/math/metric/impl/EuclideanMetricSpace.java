@@ -1,5 +1,6 @@
 package edu.stanford.math.plex_plus.math.metric.impl;
 
+import edu.stanford.math.plex_plus.kd.KDTree;
 import edu.stanford.math.plex_plus.math.metric.interfaces.GenericAbstractFiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.ArrayUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
