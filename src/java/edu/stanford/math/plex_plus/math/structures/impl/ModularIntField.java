@@ -38,7 +38,11 @@ public final class ModularIntField extends IntField {
 		if ((b % p) == 0) {
 			throw new ArithmeticException();
 		}
-		return ((a * this.inverses[b % p]) % p);
+		int index = b % p;
+		if (index < 0) {
+			index += p;
+		}
+		return ((a * this.inverses[index]) % p);
 	}
 
 	@Override
@@ -46,16 +50,20 @@ public final class ModularIntField extends IntField {
 		if ((a % p) == 0) {
 			throw new ArithmeticException();
 		}
-		a = a % p;
-		if (a < 0) {
-			a += p;
+		int r = a % p;
+		if (r < 0) {
+			r += p;
 		}
-		return this.inverses[a];
+		return this.inverses[r];
 	}
 
 	@Override
 	public int add(int a, int b) {
-		return (a + b) % p;
+		int r = (a + b) % p;
+		if (r < 0) {
+			r += p;
+		}
+		return r;
 	}
 
 	@Override
@@ -70,22 +78,38 @@ public final class ModularIntField extends IntField {
 
 	@Override
 	public int multiply(int a, int b) {
-		return (a * b) % p;
+		int r = (a * b) % p;
+		if (r < 0) {
+			r += p;
+		}
+		return r;
 	}
 
 	@Override
 	public int negate(int a) {
-		return (-a) % p;
+		int r = (-a) % p;
+		if (r < 0) {
+			r += p;
+		}
+		return r;
 	}
 
 	@Override
 	public int subtract(int a, int b) {
-		return (a - b) % p;
+		int r = (a - b) % p;
+		if (r < 0) {
+			r += p;
+		}
+		return r;
 	}
 
 	@Override
 	public int valueOf(int n) {
-		return n % p;
+		int r = n % p;
+		if (r < 0) {
+			r += p;
+		}
+		return r;
 	}
 
 	@Override

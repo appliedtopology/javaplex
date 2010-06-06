@@ -2,7 +2,7 @@ package edu.stanford.math.plex_plus.math.metric.impl;
 
 import edu.stanford.math.plex_plus.kd.KDTree;
 import edu.stanford.math.plex_plus.math.metric.interfaces.GenericAbstractFiniteMetricSpace;
-import edu.stanford.math.plex_plus.utility.ArrayUtility;
+import edu.stanford.math.plex_plus.utility.ArrayUtility2;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.set.hash.TIntHashSet;
 
@@ -44,7 +44,7 @@ public class EuclideanMetricSpace implements GenericAbstractFiniteMetricSpace<do
 
 	@Override
 	public double distance(double[] a, double[] b) {
-		return Math.sqrt(ArrayUtility.squaredDistance(a, b));
+		return Math.sqrt(ArrayUtility2.squaredDistance(a, b));
 	}
 
 	@Override

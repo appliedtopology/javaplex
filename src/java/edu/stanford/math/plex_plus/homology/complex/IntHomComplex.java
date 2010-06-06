@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.stanford.math.plex_plus.homology.complex;
 
 import java.util.Iterator;
@@ -22,6 +19,8 @@ public class IntHomComplex<M> extends IntChainComplex<GenericPair<M, M>> {
 	private final IntChainComplex<M> D;
 	private final IntFreeModule<GenericPair<M, M>> module;
 	
+	
+	
 	public IntHomComplex(IntChainComplex<M> C, IntChainComplex<M> D, IntRing ring) {
 		this.C = C;
 		this.D = D;
@@ -37,14 +36,17 @@ public class IntHomComplex<M> extends IntChainComplex<GenericPair<M, M>> {
 		/*
 		 * Compute the boundary of the tensor a* x b by the following formula:
 		 * 
-		 * d(a* x b) = (d*a*) x b + a* x db
+		 * d(a* x b) = (d*a*) x b + (-1)^p * a* x db
 		 * 
 		 * Where we use x to denote the tensor product, and d to denote the boundary
 		 * operator on the chain complexes C and D, and d* to be the coboundary operator.
+		 * Also, p is the dimension of a.
 		 * 
 		 */
 		
 		IntFormalSum<M> aCoboundary = this.C.computeCoboundary(a);
+		int aDimension = this.C.getDimension(a);
+		int multiplier = (aDimension % 2 == 0 ? 1 : -1);
 		
 		for (TObjectIntIterator<M> iterator = aCoboundary.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
@@ -58,7 +60,7 @@ public class IntHomComplex<M> extends IntChainComplex<GenericPair<M, M>> {
 		for (TObjectIntIterator<M> iterator = bBoundary.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			M boundaryElement = iterator.key();
-			int coefficient = iterator.value();
+			int coefficient = multiplier * iterator.value();
 			this.module.addObject(result, coefficient, new GenericPair<M, M>(a, boundaryElement));
 		}
 		
@@ -114,7 +116,6 @@ public class IntHomComplex<M> extends IntChainComplex<GenericPair<M, M>> {
 					skeleton.add(new GenericPair<M, M>(C_p_element, D_pn_element));
 				}
 			}
-			
 		}
 		
 		return skeleton;
@@ -126,21 +127,207 @@ public class IntHomComplex<M> extends IntChainComplex<GenericPair<M, M>> {
 		return null;
 	}
 
+	/*
+	 * Explanation for support computation:
+	 * 
+	 * 				 __
+	 * Hom_n(C, D) = || C^p x D_{p+n}
+	 * 
+	 * Let {m_C, ..., M_C}, {m_D, ..., M_D} be the supports of 
+	 * C and D, respectively. Then we need to enforce the following
+	 * 
+	 * p + n >= m_D
+	 * n >= m_D - p, for all p such that m_C <= p <= M_C
+	 * So, we need n >= m_D - M_C
+	 * 
+	 * Also,
+	 * 
+	 * p + n <= M_D
+	 * n <= M_D - p, for all p such that m_C <= p <= M_C
+	 * So, we need n <= M_D - m_C
+	 * 
+	 * So: 	beginning of support = m_D - M_C
+	 * 		end of support		 = M_D - m_C
+	 * 
+	 */
+	
+	/*
+	 * (non-Javadoc)
+	 * @see edu.stanford.math.plex_plus.homology.complex.IntChainComplex#getBeginningOfSupport()
+	 */
 	@Override
 	public int getBeginningOfSupport() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (this.D.getBeginningOfSupport() - this.C.getEndOfSupport());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see edu.stanford.math.plex_plus.homology.complex.IntChainComplex#getEndOfSupport()
+	 */
 	@Override
 	public int getEndOfSupport() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (this.D.getEndOfSupport() - this.C.getBeginningOfSupport());
 	}
 
 	@Override
-	public int getSkeletonSize(int k) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getSkeletonSize(int n) {
+		/*
+		 * Hom_n(C, D) = \Prod_{p \in Z} C^p x D_{p+n}
+		 * 
+		 * Thus we want
+		 * p >= beginning of support of C
+		 * p <= end of support of C
+		 * 
+		 * p+n >= beginning of support of D
+		 * p+n <= end of support of D
+		 * 
+		 * Size of n-skeleton of Hom-complex is 
+		 * \sum_{p \in Z} |C^p| * |D_{p_n}|
+		 * 
+		 */
+		
+		int min_p = Math.max(this.C.getBeginningOfSupport(), this.D.getBeginningOfSupport() - n);
+		int max_p = Math.min(this.C.getEndOfSupport(), this.D.getEndOfSupport() - n);
+		
+		int size = 0;
+		
+		for (int p = min_p; p <= max_p; p++) {
+			size += this.C.getSkeletonSize(p) * this.D.getSkeletonSize(p + n);
+		}
+		
+		return size;
+	}
+
+	@Override
+	public int getIndexWithinSkeleton(GenericPair<M, M> element) {
+		/*
+		 * Suppose a* x b is in C^p x D_{p+n}.
+		 * 
+		 * 
+		 * 
+		 */
+		
+		M a = element.getFirst();
+		M b = element.getSecond();
+		
+		int p = C.getDimension(a);
+		int n = D.getDimension(b) - p;
+		
+		int min_p = Math.max(this.C.getBeginningOfSupport(), this.D.getBeginningOfSupport() - n);
+		
+		/*
+		 * To calculate the index of a* x b, we use the following information:
+		 * Elements within the skeleton are ordered as follows:
+		 * - first by p
+		 * - then by a
+		 * - then by b
+		 * 
+		 * The size of n-skeleton of Hom-complex is 
+		 * \sum_{p \in Z} |C^p| * |D_{p_n}|
+		 * 
+		 * So we first compute how many "blocks" are before p, then we compute the index
+		 * of a, and then the index of b.
+		 * 
+		 * e.g.
+		 * 
+		 * xxxxxxxx
+		 * xxxxxxxx
+		 * xxxxxxxx
+		 * 
+		 * xxxxxxxx
+		 * xxxxxxxx
+		 * xxxxxxxx
+		 * xxxxxxxx
+		 * 
+		 * xxxxxxxx
+		 * xxX
+		 * 
+		 * total_preceding_block_sizes = 8 * 3 + 8 * 4 = 56
+		 * a_index = 1
+		 * b_index = 2
+		 * 
+		 */
+		
+		int total_preceding_block_sizes = 0;		
+		for (int p_index = min_p; p_index < p; p_index++) {
+			total_preceding_block_sizes += this.C.getSkeletonSize(p_index) * this.D.getSkeletonSize(p_index + n);
+		}
+		
+		int a_index = C.getIndexWithinSkeleton(a);
+		int b_index = D.getIndexWithinSkeleton(b);
+		
+		int final_block_width = D.getSkeletonSize(p + n);
+		
+		return total_preceding_block_sizes + a_index * final_block_width + b_index;
+	}
+
+	@Override
+	public int getDimension(GenericPair<M, M> element) {
+		/*
+		 * If a* x b is in C^p x D_{p + n}, then dim(a* x b) = n
+		 * which is equal to the dimension fo the second component
+		 * minus the dimension of the first.
+		 */
+		
+		return (D.getDimension(element.getSecond()) - C.getDimension(element.getFirst()));
+	}
+
+	@Override
+	public GenericPair<M, M> getAtIndexWithinSkeleton(int index, int n) {
+		int min_p = Math.max(this.C.getBeginningOfSupport(), this.D.getBeginningOfSupport() - n);
+		
+		/*
+		 * To calculate the index of a* x b, we use the following information:
+		 * Elements within the skeleton are ordered as follows:
+		 * - first by p
+		 * - then by a
+		 * - then by b
+		 * 
+		 * The size of n-skeleton of Hom-complex is 
+		 * \sum_{p \in Z} |C^p| * |D_{p_n}|
+		 * 
+		 * So we first compute how many "blocks" are before p, then we compute the index
+		 * of a, and then the index of b.
+		 * 
+		 * e.g.
+		 * 
+		 * xxxxxxxx
+		 * xxxxxxxx
+		 * xxxxxxxx
+		 * 
+		 * xxxxxxxx
+		 * xxxxxxxx
+		 * xxxxxxxx
+		 * xxxxxxxx
+		 * 
+		 * xxxxxxxx
+		 * xxX
+		 * 
+		 * total_preceding_block_sizes = 8 * 3 + 8 * 4 = 56
+		 * a_index = 1
+		 * b_index = 2
+		 * 
+		 */
+		
+		int total_preceding_block_sizes = 0;
+		int p_index = min_p;
+		while (total_preceding_block_sizes < index) {
+			total_preceding_block_sizes += this.C.getSkeletonSize(p_index) * this.D.getSkeletonSize(p_index + n);
+			p_index++;
+		}
+	
+		if (total_preceding_block_sizes > index) {
+			p_index--;
+			total_preceding_block_sizes -= this.C.getSkeletonSize(p_index) * this.D.getSkeletonSize(p_index + n);
+		}
+		
+		int block_index = index - total_preceding_block_sizes;
+		
+		int final_block_width = D.getSkeletonSize(p_index + n);
+		
+		int a_index = block_index / final_block_width;
+		int b_index = block_index % final_block_width;
+		
+		return new GenericPair<M, M>(this.C.getAtIndexWithinSkeleton(a_index, p_index), this.D.getAtIndexWithinSkeleton(b_index, p_index + n));
 	}
 }

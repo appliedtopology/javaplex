@@ -4,14 +4,18 @@
 package edu.stanford.math.plex_plus.homology;
 
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
+import edu.stanford.math.plex_plus.homology.complex.IntHomComplex;
 import edu.stanford.math.plex_plus.homology.complex.IntSimplicialComplex;
 import edu.stanford.math.plex_plus.homology.simplex.Simplex;
 import edu.stanford.math.plex_plus.homology.simplex.SimplexComparator;
 import edu.stanford.math.plex_plus.homology.simplex_streams.ExplicitStream;
 import edu.stanford.math.plex_plus.homology.simplex_streams.VietorisRipsStream;
+import edu.stanford.math.plex_plus.math.linear_algebra.IntFieldDecompositions;
+import edu.stanford.math.plex_plus.math.linear_algebra.IntFieldLinearAlgebra;
 import edu.stanford.math.plex_plus.math.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex_plus.math.structures.impl.ModularIntField;
-import edu.stanford.math.plex_plus.utility.ArrayUtility;
+import edu.stanford.math.plex_plus.math.structures.interfaces.IntField;
+import edu.stanford.math.plex_plus.utility.ArrayUtility2;
 import edu.stanford.math.plex_plus.utility.RandomUtility;
 
 /**
@@ -24,7 +28,7 @@ public class PersistentHomologyTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		testTriangle();
+		testHomTriangles();
 	}
 
 	/**
@@ -56,7 +60,7 @@ public class PersistentHomologyTest {
 		
 		System.out.println(stream);
 		
-		PersistentHomology<Simplex> homology = new PersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
+		ClassicalPersistentHomology<Simplex> homology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
 		BarcodeCollection barcodes = homology.computeIntervals(stream, 3);
 		System.out.println(barcodes);
 	}
@@ -79,7 +83,7 @@ public class PersistentHomologyTest {
 		
 		System.out.println(stream);
 		
-		PersistentHomology<Simplex> homology = new PersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
+		ClassicalPersistentHomology<Simplex> homology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
 		BarcodeCollection barcodes = homology.computeIntervals(stream, 3);
 		System.out.println(barcodes);
 		
@@ -90,7 +94,7 @@ public class PersistentHomologyTest {
 		System.out.println(staticComplex.getSkeleton(2));
 		
 		int[][] boundary = staticComplex.getDenseBoundaryMatrix(1);
-		System.out.println(ArrayUtility.toString(boundary));
+		System.out.println(ArrayUtility2.toString(boundary));
 	}
 	
 	public static void testTetrahedron() {
@@ -117,7 +121,7 @@ public class PersistentHomologyTest {
 		
 		System.out.println(stream);
 		
-		PersistentHomology<Simplex> homology = new PersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
+		ClassicalPersistentHomology<Simplex> homology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
 		BarcodeCollection barcodes = homology.computeIntervals(stream, 3);
 		System.out.println(barcodes);
 	}
@@ -197,7 +201,7 @@ public class PersistentHomologyTest {
 		
 		System.out.println(stream);
 		
-		PersistentHomology<Simplex> homology = new PersistentHomology<Simplex>(ModularIntField.getInstance(2), SimplexComparator.getInstance());
+		ClassicalPersistentHomology<Simplex> homology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(2), SimplexComparator.getInstance());
 		BarcodeCollection barcodes = homology.computeIntervals(stream, 3);
 		System.out.println(barcodes);
 	}
@@ -219,7 +223,7 @@ public class PersistentHomologyTest {
 		
 		System.out.println(stream.toString());
 		
-		PersistentHomology<Simplex> homology = new PersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
+		ClassicalPersistentHomology<Simplex> homology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
 		BarcodeCollection barcodes = homology.computeIntervals(stream, 3);
 		System.out.println(barcodes);
 	}
@@ -237,7 +241,7 @@ public class PersistentHomologyTest {
 		
 		System.out.println(stream.toString());
 		
-		PersistentHomology<Simplex> homology = new PersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
+		ClassicalPersistentHomology<Simplex> homology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
 		BarcodeCollection barcodes = homology.computeIntervals(stream, 3);
 		System.out.println(barcodes);
 	}
@@ -267,8 +271,82 @@ public class PersistentHomologyTest {
 		VietorisRipsStream<double[]> stream = new VietorisRipsStream<double[]>(metricSpace, epsilon, 3);
 		stream.finalizeStream();
 		
-		PersistentHomology<Simplex> homology = new PersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
+		ClassicalPersistentHomology<Simplex> homology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
 		BarcodeCollection barcodes = homology.computeIntervals(stream, 2);
 		System.out.println(barcodes);
+	}
+	
+	public static void testHomTriangles() {
+		int m = 3;
+		int n = 3;
+		
+		IntField field = ModularIntField.getInstance(7);
+		
+		ExplicitStream<Simplex> stream1 = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
+		ExplicitStream<Simplex> stream2 = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
+		
+		for (int i = 0; i < m; i++) {
+			stream1.addSimplex(new Simplex(new int[]{i}), 0);
+			stream1.addSimplex(new Simplex(new int[]{i, (i + 1) % m}), 0);
+		}
+
+		for (int i = 0; i < n; i++) {
+			stream2.addSimplex(new Simplex(new int[]{i}), 0);
+			stream2.addSimplex(new Simplex(new int[]{i, (i + 1) % n}), 0);
+		}
+		
+		stream1.finalizeStream();
+		stream2.finalizeStream();
+		
+		IntSimplicialComplex<Simplex> staticComplex1 = new IntSimplicialComplex<Simplex>(stream1, SimplexComparator.getInstance());
+		IntSimplicialComplex<Simplex> staticComplex2 = new IntSimplicialComplex<Simplex>(stream2, SimplexComparator.getInstance());
+		
+		IntHomComplex<Simplex> homComplex = new IntHomComplex<Simplex>(staticComplex1, staticComplex2, field);
+		int[][] D_0 = homComplex.getDenseBoundaryMatrix(0);
+		System.out.println(ArrayUtility2.toString(D_0));
+		
+		//int[][] D_1 = homComplex.getDenseBoundaryMatrix(1);
+		//System.out.println(ArrayUtility.toString(D_1));
+		
+		int[][] R = IntFieldDecompositions.computeRowEchelonForm(D_0, field);
+		System.out.println(ArrayUtility2.toString(R));
+		
+		int[][] N = IntFieldDecompositions.computeNullSpace(D_0, field);
+		System.out.println(ArrayUtility2.toString(N));
+		
+		int[][] product = IntFieldLinearAlgebra.product(D_0, N, field);
+		field.valueOfInPlace(product);
+		System.out.println(ArrayUtility2.toString(product));
+	}
+	
+	public static void testCircle() {
+		int m = 4;
+		int n = 8;
+		
+		ExplicitStream<Simplex> stream2 = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
+
+		for (int i = 0; i < m; i++) {
+			stream2.addSimplex(new Simplex(new int[]{i}), 0);
+			stream2.addSimplex(new Simplex(new int[]{i, (i + 1) % m}), 0);
+		}
+
+		stream2.finalizeStream();
+		
+		System.out.println(stream2);
+		
+		ClassicalPersistentHomology<Simplex> homology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(7), SimplexComparator.getInstance());
+		BarcodeCollection barcodes = homology.computeIntervals(stream2, 3);
+		System.out.println(barcodes);
+		
+		IntSimplicialComplex<Simplex> staticComplex2 = new IntSimplicialComplex<Simplex>(stream2, SimplexComparator.getInstance());
+		
+		System.out.println(staticComplex2.getSkeleton(0));
+		System.out.println(staticComplex2.getSkeleton(1));
+		System.out.println(staticComplex2.getSkeleton(2));
+		
+		int[][] boundary = staticComplex2.getDenseBoundaryMatrix(1);
+		System.out.println(ArrayUtility2.toString(boundary));
+		
+		System.out.println(staticComplex2.computeCoboundary(new Simplex(new int[]{0})));
 	}
 }

@@ -1,18 +1,18 @@
-/**
- * 
- */
 package edu.stanford.math.plex_plus.homology.complex;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex;
 import edu.stanford.math.plex_plus.homology.simplex_streams.SimplexStream;
+import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.set.hash.THashSet;
 
@@ -25,11 +25,17 @@ public class IntSimplicialComplex<M extends AbstractSimplex> extends IntChainCom
 	private final int dimension;
 	private final int[] skeletonSizes;
 	private final TObjectIntHashMap<M> locationCache = new TObjectIntHashMap<M>();
+	private final TIntIntHashMap skeletonStartIndices = new TIntIntHashMap();
+	
 	private final Comparator<M> comparator;
 	
 	/**
+	 * Temporary coboundary data structure.
 	 * 
+	 * TODO: Rethink how the coboundaries are computed and stored.
 	 */
+	private final Map<M, IntFormalSum<M>> coboundaryMap = new HashMap<M, IntFormalSum<M>>();
+
 	public IntSimplicialComplex(SimplexStream<M> stream, Comparator<M> comparator) {
 		this.dimension = stream.getDimension();
 		this.comparator = comparator;
@@ -48,6 +54,40 @@ public class IntSimplicialComplex<M extends AbstractSimplex> extends IntChainCom
 		 * TODO: investigate the efficiency of this
 		 */
 		Collections.sort(this.simplices, comparator);
+
+		/*
+		 * Precompute the skeleton start indices.
+		 */
+		int currentDimension = Integer.MIN_VALUE;
+		int tempDimension = 0;
+		int n = this.simplices.size();
+		for (int index = 0; index < n; index++) {
+			M simplex = this.simplices.get(index);
+			
+			/*
+			 * Precompute the skeleton start indices.
+			 */
+			tempDimension = simplex.getDimension();
+			if (tempDimension != currentDimension) {
+				currentDimension = tempDimension;
+				this.skeletonStartIndices.put(currentDimension, index);
+			}
+			
+			/*
+			 * Update coboundary structure.
+			 */
+			if (tempDimension > 0) {
+				AbstractSimplex[] boundaryElements = simplex.getBoundaryArray();
+				int coefficient = 1;
+				for (AbstractSimplex boundaryElement: boundaryElements) {
+					if (!this.coboundaryMap.containsKey(boundaryElement)) {
+						this.coboundaryMap.put((M) boundaryElement, new IntFormalSum<M>());
+					}
+					this.coboundaryMap.get(boundaryElement).put(coefficient, simplex);
+					coefficient *= -1;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -64,8 +104,10 @@ public class IntSimplicialComplex<M extends AbstractSimplex> extends IntChainCom
 
 	@Override
 	public IntFormalSum<M> computeCoboundary(AbstractSimplex element) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!this.coboundaryMap.containsKey(element)) {
+			return new IntFormalSum<M>();
+		}
+		return this.coboundaryMap.get(element);
 	}
 
 	@Override
@@ -99,57 +141,23 @@ public class IntSimplicialComplex<M extends AbstractSimplex> extends IntChainCom
 			return index;
 		}
 	}
+	
+	@Override
+	public int getIndexWithinSkeleton(M element) {
+		int index = this.getIndex(element);
+		int skeletonStart = this.skeletonStartIndices.get(element.getDimension());
+		return (index - skeletonStart);
+	}
 
 	@Override
 	public Set<M> getSkeleton(int k) {
 		THashSet<M> skeleton = new THashSet<M>();
-		int startIndex = 0;
+		int startIndex = this.skeletonStartIndices.get(k);
 		int numSimplices = this.simplices.size();
-		/*
-		 * The simplices are stored in sorted order, sorted
-		 * first by dimension. So we do a binary search to find
-		 * the first simplex of dimension k.
-		 * 
-		 * If k == 0, we know that we can start at the beginning.
-		 */
 		
-		if (this.simplices.get(numSimplices - 1).getDimension() < k) {
+		if (!this.skeletonStartIndices.contains(k)) {
 			// there are no simplices of dimension k
 			return skeleton;
-		}
-		
-		if (this.simplices.get(0).getDimension() > k) {
-			// no simplices of dimension k
-			return skeleton;
-		}
-		
-		/*
-		 * If this.simplices.get(0).getDimension() > k, then
-		 * the starting index is 0, so we don't have to do binary
-		 * search.
-		 */
-		if (this.simplices.get(0).getDimension() < k) {
-			// lower index			
-			int lowerIndex = 0;
-			// upper index
-			int upperIndex = numSimplices - 1;
-			
-			// at this point, dim(simplices[lowerIndex]) < k and
-			// dim(simplices[upperIndex]) >= k
-			
-			// We are ready to do binary search
-			
-			while (upperIndex > lowerIndex + 1) {
-				int midIndex = (upperIndex + lowerIndex) / 2;
-				if (this.simplices.get(midIndex).getDimension() < k) {
-					lowerIndex = midIndex;
-				} else {
-					upperIndex = midIndex;
-				}
-			}
-			
-			startIndex = upperIndex;
-			
 		}
 		
 		for (int i = startIndex; i < numSimplices; i++) {
@@ -173,4 +181,13 @@ public class IntSimplicialComplex<M extends AbstractSimplex> extends IntChainCom
 		return this.skeletonSizes[k];
 	}
 
+	@Override
+	public int getDimension(M element) {
+		return element.getDimension();
+	}
+
+	@Override
+	public M getAtIndexWithinSkeleton(int index, int k) {
+		return this.getAtIndex(index + this.skeletonStartIndices.get(k));
+	}
 }

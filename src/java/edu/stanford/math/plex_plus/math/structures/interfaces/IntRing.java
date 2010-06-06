@@ -39,4 +39,20 @@ public abstract class IntRing {
 	    }
 	    return result;
 	}
+	
+	public void valueOfInPlace(int[] array) {
+		ExceptionUtility.verifyNonNull(array);
+		int length = array.length;
+		for (int i = 0; i < length; i++) {
+			array[i] = this.valueOf(array[i]);
+		}		
+	}
+	
+	public void valueOfInPlace(int[][] array) {
+		ExceptionUtility.verifyNonNull(array);
+		int m = array.length;
+		for (int i = 0; i < m; i++) {
+			this.valueOfInPlace(array[i]);			
+		}		
+	}
 }

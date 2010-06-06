@@ -5,7 +5,7 @@ package edu.stanford.math.plex_plus.kd;
 
 import java.util.Random;
 
-import edu.stanford.math.plex_plus.utility.ArrayUtility;
+import edu.stanford.math.plex_plus.utility.ArrayUtility2;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.set.hash.TIntHashSet;
 
@@ -83,8 +83,8 @@ public class KDTree {
 		double[] currentPoint = this.dataPoints[currentIndex];
 		
 		// Calculate whether current node is the best so far
-		double currentSquaredDistance = ArrayUtility.squaredDistance(queryPoint, currentPoint);
-		double bestSquaredDistance = ArrayUtility.squaredDistance(queryPoint, bestPoint);
+		double currentSquaredDistance = ArrayUtility2.squaredDistance(queryPoint, currentPoint);
+		double bestSquaredDistance = ArrayUtility2.squaredDistance(queryPoint, bestPoint);
 		if (currentSquaredDistance < bestSquaredDistance) {
 			bestPoint = currentPoint;
 			bestIndex = currentIndex;
@@ -109,7 +109,7 @@ public class KDTree {
 		bestIndex = nearestNeighborSearch(nearChild, queryPoint, bestIndex, depth + 1);
 		
 		// test to see if we need to search other half-space
-		double separatingPlaneDistance = ArrayUtility.squaredDistance(queryPoint[axis], currentPoint[axis]);
+		double separatingPlaneDistance = ArrayUtility2.squaredDistance(queryPoint[axis], currentPoint[axis]);
 		if (bestSquaredDistance > separatingPlaneDistance) {
 			bestIndex = nearestNeighborSearch(farChild, queryPoint, bestIndex, depth + 1);
 		}
@@ -136,7 +136,7 @@ public class KDTree {
 
 		// calculate whether the current node belongs in the epsilon-neighborhood
 		// of the query point
-		double currentSquaredDistance = ArrayUtility.squaredDistance(queryPoint, currentPoint);
+		double currentSquaredDistance = ArrayUtility2.squaredDistance(queryPoint, currentPoint);
 		if (currentSquaredDistance < epsilonSquared) {
 			neighborhood.add(currentIndex);
 		}
@@ -184,7 +184,7 @@ public class KDTree {
 				i++;
 			}
 			if (i < j) {
-				ArrayUtility.swap(array, i, j);
+				ArrayUtility2.swap(array, i, j);
 				i++;
 				j--;
 			} else {
@@ -195,7 +195,7 @@ public class KDTree {
 
 	private static int randomizedPartition(double[][] array, int startIndex, int endIndex, int axis) {
 		int i = startIndex + random.nextInt(endIndex - startIndex);
-		ArrayUtility.swap(array, i, startIndex);
+		ArrayUtility2.swap(array, i, startIndex);
 		return partition(array, startIndex, endIndex, axis);
 	}
 

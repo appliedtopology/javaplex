@@ -113,7 +113,7 @@ public class Quicksort {
 					i++;
 				}
 				if (i < j) {
-					ArrayUtility.swap(array, i, j);
+					ArrayUtility2.swap(array, i, j);
 					i++;
 					j--;
 				} else {
@@ -133,7 +133,7 @@ public class Quicksort {
 		 */
 		public static int randomizedPartition(int[] array, int startIndex, int endIndex) {
 			int i = startIndex + random.nextInt(endIndex - startIndex);
-			ArrayUtility.swap(array, i, startIndex);
+			ArrayUtility2.swap(array, i, startIndex);
 			return partition(array, startIndex, endIndex);
 		}
 
@@ -273,7 +273,7 @@ public class Quicksort {
 					i++;
 				}
 				if (i < j) {
-					ArrayUtility.swap(array, i, j);
+					ArrayUtility2.swap(array, i, j);
 					i++;
 					j--;
 				} else {
@@ -293,7 +293,7 @@ public class Quicksort {
 		 */
 		public static <T> int randomizedPartition(T[] array, int startIndex, int endIndex, Comparator<T> comparator) {
 			int i = startIndex + random.nextInt(endIndex - startIndex);
-			ArrayUtility.swap(array, i, startIndex);
+			ArrayUtility2.swap(array, i, startIndex);
 			return partition(array, startIndex, endIndex, comparator);
 		}
 
@@ -410,7 +410,7 @@ public class Quicksort {
 					i++;
 				}
 				if (i < j) {
-					ArrayUtility.swap(array, i, j);
+					ArrayUtility2.swap(array, i, j);
 					i++;
 					j--;
 				} else {
@@ -421,7 +421,7 @@ public class Quicksort {
 
 		public static <T> int randomizedPartition(List<T> array, int startIndex, int endIndex, Comparator<T> comparator) {
 			int i = startIndex + random.nextInt(endIndex - startIndex);
-			ArrayUtility.swap(array, i, startIndex);
+			ArrayUtility2.swap(array, i, startIndex);
 			return partition(array, startIndex, endIndex, comparator);
 		}
 
