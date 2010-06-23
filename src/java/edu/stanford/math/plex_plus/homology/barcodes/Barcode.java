@@ -48,6 +48,25 @@ public class Barcode {
 		this.intervals.add(interval);
 	}
 	
+	/**
+	 * This function returns the number of "active" intervals at
+	 * a particular point.
+	 * 
+	 * @param point the point to query
+	 * @return the number of intervals containing the supplied point
+	 */
+	public int getSliceCardinality(double point) {
+		int cardinality = 0;
+		
+		for (PersistenceInterval interval: this.intervals) {
+			if (interval.containsPoint(point)) {
+				cardinality++;
+			}
+		}
+		
+		return cardinality;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

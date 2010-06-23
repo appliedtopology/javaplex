@@ -1,11 +1,11 @@
 package edu.stanford.math.plex_plus.homology;
 
+import edu.stanford.math.plex_plus.algebraic_structures.impl.ModularIntField;
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntField;
 import edu.stanford.math.plex_plus.homology.complex.IntSimplicialComplex;
 import edu.stanford.math.plex_plus.homology.simplex.Simplex;
 import edu.stanford.math.plex_plus.homology.simplex.SimplexComparator;
 import edu.stanford.math.plex_plus.homology.simplex_streams.ExplicitStream;
-import edu.stanford.math.plex_plus.math.structures.impl.ModularIntField;
-import edu.stanford.math.plex_plus.math.structures.interfaces.IntField;
 
 public class HomComplexTest {
 	public static void main(String[] args) {
@@ -13,10 +13,10 @@ public class HomComplexTest {
 	}
 	
 	public static void testHomTriangles() {
-		int m = 3;
+		int m = 6;
 		int n = 3;
 		
-		IntField field = ModularIntField.getInstance(337);
+		IntField field = ModularIntField.getInstance(3);
 		
 		ExplicitStream<Simplex> stream1 = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 		ExplicitStream<Simplex> stream2 = new ExplicitStream<Simplex>(SimplexComparator.getInstance());

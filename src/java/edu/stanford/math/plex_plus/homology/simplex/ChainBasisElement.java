@@ -10,7 +10,7 @@ package edu.stanford.math.plex_plus.homology.simplex;
  * @author Andrew Tausz
  *
  */
-public interface AbstractSimplex {
+public interface ChainBasisElement {
 	
 	/**
 	 * This function returns the dimension of the simplex, which equals
@@ -34,7 +34,20 @@ public interface AbstractSimplex {
 	 * 
 	 * @return an array containing the boundary components of this simplex
 	 */
-	public AbstractSimplex[] getBoundaryArray();
+	public ChainBasisElement[] getBoundaryArray();
+	
+	/**
+	 * Force the implementer to provide a hashCode implementation.
+	 * @return
+	 */
+	public int hashCode();
+	
+	/**
+	 * Force the implementer to provide an equals implementation.
+	 * @param obj
+	 * @return
+	 */
+	public boolean equals(Object obj);
 	
 	/**
 	 * This function returns the coefficient of the current simplex within
@@ -56,5 +69,5 @@ public interface AbstractSimplex {
 	 * @param element the proposed element of the boundary of this
 	 * @return the coefficient of this within the coboundary of the supplied element
 	 */
-	public int getCoboundaryCoefficient(AbstractSimplex element);
+	//public int getCoboundaryCoefficient(AbstractSimplex element);
 }

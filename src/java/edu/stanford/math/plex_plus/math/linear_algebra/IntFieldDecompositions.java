@@ -3,7 +3,7 @@ package edu.stanford.math.plex_plus.math.linear_algebra;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.stanford.math.plex_plus.math.structures.interfaces.IntField;
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntField;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import edu.stanford.math.plex_plus.utility.MemoryUtility;
 import gnu.trove.map.hash.TIntIntHashMap;

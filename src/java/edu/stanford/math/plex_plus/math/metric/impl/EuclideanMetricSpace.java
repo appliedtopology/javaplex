@@ -1,7 +1,7 @@
 package edu.stanford.math.plex_plus.math.metric.impl;
 
 import edu.stanford.math.plex_plus.kd.KDTree;
-import edu.stanford.math.plex_plus.math.metric.interfaces.GenericAbstractFiniteMetricSpace;
+import edu.stanford.math.plex_plus.math.metric.interfaces.FiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.ArrayUtility2;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.set.hash.TIntHashSet;
@@ -10,7 +10,7 @@ import gnu.trove.set.hash.TIntHashSet;
  * @author Andrew Tausz
  *
  */
-public class EuclideanMetricSpace implements GenericAbstractFiniteMetricSpace<double[]> {
+public class EuclideanMetricSpace implements FiniteMetricSpace<double[]> {
 	private final double[][] dataPoints;
 	private final KDTree tree;
 	
@@ -19,6 +19,10 @@ public class EuclideanMetricSpace implements GenericAbstractFiniteMetricSpace<do
 		this.dataPoints = dataPoints;
 		this.tree = new KDTree(dataPoints);
 		this.tree.constructTree();
+	}
+	
+	public double[][] getPoints() {
+		return this.dataPoints;
 	}
 	
 	@Override
@@ -42,7 +46,6 @@ public class EuclideanMetricSpace implements GenericAbstractFiniteMetricSpace<do
 		return dataPoints.length;
 	}
 
-	@Override
 	public double distance(double[] a, double[] b) {
 		return Math.sqrt(ArrayUtility2.squaredDistance(a, b));
 	}

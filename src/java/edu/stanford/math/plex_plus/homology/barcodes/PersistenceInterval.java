@@ -34,7 +34,7 @@ public class PersistenceInterval {
 	 */
 	public PersistenceInterval(double start) {
 		this.start = start;
-		this.end = Infinity.getPositiveInfinity();
+		this.end = Infinity.Double.getPositiveInfinity();
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class PersistenceInterval {
 	 * @return returns true if the interval is infinite
 	 */
 	public boolean isInfinite() {
-		return Infinity.isPositiveInfinity(this.end);
+		return Infinity.Double.isPositiveInfinity(this.end);
 	}
 	
 	/**
@@ -63,7 +63,18 @@ public class PersistenceInterval {
 	 */
 	public double getEnd() {
 		return this.end;
-	}	
+	}
+	
+	/**
+	 * This functions return true if the supplied point is a
+	 * member of the interval.
+	 * 
+	 * @param point the point to query
+	 * @return true if the point is in the interval and false otherwise
+	 */
+	public boolean containsPoint(double point) {
+		return (point >= this.start && point < this.end);
+	}
 	
 	@Override
 	public String toString() {

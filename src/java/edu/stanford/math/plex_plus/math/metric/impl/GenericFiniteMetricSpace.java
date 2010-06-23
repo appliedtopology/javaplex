@@ -3,11 +3,11 @@ package edu.stanford.math.plex_plus.math.metric.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.stanford.math.plex_plus.math.metric.interfaces.GenericAbstractFiniteMetricSpace;
+import edu.stanford.math.plex_plus.math.metric.interfaces.FiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.set.hash.TIntHashSet;
 
-public abstract class GenericFiniteMetricSpace<T> implements GenericAbstractFiniteMetricSpace<T> {
+public abstract class GenericFiniteMetricSpace<T> implements FiniteMetricSpace<T> {
 	List<T> elements = new ArrayList<T>();
 	
 	@Override
@@ -66,9 +66,13 @@ public abstract class GenericFiniteMetricSpace<T> implements GenericAbstractFini
 		return this.elements.size();
 	}
 
-	@Override
 	public abstract double distance(T a, T b);
 
+	@Override
+	public double distance(int i, int j) {
+		return this.distance(this.elements.get(i), this.elements.get(j));
+	}
+	
 	@Override
 	public T getPoint(int index) {
 		ExceptionUtility.verifyIndex(this.elements.size(), index);

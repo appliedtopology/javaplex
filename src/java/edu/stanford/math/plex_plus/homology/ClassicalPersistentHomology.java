@@ -2,12 +2,12 @@ package edu.stanford.math.plex_plus.homology;
 
 import java.util.Comparator;
 
+import edu.stanford.math.plex_plus.algebraic_structures.impl.IntFreeModule;
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntField;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
-import edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex;
+import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
 import edu.stanford.math.plex_plus.homology.simplex_streams.SimplexStream;
-import edu.stanford.math.plex_plus.math.structures.impl.IntFreeModule;
-import edu.stanford.math.plex_plus.math.structures.interfaces.IntField;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.map.hash.THashMap;
@@ -21,7 +21,7 @@ import gnu.trove.set.hash.THashSet;
  *
  * @param <BasisElementType>
  */
-public class ClassicalPersistentHomology<BasisElementType extends AbstractSimplex> {
+public class ClassicalPersistentHomology<BasisElementType extends ChainBasisElement> {
 	private final THashSet<BasisElementType> markedSimplices = new THashSet<BasisElementType>();
 	private final THashMap<BasisElementType, IntFormalSum<BasisElementType>> T = new THashMap<BasisElementType, IntFormalSum<BasisElementType>>();
 	private final IntField field;
@@ -136,12 +136,13 @@ public class ClassicalPersistentHomology<BasisElementType extends AbstractSimple
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private IntFormalSum<BasisElementType> createBoundaryChain(AbstractSimplex[] abstractChainBasisElements) {
+	private IntFormalSum<BasisElementType> createBoundaryChain(ChainBasisElement[] abstractChainBasisElements) {
 		ExceptionUtility.verifyNonNull(abstractChainBasisElements);
 		IntFormalSum<BasisElementType> sum = new IntFormalSum<BasisElementType>();
+		IntFreeModule<BasisElementType> chainModule = new IntFreeModule<BasisElementType>(this.field);
 		
 		for (int i = 0; i < abstractChainBasisElements.length; i++) {
-			sum.put((i % 2 == 0 ? 1 : -1), (BasisElementType) abstractChainBasisElements[i]);
+			chainModule.addObject(sum, (i % 2 == 0 ? 1 : -1), (BasisElementType) abstractChainBasisElements[i]);
 		}
 		
 		return sum;

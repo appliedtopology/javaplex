@@ -5,12 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntField;
 import edu.stanford.math.plex_plus.homology.complex.IntHomComplex;
 import edu.stanford.math.plex_plus.homology.complex.IntSimplicialComplex;
 import edu.stanford.math.plex_plus.homology.simplex.Simplex;
 import edu.stanford.math.plex_plus.math.linear_algebra.IntFieldDecompositions;
-import edu.stanford.math.plex_plus.math.structures.interfaces.IntField;
 import edu.stanford.math.plex_plus.utility.ArrayUtility;
+import edu.stanford.math.plex_plus.utility.ArrayUtility2;
 import edu.stanford.math.plex_plus.utility.ListUtility;
 
 /**
@@ -27,6 +28,8 @@ public class HomCompexComputation {
 		int[][] D_0 = homComplex.getDenseBoundaryMatrix(0);
 		int[][] D_1 = homComplex.getDenseBoundaryMatrix(1);
 		
+		System.out.println(ArrayUtility2.toString(D_1));
+		
 		int[][] N_0 = IntFieldDecompositions.computeNullSpace(D_0, field);
 		
 		Set<int[]> reps = ClassifyAll(N_0, D_1, field);
@@ -37,9 +40,11 @@ public class HomCompexComputation {
 			System.out.println(homComplex.getSumRepresentation(v, 0));
 		}
 		
-		int[] v = new int[]{0, 0, 7, -2, 0, 0, 0, 0, 7, 2, 0, 0, 0, -1, 1, 0, 0, 0};
+		double[] v = new double[]{-0.1244, -0.0000,0.6667, -0.2089,  0.0000,  0.0000, -0.3333,  0.0000,  0.0000, -0.3333,  0.0000,  0.0000, -0.3333,  0.0000,  0.0000, -0.0000, -0.0000,  0.6667,  0.4578, -0.2089,  0.0000, -0.0000, -0.0000,  0.0000, -0.0000,  0.0000, -0.0000, -0.0000,  0.0000, -0.0000, -0.0000,  0.0000, -0.0000, -0.0000, -0.0000,  0.3333};
 		
 		System.out.println(homComplex.getSumRepresentation(v, 0).toString());
+		
+		
 	}
 	
 	public static List<int[]> RemoveNull(int[][] N_0, int[][] D_1, IntField field) {

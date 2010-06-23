@@ -2,6 +2,7 @@ package edu.stanford.math.plex_plus.homology.complex;
 
 import java.util.Set;
 
+import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import gnu.trove.iterator.TObjectIntIterator;
 
@@ -96,6 +97,18 @@ public abstract class IntChainComplex<M> implements Iterable<M> {
 	
 	public IntFormalSum<M> getSumRepresentation(int[] vector, int k) {
 		IntFormalSum<M> sum = new IntFormalSum<M>();
+		
+		for (int i = 0; i < vector.length; i++) {
+			if (vector[i] != 0) {
+				sum.put(vector[i], this.getAtIndexWithinSkeleton(i, k));
+			}
+		}
+		
+		return sum;
+	}
+	
+	public GenericFormalSum<Double, M> getSumRepresentation(double[] vector, int k) {
+		GenericFormalSum<Double, M> sum = new GenericFormalSum<Double, M>();
 		
 		for (int i = 0; i < vector.length; i++) {
 			if (vector[i] != 0) {

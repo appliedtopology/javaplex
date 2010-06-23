@@ -10,6 +10,17 @@ import java.util.List;
  *
  */
 public class ArrayUtility2 {
+	
+	public static int[][] newIntMatrix(int rows, int columns) {
+		int[][] result = new int[rows][];
+		
+		for (int i = 0; i < rows; i++) {
+			result[i] = new int[columns];
+		}
+		
+		return result;
+	}
+	
 	public static <T> String toString(T[][] array) {
 		ExceptionUtility.verifyNonNull(array);
 		

@@ -2,6 +2,7 @@ package edu.stanford.math.plex_plus.homology.barcodes;
 
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TIntObjectIterator;
+import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
 /**
@@ -50,6 +51,25 @@ public class BarcodeCollection {
 	 */
 	public void addInterval(int dimension, double start) {
 		this.addInterval(dimension, new PersistenceInterval(start));
+	}
+	
+	/**
+	 * This function computes the Betti numbers for a particular filtration
+	 * value. It returns the results as a map which maps the dimension to the
+	 * Betti number.
+	 * 
+	 * @param filtrationValue the filtrationValue to compute the Betti numbers at
+	 * @return a TIntIntHashMap mapping dimension to the Betti number
+	 */
+	public TIntIntHashMap getBettiNumbers(double filtrationValue) {
+		TIntIntHashMap map = new TIntIntHashMap();
+		
+		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			map.put(iterator.key(), iterator.value().getSliceCardinality(filtrationValue));
+		}
+		
+		return map;
 	}
 	
 	@Override

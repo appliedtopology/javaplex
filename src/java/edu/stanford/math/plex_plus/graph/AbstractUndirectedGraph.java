@@ -1,14 +1,16 @@
 package edu.stanford.math.plex_plus.graph;
 
+import gnu.trove.set.TIntSet;
+
 /**
  * This interface abstracts the functionality of an unweighted graph.
- * The graph may be directed or undirected. The vertices of the graph
+ * The graph must be undirected. The vertices of the graph
  * are labeled {0, ..., n - 1}, where n is the number of vertices.
  * 
  * @author Andrew Tausz
  *
  */
-public interface AbstractGraph {
+public interface AbstractUndirectedGraph {
 	
 	/**
 	 * Gets the number of vertices in the graph.
@@ -49,4 +51,21 @@ public interface AbstractGraph {
 	 * @param j the second vertex of the edge to add
 	 */
 	public void removeEdge(int i, int j);
+	
+	/**
+	 * This function returns the set of neighbors of vertex i in the graph
+	 * which have indices less than i.
+	 * 
+	 * @param i the vertex to query
+	 * @return the set of j such that j < i and i ~ j
+	 */
+	public TIntSet getLowerNeighbors(int i);
+	
+	/**
+	 * This function returns an edge iterator that allows the user to 
+	 * iterate over the set of edges in the graph.
+	 * 
+	 * @return an AbstractEdgeIterator
+	 */
+	public AbstractEdgeIterator edgeIterator();
 }

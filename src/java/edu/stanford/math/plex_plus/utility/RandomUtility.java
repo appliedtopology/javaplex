@@ -2,6 +2,7 @@ package edu.stanford.math.plex_plus.utility;
 
 import cern.jet.random.Normal;
 import cern.jet.random.Uniform;
+import gnu.trove.set.hash.TIntHashSet;
 
 
 /**
@@ -121,7 +122,7 @@ public class RandomUtility {
 		}
 		return values;
 	}
-	
+
 	/**
 	 * This function returns a matrix containing uniformly
 	 * distributed random numbers.
@@ -141,7 +142,7 @@ public class RandomUtility {
 		}
 		return values;
 	}
-	
+
 	/**
 	 * This function returns a matrix containing normally
 	 * distributed random numbers.
@@ -181,5 +182,40 @@ public class RandomUtility {
 			permutedValues[n] = temp;
 		}
 		return permutedValues;
+	}
+
+	/**
+	 * This function computes a random subset of size subsetSize from the
+	 * set {0, ..., selectionSetSize - 1}.
+	 * 
+	 * @param subsetSize the size of the subset to return
+	 * @param selectionSetSize the size of the set to select from
+	 * @return a subset of size subsetSize from the set {0, ..., selectionSetSize - 1}
+	 */
+	public static TIntHashSet randomSubset(int subsetSize, int selectionSetSize) {	
+		TIntHashSet result = new TIntHashSet();
+		
+		if (subsetSize >= selectionSetSize) {
+			for (int i = 0; i < selectionSetSize; i++) {
+				result.add(i);
+			}
+			return result;
+		}
+		
+		if (subsetSize > selectionSetSize / 2) {
+			TIntHashSet negativeSet = randomSubset(selectionSetSize - subsetSize, selectionSetSize);
+			for (int i = 0; i < selectionSetSize; i++) {
+				if (!negativeSet.contains(i)) {
+					result.add(i);
+				}
+			}
+		} else {
+			while (result.size() < subsetSize) {
+				int randomPosition = RandomUtility.nextUniformInt(0, selectionSetSize - 1);
+				result.add(randomPosition);
+			}
+		}
+		
+		return result;
 	}
 }

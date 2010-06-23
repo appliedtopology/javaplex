@@ -7,7 +7,7 @@ package edu.stanford.math.plex_plus.graph;
  * @author Andrew Tausz
  *
  */
-public interface AbstractWeightedGraph extends AbstractGraph {
+public interface AbstractWeightedUndirectedGraph extends AbstractUndirectedGraph {
 	/**
 	 * This function returns the weight of the edge (i, j).
 	 * 

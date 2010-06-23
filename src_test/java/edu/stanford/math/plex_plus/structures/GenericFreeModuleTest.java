@@ -2,13 +2,13 @@ package edu.stanford.math.plex_plus.structures;
 
 import org.apache.commons.math.fraction.Fraction;
 
+import edu.stanford.math.plex_plus.algebraic_structures.impl.GenericFreeModule;
+import edu.stanford.math.plex_plus.algebraic_structures.impl.IntFreeModule;
+import edu.stanford.math.plex_plus.algebraic_structures.impl.ModularIntField;
+import edu.stanford.math.plex_plus.algebraic_structures.impl.RationalField;
 import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.homology.simplex.Simplex;
-import edu.stanford.math.plex_plus.math.structures.impl.GenericFreeModule;
-import edu.stanford.math.plex_plus.math.structures.impl.IntFreeModule;
-import edu.stanford.math.plex_plus.math.structures.impl.ModularIntField;
-import edu.stanford.math.plex_plus.math.structures.impl.RationalField;
 
 /**
  * 

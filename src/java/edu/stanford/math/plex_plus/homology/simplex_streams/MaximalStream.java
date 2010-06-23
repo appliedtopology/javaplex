@@ -43,10 +43,7 @@ import gnu.trove.set.TIntSet;
  *
  */
 public abstract class MaximalStream implements SimplexStream<Simplex> {	
-	/**
-	 * The maximum to use in the construction of the complex.
-	 */
-	protected final double maxDistance;
+	
 	
 	/**
 	 * The maximum allowable dimension of the complex.
@@ -75,13 +72,17 @@ public abstract class MaximalStream implements SimplexStream<Simplex> {
 	private int dimension = 0;
 	
 	/**
+	 * Stores the neighborhood graph.
+	 */
+	protected UndirectedWeightedListGraph neighborhoodGraph = null;
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param maxDistance the maximum allowable distance in the complex
 	 * @param maxDimension the maximum dimension of the complex
 	 */
-	public MaximalStream(double maxDistance, int maxDimension) {
-		this.maxDistance = maxDistance;
+	public MaximalStream(int maxDimension) {
 		this.maxDimension = maxDimension;
 	}
 	
@@ -95,9 +96,13 @@ public abstract class MaximalStream implements SimplexStream<Simplex> {
 	 */
 	protected abstract UndirectedWeightedListGraph constructEdges();
 	
+	public UndirectedWeightedListGraph getNeighborhoodGraph() {
+		return this.neighborhoodGraph;
+	}
+	
 	protected void constructComplex() {
 		// construct the neighborhood graph
-		UndirectedWeightedListGraph neighborhoodGraph = this.constructEdges();
+		this.neighborhoodGraph = this.constructEdges();
 		
 		// expand higher order simplices
 		this.incrementalExpansion(neighborhoodGraph, this.maxDimension);

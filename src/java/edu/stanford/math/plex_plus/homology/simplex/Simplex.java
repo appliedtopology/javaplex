@@ -30,7 +30,7 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  * @author Andrew Tausz
  *
  */
-public class Simplex implements AbstractSimplex {
+public class Simplex implements ChainBasisElement {
 	
 	/**
 	 * This stores the actual vertices of the simplex.
@@ -85,8 +85,8 @@ public class Simplex implements AbstractSimplex {
 		return boundaryArray;
 	}
 	
-	@Override
-	public int getCoboundaryCoefficient(AbstractSimplex element) {
+	//@Override
+	public int getCoboundaryCoefficient(ChainBasisElement element) {
 		if (!(element instanceof Simplex)) {
 			return 0;
 		}

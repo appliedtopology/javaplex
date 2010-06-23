@@ -1,5 +1,6 @@
 package edu.stanford.math.plex_plus.utility;
 
+
 /**
  * This class contains various static utility functions
  * relating to math.
@@ -70,5 +71,145 @@ public class MathUtility {
 		}
 		
 		return inverses;
+	}
+	
+	/**
+	 * This function returns the floor of the base-2 logarithm
+	 * of the input. The input must be strictly positive.
+	 * 
+	 * @param input the input argument
+	 * @return the floor of the base-2 logarithm of the input 
+	 */
+	public static int floorLog2(int input) {
+		ExceptionUtility.verifyPositive(input);
+		int bitMask = 1;
+		int bitPosition = 0;
+		int maxBitPosition = 0;
+		while (bitPosition < 31) {
+			if ((bitMask & input) > 0) {
+				maxBitPosition = bitPosition;
+			}
+			bitMask <<= 1;
+			bitPosition++;
+		}
+		return maxBitPosition;
+	}
+
+	public static int minLog2(int input) {
+		int bitMask = 1;
+		int bitPosition = 0;
+		int maxBitMask = 0;
+		while (bitPosition < 31) {
+			if ((bitMask & input) > 0) {
+				maxBitMask = (bitMask & input);
+			}
+			bitMask <<= 1;
+			bitPosition++;
+		}
+		return maxBitMask;
+	}
+
+	public static int maxLog2(int input) {
+		int minLog2 = minLog2(input);
+		if (minLog2 == input) {
+			return input;
+		} else {
+			return minLog2 << 1;
+		}
+	}
+
+
+	/**
+	 * This function returns the great circle distance (geodesic distance)
+	 * between two points on the unit sphere.
+	 * 
+	 * @param latitude1 the latitude of the first point
+	 * @param longitude1 the longitude of the first point
+	 * @param latitude2 the latitude of the second point
+	 * @param longitude2 the longitude of the second point
+	 * @return the geodesic distance between the two input points
+	 */
+	public static double greatCircleDistance(double latitude1, double longitude1, 
+			double latitude2, double longitude2) {
+		double phi1 = latitude1;
+		double phi2 = latitude2;
+		double lambda1 = longitude1;
+		double lambda2 = longitude2;
+		double deltaLambda = lambda1 - lambda2;
+		double deltaPhi = phi1 - phi2;
+		double sin1 = Math.sin(0.5 * deltaPhi);
+		double sin2 = Math.sin(0.5 * deltaLambda);
+		double A = sin1 * sin1;
+		double B = sin2 * sin2;
+		double C = Math.cos(phi1) * Math.cos(phi2);
+		double distance = 2 * Math.asin(A + B * C);
+		return distance;
+	}
+
+	/**
+	 * This function returns the great circle distance between two 
+	 * points on the unit sphere given their rectangular coordinates.
+	 * 
+	 * @param x the first point
+	 * @param y the second point
+	 * @return the distance between x and y along the unit sphere
+	 */
+	public static double greatCircleDistance(double[] x, double[] y) {
+		double x1 = x[0];
+		double y1 = x[1];
+		double z1 = x[2];
+		double phi1 = Math.atan2(y1, x1);
+		double theta1 = Math.acos(z1 / Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1));
+		double latitude1 = 0.5 * Math.PI - theta1;
+		
+		double x2 = y[0];
+		double y2 = y[1];
+		double z2 = y[2];
+		double phi2 = Math.atan2(y2, x2);
+		double theta2 = Math.acos(z2 / Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2));
+		double latitude2 = 0.5 * Math.PI - theta2;
+		
+		return MathUtility.greatCircleDistance(latitude1, phi1, latitude2, phi2);		
+	}
+	
+	/**
+	 * This function computes the Huber penalty function of an 
+	 * input. The Huber penalty function is equal to x^2 for |x| <= M, 
+	 * and linear for |x| > M.
+	 * @param x the value at which to compute the Huber penalty function
+	 * @param M the parameter which determines the linear/quadratic region
+	 * @return The Huber penalty function at x
+	 */
+	public static double huberPenaltyFunction(double x, double M) {
+		if (Math.abs(x) <= M) {
+			return x * x;
+		} else {
+			return M * (2 * Math.abs(x) - M);
+		}
+	}
+	
+	/**
+	 * This function evaluates the standard gaussian density
+	 * with mean 0 and variance 1.
+	 * 
+	 * @param x the point to evaluate at
+	 * @return the standard normal density evaluated at x
+	 */
+	public static double gaussianDensity(double x) {
+		double constant = Math.sqrt(2 * Math.PI);
+		return (Math.exp(0.5 * x * x) / constant);
+	}
+	
+	/**
+	 * This function evaluates the 1-dimensional gaussian
+	 * density function with specified mean and standard deviation.
+	 * 
+	 * @param x the point to evaluate at
+	 * @param mean the mean of the distribution
+	 * @param standardDeviation the standard deviation of the distribution
+	 * @return the gaussian density evaluated at x
+	 */
+	public static double gaussianDensity(double x, double mean, double standardDeviation) {
+		return (gaussianDensity((x - mean) / standardDeviation) / standardDeviation);
 	}
 }

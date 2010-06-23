@@ -12,15 +12,7 @@ import gnu.trove.set.hash.TIntHashSet;
  * @author Andrew Tausz
  *
  */
-public interface GenericAbstractFiniteMetricSpace<T> extends GenericAbstractMetricSpace<T> {
-	
-	/**
-	 * Returns the number of the points in the metric space.
-	 * 
-	 * @return the number of points in the metric space
-	 */
-	public int size();
-	public double distance(int i, int j);
+public interface FiniteMetricSpace<T> extends IntFiniteMetricSpace {
 	public T getPoint(int index);
 	public int getNearestPoint(T queryPoint);
 	public TIntHashSet getNeighborhood(T queryPoint, double epsilon);

@@ -1,9 +1,8 @@
 package edu.stanford.math.plex_plus.datastructures;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
@@ -23,13 +22,13 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  * @param <R> the coefficient type
  * @param <M> the object type 
  */
-public class GenericFormalSum<R, M extends Comparable<M>> {
+public class GenericFormalSum<R, M> {
 	/**
 	 * The coefficient-object pairs are held in a hash map, where the
 	 * key is the object (e.g. a simplex), and the value is the coefficient.
 	 * 
 	 */
-	private SortedMap<M, R> map = new TreeMap<M, R>();
+	private HashMap<M, R> map = new HashMap<M, R>();
 	
 	/**
 	 * Default constructor which initializes the sum to be empty.

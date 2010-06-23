@@ -1,6 +1,6 @@
 package edu.stanford.math.plex_plus.deprecated;
 
-import edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex;
+import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
 import gnu.trove.set.hash.THashSet;
 
 /**
@@ -25,7 +25,7 @@ public abstract class SimplicialComplexOld {
 	 * 
 	 * @param simplex the simplex to add
 	 */
-	public abstract void addSimplex(AbstractSimplex simplex);
+	public abstract void addSimplex(ChainBasisElement simplex);
 	
 	/**
 	 * This function returns the maximum dimension of the simplices
@@ -43,7 +43,7 @@ public abstract class SimplicialComplexOld {
 	 * @param k the dimension
 	 * @return the k-skeleton of the simplicial complex
 	 */
-	public abstract THashSet<AbstractSimplex> getSkeleton(int k);
+	public abstract THashSet<ChainBasisElement> getSkeleton(int k);
 	
 	/**
 	 * This function returns the index of the supplied simplex,
@@ -52,7 +52,7 @@ public abstract class SimplicialComplexOld {
 	 * @param simplex the simplex to query
 	 * @return the index of the simplex within the complex
 	 */
-	public abstract int getIndex(AbstractSimplex simplex);
+	public abstract int getIndex(ChainBasisElement simplex);
 	
 	/**
 	 * This function returns the simplex at the supplied index.
@@ -61,7 +61,7 @@ public abstract class SimplicialComplexOld {
 	 * @param index the index of the simplex to retrieve
 	 * @return the simplex at the given index within the complex
 	 */
-	public abstract AbstractSimplex getAtIndex(int index);
+	public abstract ChainBasisElement getAtIndex(int index);
 	
 	/*
 	IntLabeledGrid<AbstractChainBasisElement> getBoundaryMatrix(int k) {
@@ -88,8 +88,8 @@ public abstract class SimplicialComplexOld {
 		for (int d = 0; d <= this.getDimension(); d++) {
 			builder.append(d + ": ");
 			builder.append('{');
-			THashSet<AbstractSimplex> skeleton = this.getSkeleton(d);
-			for (AbstractSimplex simplex : skeleton) {
+			THashSet<ChainBasisElement> skeleton = this.getSkeleton(d);
+			for (ChainBasisElement simplex : skeleton) {
 				builder.append(simplex.toString());
 				builder.append(' ');
 			}

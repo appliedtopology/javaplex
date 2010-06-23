@@ -31,7 +31,7 @@ import gnu.trove.set.hash.TIntHashSet;
  * @author Andrew Tausz
  *
  */
-public class UndirectedListGraph implements AbstractGraph {
+public class UndirectedListGraph implements AbstractUndirectedGraph {
 	/**
 	 * This is the adjacency set structure 
 	 */
@@ -132,6 +132,11 @@ public class UndirectedListGraph implements AbstractGraph {
 		} else {
 			return new TIntHashSet();
 		}
+	}
+
+	@Override
+	public AbstractEdgeIterator edgeIterator() {
+		return new UndirectedListEdgeIterator(this.adjacencySets);
 	}
 
 }

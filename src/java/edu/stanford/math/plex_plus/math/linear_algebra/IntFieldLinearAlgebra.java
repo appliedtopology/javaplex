@@ -1,6 +1,6 @@
 package edu.stanford.math.plex_plus.math.linear_algebra;
 
-import edu.stanford.math.plex_plus.math.structures.interfaces.IntField;
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntField;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 public class IntFieldLinearAlgebra {

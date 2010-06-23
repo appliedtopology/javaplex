@@ -1,6 +1,6 @@
 package edu.stanford.math.plex_plus.deprecated;
 
-import edu.stanford.math.plex_plus.graph.AbstractGraph;
+import edu.stanford.math.plex_plus.graph.AbstractUndirectedGraph;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.set.hash.THashSet;
 import gnu.trove.set.hash.TIntHashSet;
@@ -13,7 +13,7 @@ import gnu.trove.set.hash.TIntHashSet;
 @Deprecated
 public class BronKerboschAlgorithm {
 	
-	public static THashSet<TIntHashSet> getAllMaximalCliques(AbstractGraph graph) {
+	public static THashSet<TIntHashSet> getAllMaximalCliques(AbstractUndirectedGraph graph) {
 		THashSet<TIntHashSet> cliques = new THashSet<TIntHashSet>();
 		
 		TIntHashSet potentialClique = new TIntHashSet();
@@ -27,7 +27,7 @@ public class BronKerboschAlgorithm {
 		return cliques;
 	}
 	
-	private static void findCliques(AbstractGraph graph, THashSet<TIntHashSet> cliques, TIntHashSet potentialClique, TIntHashSet candidates, TIntHashSet alreadyFound) {
+	private static void findCliques(AbstractUndirectedGraph graph, THashSet<TIntHashSet> cliques, TIntHashSet potentialClique, TIntHashSet candidates, TIntHashSet alreadyFound) {
 		TIntHashSet candidatesCopy = new TIntHashSet(candidates);
 		
 		if (!existsFullMatch(graph, candidates, alreadyFound)) {
@@ -80,7 +80,7 @@ public class BronKerboschAlgorithm {
 	 * @param alreadyFound
 	 * @return
 	 */
-	private static boolean existsFullMatch(AbstractGraph graph, TIntHashSet candidates, TIntHashSet alreadyFound) {
+	private static boolean existsFullMatch(AbstractUndirectedGraph graph, TIntHashSet candidates, TIntHashSet alreadyFound) {
 		int edgeCounter = 0;
 		
 		TIntIterator foundIterator = alreadyFound.iterator();

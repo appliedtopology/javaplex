@@ -3,10 +3,10 @@ package edu.stanford.math.plex_plus.homology.complex;
 import java.util.Iterator;
 import java.util.Set;
 
+import edu.stanford.math.plex_plus.algebraic_structures.impl.IntFreeModule;
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntRing;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
-import edu.stanford.math.plex_plus.math.structures.impl.IntFreeModule;
-import edu.stanford.math.plex_plus.math.structures.interfaces.IntRing;
 import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.set.hash.THashSet;
 

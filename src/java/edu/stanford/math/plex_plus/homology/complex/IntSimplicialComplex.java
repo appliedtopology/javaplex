@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
-import edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex;
+import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
 import edu.stanford.math.plex_plus.homology.simplex_streams.SimplexStream;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
@@ -20,7 +20,7 @@ import gnu.trove.set.hash.THashSet;
  * @author Andrew Tausz
  *
  */
-public class IntSimplicialComplex<M extends AbstractSimplex> extends IntChainComplex<M> {
+public class IntSimplicialComplex<M extends ChainBasisElement> extends IntChainComplex<M> {
 	private final List<M> simplices = new ArrayList<M>();
 	private final int dimension;
 	private final int[] skeletonSizes;
@@ -77,9 +77,9 @@ public class IntSimplicialComplex<M extends AbstractSimplex> extends IntChainCom
 			 * Update coboundary structure.
 			 */
 			if (tempDimension > 0) {
-				AbstractSimplex[] boundaryElements = simplex.getBoundaryArray();
+				ChainBasisElement[] boundaryElements = simplex.getBoundaryArray();
 				int coefficient = 1;
-				for (AbstractSimplex boundaryElement: boundaryElements) {
+				for (ChainBasisElement boundaryElement: boundaryElements) {
 					if (!this.coboundaryMap.containsKey(boundaryElement)) {
 						this.coboundaryMap.put((M) boundaryElement, new IntFormalSum<M>());
 					}
@@ -93,9 +93,9 @@ public class IntSimplicialComplex<M extends AbstractSimplex> extends IntChainCom
 	@Override
 	public IntFormalSum<M> computeBoundary(M element) {
 		IntFormalSum<M> boundary = new IntFormalSum<M>();
-		AbstractSimplex[] boundaryElements = element.getBoundaryArray();
+		ChainBasisElement[] boundaryElements = element.getBoundaryArray();
 		int coefficient = 1;
-		for (AbstractSimplex boundaryElement: boundaryElements) {
+		for (ChainBasisElement boundaryElement: boundaryElements) {
 			boundary.put(coefficient, (M) boundaryElement);
 			coefficient *= -1;
 		}
@@ -103,7 +103,7 @@ public class IntSimplicialComplex<M extends AbstractSimplex> extends IntChainCom
 	}
 
 	@Override
-	public IntFormalSum<M> computeCoboundary(AbstractSimplex element) {
+	public IntFormalSum<M> computeCoboundary(ChainBasisElement element) {
 		if (!this.coboundaryMap.containsKey(element)) {
 			return new IntFormalSum<M>();
 		}

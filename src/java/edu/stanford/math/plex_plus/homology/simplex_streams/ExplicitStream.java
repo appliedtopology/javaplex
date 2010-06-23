@@ -12,7 +12,9 @@ import java.util.List;
 import edu.stanford.math.plex_plus.datastructures.pairs.DoubleGenericPair;
 import edu.stanford.math.plex_plus.datastructures.pairs.DoubleGenericPairComparator;
 import edu.stanford.math.plex_plus.datastructures.pairs.DoubleOrderedIterator;
-import edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex;
+import edu.stanford.math.plex_plus.graph.AbstractUndirectedGraph;
+import edu.stanford.math.plex_plus.graph.UndirectedListGraph;
+import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.map.hash.TObjectDoubleHashMap;
 
@@ -23,7 +25,7 @@ import gnu.trove.map.hash.TObjectDoubleHashMap;
  * @author Andrew Tausz
  *
  */
-public class ExplicitStream<T extends AbstractSimplex> implements SimplexStream<T> {
+public class ExplicitStream<T extends ChainBasisElement> implements SimplexStream<T> {
 	
 	/**
 	 * This contains the simplicies of the complex ordered in order of filtration value.
@@ -49,6 +51,11 @@ public class ExplicitStream<T extends AbstractSimplex> implements SimplexStream<
 	 * Stores the maximum dimension in the complex
 	 */
 	private int dimension = 0;
+	
+	/**
+	 * Stores the number of vertices in the complex.
+	 */
+	private int numVertices = 0;
 	
 	/**
 	 * Constructor which accepts a comparator for comparing the type T.
@@ -78,6 +85,10 @@ public class ExplicitStream<T extends AbstractSimplex> implements SimplexStream<
 		this.simplices.add(new DoubleGenericPair<T>(filtrationIndex, simplex));
 		this.filtrationValues.put(simplex, filtrationIndex);
 		this.dimension = Math.max(this.dimension, simplex.getDimension());
+		
+		if (simplex.getDimension() == 0) {
+			this.numVertices++;
+		}
 	}
 	
 	/**
@@ -93,17 +104,17 @@ public class ExplicitStream<T extends AbstractSimplex> implements SimplexStream<
 	 */
 	public boolean validate() {	
 		for (DoubleGenericPair<T> pair: this.simplices) {
-			AbstractSimplex ChainComplexBasisElement = pair.getSecond();
+			ChainBasisElement ChainComplexBasisElement = pair.getSecond();
 			double filtrationValue = pair.getFirst();
 			if (pair.getSecond().getDimension() > 0) {
 				
 				// get the boundary
-				AbstractSimplex[] boundary = ChainComplexBasisElement.getBoundaryArray();
+				ChainBasisElement[] boundary = ChainComplexBasisElement.getBoundaryArray();
 				
 				// make sure that each boundary element is also inside the
 				// complex with a filtration value less than or equal to the
 				// current simplex
-				for (AbstractSimplex face: boundary) {
+				for (ChainBasisElement face: boundary) {
 					
 					// if the face is not in the complex, then the stream
 					// is inconsistent
@@ -160,5 +171,18 @@ public class ExplicitStream<T extends AbstractSimplex> implements SimplexStream<
 	@Override
 	public int getDimension() {
 		return this.dimension;
-	}	
+	}
+	
+	@Deprecated
+	public AbstractUndirectedGraph get1Skeleton() {
+		AbstractUndirectedGraph graph = new UndirectedListGraph(this.numVertices);
+		
+		for (DoubleGenericPair<T> simplex : this.simplices) {
+			if (simplex.getSecond().getDimension() == 1) {
+				
+			}
+		}
+		
+		return graph;
+	}
 }

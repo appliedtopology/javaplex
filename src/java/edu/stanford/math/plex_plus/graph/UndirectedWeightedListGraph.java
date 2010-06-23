@@ -17,7 +17,7 @@ import gnu.trove.set.hash.TIntHashSet;
  * @author Andrew Tausz
  *
  */
-public class UndirectedWeightedListGraph implements AbstractWeightedGraph {
+public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGraph {
 	private final TIntObjectHashMap<TIntDoubleHashMap> adjacencySets = new TIntObjectHashMap<TIntDoubleHashMap>();
 	private final int numVertices;
 	
@@ -123,5 +123,11 @@ public class UndirectedWeightedListGraph implements AbstractWeightedGraph {
 		} else {
 			return new TIntHashSet();
 		}
+	}
+
+	@Override
+	public AbstractEdgeIterator edgeIterator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
