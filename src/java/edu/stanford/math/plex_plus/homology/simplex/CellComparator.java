@@ -6,6 +6,11 @@ package edu.stanford.math.plex_plus.homology.simplex;
 import java.util.Comparator;
 
 /**
+ * This class provides functionality for comparing two cells within a CW complex.
+ * The comparison mechanism first compares the dimensions of the cells. If the 
+ * dimensions are equal then it looks at the cellId values. This class
+ * implements the Comparator interface, and follows a singleton design pattern.
+ * 
  * @author Andrew Tausz
  *
  */
@@ -48,7 +53,6 @@ public class CellComparator implements Comparator<Cell> {
 		 * At this point, they have the same dimension,
 		 * so compare the cellId's.
 		 */
-		
 		return (arg0.getCellId() - arg1.getCellId());
 	}
 

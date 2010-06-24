@@ -6,8 +6,27 @@ import edu.stanford.math.plex_plus.utility.RandomUtility;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.set.hash.TIntHashSet;
 
+/**
+ * This class implements sequential max-min landmark selection of points from a 
+ * metric space. This method of landmark selection chooses points that are as
+ * far spread out as possible, using the following inductive procedure:
+ * Suppose that {l_0, ..., l_{i-1}} have been chosen as landmark points.
+ * Define the function f(z) = min{d(z, l_0), ...., d(z, l_{i-1}} and define 
+ * l_i to be l_i = arg max f(z). We start with l_0 being chosen randomly.
+ * 
+ * @author Andrew Tausz
+ *
+ * @param <T> the type of the underlying metric space
+ */
 public class MaxMinLandmarkSelector<T> extends LandmarkSelector<T> {
 
+	/**
+	 * This constructor initializes the landmark selector with a finite metric space,
+	 * and a size parameter.
+	 * 
+	 * @param metricSpace the metric space to build the landmarks set in
+	 * @param landmarkSetSize the size of the landmark set
+	 */
 	public MaxMinLandmarkSelector(FiniteMetricSpace<T> metricSpace, int landmarkSetSize) {
 		super(metricSpace, landmarkSetSize);
 	}

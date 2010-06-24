@@ -81,7 +81,7 @@ public class SimplexStreamExamples {
 		Cell vertex_1 = new Cell(1);
 		Cell edge_2 = new Cell(2, 1, new Cell[]{vertex_1, vertex_1});
 		Cell edge_3 = new Cell(3, 1, new Cell[]{vertex_1, vertex_1});
-		Cell face_4 = new Cell(4, 2, new Cell[]{edge_2, edge_2, edge_3, edge_3});
+		Cell face_4 = new Cell(4, 2, new Cell[]{edge_2, edge_3, edge_2, edge_3}, new int[]{1, 1, -1, -1});
 		
 		stream.addSimplex(vertex_1, 0);
 		stream.addSimplex(edge_2, 0);
@@ -100,6 +100,24 @@ public class SimplexStreamExamples {
 		Cell edge_2 = new Cell(2, 1, new Cell[]{vertex_1, vertex_1});
 		Cell edge_3 = new Cell(3, 1, new Cell[]{vertex_1, vertex_1});
 		Cell face_4 = new Cell(4, 2, new Cell[]{edge_2, edge_3, edge_2, edge_3});
+		
+		stream.addSimplex(vertex_1, 0);
+		stream.addSimplex(edge_2, 0);
+		stream.addSimplex(edge_3, 0);
+		stream.addSimplex(face_4, 0);
+		
+		stream.finalizeStream();
+		
+		return stream;
+	}
+	
+	public static SimplexStream<Cell> getCellularRP2() {
+		ExplicitStream<Cell> stream = new ExplicitStream<Cell>(CellComparator.getInstance());
+
+		Cell vertex_1 = new Cell(1);
+		Cell edge_2 = new Cell(2, 1, new Cell[]{vertex_1, vertex_1});
+		Cell edge_3 = new Cell(3, 1, new Cell[]{vertex_1, vertex_1});
+		Cell face_4 = new Cell(4, 2, new Cell[]{edge_2, edge_3, edge_2, edge_3}, new int[]{1, 1, 1, 1});
 		
 		stream.addSimplex(vertex_1, 0);
 		stream.addSimplex(edge_2, 0);

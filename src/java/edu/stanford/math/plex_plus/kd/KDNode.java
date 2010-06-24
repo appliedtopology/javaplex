@@ -1,5 +1,12 @@
 package edu.stanford.math.plex_plus.kd;
 
+/**
+ * This class contains the functionality of a node
+ * within a KD-tree.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class KDNode {
 	private final int index;
 	private KDNode left;

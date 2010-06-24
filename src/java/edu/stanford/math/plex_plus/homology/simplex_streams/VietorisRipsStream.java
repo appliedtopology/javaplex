@@ -26,11 +26,6 @@ import gnu.trove.set.TIntSet;
 public class VietorisRipsStream<T> extends MaximalStream {
 	
 	/**
-	 * The maximum to use in the construction of the complex.
-	 */
-	protected final double maxDistance;
-	
-	/**
 	 * This is the metric space upon which the stream is built from.
 	 */
 	protected final FiniteMetricSpace<T> metricSpace;
@@ -43,10 +38,9 @@ public class VietorisRipsStream<T> extends MaximalStream {
 	 * @param maxDimension the maximum dimension of the complex
 	 */
 	public VietorisRipsStream(FiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension) {
-		super(maxDimension);
+		super(maxDimension, maxDistance);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		this.metricSpace = metricSpace;
-		this.maxDistance = maxDistance;
 	}
 
 	@Override

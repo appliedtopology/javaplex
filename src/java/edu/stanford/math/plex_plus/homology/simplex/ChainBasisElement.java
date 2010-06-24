@@ -36,6 +36,8 @@ public interface ChainBasisElement {
 	 */
 	public ChainBasisElement[] getBoundaryArray();
 	
+	public int[] getBoundaryCoefficients();
+	
 	/**
 	 * Force the implementer to provide a hashCode implementation.
 	 * @return

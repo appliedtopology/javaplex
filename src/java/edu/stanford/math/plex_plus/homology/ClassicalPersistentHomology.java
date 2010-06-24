@@ -100,9 +100,10 @@ public class ClassicalPersistentHomology<BasisElementType extends ChainBasisElem
 	
 	private IntFormalSum<BasisElementType> removePivotRows(BasisElementType simplex) {
 		ExceptionUtility.verifyNonNull(simplex);
-		IntFormalSum<BasisElementType> d = createBoundaryChain(simplex.getBoundaryArray());
+		//IntFormalSum<BasisElementType> d = createBoundaryChain(simplex.getBoundaryArray());
 		IntFreeModule<BasisElementType> chainModule = new IntFreeModule<BasisElementType>(this.field);
-		
+		IntFormalSum<BasisElementType> d = chainModule.createSum(simplex.getBoundaryCoefficients(), (BasisElementType[]) simplex.getBoundaryArray());
+
 		// remove unmarked terms from d
 		for (TObjectIntIterator<BasisElementType> iterator = d.iterator(); iterator.hasNext(); ) {
 			iterator.advance();

@@ -31,17 +31,17 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  *
  */
 public class Simplex implements ChainBasisElement {
-	
+
 	/**
 	 * This stores the actual vertices of the simplex.
 	 */
 	private final int[] vertices;
-	
+
 	/**
 	 * Stored cache of the hash code to prevent recomputing it.
 	 */
 	private final int cachedHashCode;
-	
+
 	/**
 	 * This constructor initializes the simplex from a supplied array
 	 * of integers.
@@ -50,17 +50,17 @@ public class Simplex implements ChainBasisElement {
 	 */
 	public Simplex(int[] vertices) {
 		ExceptionUtility.verifyNonNull(vertices);
-		
+
 		// store the vertices
 		this.vertices = vertices;
-		
+
 		// make sure that the vertices are sorted
 		Arrays.sort(this.vertices);
-		
+
 		// compute the hash code via CRC hashing
 		this.cachedHashCode = CRC.hash32(this.getVertices());
 	}
-	
+
 	@Override
 	public int getDimension() {
 		return (this.vertices.length - 1);
@@ -77,26 +77,26 @@ public class Simplex implements ChainBasisElement {
 		if (this.getDimension() == 0) {
 			return new Simplex[0];
 		}
-		
+
 		Simplex[] boundaryArray = new Simplex[this.vertices.length];		
 		for (int i = 0; i < this.vertices.length; i++) {
 			boundaryArray[i] = new Simplex(HomologyUtility.removeIndex(this.vertices, i));
 		}
 		return boundaryArray;
 	}
-	
+
 	//@Override
 	public int getCoboundaryCoefficient(ChainBasisElement element) {
 		if (!(element instanceof Simplex)) {
 			return 0;
 		}
 		Simplex proposedBoundaryElement = (Simplex) element;
-		
+
 		// make sure that this has dimension 1 greater than the proposal
 		if (this.getDimension() != (proposedBoundaryElement.getDimension() + 1)) {
 			return 0;
 		}
-		
+
 		int coefficient = 1;
 		for (int i = 0; i < this.vertices.length; i++) {
 			int[] testArray = HomologyUtility.removeIndex(this.vertices, i);
@@ -105,10 +105,10 @@ public class Simplex implements ChainBasisElement {
 			}
 			coefficient *= -1;
 		}
-		
+
 		return 0;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
@@ -120,12 +120,12 @@ public class Simplex implements ChainBasisElement {
 		Simplex o = (Simplex) obj;
 		return (HomologyUtility.compareIntArrays(this.getVertices(), o.getVertices()) == 0);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return this.cachedHashCode;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -139,5 +139,14 @@ public class Simplex implements ChainBasisElement {
 		}
 		builder.append(']');
 		return builder.toString();
+	}
+
+	@Override
+	public int[] getBoundaryCoefficients() {
+		if (this.vertices.length > 1) {
+			return HomologyUtility.getDefaultBoundaryCoefficients(this.vertices.length);
+		} else {
+			return new int[0];
+		}
 	}
 }
