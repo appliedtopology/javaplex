@@ -81,7 +81,7 @@ public class PersistenceInterval {
 		if (this.isInfinite()) {
 			return ("[" + start + ", infinity)");
 		} else {
-			return ("[" + start + ", " + end + "]");
+			return ("[" + start + ", " + end + ")");
 		}
 	}
 }

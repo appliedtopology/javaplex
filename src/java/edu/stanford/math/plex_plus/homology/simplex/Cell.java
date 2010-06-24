@@ -180,4 +180,9 @@ public class Cell implements ChainBasisElement {
 	public int[] getBoundaryCoefficients() {
 		return this.boundaryCoefficients;
 	}
+	
+	@Override
+	public String toString() {
+		return ("[" + Integer.toString(this.cellId) + "]");
+	}
 }

@@ -43,7 +43,7 @@ public class BarcodeCollection {
 	}
 	
 	/**
-	 * This function addes the specified semi-infinite interval [start, infinity)
+	 * This function adds the specified semi-infinite interval [start, infinity)
 	 * at the supplied dimension.
 	 * 
 	 * @param dimension the dimension to add to
