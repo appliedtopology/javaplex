@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/trove-3.0.0a1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-math-2.1.jar"/>
 	<classpathentry kind="lib" path="lib/colt.jar"/>
+	<classpathentry kind="lib" path="lib/jai_codec.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

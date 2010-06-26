@@ -56,8 +56,6 @@ public class PersistentHomology<T extends ChainBasisElement> {
 		IntFreeModule<T> chainModule = new IntFreeModule<T>(this.field);
 		
 		for (T i : stream) {
-
-			
 			/*
 			 * Do not process simplices of higher dimension than maxDimension.
 			 */
@@ -70,7 +68,7 @@ public class PersistentHomology<T extends ChainBasisElement> {
 			
 			// form the column R[i] which equals the boundary of the current simplex.
 			// store the column as a column in R
-			R.put(i, this.createBoundaryChain(i.getBoundaryArray()));
+			R.put(i, chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
 			
 			// compute low_R(i)
 			T low_R_i = this.low(R.get(i));
@@ -159,7 +157,8 @@ public class PersistentHomology<T extends ChainBasisElement> {
 	
 	public BarcodeCollection pCoh(SimplexStream<T> stream, int maxDimension) {
 		BarcodeCollection barcodeCollection = new BarcodeCollection();
-
+		IntFreeModule<T> chainModule = new IntFreeModule<T>(this.field);
+		
 		THashSet<T> Z_perp = new THashSet<T>();
 		THashSet<T> markedSimplices = new THashSet<T>();
 		THashSet<T> birth = new THashSet<T>();
@@ -170,7 +169,7 @@ public class PersistentHomology<T extends ChainBasisElement> {
 				continue;
 			}
 			
-			IntFormalSum<T> boundary = this.createBoundaryChain(simplex.getBoundaryArray());
+			IntFormalSum<T> boundary = chainModule.createSum(stream.getBoundaryCoefficients(simplex), stream.getBoundary(simplex));
 			List<T> indices = new ArrayList<T>();
 			
 			// form the set of indices
@@ -193,19 +192,6 @@ public class PersistentHomology<T extends ChainBasisElement> {
 		}
 		
 		return barcodeCollection;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private IntFormalSum<T> createBoundaryChain(ChainBasisElement[] abstractChainBasisElements) {
-		ExceptionUtility.verifyNonNull(abstractChainBasisElements);
-		IntFormalSum<T> sum = new IntFormalSum<T>();
-		IntFreeModule<T> chainModule = new IntFreeModule<T>(this.field);
-		
-		for (int i = 0; i < abstractChainBasisElements.length; i++) {
-			chainModule.addObject(sum, (i % 2 == 0 ? 1 : -1), (T) abstractChainBasisElements[i]);
-		}
-		
-		return sum;
 	}
 	
 	/**

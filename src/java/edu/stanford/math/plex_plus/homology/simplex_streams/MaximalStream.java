@@ -3,20 +3,16 @@
  */
 package edu.stanford.math.plex_plus.homology.simplex_streams;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Comparator;
 
 import edu.stanford.math.plex_plus.datastructures.pairs.DoubleGenericPair;
 import edu.stanford.math.plex_plus.datastructures.pairs.DoubleGenericPairComparator;
-import edu.stanford.math.plex_plus.datastructures.pairs.DoubleOrderedIterator;
 import edu.stanford.math.plex_plus.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex_plus.homology.simplex.Simplex;
 import edu.stanford.math.plex_plus.homology.simplex.SimplexComparator;
 import edu.stanford.math.plex_plus.homology.utility.HomologyUtility;
 import gnu.trove.iterator.TIntIterator;
-import gnu.trove.map.hash.TObjectDoubleHashMap;
 import gnu.trove.set.TIntSet;
 
 /**
@@ -42,32 +38,11 @@ import gnu.trove.set.TIntSet;
  * @author Andrew Tausz
  *
  */
-public abstract class MaximalStream implements SimplexStream<Simplex> {	
+public abstract class MaximalStream extends BasicStream<Simplex> {	
 	/**
 	 * The maximum allowable dimension of the complex.
 	 */
-	protected final int maxDimension;
-	
-	/**
-	 * This will store the 1-skeleton of the complex in increasing order of filtration.
-	 */
-	protected List<DoubleGenericPair<Simplex>> simplices = new ArrayList<DoubleGenericPair<Simplex>>();
-	
-	/**
-	 * This hash table stores the filtration values for the 1-skeleton of the complex.
-	 * It is designed to provide fast access to the filtration values.
-	 */
-	protected final TObjectDoubleHashMap<Simplex> filtrationValues = new TObjectDoubleHashMap<Simplex>();
-	
-	/**
-	 * This comparator defines the standard ordering on the filtered simplices.
-	 */
-	protected final DoubleGenericPairComparator<Simplex> comparator = new DoubleGenericPairComparator<Simplex>(SimplexComparator.getInstance());
-	
-	/**
-	 * Stores the maximum dimension in the complex
-	 */
-	private int dimension = 0;
+	protected final int maxAllowableDimension;
 	
 	/**
 	 * Stores the neighborhood graph.
@@ -79,15 +54,19 @@ public abstract class MaximalStream implements SimplexStream<Simplex> {
 	 */
 	protected final double maxDistance;
 	
+	protected final Comparator<DoubleGenericPair<Simplex>> filteredComparator;
+	
 	/**
 	 * Constructor.
 	 * 
 	 * @param maxDistance the maximum allowable distance in the complex
-	 * @param maxDimension the maximum dimension of the complex
+	 * @param maxAllowableDimension the maximum dimension of the complex
 	 */
-	public MaximalStream(int maxDimension, double maxDistance) {
-		this.maxDimension = maxDimension;
+	public MaximalStream(int maxAllowableDimension, double maxDistance) {
+		super(SimplexComparator.getInstance());
+		this.maxAllowableDimension = maxAllowableDimension;
 		this.maxDistance = maxDistance;
+		this.filteredComparator = new DoubleGenericPairComparator<Simplex>(this.basisComparator);
 	}
 	
 	/**
@@ -109,10 +88,10 @@ public abstract class MaximalStream implements SimplexStream<Simplex> {
 		this.neighborhoodGraph = this.constructEdges();
 		
 		// expand higher order simplices
-		this.incrementalExpansion(neighborhoodGraph, this.maxDimension);
+		this.incrementalExpansion(neighborhoodGraph, this.maxAllowableDimension);
 		
 		// sort simplices by filtration order
-		Collections.sort(this.simplices, this.comparator);
+		Collections.sort(this.simplices, this.filteredComparator);
 	}
 	
 	
@@ -143,7 +122,7 @@ public abstract class MaximalStream implements SimplexStream<Simplex> {
 	 */
 	protected void addCofaces(UndirectedWeightedListGraph G, int k, Simplex tau, TIntSet N, double filtrationValue) {
 		// add the current simplex to the complex
-		this.addSimplex(tau, filtrationValue);
+		this.addSimplexInternal(tau, filtrationValue);
 		
 		// exit if the dimension is the maximum allowed
 		if (tau.getDimension() >= k) {
@@ -185,53 +164,15 @@ public abstract class MaximalStream implements SimplexStream<Simplex> {
 		}
 	}
 	
-	/**
-	 * This function simply updates the simplicial complex with a new simplex
-	 * 
-	 * @param simplex the simplex to add
-	 * @param filtrationValue its filtration value
-	 */
-	protected void addSimplex(Simplex simplex, double filtrationValue) {
-		this.simplices.add(new DoubleGenericPair<Simplex>(filtrationValue, simplex));
-		this.filtrationValues.put(simplex, filtrationValue);
-		this.dimension = Math.max(this.dimension, simplex.getDimension());
-	}
-	
 	@Override
 	public void finalizeStream() {
 		this.constructComplex();
+		this.isFinalized = true;
 	}
 
-	@Override
-	public double getFiltrationValue(Simplex simplex) {
-		return this.filtrationValues.get(simplex);
-	}
 
 	@Override
 	public boolean isFinalized() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isFinalized;
 	}
-
-	@Override
-	public Iterator<Simplex> iterator() {
-		return new DoubleOrderedIterator<Simplex>(this.simplices);
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		
-		for (Simplex simplex : this) {
-			builder.append(simplex.toString());
-			builder.append('\n');
-		}
-		
-		return builder.toString();
-	}
-	
-	@Override
-	public int getDimension() {
-		return this.dimension;
-	}	
 }

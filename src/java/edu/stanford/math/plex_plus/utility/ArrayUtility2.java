@@ -21,6 +21,16 @@ public class ArrayUtility2 {
 		return result;
 	}
 	
+	public static double[][] newDoubleMatrix(int rows, int columns) {
+		double[][] result = new double[rows][];
+		
+		for (int i = 0; i < rows; i++) {
+			result[i] = new double[columns];
+		}
+		
+		return result;
+	}
+	
 	public static <T> String toString(T[][] array) {
 		ExceptionUtility.verifyNonNull(array);
 		

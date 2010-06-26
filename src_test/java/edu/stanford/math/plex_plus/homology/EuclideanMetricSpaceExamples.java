@@ -35,7 +35,7 @@ public class EuclideanMetricSpaceExamples {
 		
 		for (int i = 0; i < n; i++) {
 			points[i] = RandomUtility.normalArray(d);
-			
+			denom = 0;
 			for (int j = 0; j < d; j++) {
 				denom += points[i][j] * points[i][j];
 			}

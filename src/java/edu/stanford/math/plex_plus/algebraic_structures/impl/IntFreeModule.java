@@ -146,9 +146,13 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 	}
 	
 	public IntFormalSum<M> createSum(int[] coefficients, M[] objects) {
-		ExceptionUtility.verifyEqual(coefficients.length, objects.length);
-		
 		IntFormalSum<M> sum = new IntFormalSum<M>();
+
+		if (coefficients == null || objects == null) {
+			return sum;
+		}
+			
+		ExceptionUtility.verifyEqual(coefficients.length, objects.length);
 		
 		for (int i = 0; i < coefficients.length; i++) {
 			this.addObject(sum, coefficients[i], objects[i]);

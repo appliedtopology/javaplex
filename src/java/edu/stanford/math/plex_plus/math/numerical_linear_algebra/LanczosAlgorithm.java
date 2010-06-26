@@ -95,7 +95,7 @@ public class LanczosAlgorithm {
 			r.assign(t2, Functions.minus);
 
 			// reorthogonalize to prevent accumulation of error
-			// V = LinearAlgebra.modifiedGramSchmidtUpdate(V, i);
+			V = LinearAlgebra.modifiedGramSchmidtUpdate(V, j);
 
 			// beta_j = ||r||_2
 			betas.setQuick(j, Math.sqrt(Algebra.DEFAULT.norm2(r)));

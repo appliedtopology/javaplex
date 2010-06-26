@@ -34,6 +34,11 @@ public class LazyWitnessStream<T> extends MaximalStream {
 	 * default value of 2.
 	 */
 	protected final int nu;
+	
+	/**
+	 * This is the R value described. It has a default value of 0.
+	 */
+	protected final double R;
 
 	/**
 	 * Constructor which initializes the complex with a metric space.
@@ -42,7 +47,7 @@ public class LazyWitnessStream<T> extends MaximalStream {
 	 * @param maxDistance the maximum allowable distance
 	 * @param maxDimension the maximum dimension of the complex
 	 */
-	public LazyWitnessStream(FiniteMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int nu) {
+	public LazyWitnessStream(FiniteMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int nu, double R) {
 		super(maxDimension, maxDistance);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		ExceptionUtility.verifyNonNegative(nu);
@@ -50,10 +55,11 @@ public class LazyWitnessStream<T> extends MaximalStream {
 		this.metricSpace = metricSpace;
 		this.landmarkSelector = landmarkSelector;
 		this.nu = nu;
+		this.R = R;
 	}
 
 	public LazyWitnessStream(FiniteMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance) {
-		this(metricSpace, landmarkSelector, maxDimension, maxDistance, 2);
+		this(metricSpace, landmarkSelector, maxDimension, maxDistance, 2, 0);
 	}
 
 	@Override
@@ -103,12 +109,11 @@ public class LazyWitnessStream<T> extends MaximalStream {
 			}
 
 			for (int b_index = 0; b_index < this.landmarkSelector.size(); b_index++) {
+				int b = this.landmarkSelector.getLandmarkIndex(b_index);
 				for (int a_index = 0; a_index < b_index; a_index++) {
-					R = Math.max(distanceMatrixColumn[a_index], distanceMatrixColumn[b_index]) - m_i;
-					if (R < this.maxDistance) {
-						int a = this.landmarkSelector.getLandmarkIndex(a_index);
-						int b = this.landmarkSelector.getLandmarkIndex(b_index);
-						graph.addEdge(a, b, R);
+					int a = this.landmarkSelector.getLandmarkIndex(a_index);
+					if (Math.max(distanceMatrixColumn[a_index], distanceMatrixColumn[b_index]) <= this.R + m_i) {
+						graph.addEdge(a, b, this.metricSpace.distance(a, b));
 					}
 				}
 			}

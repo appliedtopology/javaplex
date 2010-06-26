@@ -24,6 +24,10 @@ public interface SimplexStream<T> extends Iterable<T> {
 	 */
 	public double getFiltrationValue(T simplex);
 	
+	public T[] getBoundary(T simplex);
+	
+	public int[] getBoundaryCoefficients(T simplex);
+	
 	/**
 	 * This function prepares the stream for use by a consumer, such as the
 	 * PersistentHomology class. After finalization, the stream must not be 

@@ -5,8 +5,6 @@ package edu.stanford.math.plex_plus.homology.simplex;
  * This interface defines the basic functionality of a basis element of 
  * chain complex. 
  * 
- * TODO: Consider eliminating
- * 
  * @author Andrew Tausz
  *
  */

@@ -65,10 +65,10 @@ public class SimplexStreamExamples {
 		ExplicitStream<Cell> stream = new ExplicitStream<Cell>(CellComparator.getInstance());
 
 		Cell vertex_1 = new Cell(1);
-		Cell edge_2 = new Cell(2, dimension, new Cell[]{});
+		Cell n_cell = new Cell(2, dimension, new Cell[]{});
 		
 		stream.addSimplex(vertex_1, 0);
-		stream.addSimplex(edge_2, 0);
+		stream.addSimplex(n_cell, 0);
 		
 		stream.finalizeStream();
 		
