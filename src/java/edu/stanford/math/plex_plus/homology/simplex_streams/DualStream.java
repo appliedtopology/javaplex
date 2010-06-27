@@ -21,13 +21,13 @@ import gnu.trove.set.hash.THashSet;
  *
  */
 public class DualStream<T extends ChainBasisElement> extends BasicStream<T> {
-	private final SimplexStream<T> stream;
+	private final SimplexStream<T> forwardStream;
 	private final THashMap<T, T[]> coboundaryMap = new THashMap<T, T[]>();
 	private final THashMap<T, int[]> coboundaryCoefficientMap = new THashMap<T, int[]>();
 	
-	public DualStream(SimplexStream<T> stream, Comparator<T> comparator) {
-		super(comparator);
-		this.stream = stream;
+	public DualStream(SimplexStream<T> forwardStream, Comparator<T> comparator) {
+		super(new ReversedComparator<T>(comparator));
+		this.forwardStream = forwardStream;
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class DualStream<T extends ChainBasisElement> extends BasicStream<T> {
 	
 	@Override
 	public Comparator<T> getBasisComparator() {
-		return new ReversedComparator<T>(this.basisComparator);
+		return this.basisComparator;
 	}
 
 	/* (non-Javadoc)
@@ -50,8 +50,8 @@ public class DualStream<T extends ChainBasisElement> extends BasicStream<T> {
 	 */
 	@Override
 	public void finalizeStream() {
-		if (!this.stream.isFinalized()) {
-			stream.finalizeStream();
+		if (!this.forwardStream.isFinalized()) {
+			forwardStream.finalizeStream();
 		}
 		
 		this.constructComplex();
@@ -61,10 +61,10 @@ public class DualStream<T extends ChainBasisElement> extends BasicStream<T> {
 
 	private void constructComplex() {
 		THashMap<T, THashSet<IntGenericPair<T>>> coboundarySetMap = new THashMap<T, THashSet<IntGenericPair<T>>>();
-		for (T a: this.stream) {
-			this.addSimplexInternal(a, this.stream.getFiltrationValue(a));
-			T[] boundary = this.stream.getBoundary(a);
-			int[] boundaryCoefficients = this.stream.getBoundaryCoefficients(a);
+		for (T a: this.forwardStream) {
+			this.addSimplexInternal(a, this.forwardStream.getFiltrationValue(a));
+			T[] boundary = this.forwardStream.getBoundary(a);
+			int[] boundaryCoefficients = this.forwardStream.getBoundaryCoefficients(a);
 			for (int i = 0; i < boundary.length; i++) {
 				T boundaryElement = boundary[i];
 				if (!coboundarySetMap.containsKey(boundaryElement)) {

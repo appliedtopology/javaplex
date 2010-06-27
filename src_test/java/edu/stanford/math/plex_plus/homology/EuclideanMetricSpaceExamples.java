@@ -48,4 +48,19 @@ public class EuclideanMetricSpaceExamples {
 		EuclideanMetricSpace metricSpace = new EuclideanMetricSpace(points);
 		return metricSpace;
 	}
+	
+	public static EuclideanMetricSpace getTorus(int n, double r, double R) {
+		double[][] points = new double[n][3];
+		
+		for (int i = 0; i < n; i++) {
+			double u = RandomUtility.nextUniform() * 2 * Math.PI;
+			double v = RandomUtility.nextUniform() * 2 * Math.PI;
+			points[i][0] = (R + r * Math.cos(v)) * Math.cos(u);
+			points[i][1] = (R + r * Math.cos(v)) * Math.sin(u);
+			points[i][2] = r * Math.sin(v);
+		}
+		
+		EuclideanMetricSpace metricSpace = new EuclideanMetricSpace(points);
+		return metricSpace;
+	}
 }

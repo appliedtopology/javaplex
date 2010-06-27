@@ -194,6 +194,21 @@ public class PersistentHomology<T extends ChainBasisElement> {
 		return barcodeCollection;
 	}
 	
+	public THashMap<T, IntFormalSum<T>> getBoundaryMapping(SimplexStream<T> stream, int dimension) {
+		THashMap<T, IntFormalSum<T>> D = new THashMap<T, IntFormalSum<T>>();
+		IntFreeModule<T> chainModule = new IntFreeModule<T>(this.field);
+		
+		for (T i: stream) {
+			if (i.getDimension() != dimension) {
+				continue;
+			}
+			
+			D.put(i, chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
+		}
+		
+		return D;
+	}
+	
 	/**
 	 * This function computes the operation low_A(j) as described in the paper. Note that if
 	 * the chain is empty (for example the column contains only zeros), then this function
@@ -202,7 +217,7 @@ public class PersistentHomology<T extends ChainBasisElement> {
 	 * @param formalSum
 	 * @return
 	 */
-	public T low(IntFormalSum<T> chain) {
+	private T low(IntFormalSum<T> chain) {
 		T maxObject = null;
 
 		for (TObjectIntIterator<T> iterator = chain.iterator(); iterator.hasNext(); ) {
@@ -218,4 +233,6 @@ public class PersistentHomology<T extends ChainBasisElement> {
 		
 		return maxObject;
 	}
+	
+	
 }

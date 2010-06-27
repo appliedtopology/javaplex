@@ -5,15 +5,15 @@ package edu.stanford.math.plex_plus.homology.simplex;
 
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 
+
 /**
  * @author Andrew Tausz
  *
  */
-public class ChainElementTensor<T extends ChainBasisElement> extends GenericPair<T, T> implements ChainBasisElement {
+public class HomProductPair<T extends ChainBasisElement, U extends ChainBasisElement> extends GenericPair<T, U> implements ChainBasisElement {
 
-	public ChainElementTensor(T first, T second) {
+	public HomProductPair(T first, U second) {
 		super(first, second);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -30,11 +30,11 @@ public class ChainElementTensor<T extends ChainBasisElement> extends GenericPair
 		ChainBasisElement[] boundary = new ChainBasisElement[d_a.length + d_b.length];
 		
 		for (int i = 0; i < d_a.length; i++) {
-			boundary[i] = new ChainElementTensor<ChainBasisElement>(d_a[i], this.second);
+			boundary[i] = new HomProductPair<ChainBasisElement, ChainBasisElement>(d_a[i], this.second);
 		}
 		
 		for (int i = 0; i < d_b.length; i++) {
-			boundary[i + d_a.length] = new ChainElementTensor<ChainBasisElement>(this.first, d_b[i]);
+			boundary[i + d_a.length] = new HomProductPair<ChainBasisElement, ChainBasisElement>(this.first, d_b[i]);
 		}
 		
 		return boundary;
@@ -66,7 +66,11 @@ public class ChainElementTensor<T extends ChainBasisElement> extends GenericPair
 
 	@Override
 	public int getDimension() {
-		return (this.first.getDimension() + this.second.getDimension());
+		return (this.second.getDimension() - this.first.getDimension());
 	}
 
+	@Override
+	public String toString() {
+		return ("(" + first.toString() + " -> " + second.toString() + ")");
+	}
 }

@@ -163,6 +163,44 @@ public class HomologyUtility {
 	}
 	
 	/**
+	 * This function returns the first k entries of the supplied array.
+	 * 
+	 * @param array
+	 * @param k
+	 * @return the subarray array[0, ..., k]
+	 */
+	public static int[] lowerEntries(int[] array, int k) {
+		ExceptionUtility.verifyNonNull(array);
+		ExceptionUtility.verifyNonNegative(k);
+		ExceptionUtility.verifyLessThan(k, array.length);
+		int[] result = new int[k];
+		for (int i = 0; i < k; i++) {
+			result[i] = array[i];
+		}
+		return result;
+	}
+	
+	/**
+	 * This function returns the last entries of the supplied array
+	 * starting from the index k.
+	 * 
+	 * @param array
+	 * @param k
+	 * @return the subarray array[k, ..., array.length - 1]
+	 */
+	public static int[] upperEntries(int[] array, int k) {
+		ExceptionUtility.verifyNonNull(array);
+		ExceptionUtility.verifyNonNegative(k);
+		ExceptionUtility.verifyLessThan(k, array.length);
+		int n = array.length;
+		int[] result = new int[n - k];
+		for (int i = k; i < n; i++) {
+			result[i - k] = array[i];
+		}
+		return result;
+	}
+	
+	/**
 	 * This function computes the intersection between two sets of 
 	 * integers.
 	 * 
