@@ -1,11 +1,13 @@
 package edu.stanford.math.plex_plus.homology.mapping;
 
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntRing;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
 import edu.stanford.math.plex_plus.homology.simplex.HomProductPair;
 import edu.stanford.math.plex_plus.homology.simplex.Simplex;
 import edu.stanford.math.plex_plus.homology.simplex.TensorProductPair;
 import edu.stanford.math.plex_plus.homology.utility.HomologyUtility;
+import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TObjectIntIterator;
 
 public class MappingUtility {
@@ -46,5 +48,59 @@ public class MappingUtility {
 			result.put(1, new TensorProductPair<Simplex, Simplex>(new Simplex(HomologyUtility.lowerEntries(vertices, i)), new Simplex(HomologyUtility.upperEntries(vertices, i))));
 		}
 		return result;
-	}	
+	}
+	
+	/*
+	public static IntFormalSum<TensorProductPair<Simplex, Simplex>> alexanderWhitneyMap(IntFormalSum<Simplex> element) {
+		IntFormalSum<TensorProductPair<Simplex, Simplex>> result = new IntFormalSum<TensorProductPair<Simplex, Simplex>>();
+		
+	}
+	*/
+	
+	/**
+	 * This function computes the quantity
+	 * |\Delta (f (\sigma)) - f x f (\Delta (\sigma))| 
+	 * 
+	 * @param function
+	 * @param sigma
+	 * @return
+	 */
+	/*
+	public static int alexanderWhitneyNorm(IntFormalSum<HomProductPair<Simplex, Simplex>> f, Simplex sigma) {
+		IntFormalSum<TensorProductPair<Simplex, Simplex>> Delta_sigma = alexanderWhitneyMap(sigma);
+		IntFormalSum<HomProductPair<TensorProductPair<Simplex, Simplex>, TensorProductPair<Simplex, Simplex>>> f_tensor_f = functionTensorProduct(f, f);
+		
+		IntFormalSum<TensorProductPair<Simplex, Simplex>> term1 = alexanderWhitneyMap(computeImage(f, sigma));
+	}
+	*/
+	public static <T> int chainCardinality(IntFormalSum<T> chain) {
+		return chain.size();
+	}
+	
+	public static <T> int norm(IntFormalSum<T> chain, int p, IntRing ring) {
+		ExceptionUtility.verifyNonNull(chain);
+		ExceptionUtility.verifyNonNegative(p);
+		
+		if (p == 0) {
+			return chain.size();
+		} else {
+			int norm = 0;
+			for (TObjectIntIterator<T> iterator = chain.iterator(); iterator.hasNext(); ) {
+				iterator.advance();
+				norm += ring.power(Math.abs(iterator.value()), p);
+			}
+			return norm;
+		}
+	}
+	
+	public static <T> int infinityNorm(IntFormalSum<T> chain) {
+		int norm = 0;
+		for (TObjectIntIterator<T> iterator = chain.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			norm = Math.max(norm, iterator.value());
+		}
+		return norm;
+	}
+	
+	
 }

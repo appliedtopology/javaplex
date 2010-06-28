@@ -126,5 +126,10 @@ public final class ModularIntField extends IntField {
 	public boolean isOne(int a) {
 		return (a % p == 1);
 	}
+
+	@Override
+	public int characteristic() {
+		return this.p;
+	}
 	
 }

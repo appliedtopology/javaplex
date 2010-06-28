@@ -4,6 +4,7 @@
 package edu.stanford.math.plex_plus.homology.simplex;
 
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
+import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 
 /**
@@ -29,12 +30,20 @@ public class HomProductPair<T extends ChainBasisElement, U extends ChainBasisEle
 		
 		ChainBasisElement[] boundary = new ChainBasisElement[d_a.length + d_b.length];
 		
+		int currentDimension = this.getDimension();
+		
 		for (int i = 0; i < d_a.length; i++) {
 			boundary[i] = new HomProductPair<ChainBasisElement, ChainBasisElement>(d_a[i], this.second);
+			if (boundary[i].getDimension() != currentDimension - 1) {
+				ExceptionUtility.verifyEqual(boundary[i].getDimension(), currentDimension - 1);
+			}
 		}
 		
 		for (int i = 0; i < d_b.length; i++) {
 			boundary[i + d_a.length] = new HomProductPair<ChainBasisElement, ChainBasisElement>(this.first, d_b[i]);
+			if (boundary[i].getDimension() != currentDimension - 1) {
+				ExceptionUtility.verifyEqual(boundary[i].getDimension(), currentDimension - 1);
+			}
 		}
 		
 		return boundary;
@@ -71,6 +80,6 @@ public class HomProductPair<T extends ChainBasisElement, U extends ChainBasisEle
 
 	@Override
 	public String toString() {
-		return ("(" + first.toString() + " -> " + second.toString() + ")");
+		return (first.toString() + "->" + second.toString());
 	}
 }

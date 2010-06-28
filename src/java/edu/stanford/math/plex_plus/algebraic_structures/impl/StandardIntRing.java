@@ -68,4 +68,9 @@ public class StandardIntRing extends IntRing {
 	public boolean isOne(int a) {
 		return (a == 1);
 	}
+
+	@Override
+	public int characteristic() {
+		return 0;
+	}
 }

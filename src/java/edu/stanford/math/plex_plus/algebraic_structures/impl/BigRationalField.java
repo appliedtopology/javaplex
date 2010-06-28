@@ -73,4 +73,9 @@ public class BigRationalField extends GenericField<BigFraction> {
 	public boolean isOne(BigFraction a) {
 		return (a.equals(BigFraction.ONE));
 	}
+	
+	@Override
+	public int characteristic() {
+		return 0;
+	}
 }

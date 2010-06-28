@@ -32,12 +32,20 @@ public class DualStream<T extends ChainBasisElement> extends BasicStream<T> {
 	
 	@Override
 	public T[] getBoundary(T simplex) {
-		return this.coboundaryMap.get(simplex);
+		if (this.coboundaryMap.containsKey(simplex)) {
+			return this.coboundaryMap.get(simplex);
+		} else {
+			return (T[]) Array.newInstance(simplex.getClass(), 0);
+		}
 	}
 	
 	@Override
 	public int[] getBoundaryCoefficients(T simplex) {
-		return this.coboundaryCoefficientMap.get(simplex);
+		if (this.coboundaryCoefficientMap.containsKey(simplex)) {
+			return this.coboundaryCoefficientMap.get(simplex);
+		} else {
+			return new int[0];
+		}
 	}
 	
 	@Override

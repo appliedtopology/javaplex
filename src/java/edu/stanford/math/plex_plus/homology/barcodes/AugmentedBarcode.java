@@ -29,6 +29,18 @@ public class AugmentedBarcode<T> {
 		return this.dimension;
 	}
 	
+	public int getSize() {
+		return this.intervals.size();
+	}
+	
+	public PersistenceInterval getInterval(int index) {
+		return this.intervals.get(index).getFirst();
+	}
+	
+	public IntFormalSum<T> getGeneratingCycle(int index) {
+		return this.intervals.get(index).getSecond();
+	}
+	
 	/**
 	 * This function adds the specified interval to the barcode. The interval
 	 * is added to the end of the already existing list of intervals.

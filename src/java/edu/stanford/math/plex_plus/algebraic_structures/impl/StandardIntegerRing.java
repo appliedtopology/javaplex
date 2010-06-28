@@ -62,4 +62,9 @@ public class StandardIntegerRing extends GenericRing<Integer> {
 		return Integer.valueOf(n);
 	}
 
+	@Override
+	public int characteristic() {
+		return 0;
+	}
+
 }

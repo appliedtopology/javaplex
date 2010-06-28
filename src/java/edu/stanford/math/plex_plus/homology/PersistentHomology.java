@@ -194,8 +194,8 @@ public class PersistentHomology<T extends ChainBasisElement> {
 		return barcodeCollection;
 	}
 	
-	public THashMap<T, IntFormalSum<T>> getBoundaryMapping(SimplexStream<T> stream, int dimension) {
-		THashMap<T, IntFormalSum<T>> D = new THashMap<T, IntFormalSum<T>>();
+	public List<IntFormalSum<T>> getBoundaryColumns(SimplexStream<T> stream, int dimension) {
+		List<IntFormalSum<T>> D = new ArrayList<IntFormalSum<T>>();
 		IntFreeModule<T> chainModule = new IntFreeModule<T>(this.field);
 		
 		for (T i: stream) {
@@ -203,7 +203,7 @@ public class PersistentHomology<T extends ChainBasisElement> {
 				continue;
 			}
 			
-			D.put(i, chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
+			D.add(chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
 		}
 		
 		return D;

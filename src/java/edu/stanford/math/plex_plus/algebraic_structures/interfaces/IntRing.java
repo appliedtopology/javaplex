@@ -27,6 +27,8 @@ public abstract class IntRing {
 	public abstract boolean isZero(int a);
 	public abstract boolean isOne(int a);
 	
+	public abstract int characteristic();
+	
 	public int power(int a, int n)	{
 		ExceptionUtility.verifyNonNegative(n);
 	    int result = this.getOne();

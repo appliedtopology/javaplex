@@ -26,6 +26,8 @@ public abstract class GenericRing<T> {
 	public abstract boolean isZero(T a);
 	public abstract boolean isOne(T a);
 	
+	public abstract int characteristic();
+	
 	public T add(int a, int b) {
 		return this.add(this.valueOf(a), this.valueOf(b));
 	}

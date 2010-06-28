@@ -72,4 +72,9 @@ public class RationalField extends GenericField<Fraction> {
 	public boolean isOne(Fraction a) {
 		return (a.equals(Fraction.ONE));
 	}
+	
+	@Override
+	public int characteristic() {
+		return 0;
+	}
 }

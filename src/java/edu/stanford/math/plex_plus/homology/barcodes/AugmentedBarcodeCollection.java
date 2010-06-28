@@ -47,6 +47,16 @@ public class AugmentedBarcodeCollection<T> {
 	}
 	
 	/**
+	 * This function returns the barcode at the specified dimension.
+	 * 
+	 * @param dimension
+	 * @return
+	 */
+	public AugmentedBarcode<T> getBarcode(int dimension) {
+		return this.barcodeMap.get(dimension);
+	}
+	
+	/**
 	 * This function computes the Betti numbers for a particular filtration
 	 * value. It returns the results as a map which maps the dimension to the
 	 * Betti number.

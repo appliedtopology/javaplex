@@ -70,4 +70,9 @@ public class BigIntegerRing extends GenericRing<BigInteger> {
 	public BigInteger valueOf(int n) {
 		return BigInteger.valueOf(n);
 	}
+	
+	@Override
+	public int characteristic() {
+		return 0;
+	}
 }
