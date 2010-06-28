@@ -159,7 +159,7 @@ public class CRC {
 	// the advantage that the entries in the table are smaller is one of
 	// the reasons that it was chosen. We also have a table below made from
 	// a prime with a lot more bits in it.
-	protected static long[] hash64tab0 = new long[] { 
+	protected static final long[] hash64tab0 = new long[] { 
 		0x000L, 0x01bL, 0x036L, 0x02dL, 0x06cL, 0x077L, 
 		0x05aL, 0x041L, 0x0d8L, 0x0c3L, 0x0eeL, 0x0f5L, 
 		0x0b4L, 0x0afL, 0x082L, 0x099L, 0x1b0L, 0x1abL, 
@@ -210,7 +210,7 @@ public class CRC {
 
 	// This table is made from the 65bit number 0x1dbf5da0ff9e2a9e3,
 	// considered as a prime polynomial of degree 64. */
-	protected static long[] hash64tab1 = new long[] { 
+	protected static final long[] hash64tab1 = new long[] { 
 		0x0000000000000000L, 0xdbf5da0ff9e2a9e3L, 0x6c1e6e100a27fa25L, 
 		0xb7ebb41ff3c553c6L, 0xd83cdc20144ff44aL, 0x03c9062fedad5da9L, 
 		0xb422b2301e680e6fL, 0x6fd7683fe78aa78cL, 0x6b8c624fd17d4177L,
@@ -304,7 +304,7 @@ public class CRC {
 
 	// This table is made from the 33bit number 0x1e4725ca3, considered
 	// as a prime polynomial of degree 32.
-	protected static int[] hash32tab0 = new int[] { 
+	protected static final int[] hash32tab0 = new int[] { 
 		0x00000000, 0xe4725ca3, 0x2c96e5e5, 0xc8e4b946, 0x592dcbca,
 		0xbd5f9769, 0x75bb2e2f, 0x91c9728c, 0xb25b9794, 0x5629cb37,
 		0x9ecd7271, 0x7abf2ed2, 0xeb765c5e, 0x0f0400fd, 0xc7e0b9bb,
@@ -683,7 +683,7 @@ public class CRC {
 	 * @param      v   The int array.
 	 * @return     Int containing CRC hash of array.
 	 */
-	public static int hash32(int[] v) {
+	public static int hash32(final int[] v) {
 		int hcode = 0;
 		for(int x : v) {
 			hcode = update32(x, hcode, hash32tab0);

@@ -2,9 +2,9 @@ package edu.stanford.math.plex_plus.algebraic_structures.impl;
 
 import org.apache.commons.math.fraction.BigFraction;
 
-import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericField;
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericOrderedField;
 
-public class BigRationalField extends GenericField<BigFraction> {
+public class BigRationalField extends GenericOrderedField<BigFraction> {
 	
 	private BigRationalField() {}
 	
@@ -77,5 +77,15 @@ public class BigRationalField extends GenericField<BigFraction> {
 	@Override
 	public int characteristic() {
 		return 0;
+	}
+
+	@Override
+	public int compare(BigFraction o1, BigFraction o2) {
+		return o1.compareTo(o2);
+	}
+
+	@Override
+	public BigFraction abs(BigFraction a) {
+		return a.abs();
 	}
 }

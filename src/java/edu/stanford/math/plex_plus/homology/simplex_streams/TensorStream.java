@@ -9,8 +9,8 @@ import java.util.Comparator;
 import edu.stanford.math.plex_plus.datastructures.pairs.DoubleGenericPair;
 import edu.stanford.math.plex_plus.datastructures.pairs.DoubleGenericPairComparator;
 import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
-import edu.stanford.math.plex_plus.homology.simplex.TensorProductPair;
 import edu.stanford.math.plex_plus.homology.simplex.TensorComparator;
+import edu.stanford.math.plex_plus.homology.simplex.TensorProductPair;
 
 
 /**

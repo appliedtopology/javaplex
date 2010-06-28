@@ -3,13 +3,12 @@ package edu.stanford.math.plex_plus.homology.barcodes;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 public class AugmentedBarcode<T> {
 	private final int dimension;
-	private final List<GenericPair<PersistenceInterval, IntFormalSum<T>>> intervals = new ArrayList<GenericPair<PersistenceInterval, IntFormalSum<T>>>();
+	private final List<GenericPair<PersistenceInterval, T>> intervals = new ArrayList<GenericPair<PersistenceInterval, T>>();
 	/**
 	 * This constructor initializes the barcode to be empty, with the
 	 * specified dimension.
@@ -37,7 +36,7 @@ public class AugmentedBarcode<T> {
 		return this.intervals.get(index).getFirst();
 	}
 	
-	public IntFormalSum<T> getGeneratingCycle(int index) {
+	public T getGeneratingCycle(int index) {
 		return this.intervals.get(index).getSecond();
 	}
 	
@@ -47,10 +46,10 @@ public class AugmentedBarcode<T> {
 	 * 
 	 * @param interval the PersistentInterval to add
 	 */
-	public void addInterval(PersistenceInterval interval, IntFormalSum<T> generatingCycle) {
+	public void addInterval(PersistenceInterval interval, T representative) {
 		ExceptionUtility.verifyNonNull(interval);
-		ExceptionUtility.verifyNonNull(generatingCycle);
-		this.intervals.add(new GenericPair<PersistenceInterval, IntFormalSum<T>>(interval, generatingCycle));
+		ExceptionUtility.verifyNonNull(representative);
+		this.intervals.add(new GenericPair<PersistenceInterval, T>(interval, representative));
 	}
 	
 	/**
@@ -63,7 +62,7 @@ public class AugmentedBarcode<T> {
 	public int getSliceCardinality(double point) {
 		int cardinality = 0;
 		
-		for (GenericPair<PersistenceInterval, IntFormalSum<T>> pair: this.intervals) {
+		for (GenericPair<PersistenceInterval, T> pair: this.intervals) {
 			if (pair.getFirst().containsPoint(point)) {
 				cardinality++;
 			}
@@ -77,7 +76,7 @@ public class AugmentedBarcode<T> {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Dimension: " + this.dimension + "\n");
-		for (GenericPair<PersistenceInterval, IntFormalSum<T>> pair: this.intervals) {
+		for (GenericPair<PersistenceInterval, T> pair: this.intervals) {
 			builder.append(pair.getFirst().toString());
 			builder.append(": ");
 			builder.append(pair.getSecond().toString());

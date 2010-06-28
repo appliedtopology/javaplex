@@ -1,6 +1,5 @@
 package edu.stanford.math.plex_plus.homology.barcodes;
 
-import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TIntObjectIterator;
 import gnu.trove.map.hash.TIntIntHashMap;
@@ -15,7 +14,7 @@ public class AugmentedBarcodeCollection<T> {
 	 * @param dimension the dimension to add to
 	 * @param interval the interval to add
 	 */
-	public void addInterval(int dimension, PersistenceInterval interval, IntFormalSum<T> generatingCycle) {
+	public void addInterval(int dimension, PersistenceInterval interval, T generatingCycle) {
 		ExceptionUtility.verifyNonNull(interval);
 		if (!this.barcodeMap.containsKey(dimension)) {
 			this.barcodeMap.put(dimension, new AugmentedBarcode<T>(dimension));
@@ -31,7 +30,7 @@ public class AugmentedBarcodeCollection<T> {
 	 * @param start the starting point of the interval
 	 * @param end the ending point of the interval
 	 */
-	public void addInterval(int dimension, double start, double end, IntFormalSum<T> generatingCycle) {
+	public void addInterval(int dimension, double start, double end, T generatingCycle) {
 		this.addInterval(dimension, new PersistenceInterval(start, end), generatingCycle);
 	}
 	
@@ -42,7 +41,7 @@ public class AugmentedBarcodeCollection<T> {
 	 * @param dimension the dimension to add to
 	 * @param start the starting point of the interval
 	 */
-	public void addInterval(int dimension, double start, IntFormalSum<T> generatingCycle) {
+	public void addInterval(int dimension, double start, T generatingCycle) {
 		this.addInterval(dimension, new PersistenceInterval(start), generatingCycle);
 	}
 	

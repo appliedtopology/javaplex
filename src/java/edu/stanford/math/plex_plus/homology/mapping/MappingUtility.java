@@ -1,6 +1,11 @@
 package edu.stanford.math.plex_plus.homology.mapping;
 
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericOrderedField;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntRing;
+import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
 import edu.stanford.math.plex_plus.homology.simplex.HomProductPair;
@@ -21,6 +26,34 @@ public class MappingUtility {
 		}
 		
 		return result;
+	}
+	
+	public static <F, T extends ChainBasisElement, U extends ChainBasisElement> GenericFormalSum<F, U> computeImage(GenericFormalSum<F, HomProductPair<T, U>> function, T element) {
+		GenericFormalSum<F, U> result = new GenericFormalSum<F, U>();
+		for (Iterator<Entry<HomProductPair<T, U>, F>> iterator = function.iterator(); iterator.hasNext(); ) {
+			Entry<HomProductPair<T, U>, F> entry = iterator.next();
+			if (entry.getKey().getFirst().equals(element)) {
+				result.put(entry.getValue(), entry.getKey().getSecond());
+			}
+		}
+		
+		return result;
+	}
+	
+	public static <F, T> F norm(GenericFormalSum<F, T> chain, int p, GenericOrderedField<F> field) {
+		ExceptionUtility.verifyNonNull(chain);
+		ExceptionUtility.verifyNonNegative(p);
+		
+		if (p == 0) {
+			return field.valueOf(chain.size());
+		} else {
+			F norm = field.getZero();
+			for (Iterator<Entry<T, F>> iterator = chain.iterator(); iterator.hasNext(); ) {
+				Entry<T, F> entry = iterator.next();
+				norm = field.add(norm, field.power(field.abs(entry.getValue()), p));
+			}
+			return norm;
+		}
 	}
 	
 	public static <T extends ChainBasisElement, U extends ChainBasisElement> IntFormalSum<HomProductPair<TensorProductPair<T, T>, TensorProductPair<U, U>>> functionTensorProduct(IntFormalSum<HomProductPair<T, U>> f, IntFormalSum<HomProductPair<T, U>> g) {

@@ -2,9 +2,9 @@ package edu.stanford.math.plex_plus.algebraic_structures.impl;
 
 import org.apache.commons.math.fraction.Fraction;
 
-import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericField;
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericOrderedField;
 
-public class RationalField extends GenericField<Fraction> {
+public class RationalField extends GenericOrderedField<Fraction> {
 	private RationalField() {}
 	
 	private static final RationalField instance = new RationalField();
@@ -76,5 +76,15 @@ public class RationalField extends GenericField<Fraction> {
 	@Override
 	public int characteristic() {
 		return 0;
+	}
+
+	@Override
+	public int compare(Fraction o1, Fraction o2) {
+		return o1.compareTo(o2);
+	}
+
+	@Override
+	public Fraction abs(Fraction a) {
+		return a.abs();
 	}
 }

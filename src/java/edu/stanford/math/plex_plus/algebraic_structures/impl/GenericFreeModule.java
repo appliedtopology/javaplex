@@ -23,7 +23,7 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  * @param <R> the coefficient data type over which a ring is defined
  * @param <M> the object data type (e.g. a simplex)
  */
-public class GenericFreeModule<R, M extends Comparable<M>> implements GenericLeftModule<R, GenericFormalSum<R, M>> {
+public class GenericFreeModule<R, M> implements GenericLeftModule<R, GenericFormalSum<R, M>> {
 	private GenericRing<R> ring;
 	
 	public GenericFreeModule(GenericRing<R> ring) {
@@ -157,5 +157,21 @@ public class GenericFreeModule<R, M extends Comparable<M>> implements GenericLef
 		} else {
 			formalSum.put(coefficient, object);
 		}
+	}
+	
+	public GenericFormalSum<R, M> createSum(int[] coefficients, M[] objects) {
+		GenericFormalSum<R, M> sum = new GenericFormalSum<R, M>();
+
+		if (coefficients == null || objects == null) {
+			return sum;
+		}
+		
+		ExceptionUtility.verifyEqual(coefficients.length, objects.length);
+		
+		for (int i = 0; i < coefficients.length; i++) {
+			this.addObject(sum, this.ring.valueOf(coefficients[i]), objects[i]);
+		}
+		
+		return sum;
 	}
 }

@@ -40,6 +40,30 @@ public abstract class GenericRing<T> {
 		return this.multiply(this.valueOf(a), this.valueOf(b));
 	}
 	
+	public T add(T a, int b) {
+		return this.add(a, this.valueOf(b));
+	}
+	
+	public T subtract(T a, int b) {
+		return this.subtract(a, this.valueOf(b));
+	}
+	
+	public T multiply(T a, int b) {
+		return this.multiply(a, this.valueOf(b));
+	}
+	
+	public T add(int a, T b) {
+		return this.add(this.valueOf(a), b);
+	}
+	
+	public T subtract(int a, T b) {
+		return this.subtract(this.valueOf(a), b);
+	}
+	
+	public T multiply(int a, T b) {
+		return this.multiply(this.valueOf(a), b);
+	}
+	
 	public T negate(int a) {
 		return this.negate(this.valueOf(a));
 	}
