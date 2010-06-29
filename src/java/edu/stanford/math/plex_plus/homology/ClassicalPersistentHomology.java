@@ -6,8 +6,8 @@ import edu.stanford.math.plex_plus.algebraic_structures.impl.IntFreeModule;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntField;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
-import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
-import edu.stanford.math.plex_plus.homology.simplex_streams.SimplexStream;
+import edu.stanford.math.plex_plus.homology.chain_basis.PrimitiveBasisElement;
+import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.map.hash.THashMap;
@@ -21,11 +21,11 @@ import gnu.trove.set.hash.THashSet;
  *
  * @param <BasisElementType>
  */
-public class ClassicalPersistentHomology<BasisElementType extends ChainBasisElement> {
+public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasisElement> {
 	private final THashSet<BasisElementType> markedSimplices = new THashSet<BasisElementType>();
 	private final THashMap<BasisElementType, IntFormalSum<BasisElementType>> T = new THashMap<BasisElementType, IntFormalSum<BasisElementType>>();
 	private final IntField field;
-	private SimplexStream<BasisElementType> currentStream = null;
+	private AbstractFilteredStream<BasisElementType> currentStream = null;
 	private final Comparator<BasisElementType> comparator;
 	
 	public ClassicalPersistentHomology(IntField field, Comparator<BasisElementType> comparator) {
@@ -33,7 +33,7 @@ public class ClassicalPersistentHomology<BasisElementType extends ChainBasisElem
 		this.comparator = comparator;
 	}
 	
-	public BarcodeCollection computeIntervals(SimplexStream<BasisElementType> stream, int maxDimension) {
+	public BarcodeCollection computeIntervals(AbstractFilteredStream<BasisElementType> stream, int maxDimension) {
 		BarcodeCollection barcodeCollection = new BarcodeCollection();
 
 		this.currentStream = stream;
@@ -137,7 +137,7 @@ public class ClassicalPersistentHomology<BasisElementType extends ChainBasisElem
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private IntFormalSum<BasisElementType> createBoundaryChain(ChainBasisElement[] abstractChainBasisElements) {
+	private IntFormalSum<BasisElementType> createBoundaryChain(PrimitiveBasisElement[] abstractChainBasisElements) {
 		ExceptionUtility.verifyNonNull(abstractChainBasisElements);
 		IntFormalSum<BasisElementType> sum = new IntFormalSum<BasisElementType>();
 		IntFreeModule<BasisElementType> chainModule = new IntFreeModule<BasisElementType>(this.field);

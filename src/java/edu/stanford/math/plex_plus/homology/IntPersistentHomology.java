@@ -12,8 +12,7 @@ import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex_plus.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
-import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
-import edu.stanford.math.plex_plus.homology.simplex_streams.SimplexStream;
+import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
 import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.map.hash.THashMap;
 import gnu.trove.set.hash.THashSet;
@@ -29,7 +28,7 @@ import gnu.trove.set.hash.THashSet;
  *
  * @param <T>
  */
-public class IntPersistentHomology<T extends ChainBasisElement> {
+public class IntPersistentHomology<T> {
 	private final IntField field;
 	private final Comparator<T> comparator;
 
@@ -38,11 +37,11 @@ public class IntPersistentHomology<T extends ChainBasisElement> {
 		this.comparator = comparator;
 	}
 
-	public AugmentedBarcodeCollection<IntFormalSum<T>> computeIntervals(SimplexStream<T> stream, int maxDimension) {
+	public AugmentedBarcodeCollection<IntFormalSum<T>> computeIntervals(AbstractFilteredStream<T> stream, int maxDimension) {
 		return this.getIntervalsFromDecomposition(this.pHcol(stream, maxDimension), stream);
 	}
 	
-	public GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> pHcol(SimplexStream<T> stream, int maxDimension) {
+	public GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> pHcol(AbstractFilteredStream<T> stream, int maxDimension) {
 		
 		THashMap<T, IntFormalSum<T>> R = new THashMap<T, IntFormalSum<T>>();
 		THashMap<T, IntFormalSum<T>> V = new THashMap<T, IntFormalSum<T>>();
@@ -58,7 +57,7 @@ public class IntPersistentHomology<T extends ChainBasisElement> {
 			/*
 			 * Do not process simplices of higher dimension than maxDimension.
 			 */
-			if (i.getDimension() > maxDimension) {
+			if (stream.getDimension(i) > maxDimension) {
 				continue;
 			}
 			
@@ -107,7 +106,7 @@ public class IntPersistentHomology<T extends ChainBasisElement> {
 		return new GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>>(R, V);
 	}
 	
-	public AugmentedBarcodeCollection<IntFormalSum<T>> getIntervalsFromDecomposition(GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> RV_pair, SimplexStream<T> stream) {
+	public AugmentedBarcodeCollection<IntFormalSum<T>> getIntervalsFromDecomposition(GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream) {
 		AugmentedBarcodeCollection<IntFormalSum<T>> barcodeCollection = new AugmentedBarcodeCollection<IntFormalSum<T>>();
 		
 		THashMap<T, IntFormalSum<T>> R = RV_pair.getFirst();
@@ -141,20 +140,20 @@ public class IntPersistentHomology<T extends ChainBasisElement> {
 				double start = stream.getFiltrationValue(low_R_i);
 				double end = stream.getFiltrationValue(i);
 				if (start < end) {
-					barcodeCollection.addInterval(low_R_i.getDimension(), start, end, R.get(i));
+					barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end, R.get(i));
 				}
 			}
 		}
 		
 		// add the collection of semi-infinite intervals to the barcode collection
 		for (T i: F) {
-			barcodeCollection.addInterval(i.getDimension(), stream.getFiltrationValue(i), V.get(i));
+			barcodeCollection.addInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
 		}
 		
 		return barcodeCollection;
 	}
 	
-	public BarcodeCollection pCoh(SimplexStream<T> stream, int maxDimension) {
+	public BarcodeCollection pCoh(AbstractFilteredStream<T> stream, int maxDimension) {
 		BarcodeCollection barcodeCollection = new BarcodeCollection();
 		IntFreeModule<T> chainModule = new IntFreeModule<T>(this.field);
 		
@@ -164,7 +163,7 @@ public class IntPersistentHomology<T extends ChainBasisElement> {
 		
 		for (T simplex : stream) {
 			
-			if (simplex.getDimension() > maxDimension) {
+			if (stream.getDimension(simplex) > maxDimension) {
 				continue;
 			}
 			
@@ -193,12 +192,12 @@ public class IntPersistentHomology<T extends ChainBasisElement> {
 		return barcodeCollection;
 	}
 	
-	public List<IntFormalSum<T>> getBoundaryColumns(SimplexStream<T> stream, int dimension) {
+	public List<IntFormalSum<T>> getBoundaryColumns(AbstractFilteredStream<T> stream, int dimension) {
 		List<IntFormalSum<T>> D = new ArrayList<IntFormalSum<T>>();
 		IntFreeModule<T> chainModule = new IntFreeModule<T>(this.field);
 		
 		for (T i: stream) {
-			if (i.getDimension() != dimension) {
+			if (stream.getDimension(i) != dimension) {
 				continue;
 			}
 			

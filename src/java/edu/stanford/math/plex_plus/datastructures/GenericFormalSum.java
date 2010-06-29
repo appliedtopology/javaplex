@@ -22,7 +22,7 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  * @param <R> the coefficient type
  * @param <M> the object type 
  */
-public class GenericFormalSum<R, M> {
+public class GenericFormalSum<R, M> implements Iterable<Map.Entry<M, R>> {
 	/**
 	 * The coefficient-object pairs are held in a hash map, where the
 	 * key is the object (e.g. a simplex), and the value is the coefficient.

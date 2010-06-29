@@ -12,12 +12,11 @@ import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericField;
 import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex_plus.homology.barcodes.AugmentedBarcodeCollection;
-import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
-import edu.stanford.math.plex_plus.homology.simplex_streams.SimplexStream;
+import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
 import gnu.trove.map.hash.THashMap;
 import gnu.trove.set.hash.THashSet;
 
-public class GenericPersistentHomology<F, T extends ChainBasisElement> {
+public class GenericPersistentHomology<F, T> {
 	private final GenericField<F> field;
 	private final Comparator<T> comparator;
 	private final GenericFreeModule<F, T> chainModule;
@@ -28,11 +27,11 @@ public class GenericPersistentHomology<F, T extends ChainBasisElement> {
 		this.chainModule = new GenericFreeModule<F, T>(field);
 	}
 
-	public AugmentedBarcodeCollection<GenericFormalSum<F, T>> computeIntervals(SimplexStream<T> stream, int maxDimension) {
+	public AugmentedBarcodeCollection<GenericFormalSum<F, T>> computeIntervals(AbstractFilteredStream<T> stream, int maxDimension) {
 		return this.getIntervalsFromDecomposition(this.pHcol(stream, maxDimension), stream);
 	}
 
-	public GenericPair<THashMap<T, GenericFormalSum<F, T>>, THashMap<T, GenericFormalSum<F, T>>> pHcol(SimplexStream<T> stream, int maxDimension) {
+	public GenericPair<THashMap<T, GenericFormalSum<F, T>>, THashMap<T, GenericFormalSum<F, T>>> pHcol(AbstractFilteredStream<T> stream, int maxDimension) {
 
 		THashMap<T, GenericFormalSum<F, T>> R = new THashMap<T, GenericFormalSum<F, T>>();
 		THashMap<T, GenericFormalSum<F, T>> V = new THashMap<T, GenericFormalSum<F, T>>();
@@ -46,7 +45,7 @@ public class GenericPersistentHomology<F, T extends ChainBasisElement> {
 			/*
 			 * Do not process simplices of higher dimension than maxDimension.
 			 */
-			if (i.getDimension() > maxDimension) {
+			if (stream.getDimension(i) > maxDimension) {
 				continue;
 			}
 
@@ -95,7 +94,7 @@ public class GenericPersistentHomology<F, T extends ChainBasisElement> {
 		return new GenericPair<THashMap<T, GenericFormalSum<F, T>>, THashMap<T, GenericFormalSum<F, T>>>(R, V);
 	}
 
-	public AugmentedBarcodeCollection<GenericFormalSum<F, T>> getIntervalsFromDecomposition(GenericPair<THashMap<T, GenericFormalSum<F, T>>, THashMap<T, GenericFormalSum<F, T>>> RV_pair, SimplexStream<T> stream) {
+	public AugmentedBarcodeCollection<GenericFormalSum<F, T>> getIntervalsFromDecomposition(GenericPair<THashMap<T, GenericFormalSum<F, T>>, THashMap<T, GenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
 		AugmentedBarcodeCollection<GenericFormalSum<F, T>> barcodeCollection = new AugmentedBarcodeCollection<GenericFormalSum<F, T>>();
 
 		THashMap<T, GenericFormalSum<F, T>> R = RV_pair.getFirst();
@@ -129,24 +128,24 @@ public class GenericPersistentHomology<F, T extends ChainBasisElement> {
 				double start = stream.getFiltrationValue(low_R_i);
 				double end = stream.getFiltrationValue(i);
 				if (start < end) {
-					barcodeCollection.addInterval(low_R_i.getDimension(), start, end, R.get(i));
+					barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end, R.get(i));
 				}
 			}
 		}
 
 		// add the collection of semi-infinite intervals to the barcode collection
 		for (T i: F) {
-			barcodeCollection.addInterval(i.getDimension(), stream.getFiltrationValue(i), V.get(i));
+			barcodeCollection.addInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
 		}
 
 		return barcodeCollection;
 	}
 
-	public List<GenericFormalSum<F, T>> getBoundaryColumns(SimplexStream<T> stream, int dimension) {
+	public List<GenericFormalSum<F, T>> getBoundaryColumns(AbstractFilteredStream<T> stream, int dimension) {
 		List<GenericFormalSum<F, T>> D = new ArrayList<GenericFormalSum<F, T>>();
 
 		for (T i: stream) {
-			if (i.getDimension() != dimension) {
+			if (stream.getDimension(i) != dimension) {
 				continue;
 			}
 

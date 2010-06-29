@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import edu.stanford.math.plex_plus.homology.simplex.Simplex;
+import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 import edu.stanford.math.plex_plus.homology.utility.HomologyUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 

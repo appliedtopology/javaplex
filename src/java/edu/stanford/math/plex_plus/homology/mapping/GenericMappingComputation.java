@@ -5,60 +5,74 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import edu.stanford.math.plex_plus.algebraic_structures.conversion.ModuleMorphismRepresentation;
 import edu.stanford.math.plex_plus.algebraic_structures.impl.GenericFreeModule;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericOrderedField;
 import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
+import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex_plus.functional.GenericFunction;
 import edu.stanford.math.plex_plus.homology.GenericPersistentHomology;
 import edu.stanford.math.plex_plus.homology.barcodes.AugmentedBarcodeCollection;
-import edu.stanford.math.plex_plus.homology.simplex.ChainBasisElement;
-import edu.stanford.math.plex_plus.homology.simplex.HomProductPair;
-import edu.stanford.math.plex_plus.homology.simplex_streams.HomStream;
-import edu.stanford.math.plex_plus.homology.simplex_streams.SimplexStream;
+import edu.stanford.math.plex_plus.homology.chain_basis.PrimitiveBasisElement;
+import edu.stanford.math.plex_plus.homology.streams.derived.HomStream;
+import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex_plus.utility.ArrayUtility2;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import edu.stanford.math.plex_plus.utility.Infinity;
 import edu.stanford.math.plex_plus.utility.RandomUtility;
 import gnu.trove.set.hash.THashSet;
 
-public class GenericMappingComputation<F, T extends ChainBasisElement, U extends ChainBasisElement> {
+public class GenericMappingComputation<F extends Number, T extends PrimitiveBasisElement, U extends PrimitiveBasisElement> {
 	private final GenericOrderedField<F> field;
-	private final GenericFreeModule<F, HomProductPair<T, U>> chainModule;
+	private final GenericFreeModule<F, GenericPair<T, U>> chainModule;
 
 	public GenericMappingComputation(GenericOrderedField<F> field) {
 		this.field = field;
-		chainModule = new GenericFreeModule<F, HomProductPair<T, U>>(this.field);
+		chainModule = new GenericFreeModule<F, GenericPair<T, U>>(this.field);
 	}
 
-	public void computeMapping(SimplexStream<T> stream1, SimplexStream<U> stream2, Comparator<T> comparator1, Comparator<U> comparator2) {
+	public void computeMapping(AbstractFilteredStream<T> stream1, AbstractFilteredStream<U> stream2, Comparator<T> comparator1, Comparator<U> comparator2) {
 		HomStream<T, U> homStream = new HomStream<T, U>(stream1, stream2, comparator1, comparator2);
 		homStream.finalizeStream();
 
-		GenericPersistentHomology<F, HomProductPair<T, U>> homology = new GenericPersistentHomology<F, HomProductPair<T, U>>(field, homStream.getBasisComparator());
-		AugmentedBarcodeCollection<GenericFormalSum<F, HomProductPair<T, U>>> barcodes = homology.computeIntervals(homStream, 1);
+		GenericPersistentHomology<F, GenericPair<T, U>> homology = new GenericPersistentHomology<F, GenericPair<T, U>>(field, homStream.getDerivedComparator());
+		AugmentedBarcodeCollection<GenericFormalSum<F, GenericPair<T, U>>> barcodes = homology.computeIntervals(homStream, 1);
 		System.out.println(barcodes);
 
-		List<GenericFormalSum<F, HomProductPair<T, U>>> D_1 = homology.getBoundaryColumns(homStream, 1);
+		List<GenericFormalSum<F, GenericPair<T, U>>> D_1 = homology.getBoundaryColumns(homStream, 1);
 		System.out.println(D_1);
 
-		GenericFormalSum<F, HomProductPair<T, U>> generatingCycle = new GenericFormalSum<F, HomProductPair<T, U>>();
+		GenericFormalSum<F, GenericPair<T, U>> generatingCycle = new GenericFormalSum<F, GenericPair<T, U>>();
 		int numCycles = barcodes.getBarcode(0).getSize();
 		for (int i = 0; i < numCycles; i++) {
 			generatingCycle = chainModule.add(generatingCycle, barcodes.getBarcode(0).getGeneratingCycle(i));
 		}
-
-		this.randomizedOptimization(generatingCycle, D_1, this.getImageSimpicialityPenalty(stream1), 100);
+		
+		//this.randomizedOptimization(generatingCycle, D_1, this.getImageSimpicialityPenalty(stream1), 100);
+		
+		ModuleMorphismRepresentation<F, T, U> morphismRep = new ModuleMorphismRepresentation<F, T, U>(stream1, stream2);
+		
+		System.out.println(ArrayUtility2.toString(morphismRep.toDoubleMatrix(generatingCycle)));
+		
+		for (GenericFormalSum<F, GenericPair<T, U>> homotopy: D_1) {
+			System.out.println(ArrayUtility2.toString(morphismRep.toDoubleMatrix(homotopy)));
+		}
+	}
+	
+	public void computeMatrices(GenericFormalSum<F, GenericPair<T, U>> generatingCycle, List<GenericFormalSum<F, GenericPair<T, U>>> chainHomotopies) {
+		
 	}
 
-	public void randomizedOptimization(GenericFormalSum<F, HomProductPair<T, U>> generatingCycle, List<GenericFormalSum<F, HomProductPair<T, U>>> chainHomotopies, GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>> objective, int repititions) {
+	public void randomizedOptimization(GenericFormalSum<F, GenericPair<T, U>> generatingCycle, List<GenericFormalSum<F, GenericPair<T, U>>> chainHomotopies, GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>> objective, int repititions) {
 		int spaceDimension = chainHomotopies.size();
 		// make sure that we are in a field of nonzero characteristic
 		//ExceptionUtility.verifyPositive(characteristic);		
 
 		F minObjectiveValue = field.valueOf(Infinity.Int.getPositiveInfinity());
-		GenericFormalSum<F, HomProductPair<T, U>> minimizingChain = null;
+		GenericFormalSum<F, GenericPair<T, U>> minimizingChain = null;
 
 		for (int repitition = 0; repitition < repititions; repitition++) {
-			GenericFormalSum<F, HomProductPair<T, U>> randomizedPoint = new GenericFormalSum<F, HomProductPair<T, U>>(generatingCycle);
+			GenericFormalSum<F, GenericPair<T, U>> randomizedPoint = new GenericFormalSum<F, GenericPair<T, U>>(generatingCycle);
 			for (int i = 0; i < spaceDimension; i++) {
 				int coefficient = RandomUtility.nextUniformInt(-1, 1);
 				randomizedPoint = chainModule.add(randomizedPoint, chainModule.multiply(coefficient, chainHomotopies.get(i)));
@@ -75,7 +89,7 @@ public class GenericMappingComputation<F, T extends ChainBasisElement, U extends
 		System.out.println("objective value: " + minObjectiveValue + "\n");
 	}
 
-	public void greedyOptimization(GenericFormalSum<F, HomProductPair<T, U>> generatingCycle, List<GenericFormalSum<F, HomProductPair<T, U>>> chainHomotopies, GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>> objective, int repititions) {
+	public void greedyOptimization(GenericFormalSum<F, GenericPair<T, U>> generatingCycle, List<GenericFormalSum<F, GenericPair<T, U>>> chainHomotopies, GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>> objective, int repititions) {
 		int spaceDimension = chainHomotopies.size();
 		int characteristic = this.field.characteristic();
 
@@ -83,14 +97,14 @@ public class GenericMappingComputation<F, T extends ChainBasisElement, U extends
 		ExceptionUtility.verifyPositive(characteristic);		
 
 		F minObjectiveValue = this.field.valueOf(Infinity.Int.getPositiveInfinity());
-		GenericFormalSum<F, HomProductPair<T, U>> minimizingChain = null;
+		GenericFormalSum<F, GenericPair<T, U>> minimizingChain = null;
 
 		F metaMinimumValue = this.field.valueOf(Infinity.Int.getPositiveInfinity());
-		GenericFormalSum<F, HomProductPair<T, U>> metaMinimizingChain = null;
+		GenericFormalSum<F, GenericPair<T, U>> metaMinimizingChain = null;
 
 		
 		for (int repitition = 0; repitition < repititions; repitition++) {
-			GenericFormalSum<F, HomProductPair<T, U>> randomizedPoint = new GenericFormalSum<F, HomProductPair<T, U>>(generatingCycle);
+			GenericFormalSum<F, GenericPair<T, U>> randomizedPoint = new GenericFormalSum<F, GenericPair<T, U>>(generatingCycle);
 			// create random starting point
 			for (int i = 0; i < spaceDimension; i++) {
 				int coefficient = RandomUtility.nextUniformInt(0, characteristic - 1);
@@ -108,7 +122,7 @@ public class GenericMappingComputation<F, T extends ChainBasisElement, U extends
 				boolean functionValueDecreased = false;
 				for (int i = 0; i < spaceDimension; i++){
 					for(int coefficient = 1; coefficient < characteristic; coefficient++) {
-						GenericFormalSum<F, HomProductPair<T, U>> newPoint = chainModule.add(randomizedPoint, chainModule.multiply(coefficient, chainHomotopies.get(i)));
+						GenericFormalSum<F, GenericPair<T, U>> newPoint = chainModule.add(randomizedPoint, chainModule.multiply(coefficient, chainHomotopies.get(i)));
 						objectiveValue = objective.evaluate(newPoint);
 						if (this.field.compare(objectiveValue, minObjectiveValue) < 0) {
 							minObjectiveValue = objectiveValue;
@@ -132,11 +146,11 @@ public class GenericMappingComputation<F, T extends ChainBasisElement, U extends
 		System.out.println("minimum objective value: " + metaMinimumValue + "\n");
 	}
 
-	private GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>> getObjectiveFunction() {
-		GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>> function = new GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>>() {
+	private GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>> getObjectiveFunction() {
+		GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>> function = new GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>>() {
 
 			@Override
-			public F evaluate(GenericFormalSum<F, HomProductPair<T, U>> argument) {
+			public F evaluate(GenericFormalSum<F, GenericPair<T, U>> argument) {
 				return MappingUtility.norm(argument, 1, field);
 			}
 
@@ -157,11 +171,11 @@ public class GenericMappingComputation<F, T extends ChainBasisElement, U extends
 		return function;
 	}
 
-	private GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>> getStreamedFunction(final SimplexStream<T> stream, final GenericFunction<F, GenericFormalSum<F, U>> baseFunction) {
-		GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>> function = new GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>>() {
+	private GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>> getStreamedFunction(final AbstractFilteredStream<T> stream, final GenericFunction<F, GenericFormalSum<F, U>> baseFunction) {
+		GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>> function = new GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>>() {
 
 			@Override
-			public F evaluate(GenericFormalSum<F, HomProductPair<T, U>> argument) {
+			public F evaluate(GenericFormalSum<F, GenericPair<T, U>> argument) {
 				return sumFunctionOverStream(stream, argument, baseFunction);
 			}
 
@@ -170,11 +184,11 @@ public class GenericMappingComputation<F, T extends ChainBasisElement, U extends
 		return function;
 	}
 
-	private GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>> getImageSimpicialityPenalty(final SimplexStream<T> stream) {
-		GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>> function = new GenericFunction<F, GenericFormalSum<F, HomProductPair<T, U>>>() {
+	private GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>> getImageSimpicialityPenalty(final AbstractFilteredStream<T> stream) {
+		GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>> function = new GenericFunction<F, GenericFormalSum<F, GenericPair<T, U>>>() {
 
 			@Override
-			public F evaluate(GenericFormalSum<F, HomProductPair<T, U>> argument) {
+			public F evaluate(GenericFormalSum<F, GenericPair<T, U>> argument) {
 				THashSet<U> domainMap = new THashSet<U>();
 				F penalty = field.getZero();
 				for (T i: stream) {
@@ -199,7 +213,7 @@ public class GenericMappingComputation<F, T extends ChainBasisElement, U extends
 
 
 
-	private F sumFunctionOverStream(SimplexStream<T> stream, GenericFormalSum<F, HomProductPair<T, U>> mapping, GenericFunction<F, GenericFormalSum<F, U>> functional) {
+	private F sumFunctionOverStream(AbstractFilteredStream<T> stream, GenericFormalSum<F, GenericPair<T, U>> mapping, GenericFunction<F, GenericFormalSum<F, U>> functional) {
 		F value = this.field.getZero();
 
 		for (T i: stream) {

@@ -23,7 +23,7 @@ public class HomologyUtility {
 	/**
 	 * This stores the maximum coefficient array size stored in the cache.
 	 */
-	private static int defaultCoefficientCacheSize = 8;
+	private static int defaultCoefficientCacheSize = 10;
 	
 	/**
 	 * This function initializes the set of default boundary coefficients. It

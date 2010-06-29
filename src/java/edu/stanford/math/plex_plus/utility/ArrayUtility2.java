@@ -31,6 +31,20 @@ public class ArrayUtility2 {
 		return result;
 	}
 	
+	public static int[] newIntArray(int length) {
+		return new int[length];
+	}
+	
+	public static double[] newDoubleArray(int length) {
+		return new double[length];
+	}
+	
+	public static <T> T[] newGenericArray(int length) {
+		return ((T[]) new Object[length]);
+	}
+	
+	
+	
 	public static <T> String toString(T[][] array) {
 		ExceptionUtility.verifyNonNull(array);
 		
