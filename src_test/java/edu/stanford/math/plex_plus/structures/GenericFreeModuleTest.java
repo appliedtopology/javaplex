@@ -8,7 +8,7 @@ import edu.stanford.math.plex_plus.algebraic_structures.impl.ModularIntField;
 import edu.stanford.math.plex_plus.algebraic_structures.impl.RationalField;
 import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
-import edu.stanford.math.plex_plus.homology.simplex.Simplex;
+import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 
 /**
  * 
