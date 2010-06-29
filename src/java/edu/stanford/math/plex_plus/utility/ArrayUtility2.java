@@ -1,5 +1,6 @@
 package edu.stanford.math.plex_plus.utility;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 /**
@@ -39,8 +40,10 @@ public class ArrayUtility2 {
 		return new double[length];
 	}
 	
-	public static <T> T[] newGenericArray(int length) {
-		return ((T[]) new Object[length]);
+	public static <T> T[] newGenericArray(int length, T initializer) {
+		//return ((T[]) new Object[length]);
+		
+		return ((T[]) Array.newInstance(initializer.getClass(), length));
 	}
 	
 	

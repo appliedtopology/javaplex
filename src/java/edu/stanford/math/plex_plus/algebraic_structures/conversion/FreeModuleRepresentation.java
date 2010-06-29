@@ -104,6 +104,7 @@ public class FreeModuleRepresentation<R extends Number, M> {
 		return this.basisMapping.get(index);
 	}
 	
+	/*
 	public R[] toArray(GenericFormalSum<R, M> formalSum) {
 		R[] array = ArrayUtility2.newGenericArray(this.getDimension());
 		
@@ -113,7 +114,7 @@ public class FreeModuleRepresentation<R extends Number, M> {
 		}
 		
 		return array;
-	}
+	}*/
 	
 	public double[] toDoubleArray(GenericFormalSum<R, M> formalSum) {
 		double[] array = new double[this.dimension];

@@ -41,7 +41,7 @@ public class PersistentHomologyTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		simplicialHomTest();
+		simplicialTensorTest();
 	}
 	
 	public static void CellularTest() {
