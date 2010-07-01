@@ -21,6 +21,8 @@ public class GenericPersistentHomology<F, T> {
 	private final Comparator<T> comparator;
 	private final GenericFreeModule<F, T> chainModule;
 
+	private int minDimension = 0;
+	
 	public GenericPersistentHomology(GenericField<F> field, Comparator<T> comparator) {
 		this.field = field;
 		this.comparator = comparator;
@@ -45,7 +47,7 @@ public class GenericPersistentHomology<F, T> {
 			/*
 			 * Do not process simplices of higher dimension than maxDimension.
 			 */
-			if (stream.getDimension(i) > maxDimension) {
+			if (stream.getDimension(i) > maxDimension || stream.getDimension(i) < this.minDimension) {
 				continue;
 			}
 

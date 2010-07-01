@@ -4,7 +4,7 @@
 package edu.stanford.math.plex_plus.homology.streams.impl;
 
 import edu.stanford.math.plex_plus.graph.UndirectedWeightedListGraph;
-import edu.stanford.math.plex_plus.math.metric.interfaces.FiniteMetricSpace;
+import edu.stanford.math.plex_plus.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.set.TIntSet;
@@ -28,7 +28,7 @@ public class VietorisRipsStream<T> extends MaximalStream {
 	/**
 	 * This is the metric space upon which the stream is built from.
 	 */
-	protected final FiniteMetricSpace<T> metricSpace;
+	protected final SearchableFiniteMetricSpace<T> metricSpace;
 	
 	/**
 	 * Constructor which initializes the complex with a metric space.
@@ -37,7 +37,7 @@ public class VietorisRipsStream<T> extends MaximalStream {
 	 * @param maxDistance the maximum allowable distance
 	 * @param maxDimension the maximum dimension of the complex
 	 */
-	public VietorisRipsStream(FiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension) {
+	public VietorisRipsStream(SearchableFiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension) {
 		super(maxDimension, maxDistance);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		this.metricSpace = metricSpace;

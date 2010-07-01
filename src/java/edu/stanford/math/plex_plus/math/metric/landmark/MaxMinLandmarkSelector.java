@@ -1,6 +1,6 @@
 package edu.stanford.math.plex_plus.math.metric.landmark;
 
-import edu.stanford.math.plex_plus.math.metric.interfaces.FiniteMetricSpace;
+import edu.stanford.math.plex_plus.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.Infinity;
 import edu.stanford.math.plex_plus.utility.RandomUtility;
 import gnu.trove.iterator.TIntIterator;
@@ -27,7 +27,7 @@ public class MaxMinLandmarkSelector<T> extends LandmarkSelector<T> {
 	 * @param metricSpace the metric space to build the landmarks set in
 	 * @param landmarkSetSize the size of the landmark set
 	 */
-	public MaxMinLandmarkSelector(FiniteMetricSpace<T> metricSpace, int landmarkSetSize) {
+	public MaxMinLandmarkSelector(SearchableFiniteMetricSpace<T> metricSpace, int landmarkSetSize) {
 		super(metricSpace, landmarkSetSize);
 	}
 

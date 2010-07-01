@@ -1,7 +1,6 @@
 package edu.stanford.math.plex_plus.math.metric.landmark;
 
 import edu.stanford.math.plex_plus.math.metric.interfaces.FiniteMetricSpace;
-import edu.stanford.math.plex_plus.math.metric.interfaces.IntFiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 /**
@@ -18,7 +17,7 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  *
  * @param <T> the underlying type of the metric space
  */
-public abstract class LandmarkSelector<T> implements IntFiniteMetricSpace {
+public abstract class LandmarkSelector<T> implements FiniteMetricSpace<T> {
 	
 	/**
 	 * This is the underlying metric space upon which the landmark set is build.
@@ -71,6 +70,11 @@ public abstract class LandmarkSelector<T> implements IntFiniteMetricSpace {
 	@Override
 	public double distance(int i, int j) {
 		return this.metricSpace.distance(this.indexMapping[i], this.indexMapping[j]);
+	}
+	
+	@Override
+	public T getPoint(int index) {
+		return this.metricSpace.getPoint(this.getLandmarkIndex(index));
 	}
 	
 	/**

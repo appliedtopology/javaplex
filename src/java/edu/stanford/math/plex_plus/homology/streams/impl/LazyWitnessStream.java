@@ -1,7 +1,7 @@
 package edu.stanford.math.plex_plus.homology.streams.impl;
 
 import edu.stanford.math.plex_plus.graph.UndirectedWeightedListGraph;
-import edu.stanford.math.plex_plus.math.metric.interfaces.FiniteMetricSpace;
+import edu.stanford.math.plex_plus.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex_plus.math.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex_plus.utility.ArrayUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
@@ -22,7 +22,7 @@ public class LazyWitnessStream<T> extends MaximalStream {
 	/**
 	 * This is the metric space upon which the stream is built from.
 	 */
-	protected final FiniteMetricSpace<T> metricSpace;
+	protected final SearchableFiniteMetricSpace<T> metricSpace;
 
 	/**
 	 * This is the selection of landmark points
@@ -47,7 +47,7 @@ public class LazyWitnessStream<T> extends MaximalStream {
 	 * @param maxDistance the maximum allowable distance
 	 * @param maxDimension the maximum dimension of the complex
 	 */
-	public LazyWitnessStream(FiniteMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int nu, double R) {
+	public LazyWitnessStream(SearchableFiniteMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int nu, double R) {
 		super(maxDimension, maxDistance);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		ExceptionUtility.verifyNonNegative(nu);
@@ -58,7 +58,7 @@ public class LazyWitnessStream<T> extends MaximalStream {
 		this.R = R;
 	}
 
-	public LazyWitnessStream(FiniteMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance) {
+	public LazyWitnessStream(SearchableFiniteMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance) {
 		this(metricSpace, landmarkSelector, maxDimension, maxDistance, 2, 0);
 	}
 
@@ -67,7 +67,7 @@ public class LazyWitnessStream<T> extends MaximalStream {
 		int N = this.metricSpace.size();
 		int n = this.landmarkSelector.size();
 
-		UndirectedWeightedListGraph graph = new UndirectedWeightedListGraph(N);
+		UndirectedWeightedListGraph graph = new UndirectedWeightedListGraph(n);
 
 		/*
 		 * Let N be the number of points in the metric space, and n the number of 
@@ -112,7 +112,7 @@ public class LazyWitnessStream<T> extends MaximalStream {
 				for (int a_index = 0; a_index < b_index; a_index++) {
 					int a = this.landmarkSelector.getLandmarkIndex(a_index);
 					if (Math.max(distanceMatrixColumn[a_index], distanceMatrixColumn[b_index]) <= this.R + m_i) {
-						graph.addEdge(a, b, this.metricSpace.distance(a, b));
+						graph.addEdge(a_index, b_index, this.metricSpace.distance(a, b));
 					}
 				}
 			}

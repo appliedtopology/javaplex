@@ -1,6 +1,7 @@
 package edu.stanford.math.plex_plus.utility;
 
 import java.lang.reflect.Array;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -161,10 +162,9 @@ public class ArrayUtility2 {
 		array[j] = temp;
 	}
 	
-	public static <T> void swap(List<T> array, int i, int j) {
-		T temp = array.get(i);
-		array.set(i, array.get(j));
-		array.set(j, temp);
+	public static <T> List<T> swap(List<T> array, int i, int j) {
+		Collections.swap(array, i, j);
+		return array;
 	}
 
 	public static double squaredDistance(double[] point1, double[] point2) {

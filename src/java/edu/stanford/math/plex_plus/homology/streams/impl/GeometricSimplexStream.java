@@ -15,7 +15,6 @@ import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredS
 import edu.stanford.math.plex_plus.math.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex_plus.math.metric.interfaces.FiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
-import gnu.trove.set.hash.TIntHashSet;
 
 /**
  * This class defines a geometric realization of a filtered simplicial
@@ -92,21 +91,6 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 	@Override
 	public Iterator<Simplex> iterator() {
 		return this.stream.iterator();
-	}
-
-	@Override
-	public TIntHashSet getKNearestNeighbors(double[] queryPoint, int k) {
-		return this.metricSpace.getKNearestNeighbors(queryPoint, k);
-	}
-
-	@Override
-	public int getNearestPoint(double[] queryPoint) {
-		return this.metricSpace.getNearestPoint(queryPoint);
-	}
-
-	@Override
-	public TIntHashSet getNeighborhood(double[] queryPoint, double epsilon) {
-		return this.metricSpace.getNeighborhood(queryPoint, epsilon);
 	}
 
 	@Override

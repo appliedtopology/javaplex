@@ -3,10 +3,14 @@
  */
 package edu.stanford.math.plex_plus.kd;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import edu.stanford.math.plex_plus.utility.ArrayUtility;
 import edu.stanford.math.plex_plus.utility.ArrayUtility2;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
+import edu.stanford.math.plex_plus.utility.ListUtility;
 import gnu.trove.set.hash.TIntHashSet;
 
 /**
@@ -23,6 +27,8 @@ public class KDTree {
 	 * Points are stored as rows in the dataPoints array
 	 */
 	private final double[][] dataPoints;
+	
+	private List<Integer> indexTranslation;
 
 	public KDTree(double[][] dataPoints) {
 		ExceptionUtility.verifyNonNull(dataPoints);
@@ -30,8 +36,13 @@ public class KDTree {
 		this.dataPoints = dataPoints;
 		this.size = dataPoints.length;
 		this.dimension = dataPoints[0].length;
+		this.indexTranslation = ListUtility.toList(ArrayUtility.range(0, this.size));
 	}
 
+	public List<Integer> getIndexTranslation() {
+		return this.invertPermutation(this.indexTranslation);
+	}
+	
 	public void constructTree() {
 		this.root = this.kdIteration(0, 0, this.size - 1);
 	}
@@ -167,7 +178,7 @@ public class KDTree {
 		epsilonNeighborhoodSearch(nearChild, queryPoint, neighborhood, depth + 1, epsilonSquared);
 	}
 	
-	private static int partition(double[][] array, int startIndex, int endIndex, int axis) {
+	private int partition(double[][] array, int startIndex, int endIndex, int axis) {
 		ExceptionUtility.verifyNonNegative(startIndex);
 		ExceptionUtility.verifyGreaterThanOrEqual(endIndex, startIndex);
 		ExceptionUtility.verifyLessThan(endIndex, array.length);
@@ -185,6 +196,7 @@ public class KDTree {
 			}
 			if (i < j) {
 				ArrayUtility2.swap(array, i, j);
+				this.indexTranslation = ArrayUtility2.swap(this.indexTranslation, i, j);
 				i++;
 				j--;
 			} else {
@@ -192,14 +204,26 @@ public class KDTree {
 			}
 		}
 	}
+	
+	private List<Integer> invertPermutation(List<Integer> permutation) {
+		List<Integer> inverse = new ArrayList<Integer>();
+		for (int i = 0; i < permutation.size(); i++) {
+			inverse.add(0);
+		}
+		for (int i = 0; i < permutation.size(); i++) {
+			inverse.set(permutation.get(i), i);
+		}
+		return inverse;
+	}
 
-	private static int randomizedPartition(double[][] array, int startIndex, int endIndex, int axis) {
+	private int randomizedPartition(double[][] array, int startIndex, int endIndex, int axis) {
 		int i = startIndex + random.nextInt(endIndex - startIndex);
 		ArrayUtility2.swap(array, i, startIndex);
+		this.indexTranslation = ArrayUtility2.swap(this.indexTranslation, i, startIndex);
 		return partition(array, startIndex, endIndex, axis);
 	}
 
-	private static int randomizedSelect(double[][] array, int startIndex, int endIndex, int i, int axis) {
+	private int randomizedSelect(double[][] array, int startIndex, int endIndex, int i, int axis) {
 		if (startIndex == endIndex) {
 			return startIndex;
 		}

@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.homology.mapping;
+package edu.stanford.math.plex_plus.homology.mapping_deprecated;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,11 +19,12 @@ import edu.stanford.math.plex_plus.utility.RandomUtility;
 import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.set.hash.THashSet;
 
-public class IntMappingComputation<T extends PrimitiveBasisElement, U extends PrimitiveBasisElement> {
+@Deprecated
+public class IntMappingComputationold<T extends PrimitiveBasisElement, U extends PrimitiveBasisElement> {
 	private final IntField field;
 	private final IntFreeModule<GenericPair<T, U>> chainModule;
 	
-	public IntMappingComputation(IntField field) {
+	public IntMappingComputationold(IntField field) {
 		this.field = field;
 		chainModule = new IntFreeModule<GenericPair<T, U>>(this.field);
 	}
@@ -138,7 +139,7 @@ public class IntMappingComputation<T extends PrimitiveBasisElement, U extends Pr
 
 			@Override
 			public int evaluate(IntFormalSum<GenericPair<T, U>> argument) {
-				return MappingUtility.norm(argument, 1, field);
+				return MappingUtilityOld.norm(argument, 1, field);
 			}
 			
 		};
@@ -151,7 +152,7 @@ public class IntMappingComputation<T extends PrimitiveBasisElement, U extends Pr
 
 			@Override
 			public int evaluate(IntFormalSum<U> argument) {
-				return MappingUtility.norm(argument, p, field);
+				return MappingUtilityOld.norm(argument, p, field);
 			}
 			
 		};
@@ -179,7 +180,7 @@ public class IntMappingComputation<T extends PrimitiveBasisElement, U extends Pr
 				THashSet<U> domainMap = new THashSet<U>();
 				int penalty = 0;
 				for (T i: stream) {
-					IntFormalSum<U> image = MappingUtility.computeImage(argument, i);
+					IntFormalSum<U> image = MappingUtilityOld.computeImage(argument, i);
 					for (TObjectIntIterator<U> iterator = image.iterator(); iterator.hasNext(); ) {
 						iterator.advance();
 						if (domainMap.contains(iterator.key())) {
@@ -204,7 +205,7 @@ public class IntMappingComputation<T extends PrimitiveBasisElement, U extends Pr
 		int value = 0;
 		
 		for (T i: stream) {
-			value += functional.evaluate(MappingUtility.computeImage(mapping, i));
+			value += functional.evaluate(MappingUtilityOld.computeImage(mapping, i));
 		}
 		
 		return value;

@@ -1,5 +1,5 @@
 package edu.stanford.math.plex_plus.functional;
 
-public interface GenericFunction<F, T> {
-	public F evaluate(T argument);
+public interface GenericFunction<X, Y> {
+	public Y evaluate(X argument);
 }

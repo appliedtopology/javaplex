@@ -3,11 +3,11 @@ package edu.stanford.math.plex_plus.math.metric.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.stanford.math.plex_plus.math.metric.interfaces.FiniteMetricSpace;
+import edu.stanford.math.plex_plus.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.set.hash.TIntHashSet;
 
-public abstract class GenericFiniteMetricSpace<T> implements FiniteMetricSpace<T> {
+public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMetricSpace<T> {
 	List<T> elements = new ArrayList<T>();
 	
 	@Override

@@ -240,7 +240,7 @@ public class FileIO {
 		catch (IOException e) {
 			throw e;
 		} catch (ClassNotFoundException e) {
-			throw new IOException(e);
+			throw new IOException();
 		} finally {
 			if (o!=null) {
 				try {

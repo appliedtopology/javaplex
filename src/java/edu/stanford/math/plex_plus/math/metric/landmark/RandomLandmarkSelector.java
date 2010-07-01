@@ -3,7 +3,7 @@
  */
 package edu.stanford.math.plex_plus.math.metric.landmark;
 
-import edu.stanford.math.plex_plus.math.metric.interfaces.FiniteMetricSpace;
+import edu.stanford.math.plex_plus.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.RandomUtility;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.set.hash.TIntHashSet;
@@ -24,7 +24,7 @@ public class RandomLandmarkSelector<T> extends LandmarkSelector<T> {
 	 * @param metricSpace the metric space to build the landmarks set in
 	 * @param landmarkSetSize the size of the landmark set
 	 */
-	public RandomLandmarkSelector(FiniteMetricSpace<T> metricSpace, int landmarkSetSize) {
+	public RandomLandmarkSelector(SearchableFiniteMetricSpace<T> metricSpace, int landmarkSetSize) {
 		super(metricSpace, landmarkSetSize);
 	}
 	

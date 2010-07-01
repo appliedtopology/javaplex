@@ -1,7 +1,6 @@
 package edu.stanford.math.plex_plus.algebraic_structures.conversion;
 
 import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
-import edu.stanford.math.plex_plus.utility.ArrayUtility2;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;

@@ -542,6 +542,15 @@ public class ArrayUtility {
 	 * Vector operations
 	 */
 	
+	public static double[] negate(double[] vector) {
+		int n = vector.length;
+		double[] result = new double[n];
+		for (int i = 0; i < n; i++) {
+			result[i] = -vector[i];
+		}
+		return result;
+	}
+	
 	public static double[] sum(double[] vector1,
 			double[] vector2) {
 		ExceptionUtility.verifyEqual(vector1.length, vector2.length);
@@ -966,17 +975,23 @@ public class ArrayUtility {
 	 * Array functions
 	 */
 
-	public static double[] sortDescending(double[] vector) {
-		double[] arr1 = java.util.Arrays.copyOf(vector, vector.length);
-		java.util.Arrays.sort(arr1);
-		ArrayUtility.reverse(arr1);
-		return arr1;
+	public static double[] sortDescending(double[] array) {
+		double[] result = new double[array.length];
+		for (int i = 0; i < array.length; i++) {
+			result[i] = array[i];
+		}
+		java.util.Arrays.sort(result);
+		ArrayUtility.reverse(result);
+		return result;
 	}
 
-	public static double[] sortAscending(double[] vector) {
-		double[] arr1 = java.util.Arrays.copyOf(vector, vector.length);
-		java.util.Arrays.sort(arr1);
-		return arr1;
+	public static double[] sortAscending(double[] array) {
+		double[] result = new double[array.length];
+		for (int i = 0; i < array.length; i++) {
+			result[i] = array[i];
+		}
+		java.util.Arrays.sort(result);
+		return result;
 	}
 	
 	public static void reverse(double[] array) {
@@ -1617,17 +1632,23 @@ public class ArrayUtility {
 	 * Array functions
 	 */
 
-	public static int[] sortDescending(int[] vector) {
-		int[] arr1 = java.util.Arrays.copyOf(vector, vector.length);
-		java.util.Arrays.sort(arr1);
-		ArrayUtility.reverse(arr1);
-		return arr1;
+	public static int[] sortDescending(int[] array) {
+		int[] result = new int[array.length];
+		for (int i = 0; i < array.length; i++) {
+			result[i] = array[i];
+		}
+		java.util.Arrays.sort(result);
+		ArrayUtility.reverse(result);
+		return result;
 	}
 
-	public static int[] sortAscending(int[] vector) {
-		int[] arr1 = java.util.Arrays.copyOf(vector, vector.length);
-		java.util.Arrays.sort(arr1);
-		return arr1;
+	public static int[] sortAscending(int[] array) {
+		int[] result = new int[array.length];
+		for (int i = 0; i < array.length; i++) {
+			result[i] = array[i];
+		}
+		java.util.Arrays.sort(result);
+		return result;
 	}
 	
 	public static void reverse(int[] array) {

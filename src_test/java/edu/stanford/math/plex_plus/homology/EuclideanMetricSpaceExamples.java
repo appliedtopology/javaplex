@@ -29,7 +29,19 @@ public class EuclideanMetricSpaceExamples {
 		return metricSpace;
 	}
 	
-	public static EuclideanMetricSpace getSphere(int n, int d) {
+	public static EuclideanMetricSpace getEquispacedCirclePoints(int n) {
+		double[][] points = new double[n][2];
+		
+		for (int i = 0; i < n; i++) {
+			points[i][0] = Math.cos(2 * Math.PI * ((double) i / (double) n));
+			points[i][1] = Math.sin(2 * Math.PI * ((double) i / (double) n));
+		}
+		
+		EuclideanMetricSpace metricSpace = new EuclideanMetricSpace(points);
+		return metricSpace;
+	}
+	
+	public static EuclideanMetricSpace getRandomSpherePoints(int n, int d) {
 		double[][] points = new double[n][d];
 		double denom = 0;
 		
@@ -49,7 +61,7 @@ public class EuclideanMetricSpaceExamples {
 		return metricSpace;
 	}
 	
-	public static EuclideanMetricSpace getTorus(int n, double r, double R) {
+	public static EuclideanMetricSpace getRandomTorusPoints(int n, double r, double R) {
 		double[][] points = new double[n][3];
 		
 		for (int i = 0; i < n; i++) {

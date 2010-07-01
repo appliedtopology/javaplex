@@ -4,18 +4,24 @@
 package edu.stanford.math.plex_plus.homology;
 
 import java.util.Comparator;
+import java.util.List;
 
-import org.apache.commons.math.fraction.Fraction;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.optimization.OptimizationException;
 
 import edu.stanford.math.plex_plus.algebraic_structures.impl.ModularIntField;
 import edu.stanford.math.plex_plus.algebraic_structures.impl.RationalField;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericField;
+import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericOrderedField;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntField;
+import edu.stanford.math.plex_plus.datastructures.DoubleFormalSum;
 import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
+import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex_plus.embedding.GraphEmbedding;
 import edu.stanford.math.plex_plus.embedding.GraphMetricEmbedding;
 import edu.stanford.math.plex_plus.embedding.MultidimensionalScaling;
+import edu.stanford.math.plex_plus.functional.GenericDoubleFunction;
 import edu.stanford.math.plex_plus.graph_metric.ShortestPathMetric;
 import edu.stanford.math.plex_plus.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
@@ -24,7 +30,8 @@ import edu.stanford.math.plex_plus.homology.chain_basis.CellComparator;
 import edu.stanford.math.plex_plus.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 import edu.stanford.math.plex_plus.homology.chain_basis.SimplexComparator;
-import edu.stanford.math.plex_plus.homology.mapping.GenericMappingComputation;
+import edu.stanford.math.plex_plus.homology.mapping.HomComplexComputation;
+import edu.stanford.math.plex_plus.homology.mapping.MappingUtility;
 import edu.stanford.math.plex_plus.homology.streams.derived.DualStream;
 import edu.stanford.math.plex_plus.homology.streams.derived.HomStream;
 import edu.stanford.math.plex_plus.homology.streams.derived.TensorStream;
@@ -41,7 +48,7 @@ public class PersistentHomologyTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		simplicialTensorTest();
+		simplicialHomTest(RationalField.getInstance());
 	}
 	
 	public static void CellularTest() {
@@ -110,12 +117,37 @@ public class PersistentHomologyTest {
 		testIntDualityPersistentHomology(dualStream, dualStream.getDerivedComparator(), ModularIntField.getInstance(2));
 	}
 	
-	public static void simplicialHomTest() {
-		AbstractFilteredStream<Simplex> stream1 = SimplexStreamExamples.getCircle(3);
-		AbstractFilteredStream<Simplex> stream2 = SimplexStreamExamples.getCircle(3);
-		GenericMappingComputation<Fraction, Simplex, Simplex> mappingComputation = new GenericMappingComputation<Fraction, Simplex, Simplex>(RationalField.getInstance());
-		mappingComputation.computeMapping(stream1, stream2, SimplexComparator.getInstance(), SimplexComparator.getInstance());
+	public static <F extends Number> void simplicialHomTest(GenericOrderedField<F> field) {
+		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(3);
+		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(3);
 		
+		
+		HomComplexComputation<F, Simplex, Simplex> computation = new HomComplexComputation<F, Simplex, Simplex>(domainStream, codomainStream, SimplexComparator.getInstance(), SimplexComparator.getInstance(), field);
+		
+		List<GenericFormalSum<F, GenericPair<Simplex, Simplex>>> generatingCycles = computation.computeGeneratingCycles();
+		GenericFormalSum<F, GenericPair<Simplex, Simplex>> cycleSum = computation.sumGeneratingCycles(generatingCycles);
+		
+		List<GenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies = computation.getChainHomotopies();
+		
+		//GenericDoubleFunction<DoubleFormalSum<Simplex>> imagePenaltyFunction = MappingUtility.getNormFunction(1);
+		//GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction = MappingUtility.computeInducedFunction(imagePenaltyFunction, domainStream);
+		
+		GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction = MappingUtility.getSimplicialityLossFunction(domainStream);
+		
+		try {
+			DoubleFormalSum<GenericPair<Simplex, Simplex>> optimalChainMap = computation.findOptimalChainMap(cycleSum, homotopies, mappingPenaltyFunction);
+			System.out.println(optimalChainMap);
+			
+		} catch (OptimizationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FunctionEvaluationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 	
 	public static void cellularHomTest() {
