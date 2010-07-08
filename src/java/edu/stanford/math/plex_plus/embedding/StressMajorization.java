@@ -22,7 +22,6 @@ public class StressMajorization implements MetricSpaceEmbedding {
 	 * 
 	 * @see edu.stanford.math.plex_plus.embedding.MetricSpaceEmbedding#computedEmbedding(edu.stanford.math.plex_plus.math.metric.interfaces.IntFiniteMetricSpace, int)
 	 */
-	@Override
 	public double[][] computedEmbedding(IntFiniteMetricSpace metricSpace, int dimension) {
 		DoubleMatrix2D P = doStressMajorization(metricSpace, dimension);
 		return P.toArray();

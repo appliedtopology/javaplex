@@ -8,7 +8,7 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 public class AugmentedBarcode<T> {
 	private final int dimension;
-	private final List<GenericPair<PersistenceInterval, T>> intervals = new ArrayList<GenericPair<PersistenceInterval, T>>();
+	private final List<GenericPair<HalfOpenInterval, T>> intervals = new ArrayList<GenericPair<HalfOpenInterval, T>>();
 	/**
 	 * This constructor initializes the barcode to be empty, with the
 	 * specified dimension.
@@ -32,7 +32,7 @@ public class AugmentedBarcode<T> {
 		return this.intervals.size();
 	}
 	
-	public PersistenceInterval getInterval(int index) {
+	public HalfOpenInterval getInterval(int index) {
 		return this.intervals.get(index).getFirst();
 	}
 	
@@ -46,10 +46,10 @@ public class AugmentedBarcode<T> {
 	 * 
 	 * @param interval the PersistentInterval to add
 	 */
-	public void addInterval(PersistenceInterval interval, T representative) {
+	public void addInterval(HalfOpenInterval interval, T representative) {
 		ExceptionUtility.verifyNonNull(interval);
 		ExceptionUtility.verifyNonNull(representative);
-		this.intervals.add(new GenericPair<PersistenceInterval, T>(interval, representative));
+		this.intervals.add(new GenericPair<HalfOpenInterval, T>(interval, representative));
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class AugmentedBarcode<T> {
 	public int getSliceCardinality(double point) {
 		int cardinality = 0;
 		
-		for (GenericPair<PersistenceInterval, T> pair: this.intervals) {
+		for (GenericPair<HalfOpenInterval, T> pair: this.intervals) {
 			if (pair.getFirst().containsPoint(point)) {
 				cardinality++;
 			}
@@ -76,7 +76,7 @@ public class AugmentedBarcode<T> {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Dimension: " + this.dimension + "\n");
-		for (GenericPair<PersistenceInterval, T> pair: this.intervals) {
+		for (GenericPair<HalfOpenInterval, T> pair: this.intervals) {
 			builder.append(pair.getFirst().toString());
 			builder.append(": ");
 			builder.append(pair.getSecond().toString());

@@ -65,7 +65,6 @@ public class IntIntPair implements Comparable<IntIntPair> {
 		return ("(" + first + ", " + second + ")");
 	}
 	
-	@Override
 	public int compareTo(IntIntPair o) {
 		ExceptionUtility.verifyNonNull(o);
 		int comparison = MathUtility.signum(this.first - o.first);

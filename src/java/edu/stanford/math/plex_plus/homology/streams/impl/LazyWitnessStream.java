@@ -111,7 +111,7 @@ public class LazyWitnessStream<T> extends MaximalStream {
 				int b = this.landmarkSelector.getLandmarkIndex(b_index);
 				for (int a_index = 0; a_index < b_index; a_index++) {
 					int a = this.landmarkSelector.getLandmarkIndex(a_index);
-					if (Math.max(distanceMatrixColumn[a_index], distanceMatrixColumn[b_index]) <= this.R + m_i) {
+					if (Math.max(distanceMatrixColumn[a_index], distanceMatrixColumn[b_index]) <= this.maxDistance + m_i) {
 						graph.addEdge(a_index, b_index, this.metricSpace.distance(a, b));
 					}
 				}

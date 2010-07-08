@@ -52,7 +52,6 @@ public class SimplexComparator implements Comparator<Simplex> {
 	/* (non-Javadoc)
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	@Override
 	public int compare(Simplex o1, Simplex o2) {
 		ExceptionUtility.verifyNonNull(o1);
 		ExceptionUtility.verifyNonNull(o2);

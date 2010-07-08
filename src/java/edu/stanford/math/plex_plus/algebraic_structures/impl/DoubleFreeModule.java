@@ -9,7 +9,6 @@ public class DoubleFreeModule<M> implements	DoubleLeftModule<DoubleFormalSum<M>>
 	
 	public DoubleFreeModule() {	}
 
-	@Override
 	public DoubleFormalSum<M> add(DoubleFormalSum<M> a, DoubleFormalSum<M> b) {
 		ExceptionUtility.verifyNonNull(a);
 		ExceptionUtility.verifyNonNull(b);
@@ -32,7 +31,6 @@ public class DoubleFreeModule<M> implements	DoubleLeftModule<DoubleFormalSum<M>>
 		return result;
 	}
 	
-	@Override
 	public DoubleFormalSum<M> subtract(DoubleFormalSum<M> a, DoubleFormalSum<M> b) {
 		ExceptionUtility.verifyNonNull(a);
 		ExceptionUtility.verifyNonNull(b);
@@ -48,7 +46,6 @@ public class DoubleFreeModule<M> implements	DoubleLeftModule<DoubleFormalSum<M>>
 		return result;
 	}
 	
-	@Override
 	public DoubleFormalSum<M> multiply(double r, DoubleFormalSum<M> a) {
 		ExceptionUtility.verifyNonNull(a);
 		
@@ -63,7 +60,6 @@ public class DoubleFreeModule<M> implements	DoubleLeftModule<DoubleFormalSum<M>>
 		return result;
 	}
 
-	@Override
 	public DoubleFormalSum<M> negate(DoubleFormalSum<M> a) {
 		ExceptionUtility.verifyNonNull(a);
 		
@@ -141,8 +137,27 @@ public class DoubleFreeModule<M> implements	DoubleLeftModule<DoubleFormalSum<M>>
 		return sum;
 	}
 
-	@Override
 	public DoubleFormalSum<M> getAdditiveIdentity() {
 		return new DoubleFormalSum<M>();
+	}
+	
+	public void accumulate(DoubleFormalSum<M> a, DoubleFormalSum<M> b) {
+		ExceptionUtility.verifyNonNull(a);
+		ExceptionUtility.verifyNonNull(b);
+		
+		for (TObjectDoubleIterator<M> iterator = b.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			this.addObject(a, iterator.value(), iterator.key());
+		}
+	}
+
+	public void accumulate(DoubleFormalSum<M> a, DoubleFormalSum<M> b, double c) {
+		ExceptionUtility.verifyNonNull(a);
+		ExceptionUtility.verifyNonNull(b);
+
+		for (TObjectDoubleIterator<M> iterator = b.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			this.addObject(a, c * iterator.value(), iterator.key());
+		}
 	}
 }

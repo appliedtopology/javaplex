@@ -16,13 +16,24 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 public class BarcodeCollection {
 	private final TIntObjectHashMap<Barcode> barcodeMap = new TIntObjectHashMap<Barcode>();
 	
+	public BarcodeCollection getInfiniteIntervals() {
+		BarcodeCollection collection = new BarcodeCollection();
+		
+		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			collection.barcodeMap.put(iterator.key(), iterator.value().getInfiniteIntervals());
+		}
+		
+		return collection;
+	}
+	
 	/**
 	 * This function adds an interval at the specified dimension.
 	 * 
 	 * @param dimension the dimension to add to
 	 * @param interval the interval to add
 	 */
-	public void addInterval(int dimension, PersistenceInterval interval) {
+	public void addInterval(int dimension, HalfOpenInterval interval) {
 		ExceptionUtility.verifyNonNull(interval);
 		if (!this.barcodeMap.containsKey(dimension)) {
 			this.barcodeMap.put(dimension, new Barcode(dimension));
@@ -39,7 +50,7 @@ public class BarcodeCollection {
 	 * @param end the ending point of the interval
 	 */
 	public void addInterval(int dimension, double start, double end) {
-		this.addInterval(dimension, new PersistenceInterval(start, end));
+		this.addInterval(dimension, new FiniteInterval(start, end));
 	}
 	
 	/**
@@ -49,8 +60,12 @@ public class BarcodeCollection {
 	 * @param dimension the dimension to add to
 	 * @param start the starting point of the interval
 	 */
-	public void addInterval(int dimension, double start) {
-		this.addInterval(dimension, new PersistenceInterval(start));
+	public void addRightInfiniteInterval(int dimension, double start) {
+		this.addInterval(dimension, new RightInfiniteInterval(start));
+	}
+	
+	public void addLeftInfiniteInterval(int dimension, double end) {
+		this.addInterval(dimension, new LeftInfiniteInterval(end));
 	}
 	
 	/**

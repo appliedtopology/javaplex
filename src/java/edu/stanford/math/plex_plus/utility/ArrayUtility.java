@@ -952,7 +952,7 @@ public class ArrayUtility {
 		int n = vector.length;
 		double norm = 0;
 		for (int i = 0; i < n; i++) {
-			norm += Math.pow(vector[i], p);
+			norm += Math.pow(Math.abs(vector[i]), p);
 		}
 		return Math.pow(norm, 1.0 / p);
 	}

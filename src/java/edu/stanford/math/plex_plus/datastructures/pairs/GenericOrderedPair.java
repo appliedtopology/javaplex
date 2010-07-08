@@ -32,7 +32,6 @@ public class GenericOrderedPair<T extends Comparable<T>, U extends Comparable<U>
 		super(pair.first, pair.second);
 	}
 
-	@Override
 	public int compareTo(GenericOrderedPair<T, U> o) {
 		ExceptionUtility.verifyNonNull(o);
 		int comparison = this.first.compareTo(o.first);

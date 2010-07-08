@@ -142,7 +142,6 @@ public class Cell implements PrimitiveBasisElement {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex#getBoundaryArray()
 	 */
-	@Override
 	public PrimitiveBasisElement[] getBoundaryArray() {
 		return this.boundaryArray;
 	}
@@ -150,7 +149,6 @@ public class Cell implements PrimitiveBasisElement {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex#getDimension()
 	 */
-	@Override
 	public int getDimension() {
 		return this.dimension;
 	}
@@ -158,7 +156,6 @@ public class Cell implements PrimitiveBasisElement {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.homology.chain_basis.PrimitiveBasisElement#getBoundaryCoefficients()
 	 */
-	@Override
 	public int[] getBoundaryCoefficients() {
 		return this.boundaryCoefficients;
 	}
@@ -166,7 +163,6 @@ public class Cell implements PrimitiveBasisElement {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
 	public String toString() {
 		return ("[" + Integer.toString(this.cellId) + "]");
 	}
@@ -174,7 +170,6 @@ public class Cell implements PrimitiveBasisElement {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
-	@Override
 	public int hashCode() {
 		return this.cachedHashCode;
 	}
@@ -182,7 +177,6 @@ public class Cell implements PrimitiveBasisElement {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

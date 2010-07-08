@@ -21,7 +21,6 @@ public class ExplicitMetricSpace implements IntFiniteMetricSpace {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.metric.interfaces.IntFiniteMetricSpace#size()
 	 */
-	@Override
 	public int size() {
 		return this.distanceMatrix.length;
 	}
@@ -29,7 +28,6 @@ public class ExplicitMetricSpace implements IntFiniteMetricSpace {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.metric.interfaces.IntMetricSpace#distance(int, int)
 	 */
-	@Override
 	public double distance(int i, int j) {
 		return this.distanceMatrix[i][j];
 	}

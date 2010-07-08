@@ -22,7 +22,6 @@ public class BinarySparseVectorIterator implements BinaryAbstractVectorIterator 
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.BinaryAbstractVectorIterator#advance()
 	 */
-	@Override
 	public void advance() {
 		this.currentIndex = this.iterator.next();
 	}
@@ -30,7 +29,6 @@ public class BinarySparseVectorIterator implements BinaryAbstractVectorIterator 
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.BinaryAbstractVectorIterator#hasNext()
 	 */
-	@Override
 	public boolean hasNext() {
 		return this.iterator.hasNext();
 	}
@@ -38,7 +36,6 @@ public class BinarySparseVectorIterator implements BinaryAbstractVectorIterator 
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.BinaryAbstractVectorIterator#index()
 	 */
-	@Override
 	public int index() {
 		return this.currentIndex;
 	}
@@ -46,12 +43,10 @@ public class BinarySparseVectorIterator implements BinaryAbstractVectorIterator 
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.BinaryAbstractVectorIterator#remove()
 	 */
-	@Override
 	public void remove() {
 		this.iterator.remove();
 	}
 	
-	@Override
 	public boolean value() {
 		return true;
 	}

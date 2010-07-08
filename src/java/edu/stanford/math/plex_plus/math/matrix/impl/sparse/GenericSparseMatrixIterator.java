@@ -25,7 +25,6 @@ public class GenericSparseMatrixIterator<T> implements GenericAbstractMatrixIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrixIterator#advance()
 	 */
-	@Override
 	public void advance() {
 		if (this.columnIterator.hasNext()) {
 			this.columnIterator.advance();
@@ -39,7 +38,6 @@ public class GenericSparseMatrixIterator<T> implements GenericAbstractMatrixIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrixIterator#column()
 	 */
-	@Override
 	public int column() {
 		return this.columnIterator.key();
 	}
@@ -47,7 +45,6 @@ public class GenericSparseMatrixIterator<T> implements GenericAbstractMatrixIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrixIterator#hasNext()
 	 */
-	@Override
 	public boolean hasNext() {
 		if (this.rowIterator.hasNext()) {
 			return true;
@@ -59,7 +56,6 @@ public class GenericSparseMatrixIterator<T> implements GenericAbstractMatrixIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrixIterator#remove()
 	 */
-	@Override
 	public void remove() {
 		this.columnIterator.remove();
 	}
@@ -67,7 +63,6 @@ public class GenericSparseMatrixIterator<T> implements GenericAbstractMatrixIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrixIterator#row()
 	 */
-	@Override
 	public int row() {
 		return this.rowIterator.key();
 	}
@@ -75,7 +70,6 @@ public class GenericSparseMatrixIterator<T> implements GenericAbstractMatrixIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrixIterator#value()
 	 */
-	@Override
 	public T value() {
 		return this.columnIterator.value();
 	}

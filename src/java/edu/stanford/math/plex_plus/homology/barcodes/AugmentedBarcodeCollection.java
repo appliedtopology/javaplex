@@ -14,7 +14,7 @@ public class AugmentedBarcodeCollection<T> {
 	 * @param dimension the dimension to add to
 	 * @param interval the interval to add
 	 */
-	public void addInterval(int dimension, PersistenceInterval interval, T generatingCycle) {
+	public void addInterval(int dimension, HalfOpenInterval interval, T generatingCycle) {
 		ExceptionUtility.verifyNonNull(interval);
 		if (!this.barcodeMap.containsKey(dimension)) {
 			this.barcodeMap.put(dimension, new AugmentedBarcode<T>(dimension));
@@ -31,7 +31,7 @@ public class AugmentedBarcodeCollection<T> {
 	 * @param end the ending point of the interval
 	 */
 	public void addInterval(int dimension, double start, double end, T generatingCycle) {
-		this.addInterval(dimension, new PersistenceInterval(start, end), generatingCycle);
+		this.addInterval(dimension, new FiniteInterval(start, end), generatingCycle);
 	}
 	
 	/**
@@ -41,8 +41,12 @@ public class AugmentedBarcodeCollection<T> {
 	 * @param dimension the dimension to add to
 	 * @param start the starting point of the interval
 	 */
-	public void addInterval(int dimension, double start, T generatingCycle) {
-		this.addInterval(dimension, new PersistenceInterval(start), generatingCycle);
+	public void addRightInfiniteInterval(int dimension, double start, T generatingCycle) {
+		this.addInterval(dimension, new RightInfiniteInterval(start), generatingCycle);
+	}
+	
+	public void addLeftInfiniteInterval(int dimension, double end, T generatingCycle) {
+		this.addInterval(dimension, new LeftInfiniteInterval(end), generatingCycle);
 	}
 	
 	/**

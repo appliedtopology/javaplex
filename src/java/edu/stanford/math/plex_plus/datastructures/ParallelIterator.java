@@ -20,19 +20,16 @@ public class ParallelIterator<T, U> implements Iterator<GenericPair<T, U>> {
 		
 	}
 	
-	@Override
 	public boolean hasNext() {
 		return this.TIterator.hasNext();
 	}
 
-	@Override
 	public GenericPair<T, U> next() {
 		T t = this.TIterator.next();
 		U u = this.UIterator.next();
 		return new GenericPair<T, U>(t, u);
 	}
 
-	@Override
 	public void remove() {
 		this.TIterator.remove();
 		this.UIterator.remove();

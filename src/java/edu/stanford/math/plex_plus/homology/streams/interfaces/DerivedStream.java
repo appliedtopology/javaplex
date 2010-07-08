@@ -53,12 +53,10 @@ public abstract class DerivedStream<T> implements AbstractFilteredStream<T> {
 	 */
 	protected abstract void finalizeUnderlyingStreams();
 	
-	@Override
 	public final Iterator<T> iterator() {
 		return this.storageStructure.iterator();
 	}
 
-	@Override
 	public final void finalizeStream() {
 		this.finalizeUnderlyingStreams();
 		this.constructDerivedStream();
@@ -66,12 +64,10 @@ public abstract class DerivedStream<T> implements AbstractFilteredStream<T> {
 		this.storageStructure.setAsFinalized();
 	}
 
-	@Override
 	public final double getFiltrationValue(T basisElement) {
 		return this.storageStructure.getFiltrationValue(basisElement);
 	}
 
-	@Override
 	public final boolean isFinalized() {
 		return this.storageStructure.isFinalized();
 	}

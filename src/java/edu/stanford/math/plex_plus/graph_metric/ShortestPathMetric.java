@@ -20,7 +20,6 @@ public class ShortestPathMetric implements GraphMetric {
 		return instance;
 	}
 	
-	@Override
 	public IntFiniteMetricSpace getMetricSpace(AbstractUndirectedGraph graph) {
 		return new ExplicitMetricSpace(GraphUtility.computeShortestPaths(graph));
 	}

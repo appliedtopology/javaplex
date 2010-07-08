@@ -21,7 +21,6 @@ public class DoubleOrderedIterator<E> implements Iterator<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Iterator#hasNext()
 	 */
-	@Override
 	public boolean hasNext() {
 		return this.internalIterator.hasNext();
 	}
@@ -29,7 +28,6 @@ public class DoubleOrderedIterator<E> implements Iterator<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Iterator#next()
 	 */
-	@Override
 	public E next() {
 		return this.internalIterator.next().getSecond();
 	}
@@ -37,7 +35,6 @@ public class DoubleOrderedIterator<E> implements Iterator<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Iterator#remove()
 	 */
-	@Override
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}

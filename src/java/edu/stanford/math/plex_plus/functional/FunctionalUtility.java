@@ -10,7 +10,6 @@ import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 public class FunctionalUtility {
 	public static <X, Y, Z> GenericFunction<X, Z> compose(final GenericFunction<X, Y> f, final GenericFunction<Y, Z> g) {
 		return new GenericFunction<X, Z>() {
-			@Override
 			public Z evaluate(X argument) {
 				return g.evaluate(f.evaluate(argument));
 			}
@@ -19,7 +18,6 @@ public class FunctionalUtility {
 	
 	public static <X, Y> GenericDoubleFunction<X> compose(final GenericFunction<X, Y> f, final GenericDoubleFunction<Y> g) {
 		return new GenericDoubleFunction<X>() {
-			@Override
 			public double evaluate(X argument) {
 				return g.evaluate(f.evaluate(argument));
 			}
@@ -28,16 +26,14 @@ public class FunctionalUtility {
 	
 	public static <X, Y> GenericIntFunction<X> compose(final GenericFunction<X, Y> f, final GenericIntFunction<Y> g) {
 		return new GenericIntFunction<X>() {
-			@Override
 			public int evaluate(X argument) {
 				return g.evaluate(f.evaluate(argument));
 			}
 		};
 	}
 	
-	public static <X, Y> GenericFunction<List<X>, List<Y>> genericProductFunction(final List<GenericFunction<X, Y>> functionList) {
+	public static <X, Y> GenericFunction<List<X>, List<Y>> genericProductSpaceFunction(final List<GenericFunction<X, Y>> functionList) {
 		return new GenericFunction<List<X>, List<Y>>() {
-			@Override
 			public List<Y> evaluate(List<X> argument) {
 				List<Y> result = new ArrayList<Y>();
 				for (int i = 0; i < argument.size(); i++) {
@@ -48,9 +44,8 @@ public class FunctionalUtility {
 		};
 	}
 	
-	public static <X> GenericFunction<Collection<X>, double[]> doubleProductFunction(final Collection<GenericDoubleFunction<X>> functionList) {
+	public static <X> GenericFunction<Collection<X>, double[]> doubleProductSpaceFunction(final Collection<GenericDoubleFunction<X>> functionList) {
 		return new GenericFunction<Collection<X>, double[]>() {
-			@Override
 			public double[] evaluate(Collection<X> argument) {
 				double[] result = new double[argument.size()];
 				int index = 0;
@@ -63,6 +58,15 @@ public class FunctionalUtility {
 				
 				return result;
 			}
+		};
+	}
+	
+	public static <M> GenericDoubleFunction<M> sumFunctions(final GenericDoubleFunction<M> f, final GenericDoubleFunction<M> g) {
+		return new GenericDoubleFunction<M>() {
+			public double evaluate(M argument) {
+				return (f.evaluate(argument) + g.evaluate(argument));
+			}
+			
 		};
 	}
 }

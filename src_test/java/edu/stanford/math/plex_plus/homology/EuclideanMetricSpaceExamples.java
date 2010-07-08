@@ -1,13 +1,14 @@
 package edu.stanford.math.plex_plus.homology;
 
 import edu.stanford.math.plex_plus.math.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.plex_plus.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.RandomUtility;
 
 public class EuclideanMetricSpaceExamples {
 	/**
 	 * House example in the plex tutorial by Henry Adams.
 	 */
-	public static EuclideanMetricSpace getHouseExample() {
+	public static SearchableFiniteMetricSpace<double[]> getHouseExample() {
 		double[][] points = new double[][]{new double[]{0, 3}, 
 				new double[]{1, 2},
 				new double[]{1, 0},
@@ -19,7 +20,7 @@ public class EuclideanMetricSpaceExamples {
 		return metricSpace;
 	}
 	
-	public static EuclideanMetricSpace getSquare() {
+	public static SearchableFiniteMetricSpace<double[]> getSquare() {
 		double[][] points = new double[][]{new double[]{0, 0}, 
 				new double[]{0, 1},
 				new double[]{1, 0},
@@ -29,7 +30,7 @@ public class EuclideanMetricSpaceExamples {
 		return metricSpace;
 	}
 	
-	public static EuclideanMetricSpace getEquispacedCirclePoints(int n) {
+	public static SearchableFiniteMetricSpace<double[]> getEquispacedCirclePoints(int n) {
 		double[][] points = new double[n][2];
 		
 		for (int i = 0; i < n; i++) {
@@ -41,7 +42,7 @@ public class EuclideanMetricSpaceExamples {
 		return metricSpace;
 	}
 	
-	public static EuclideanMetricSpace getRandomSpherePoints(int n, int d) {
+	public static SearchableFiniteMetricSpace<double[]> getRandomSpherePoints(int n, int d) {
 		double[][] points = new double[n][d];
 		double denom = 0;
 		
@@ -61,7 +62,7 @@ public class EuclideanMetricSpaceExamples {
 		return metricSpace;
 	}
 	
-	public static EuclideanMetricSpace getRandomTorusPoints(int n, double r, double R) {
+	public static SearchableFiniteMetricSpace<double[]> getRandomTorusPoints(int n, double r, double R) {
 		double[][] points = new double[n][3];
 		
 		for (int i = 0; i < n; i++) {

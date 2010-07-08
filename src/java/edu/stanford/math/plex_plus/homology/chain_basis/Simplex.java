@@ -55,7 +55,6 @@ public class Simplex implements PrimitiveBasisElement {
 		this.cachedHashCode = CRC.hash32(this.getVertices());
 	}
 
-	@Override
 	public int getDimension() {
 		return (this.vertices.length - 1);
 	}
@@ -64,7 +63,6 @@ public class Simplex implements PrimitiveBasisElement {
 		return this.vertices;
 	}
 
-	@Override
 	public Simplex[] getBoundaryArray() {
 		// if this a point, return an empty array
 		if (this.getDimension() == 0) {
@@ -78,7 +76,6 @@ public class Simplex implements PrimitiveBasisElement {
 		return boundaryArray;
 	}
 	
-	@Override
 	public int[] getBoundaryCoefficients() {
 		if (this.vertices.length == 1) {
 			return HomologyUtility.getDefaultBoundaryCoefficients(0);
@@ -86,7 +83,6 @@ public class Simplex implements PrimitiveBasisElement {
 		return HomologyUtility.getDefaultBoundaryCoefficients(this.vertices.length);
 	}
 
-	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -98,12 +94,10 @@ public class Simplex implements PrimitiveBasisElement {
 		return (HomologyUtility.compareIntArrays(this.getVertices(), o.getVertices()) == 0);
 	}
 
-	@Override
 	public int hashCode() {
 		return this.cachedHashCode;
 	}
 
-	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append('[');

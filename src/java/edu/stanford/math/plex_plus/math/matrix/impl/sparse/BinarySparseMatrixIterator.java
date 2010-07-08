@@ -23,7 +23,6 @@ public class BinarySparseMatrixIterator implements BinaryAbstractMatrixIterator 
 		this.columnIterator = this.rowIterator.value().iterator();
 	}
 	
-	@Override
 	public boolean hasNext() {
 		if (this.rowIterator.hasNext()) {
 			return true;
@@ -32,7 +31,6 @@ public class BinarySparseMatrixIterator implements BinaryAbstractMatrixIterator 
 		}
 	}
 
-	@Override
 	public void advance() {
 		if (this.columnIterator.hasNext()) {
 			this.columnIterator.advance();
@@ -43,22 +41,18 @@ public class BinarySparseMatrixIterator implements BinaryAbstractMatrixIterator 
 		}
 	}
 
-	@Override
 	public void remove() {
 		this.columnIterator.remove();
 	}
 	
-	@Override
 	public int row() {
 		return this.rowIterator.key();
 	}
 	
-	@Override
 	public int column() {
 		return this.columnIterator.index();
 	}
 	
-	@Override
 	public boolean value() {
 		return this.columnIterator.value();
 	}

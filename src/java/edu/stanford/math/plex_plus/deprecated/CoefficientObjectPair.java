@@ -29,7 +29,6 @@ public class CoefficientObjectPair<K, T extends Comparable<T>> implements Compar
 		return object;
 	}
 	
-	@Override
 	public int compareTo(CoefficientObjectPair<K, T> o) {
 		ExceptionUtility.verifyNonNull(o);
 		return this.object.compareTo(o.object);

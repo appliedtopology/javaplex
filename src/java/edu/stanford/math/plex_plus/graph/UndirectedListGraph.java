@@ -57,7 +57,6 @@ public class UndirectedListGraph implements AbstractUndirectedGraph {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#addEdge(int, int)
 	 */
-	@Override
 	public void addEdge(int i, int j) {
 		ExceptionUtility.verifyIndex(this.numVertices, i);
 		ExceptionUtility.verifyIndex(this.numVertices, j);
@@ -73,7 +72,6 @@ public class UndirectedListGraph implements AbstractUndirectedGraph {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#containsEdge(int, int)
 	 */
-	@Override
 	public boolean containsEdge(int i, int j) {
 		ExceptionUtility.verifyIndex(this.numVertices, i);
 		ExceptionUtility.verifyIndex(this.numVertices, j);
@@ -88,7 +86,6 @@ public class UndirectedListGraph implements AbstractUndirectedGraph {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#getNumEdges()
 	 */
-	@Override
 	public int getNumEdges() {
 		// TODO: complete
 		throw new UnsupportedOperationException();
@@ -97,7 +94,6 @@ public class UndirectedListGraph implements AbstractUndirectedGraph {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#getNumVertices()
 	 */
-	@Override
 	public int getNumVertices() {
 		return this.numVertices;
 	}
@@ -105,7 +101,6 @@ public class UndirectedListGraph implements AbstractUndirectedGraph {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#removeEdge(int, int)
 	 */
-	@Override
 	public void removeEdge(int i, int j) {
 		ExceptionUtility.verifyIndex(this.numVertices, i);
 		ExceptionUtility.verifyIndex(this.numVertices, j);
@@ -134,7 +129,6 @@ public class UndirectedListGraph implements AbstractUndirectedGraph {
 		}
 	}
 
-	@Override
 	public AbstractEdgeIterator edgeIterator() {
 		return new UndirectedListEdgeIterator(this.adjacencySets);
 	}

@@ -40,7 +40,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 		
 		for (BasisElementType simplex : stream) {
 			
-			if (simplex.getDimension() > maxDimension) {
+			if (simplex.getDimension() > maxDimension + 1) {
 				break;
 			}
 			
@@ -85,15 +85,15 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 			if (!this.T.containsKey(simplex) || this.T.get(simplex).isEmpty()) {
 				int k = simplex.getDimension();
 				if (k < maxDimension) {
-					barcodeCollection.addInterval(k, stream.getFiltrationValue(simplex));
+					barcodeCollection.addRightInfiniteInterval(k, stream.getFiltrationValue(simplex));
 				}
 			}
 		}
 	
-		System.out.println("T");
-		System.out.println(this.T);
-		System.out.println("marked simplices");
-		System.out.println(this.markedSimplices);
+		//System.out.println("T");
+		//System.out.println(this.T);
+		//System.out.println("marked simplices");
+		//System.out.println(this.markedSimplices);
 		
 		return barcodeCollection;
 	}
@@ -129,24 +129,6 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 		}
 		
 		return d;
-	}
-	
-	/**
-	 * 
-	 * @param abstractChainBasisElements
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	private IntFormalSum<BasisElementType> createBoundaryChain(PrimitiveBasisElement[] abstractChainBasisElements) {
-		ExceptionUtility.verifyNonNull(abstractChainBasisElements);
-		IntFormalSum<BasisElementType> sum = new IntFormalSum<BasisElementType>();
-		IntFreeModule<BasisElementType> chainModule = new IntFreeModule<BasisElementType>(this.field);
-		
-		for (int i = 0; i < abstractChainBasisElements.length; i++) {
-			chainModule.addObject(sum, (i % 2 == 0 ? 1 : -1), (BasisElementType) abstractChainBasisElements[i]);
-		}
-		
-		return sum;
 	}
 	
 	/*

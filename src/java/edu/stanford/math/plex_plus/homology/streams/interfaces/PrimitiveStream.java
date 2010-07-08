@@ -57,39 +57,32 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 	protected abstract void constructComplex();
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public final T[] getBoundary(T basisElement) {
 		return (T[]) basisElement.getBoundaryArray();
 	}
 
-	@Override
 	public final int[] getBoundaryCoefficients(T basisElement) {
 		return basisElement.getBoundaryCoefficients();
 	}
 	
-	@Override
 	public final int getDimension(T basisElement) {
 		return basisElement.getDimension();
 	}
 	
-	@Override
 	public final Iterator<T> iterator() {
 		return this.storageStructure.iterator();
 	}
 
-	@Override
 	public final void finalizeStream() {
 		this.constructComplex();
 		this.storageStructure.sortByFiltration();
 		this.storageStructure.setAsFinalized();
 	}
 
-	@Override
 	public final double getFiltrationValue(T basisElement) {
 		return this.storageStructure.getFiltrationValue(basisElement);
 	}
 
-	@Override
 	public final boolean isFinalized() {
 		return this.storageStructure.isFinalized();
 	}

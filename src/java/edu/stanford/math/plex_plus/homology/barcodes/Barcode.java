@@ -14,8 +14,10 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  *
  */
 public class Barcode {
+	private final String label;
+	
 	private final int dimension;
-	private List<PersistenceInterval> intervals = new ArrayList<PersistenceInterval>();
+	private List<HalfOpenInterval> intervals = new ArrayList<HalfOpenInterval>();
 	
 	/**
 	 * This constructor initializes the barcode to be empty, with the
@@ -26,6 +28,25 @@ public class Barcode {
 	public Barcode(int dimension) {
 		ExceptionUtility.verifyNonNegative(dimension);
 		this.dimension = dimension;
+		this.label = "Dimension: " + dimension;
+	}
+	
+	public Barcode getInfiniteIntervals() {
+		Barcode infiniteBarcode = new Barcode(this.dimension);
+		for (HalfOpenInterval interval: this.intervals) {
+			if (interval.isInfinite()) {
+				infiniteBarcode.addInterval(interval);
+			}
+		}
+		return infiniteBarcode;
+	}
+	
+	public List<HalfOpenInterval> getIntervals() {
+		return this.intervals;
+	}
+	
+	public String getLabel() {
+		return this.label;
 	}
 	
 	/**
@@ -43,7 +64,7 @@ public class Barcode {
 	 * 
 	 * @param interval the PersistentInterval to add
 	 */
-	public void addInterval(PersistenceInterval interval) {
+	public void addInterval(HalfOpenInterval interval) {
 		ExceptionUtility.verifyNonNull(interval);
 		this.intervals.add(interval);
 	}
@@ -58,7 +79,7 @@ public class Barcode {
 	public int getSliceCardinality(double point) {
 		int cardinality = 0;
 		
-		for (PersistenceInterval interval: this.intervals) {
+		for (HalfOpenInterval interval: this.intervals) {
 			if (interval.containsPoint(point)) {
 				cardinality++;
 			}
@@ -72,7 +93,7 @@ public class Barcode {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Dimension: " + this.dimension + "\n");
-		for (PersistenceInterval interval : this.intervals) {
+		for (HalfOpenInterval interval : this.intervals) {
 			builder.append(interval.toString());
 			builder.append("\n");
 		}

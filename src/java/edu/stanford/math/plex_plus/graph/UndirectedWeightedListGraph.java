@@ -34,7 +34,6 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractWeightedGraph#addEdge(int, int, double)
 	 */
-	@Override
 	public void addEdge(int i, int j, double weight) {
 		ExceptionUtility.verifyIndex(this.numVertices, i);
 		ExceptionUtility.verifyIndex(this.numVertices, j);
@@ -49,7 +48,6 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractWeightedGraph#getWeight(int, int)
 	 */
-	@Override
 	public double getWeight(int i, int j) {
 		ExceptionUtility.verifyIndex(this.numVertices, i);
 		ExceptionUtility.verifyIndex(this.numVertices, j);
@@ -64,7 +62,6 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#addEdge(int, int)
 	 */
-	@Override
 	public void addEdge(int i, int j) {
 		this.addEdge(i, j, 1);
 	}
@@ -72,7 +69,6 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#containsEdge(int, int)
 	 */
-	@Override
 	public boolean containsEdge(int i, int j) {
 		return (this.getWeight(i, j) != 0);
 	}
@@ -80,7 +76,6 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#getNumEdges()
 	 */
-	@Override
 	public int getNumEdges() {
 		// TODO: complete
 		throw new UnsupportedOperationException();
@@ -89,7 +84,6 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#getNumVertices()
 	 */
-	@Override
 	public int getNumVertices() {
 		return this.numVertices;
 	}
@@ -97,7 +91,6 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#removeEdge(int, int)
 	 */
-	@Override
 	public void removeEdge(int i, int j) {
 		ExceptionUtility.verifyIndex(this.numVertices, i);
 		ExceptionUtility.verifyIndex(this.numVertices, j);
@@ -125,7 +118,6 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 		}
 	}
 
-	@Override
 	public AbstractEdgeIterator edgeIterator() {
 		// TODO Auto-generated method stub
 		return null;

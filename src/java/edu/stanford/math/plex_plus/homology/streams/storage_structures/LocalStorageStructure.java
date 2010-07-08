@@ -58,7 +58,6 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.homology.stream_structure.StreamStorageStructure#addElement(java.lang.Object, double)
 	 */
-	@Override
 	public void addElement(T basisElement, double filtrationValue) {
 		ExceptionUtility.verifyNonNull(basisElement);
 
@@ -73,7 +72,6 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.homology.stream_structure.StreamStorageStructure#isFinalized()
 	 */
-	@Override
 	public boolean isFinalized() {
 		return this.isFinalized;
 	}
@@ -81,7 +79,6 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.homology.stream_structure.StreamStorageStructure#setAsFinalized()
 	 */
-	@Override
 	public void setAsFinalized() {
 		this.isFinalized = true;
 	}
@@ -89,17 +86,14 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.homology.stream_structure.StreamStorageStructure#sortByFiltration()
 	 */
-	@Override
 	public void sortByFiltration() {
 		Collections.sort(this.elementFiltrationPairs, this.filteredComparator);
 	}
 
-	@Override
 	public Iterator<T> iterator() {
 		return new DoubleOrderedIterator<T>(this.elementFiltrationPairs);
 	}
 
-	@Override
 	public double getFiltrationValue(T basisElement) {
 		return this.filtrationValues.get(basisElement);
 	}
@@ -116,7 +110,6 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 		return builder.toString();
 	}
 
-	@Override
 	public Comparator<T> getBasisComparator() {
 		return this.basisComparator;
 	}

@@ -63,8 +63,8 @@ public class HomComplexComputation<F extends Number, M, N> {
 	public List<GenericFormalSum<F, GenericPair<M, N>>> computeGeneratingCycles() {
 		homStream.finalizeStream();
 
-		GenericPersistentHomology<F, GenericPair<M, N>> homology = new GenericPersistentHomology<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator());
-		AugmentedBarcodeCollection<GenericFormalSum<F, GenericPair<M, N>>> barcodes = homology.computeIntervals(homStream, 1);
+		GenericPersistentHomology<F, GenericPair<M, N>> homology = new GenericPersistentHomology<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
+		AugmentedBarcodeCollection<GenericFormalSum<F, GenericPair<M, N>>> barcodes = homology.computeIntervals(homStream);
 
 		List<GenericFormalSum<F, GenericPair<M, N>>> generatingCycles = new ArrayList<GenericFormalSum<F, GenericPair<M, N>>>();
 
@@ -88,7 +88,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 	}
 
 	public List<GenericFormalSum<F, GenericPair<M, N>>> getChainHomotopies() {
-		GenericPersistentHomology<F, GenericPair<M, N>> homology = new GenericPersistentHomology<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator());
+		GenericPersistentHomology<F, GenericPair<M, N>> homology = new GenericPersistentHomology<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
 
 		return homology.getBoundaryColumns(this.homStream, 1);
 	}
@@ -124,12 +124,16 @@ public class HomComplexComputation<F extends Number, M, N> {
 		
 		//MultivariateRealOptimizer optimizer = new NelderMead();
 		RandomVectorGenerator generator = new UncorrelatedRandomVectorGenerator(homotopies.size(), new GaussianRandomGenerator(new MersenneTwister()));
-		MultivariateRealOptimizer optimizer = new MultiStartMultivariateRealOptimizer(new NelderMead(), 1, generator);
+		MultivariateRealOptimizer optimizer = new MultiStartMultivariateRealOptimizer(new NelderMead(), 12, generator);
+		
+		DiscreteOptimization discreteOptimizer = new DiscreteOptimization();
 		
 		double initialValue = objective.value(new double[homotopies.size()]);
 		System.out.println(initialValue);
 		
 		RealPointValuePair optimum = optimizer.optimize(objective, GoalType.MINIMIZE, new double[homotopies.size()]);
+		
+		//RealPointValuePair optimum = discreteOptimizer.multistartOptimize(objective, homotopies.size(), 20);
 		
 		System.out.println(optimum.getValue());
 		System.out.println(ArrayUtility.toMatlabString(optimum.getPoint()));
@@ -142,7 +146,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 			final GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>> mappingPenaltyFunction) throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
 		
 		RealPointValuePair pair = this.findOptimalCoefficients(generatingCycle, homotopies, mappingPenaltyFunction);
-		return this.computeHomCycle(pair.getPoint(), generatingCycle, homotopies);
+		return this.computeHomCycle(MappingUtility.round(pair.getPoint()), generatingCycle, homotopies);
 	}
 	
 	MultivariateRealFunction getObjectiveFunctionViaMappingPenalty(final GenericFormalSum<F, GenericPair<M, N>> generatingCycle, 
@@ -151,10 +155,20 @@ public class HomComplexComputation<F extends Number, M, N> {
 	
 		return new MultivariateRealFunction() {
 
-			@Override
 			public double value(double[] arg0) throws FunctionEvaluationException, IllegalArgumentException {
-				DoubleFormalSum<GenericPair<M, N>> homCycle = computeHomCycle(arg0, generatingCycle, homotopies);				
-				return mappingPenaltyFunction.evaluate(homCycle);
+				DoubleFormalSum<GenericPair<M, N>> homCycle = computeHomCycle(arg0, generatingCycle, homotopies);
+				double penalty = 0;
+				for (int i = 0; i < arg0.length; i++) {
+					//penalty += Math.abs(arg0[i] - (i % 2 ==1 ? 1 : 1));
+					
+					if (arg0[i] > 1) {
+						penalty += Math.abs(arg0[i] - 1);
+					} else if (arg0[i] < -1) {
+						penalty += Math.abs(arg0[i] + 1);
+					}
+				}
+				
+				return mappingPenaltyFunction.evaluate(homCycle) + 0 * penalty;
 			}
 
 		};

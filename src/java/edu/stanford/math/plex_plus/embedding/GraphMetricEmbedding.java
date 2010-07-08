@@ -24,7 +24,6 @@ public class GraphMetricEmbedding implements GraphEmbedding {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.embedding.GraphEmbedding#computeEmbedding(edu.stanford.math.plex_plus.graph.AbstractUndirectedGraph, int)
 	 */
-	@Override
 	public double[][] computeEmbedding(AbstractUndirectedGraph graph, int dimension) {
 		return this.metricSpaceEmbedding.computedEmbedding(graphMetric.getMetricSpace(graph), dimension);
 	}

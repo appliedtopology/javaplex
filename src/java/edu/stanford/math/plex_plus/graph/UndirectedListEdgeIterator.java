@@ -37,7 +37,6 @@ public class UndirectedListEdgeIterator implements AbstractEdgeIterator {
 	/* (non-Javadoc)
 	 * @see java.util.Iterator#hasNext()
 	 */
-	@Override
 	public boolean hasNext() {
 		if (this.elementIterator.hasNext()) {
 			return true;
@@ -48,7 +47,6 @@ public class UndirectedListEdgeIterator implements AbstractEdgeIterator {
 	/* (non-Javadoc)
 	 * @see java.util.Iterator#next()
 	 */
-	@Override
 	public IntIntPair next() {
 		int j = this.listIterator.key();
 		int i = this.elementIterator.next();
@@ -58,7 +56,6 @@ public class UndirectedListEdgeIterator implements AbstractEdgeIterator {
 	/* (non-Javadoc)
 	 * @see java.util.Iterator#remove()
 	 */
-	@Override
 	public void remove() {
 		this.elementIterator.remove();
 	}

@@ -29,7 +29,6 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 		this.ring = ring;
 	}
 
-	@Override
 	public IntFormalSum<M> add(IntFormalSum<M> a, IntFormalSum<M> b) {
 		ExceptionUtility.verifyNonNull(a);
 		ExceptionUtility.verifyNonNull(b);
@@ -51,8 +50,7 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 		
 		return result;
 	}
-	
-	@Override
+
 	public IntFormalSum<M> subtract(IntFormalSum<M> a, IntFormalSum<M> b) {
 		ExceptionUtility.verifyNonNull(a);
 		ExceptionUtility.verifyNonNull(b);
@@ -68,7 +66,6 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 		return result;
 	}
 	
-	@Override
 	public IntFormalSum<M> multiply(int r, IntFormalSum<M> a) {
 		ExceptionUtility.verifyNonNull(a);
 		
@@ -83,7 +80,6 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 		return result;
 	}
 
-	@Override
 	public IntFormalSum<M> negate(IntFormalSum<M> a) {
 		ExceptionUtility.verifyNonNull(a);
 		
@@ -130,7 +126,7 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 		return this.negate(new IntFormalSum<M>(ring.getOne(), a));
 	}
 	
-	public void addObject(IntFormalSum<M> formalSum, int coefficient, M object) {
+	private void addObject(IntFormalSum<M> formalSum, int coefficient, M object) {
 		ExceptionUtility.verifyNonNull(object);
 		ExceptionUtility.verifyNonNull(formalSum);
 		if (formalSum.containsObject(object)) {
@@ -161,4 +157,23 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 		return sum;
 	}
 
+	public void accumulate(IntFormalSum<M> a, IntFormalSum<M> b) {
+		ExceptionUtility.verifyNonNull(a);
+		ExceptionUtility.verifyNonNull(b);
+		
+		for (TObjectIntIterator<M> iterator = b.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			this.addObject(a, iterator.value(), iterator.key());
+		}
+	}
+
+	public void accumulate(IntFormalSum<M> a, IntFormalSum<M> b, int c) {
+		ExceptionUtility.verifyNonNull(a);
+		ExceptionUtility.verifyNonNull(b);
+
+		for (TObjectIntIterator<M> iterator = b.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			this.addObject(a, c * iterator.value(), iterator.key());
+		}
+	}
 }

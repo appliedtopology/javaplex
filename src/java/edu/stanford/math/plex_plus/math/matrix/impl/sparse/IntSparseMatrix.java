@@ -27,12 +27,10 @@ public class IntSparseMatrix implements IntAbstractMatrix {
 		this.columns = columns;
 	}
 	
-	@Override
 	public int getNumColumns() {
 		return this.columns;
 	}
 
-	@Override
 	public int getNumRows() {
 		return this.rows;
 	}
@@ -71,7 +69,6 @@ public class IntSparseMatrix implements IntAbstractMatrix {
 		return ((int) this.getNumNonzeroElements()) / ((int) (rows * columns));
 	}
 	
-	@Override
 	public IntAbstractMatrixIterator iterator() {
 		return new IntSparseMatrixIterator(this);
 	}
@@ -85,7 +82,6 @@ public class IntSparseMatrix implements IntAbstractMatrix {
 		return array;
 	}
 	
-	@Override
 	public IntAbstractVector multiply(IntAbstractVector vector) {
 		IntAbstractVector result = new IntSparseVector(this.rows);
 		int innerProductValue = 0;
@@ -100,7 +96,6 @@ public class IntSparseMatrix implements IntAbstractMatrix {
 		return result;
 	}
 
-	@Override
 	public IntAbstractMatrix transpose() {
 		IntSparseMatrix result = new IntSparseMatrix(this.columns, this.rows);
 		for (IntAbstractMatrixIterator iterator = this.iterator(); iterator.hasNext(); ) {

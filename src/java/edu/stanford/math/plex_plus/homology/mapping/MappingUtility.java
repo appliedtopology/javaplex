@@ -15,8 +15,11 @@ import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex_plus.functional.FunctionalUtility;
 import edu.stanford.math.plex_plus.functional.GenericDoubleFunction;
 import edu.stanford.math.plex_plus.functional.GenericFunction;
+import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex_plus.homology.utility.HomologyUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
+import edu.stanford.math.plex_plus.utility.Infinity;
 import gnu.trove.iterator.TObjectDoubleIterator;
 import gnu.trove.map.hash.THashMap;
 import gnu.trove.map.hash.TObjectDoubleHashMap;
@@ -71,7 +74,6 @@ public class MappingUtility {
 	public static <M, N> GenericFunction<M, DoubleFormalSum<N>> toFunctionObject(final DoubleFormalSum<GenericPair<M, N>> homChain){
 		return new GenericFunction<M, DoubleFormalSum<N>>() {
 
-			@Override
 			public DoubleFormalSum<N> evaluate(M argument) {
 				return computeImage(homChain, argument);
 			}
@@ -81,7 +83,7 @@ public class MappingUtility {
 
 	public static <R, M, N> GenericFunction<M, GenericFormalSum<R, N>> toFunctionObject(final GenericFormalSum<R, GenericPair<M, N>> homChain) {
 		return new GenericFunction<M, GenericFormalSum<R, N>>() {
-			@Override
+
 			public GenericFormalSum<R, N> evaluate(M argument) {
 				return computeImage(homChain, argument);
 			}
@@ -92,7 +94,7 @@ public class MappingUtility {
 		List<GenericFunction<M, GenericFormalSum<R, N>>> functionObjectList = new ArrayList<GenericFunction<M, GenericFormalSum<R, N>>>();
 		for (final GenericFormalSum<R, GenericPair<M, N>> formalSum: homChainList) {
 			functionObjectList.add(new GenericFunction<M, GenericFormalSum<R, N>>() {
-				@Override
+
 				public GenericFormalSum<R, N> evaluate(M argument) {
 					return computeImage(formalSum, argument);
 				}
@@ -107,7 +109,7 @@ public class MappingUtility {
 		List<GenericFunction<M, DoubleFormalSum<N>>> functionObjectList = new ArrayList<GenericFunction<M, DoubleFormalSum<N>>>();
 		for (final DoubleFormalSum<GenericPair<M, N>> formalSum: homChainList) {
 			functionObjectList.add(new GenericFunction<M, DoubleFormalSum<N>>() {
-				@Override
+
 				public DoubleFormalSum<N> evaluate(M argument) {
 					return computeImage(formalSum, argument);
 				}
@@ -121,7 +123,6 @@ public class MappingUtility {
 	public static <R, M, N> GenericFunction<GenericFormalSum<R, M>, GenericFormalSum<R, N>> linearExtension(final GenericFunction<M, GenericFormalSum<R, N>> basisFunction, final GenericRing<R> ring) {
 		return new GenericFunction<GenericFormalSum<R, M>, GenericFormalSum<R, N>>() {
 
-			@Override
 			public GenericFormalSum<R, N> evaluate(GenericFormalSum<R, M> argument) {
 				GenericFreeModule<R, N> freeModuleStructure = new GenericFreeModule<R, N>(ring);
 				GenericFormalSum<R, N> sum = new GenericFormalSum<R, N>();
@@ -139,7 +140,6 @@ public class MappingUtility {
 	public static <R extends Number, M> GenericDoubleFunction<M> toDoubleFunction(final GenericFunction<M, R> genericFunction) {
 		return new GenericDoubleFunction<M>() {
 
-			@Override
 			public double evaluate(M argument) {
 				return genericFunction.evaluate(argument).doubleValue();
 			}
@@ -155,7 +155,7 @@ public class MappingUtility {
 		}
 
 		return doubleFunctionList;
-	}
+	}	
 
 	public static <M> double sumFunctionOverStream(final GenericDoubleFunction<M> function, final AbstractFilteredStream<M> stream) {
 		double sum = 0;
@@ -168,7 +168,6 @@ public class MappingUtility {
 	public static <M> GenericDoubleFunction<M> sumFunctions(final List<GenericDoubleFunction<M>> functions) {
 		return new GenericDoubleFunction<M>() {
 
-			@Override
 			public double evaluate(M argument) {
 				double sum = 0;
 				for (GenericDoubleFunction<M> function: functions) {
@@ -183,7 +182,6 @@ public class MappingUtility {
 	public static <M> GenericDoubleFunction<M> sumFunctions(final List<GenericDoubleFunction<M>> functions, final double[] coefficients) {
 		return new GenericDoubleFunction<M>() {
 
-			@Override
 			public double evaluate(M argument) {
 				double sum = 0;
 				int i = 0;
@@ -216,18 +214,16 @@ public class MappingUtility {
 	public static <M> GenericDoubleFunction<DoubleFormalSum<M>> getNormFunction(final int p) {
 		return new GenericDoubleFunction<DoubleFormalSum<M>>() {
 
-			@Override
 			public double evaluate(DoubleFormalSum<M> argument) {
 				return norm(argument, p);
 			}
 
 		};
 	}
-	
+
 	public static <M, N> GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>> getDiscreteSimplicialityLossFunction(final AbstractFilteredStream<M> stream) {
 		GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>> function = new GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>>() {
 
-			@Override
 			public double evaluate(DoubleFormalSum<GenericPair<M, N>> argument) {
 				THashSet<N> domainMap = new THashSet<N>();
 				double penalty = 0;
@@ -252,10 +248,10 @@ public class MappingUtility {
 
 		return function;
 	}
-	
+
 	private static double primitiveSimplicialityPenalty(double value, double lambda) {
 		double abs_value = Math.abs(value);
-		
+
 		if (abs_value <= 0.5) {
 			return lambda * abs_value;
 		} else if (abs_value <= 1.0) {
@@ -265,40 +261,118 @@ public class MappingUtility {
 		}
 	}
 
-	public static <M, N> GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>> getSimplicialityLossFunction(final AbstractFilteredStream<M> stream) {
+	public static <M, N> GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>> getSimplicialityLossFunction(final AbstractFilteredStream<M> domainStream, final AbstractFilteredStream<N> codomainStream) {
 		GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>> function = new GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>>() {
 
+			public double evaluate(DoubleFormalSum<GenericPair<M, N>> argument) {
+				TObjectDoubleHashMap<M> imageSizes = new TObjectDoubleHashMap<M>();
+				TObjectDoubleHashMap<N> preimageSizes = new TObjectDoubleHashMap<N>();
+
+				double maxImageSize = 0;
+				double maxPreimageSize = 0;
+				double sumImageSize = 0;
+				double sumPreimageSize = 0;
+				
+				double chainNorm = 0;
+				
+				double twoNormSum = 0;
+				
+				double coefficientPenaltySum = 0;
+				
+				double minNonZeroCoefficient = Infinity.Double.getPositiveInfinity();
+				
+				for (TObjectDoubleIterator<GenericPair<M, N>> iterator = argument.iterator(); iterator.hasNext(); ) {
+					iterator.advance();
+					
+					M domainElement = iterator.key().getFirst();
+					N codomainElement = iterator.key().getSecond();
+					
+					imageSizes.put(domainElement, Math.abs(iterator.value()) + imageSizes.get(domainElement));
+					preimageSizes.put(codomainElement, Math.abs(iterator.value()) + preimageSizes.get(codomainElement));
+					
+					chainNorm += Math.abs(iterator.value());
+					
+					coefficientPenaltySum += Math.abs(iterator.value()) + Math.abs(iterator.value() - 1) + Math.abs(iterator.value() + 1);
+					
+					if (iterator.value() != 0) {
+						minNonZeroCoefficient = Math.min(minNonZeroCoefficient, Math.abs(iterator.value()));
+					}
+					
+					//sumImageSize += Math.abs(iterator.value());
+					//maxImageSize = Math.max(maxImageSize, Math.abs(iterator.value()));
+				}
+				
+				
+				for (M i: domainStream) {
+					DoubleFormalSum<N> image = MappingUtility.computeImage(argument, i);
+
+					twoNormSum += Math.pow(Math.abs(norm(image, 2)), 1);
+					
+					/*
+					for (TObjectDoubleIterator<N> iterator = image.iterator(); iterator.hasNext(); ) {
+						iterator.advance();
+
+						preimageSizes.put(iterator.key(), Math.abs(iterator.value()) + preimageSizes.get(iterator.key()));
+					}
+					*/
+				}
+				
+				for (TObjectDoubleIterator<M> iterator = imageSizes.iterator(); iterator.hasNext(); ) {
+					iterator.advance();
+					//if (domainStream.getDimension(iterator.key()) == 0) {
+						sumImageSize += Math.abs(iterator.value() - 0) * Math.abs(iterator.value() - 0);
+					//}
+					
+					maxImageSize = Math.max(maxImageSize, Math.abs(iterator.value()));
+				}
+				
+				for (TObjectDoubleIterator<N> iterator = preimageSizes.iterator(); iterator.hasNext(); ) {
+					iterator.advance();
+					
+					//if (codomainStream.getDimension(iterator.key()) == 0) {
+						sumPreimageSize += Math.abs(iterator.value() - 0) * Math.abs(iterator.value() - 0);
+					//}
+					
+					maxPreimageSize = Math.max(maxPreimageSize, Math.abs(iterator.value()));
+				}
+
+				//return sumPreimageSize + sumImageSize;
+				return maxPreimageSize + maxImageSize + sumPreimageSize + sumImageSize;
+				//return twoNormSum + sumPreimageSize + sumImageSize;
+				//return twoNormSum;
+			}
+			/*
 			@Override
 			public double evaluate(DoubleFormalSum<GenericPair<M, N>> argument) {
 				TObjectDoubleHashMap<M> domainLossMap = new TObjectDoubleHashMap<M>();
 				TObjectDoubleHashMap<N> codomainLossMap = new TObjectDoubleHashMap<N>();
 				double penaltyMax = 0;
 				double penaltySum = 0;
-				
+
 				double coefficientLossSum = 0;
-				
+
 				for (M i: stream) {
 					DoubleFormalSum<N> image = MappingUtility.computeImage(argument, i);
 
 					double imageNorm = MappingUtility.norm(image, 1);
-					
+
 					domainLossMap.put(i, domainLossMap.get(i) + imageNorm);
-					
+
 					for (TObjectDoubleIterator<N> iterator = image.iterator(); iterator.hasNext(); ) {
 						iterator.advance();
 
 						coefficientLossSum += primitiveSimplicialityPenalty(iterator.value(), 2);
-						
+
 						double penalty = 0;
-						
+
 						if (!codomainLossMap.containsKey(iterator.key())) {
 							penalty = Math.abs(iterator.value());
 						} else {
 							penalty = codomainLossMap.get(iterator.key()) + Math.abs(iterator.value());
 						}
-						
+
 						codomainLossMap.put(iterator.key(), penalty);
-						
+
 						penaltyMax = Math.max(penalty, penaltyMax);
 						penaltySum += Math.abs(iterator.value());
 					}
@@ -309,10 +383,10 @@ public class MappingUtility {
 					iterator.advance();
 					simplicialityPenaltySum += primitiveSimplicialityPenalty(iterator.value(), 5);
 				}
-				
+
 				return penaltyMax;
 			}
-
+			 */
 		};
 
 		return function;
@@ -323,7 +397,6 @@ public class MappingUtility {
 			final AbstractFilteredStream<M> domainStream) {
 		return new GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>>() {
 
-			@Override
 			public double evaluate(DoubleFormalSum<GenericPair<M, N>> argument) {
 				GenericFunction<M, DoubleFormalSum<N>> newCycleFunctionObject = MappingUtility.toFunctionObject(argument);
 
@@ -366,7 +439,7 @@ public class MappingUtility {
 						double coefficient = iterator.value();
 						Y imageElement = iterator.key();
 						double increment = coefficient * functional.evaluate(domainElement);
-						
+
 						if (!this.functionalMap.containsKey(imageElement)) {
 							this.functionalMap.put(imageElement, increment);
 						} else {
@@ -376,7 +449,6 @@ public class MappingUtility {
 				}
 			}
 
-			@Override
 			public double evaluate(Y argument) {
 				if (this.functionalMap.containsKey(argument)) {
 					return this.functionalMap.get(argument);
@@ -386,7 +458,7 @@ public class MappingUtility {
 			}
 		};
 	}
-	
+
 	public static <X, Y, V> GenericFunction<Y, V> pushforward(final GenericFunction<X, DoubleFormalSum<Y>> mapping,
 			final GenericFunction<X, V> function, 
 			final Iterable<X> domainBasis,
@@ -406,7 +478,7 @@ public class MappingUtility {
 						double coefficient = iterator.value();
 						Y imageElement = iterator.key();
 						V increment = moduleStructure.multiply(coefficient, function.evaluate(domainElement));
-						
+
 						if (!this.functionMap.containsKey(imageElement)) {
 							this.functionMap.put(imageElement, increment);
 						} else {
@@ -416,7 +488,6 @@ public class MappingUtility {
 				}
 			}
 
-			@Override
 			public V evaluate(Y argument) {
 				if (this.functionMap.containsKey(argument)) {
 					return this.functionMap.get(argument);
@@ -425,5 +496,70 @@ public class MappingUtility {
 				}
 			}
 		};
+	}
+
+	public static <X, Y> DoubleFormalSum<GenericPair<GenericPair<X, X>, GenericPair<Y, Y>>> functionTensorProduct(DoubleFormalSum<GenericPair<X, Y>> f, DoubleFormalSum<GenericPair<X, Y>> g) {
+		DoubleFormalSum<GenericPair<GenericPair<X, X>, GenericPair<Y, Y>>> result = new DoubleFormalSum<GenericPair<GenericPair<X, X>, GenericPair<Y, Y>>>();
+
+		for (TObjectDoubleIterator<GenericPair<X, Y>> f_iterator = f.iterator(); f_iterator.hasNext(); ) {
+			f_iterator.advance();
+			for (TObjectDoubleIterator<GenericPair<X, Y>> g_iterator = g.iterator(); g_iterator.hasNext(); ) {
+				g_iterator.advance();
+				GenericPair<X, X> source = new GenericPair<X, X>(f_iterator.key().getFirst(), g_iterator.key().getFirst());
+				GenericPair<Y, Y> destination = new GenericPair<Y, Y>(f_iterator.key().getSecond(), g_iterator.key().getSecond());
+				double coefficient = f_iterator.value() * g_iterator.value();
+				result.put(coefficient, new GenericPair<GenericPair<X, X>, GenericPair<Y, Y>>(source, destination));
+			}
+		}
+
+		return result;
+	}
+
+	public static DoubleFormalSum<GenericPair<Simplex, Simplex>> computeAlexanderWhitneyMap(Simplex element) {
+		DoubleFormalSum<GenericPair<Simplex, Simplex>> result = new DoubleFormalSum<GenericPair<Simplex, Simplex>>();
+		int[] vertices = element.getVertices();
+
+		for (int i = 0; i < vertices.length; i++) {
+			result.put(1, new GenericPair<Simplex, Simplex>(new Simplex(HomologyUtility.lowerEntries(vertices, i)), new Simplex(HomologyUtility.upperEntries(vertices, i))));
+		}
+		return result;
+	}
+
+	/**
+	 * Delta(f(.)) - ((f x f)(D(.)))
+	 * 
+	 * @param chainMap
+	 * @return
+	 */
+	public static DoubleFormalSum<GenericPair<Simplex, Simplex>> alexanderWhitneyDifference(DoubleFormalSum<GenericPair<Simplex, Simplex>> chainMap) {
+		DoubleFormalSum<GenericPair<Simplex, Simplex>> difference = new DoubleFormalSum<GenericPair<Simplex, Simplex>>();
+
+
+
+		return difference;
+	}
+	
+	public static <X> DoubleFormalSum<X> roundCoefficients(DoubleFormalSum<X> chain) {
+		DoubleFormalSum<X> result = new DoubleFormalSum<X>();
+		
+		for (TObjectDoubleIterator<X> iterator = chain.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			double roundedCoefficient = Math.round(iterator.value());
+			if (roundedCoefficient != 0) {
+				result.put(roundedCoefficient, iterator.key());
+			}
+		}
+		
+		return result;
+	}
+	
+	public static double[] round(double[] array) {
+		double denominator = 1;
+		double[] result = new double[array.length];
+		for (int i = 0; i < array.length; i++) {
+			result[i] = Math.round(array[i] * denominator) / denominator;
+		}
+		return result;
+		//return array;
 	}
 }

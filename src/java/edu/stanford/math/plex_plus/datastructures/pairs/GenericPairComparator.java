@@ -18,7 +18,6 @@ public class GenericPairComparator<T, U> implements Comparator<GenericPair<T, U>
 	/* (non-Javadoc)
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	@Override
 	public int compare(GenericPair<T, U> o1, GenericPair<T, U> o2) {
 		ExceptionUtility.verifyNonNull(o1);
 		ExceptionUtility.verifyNonNull(o2);

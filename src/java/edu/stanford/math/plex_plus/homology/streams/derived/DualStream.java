@@ -27,8 +27,7 @@ public class DualStream<T> extends DerivedStream<T> {
 		super(new ReversedComparator<T>(comparator));
 		this.forwardStream = forwardStream;
 	}
-	
-	@Override
+
 	public T[] getBoundary(T basisElement) {
 		if (this.coboundaryMap.containsKey(basisElement)) {
 			return this.coboundaryMap.get(basisElement);
@@ -36,8 +35,7 @@ public class DualStream<T> extends DerivedStream<T> {
 			return ArrayUtility2.newGenericArray(0, basisElement);
 		}
 	}
-	
-	@Override
+
 	public int[] getBoundaryCoefficients(T basisElement) {
 		if (this.coboundaryCoefficientMap.containsKey(basisElement)) {
 			return this.coboundaryCoefficientMap.get(basisElement);
@@ -45,8 +43,7 @@ public class DualStream<T> extends DerivedStream<T> {
 			return new int[0];
 		}
 	}
-	
-	@Override
+
 	public int getDimension(T basisElement) {
 		return forwardStream.getDimension(basisElement);
 	}

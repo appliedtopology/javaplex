@@ -34,7 +34,6 @@ public class GenericSparseMatrix<T> implements GenericAbstractMatrix<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrix#get(int, int)
 	 */
-	@Override
 	public T get(int row, int column) {
 		ExceptionUtility.verifyIndex(this.rows, row);
 		ExceptionUtility.verifyIndex(this.columns, column);
@@ -44,7 +43,6 @@ public class GenericSparseMatrix<T> implements GenericAbstractMatrix<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrix#getNumColumns()
 	 */
-	@Override
 	public int getNumColumns() {
 		return this.columns;
 	}
@@ -52,7 +50,6 @@ public class GenericSparseMatrix<T> implements GenericAbstractMatrix<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrix#getNumRows()
 	 */
-	@Override
 	public int getNumRows() {
 		return this.rows;
 	}
@@ -60,7 +57,6 @@ public class GenericSparseMatrix<T> implements GenericAbstractMatrix<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrix#iterator()
 	 */
-	@Override
 	public GenericAbstractMatrixIterator<T> iterator() {
 		return new GenericSparseMatrixIterator<T>(this);
 	}
@@ -68,7 +64,6 @@ public class GenericSparseMatrix<T> implements GenericAbstractMatrix<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.GenericAbstractMatrix#set(int, int, java.lang.Object)
 	 */
-	@Override
 	public void set(int row, int column, T value) {
 		ExceptionUtility.verifyNonNegative(rows);
 		ExceptionUtility.verifyNonNegative(columns);

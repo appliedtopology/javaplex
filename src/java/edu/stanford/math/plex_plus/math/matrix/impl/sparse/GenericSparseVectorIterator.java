@@ -22,7 +22,6 @@ public class GenericSparseVectorIterator<T> implements GenericAbstractVectorIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.AbstractGenericVectorIterator#advance()
 	 */
-	@Override
 	public void advance() {
 		this.iterator.advance();
 	}
@@ -30,7 +29,6 @@ public class GenericSparseVectorIterator<T> implements GenericAbstractVectorIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.AbstractGenericVectorIterator#hasNext()
 	 */
-	@Override
 	public boolean hasNext() {
 		return this.iterator.hasNext();
 	}
@@ -38,7 +36,6 @@ public class GenericSparseVectorIterator<T> implements GenericAbstractVectorIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.AbstractGenericVectorIterator#index()
 	 */
-	@Override
 	public int index() {
 		return this.iterator.key();
 	}
@@ -46,7 +43,6 @@ public class GenericSparseVectorIterator<T> implements GenericAbstractVectorIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.AbstractGenericVectorIterator#remove()
 	 */
-	@Override
 	public void remove() {
 		this.iterator.remove();
 	}
@@ -54,7 +50,6 @@ public class GenericSparseVectorIterator<T> implements GenericAbstractVectorIter
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.AbstractGenericVectorIterator#value()
 	 */
-	@Override
 	public T value() {
 		return this.iterator.value();
 	}

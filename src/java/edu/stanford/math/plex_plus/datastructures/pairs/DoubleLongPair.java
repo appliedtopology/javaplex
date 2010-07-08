@@ -64,7 +64,6 @@ public class DoubleLongPair implements Comparable<DoubleLongPair> {
 		return ("(" + first + ", " + second + ")");
 	}
 	
-	@Override
 	public int compareTo(DoubleLongPair o) {
 		ExceptionUtility.verifyNonNull(o);
 		int comparison = MathUtility.signum(this.first - o.first);

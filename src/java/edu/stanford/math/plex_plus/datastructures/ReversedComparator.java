@@ -22,7 +22,6 @@ public class ReversedComparator<T> implements Comparator<T> {
 	/* (non-Javadoc)
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	@Override
 	public int compare(T o1, T o2) {
 		return -this.forwardComparator.compare(o1, o2);
 	}

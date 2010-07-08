@@ -8,15 +8,19 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.set.hash.TIntHashSet;
 
 public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMetricSpace<T> {
-	List<T> elements = new ArrayList<T>();
+	protected final List<T> elements = new ArrayList<T>();
 	
-	@Override
+	GenericFiniteMetricSpace(T[] array) {
+		for (T element: array) {
+			this.elements.add(element);
+		}
+	}
+	
 	public TIntHashSet getKNearestNeighbors(T queryPoint, int k) {
 		// TODO: complete
 		return null;
 	}
-
-	@Override
+	
 	public int getNearestPoint(T queryPoint) {
 		ExceptionUtility.verifyNonNull(queryPoint);
 		
@@ -40,7 +44,6 @@ public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMet
 		return nearestIndex;
 	}
 
-	@Override
 	public TIntHashSet getNeighborhood(T queryPoint, double epsilon) {
 		ExceptionUtility.verifyNonNull(queryPoint);
 		ExceptionUtility.verifyNonNegative(epsilon);
@@ -61,19 +64,16 @@ public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMet
 		return neighborhood;
 	}
 
-	@Override
 	public int size() {
 		return this.elements.size();
 	}
 
 	public abstract double distance(T a, T b);
 
-	@Override
 	public double distance(int i, int j) {
 		return this.distance(this.elements.get(i), this.elements.get(j));
 	}
-	
-	@Override
+
 	public T getPoint(int index) {
 		ExceptionUtility.verifyIndex(this.elements.size(), index);
 		return this.elements.get(index);

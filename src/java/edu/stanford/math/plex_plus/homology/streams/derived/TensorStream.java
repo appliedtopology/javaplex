@@ -28,7 +28,6 @@ public class TensorStream<T, U> extends DerivedStream<GenericPair<T, U>>{
 		this.stream2 = stream2;
 	}
 
-	@Override
 	public GenericPair<T, U>[] getBoundary(GenericPair<T, U> basisElement) {
 		/*
 		 * p = degree of a
@@ -59,7 +58,6 @@ public class TensorStream<T, U> extends DerivedStream<GenericPair<T, U>>{
 		return boundary;
 	}
 
-	@Override
 	public int[] getBoundaryCoefficients(GenericPair<T, U> basisElement) {
 		T a = basisElement.getFirst();
 		U b = basisElement.getSecond();
@@ -84,8 +82,7 @@ public class TensorStream<T, U> extends DerivedStream<GenericPair<T, U>>{
 		
 		return coefficients;
 	}
-	
-	@Override
+
 	public int getDimension(GenericPair<T, U> basisElement) {
 		return (this.stream1.getDimension(basisElement.getFirst()) + this.stream2.getDimension(basisElement.getSecond()));
 	}

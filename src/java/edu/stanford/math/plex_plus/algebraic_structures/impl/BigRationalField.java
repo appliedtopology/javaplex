@@ -79,7 +79,6 @@ public class BigRationalField extends GenericOrderedField<BigFraction> {
 		return 0;
 	}
 
-	@Override
 	public int compare(BigFraction o1, BigFraction o2) {
 		return o1.compareTo(o2);
 	}

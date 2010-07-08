@@ -16,7 +16,6 @@ public class DoubleSparseMatrixIterator implements DoubleAbstractMatrixIterator 
 		this.columnIterator = this.rowIterator.value().iterator();
 	}
 	
-	@Override
 	public boolean hasNext() {
 		if (this.rowIterator.hasNext()) {
 			return true;
@@ -25,7 +24,6 @@ public class DoubleSparseMatrixIterator implements DoubleAbstractMatrixIterator 
 		}
 	}
 
-	@Override
 	public void advance() {
 		if (this.columnIterator.hasNext()) {
 			this.columnIterator.advance();
@@ -36,22 +34,18 @@ public class DoubleSparseMatrixIterator implements DoubleAbstractMatrixIterator 
 		}
 	}
 
-	@Override
 	public void remove() {
 		this.columnIterator.remove();
 	}
 	
-	@Override
 	public int row() {
 		return this.rowIterator.key();
 	}
 	
-	@Override
 	public int column() {
 		return this.columnIterator.index();
 	}
 	
-	@Override
 	public double value() {
 		return this.columnIterator.value();
 	}

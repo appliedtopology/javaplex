@@ -22,7 +22,6 @@ public class DoubleDenseVectorIterator implements DoubleAbstractVectorIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractVectorIterator#advance()
 	 */
-	@Override
 	public void advance() {
 		this.index++;
 	}
@@ -30,7 +29,6 @@ public class DoubleDenseVectorIterator implements DoubleAbstractVectorIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractVectorIterator#hasNext()
 	 */
-	@Override
 	public boolean hasNext() {
 		return (this.index < this.vectorLength - 1);
 	}
@@ -38,7 +36,6 @@ public class DoubleDenseVectorIterator implements DoubleAbstractVectorIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractVectorIterator#index()
 	 */
-	@Override
 	public int index() {
 		return this.index;
 	}
@@ -46,7 +43,6 @@ public class DoubleDenseVectorIterator implements DoubleAbstractVectorIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractVectorIterator#remove()
 	 */
-	@Override
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}
@@ -54,7 +50,6 @@ public class DoubleDenseVectorIterator implements DoubleAbstractVectorIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractVectorIterator#value()
 	 */
-	@Override
 	public double value() {
 		return this.vector.get(this.index);
 	}

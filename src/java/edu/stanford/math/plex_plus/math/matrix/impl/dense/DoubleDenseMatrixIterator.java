@@ -32,7 +32,6 @@ public class DoubleDenseMatrixIterator implements DoubleAbstractMatrixIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractMatrixIterator#advance()
 	 */
-	@Override
 	public void advance() {
 		if (column < numColumns - 1) {
 			column++;
@@ -45,7 +44,6 @@ public class DoubleDenseMatrixIterator implements DoubleAbstractMatrixIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractMatrixIterator#column()
 	 */
-	@Override
 	public int column() {
 		return this.column;
 	}
@@ -53,7 +51,6 @@ public class DoubleDenseMatrixIterator implements DoubleAbstractMatrixIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractMatrixIterator#hasNext()
 	 */
-	@Override
 	public boolean hasNext() {
 		if (this.row < this.numRows) {
 			return true;
@@ -65,7 +62,6 @@ public class DoubleDenseMatrixIterator implements DoubleAbstractMatrixIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractMatrixIterator#remove()
 	 */
-	@Override
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}
@@ -73,7 +69,6 @@ public class DoubleDenseMatrixIterator implements DoubleAbstractMatrixIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractMatrixIterator#row()
 	 */
-	@Override
 	public int row() {
 		return this.row;
 	}
@@ -81,7 +76,6 @@ public class DoubleDenseMatrixIterator implements DoubleAbstractMatrixIterator {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.interfaces.DoubleAbstractMatrixIterator#value()
 	 */
-	@Override
 	public double value() {
 		return this.matrix.get(row, column);
 	}

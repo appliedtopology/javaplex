@@ -78,7 +78,6 @@ public class RationalField extends GenericOrderedField<Fraction> {
 		return 0;
 	}
 
-	@Override
 	public int compare(Fraction o1, Fraction o2) {
 		return o1.compareTo(o2);
 	}

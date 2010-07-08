@@ -147,7 +147,7 @@ public class IntPersistentHomology<T> {
 		
 		// add the collection of semi-infinite intervals to the barcode collection
 		for (T i: F) {
-			barcodeCollection.addInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
+			barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
 		}
 		
 		return barcodeCollection;

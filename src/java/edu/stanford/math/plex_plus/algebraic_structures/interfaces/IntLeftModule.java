@@ -14,4 +14,7 @@ public interface IntLeftModule<M> {
 	public abstract M subtract(M a, M b);
 	public abstract M multiply(int r, M a);
 	public abstract M negate(M a);
+	
+	public abstract void accumulate(M a, M b);
+	public abstract void accumulate(M a, M b, int c);
 }

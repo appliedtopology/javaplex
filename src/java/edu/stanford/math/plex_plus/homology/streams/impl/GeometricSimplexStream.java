@@ -12,7 +12,7 @@ import edu.stanford.math.plex_plus.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex_plus.graph.UndirectedListGraph;
 import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex_plus.math.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.plex_plus.math.metric.impl.KDEuclideanMetricSpace;
 import edu.stanford.math.plex_plus.math.metric.interfaces.FiniteMetricSpace;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
@@ -41,14 +41,14 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 		ExceptionUtility.verifyNonNull(stream);
 		ExceptionUtility.verifyNonNull(points);
 		this.stream = stream;
-		this.metricSpace = new EuclideanMetricSpace(points);
+		this.metricSpace = new KDEuclideanMetricSpace(points);
 	}
 	
 	public GeometricSimplexStream(AbstractFilteredStream<Simplex> stream, GraphEmbedding embedding, int dimension) {
 		ExceptionUtility.verifyNonNull(stream);
 		ExceptionUtility.verifyNonNull(embedding);
 		this.stream = stream;
-		this.metricSpace = new EuclideanMetricSpace(embedding.computeEmbedding(this.construct1Skeleton(stream), dimension));
+		this.metricSpace = new KDEuclideanMetricSpace(embedding.computeEmbedding(this.construct1Skeleton(stream), dimension));
 	}
 	
 	private AbstractUndirectedGraph construct1Skeleton(AbstractFilteredStream<Simplex> stream) {
@@ -73,52 +73,42 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 		return graph;
 	}
 	
-	@Override
 	public void finalizeStream() {
 		this.stream.finalizeStream();
 	}
 
-	@Override
 	public double getFiltrationValue(Simplex simplex) {
 		return this.stream.getFiltrationValue(simplex);
 	}
 
-	@Override
 	public boolean isFinalized() {
 		return this.stream.isFinalized();
 	}
 
-	@Override
 	public Iterator<Simplex> iterator() {
 		return this.stream.iterator();
 	}
 
-	@Override
 	public double[] getPoint(int index) {
 		return this.metricSpace.getPoint(index);
 	}
 
-	@Override
 	public int size() {
 		return this.metricSpace.size();
 	}
 
-	@Override
 	public double distance(int i, int j) {
 		return this.metricSpace.distance(i, j);
 	}
 
-	@Override
 	public Simplex[] getBoundary(Simplex simplex) {
 		return simplex.getBoundaryArray();
 	}
 
-	@Override
 	public int[] getBoundaryCoefficients(Simplex simplex) {
 		return simplex.getBoundaryCoefficients();
 	}
 
-	@Override
 	public int getDimension(Simplex element) {
 		return this.stream.getDimension(element);
 	}

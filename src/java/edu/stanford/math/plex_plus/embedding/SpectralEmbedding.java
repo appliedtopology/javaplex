@@ -25,7 +25,6 @@ public class SpectralEmbedding implements GraphEmbedding {
 		return instance;
 	}
 	
-	@Override
 	public double[][] computeEmbedding(AbstractUndirectedGraph graph, int dimension) {
 		DoubleMatrix2D laplacian = SpectralGraphUtility.getLaplacianMatrix(graph);
 		

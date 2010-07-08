@@ -60,7 +60,6 @@ public class IntSparseVector implements IntAbstractVector {
 		return sum;
 	}
 	
-	@Override
 	public int innerProduct(IntAbstractVector other) {
 		if (other instanceof IntSparseVector) {
 			return this.innerProduct((IntSparseVector) other);
@@ -74,7 +73,6 @@ public class IntSparseVector implements IntAbstractVector {
 		return sum;
 	}
 	
-	@Override
 	public IntAbstractVectorIterator iterator() {
 		return new IntSparseVectorIterator(this);
 	}
@@ -99,7 +97,6 @@ public class IntSparseVector implements IntAbstractVector {
 		return builder.toString();
 	}
 
-	@Override
 	public int getLength() {
 		return this.size;
 	}

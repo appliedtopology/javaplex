@@ -22,7 +22,6 @@ public class GenericSparseVector<T> implements GenericAbstractVector<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.AbstractGenericVector#get(int)
 	 */
-	@Override
 	public T get(int index) {
 		ExceptionUtility.verifyIndex(this.length, index);
 		return this.map.get(index);
@@ -31,7 +30,6 @@ public class GenericSparseVector<T> implements GenericAbstractVector<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.AbstractGenericVector#set(int, java.lang.Object)
 	 */
-	@Override
 	public void set(int index, T value) {
 		ExceptionUtility.verifyIndex(this.length, index);
 		this.map.put(index, value);
@@ -40,7 +38,6 @@ public class GenericSparseVector<T> implements GenericAbstractVector<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.AbstractGenericVector#getLength()
 	 */
-	@Override
 	public int getLength() {
 		return this.length;
 	}
@@ -48,7 +45,6 @@ public class GenericSparseVector<T> implements GenericAbstractVector<T> {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.math.matrix.generic.AbstractGenericVector#iterator()
 	 */
-	@Override
 	public GenericAbstractVectorIterator<T> iterator() {
 		return new GenericSparseVectorIterator<T>(this);
 	}

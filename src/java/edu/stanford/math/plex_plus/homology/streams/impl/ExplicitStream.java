@@ -43,4 +43,24 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 
 	@Override
 	protected void constructComplex() {	}
+	
+	public void ensureAllFaces() {
+		for (T basisElement: this.storageStructure) {
+			double filtrationValue = this.getFiltrationValue(basisElement);
+
+			// get the boundary
+			T[] boundary = this.getBoundary(basisElement);
+
+			// make sure that each boundary element is also inside the
+			// complex with a filtration value less than or equal to the
+			// current simplex
+			for (T face: boundary) {
+				
+			}
+		}
+	}
+	
+	public void ensureFace(T basisElement) {
+		T[] boundary = this.getBoundary(basisElement);
+	}
 }

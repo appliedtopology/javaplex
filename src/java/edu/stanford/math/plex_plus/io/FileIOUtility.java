@@ -19,25 +19,27 @@ import com.sun.media.jai.codec.ImageCodec;
 import com.sun.media.jai.codec.ImageEncoder;
 
 /**
- * This class contains various static functions for reading and writing
- * files of different types.
+ * This class contains various static functions for reading and writing files of
+ * different types.
  * 
  * @author Tim Harrington
  * @author Andrew Tausz
- *
+ * 
  */
-public class FileIO {
+public class FileIOUtility {
 
 	/**
 	 * Saves a BufferedImage stream in PNG format.
 	 * 
-	 * @param image the buffered image to save to disk
-	 * @param folderPath the folder to save the image file in
-	 * @param imageName the name to give the image file (minus extension)
+	 * @param image
+	 *            the buffered image to save to disk
+	 * @param folderPath
+	 *            the folder to save the image file in
+	 * @param imageName
+	 *            the name to give the image file (minus extension)
 	 * @throws IOException
 	 */
-	public static void saveImage(BufferedImage image, String filePath)
-	throws IOException {
+	public static void saveImage(BufferedImage image, String filePath) throws IOException {
 		BufferedOutputStream out = null;
 		ImageEncoder encoder;
 		try {
@@ -56,13 +58,15 @@ public class FileIO {
 	/**
 	 * This function saves a string to a text file.
 	 * 
-	 * @param filePath the path of the file to write to
-	 * @param contents a string holding the contents to write
-	 * @param append if true, then the file will be appended to
+	 * @param filePath
+	 *            the path of the file to write to
+	 * @param contents
+	 *            a string holding the contents to write
+	 * @param append
+	 *            if true, then the file will be appended to
 	 * @throws IOException
 	 */
-	public static void writeTextFile(String filePath, String contents, boolean append) 
-	throws IOException {
+	public static void writeTextFile(String filePath, String contents, boolean append) throws IOException {
 		BufferedWriter writer = null;
 		try {
 			writer = new BufferedWriter(new FileWriter(filePath, append));
@@ -77,29 +81,30 @@ public class FileIO {
 	}
 
 	/**
-	 * This function reads a CSV file and outputs the values into a Table object.
-	 * The format of the file is as follows:
-	 * [<Title>]
-	 * [<Heading1, ..., HeadingN>]
-	 * <Entry11, ..., Entry1N>
-	 * <EntryM1, ..., EntryMN>
+	 * This function reads a CSV file and outputs the values into a Table
+	 * object. The format of the file is as follows: [<Title>] [<Heading1, ...,
+	 * HeadingN>] <Entry11, ..., Entry1N> <EntryM1, ..., EntryMN>
 	 * 
-	 * The input argument readTitle should be true if and only if the file contains a
-	 * title on its first line. The input argument readHeadings should be true if and only
-	 * if the file contains the column headings on the file just before the first data row.  
+	 * The input argument readTitle should be true if and only if the file
+	 * contains a title on its first line. The input argument readHeadings
+	 * should be true if and only if the file contains the column headings on
+	 * the file just before the first data row.
 	 * 
-	 * Columns are assumed to be separated by the specified separator, and rows are
-	 * assumed to be separated by a newline.
+	 * Columns are assumed to be separated by the specified separator, and rows
+	 * are assumed to be separated by a newline.
 	 * 
-	 * @param filename the filename of the file to read from
-	 * @param separator the separator between columns
-	 * @param readTitle should be true iff the file contains a title
-	 * @param readHeadings should be true iff the file contains the column headings 
+	 * @param filename
+	 *            the filename of the file to read from
+	 * @param separator
+	 *            the separator between columns
+	 * @param readTitle
+	 *            should be true iff the file contains a title
+	 * @param readHeadings
+	 *            should be true iff the file contains the column headings
 	 * @return a Table object containing the contents of the file
 	 * @throws IOException
 	 */
-	public static Table readCSVFile(String filename, String separator, boolean readTitle, boolean readHeadings) 
-	throws IOException {
+	public static Table readCSVFile(String filename, String separator, boolean readTitle, boolean readHeadings) throws IOException {
 		BufferedReader reader = null;
 		String line = null;
 		String[] entries = null;
@@ -165,17 +170,17 @@ public class FileIO {
 		try {
 			reader = new BufferedReader(new FileReader(filename));
 			contents = new ArrayList<double[]>();
-			
+
 			// continue reading the data
 			while ((line = reader.readLine()) != null) {
 				// split the line into the individual tokens
 				entries = line.split(separator);
-				
+
 				double[] row = new double[entries.length];
 				for (int j = 0; j < entries.length; j++) {
 					row[j] = Double.parseDouble(entries[j]);
 				}
-				
+
 				contents.add(row);
 			}
 
@@ -193,18 +198,17 @@ public class FileIO {
 
 	/**
 	 * Try to save an object for quick reloading later.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
-	public static void serializeObject(Object obj,String destPath) 
-	throws IOException {
+	public static void serializeObject(Object obj, String destPath) throws IOException {
 		if (obj == null) {
-			throw new IllegalArgumentException(
-			"Cannot serialize a null object.");
+			throw new IllegalArgumentException("Cannot serialize a null object.");
 		}
 		FileOutputStream f;
 		ObjectOutputStream s = null;
 		try {
-			f = new FileOutputStream(destPath,false);
+			f = new FileOutputStream(destPath, false);
 			s = new ObjectOutputStream(f);
 			s.writeObject(obj);
 			s.close();
@@ -225,8 +229,7 @@ public class FileIO {
 	public static Object loadObject(String inputPath) throws IOException {
 		Object retval = null;
 		if (!(new File(inputPath)).exists()) {
-			throw new IllegalStateException("Input file (" + 
-					inputPath + ") does not exist");
+			throw new IllegalStateException("Input file (" + inputPath + ") does not exist");
 		}
 		FileInputStream f;
 		ObjectInputStream o = null;
@@ -236,19 +239,18 @@ public class FileIO {
 			retval = o.readObject();
 			o.close();
 			return retval;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw e;
 		} catch (ClassNotFoundException e) {
 			throw new IOException();
 		} finally {
-			if (o!=null) {
+			if (o != null) {
 				try {
 					o.close();
 				} catch (IOException e1) {
 				}
 			}
 		}
-	}		
+	}
 
 }

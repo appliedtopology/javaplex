@@ -27,7 +27,6 @@ public class MultidimensionalScaling implements MetricSpaceEmbedding {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.embedding.MetricSpaceEmbedding#computedEmbedding(edu.stanford.math.plex_plus.math.metric.interfaces.IntFiniteMetricSpace, int)
 	 */
-	@Override
 	public double[][] computedEmbedding(IntFiniteMetricSpace metricSpace, int dimension) {
 		return this.doScaling(metricSpace, dimension, TOLERANCE).toArray();
 	}

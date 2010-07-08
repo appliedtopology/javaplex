@@ -15,8 +15,7 @@ public class IntSparseMatrixIterator implements IntAbstractMatrixIterator {
 		this.rowIterator.advance();
 		this.columnIterator = this.rowIterator.value().map.iterator();
 	}
-	
-	@Override
+
 	public boolean hasNext() {
 		if (this.rowIterator.hasNext()) {
 			return true;
@@ -25,7 +24,6 @@ public class IntSparseMatrixIterator implements IntAbstractMatrixIterator {
 		}
 	}
 
-	@Override
 	public void advance() {
 		if (this.columnIterator.hasNext()) {
 			this.columnIterator.advance();
@@ -36,22 +34,18 @@ public class IntSparseMatrixIterator implements IntAbstractMatrixIterator {
 		}
 	}
 
-	@Override
 	public void remove() {
 		this.columnIterator.remove();
 	}
 	
-	@Override
 	public int row() {
 		return this.rowIterator.key();
 	}
 	
-	@Override
 	public int column() {
 		return this.columnIterator.key();
 	}
 	
-	@Override
 	public int value() {
 		return this.columnIterator.value();
 	}
