@@ -5,26 +5,26 @@ package edu.stanford.math.plex_plus.algebraic_structures.interfaces;
  * 
  * @author Andrew Tausz
  *
- * @param <T> the type over which the field is defined
+ * @param <F> the type over which the field is defined
  */
-public abstract class GenericField<T> extends GenericRing<T> {
-	public abstract T divide(T a, T b);
-	public abstract T invert(T a);
+public abstract class GenericField<F> extends GenericRing<F> {
+	public abstract F divide(F a, F b);
+	public abstract F invert(F a);
 	
-	public T divide(int a, int b) {
+	public F divide(int a, int b) {
 		return this.divide(this.valueOf(a), this.valueOf(b));
 	}
 	
-	public T invert(int a) {
+	public F invert(int a) {
 		return this.invert(this.valueOf(a));
 	}
 	
 	@Override
-	public T power(T a, int n)	{
+	public F power(F a, int n)	{
 		if (n < 0) {
 			return this.power(this.invert(a), -n);
 		}
-	    T result = this.getOne();
+	    F result = this.getOne();
 	    while (n > 0) {
 	        if ((n & 1) == 1) {
 	            result = this.multiply(result, a);

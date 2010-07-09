@@ -85,4 +85,11 @@ public interface StreamStorageStructure<T> extends Iterable<T> {
 	 * @return a Comparator on the basis type
 	 */
 	Comparator<T> getBasisComparator();
+	
+	/**
+	 * This function returns the number of elements in the storage structure.
+	 * 
+	 * @return the number of elements in the storage structure
+	 */
+	int getSize();
 }

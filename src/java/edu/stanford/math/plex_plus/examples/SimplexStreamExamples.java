@@ -78,7 +78,7 @@ public class SimplexStreamExamples {
 
 		stream.addElement(new Simplex(ArrayGeneration.range(0, dimension + 2)), 0);
 		stream.ensureAllFaces();
-		
+		stream.removeElementIfPresent(new Simplex(ArrayGeneration.range(0, dimension + 2)));
 		stream.finalizeStream();
 		
 		return stream;

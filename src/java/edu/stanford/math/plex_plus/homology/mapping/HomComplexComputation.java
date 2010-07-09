@@ -24,7 +24,7 @@ import edu.stanford.math.plex_plus.datastructures.DoubleFormalSum;
 import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex_plus.functional.GenericDoubleFunction;
-import edu.stanford.math.plex_plus.homology.GenericPersistentHomology;
+import edu.stanford.math.plex_plus.homology.GenericAbsoluteHomology;
 import edu.stanford.math.plex_plus.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex_plus.homology.streams.derived.HomStream;
 import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
@@ -63,8 +63,9 @@ public class HomComplexComputation<F extends Number, M, N> {
 	public List<GenericFormalSum<F, GenericPair<M, N>>> computeGeneratingCycles() {
 		homStream.finalizeStream();
 
-		GenericPersistentHomology<F, GenericPair<M, N>> homology = new GenericPersistentHomology<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
-		AugmentedBarcodeCollection<GenericFormalSum<F, GenericPair<M, N>>> barcodes = homology.computeIntervals(homStream);
+		//GenericPersistentHomologyOld<F, GenericPair<M, N>> homology = new GenericPersistentHomologyOld<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
+		GenericAbsoluteHomology<F, GenericPair<M, N>> homology = new GenericAbsoluteHomology<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
+		AugmentedBarcodeCollection<GenericFormalSum<F, GenericPair<M, N>>> barcodes = homology.computeAugmentedIntervals(homStream);
 
 		List<GenericFormalSum<F, GenericPair<M, N>>> generatingCycles = new ArrayList<GenericFormalSum<F, GenericPair<M, N>>>();
 
@@ -88,8 +89,8 @@ public class HomComplexComputation<F extends Number, M, N> {
 	}
 
 	public List<GenericFormalSum<F, GenericPair<M, N>>> getChainHomotopies() {
-		GenericPersistentHomology<F, GenericPair<M, N>> homology = new GenericPersistentHomology<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
-
+		GenericAbsoluteHomology<F, GenericPair<M, N>> homology = new GenericAbsoluteHomology<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
+		
 		return homology.getBoundaryColumns(this.homStream, 1);
 	}
 

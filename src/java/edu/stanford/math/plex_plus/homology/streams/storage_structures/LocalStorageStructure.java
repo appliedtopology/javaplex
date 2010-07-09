@@ -152,4 +152,8 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 		return this.filtrationValues.containsKey(basisElement);
 	}
 
+	public int getSize() {
+		return this.filtrationValues.size();
+	}
+
 }
