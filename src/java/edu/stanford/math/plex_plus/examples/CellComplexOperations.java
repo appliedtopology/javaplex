@@ -55,10 +55,10 @@ public class CellComplexOperations {
 				}
 			} else {
 				// the dimension is greater than 0 - we need to make sure that the boundary is also "collapsed"
-				int[] boundary = cell.getBoundaryCoefficients();
+				int[] boundary = cell.getBoundaryIndices();
 				for (int i = 0; i < boundary.length; i++) {
 					if (boundary[i] != new_vertex_index && IntArrayQuery.contains(vertices, boundary[i])) {
-						cell.getBoundaryCoefficients()[i] = new_vertex_index;
+						cell.getBoundaryIndices()[i] = new_vertex_index;
 					}
 				}
 				

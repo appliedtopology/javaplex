@@ -55,8 +55,9 @@ public class PersistentHomologyTest {
 	public static void CellularTest() {
 		//AbstractFilteredStream<Cell> stream = CellStreamExamples.getMorozovJohanssonExample();
 		ExplicitCellStream stream1 = CellStreamExamples.getCellularSphere(2);
-		ExplicitCellStream stream2 = CellStreamExamples.getCellularSphere(4);
+		ExplicitCellStream stream2 = CellStreamExamples.getCellularSphere(2);
 		ExplicitCellStream stream = CellComplexOperations.disjointUnion(stream1, stream2);
+		CellComplexOperations.identifyPoints(stream, new int[]{0, 2});
 		testGenericDualityPersistentCohomology(stream, CellComparator.getInstance(), RationalField.getInstance());
 	}
 	
