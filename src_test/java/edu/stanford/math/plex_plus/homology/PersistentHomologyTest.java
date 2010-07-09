@@ -14,6 +14,10 @@ import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.embedding.GraphEmbedding;
 import edu.stanford.math.plex_plus.embedding.GraphMetricEmbedding;
 import edu.stanford.math.plex_plus.embedding.MultidimensionalScaling;
+import edu.stanford.math.plex_plus.examples.CellComplexOperations;
+import edu.stanford.math.plex_plus.examples.CellStreamExamples;
+import edu.stanford.math.plex_plus.examples.EuclideanMetricSpaceExamples;
+import edu.stanford.math.plex_plus.examples.SimplexStreamExamples;
 import edu.stanford.math.plex_plus.graph_metric.ShortestPathMetric;
 import edu.stanford.math.plex_plus.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
@@ -25,6 +29,7 @@ import edu.stanford.math.plex_plus.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex_plus.homology.streams.derived.DualStream;
 import edu.stanford.math.plex_plus.homology.streams.derived.HomStream;
 import edu.stanford.math.plex_plus.homology.streams.derived.TensorStream;
+import edu.stanford.math.plex_plus.homology.streams.impl.ExplicitCellStream;
 import edu.stanford.math.plex_plus.homology.streams.impl.GeometricSimplexStream;
 import edu.stanford.math.plex_plus.homology.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex_plus.homology.streams.impl.VietorisRipsStream;
@@ -48,7 +53,10 @@ public class PersistentHomologyTest {
 	}
 	
 	public static void CellularTest() {
-		AbstractFilteredStream<Cell> stream = SimplexStreamExamples.getMorozovJohanssonExample();
+		//AbstractFilteredStream<Cell> stream = CellStreamExamples.getMorozovJohanssonExample();
+		ExplicitCellStream stream1 = CellStreamExamples.getCellularSphere(2);
+		ExplicitCellStream stream2 = CellStreamExamples.getCellularSphere(4);
+		ExplicitCellStream stream = CellComplexOperations.disjointUnion(stream1, stream2);
 		testGenericDualityPersistentCohomology(stream, CellComparator.getInstance(), RationalField.getInstance());
 	}
 	
@@ -97,8 +105,8 @@ public class PersistentHomologyTest {
 	}
 	
 	public static void cellularTensorTest() {
-		AbstractFilteredStream<Cell> stream1 = SimplexStreamExamples.getCellularTorus();
-		AbstractFilteredStream<Cell> stream2 = SimplexStreamExamples.getCellularSphere(2);
+		AbstractFilteredStream<Cell> stream1 = CellStreamExamples.getCellularTorus();
+		AbstractFilteredStream<Cell> stream2 = CellStreamExamples.getCellularSphere(2);
 		TensorStream<Cell, Cell> tensorStream = new TensorStream<Cell, Cell>(stream1, stream2, CellComparator.getInstance(), CellComparator.getInstance());
 		tensorStream.finalizeStream();
 		testGenericDualityPersistentHomology(tensorStream, tensorStream.getDerivedComparator(), RationalField.getInstance());
@@ -106,7 +114,7 @@ public class PersistentHomologyTest {
 	
 	public static void mixedTensorTest() {
 		AbstractFilteredStream<Simplex> stream1 = SimplexStreamExamples.getTriangle();
-		AbstractFilteredStream<Cell> stream2 = SimplexStreamExamples.getCellularSphere(1);
+		AbstractFilteredStream<Cell> stream2 = CellStreamExamples.getCellularSphere(1);
 		TensorStream<Simplex, Cell> tensorStream = new TensorStream<Simplex, Cell>(stream1, stream2, SimplexComparator.getInstance(), CellComparator.getInstance());
 		tensorStream.finalizeStream();
 		testIntDualityPersistentHomology(tensorStream, tensorStream.getDerivedComparator(), ModularIntField.getInstance(2));
@@ -120,8 +128,8 @@ public class PersistentHomologyTest {
 	}
 	
 	public static void cellularHomTest() {
-		AbstractFilteredStream<Cell> stream1 = SimplexStreamExamples.getCellularSphere(2);
-		AbstractFilteredStream<Cell> stream2 = SimplexStreamExamples.getCellularTorus();
+		AbstractFilteredStream<Cell> stream1 = CellStreamExamples.getCellularSphere(2);
+		AbstractFilteredStream<Cell> stream2 = CellStreamExamples.getCellularTorus();
 		HomStream<Cell, Cell> homStream = new HomStream<Cell, Cell>(stream1, stream2, CellComparator.getInstance(), CellComparator.getInstance());
 		homStream.finalizeStream();
 		testIntDualityPersistentHomology(homStream, homStream.getDerivedComparator(), ModularIntField.getInstance(2));

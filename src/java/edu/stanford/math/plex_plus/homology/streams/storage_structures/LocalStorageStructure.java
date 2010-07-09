@@ -68,7 +68,41 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 		this.elementFiltrationPairs.add(new DoubleGenericPair<T>(filtrationValue, basisElement));
 		this.filtrationValues.put(basisElement, filtrationValue);
 	}
+	
+	public void updateOrAddElement(T basisElement, double newFiltrationValue) {
+		ExceptionUtility.verifyNonNull(basisElement);
+		
+		if (this.isFinalized) {
+			throw new IllegalStateException("Cannot update objects in finalized storage structure.");
+		}
+		
+		if (this.filtrationValues.containsKey(basisElement)) {
+			// remove the old (filtration value, basis element) pair
+			DoubleGenericPair<T> pair = new DoubleGenericPair<T>(this.filtrationValues.get(basisElement), basisElement);
+			this.elementFiltrationPairs.remove(pair);
+			
+			// add the new pair
+			this.elementFiltrationPairs.add(new DoubleGenericPair<T>(newFiltrationValue, basisElement));
+		} else {
+			this.elementFiltrationPairs.add(new DoubleGenericPair<T>(newFiltrationValue, basisElement));
+		}
+		
+		this.filtrationValues.adjustOrPutValue(basisElement, newFiltrationValue, newFiltrationValue);
+	}
 
+	public void removeElement(T basisElement) {
+		if (!this.filtrationValues.containsKey(basisElement)) {
+			throw new IllegalArgumentException("Element: " + basisElement + " is not present in the stream.");
+		}
+		
+		// remove the old (filtration value, basis element) pair
+		DoubleGenericPair<T> pair = new DoubleGenericPair<T>(this.filtrationValues.get(basisElement), basisElement);
+		this.elementFiltrationPairs.remove(pair);
+		
+		// remove the element from the filtration values map
+		this.filtrationValues.remove(basisElement);
+	}
+	
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.homology.stream_structure.StreamStorageStructure#isFinalized()
 	 */
@@ -112,6 +146,10 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 
 	public Comparator<T> getBasisComparator() {
 		return this.basisComparator;
+	}
+
+	public boolean containsElement(T basisElement) {
+		return this.filtrationValues.containsKey(basisElement);
 	}
 
 }

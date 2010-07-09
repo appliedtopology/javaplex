@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import edu.stanford.math.plex_plus.utility.ArrayUtility;
+import edu.stanford.math.plex_plus.array_utility.IntArrayMath;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 /**
@@ -250,7 +250,7 @@ public class Table {
 		builder.append('\n');
 
 		// print a separator between Headings and data
-		int totalWidth = ArrayUtility.sum(columnWidths) + (this.numColumns - 1) * separator.length();
+		int totalWidth = IntArrayMath.sum(columnWidths) + (this.numColumns - 1) * separator.length();
 		builder.append(this.repeatCharacter('-', totalWidth));
 		builder.append('\n');
 

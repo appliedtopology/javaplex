@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import edu.stanford.math.plex_plus.array_utility.IntArrayManipulation;
+
 public class ListUtility {
 	
 	public static String toString(Collection<int[]> list) {
@@ -68,7 +70,7 @@ public class ListUtility {
 	 * @return a sub-array containing the values excluding those at the specified indices
 	 */
 	public static <T> List<T> getArraySubsetComplement(List<T> array, int[] indices) {
-		indices = ArrayUtility.sortAscending(indices);
+		indices = IntArrayManipulation.sortAscending(indices);
 		List<T> subArray = new ArrayList<T>();
 		//int subArrayIndex = 0;
 		int omissionIndex = 0;

@@ -26,6 +26,34 @@ public interface StreamStorageStructure<T> extends Iterable<T> {
 	void addElement(T basisElement, double filtrationValue);
 	
 	/**
+	 * This function either adds the specified basis element with the given filtration
+	 * value, or if the basis element already exists in the stream, it updates its
+	 * filtration value with supplied one.
+	 * 
+	 * @param basisElement the basis element to add or update
+	 * @param filtrationValue the new filtration value of the basis element
+	 */
+	void updateOrAddElement(T basisElement, double filtrationValue);
+	
+	/**
+	 * This function removes the specified element form the storage structure.
+	 * In the case that the element is not present in the stream, this function 
+	 * throws an IllegalArgumentException.
+	 * 
+	 * @param basisElement the basisElement to remove
+	 */
+	void removeElement(T basisElement);
+	
+	/**
+	 * This function returns true if the stream contains the given basis element,
+	 * and false otherwise.
+	 * 
+	 * @param basisElement the basis element to query
+	 * @return true if the stream contains the basis element and false otherwise
+	 */
+	boolean containsElement(T basisElement);
+	
+	/**
 	 * This function returns the filtration value of the given basis element.
 	 * 
 	 * @param basisElement the element to query

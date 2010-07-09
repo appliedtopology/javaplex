@@ -39,11 +39,14 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  *
  */
 public class Cell implements PrimitiveBasisElement {
+	private static int cellIdCounter;
 	
 	/**
 	 * This array holds the contents of the boundary elements of the cell.
 	 */
 	private final PrimitiveBasisElement[] boundaryArray;
+	
+	private final int[] boundaryIndices;
 	
 	/**
 	 * This array holds the coefficients of the boundary. These are equal
@@ -70,13 +73,13 @@ public class Cell implements PrimitiveBasisElement {
 	 * This constructor initializes the cell to be a 0-cell (a vertex),
 	 * with the specified cellId as the vertex index.
 	 * 
-	 * @param cellId the index of the vertex
 	 */
-	public Cell(int cellId) {
+	public Cell() {
 		this.boundaryArray = new PrimitiveBasisElement[0];
 		this.boundaryCoefficients = new int[0];
+		this.boundaryIndices = new int[0];
 		this.dimension = 0;
-		this.cellId = cellId;
+		this.cellId = cellIdCounter++;
 		
 		// precompute hashcode
 		this.cachedHashCode = CRC.hash32(new int[]{this.cellId});
@@ -91,8 +94,12 @@ public class Cell implements PrimitiveBasisElement {
 	 * @param dimension the geometric dimension of the cell
 	 * @param boundaryElements an array containing the objects in the boundary
 	 */
-	public Cell(int cellId, int dimension, Collection<Cell> boundaryElements) {
-		this(cellId, dimension, boundaryElements.toArray(new PrimitiveBasisElement[0]), HomologyUtility.getDefaultBoundaryCoefficients(boundaryElements.size()));
+	public Cell(int dimension, Collection<Cell> boundaryElements) {
+		this(dimension, boundaryElements.toArray(new PrimitiveBasisElement[0]), HomologyUtility.getDefaultBoundaryCoefficients(boundaryElements.size()), getCellIds(boundaryElements));
+	}
+	
+	public Cell(int dimension, Collection<Cell> boundaryElements, int[] attachingDegrees) {
+		this(dimension, boundaryElements.toArray(new PrimitiveBasisElement[0]), attachingDegrees, getCellIds(boundaryElements));
 	}
 	
 	/**
@@ -104,8 +111,8 @@ public class Cell implements PrimitiveBasisElement {
 	 * @param dimension the geometric dimension of the cell
 	 * @param boundaryElements an array containing the objects in the boundary
 	 */
-	public Cell(int cellId, int dimension, Cell[] boundaryElements) {
-		this(cellId, dimension, boundaryElements, HomologyUtility.getDefaultBoundaryCoefficients(boundaryElements.length));
+	public Cell(int dimension, Cell[] boundaryElements) {
+		this(dimension, boundaryElements, HomologyUtility.getDefaultBoundaryCoefficients(boundaryElements.length), getCellIds(boundaryElements));
 	}
 	
 	/**
@@ -120,16 +127,45 @@ public class Cell implements PrimitiveBasisElement {
 	 * @param boundaryElements an array containing the objects in the boundary
 	 * @param attachingDegrees the degrees of the attaching maps to the boundary objects
 	 */
-	public Cell(int cellId, int dimension, PrimitiveBasisElement[] boundaryElements, int[] attachingDegrees) {
+	private Cell(int dimension, PrimitiveBasisElement[] boundaryElements, int[] attachingDegrees, int[] boundaryIndices) {
 		ExceptionUtility.verifyNonNull(boundaryElements);
 		ExceptionUtility.verifyEqual(boundaryElements.length, attachingDegrees.length);
 		this.boundaryArray = boundaryElements;
 		this.boundaryCoefficients = attachingDegrees;
-		this.cellId = cellId;
+		this.boundaryIndices = boundaryIndices;
+		this.cellId = cellIdCounter++;
 		this.dimension = dimension;
 		this.cachedHashCode = this.precomputeHashCode();
 	}
+	
+	private static int[] getCellIds(Collection<Cell> boundaryElements) {
+		int[] id_array = new int[boundaryElements.size()];
+		int i = 0;
+		
+		for (Cell cell: boundaryElements) {
+			id_array[i] = cell.getCellId();
+			i++;
+		}
+		
+		return id_array;
+	}
+	
+	private static int[] getCellIds(Cell[] boundaryElements) {
+		int[] id_array = new int[boundaryElements.length];
+		int i = 0;
+		
+		for (Cell cell: boundaryElements) {
+			id_array[i] = cell.getCellId();
+			i++;
+		}
+		
+		return id_array;
+	}
 
+	public int[] getBoundaryIndices() {
+		return this.boundaryIndices;
+	}
+	
 	/**
 	 * This function returns the unique identifier of the cell.
 	 * 

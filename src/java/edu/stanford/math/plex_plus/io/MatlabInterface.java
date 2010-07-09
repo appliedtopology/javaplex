@@ -3,7 +3,7 @@ package edu.stanford.math.plex_plus.io;
 import java.io.IOException;
 
 import cern.colt.matrix.DoubleMatrix2D;
-import edu.stanford.math.plex_plus.utility.ArrayUtility;
+import edu.stanford.math.plex_plus.array_utility.IntArrayMath;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 /**
@@ -104,8 +104,8 @@ public class MatlabInterface extends FormatInterface {
 	 */
 	public static void exportScatterPlot2D(MatlabWriter writer, DoubleMatrix2D values, String name, int[] labels) throws IOException {
 		ExceptionUtility.verifyGreaterThanOrEqual(values.columns(), 2);
-		int maxLabel = ArrayUtility.max(labels);
-		int minLabel = ArrayUtility.min(labels);
+		int maxLabel = IntArrayMath.max(labels);
+		int minLabel = IntArrayMath.min(labels);
 		writer.writeMatrix(values, name);
 		writer.newLine();
 		writer.writeRowVector(labels, "labels");
@@ -139,8 +139,8 @@ public class MatlabInterface extends FormatInterface {
 	 */
 	public static void exportScatterPlot3D(MatlabWriter writer, DoubleMatrix2D values, String name, int[] labels) throws IOException {
 		ExceptionUtility.verifyGreaterThanOrEqual(values.columns(), 3);
-		int maxLabel = ArrayUtility.max(labels);
-		int minLabel = ArrayUtility.min(labels);
+		int maxLabel = IntArrayMath.max(labels);
+		int minLabel = IntArrayMath.min(labels);
 		writer.writeMatrix(values, name);
 		writer.newLine();
 		writer.writeRowVector(labels, "labels");

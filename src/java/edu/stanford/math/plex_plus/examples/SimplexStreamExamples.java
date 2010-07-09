@@ -1,18 +1,26 @@
-package edu.stanford.math.plex_plus.homology;
+package edu.stanford.math.plex_plus.examples;
 
-import edu.stanford.math.plex_plus.homology.chain_basis.Cell;
-import edu.stanford.math.plex_plus.homology.chain_basis.CellComparator;
+import edu.stanford.math.plex_plus.array_utility.ArrayGeneration;
 import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 import edu.stanford.math.plex_plus.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex_plus.homology.streams.impl.ExplicitStream;
 import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
+/**
+ * This class contains various functions for producing examples of 
+ * filtered and static simplicial complexes. Note that we use the term
+ * static complex to refer to the fact that all filtration values are zero.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class SimplexStreamExamples {
-	
 	/**
-	 * This implements the example in Figure 1 of the paper
-	 * "Computing Persistent Homology" by Zomorodian and Carlsson.
+	 * This function returns a filtered simplicial complex which is shown in 
+	 * Figure 1 of the paper "Computing Persistent Homology" by Zomorodian and Carlsson.
 	 * 
+	 * @return a filtered simplex stream
 	 */
 	public static AbstractFilteredStream<Simplex> getZomorodianCarlssonExample() {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
@@ -39,129 +47,37 @@ public class SimplexStreamExamples {
 		return stream;
 	}
 	
-	public static AbstractFilteredStream<Cell> getMorozovJohanssonExample() {
-		ExplicitStream<Cell> stream = new ExplicitStream<Cell>(CellComparator.getInstance());
-
-		Cell vertex_1 = new Cell(1);
-		Cell vertex_2 = new Cell(2);
-		Cell edge_3 = new Cell(3, 1, new Cell[]{vertex_1, vertex_2});
-		Cell edge_4 = new Cell(4, 1, new Cell[]{vertex_1, vertex_2});
-		Cell face_5 = new Cell(5, 2, new Cell[]{edge_3, edge_4});
-		Cell face_6 = new Cell(6, 2, new Cell[]{edge_3, edge_4});
-		
-		stream.addElement(vertex_1, 1);
-		stream.addElement(vertex_2, 2);
-		stream.addElement(edge_3, 3);
-		stream.addElement(edge_4, 4);
-		stream.addElement(face_5, 5);
-		stream.addElement(face_6, 6);
-		
-		stream.finalizeStream();
-		
-		return stream;
-	}
-	
-	public static AbstractFilteredStream<Cell> getCellularSphere(int dimension) {
-		ExplicitStream<Cell> stream = new ExplicitStream<Cell>(CellComparator.getInstance());
-
-		Cell vertex_1 = new Cell(1);
-		Cell n_cell = new Cell(2, dimension, new Cell[]{});
-		
-		stream.addElement(vertex_1, 0);
-		stream.addElement(n_cell, 0);
-		
-		stream.finalizeStream();
-		
-		return stream;
-	}
-	
-	public static AbstractFilteredStream<Cell> getCellularTorus() {
-		ExplicitStream<Cell> stream = new ExplicitStream<Cell>(CellComparator.getInstance());
-
-		Cell vertex_1 = new Cell(1);
-		Cell edge_2 = new Cell(2, 1, new Cell[]{vertex_1, vertex_1});
-		Cell edge_3 = new Cell(3, 1, new Cell[]{vertex_1, vertex_1});
-		Cell face_4 = new Cell(4, 2, new Cell[]{edge_2, edge_3, edge_2, edge_3}, new int[]{1, 1, -1, -1});
-		
-		stream.addElement(vertex_1, 0);
-		stream.addElement(edge_2, 0);
-		stream.addElement(edge_3, 0);
-		stream.addElement(face_4, 0);
-		
-		stream.finalizeStream();
-		
-		return stream;
-	}
-	
-	public static AbstractFilteredStream<Cell> getCellularKleinBottle() {
-		ExplicitStream<Cell> stream = new ExplicitStream<Cell>(CellComparator.getInstance());
-
-		Cell vertex_1 = new Cell(1);
-		Cell edge_2 = new Cell(2, 1, new Cell[]{vertex_1, vertex_1});
-		Cell edge_3 = new Cell(3, 1, new Cell[]{vertex_1, vertex_1});
-		Cell face_4 = new Cell(4, 2, new Cell[]{edge_2, edge_3, edge_2, edge_3});
-		
-		stream.addElement(vertex_1, 0);
-		stream.addElement(edge_2, 0);
-		stream.addElement(edge_3, 0);
-		stream.addElement(face_4, 0);
-		
-		stream.finalizeStream();
-		
-		return stream;
-	}
-	
-	public static AbstractFilteredStream<Cell> getCellularRP2() {
-		ExplicitStream<Cell> stream = new ExplicitStream<Cell>(CellComparator.getInstance());
-
-		Cell vertex_1 = new Cell(1);
-		Cell edge_2 = new Cell(2, 1, new Cell[]{vertex_1, vertex_1});
-		Cell edge_3 = new Cell(3, 1, new Cell[]{vertex_1, vertex_1});
-		Cell face_4 = new Cell(4, 2, new Cell[]{edge_2, edge_3, edge_2, edge_3}, new int[]{1, 1, 1, 1});
-		
-		stream.addElement(vertex_1, 0);
-		stream.addElement(edge_2, 0);
-		stream.addElement(edge_3, 0);
-		stream.addElement(face_4, 0);
-		
-		stream.finalizeStream();
-		
-		return stream;
-	}
-	
+	/**
+	 * This function returns a simplicial triangle (which happens
+	 * to be equal to a simplicial 1-sphere).
+	 * 
+	 * @return a simplicial triangle
+	 */
 	public static AbstractFilteredStream<Simplex> getTriangle() {
-		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
-
-		stream.addElement(new Simplex(new int[]{0}), 0);
-		stream.addElement(new Simplex(new int[]{1}), 0);
-		stream.addElement(new Simplex(new int[]{2}), 0);
-		stream.addElement(new Simplex(new int[]{0, 1}), 0);
-		stream.addElement(new Simplex(new int[]{1, 2}), 0);
-		stream.addElement(new Simplex(new int[]{2, 0}), 0);
-		//stream.addElement(new Simplex(new int[]{0, 1, 2}), 3);
-
-		stream.finalizeStream();
-		
-		return stream;
+		return getSimplicialSphere(1);
 	}
 	
+	/**
+	 * This function returns a simplicial tetrahedron (which happens
+	 * to be equal to a simplicial 2-sphere).
+	 * 
+	 * @return a simplicial tetrahedron
+	 */
 	public static AbstractFilteredStream<Simplex> getTetrahedron() {
+		return getSimplicialSphere(2);
+	}
+	
+	/**
+	 * This function returns a static simplicial complex containing an n-sphere.
+	 * 
+	 * @param dimension the dimension of the sphere to produce
+	 * @return a simplicial sphere
+	 */
+	public static AbstractFilteredStream<Simplex> getSimplicialSphere(int dimension) {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 
-		stream.addElement(new Simplex(new int[]{0}), 0);
-		stream.addElement(new Simplex(new int[]{1}), 0);
-		stream.addElement(new Simplex(new int[]{2}), 0);
-		stream.addElement(new Simplex(new int[]{3}), 0);
-		stream.addElement(new Simplex(new int[]{0, 1}), 0);
-		stream.addElement(new Simplex(new int[]{1, 2}), 0);
-		stream.addElement(new Simplex(new int[]{0, 2}), 0);
-		stream.addElement(new Simplex(new int[]{0, 3}), 0);
-		stream.addElement(new Simplex(new int[]{1, 3}), 0);
-		stream.addElement(new Simplex(new int[]{2, 3}), 0);
-		stream.addElement(new Simplex(new int[]{0, 1, 2}), 0);
-		stream.addElement(new Simplex(new int[]{0, 1, 3}), 0);
-		stream.addElement(new Simplex(new int[]{0, 2, 3}), 0);
-		stream.addElement(new Simplex(new int[]{1, 2, 3}), 0);
+		stream.addElement(new Simplex(ArrayGeneration.range(0, dimension + 2)), 0);
+		stream.ensureAllFaces();
 		
 		stream.finalizeStream();
 		
@@ -169,7 +85,11 @@ public class SimplexStreamExamples {
 	}
 	
 	/**
-	 * The 2-torus.
+	 * This function returns a simplicial 2-torus. This construction was taken from the 
+	 * original version of Javaplex. Note that the complex returned is static meaning that
+	 * all filtration values are zero.
+	 * 
+	 * @return a simplicial complex containing a 2-torus.
 	 */
 	public static AbstractFilteredStream<Simplex> getTorus() {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
@@ -244,7 +164,16 @@ public class SimplexStreamExamples {
 		return stream;
 	}
 	
-	public static AbstractFilteredStream<Simplex> getCircle(int m) {		
+	/**
+	 * This function returns a simplicial circle with m vertices in it.
+	 * It requires that m >= 3.
+	 * 
+	 * @param m the number of vertices in the circle
+	 * @return a simplicial circle with m vertices
+	 */
+	public static AbstractFilteredStream<Simplex> getCircle(int m) {
+		ExceptionUtility.verifyGreaterThanOrEqual(m, 3);
+		
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 
 		for (int i = 0; i < m; i++) {
@@ -253,7 +182,6 @@ public class SimplexStreamExamples {
 		}
 
 		stream.finalizeStream();
-		
 		
 		return stream;
 	}	

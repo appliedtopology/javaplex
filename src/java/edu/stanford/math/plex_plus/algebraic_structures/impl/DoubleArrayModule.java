@@ -1,7 +1,7 @@
 package edu.stanford.math.plex_plus.algebraic_structures.impl;
 
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.DoubleLeftModule;
-import edu.stanford.math.plex_plus.utility.ArrayUtility;
+import edu.stanford.math.plex_plus.array_utility.DoubleArrayMath;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 public class DoubleArrayModule implements DoubleLeftModule<double[]> {
@@ -16,19 +16,19 @@ public class DoubleArrayModule implements DoubleLeftModule<double[]> {
 	}
 	
 	public double[] add(double[] a, double[] b) {
-		return ArrayUtility.sum(a, b);
+		return DoubleArrayMath.sum(a, b);
 	}	
 
 	public double[] multiply(double r, double[] a) {
-		return ArrayUtility.scalarMultiply(a, r);
+		return DoubleArrayMath.scalarMultiply(a, r);
 	}
 
 	public double[] negate(double[] a) {
-		return ArrayUtility.negate(a);
+		return DoubleArrayMath.negate(a);
 	}
 
 	public double[] subtract(double[] a, double[] b) {
-		return ArrayUtility.difference(a, b);
+		return DoubleArrayMath.difference(a, b);
 	}
 
 	public void accumulate(double[] a, double[] b) {

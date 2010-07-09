@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.homology;
+package edu.stanford.math.plex_plus.examples;
 
 import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 import edu.stanford.math.plex_plus.homology.streams.impl.LazyWitnessStream;

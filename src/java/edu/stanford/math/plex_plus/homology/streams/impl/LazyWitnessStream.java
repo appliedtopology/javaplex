@@ -1,9 +1,9 @@
 package edu.stanford.math.plex_plus.homology.streams.impl;
 
+import edu.stanford.math.plex_plus.array_utility.DoubleArrayQuery;
 import edu.stanford.math.plex_plus.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex_plus.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex_plus.math.metric.landmark.LandmarkSelector;
-import edu.stanford.math.plex_plus.utility.ArrayUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 /**
@@ -97,7 +97,7 @@ public class LazyWitnessStream<T> extends MaximalStream {
 			}	
 
 			// get the minimum indices within the set of landmark points
-			int[] minimumIndices = ArrayUtility.getMinimumIndices(distanceMatrixColumn, Math.max(2, nu));
+			int[] minimumIndices = DoubleArrayQuery.getMinimumIndices(distanceMatrixColumn, Math.max(2, nu));
 
 			/*
 			 * If nu = 0, then define m_i = 0, otherwise define m_i to be the nu-th smallest entry

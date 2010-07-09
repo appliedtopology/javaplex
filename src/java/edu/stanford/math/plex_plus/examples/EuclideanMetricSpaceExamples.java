@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.homology;
+package edu.stanford.math.plex_plus.examples;
 
 import edu.stanford.math.plex_plus.math.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex_plus.math.metric.interfaces.SearchableFiniteMetricSpace;

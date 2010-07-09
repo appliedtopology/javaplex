@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import edu.stanford.math.plex_plus.utility.ArrayUtility;
+import edu.stanford.math.plex_plus.array_utility.ArrayGeneration;
 import edu.stanford.math.plex_plus.utility.ArrayUtility2;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import edu.stanford.math.plex_plus.utility.ListUtility;
@@ -36,7 +36,7 @@ public class KDTree {
 		this.dataPoints = dataPoints;
 		this.size = dataPoints.length;
 		this.dimension = dataPoints[0].length;
-		this.indexTranslation = ListUtility.toList(ArrayUtility.range(0, this.size));
+		this.indexTranslation = ListUtility.toList(ArrayGeneration.range(0, this.size));
 	}
 
 	public List<Integer> getIndexTranslation() {

@@ -10,6 +10,7 @@ import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericOrdere
 import edu.stanford.math.plex_plus.datastructures.DoubleFormalSum;
 import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
+import edu.stanford.math.plex_plus.examples.SimplexStreamExamples;
 import edu.stanford.math.plex_plus.functional.GenericDoubleFunction;
 import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 import edu.stanford.math.plex_plus.homology.chain_basis.SimplexComparator;
