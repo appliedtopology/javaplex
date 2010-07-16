@@ -8,6 +8,7 @@ import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex_plus.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex_plus.homology.streams.utility.FilteredComparator;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.map.hash.THashMap;
@@ -27,6 +28,8 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 	private final IntField field;
 	private AbstractFilteredStream<BasisElementType> currentStream = null;
 	private final Comparator<BasisElementType> comparator;
+	private Comparator<BasisElementType> filteredComparator;
+	private final double minimalGranularity = 0.001;
 	
 	public ClassicalPersistentHomology(IntField field, Comparator<BasisElementType> comparator) {
 		this.field = field;
@@ -35,7 +38,8 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 	
 	public BarcodeCollection computeIntervals(AbstractFilteredStream<BasisElementType> stream, int maxDimension) {
 		BarcodeCollection barcodeCollection = new BarcodeCollection();
-
+		this.filteredComparator = new FilteredComparator<BasisElementType>(stream, this.comparator);
+		
 		this.currentStream = stream;
 		
 		for (BasisElementType simplex : stream) {
@@ -75,7 +79,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 				}
 				
 				// don't store intervals that are simultaneously created and destroyed
-				if (degree_i != degree_j && k < maxDimension) {
+				if ((degree_j - degree_i >= this.minimalGranularity) && k < maxDimension) {
 					barcodeCollection.addInterval(k, degree_i, degree_j);
 				}
 			}
@@ -180,7 +184,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 				maxObject = iterator.key();
 			}
 			
-			if (this.comparator.compare(iterator.key(), maxObject) > 0) {
+			if (this.filteredComparator.compare(iterator.key(), maxObject) > 0) {
 				maxObject = iterator.key();
 			}
 		}

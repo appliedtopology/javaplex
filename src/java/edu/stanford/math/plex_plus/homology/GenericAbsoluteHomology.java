@@ -1,12 +1,11 @@
 package edu.stanford.math.plex_plus.homology;
 
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Set;
 
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericField;
-import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
+import edu.stanford.math.plex_plus.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex_plus.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
@@ -27,12 +26,12 @@ public class GenericAbsoluteHomology<F, T> extends GenericPersistenceAlgorithm<F
 	}
 
 	@Override
-	public AugmentedBarcodeCollection<GenericFormalSum<F, T>> computeAugmentedIntervals(AbstractFilteredStream<T> stream) {
+	public AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
 		return this.getAugmentedIntervals(this.pHcol(stream), stream);
 	}
 
 	@Override
-	public BarcodeCollection computeIntervals(AbstractFilteredStream<T> stream) {
+	public BarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream) {
 		return this.getIntervals(this.pHcol(stream), stream);
 	}
 
@@ -47,10 +46,10 @@ public class GenericAbsoluteHomology<F, T> extends GenericPersistenceAlgorithm<F
 	 * @param stream the filtered chain complex which provides elements in increasing filtration order
 	 * @return a GenericPair containing the matrices R and V
 	 */
-	private GenericPair<THashMap<T, GenericFormalSum<F, T>>, THashMap<T, GenericFormalSum<F, T>>> pHcol(AbstractFilteredStream<T> stream) {
+	private GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> pHcol(AbstractFilteredStream<T> stream) {
 
-		THashMap<T, GenericFormalSum<F, T>> R = new THashMap<T, GenericFormalSum<F, T>>();
-		THashMap<T, GenericFormalSum<F, T>> V = new THashMap<T, GenericFormalSum<F, T>>();
+		THashMap<T, AbstractGenericFormalSum<F, T>> R = new THashMap<T, AbstractGenericFormalSum<F, T>>();
+		THashMap<T, AbstractGenericFormalSum<F, T>> V = new THashMap<T, AbstractGenericFormalSum<F, T>>();
 
 		/**
 		 * This maps a simplex to the set of columns containing the key as its low value.
@@ -61,12 +60,12 @@ public class GenericAbsoluteHomology<F, T> extends GenericPersistenceAlgorithm<F
 			/*
 			 * Do not process simplices of higher dimension than maxDimension.
 			 */
-			if (stream.getDimension(i) > this.maxDimension || stream.getDimension(i) < this.minDimension) {
-				break;
+			if (stream.getDimension(i) > this.maxDimension + 1 || stream.getDimension(i) < this.minDimension) {
+				continue;
 			}
-
+			
 			// initialize V to be the identity matrix
-			V.put(i, new GenericFormalSum<F, T>(this.field.valueOf(1), i));
+			V.put(i, this.chainModule.createNewSum(this.field.valueOf(1), i));
 
 			// form the column R[i] which equals the boundary of the current simplex.
 			// store the column as a column in R
@@ -83,27 +82,16 @@ public class GenericAbsoluteHomology<F, T> extends GenericPersistenceAlgorithm<F
 
 			THashSet<T> matchingLowSimplices = lowMap.get(low_R_i);
 			while (matchingLowSimplices != null && !matchingLowSimplices.isEmpty()) {
-				T j = null;
 				TObjectHashIterator<T> iterator = matchingLowSimplices.iterator();
-				if (matchingLowSimplices.size() == 1) {
-					j = iterator.next();
-					if (i.equals(j)) {
-						break;
-					}
-				} else {
-					j = iterator.next();
-					if ((i.equals(j))) {
-						j = iterator.next();
-					}
-				}
+				T j = iterator.next();
 				
-				F c = field.divide(R.get(i).getCoefficient(low_R_i), R.get(j).getCoefficient(this.low(R.get(j))));
+				F c = field.divide(R.get(i).getCoefficient(low_R_i), R.get(j).getCoefficient(low_R_i));
 
 				R.put(i, chainModule.subtract(R.get(i), chainModule.multiply(c, R.get(j))));
 				V.put(i, chainModule.subtract(V.get(i), chainModule.multiply(c, V.get(j))));
 				
 				// remove old low_R(i) entry
-				lowMap.get(low_R_i).remove(i);
+				//lowMap.get(low_R_i).remove(i);
 				
 				// recompute low_R(i)
 				low_R_i = this.low(R.get(i));
@@ -123,97 +111,80 @@ public class GenericAbsoluteHomology<F, T> extends GenericPersistenceAlgorithm<F
 		// at this point we have computed the decomposition R = D * V
 		// we return the pair (R, V)
 
-		return new GenericPair<THashMap<T, GenericFormalSum<F, T>>, THashMap<T, GenericFormalSum<F, T>>>(R, V);
+		return new GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>>(R, V);
 	}
 
-	private AugmentedBarcodeCollection<GenericFormalSum<F, T>> getAugmentedIntervals(GenericPair<THashMap<T, GenericFormalSum<F, T>>, THashMap<T, GenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
-		AugmentedBarcodeCollection<GenericFormalSum<F, T>> barcodeCollection = new AugmentedBarcodeCollection<GenericFormalSum<F, T>>();
+	private AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> getAugmentedIntervals(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
+		AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> barcodeCollection = new AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>>();
 
-		THashMap<T, GenericFormalSum<F, T>> R = RV_pair.getFirst();
-		THashMap<T, GenericFormalSum<F, T>> V = RV_pair.getSecond();
+		THashMap<T, AbstractGenericFormalSum<F, T>> R = RV_pair.getFirst();
+		THashMap<T, AbstractGenericFormalSum<F, T>> V = RV_pair.getSecond();
 
-		/*
-		 * We follow the naming convention used in Theorem 2.5 in "Dualities in Persistent (Co)homology".
-		 * 
-		 * Given our chain complex (C, d), we use the partition {0, ..., n-1} = F u G u H.
-		 * Then the persistence diagram consists of intervals [a_f, \infinity) for f in F,
-		 * and [a_g, a_h) for g in G, and h in H. 
-		 * 
-		 */
-		Set<T> F = new THashSet<T>();
-		Set<T> G = new THashSet<T>();
-		Set<T> H = new THashSet<T>();
-
-		Set<T> simplices = R.keySet();
-		F.addAll(simplices);
-
-		for (Iterator<T> iterator = simplices.iterator(); iterator.hasNext(); ) {
-			T i = iterator.next();
+		Set<T> births = new THashSet<T>();
+		
+		for (T i: stream) {
+			if (!R.containsKey(i)) {
+				continue;
+			}
 			T low_R_i = this.low(R.get(i));
-			if (low_R_i != null) {
-				G.add(low_R_i);
-				H.add(i);
-				// remove i from F
-				F.remove(i);
-				// remove low_R_i from F as well
-				F.remove(low_R_i);
+			int dimension = stream.getDimension(i);
+			if (low_R_i == null) {
+				if (dimension <= this.maxDimension && dimension >= this.minDimension) {
+					births.add(i);
+				}
+			} else {
+				// simplex i kills low_R_i
+				births.remove(low_R_i);
+				births.remove(i);
 				double start = stream.getFiltrationValue(low_R_i);
 				double end = stream.getFiltrationValue(i);
-				if (start < end) {
+				if (end >= start + this.minGranularity) {
 					barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end, R.get(i));
 				}
 			}
 		}
-
-		// add the collection of semi-infinite intervals to the barcode collection
-		for (T i: F) {
+		
+		// the elements in birth are the ones that are never killed
+		// these correspond to semi-infinite intervals
+		for (T i: births) {
 			barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
 		}
 
 		return barcodeCollection;
 	}
 	
-	private BarcodeCollection getIntervals(GenericPair<THashMap<T, GenericFormalSum<F, T>>, THashMap<T, GenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
+	private BarcodeCollection getIntervals(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
 		BarcodeCollection barcodeCollection = new BarcodeCollection();
 
-		THashMap<T, GenericFormalSum<F, T>> R = RV_pair.getFirst();
-		THashMap<T, GenericFormalSum<F, T>> V = RV_pair.getSecond();
-
-		/*
-		 * We follow the naming convention used in Theorem 2.5 in "Dualities in Persistent (Co)homology".
-		 * 
-		 * Given our chain complex (C, d), we use the partition {0, ..., n-1} = F u G u H.
-		 * Then the persistence diagram consists of intervals [a_f, \infinity) for f in F,
-		 * and [a_g, a_h) for g in G, and h in H. 
-		 * 
-		 */
-		Set<T> F = new THashSet<T>();
-		Set<T> G = new THashSet<T>();
-		Set<T> H = new THashSet<T>();
-
-		Set<T> simplices = R.keySet();
-		F.addAll(simplices);
-
-		for (Iterator<T> iterator = simplices.iterator(); iterator.hasNext(); ) {
-			T i = iterator.next();
+		THashMap<T, AbstractGenericFormalSum<F, T>> R = RV_pair.getFirst();
+		
+		Set<T> births = new THashSet<T>();
+		
+		for (T i: stream) {
+			if (!R.containsKey(i)) {
+				continue;
+			}
 			T low_R_i = this.low(R.get(i));
-			if (low_R_i != null) {
-				G.add(low_R_i);
-				H.add(i);
-				// remove i from F
-				F.remove(i);
-				// remove low_R_i from F as well
-				F.remove(low_R_i);
+			int dimension = stream.getDimension(i);
+			if (low_R_i == null) {
+				if (dimension <= this.maxDimension && dimension >= this.minDimension) {
+					births.add(i);
+				}
+			} else {
+				// simplex i kills low_R_i
+				births.remove(low_R_i);
+				births.remove(i);
 				double start = stream.getFiltrationValue(low_R_i);
 				double end = stream.getFiltrationValue(i);
-				if (start < end) {
+				if (end >= start + this.minGranularity) {
 					barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end);
 				}
 			}
 		}
-
-		// add the collection of semi-infinite intervals to the barcode collection
-		for (T i: F) {
+		
+		// the elements in birth are the ones that are never killed
+		// these correspond to semi-infinite intervals
+		for (T i: births) {
 			barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i));
 		}
 

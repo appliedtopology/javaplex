@@ -6,10 +6,10 @@ package edu.stanford.math.plex_plus.homology;
 import java.util.Comparator;
 
 import edu.stanford.math.plex_plus.algebraic_structures.impl.ModularIntField;
+import edu.stanford.math.plex_plus.algebraic_structures.impl.ModularIntegerField;
 import edu.stanford.math.plex_plus.algebraic_structures.impl.RationalField;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericField;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.IntField;
-import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
 import edu.stanford.math.plex_plus.embedding.GraphEmbedding;
 import edu.stanford.math.plex_plus.embedding.GraphMetricEmbedding;
@@ -18,6 +18,7 @@ import edu.stanford.math.plex_plus.examples.CellComplexOperations;
 import edu.stanford.math.plex_plus.examples.CellStreamExamples;
 import edu.stanford.math.plex_plus.examples.PointCloudExamples;
 import edu.stanford.math.plex_plus.examples.SimplexStreamExamples;
+import edu.stanford.math.plex_plus.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex_plus.graph_metric.ShortestPathMetric;
 import edu.stanford.math.plex_plus.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
@@ -63,8 +64,8 @@ public class PersistentHomologyTest {
 	}
 	
 	public static void SimplicalTest() {
-		AbstractFilteredStream<Simplex> stream = SimplexStreamExamples.getCircle(10000);
-		testGenericDualityPersistentCohomology(stream, SimplexComparator.getInstance(), RationalField.getInstance());
+		AbstractFilteredStream<Simplex> stream = SimplexStreamExamples.getFilteredTriangle();
+		testGenericDualityPersistentCohomology(stream, SimplexComparator.getInstance(), ModularIntegerField.getInstance(7));
 	}
 	
 	public static <T extends PrimitiveBasisElement> void testClassicalPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, IntField field, int dimension) {
@@ -81,13 +82,15 @@ public class PersistentHomologyTest {
 	
 	public static <F, T> void testGenericDualityPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, GenericField<F> field) {
 		GenericPersistenceAlgorithm<F, T> homology = new GenericAbsoluteHomology<F, T>(field, comparator, 8);
-		BarcodeCollection barcodes = homology.computeIntervals(stream);
+		//BarcodeCollection barcodes = homology.computeIntervals(stream);
+		AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
 		System.out.println(barcodes);
 	}
 	
 	public static <F, T> void testGenericDualityPersistentCohomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, GenericField<F> field) {
-		GenericPersistenceAlgorithm<F, T> homology = new GenericAbsoluteCohomology<F, T>(field, comparator, 8);
+		GenericPersistenceAlgorithm<F, T> homology = new GenericAbsoluteCohomology<F, T>(field, comparator, 2);
 		BarcodeCollection barcodes = homology.computeIntervals(stream);
+		//AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
 		System.out.println(barcodes);
 	}
 	

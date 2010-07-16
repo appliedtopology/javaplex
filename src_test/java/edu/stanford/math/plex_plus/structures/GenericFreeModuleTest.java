@@ -2,12 +2,13 @@ package edu.stanford.math.plex_plus.structures;
 
 import org.apache.commons.math.fraction.Fraction;
 
-import edu.stanford.math.plex_plus.algebraic_structures.impl.GenericFreeModule;
 import edu.stanford.math.plex_plus.algebraic_structures.impl.IntFreeModule;
 import edu.stanford.math.plex_plus.algebraic_structures.impl.ModularIntField;
 import edu.stanford.math.plex_plus.algebraic_structures.impl.RationalField;
-import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.IntFormalSum;
+import edu.stanford.math.plex_plus.free_module.AbstractGenericFormalSum;
+import edu.stanford.math.plex_plus.free_module.AbstractGenericFreeModule;
+import edu.stanford.math.plex_plus.free_module.UnorderedGenericFreeModule;
 import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 
 /**
@@ -22,8 +23,8 @@ public class GenericFreeModuleTest {
 	public static void main(String[] args) {
 		
 		// Formal sums of String objects with Fraction coefficients
-		GenericFreeModule<Fraction, String> M = new GenericFreeModule<Fraction, String>(RationalField.getInstance());
-		GenericFormalSum<Fraction, String> sum = M.multiply(5, M.add(M.add("b", "b"), "a"));
+		AbstractGenericFreeModule<Fraction, String> M = new UnorderedGenericFreeModule<Fraction, String>(RationalField.getInstance());
+		AbstractGenericFormalSum<Fraction, String> sum = M.multiply(5, M.add(M.add("b", "b"), "a"));
 		System.out.println(sum.toString());
 		
 		// Formal sums of Simplex objects with Fraction coefficients

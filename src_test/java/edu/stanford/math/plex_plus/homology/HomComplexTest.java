@@ -8,9 +8,9 @@ import org.apache.commons.math.optimization.OptimizationException;
 import edu.stanford.math.plex_plus.algebraic_structures.impl.RationalField;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericOrderedField;
 import edu.stanford.math.plex_plus.datastructures.DoubleFormalSum;
-import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex_plus.examples.SimplexStreamExamples;
+import edu.stanford.math.plex_plus.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex_plus.functional.GenericDoubleFunction;
 import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 import edu.stanford.math.plex_plus.homology.chain_basis.SimplexComparator;
@@ -24,25 +24,25 @@ public class HomComplexTest {
 	}
 	
 	public static <F extends Number> void simplicialHomTest(GenericOrderedField<F> field) {
-		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getTetrahedron();
-		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getTetrahedron();
+		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(4);
+		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(4);
 		
 		HomComplexComputation<F, Simplex, Simplex> computation = new HomComplexComputation<F, Simplex, Simplex>(domainStream, codomainStream, SimplexComparator.getInstance(), SimplexComparator.getInstance(), field);
 		
 		System.out.println("Computing Generating Cycles");
-		List<GenericFormalSum<F, GenericPair<Simplex, Simplex>>> generatingCycles = computation.computeGeneratingCycles();
+		List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> generatingCycles = computation.computeGeneratingCycles();
 		
-		for (GenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle: generatingCycles) {
+		for (AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle: generatingCycles) {
 			System.out.println(generatingCycle);
 		}
 		
-		GenericFormalSum<F, GenericPair<Simplex, Simplex>> cycleSum = computation.sumGeneratingCycles(generatingCycles);
+		AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> cycleSum = computation.sumGeneratingCycles(generatingCycles);
 		
 		System.out.println("Computing Homotopies: ");
-		List<GenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies = computation.getChainHomotopies();
+		List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies = computation.getChainHomotopies();
 		System.out.println("Homotopy set size: " + homotopies.size());
 		
-		for (GenericFormalSum<F, GenericPair<Simplex, Simplex>> homotopy: homotopies) {
+		for (AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> homotopy: homotopies) {
 			System.out.println(homotopy);
 		}
 		

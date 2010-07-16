@@ -18,11 +18,12 @@ import org.apache.commons.math.random.RandomVectorGenerator;
 import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
 
 import edu.stanford.math.plex_plus.algebraic_structures.impl.DoubleFreeModule;
-import edu.stanford.math.plex_plus.algebraic_structures.impl.GenericFreeModule;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericOrderedField;
 import edu.stanford.math.plex_plus.datastructures.DoubleFormalSum;
-import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
+import edu.stanford.math.plex_plus.free_module.AbstractGenericFormalSum;
+import edu.stanford.math.plex_plus.free_module.AbstractGenericFreeModule;
+import edu.stanford.math.plex_plus.free_module.UnorderedGenericFreeModule;
 import edu.stanford.math.plex_plus.functional.GenericDoubleFunction;
 import edu.stanford.math.plex_plus.homology.GenericAbsoluteHomology;
 import edu.stanford.math.plex_plus.homology.barcodes.AugmentedBarcodeCollection;
@@ -33,7 +34,7 @@ import edu.stanford.math.plex_plus.utility.ArrayUtility;
 
 public class HomComplexComputation<F extends Number, M, N> {
 	private final GenericOrderedField<F> field;
-	private final GenericFreeModule<F, GenericPair<M, N>> genericChainModule;
+	private final AbstractGenericFreeModule<F, GenericPair<M, N>> genericChainModule;
 	private final DoubleFreeModule<GenericPair<M, N>> doubleChainModule = new DoubleFreeModule<GenericPair<M, N>>();
 	
 	private final AbstractFilteredStream<M> domainStream;
@@ -55,19 +56,19 @@ public class HomComplexComputation<F extends Number, M, N> {
 		this.codomainComparator = codomainComparator;
 
 		this.field = field;
-		genericChainModule = new GenericFreeModule<F, GenericPair<M, N>>(this.field);
+		genericChainModule = new UnorderedGenericFreeModule<F, GenericPair<M, N>>(this.field);
 
 		this.homStream = new HomStream<M, N>(this.domainStream, this.codomainStream, this.domainComparator, this.codomainComparator);
 	}
 
-	public List<GenericFormalSum<F, GenericPair<M, N>>> computeGeneratingCycles() {
+	public List<AbstractGenericFormalSum<F, GenericPair<M, N>>> computeGeneratingCycles() {
 		homStream.finalizeStream();
 
 		//GenericPersistentHomologyOld<F, GenericPair<M, N>> homology = new GenericPersistentHomologyOld<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
 		GenericAbsoluteHomology<F, GenericPair<M, N>> homology = new GenericAbsoluteHomology<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
-		AugmentedBarcodeCollection<GenericFormalSum<F, GenericPair<M, N>>> barcodes = homology.computeAugmentedIntervals(homStream);
+		AugmentedBarcodeCollection<AbstractGenericFormalSum<F, GenericPair<M, N>>> barcodes = homology.computeAugmentedIntervals(homStream);
 
-		List<GenericFormalSum<F, GenericPair<M, N>>> generatingCycles = new ArrayList<GenericFormalSum<F, GenericPair<M, N>>>();
+		List<AbstractGenericFormalSum<F, GenericPair<M, N>>> generatingCycles = new ArrayList<AbstractGenericFormalSum<F, GenericPair<M, N>>>();
 
 		int numCycles = barcodes.getBarcode(0).getSize();
 		for (int i = 0; i < numCycles; i++) {
@@ -77,8 +78,8 @@ public class HomComplexComputation<F extends Number, M, N> {
 		return generatingCycles;
 	}
 
-	public GenericFormalSum<F, GenericPair<M, N>> sumGeneratingCycles(List<GenericFormalSum<F, GenericPair<M, N>>> generatingCycles) {
-		GenericFormalSum<F, GenericPair<M, N>> sum = new GenericFormalSum<F, GenericPair<M, N>>();
+	public AbstractGenericFormalSum<F, GenericPair<M, N>> sumGeneratingCycles(List<AbstractGenericFormalSum<F, GenericPair<M, N>>> generatingCycles) {
+		AbstractGenericFormalSum<F, GenericPair<M, N>> sum = this.genericChainModule.createNewSum();
 		int numCycles = generatingCycles.size();
 
 		for (int i = 0; i < numCycles; i++) {
@@ -88,7 +89,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 		return sum;
 	}
 
-	public List<GenericFormalSum<F, GenericPair<M, N>>> getChainHomotopies() {
+	public List<AbstractGenericFormalSum<F, GenericPair<M, N>>> getChainHomotopies() {
 		GenericAbsoluteHomology<F, GenericPair<M, N>> homology = new GenericAbsoluteHomology<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
 		
 		return homology.getBoundaryColumns(this.homStream, 1);
@@ -112,13 +113,13 @@ public class HomComplexComputation<F extends Number, M, N> {
 	}
 	
 	private DoubleFormalSum<GenericPair<M, N>> computeHomCycle(double[] homotopyCoefficients,
-			GenericFormalSum<F, GenericPair<M, N>> generatingCycle,
-			List<GenericFormalSum<F, GenericPair<M, N>>> homotopies) {
+			AbstractGenericFormalSum<F, GenericPair<M, N>> generatingCycle,
+			List<AbstractGenericFormalSum<F, GenericPair<M, N>>> homotopies) {
 		return this.computeHomCycle(homotopyCoefficients, MappingUtility.toDoubleFormalSum(generatingCycle), MappingUtility.toDoubleFormalSumList(homotopies));
 	}
 	
-	public RealPointValuePair findOptimalCoefficients(final GenericFormalSum<F, GenericPair<M, N>> generatingCycle, 
-			final List<GenericFormalSum<F, GenericPair<M, N>>> homotopies,
+	public RealPointValuePair findOptimalCoefficients(final AbstractGenericFormalSum<F, GenericPair<M, N>> generatingCycle, 
+			final List<AbstractGenericFormalSum<F, GenericPair<M, N>>> homotopies,
 			final GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>> mappingPenaltyFunction) throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
 		
 		MultivariateRealFunction objective = this.getObjectiveFunctionViaMappingPenalty(generatingCycle, homotopies, mappingPenaltyFunction);
@@ -142,16 +143,16 @@ public class HomComplexComputation<F extends Number, M, N> {
 		return optimum;
 	}
 	
-	public DoubleFormalSum<GenericPair<M, N>> findOptimalChainMap(final GenericFormalSum<F, GenericPair<M, N>> generatingCycle, 
-			final List<GenericFormalSum<F, GenericPair<M, N>>> homotopies,
+	public DoubleFormalSum<GenericPair<M, N>> findOptimalChainMap(final AbstractGenericFormalSum<F, GenericPair<M, N>> generatingCycle, 
+			final List<AbstractGenericFormalSum<F, GenericPair<M, N>>> homotopies,
 			final GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>> mappingPenaltyFunction) throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
 		
 		RealPointValuePair pair = this.findOptimalCoefficients(generatingCycle, homotopies, mappingPenaltyFunction);
 		return this.computeHomCycle(MappingUtility.round(pair.getPoint()), generatingCycle, homotopies);
 	}
 	
-	MultivariateRealFunction getObjectiveFunctionViaMappingPenalty(final GenericFormalSum<F, GenericPair<M, N>> generatingCycle, 
-			final List<GenericFormalSum<F, GenericPair<M, N>>> homotopies,
+	MultivariateRealFunction getObjectiveFunctionViaMappingPenalty(final AbstractGenericFormalSum<F, GenericPair<M, N>> generatingCycle, 
+			final List<AbstractGenericFormalSum<F, GenericPair<M, N>>> homotopies,
 			final GenericDoubleFunction<DoubleFormalSum<GenericPair<M, N>>> mappingPenaltyFunction) {
 	
 		return new MultivariateRealFunction() {
@@ -175,8 +176,8 @@ public class HomComplexComputation<F extends Number, M, N> {
 		};
 	}
 	
-	MultivariateRealFunction getObjectiveFunctionViaImagePenalty(final GenericFormalSum<F, GenericPair<M, N>> generatingCycle, 
-			final List<GenericFormalSum<F, GenericPair<M, N>>> homotopies,
+	MultivariateRealFunction getObjectiveFunctionViaImagePenalty(final AbstractGenericFormalSum<F, GenericPair<M, N>> generatingCycle, 
+			final List<AbstractGenericFormalSum<F, GenericPair<M, N>>> homotopies,
 			final GenericDoubleFunction<DoubleFormalSum<N>> imagePenaltyFunction) {
 		
 		return getObjectiveFunctionViaMappingPenalty(generatingCycle, homotopies, MappingUtility.computeInducedFunction(imagePenaltyFunction, domainStream));

@@ -1,4 +1,4 @@
-package edu.stanford.math.plex_plus.datastructures;
+package edu.stanford.math.plex_plus.free_module;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,18 +22,18 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  * @param <R> the coefficient type
  * @param <M> the object type 
  */
-public class GenericFormalSum<R, M> implements Iterable<Map.Entry<M, R>> {
+public class UnorderedGenericFormalSum<R, M> implements AbstractGenericFormalSum<R, M> {
 	/**
 	 * The coefficient-object pairs are held in a hash map, where the
 	 * key is the object (e.g. a simplex), and the value is the coefficient.
 	 * 
 	 */
-	private HashMap<M, R> map = new HashMap<M, R>();
-	
+	private final HashMap<M, R> map = new HashMap<M, R>();
+
 	/**
 	 * Default constructor which initializes the sum to be empty.
 	 */
-	public GenericFormalSum() {}
+	public UnorderedGenericFormalSum() {}
 	
 	/**
 	 * This constructor initializes the sum to contain one object.
@@ -41,18 +41,8 @@ public class GenericFormalSum<R, M> implements Iterable<Map.Entry<M, R>> {
 	 * @param coefficient the coefficient of the initializing object
 	 * @param object the object to initialize to
 	 */
-	public GenericFormalSum(R coefficient, M object) {
+	UnorderedGenericFormalSum(R coefficient, M object) {
 		this.put(coefficient, object);
-	}
-	
-	/**
-	 * This constructor constructs the sum from another hash map.
-	 * 
-	 * @param map the hash map to import from
-	 */
-	private GenericFormalSum(Map<M, R> map) {
-		ExceptionUtility.verifyNonNull(map);
-		this.map.putAll(map);
 	}
 	
 	/**
@@ -60,8 +50,10 @@ public class GenericFormalSum<R, M> implements Iterable<Map.Entry<M, R>> {
 	 * 
 	 * @param formalSum the IntFormalSum to import from
 	 */
-	public GenericFormalSum(GenericFormalSum<R, M> formalSum) {
-		this(formalSum.map);
+	UnorderedGenericFormalSum(AbstractGenericFormalSum<R, M> formalSum) {
+		for (Map.Entry<M, R> entry: formalSum) {
+			this.map.put(entry.getKey(), entry.getValue());
+		}
 	}
 	
 	/**
@@ -183,12 +175,34 @@ public class GenericFormalSum<R, M> implements Iterable<Map.Entry<M, R>> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GenericFormalSum<?, ?> other = (GenericFormalSum<?, ?>) obj;
+		UnorderedGenericFormalSum<?, ?> other = (UnorderedGenericFormalSum<?, ?>) obj;
 		if (map == null) {
 			if (other.map != null)
 				return false;
 		} else if (!map.equals(other.map))
 			return false;
 		return true;
+	}
+
+	public AbstractGenericFormalSum<R, M> like() {
+		return new UnorderedGenericFormalSum<R, M>();
+	}
+
+	public AbstractGenericFormalSum<R, M> like(AbstractGenericFormalSum<R, M> contents) {
+		return new UnorderedGenericFormalSum<R, M>(contents);
+	}
+	
+	public AbstractGenericFormalSum<R, M> clone() {
+		UnorderedGenericFormalSum<R, M> result = new UnorderedGenericFormalSum<R, M>();
+		
+		for (Map.Entry<M, R> entry: this) {
+			result.put(entry.getValue(), entry.getKey());
+		}
+		
+		return result;
+	}
+
+	public AbstractGenericFormalSum<R, M> like(R coefficient, M object) {
+		return new UnorderedGenericFormalSum<R, M>(coefficient, object);
 	}
 }

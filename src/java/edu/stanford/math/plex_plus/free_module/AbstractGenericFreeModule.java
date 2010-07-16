@@ -1,11 +1,10 @@
-package edu.stanford.math.plex_plus.algebraic_structures.impl;
+package edu.stanford.math.plex_plus.free_module;
 
 import java.util.Iterator;
 import java.util.Map;
 
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericLeftModule;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericRing;
-import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 
 /**
@@ -23,25 +22,29 @@ import edu.stanford.math.plex_plus.utility.ExceptionUtility;
  * @param <R> the coefficient data type over which a ring is defined
  * @param <M> the object data type (e.g. a simplex)
  */
-public class GenericFreeModule<R, M> implements GenericLeftModule<R, GenericFormalSum<R, M>> {
+public abstract class AbstractGenericFreeModule<R, M> implements GenericLeftModule<R, AbstractGenericFormalSum<R, M>> {
 	private GenericRing<R> ring;
 	
-	public GenericFreeModule(GenericRing<R> ring) {
+	public AbstractGenericFreeModule(GenericRing<R> ring) {
 		ExceptionUtility.verifyNonNull(ring);
 		this.ring = ring;
 	}
 	
-	public GenericFormalSum<R, M> add(GenericFormalSum<R, M> a, GenericFormalSum<R, M> b) {
+	public abstract AbstractGenericFormalSum<R, M> createNewSum();
+	public abstract AbstractGenericFormalSum<R, M> createNewSum(R coefficient, M object);
+	public abstract AbstractGenericFormalSum<R, M> createNewSum(AbstractGenericFormalSum<R, M> contents);
+	
+	public AbstractGenericFormalSum<R, M> add(AbstractGenericFormalSum<R, M> a, AbstractGenericFormalSum<R, M> b) {
 		ExceptionUtility.verifyNonNull(a);
 		ExceptionUtility.verifyNonNull(b);
-		GenericFormalSum<R, M> result = null;
+		AbstractGenericFormalSum<R, M> result = null;
 		Iterator<Map.Entry<M, R>> iterator = null;
 		
 		if (a.size() > b.size()) {
-			result = new GenericFormalSum<R, M>(a);
+			result = this.createNewSum(a);
 			iterator = b.iterator();
 		} else {
-			result = new GenericFormalSum<R, M>(b);
+			result = this.createNewSum(b);
 			iterator = a.iterator();
 		}
 		
@@ -53,11 +56,11 @@ public class GenericFreeModule<R, M> implements GenericLeftModule<R, GenericForm
 		return result;
 	}
 	
-	public GenericFormalSum<R, M> subtract(GenericFormalSum<R, M> a, GenericFormalSum<R, M> b) {
+	public AbstractGenericFormalSum<R, M> subtract(AbstractGenericFormalSum<R, M> a, AbstractGenericFormalSum<R, M> b) {
 		ExceptionUtility.verifyNonNull(a);
 		ExceptionUtility.verifyNonNull(b);
 		
-		GenericFormalSum<R, M> result = new GenericFormalSum<R, M>(a);
+		AbstractGenericFormalSum<R, M> result = this.createNewSum(a);
 		Iterator<Map.Entry<M, R>> iterator = b.iterator();
 		
 		while (iterator.hasNext()) {
@@ -68,11 +71,11 @@ public class GenericFreeModule<R, M> implements GenericLeftModule<R, GenericForm
 		return result;
 	}
 	
-	public GenericFormalSum<R, M> multiply(R r, GenericFormalSum<R, M> a) {
+	public AbstractGenericFormalSum<R, M> multiply(R r, AbstractGenericFormalSum<R, M> a) {
 		ExceptionUtility.verifyNonNull(a);
 		ExceptionUtility.verifyNonNull(r);
 		
-		GenericFormalSum<R, M> result = new GenericFormalSum<R, M>();
+		AbstractGenericFormalSum<R, M> result = this.createNewSum();
 		Iterator<Map.Entry<M, R>> iterator = a.iterator();
 		
 		while (iterator.hasNext()) {
@@ -83,10 +86,10 @@ public class GenericFreeModule<R, M> implements GenericLeftModule<R, GenericForm
 		return result;
 	}
 
-	public GenericFormalSum<R, M> negate(GenericFormalSum<R, M> a) {
+	public AbstractGenericFormalSum<R, M> negate(AbstractGenericFormalSum<R, M> a) {
 		ExceptionUtility.verifyNonNull(a);
 		
-		GenericFormalSum<R, M> result = new GenericFormalSum<R, M>();
+		AbstractGenericFormalSum<R, M> result = this.createNewSum();
 		Iterator<Map.Entry<M, R>> iterator = a.iterator();
 		
 		while (iterator.hasNext()) {
@@ -97,47 +100,47 @@ public class GenericFreeModule<R, M> implements GenericLeftModule<R, GenericForm
 		return result;
 	}
 	
-	public GenericFormalSum<R, M> multiply(int r, GenericFormalSum<R, M> a) {
+	public AbstractGenericFormalSum<R, M> multiply(int r, AbstractGenericFormalSum<R, M> a) {
 		return multiply(this.ring.valueOf(r), a);
 	}
 	
-	public GenericFormalSum<R, M> add(GenericFormalSum<R, M> a, M b) {
-		return this.add(a, new GenericFormalSum<R, M>(ring.getOne(), b));
+	public AbstractGenericFormalSum<R, M> add(AbstractGenericFormalSum<R, M> a, M b) {
+		return this.add(a, this.createNewSum(ring.getOne(), b));
 	}
 	
-	public GenericFormalSum<R, M> add(M a, GenericFormalSum<R, M> b) {
-		return this.add(new GenericFormalSum<R, M>(ring.getOne(), a), b);
+	public AbstractGenericFormalSum<R, M> add(M a, AbstractGenericFormalSum<R, M> b) {
+		return this.add(this.createNewSum(ring.getOne(), a), b);
 	}
 	
-	public GenericFormalSum<R, M> add(M a, M b) {
-		return this.add(new GenericFormalSum<R, M>(ring.getOne(), a), new GenericFormalSum<R, M>(ring.getOne(), b));
+	public AbstractGenericFormalSum<R, M> add(M a, M b) {
+		return this.add(this.createNewSum(ring.getOne(), a), this.createNewSum(ring.getOne(), b));
 	}
 	
-	public GenericFormalSum<R, M> subtract(GenericFormalSum<R, M> a, M b) {
-		return this.subtract(a, new GenericFormalSum<R, M>(ring.getOne(), b));
+	public AbstractGenericFormalSum<R, M> subtract(AbstractGenericFormalSum<R, M> a, M b) {
+		return this.subtract(a, this.createNewSum(ring.getOne(), b));
 	}
 	
-	public GenericFormalSum<R, M> subtract(M a, GenericFormalSum<R, M> b) {
-		return this.subtract(new GenericFormalSum<R, M>(ring.getOne(), a), b);
+	public AbstractGenericFormalSum<R, M> subtract(M a, AbstractGenericFormalSum<R, M> b) {
+		return this.subtract(this.createNewSum(ring.getOne(), a), b);
 	}
 	
-	public GenericFormalSum<R, M> subtract(M a, M b) {
-		return this.subtract(new GenericFormalSum<R, M>(ring.getOne(), a), new GenericFormalSum<R, M>(ring.getOne(), b));
+	public AbstractGenericFormalSum<R, M> subtract(M a, M b) {
+		return this.subtract(this.createNewSum(ring.getOne(), a), this.createNewSum(ring.getOne(), b));
 	}
 	
-	public GenericFormalSum<R, M> multiply(R r, M a) {
-		return this.multiply(r, new GenericFormalSum<R, M>(ring.getOne(), a));
+	public AbstractGenericFormalSum<R, M> multiply(R r, M a) {
+		return this.multiply(r, this.createNewSum(ring.getOne(), a));
 	}
 	
-	public GenericFormalSum<R, M> negate(M a) {
-		return this.negate(new GenericFormalSum<R, M>(ring.getOne(), a));
+	public AbstractGenericFormalSum<R, M> negate(M a) {
+		return this.negate(this.createNewSum(ring.getOne(), a));
 	}
 	
-	public GenericFormalSum<R, M> multiply(int r, M a) {
-		return this.multiply(r, new GenericFormalSum<R, M>(ring.getOne(), a));
+	public AbstractGenericFormalSum<R, M> multiply(int r, M a) {
+		return this.multiply(r, this.createNewSum(ring.getOne(), a));
 	}
 	
-	private void addObject(GenericFormalSum<R, M> formalSum, R coefficient, M object) {
+	private void addObject(AbstractGenericFormalSum<R, M> formalSum, R coefficient, M object) {
 		ExceptionUtility.verifyNonNull(object);
 		ExceptionUtility.verifyNonNull(formalSum);
 		ExceptionUtility.verifyNonNull(coefficient);
@@ -158,8 +161,8 @@ public class GenericFreeModule<R, M> implements GenericLeftModule<R, GenericForm
 		}
 	}
 	
-	public GenericFormalSum<R, M> createSum(int[] coefficients, M[] objects) {
-		GenericFormalSum<R, M> sum = new GenericFormalSum<R, M>();
+	public AbstractGenericFormalSum<R, M> createSum(int[] coefficients, M[] objects) {
+		AbstractGenericFormalSum<R, M> sum = new UnorderedGenericFormalSum<R, M>();
 
 		if (coefficients == null || objects == null) {
 			return sum;
@@ -174,7 +177,7 @@ public class GenericFreeModule<R, M> implements GenericLeftModule<R, GenericForm
 		return sum;
 	}
 
-	public void accumulate(GenericFormalSum<R, M> a, GenericFormalSum<R, M> b) {
+	public void accumulate(AbstractGenericFormalSum<R, M> a, AbstractGenericFormalSum<R, M> b) {
 		ExceptionUtility.verifyNonNull(a);
 		ExceptionUtility.verifyNonNull(b);
 		
@@ -183,7 +186,7 @@ public class GenericFreeModule<R, M> implements GenericLeftModule<R, GenericForm
 		}
 	}
 
-	public void accumulate(GenericFormalSum<R, M> a, GenericFormalSum<R, M> b, R c) {
+	public void accumulate(AbstractGenericFormalSum<R, M> a, AbstractGenericFormalSum<R, M> b, R c) {
 		ExceptionUtility.verifyNonNull(a);
 		ExceptionUtility.verifyNonNull(b);
 		ExceptionUtility.verifyNonNull(c);

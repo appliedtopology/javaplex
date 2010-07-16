@@ -212,7 +212,9 @@ public class RandomUtility {
 		} else {
 			while (result.size() < subsetSize) {
 				int randomPosition = RandomUtility.nextUniformInt(0, selectionSetSize - 1);
-				result.add(randomPosition);
+				if (!result.contains(randomPosition)) {
+					result.add(randomPosition);
+				}
 			}
 		}
 		

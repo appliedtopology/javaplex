@@ -1,8 +1,7 @@
-package edu.stanford.math.plex_plus.algebraic_structures.conversion;
+package edu.stanford.math.plex_plus.free_module;
 
 import java.util.Map.Entry;
 
-import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex_plus.utility.ArrayUtility2;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
@@ -48,7 +47,7 @@ public class ModuleMorphismRepresentation<R extends Number, M, N> {
 		
 	}
 	
-	public double[][] toDoubleMatrix(GenericFormalSum<R, GenericPair<M, N>> basisMapping) {
+	public double[][] toDoubleMatrix(UnorderedGenericFormalSum<R, GenericPair<M, N>> basisMapping) {
 		double[][] matrix = ArrayUtility2.newDoubleMatrix(this.codomainRepresentation.getDimension(), this.domainRepresentation.getDimension());
 		
 		for (Entry<GenericPair<M, N>, R> entry: basisMapping) {
@@ -59,8 +58,8 @@ public class ModuleMorphismRepresentation<R extends Number, M, N> {
 		return matrix;
 	}
 	
-	public GenericFormalSum<R, GenericPair<M, N>> toBasisMapping(R[][] matrix) {
-		GenericFormalSum<R, GenericPair<M, N>> sum = new GenericFormalSum<R, GenericPair<M, N>>();
+	public UnorderedGenericFormalSum<R, GenericPair<M, N>> toBasisMapping(R[][] matrix) {
+		UnorderedGenericFormalSum<R, GenericPair<M, N>> sum = new UnorderedGenericFormalSum<R, GenericPair<M, N>>();
 		int rows = matrix.length;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {

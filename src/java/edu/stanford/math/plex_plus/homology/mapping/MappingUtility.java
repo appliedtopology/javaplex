@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import edu.stanford.math.plex_plus.algebraic_structures.impl.GenericFreeModule;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.DoubleLeftModule;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericRing;
 import edu.stanford.math.plex_plus.datastructures.DoubleFormalSum;
-import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.datastructures.pairs.GenericPair;
+import edu.stanford.math.plex_plus.free_module.AbstractGenericFormalSum;
+import edu.stanford.math.plex_plus.free_module.AbstractGenericFreeModule;
+import edu.stanford.math.plex_plus.free_module.UnorderedGenericFormalSum;
+import edu.stanford.math.plex_plus.free_module.UnorderedGenericFreeModule;
 import edu.stanford.math.plex_plus.functional.FunctionalUtility;
 import edu.stanford.math.plex_plus.functional.GenericDoubleFunction;
 import edu.stanford.math.plex_plus.functional.GenericFunction;
@@ -26,8 +28,8 @@ import gnu.trove.map.hash.TObjectDoubleHashMap;
 import gnu.trove.set.hash.THashSet;
 
 public class MappingUtility {
-	public static <R, M, N> GenericFormalSum<R, N> computeImage(GenericFormalSum<R, GenericPair<M, N>> homChain, M argument) {
-		GenericFormalSum<R, N> result = new GenericFormalSum<R, N>();
+	public static <R, M, N> AbstractGenericFormalSum<R, N> computeImage(AbstractGenericFormalSum<R, GenericPair<M, N>> homChain, M argument) {
+		AbstractGenericFormalSum<R, N> result = new UnorderedGenericFormalSum<R, N>();
 
 		for (Entry<GenericPair<M, N>, R> entry: homChain) {
 			if (entry.getKey().getFirst().equals(argument)) {
@@ -51,21 +53,21 @@ public class MappingUtility {
 		return result;
 	}
 
-	public static <R extends Number, M> DoubleFormalSum<M> toDoubleFormalSum(GenericFormalSum<R, M> genericFormalSum) {
+	public static <R extends Number, M> DoubleFormalSum<M> toDoubleFormalSum(AbstractGenericFormalSum<R, M> AbstractGenericFormalSum) {
 		DoubleFormalSum<M> sum = new DoubleFormalSum<M>();
 
-		for (Entry<M, R> entry: genericFormalSum) {
+		for (Entry<M, R> entry: AbstractGenericFormalSum) {
 			sum.put(entry.getValue().doubleValue(), entry.getKey());
 		}
 
 		return sum;
 	}
 
-	public static <R extends Number, M> List<DoubleFormalSum<M>> toDoubleFormalSumList(List<GenericFormalSum<R, M>> genericFormalSumList) {
+	public static <R extends Number, M> List<DoubleFormalSum<M>> toDoubleFormalSumList(List<AbstractGenericFormalSum<R, M>> genericFormalSumList) {
 		List<DoubleFormalSum<M>> doubleFormalSumList = new ArrayList<DoubleFormalSum<M>>();
 
-		for (GenericFormalSum<R, M> genericFormalSum: genericFormalSumList) {
-			doubleFormalSumList.add(toDoubleFormalSum(genericFormalSum));
+		for (AbstractGenericFormalSum<R, M> AbstractGenericFormalSum: genericFormalSumList) {
+			doubleFormalSumList.add(toDoubleFormalSum(AbstractGenericFormalSum));
 		}
 
 		return doubleFormalSumList;
@@ -81,21 +83,21 @@ public class MappingUtility {
 		};
 	}
 
-	public static <R, M, N> GenericFunction<M, GenericFormalSum<R, N>> toFunctionObject(final GenericFormalSum<R, GenericPair<M, N>> homChain) {
-		return new GenericFunction<M, GenericFormalSum<R, N>>() {
+	public static <R, M, N> GenericFunction<M, AbstractGenericFormalSum<R, N>> toFunctionObject(final AbstractGenericFormalSum<R, GenericPair<M, N>> homChain) {
+		return new GenericFunction<M, AbstractGenericFormalSum<R, N>>() {
 
-			public GenericFormalSum<R, N> evaluate(M argument) {
+			public AbstractGenericFormalSum<R, N> evaluate(M argument) {
 				return computeImage(homChain, argument);
 			}
 		};
 	}
 
-	public static <R, M, N> List<GenericFunction<M, GenericFormalSum<R, N>>> toFunctionObjectList(final List<GenericFormalSum<R, GenericPair<M, N>>> homChainList) {
-		List<GenericFunction<M, GenericFormalSum<R, N>>> functionObjectList = new ArrayList<GenericFunction<M, GenericFormalSum<R, N>>>();
-		for (final GenericFormalSum<R, GenericPair<M, N>> formalSum: homChainList) {
-			functionObjectList.add(new GenericFunction<M, GenericFormalSum<R, N>>() {
+	public static <R, M, N> List<GenericFunction<M, AbstractGenericFormalSum<R, N>>> toFunctionObjectList(final List<AbstractGenericFormalSum<R, GenericPair<M, N>>> homChainList) {
+		List<GenericFunction<M, AbstractGenericFormalSum<R, N>>> functionObjectList = new ArrayList<GenericFunction<M, AbstractGenericFormalSum<R, N>>>();
+		for (final AbstractGenericFormalSum<R, GenericPair<M, N>> formalSum: homChainList) {
+			functionObjectList.add(new GenericFunction<M, AbstractGenericFormalSum<R, N>>() {
 
-				public GenericFormalSum<R, N> evaluate(M argument) {
+				public AbstractGenericFormalSum<R, N> evaluate(M argument) {
 					return computeImage(formalSum, argument);
 				}
 			}
@@ -120,12 +122,12 @@ public class MappingUtility {
 		return functionObjectList;
 	}
 
-	public static <R, M, N> GenericFunction<GenericFormalSum<R, M>, GenericFormalSum<R, N>> linearExtension(final GenericFunction<M, GenericFormalSum<R, N>> basisFunction, final GenericRing<R> ring) {
-		return new GenericFunction<GenericFormalSum<R, M>, GenericFormalSum<R, N>>() {
+	public static <R, M, N> GenericFunction<AbstractGenericFormalSum<R, M>, AbstractGenericFormalSum<R, N>> linearExtension(final GenericFunction<M, AbstractGenericFormalSum<R, N>> basisFunction, final GenericRing<R> ring) {
+		return new GenericFunction<AbstractGenericFormalSum<R, M>, AbstractGenericFormalSum<R, N>>() {
 
-			public GenericFormalSum<R, N> evaluate(GenericFormalSum<R, M> argument) {
-				GenericFreeModule<R, N> freeModuleStructure = new GenericFreeModule<R, N>(ring);
-				GenericFormalSum<R, N> sum = new GenericFormalSum<R, N>();
+			public AbstractGenericFormalSum<R, N> evaluate(AbstractGenericFormalSum<R, M> argument) {
+				AbstractGenericFreeModule<R, N> freeModuleStructure = new UnorderedGenericFreeModule<R, N>(ring);
+				AbstractGenericFormalSum<R, N> sum = freeModuleStructure.createNewSum();
 
 				for (Iterator<Map.Entry<M, R>> iterator = argument.iterator(); iterator.hasNext(); ) {
 					Entry<M, R> entry = iterator.next();

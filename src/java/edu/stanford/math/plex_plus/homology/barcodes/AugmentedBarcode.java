@@ -40,6 +40,16 @@ public class AugmentedBarcode<T> {
 		return this.intervals.get(index).getSecond();
 	}
 	
+	public AugmentedBarcode<T> getInfiniteIntervals() {
+		AugmentedBarcode<T> infiniteBarcode = new AugmentedBarcode<T>(this.dimension);
+		for (GenericPair<HalfOpenInterval, T> pair: this.intervals) {
+			if (pair.getFirst().isInfinite()) {
+				infiniteBarcode.addInterval(pair.getFirst(), pair.getSecond());
+			}
+		}
+		return infiniteBarcode;
+	}
+	
 	/**
 	 * This function adds the specified interval to the barcode. The interval
 	 * is added to the end of the already existing list of intervals.

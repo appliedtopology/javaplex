@@ -49,6 +49,17 @@ public class AugmentedBarcodeCollection<T> {
 		this.addInterval(dimension, new LeftInfiniteInterval(end), generatingCycle);
 	}
 	
+	public AugmentedBarcodeCollection<T> getInfiniteIntervals() {
+		AugmentedBarcodeCollection<T> collection = new AugmentedBarcodeCollection<T>();
+		
+		for (TIntObjectIterator<AugmentedBarcode<T>> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			collection.barcodeMap.put(iterator.key(), iterator.value().getInfiniteIntervals());
+		}
+		
+		return collection;
+	}
+	
 	/**
 	 * This function returns the barcode at the specified dimension.
 	 * 

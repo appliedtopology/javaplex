@@ -1,6 +1,5 @@
-package edu.stanford.math.plex_plus.algebraic_structures.conversion;
+package edu.stanford.math.plex_plus.free_module;
 
-import edu.stanford.math.plex_plus.datastructures.GenericFormalSum;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
@@ -115,7 +114,7 @@ public class FreeModuleRepresentation<R extends Number, M> {
 		return array;
 	}*/
 	
-	public double[] toDoubleArray(GenericFormalSum<R, M> formalSum) {
+	public double[] toDoubleArray(UnorderedGenericFormalSum<R, M> formalSum) {
 		double[] array = new double[this.dimension];
 		
 		for (Map.Entry<M, R> entry: formalSum) {
@@ -126,8 +125,8 @@ public class FreeModuleRepresentation<R extends Number, M> {
 		return array;
 	}
 	
-	public GenericFormalSum<R, M> toFormalSum(R[] array) {
-		GenericFormalSum<R, M> sum = new GenericFormalSum<R, M>();
+	public UnorderedGenericFormalSum<R, M> toFormalSum(R[] array) {
+		UnorderedGenericFormalSum<R, M> sum = new UnorderedGenericFormalSum<R, M>();
 		
 		for (int i = 0; i < array.length; i++) {
 			sum.put(array[i], this.getBasisElement(i));

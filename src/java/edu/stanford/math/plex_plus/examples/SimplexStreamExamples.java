@@ -47,6 +47,23 @@ public class SimplexStreamExamples {
 		return stream;
 	}
 	
+	public static AbstractFilteredStream<Simplex> getFilteredTriangle() {
+		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
+
+		stream.addElement(new Simplex(new int[]{1}), 1);
+		stream.addElement(new Simplex(new int[]{2}), 2);
+		stream.addElement(new Simplex(new int[]{3}), 3);
+		stream.addElement(new Simplex(new int[]{1, 2}), 4);
+		stream.addElement(new Simplex(new int[]{2, 3}), 5);
+		stream.addElement(new Simplex(new int[]{1, 3}), 6);
+		stream.addElement(new Simplex(new int[]{1, 2, 3}), 7);
+
+		stream.finalizeStream();
+		
+		return stream;
+	}
+	
+	
 	/**
 	 * This function returns a simplicial triangle (which happens
 	 * to be equal to a simplicial 1-sphere).
