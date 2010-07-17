@@ -160,4 +160,11 @@ public class DoubleFreeModule<M> implements	DoubleLeftModule<DoubleFormalSum<M>>
 			this.addObject(a, c * iterator.value(), iterator.key());
 		}
 	}
+	
+	public void accumulate(DoubleFormalSum<M> a, M b, double c) {
+		ExceptionUtility.verifyNonNull(a);
+		ExceptionUtility.verifyNonNull(b);
+
+		this.addObject(a, c, b);
+	}
 }

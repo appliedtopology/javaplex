@@ -126,7 +126,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 		
 		//MultivariateRealOptimizer optimizer = new NelderMead();
 		RandomVectorGenerator generator = new UncorrelatedRandomVectorGenerator(homotopies.size(), new GaussianRandomGenerator(new MersenneTwister()));
-		MultivariateRealOptimizer optimizer = new MultiStartMultivariateRealOptimizer(new NelderMead(), 12, generator);
+		MultivariateRealOptimizer optimizer = new MultiStartMultivariateRealOptimizer(new NelderMead(), 10, generator);
 		
 		DiscreteOptimization discreteOptimizer = new DiscreteOptimization();
 		
@@ -163,16 +163,18 @@ public class HomComplexComputation<F extends Number, M, N> {
 				for (int i = 0; i < arg0.length; i++) {
 					//penalty += Math.abs(arg0[i] - (i % 2 ==1 ? 1 : 1));
 					
+					penalty += Math.abs(arg0[i]);
+					
+					/*
 					if (arg0[i] > 1) {
 						penalty += Math.abs(arg0[i] - 1);
 					} else if (arg0[i] < -1) {
 						penalty += Math.abs(arg0[i] + 1);
-					}
+					}*/
 				}
 				
 				return mappingPenaltyFunction.evaluate(homCycle) + 0 * penalty;
 			}
-
 		};
 	}
 	

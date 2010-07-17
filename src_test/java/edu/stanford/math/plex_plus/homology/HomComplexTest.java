@@ -24,8 +24,8 @@ public class HomComplexTest {
 	}
 	
 	public static <F extends Number> void simplicialHomTest(GenericOrderedField<F> field) {
-		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(4);
-		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(4);
+		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getTetrahedron();
+		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getTetrahedron();
 		
 		HomComplexComputation<F, Simplex, Simplex> computation = new HomComplexComputation<F, Simplex, Simplex>(domainStream, codomainStream, SimplexComparator.getInstance(), SimplexComparator.getInstance(), field);
 		
@@ -46,12 +46,11 @@ public class HomComplexTest {
 			System.out.println(homotopy);
 		}
 		
-		
 		//GenericDoubleFunction<DoubleFormalSum<Simplex>> imagePenaltyFunction = MappingUtility.getNormFunction(1);
 		//GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction = MappingUtility.computeInducedFunction(imagePenaltyFunction, domainStream);
 		
 		
-		GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction = MappingUtility.getSimplicialityLossFunction(domainStream, codomainStream);
+		GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction = MappingUtility.getDiameterLossFunction(domainStream, codomainStream);
 		
 		try {
 			System.out.println("Computing Optimal Cycle");

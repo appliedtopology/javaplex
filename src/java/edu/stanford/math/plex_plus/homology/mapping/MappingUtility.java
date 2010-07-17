@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import edu.stanford.math.plex_plus.algebraic_structures.impl.DoubleFreeModule;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.DoubleLeftModule;
 import edu.stanford.math.plex_plus.algebraic_structures.interfaces.GenericRing;
 import edu.stanford.math.plex_plus.datastructures.DoubleFormalSum;
@@ -19,6 +20,7 @@ import edu.stanford.math.plex_plus.functional.GenericDoubleFunction;
 import edu.stanford.math.plex_plus.functional.GenericFunction;
 import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex_plus.homology.streams.utility.SkeletalMetric;
 import edu.stanford.math.plex_plus.homology.utility.HomologyUtility;
 import edu.stanford.math.plex_plus.utility.ExceptionUtility;
 import edu.stanford.math.plex_plus.utility.Infinity;
@@ -283,6 +285,11 @@ public class MappingUtility {
 				
 				double minNonZeroCoefficient = Infinity.Double.getPositiveInfinity();
 				
+				double imageDiameterSum = 0;
+				
+				//SkeletalMetric domainSkeletalMetric = new SkeletalMetric(domainStream);
+				
+				
 				for (TObjectDoubleIterator<GenericPair<M, N>> iterator = argument.iterator(); iterator.hasNext(); ) {
 					iterator.advance();
 					
@@ -389,6 +396,70 @@ public class MappingUtility {
 				return penaltyMax;
 			}
 			 */
+		};
+
+		return function;
+	}
+	
+	public static GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> getDiameterLossFunction(final AbstractFilteredStream<Simplex> domainStream, final AbstractFilteredStream<Simplex> codomainStream) {
+		GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> function = new GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>>() {
+
+			public double evaluate(DoubleFormalSum<GenericPair<Simplex, Simplex>> argument) {
+				//TObjectDoubleHashMap<Simplex> imageDi = new TObjectDoubleHashMap<Simplex>();
+				//TObjectDoubleHashMap<Simplex> preimageSizes = new TObjectDoubleHashMap<Simplex>();
+
+				THashMap<Simplex, DoubleFormalSum<Simplex>> images = new THashMap<Simplex, DoubleFormalSum<Simplex>>();
+				THashMap<Simplex, DoubleFormalSum<Simplex>> preimages = new THashMap<Simplex, DoubleFormalSum<Simplex>>();
+				
+				DoubleFreeModule<Simplex> module = new DoubleFreeModule<Simplex>();
+				
+				SkeletalMetric domainSkeletalMetric = new SkeletalMetric(domainStream);
+				SkeletalMetric codomainSkeletalMetric = new SkeletalMetric(codomainStream);
+				
+				double imageDiameterSum = 0;
+				double preimageDiameterSum = 0;
+				
+				double imageDiameterMax = 0;
+				double preimageDiameterMax = 0;
+				
+				for (TObjectDoubleIterator<GenericPair<Simplex, Simplex>> iterator = argument.iterator(); iterator.hasNext(); ) {
+					iterator.advance();
+					
+					Simplex domainElement = iterator.key().getFirst();
+					Simplex codomainElement = iterator.key().getSecond();
+					
+					if (!images.containsKey(domainElement)) {
+						images.put(domainElement, new DoubleFormalSum<Simplex>());
+					}
+					module.accumulate(images.get(domainElement), codomainElement, iterator.value());
+					
+					if (!preimages.containsKey(codomainElement)) {
+						preimages.put(codomainElement, new DoubleFormalSum<Simplex>());
+					}
+					
+					module.accumulate(preimages.get(codomainElement), domainElement, iterator.value());
+				}
+				
+				for (Simplex domainElement: images.keySet()) {
+					DoubleFormalSum<Simplex> image = images.get(domainElement);
+					double diameter = codomainSkeletalMetric.getDiameter(image);
+					
+					imageDiameterSum += diameter;
+					imageDiameterMax = Math.max(imageDiameterMax, diameter);
+				}
+				
+				for (Simplex codomainElement: preimages.keySet()) {
+					DoubleFormalSum<Simplex> preimage = preimages.get(codomainElement);
+					double diameter = domainSkeletalMetric.getDiameter(preimage);
+					
+					preimageDiameterSum += diameter;
+					preimageDiameterMax = Math.max(preimageDiameterMax, diameter);
+				}
+					
+				//return imageDiameterMax + preimageDiameterMax;
+				return imageDiameterSum + preimageDiameterSum;
+			}
+			
 		};
 
 		return function;
