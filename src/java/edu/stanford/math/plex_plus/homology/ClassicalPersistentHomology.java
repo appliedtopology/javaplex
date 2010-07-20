@@ -29,7 +29,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 	private AbstractFilteredStream<BasisElementType> currentStream = null;
 	private final Comparator<BasisElementType> comparator;
 	private Comparator<BasisElementType> filteredComparator;
-	private final double minimalGranularity = 0.001;
+	private final double minimalGranularity = 0.000001;
 	
 	public ClassicalPersistentHomology(IntField field, Comparator<BasisElementType> comparator) {
 		this.field = field;
@@ -79,7 +79,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 				}
 				
 				// don't store intervals that are simultaneously created and destroyed
-				if ((degree_j - degree_i >= this.minimalGranularity) && k < maxDimension) {
+				if ((degree_j - degree_i > this.minimalGranularity) && k < maxDimension) {
 					barcodeCollection.addInterval(k, degree_i, degree_j);
 				}
 			}

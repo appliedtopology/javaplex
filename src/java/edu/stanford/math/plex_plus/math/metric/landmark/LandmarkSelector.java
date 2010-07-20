@@ -62,6 +62,10 @@ public abstract class LandmarkSelector<T> implements FiniteMetricSpace<T> {
 		return this.indexMapping[i];
 	}
 	
+	public int[] getLandmarkPoints() {
+		return this.indexMapping;
+	}
+	
 	public int size() {
 		return this.landmarkSetSize;
 	}

@@ -38,7 +38,11 @@ public class VietorisRipsStream<T> extends MaximalStream {
 	 * @param maxDimension the maximum dimension of the complex
 	 */
 	public VietorisRipsStream(SearchableFiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension) {
-		super(maxDimension, maxDistance);
+		this(metricSpace, maxDistance, maxDimension, 100);
+	}
+	
+	public VietorisRipsStream(SearchableFiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int numDivisions) {
+		super(maxDimension, maxDistance, numDivisions);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		this.metricSpace = metricSpace;
 	}

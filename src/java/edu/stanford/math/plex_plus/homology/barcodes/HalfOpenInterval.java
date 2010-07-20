@@ -1,6 +1,6 @@
 package edu.stanford.math.plex_plus.homology.barcodes;
 
-public interface HalfOpenInterval {
+public interface HalfOpenInterval extends Comparable<HalfOpenInterval> {
 	
 	public boolean isLeftInfinite();
 	public boolean isRightInfinite();

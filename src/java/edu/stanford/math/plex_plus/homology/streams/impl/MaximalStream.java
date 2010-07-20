@@ -50,16 +50,19 @@ public abstract class MaximalStream extends PrimitiveStream<Simplex> {
 	 */
 	protected final double maxDistance;
 	
+	protected final int numDivisions;
+	
 	/**
 	 * Constructor.
 	 * 
 	 * @param maxDistance the maximum allowable distance in the complex
 	 * @param maxAllowableDimension the maximum dimension of the complex
 	 */
-	public MaximalStream(int maxAllowableDimension, double maxDistance) {
+	public MaximalStream(int maxAllowableDimension, double maxDistance, int numDivisions) {
 		super(SimplexComparator.getInstance());
 		this.maxAllowableDimension = maxAllowableDimension;
 		this.maxDistance = maxDistance;
+		this.numDivisions = numDivisions;
 	}
 	
 	/**
@@ -113,7 +116,7 @@ public abstract class MaximalStream extends PrimitiveStream<Simplex> {
 	 */
 	protected void addCofaces(UndirectedWeightedListGraph G, int k, Simplex tau, TIntSet N, double filtrationValue) {
 		// add the current simplex to the complex
-		this.storageStructure.addElement(tau, filtrationValue);
+		this.storageStructure.addElement(tau, this.discretizeFiltrationValue(filtrationValue));
 		
 		// exit if the dimension is the maximum allowed
 		if (tau.getDimension() >= k) {
@@ -153,5 +156,13 @@ public abstract class MaximalStream extends PrimitiveStream<Simplex> {
 			// recurse: add the cofaces of sigma
 			this.addCofaces(G, k, sigma, M, weight);
 		}
+	}
+	
+	protected double discretizeFiltrationValue(double filtrationValue) {
+		if (this.numDivisions == 0) {
+			return filtrationValue;
+		}
+		
+		return (((double) Math.floor((filtrationValue / this.maxDistance) * this.numDivisions)) / this.numDivisions) * this.maxDistance;
 	}
 }

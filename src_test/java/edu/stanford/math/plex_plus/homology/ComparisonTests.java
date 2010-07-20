@@ -6,17 +6,17 @@ import cern.colt.Timer;
 import edu.stanford.math.plex.EuclideanArrayData;
 import edu.stanford.math.plex.PersistenceInterval;
 import edu.stanford.math.plex.Plex;
+import edu.stanford.math.plex.RipsStream;
 import edu.stanford.math.plex.WitnessStream;
 import edu.stanford.math.plex.PersistenceInterval.Float;
 import edu.stanford.math.plex_plus.algebraic_structures.impl.ModularIntField;
 import edu.stanford.math.plex_plus.algebraic_structures.impl.ModularIntegerField;
-import edu.stanford.math.plex_plus.examples.MetricStreamExamples;
 import edu.stanford.math.plex_plus.examples.PointCloudExamples;
-import edu.stanford.math.plex_plus.examples.SimplexStreamExamples;
 import edu.stanford.math.plex_plus.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex_plus.homology.chain_basis.Simplex;
 import edu.stanford.math.plex_plus.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex_plus.homology.streams.impl.LazyWitnessStream;
+import edu.stanford.math.plex_plus.homology.streams.impl.VietorisRipsStream;
 import edu.stanford.math.plex_plus.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex_plus.math.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex_plus.math.metric.interfaces.SearchableFiniteMetricSpace;
@@ -27,6 +27,8 @@ public class ComparisonTests {
 	public static void main(String[] args) {
 		Timer timer = new Timer();
 
+		testSphereLazyWitness();
+		/*
 		timer.start();
 		sphereTestVersion3();
 		timer.stop();
@@ -39,6 +41,7 @@ public class ComparisonTests {
 		timer.stop();
 		timer.display();
 		timer.reset();
+		*/
 	}
 
 	public static void torusTestVersion4() {
@@ -54,7 +57,7 @@ public class ComparisonTests {
 		//double diameterEstimate = MetricUtility.estimateDiameter(metricSpace);
 
 		LandmarkSelector<double[]> selector = new RandomLandmarkSelector<double[]>(metricSpace, landmarkPoints);
-		LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(metricSpace, selector, 3, maxFiltrationValue);
+		LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(metricSpace, selector, 3, maxFiltrationValue, 100);
 		stream.finalizeStream();
 
 		ClassicalPersistentHomology<Simplex> homology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(13), SimplexComparator.getInstance());
@@ -84,8 +87,8 @@ public class ComparisonTests {
 
 	public static void compareHomologyComputations(AbstractFilteredStream<Simplex> stream, int d) {
 		computeClassicalHomology(stream, d);
-		computeDualityHomology(stream, d);
-		computeDualityCohomology(stream, d);
+		//computeDualityHomology(stream, d);
+		//computeDualityCohomology(stream, d);
 	}
 
 	public static void computeClassicalHomology(AbstractFilteredStream<Simplex> stream, int d) {
@@ -113,42 +116,65 @@ public class ComparisonTests {
 	}
 
 
+	public static void testPlex3LazyWitness(double[][] points, LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
+		EuclideanArrayData pData = Plex.EuclideanArrayData(points);
+		
+		edu.stanford.math.plex.LazyWitnessStream wit = Plex.LazyWitnessStream(maxFiltrationValue / numDivisions, maxDimension + 1, maxFiltrationValue, 2, selector.getLandmarkPoints(), pData);
 
+		PersistenceInterval[] intervals = Plex.Persistence().computeIntervals(wit);
+		System.out.println(Arrays.toString(intervals));
+	}
+	
+	public static void testPlex4LazyWitness(double[][] points, LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
+		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
+		LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(metricSpace, selector, maxDimension + 1, maxFiltrationValue, numDivisions);
+		stream.finalizeStream();
 
-	public static void sphereTestVersion4() {
+		compareHomologyComputations(stream, maxDimension);
+	}
+	
+	public static void testSphereLazyWitness() {
 		int n = 1000;
 		int landmarkPoints = 40;
 		int d = 2;
 		double maxFiltrationValue = 0.4;
+		int numDivisions = 100;
 		double[][] points = PointCloudExamples.getRandomSpherePoints(n, d);
-
+		
 		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
-
-		//double diameterEstimate = MetricUtility.estimateDiameter(metricSpace);
-		//System.out.println("Diameter estimate: " + diameterEstimate);
-
 		LandmarkSelector<double[]> selector = new RandomLandmarkSelector<double[]>(metricSpace, landmarkPoints);
-		LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(metricSpace, selector, d + 1, maxFiltrationValue);
+		
+		testPlex3LazyWitness(points, selector, d, maxFiltrationValue, numDivisions);
+		testPlex4LazyWitness(points, selector, d, maxFiltrationValue, numDivisions);
+	}
+	
+	public static void testPlex3Vietoris(double[][] points, int maxDimension, double maxFiltrationValue, int numDivisions) {
+		EuclideanArrayData pData = Plex.EuclideanArrayData(points);
+		
+		RipsStream stream = Plex.RipsStream(maxFiltrationValue / numDivisions, maxDimension + 1, maxFiltrationValue, pData);
+		
+		PersistenceInterval[] intervals = Plex.Persistence().computeIntervals(stream);
+		System.out.println(Arrays.toString(intervals));
+	}
+	
+	public static void testPlex4Vietoris(double[][] points, int maxDimension, double maxFiltrationValue, int numDivisions) {
+		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
+		VietorisRipsStream<double[]> stream = new VietorisRipsStream<double[]>(metricSpace, maxFiltrationValue, maxDimension + 1, numDivisions);
 		stream.finalizeStream();
 
-		//compareHomologyComputations(MetricStreamExamples.getLazyWitnessSphere(n, landmarkPoints, d, maxFiltrationValue), d);
-		compareHomologyComputations(stream, d);
+		compareHomologyComputations(stream, maxDimension);
 	}
-
-	public static void sphereTestVersion3() {
-		int n = 1000;
-		int landmarkPoints = 30;
-		int d = 1;
-		double maxFiltrationValue = 0.4;
+	
+	public static void testSphereVietoris() {
+		int n = 200;
+		int d = 2;
+		double maxFiltrationValue = 0.8;
+		int numDivisions = 10;
 		double[][] points = PointCloudExamples.getRandomSpherePoints(n, d);
-
-		EuclideanArrayData pData = Plex.EuclideanArrayData(points);
-		int[] L = WitnessStream.makeRandomLandmarks(pData, landmarkPoints);
-
-		WitnessStream wit = Plex.WitnessStream(0.0001, d + 1, maxFiltrationValue, L, pData);
-
-		PersistenceInterval[] intervals = Plex.Persistence().computeIntervals(wit);
-		System.out.println(Arrays.toString(intervals));
-
+		
+		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
+		
+		testPlex3Vietoris(points, d, maxFiltrationValue, numDivisions);
+		testPlex4Vietoris(points, d, maxFiltrationValue, numDivisions);
 	}
 }

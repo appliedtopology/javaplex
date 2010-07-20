@@ -53,4 +53,15 @@ public class ArrayConversion {
 		}
 		return result;
 	}
+	
+	public static double[][] toMatrix(Collection<double[]> collection) {
+		double[][] result = new double[collection.size()][];
+		int index = 0;
+		
+		for (double[] array: collection) {
+			result[index++] = array;
+		}
+		
+		return result;
+	}
 }

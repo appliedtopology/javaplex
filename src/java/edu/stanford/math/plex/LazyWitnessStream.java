@@ -12,18 +12,18 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 /**
- * <p>A LazyWitnessStream is a SimplexStream whose elements are the
- * simplices of the lazy Witness complex of a PointData instance. The
- * implementation is very similar to the RipsStream, and in fact the
- * results are analogous for nu=0. The details of this construction are
- * described in <i>Topological estimation using witness complexes</i>, Vin
- * de Silva and Gunnar Carlsson, Symposium on Point-Based Graphics, ETH,
- * Zurich, Switzerland, June 2-4, 2004.
- *
- * @see        edu.stanford.math.plex.RipsStream
- * @see        edu.stanford.math.plex.WitnessStream
- *
- *
+ * <p>
+ * A LazyWitnessStream is a SimplexStream whose elements are the simplices of
+ * the lazy Witness complex of a PointData instance. The implementation is very
+ * similar to the RipsStream, and in fact the results are analogous for nu=0.
+ * The details of this construction are described in <i>Topological estimation
+ * using witness complexes</i>, Vin de Silva and Gunnar Carlsson, Symposium on
+ * Point-Based Graphics, ETH, Zurich, Switzerland, June 2-4, 2004.
+ * 
+ * @see edu.stanford.math.plex.RipsStream
+ * @see edu.stanford.math.plex.WitnessStream
+ * 
+ * 
  * @version $Id$
  */
 public class LazyWitnessStream extends SimplexStream {
@@ -42,10 +42,11 @@ public class LazyWitnessStream extends SimplexStream {
 
 	/**
 	 * Is there a next Simplex in the stream?
-	 *
+	 * 
 	 * <p>
-	 * @return     Return true if the stream is not yet empty.
-	 *
+	 * 
+	 * @return Return true if the stream is not yet empty.
+	 * 
 	 */
 	public boolean hasNext() {
 		return stack.hasNext();
@@ -53,10 +54,11 @@ public class LazyWitnessStream extends SimplexStream {
 
 	/**
 	 * Next Simplex in the stream.
-	 *
+	 * 
 	 * <p>
-	 * @return     Return the smallest remaining Simplex instance.
-	 *
+	 * 
+	 * @return Return the smallest remaining Simplex instance.
+	 * 
 	 */
 	public Simplex next() {
 		return stack.next();
@@ -64,19 +66,27 @@ public class LazyWitnessStream extends SimplexStream {
 
 	/**
 	 * Constructor for LazyWitnessStream.
-	 *
+	 * 
 	 * <p>
 	 * Make a stream of the simplices in a lazy Witness complex for data.
 	 * <p>
-	 * @param      delta Granularity to apply to the underlying metric.
-	 * @param      max_d   Maximum dimension of Simplex instances we construct.
-	 * @param      R   Maximum R we will use.
-	 * @param      nu     See <i>Topological estimation using witness complexes</i>, above.
-	 * @param      landmarks Indices of points to use as landmarks. The
-	 *                        simplices constructed will use the landmark
-	 *                        indices, rather than the indices into data.
-	 * @param      data   Metric data to use in constructing stream.
-	 *
+	 * 
+	 * @param delta
+	 *            Granularity to apply to the underlying metric.
+	 * @param max_d
+	 *            Maximum dimension of Simplex instances we construct.
+	 * @param R
+	 *            Maximum R we will use.
+	 * @param nu
+	 *            See <i>Topological estimation using witness complexes</i>,
+	 *            above.
+	 * @param landmarks
+	 *            Indices of points to use as landmarks. The simplices
+	 *            constructed will use the landmark indices, rather than the
+	 *            indices into data.
+	 * @param data
+	 *            Metric data to use in constructing stream.
+	 * 
 	 */
 	LazyWitnessStream(double delta, int max_d, double R, int nu, int[] landmarks, PointData data) {
 		assert delta >= 0.0;
@@ -92,10 +102,11 @@ public class LazyWitnessStream extends SimplexStream {
 
 	/**
 	 * How many simplices are in the stream?
-	 *
+	 * 
 	 * <p>
-	 * @return     The number of simplices in the stream.
-	 *
+	 * 
+	 * @return The number of simplices in the stream.
+	 * 
 	 */
 	public int size() {
 		return stack.size();
@@ -103,38 +114,41 @@ public class LazyWitnessStream extends SimplexStream {
 
 	/**
 	 * Max dimension of simplices in the stream.
-	 *
+	 * 
 	 * <p>
-	 * @return     Max dimension of simplices in the stream.
-	 *
+	 * 
+	 * @return Max dimension of simplices in the stream.
+	 * 
 	 */
 	public int maxDimension() {
 		return stack.maxDimension();
 	}
 
 	/**
-	 * Convert a filtration index into a persistence parameter (i.e., double)
-	 * -- gets overloaded by some subclasses.
-	 *
+	 * Convert a filtration index into a persistence parameter (i.e., double) --
+	 * gets overloaded by some subclasses.
+	 * 
 	 * <p>
-	 * @param      fi Filtration index to convert.
-	 * @return     double persistence parameter.
-	 *
+	 * 
+	 * @param fi
+	 *            Filtration index to convert.
+	 * @return double persistence parameter.
+	 * 
 	 */
 	public double convert_filtration_index(int fi) {
-		if (granularity > 0.0) 
+		if (granularity > 0.0)
 			return granularity * fi;
-		else 
+		else
 			return finite_eij_array[fi];
 	}
 
 	/**
 	 * Make an iterator for the stream.
 	 * <p>
-	 *
-	 * @return  Iterator<Simplex> instance for the stream.
-	 *
-	 * @see        java.util.Iterator
+	 * 
+	 * @return Iterator<Simplex> instance for the stream.
+	 * 
+	 * @see java.util.Iterator
 	 */
 	public Iterator<Simplex> iterator() {
 		return stack.iterator();
@@ -156,28 +170,28 @@ public class LazyWitnessStream extends SimplexStream {
 	// filtration indices of all of the component edges. The difference
 	// between this algorithm and the RipsStream one is how the edge_info[]
 	// is initialized.
-	protected SimplexStream.Stack find_simplices(double delta, double R_max, int nu, 
-			int max_dimension, int[] landmarks, 
-			PointData data) {
+	protected SimplexStream.Stack find_simplices(double delta, double R_max, int nu, int max_dimension, int[] landmarks, PointData data) {
 
-		// Recall that we never use 0 as a simplex index, so landmarks[0] should be empty 
-		assert(landmarks[0] == 0);
+		// Recall that we never use 0 as a simplex index, so landmarks[0] should
+		// be empty
+		assert (landmarks[0] == 0);
 		// there is no point doing this unless 1 < L <= N.
-		assert((landmarks.length > 2) && (data.count() >= (landmarks.length-1)));
+		assert ((landmarks.length > 2) && (data.count() >= (landmarks.length - 1)));
 		// nu == 0, 1, or 2 in practice, but 0 <= nu <= L is all that we require
-		assert((nu >=0) && (nu <= (landmarks.length-1)));
+		assert ((nu >= 0) && (nu <= (landmarks.length - 1)));
 
 		if (max_dimension < 0)
 			return null;
 
-		// The landmarks are indexed from 1 to L, inclusive, and since 0 is excluded,
+		// The landmarks are indexed from 1 to L, inclusive, and since 0 is
+		// excluded,
 		// L = landmarks.length-1.
 		int L = landmarks.length - 1;
 		int[] edge_info = new int[(L * (L - 1)) / 2];
 		int max_findex;
-		if (granularity > 0.0) 
-			max_findex =  (int)(Math.floor(R_max/granularity));
-		else 
+		if (granularity > 0.0)
+			max_findex = (int) (Math.floor(R_max / granularity));
+		else
 			max_findex = (L * (L - 1)) / 2;
 
 		// Construct the tail of the queue -- we add any simplices of less
@@ -209,11 +223,12 @@ public class LazyWitnessStream extends SimplexStream {
 		// have enough memory for that, we recalculate the distances as
 		// needed.
 		{
-			// Recall that "count" means that the points are indexed from 1 to N, inclusive.
+			// Recall that "count" means that the points are indexed from 1 to
+			// N, inclusive.
 			int N = data.count();
-			double[] m = new double[N+1];
+			double[] m = new double[N + 1];
 			double[] D = null;
-			try{
+			try {
 				if ((L * N) > 0) {
 					// fill in the distance matrix, if we can
 					D = new double[L * N];
@@ -221,22 +236,22 @@ public class LazyWitnessStream extends SimplexStream {
 						for (int n = 1; n <= N; n++)
 							D[D_index(l, n, L, N)] = distance_ln(l, n, landmarks, data);
 				}
-			} 
-			catch(OutOfMemoryError oom) { }
-			finally{}
+			} catch (OutOfMemoryError oom) {
+			} finally {
+			}
 
 			if (nu > 0) {
-				double[] m_tmp = new double[L+1];
+				double[] m_tmp = new double[L + 1];
 				for (int n = 1; n <= N; n++) {
-					for (int l = 1; l <= L; l++) 
+					for (int l = 1; l <= L; l++)
 						if (D == null)
-							m_tmp[l] = distance_ln(l, n, landmarks, data); 
+							m_tmp[l] = distance_ln(l, n, landmarks, data);
 						else
-							m_tmp[l] = D[D_index(l, n, L, N)]; 
+							m_tmp[l] = D[D_index(l, n, L, N)];
 					Arrays.sort(m_tmp);
-					assert(m_tmp[0] == 0.0);
+					assert (m_tmp[0] == 0.0);
 					m[n] = m_tmp[nu];
-					assert(m[n] > 0.0);
+					assert (m[n] > 0.0);
 				}
 			}
 
@@ -244,32 +259,31 @@ public class LazyWitnessStream extends SimplexStream {
 			// edge_info[] which we use to bootstrap from dimension k to
 			// dimension k+1. What happens in this section of the code is the
 			// essential difference between a Rips complex and a LazyWitness
-			// complex. 
+			// complex.
 			{
-				double[] i_cache = (D == null)?null:new double[N+1];
+				double[] i_cache = (D == null) ? null : new double[N + 1];
 				double[] eij_array = new double[(L * (L - 1)) / 2];
 				int finite_eij_counter = 1;
 
 				for (int i = 1; i <= L; i++) {
 					if (D == null) {
-						for (int n = 1; n <= N; n++) 
+						for (int n = 1; n <= N; n++)
 							i_cache[n] = distance_ln(i, n, landmarks, data);
 					}
-					for (int j = i+1; j <= L; j++) {
+					for (int j = i + 1; j <= L; j++) {
 						// Compute the R at which the edge comes into
-						// existence.  We use the m[] values to adjust the
+						// existence. We use the m[] values to adjust the
 						// distance_ln() values.
 						double e_ij = HUGE;
 						for (int n = 1; n <= N; n++) {
 							double d_ijn;
 							if (D == null)
-								d_ijn = max(i_cache[n],
-										distance_ln(j, n, landmarks, data));
-							else 
+								d_ijn = max(i_cache[n], distance_ln(j, n, landmarks, data));
+							else
 								d_ijn = max(D[D_index(i, n, L, N)], D[D_index(j, n, L, N)]);
 							if (d_ijn < m[n])
 								d_ijn = 0.0;
-							else 
+							else
 								d_ijn = d_ijn - m[n];
 							e_ij = min(e_ij, d_ijn);
 						}
@@ -277,20 +291,26 @@ public class LazyWitnessStream extends SimplexStream {
 						if (e_ij <= R_max) {
 							finite_eij_counter++;
 							eij_array[edge_index(i, j, L)] = e_ij;
-						} else 
+						} else
 							eij_array[edge_index(i, j, L)] = HUGE;
 					}
 				}
 
-				// If the granularity is 0, then instead of making the filtration
+				// If the granularity is 0, then instead of making the
+				// filtration
 				// indices be proportional to the e_ij, we make an array of the
-				// e_ij, sort it, and use the index into this sorted array as the
+				// e_ij, sort it, and use the index into this sorted array as
+				// the
 				// filtration index for the corresponding edge.
 				if (granularity == 0.0) {
-					// Copy the non-HUGE lengths into the finite_eij_array (leaving a 0
-					// in the first entry), and sort it -- we will use the index of e_ij
-					// in finite_eij_array as the persistence index for the corresponding
-					// edge simplex. We don't bother looking for duplicate lengths,
+					// Copy the non-HUGE lengths into the finite_eij_array
+					// (leaving a 0
+					// in the first entry), and sort it -- we will use the index
+					// of e_ij
+					// in finite_eij_array as the persistence index for the
+					// corresponding
+					// edge simplex. We don't bother looking for duplicate
+					// lengths,
 					// because these will occur with probability 0 in real data.
 					finite_eij_array = new double[finite_eij_counter];
 					finite_eij_counter = 1;
@@ -304,14 +324,12 @@ public class LazyWitnessStream extends SimplexStream {
 				// Use either division or binary search to find filtration index
 				// for the edge from i to j.
 				for (int i = 1; i <= L; i++) {
-					for (int j = i+1; j <= L; j++) {
+					for (int j = i + 1; j <= L; j++) {
 						double e_ij = eij_array[edge_index(i, j, L)];
 						// if the edge appears early enough, create it, and
 						// then push and enqueue it
 						if (e_ij < HUGE) {
-							int f_ij = ((granularity > 0.0)?
-									((int)(Math.floor(e_ij/granularity))):
-										Arrays.binarySearch(finite_eij_array, e_ij));
+							int f_ij = ((granularity > 0.0) ? ((int) (Math.floor(e_ij / granularity))) : Arrays.binarySearch(finite_eij_array, e_ij));
 							edge_info[edge_index(i, j, L)] = f_ij;
 							Simplex s = Simplex.makeEdge(i, j, f_ij);
 							stack.push(s);
@@ -344,7 +362,7 @@ public class LazyWitnessStream extends SimplexStream {
 				// Until current reaches end, extract simplices and copy
 				// their vertices into the scratch array.
 				Simplex face = current.nextEntry();
-				assert(face.dimension() == (current_dimension-1));
+				assert (face.dimension() == (current_dimension - 1));
 				face.vertices(verts);
 				// We know that any k dimensional simplex that we can admit
 				// must have all of its faces in the list of k-1 simplices
@@ -365,13 +383,12 @@ public class LazyWitnessStream extends SimplexStream {
 				// edges. If so, [v1,...,vk,x] is a simplex, and its
 				// filtration index is the max of ([v1,...,vk]).findex()
 				// and filtration indices of the edges (v1,x),...(vk,x).
-				int largest_v = verts[current_dimension-1];
+				int largest_v = verts[current_dimension - 1];
 				for (int new_last = largest_v + 1; new_last <= L; new_last++) {
 					verts[current_dimension] = new_last;
 					int f_new = all_edges_present(verts, edge_info, L);
 					if (f_new >= 0) {
-						Simplex newSimplex = 
-							Simplex.getSimplexPresorted(verts, Math.max(face.findex(), f_new));
+						Simplex newSimplex = Simplex.getSimplexPresorted(verts, Math.max(face.findex(), f_new));
 						stack.push(newSimplex);
 						if (current_dimension < max_dimension)
 							// if the dimension of newSimplex isn't maximal,
@@ -382,8 +399,7 @@ public class LazyWitnessStream extends SimplexStream {
 			}
 			// Make sure that if we are exiting we have processed all
 			// simplices in q.
-			assert((current_dimension < max_dimension) || 
-					(last_dim_start.eql(new SimplexStream.Head(q))));
+			assert ((current_dimension < max_dimension) || (last_dim_start.eql(new SimplexStream.Head(q))));
 			current_dimension++;
 		}
 

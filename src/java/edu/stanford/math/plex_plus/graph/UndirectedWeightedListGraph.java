@@ -58,7 +58,7 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 		}
 		return this.adjacencySets.get(y).get(x);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#addEdge(int, int)
 	 */
