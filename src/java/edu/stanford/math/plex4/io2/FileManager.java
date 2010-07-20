@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.io;
+package edu.stanford.math.plex4.io2;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,13 +13,18 @@ import java.util.Map;
  * 
  * We use the following terminology:
  * 
- * Base output path: ".data/runs" Daily output path: ".data/runs/yyMMdd" Unique
- * output path: ".data/runs/yyMMdd/HHmmssSSS" Category output path:
- * ".data/runs/yyMMdd/<category>" Unique Category output path:
- * ".data/runs/yyMMdd/<category>/HHmmssSSS"
+ * Base output path: "./data/runs" 
+ * Daily output path: "./data/runs/yyMMdd" 
+ * Unique output path: "./data/runs/yyMMdd/HHmmssSSS" 
+ * Category output path: "./data/runs/yyMMdd/<category>" 
+ * Unique Category output path: ".data/runs/yyMMdd/<category>/HHmmssSSS"
  * 
- * An example of a category would be "sampledata" as used in previous versions
- * of this class.
+ * With regard to filenames we use the following terminology:
+ * 
+ * Suppose we have the file "output.txt", the basename is "output",
+ * the extention is "txt" and the filename is "output.txt". We call the
+ * filepath its path along with the filename, e.g. 
+ * "./data/runs/yyMMdd/cat1/output.txt".
  * 
  * @author Andrew Tausz
  * @author Tim Harrington
@@ -43,6 +48,10 @@ public class FileManager {
 		// do not allow this to be constructed
 	}
 
+	public static String getUniqueFilePath(String basename, String extention) throws IOException {
+		return FileManager.getDailyOutputPath() + System.getProperty("file.separator") + basename + "." + extention;
+	}
+	
 	/**
 	 * This function returns the base output path.
 	 * 
@@ -141,7 +150,7 @@ public class FileManager {
 	 * @throws IOException
 	 */
 	private static void initializeDailyOutputPath() throws IOException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yy-MM-dd");
 		String dateString = formatter.format(new Date());
 		FileManager.dailyOutputPath = FileManager.createDirectory(getBaseOutputPath() + dateString);
 	}
@@ -165,7 +174,7 @@ public class FileManager {
 	 * @return a timestamp in HHmmssSSS format
 	 */
 	private static String getTimeStamp() {
-		SimpleDateFormat formatter = new SimpleDateFormat("HHmmssSSS");
+		SimpleDateFormat formatter = new SimpleDateFormat("HH-mm-ss-SSS");
 		return formatter.format(new Date());
 	}
 
@@ -188,7 +197,7 @@ public class FileManager {
 	 * @return a filename of the form yyMMddHHmmssSSS
 	 */
 	public static String generateUniqueFileName() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyMMddHHmmssSSS");
+		SimpleDateFormat formatter = new SimpleDateFormat("yy-MM-dd-HH-mm-ss-SSS");
 		String name = formatter.format(new Date());
 		FileManager.pause();
 		return name;

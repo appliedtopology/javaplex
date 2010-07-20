@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.io;
+package edu.stanford.math.plex4.io2;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.sun.media.jai.codec.ImageCodec;
 import com.sun.media.jai.codec.ImageEncoder;
+
 
 /**
  * This class contains various static functions for reading and writing files of

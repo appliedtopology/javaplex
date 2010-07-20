@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.io;
+package edu.stanford.math.plex4.io2;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import edu.stanford.math.plex4.utility.ExceptionUtility;
  * @date February 7, 2009
  */
 
-public class MatlabInterface extends FormatInterface {
+public class MatlabInterface{
 
 	protected static String getDefaultExtension() {
 		return "m";
@@ -28,7 +28,7 @@ public class MatlabInterface extends FormatInterface {
 	 * @throws IOException
 	 */
 	public static MatlabWriter makeNewMatlabWriter(String label) throws IOException {
-		String filename = buildFilename(generateBasicFilename(label), getDefaultExtension());
+		String filename = FileManager.getUniqueFilePath(label, getDefaultExtension());
 		MatlabWriter writer = new MatlabWriter(filename);
 		return writer;
 	}

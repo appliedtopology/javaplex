@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.io;
+package edu.stanford.math.plex4.io2;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,12 +12,7 @@ import edu.stanford.math.plex4.homology.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.homology.streams.impl.GeometricSimplexStream;
 import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
 
-public class ObjFormatInterface implements FileFormatInterface<GeometricSimplexStream> {
-
-	public void exportToFile(GeometricSimplexStream object) {
-		// TODO Auto-generated method stub
-		
-	}
+public class ObjReader implements ObjectReader<GeometricSimplexStream> {
 
 	public GeometricSimplexStream importFromFile(String path) {
 		BufferedReader reader = null;
