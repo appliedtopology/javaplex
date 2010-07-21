@@ -5,8 +5,6 @@ package edu.stanford.math.plex4.math.linear_algebra;
 
 import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntField;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
-import edu.stanford.math.plex4.math.linear_algebra.IntFieldDecompositions;
-import edu.stanford.math.plex4.math.linear_algebra.IntFieldLinearAlgebra;
 import edu.stanford.math.plex4.utility.ArrayUtility2;
 
 /**
