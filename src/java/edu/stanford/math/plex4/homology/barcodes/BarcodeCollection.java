@@ -1,6 +1,7 @@
 package edu.stanford.math.plex4.homology.barcodes;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.plex4.utility.Infinity;
 import gnu.trove.iterator.TIntObjectIterator;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -96,6 +97,70 @@ public class BarcodeCollection {
 			builder.append(iterator.value().toString());
 			builder.append("\n");
 		}
+		
+		return builder.toString();
+	}
+	
+	public String getBettiNumbers() {
+		StringBuilder builder = new StringBuilder();
+		int maxDimension = Infinity.Int.getNegativeInfinity();
+		int minDimension = Infinity.Int.getPositiveInfinity();
+		
+		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			maxDimension = Math.max(maxDimension, iterator.key());
+			minDimension = Math.min(minDimension, iterator.key());
+		}
+		
+		int[] bettiNumbers = new int[maxDimension - minDimension + 1];
+		
+		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			bettiNumbers[iterator.key() - minDimension] = iterator.value().getCardinality();
+		}
+		
+		builder.append("{");
+		
+		for (int i = 0; i < bettiNumbers.length; i++) {
+			if (i > 0) {
+				builder.append(", ");
+			}
+			builder.append((i + minDimension) + ": " + bettiNumbers[i]);
+		}
+		
+		builder.append("}");
+		
+		return builder.toString();
+	}
+	
+	public String getSliceBettiNumbers(double point) {
+		StringBuilder builder = new StringBuilder();
+		int maxDimension = Infinity.Int.getNegativeInfinity();
+		int minDimension = Infinity.Int.getPositiveInfinity();
+		
+		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			maxDimension = Math.max(maxDimension, iterator.key());
+			minDimension = Math.min(minDimension, iterator.key());
+		}
+		
+		int[] bettiNumbers = new int[maxDimension - minDimension + 1];
+		
+		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			bettiNumbers[iterator.key() - minDimension] = iterator.value().getSliceCardinality(point);
+		}
+		
+		builder.append("{");
+		
+		for (int i = 0; i < bettiNumbers.length; i++) {
+			if (i > 0) {
+				builder.append(", ");
+			}
+			builder.append((i + minDimension) + ": " + bettiNumbers[i]);
+		}
+		
+		builder.append("}");
 		
 		return builder.toString();
 	}

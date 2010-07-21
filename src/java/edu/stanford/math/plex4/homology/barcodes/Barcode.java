@@ -88,6 +88,10 @@ public class Barcode {
 		return cardinality;
 	}
 	
+	public int getCardinality() {
+		return this.intervals.size();
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

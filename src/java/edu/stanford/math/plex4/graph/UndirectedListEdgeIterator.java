@@ -3,6 +3,8 @@
  */
 package edu.stanford.math.plex4.graph;
 
+import java.util.Iterator;
+
 import edu.stanford.math.plex4.datastructures.pairs.IntIntPair;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.iterator.TIntObjectIterator;
@@ -13,7 +15,7 @@ import gnu.trove.set.hash.TIntHashSet;
  * @author Andrew Tausz
  *
  */
-public class UndirectedListEdgeIterator implements AbstractEdgeIterator {
+public class UndirectedListEdgeIterator implements Iterator<IntIntPair> {
 	private final TIntObjectHashMap<TIntHashSet> adjacencySets;
 	
 	/**

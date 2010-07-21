@@ -25,7 +25,7 @@ import gnu.trove.set.TIntSet;
  * lazy witness complex, the Vietoris-Rips complex, and the clique complex. 
  * Thus a child class must provide the implementation of the 1-skeleton.
  * 
- * Also note that the MaximalStream construction can be used with 
+ * Also note that the FlagComplexStream construction can be used with 
  * any finite metric space. For information on the implementation,
  * consult the paper "Fast Construction of the Vietoris-Rips Complex",
  * by Afra Zomorodian. This implementation uses the incremental
@@ -34,7 +34,7 @@ import gnu.trove.set.TIntSet;
  * @author Andrew Tausz
  *
  */
-public abstract class MaximalStream extends PrimitiveStream<Simplex> {	
+public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {	
 	/**
 	 * The maximum allowable dimension of the complex.
 	 */
@@ -58,7 +58,7 @@ public abstract class MaximalStream extends PrimitiveStream<Simplex> {
 	 * @param maxDistance the maximum allowable distance in the complex
 	 * @param maxAllowableDimension the maximum dimension of the complex
 	 */
-	public MaximalStream(int maxAllowableDimension, double maxDistance, int numDivisions) {
+	public FlagComplexStream(int maxAllowableDimension, double maxDistance, int numDivisions) {
 		super(SimplexComparator.getInstance());
 		this.maxAllowableDimension = maxAllowableDimension;
 		this.maxDistance = maxDistance;

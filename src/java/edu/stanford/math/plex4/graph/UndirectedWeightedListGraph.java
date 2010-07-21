@@ -3,6 +3,9 @@
  */
 package edu.stanford.math.plex4.graph;
 
+import java.util.Iterator;
+
+import edu.stanford.math.plex4.datastructures.pairs.IntIntPair;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import gnu.trove.map.hash.TIntDoubleHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -118,7 +121,7 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 		}
 	}
 
-	public AbstractEdgeIterator edgeIterator() {
+	public Iterator<IntIntPair> iterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}

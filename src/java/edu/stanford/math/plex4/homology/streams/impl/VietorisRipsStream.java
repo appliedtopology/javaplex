@@ -23,7 +23,7 @@ import gnu.trove.set.TIntSet;
  *
  * @param <T> the base type of the underlying metric space
  */
-public class VietorisRipsStream<T> extends MaximalStream {
+public class VietorisRipsStream<T> extends FlagComplexStream {
 	
 	/**
 	 * This is the metric space upon which the stream is built from.

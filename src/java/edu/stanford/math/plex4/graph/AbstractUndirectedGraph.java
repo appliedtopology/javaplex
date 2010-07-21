@@ -1,5 +1,8 @@
 package edu.stanford.math.plex4.graph;
 
+import java.util.Iterator;
+
+import edu.stanford.math.plex4.datastructures.pairs.IntIntPair;
 import gnu.trove.set.TIntSet;
 
 /**
@@ -10,7 +13,7 @@ import gnu.trove.set.TIntSet;
  * @author Andrew Tausz
  *
  */
-public interface AbstractUndirectedGraph {
+public interface AbstractUndirectedGraph extends Iterable<IntIntPair> {
 	
 	/**
 	 * Gets the number of vertices in the graph.
@@ -65,7 +68,7 @@ public interface AbstractUndirectedGraph {
 	 * This function returns an edge iterator that allows the user to 
 	 * iterate over the set of edges in the graph.
 	 * 
-	 * @return an AbstractEdgeIterator
+	 * @return an Iterator<IntIntPair>
 	 */
-	public AbstractEdgeIterator edgeIterator();
+	public Iterator<IntIntPair> iterator();
 }

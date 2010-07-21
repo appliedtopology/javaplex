@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
+import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.PrimitiveStream;
 import gnu.trove.iterator.TObjectDoubleIterator;
 import gnu.trove.map.hash.TObjectDoubleHashMap;
@@ -33,6 +34,17 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	 */
 	public ExplicitStream(Comparator<T> comparator) {
 		super(comparator);
+	}
+	
+	public ExplicitStream(AbstractFilteredStream<T> stream, Comparator<T> comparator) {
+		super(comparator);
+		this.addAllElements(stream);
+	}
+	
+	private void addAllElements(AbstractFilteredStream<T> stream) {
+		for (T element: stream) {
+			this.storageStructure.addElement(element, stream.getFiltrationValue(element));
+		}
 	}
 	
 	/**

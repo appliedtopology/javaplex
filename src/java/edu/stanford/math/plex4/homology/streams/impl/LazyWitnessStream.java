@@ -18,7 +18,7 @@ import edu.stanford.math.plex4.utility.Infinity;
  *
  * @param <T> the type of the underlying metric space
  */
-public class LazyWitnessStream<T> extends MaximalStream {
+public class LazyWitnessStream<T> extends FlagComplexStream {
 
 	/**
 	 * This is the metric space upon which the stream is built from.
