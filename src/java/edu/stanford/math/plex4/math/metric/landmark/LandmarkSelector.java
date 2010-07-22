@@ -74,6 +74,10 @@ public abstract class LandmarkSelector<T> implements FiniteMetricSpace<T> {
 		return this.metricSpace.distance(this.indexMapping[i], this.indexMapping[j]);
 	}
 	
+	public double distance(T a, T b) {
+		return this.metricSpace.distance(a, b);
+	}
+	
 	public T getPoint(int index) {
 		return this.metricSpace.getPoint(this.getLandmarkIndex(index));
 	}

@@ -11,48 +11,36 @@ import cern.jet.random.Normal;
 import cern.jet.random.Uniform;
 
 public class MatrixUtility {
-	protected static Normal normalGenerator = new Normal(0, 1,
-			new cern.jet.random.engine.MersenneTwister(Uniform
-					.staticNextIntFromTo(0, Integer.MAX_VALUE)));
+	protected static Normal normalGenerator = new Normal(0, 1, new cern.jet.random.engine.MersenneTwister(Uniform.staticNextIntFromTo(0, Integer.MAX_VALUE)));
 
 	/*
 	 * Compatibility validation
 	 */
-	public static void checkProductCompatibility(DoubleMatrix2D matrix,
-			DoubleMatrix1D vector) {
+	public static void checkProductCompatibility(DoubleMatrix2D matrix, DoubleMatrix1D vector) {
 		if (matrix.columns() != vector.size()) {
-			throw new IllegalArgumentException(
-					"Invalid matrix-vector product: matrix: [" + matrix.rows()
-							+ " x " + matrix.columns() + "] vector: ["
-							+ vector.size() + "]");
+			throw new IllegalArgumentException("Invalid matrix-vector product: matrix: [" + matrix.rows() + " x " + matrix.columns() + "] vector: ["
+					+ vector.size() + "]");
 		}
 	}
 
-	public static void checkProductCompatibility(DoubleMatrix1D vector,
-			DoubleMatrix2D matrix) {
+	public static void checkProductCompatibility(DoubleMatrix1D vector, DoubleMatrix2D matrix) {
 		if (matrix.rows() != vector.size()) {
-			throw new IllegalArgumentException(
-					"Invalid vector-matrix product: vector: [" + vector.size()
-							+ "] " + "matrix: [" + matrix.rows() + " x "
-							+ matrix.columns() + "]");
+			throw new IllegalArgumentException("Invalid vector-matrix product: vector: [" + vector.size() + "] " + "matrix: [" + matrix.rows() + " x "
+					+ matrix.columns() + "]");
 		}
 	}
 
-	public static void checkProductCompatibility(DoubleMatrix2D matrix1,
-			DoubleMatrix2D matrix2) {
+	public static void checkProductCompatibility(DoubleMatrix2D matrix1, DoubleMatrix2D matrix2) {
 		if (matrix1.columns() != matrix2.rows()) {
-			throw new IllegalArgumentException(
-					"Invalid matrix-vector product: matrix 1: ["
-							+ matrix1.rows() + " x " + matrix1.columns()
-							+ "] matrix 2: [" + matrix1.size() + " x "
-							+ matrix1.columns() + "]");
+			throw new IllegalArgumentException("Invalid matrix-vector product: matrix 1: [" + matrix1.rows() + " x " + matrix1.columns() + "] matrix 2: ["
+					+ matrix1.size() + " x " + matrix1.columns() + "]");
 		}
 	}
 
 	/*
 	 * Type conversion
 	 */
-	
+
 	public static DoubleMatrix1D toDoubleMatrix1D(double[] values) {
 		int n = values.length;
 		DoubleMatrix1D result = new DenseDoubleMatrix1D(n);
@@ -61,7 +49,7 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	public static DoubleMatrix1D toDoubleMatrix1D(int[] values) {
 		int n = values.length;
 		DoubleMatrix1D result = new DenseDoubleMatrix1D(n);
@@ -70,7 +58,7 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	public static DoubleMatrix2D toDiag(DoubleMatrix1D vector) {
 		int n = vector.size();
 		DoubleMatrix2D result = vector.like2D(n, n);
@@ -79,7 +67,7 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	/*
 	 * Assignments, extraction, concatenation
 	 */
@@ -91,7 +79,7 @@ public class MatrixUtility {
 		}
 		return vector;
 	}
-	
+
 	public static DoubleMatrix2D copyColumn(DoubleMatrix2D source, DoubleMatrix2D dest, int sourceCol, int destCol) {
 		ExceptionUtility.verifyEqual(source.rows(), dest.rows());
 		ExceptionUtility.verifyLessThan(sourceCol, source.columns());
@@ -101,12 +89,15 @@ public class MatrixUtility {
 		}
 		return dest;
 	}
-	
+
 	/**
 	 * 
-	 * @param vector The vector to copy from
-	 * @param start The index of the first element
-	 * @param end One past the index of the last element
+	 * @param vector
+	 *            The vector to copy from
+	 * @param start
+	 *            The index of the first element
+	 * @param end
+	 *            One past the index of the last element
 	 * @return A vector containing the elements {start, ... , end - 1}
 	 */
 	public static DoubleMatrix1D subvector(DoubleMatrix1D vector, int start, int end) {
@@ -117,7 +108,7 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	public static DoubleMatrix2D submatrix(DoubleMatrix2D matrix, int startRow, int endRow, int startColumn, int endColumn) {
 		int rows = endRow - startRow;
 		int columns = endColumn - startColumn;
@@ -129,7 +120,7 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	public static DoubleMatrix1D extractColumnCopy(DoubleMatrix2D matrix, int column) {
 		int m = matrix.rows();
 		DoubleMatrix1D vector = matrix.like1D(m);
@@ -148,8 +139,7 @@ public class MatrixUtility {
 		return vector;
 	}
 
-	public static DoubleMatrix2D writeColumn(DoubleMatrix2D matrix,
-			DoubleMatrix1D vector, int column) {
+	public static DoubleMatrix2D writeColumn(DoubleMatrix2D matrix, DoubleMatrix1D vector, int column) {
 		int m = matrix.rows();
 		for (int i = 0; i < m; i++) {
 			matrix.setQuick(i, column, vector.getQuick(i));
@@ -157,15 +147,14 @@ public class MatrixUtility {
 		return matrix;
 	}
 
-	public static DoubleMatrix2D writeRow(DoubleMatrix2D matrix,
-			DoubleMatrix1D vector, int row) {
+	public static DoubleMatrix2D writeRow(DoubleMatrix2D matrix, DoubleMatrix1D vector, int row) {
 		int n = matrix.columns();
 		for (int j = 0; j < n; j++) {
 			matrix.setQuick(row, j, vector.getQuick(j));
 		}
 		return matrix;
 	}
-	
+
 	public static DoubleMatrix2D stackRows(List<DoubleMatrix1D> vectors) {
 		ExceptionUtility.verifyPositive(vectors.size());
 		int n = vectors.get(0).size();
@@ -179,7 +168,7 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	public static DoubleMatrix2D stackColumns(List<DoubleMatrix1D> vectors) {
 		ExceptionUtility.verifyPositive(vectors.size());
 		int m = vectors.get(0).size();
@@ -193,12 +182,11 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	/*
 	 * Vector operations
 	 */
-	public static DoubleMatrix1D sum(DoubleMatrix1D vector1,
-			DoubleMatrix1D vector2) {
+	public static DoubleMatrix1D sum(DoubleMatrix1D vector1, DoubleMatrix1D vector2) {
 		vector1.checkSize(vector2);
 		DoubleMatrix1D result = vector1.like();
 		int n = vector1.size();
@@ -208,8 +196,7 @@ public class MatrixUtility {
 		return result;
 	}
 
-	public static DoubleMatrix1D difference(DoubleMatrix1D vector1,
-			DoubleMatrix1D vector2) {
+	public static DoubleMatrix1D difference(DoubleMatrix1D vector1, DoubleMatrix1D vector2) {
 		vector1.checkSize(vector2);
 		DoubleMatrix1D result = vector1.like();
 		int n = vector1.size();
@@ -219,8 +206,7 @@ public class MatrixUtility {
 		return result;
 	}
 
-	public static DoubleMatrix1D scalarMultiply(DoubleMatrix1D vector,
-			double scalar) {
+	public static DoubleMatrix1D scalarMultiply(DoubleMatrix1D vector, double scalar) {
 		DoubleMatrix1D result = vector.like();
 		int n = vector.size();
 		for (int i = 0; i < n; i++) {
@@ -250,38 +236,33 @@ public class MatrixUtility {
 	/*
 	 * Matrix operations
 	 */
-	public static DoubleMatrix2D sum(DoubleMatrix2D matrix1,
-			DoubleMatrix2D matrix2) {
+	public static DoubleMatrix2D sum(DoubleMatrix2D matrix1, DoubleMatrix2D matrix2) {
 		matrix1.checkShape(matrix2);
 		int m = matrix1.rows();
 		int n = matrix1.columns();
 		DoubleMatrix2D result = matrix1.like();
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
-				result.setQuick(i, j, matrix1.getQuick(i, j)
-						+ matrix2.getQuick(i, j));
+				result.setQuick(i, j, matrix1.getQuick(i, j) + matrix2.getQuick(i, j));
 			}
 		}
 		return result;
 	}
 
-	public static DoubleMatrix2D difference(DoubleMatrix2D matrix1,
-			DoubleMatrix2D matrix2) {
+	public static DoubleMatrix2D difference(DoubleMatrix2D matrix1, DoubleMatrix2D matrix2) {
 		matrix1.checkShape(matrix2);
 		int m = matrix1.rows();
 		int n = matrix1.columns();
 		DoubleMatrix2D result = matrix1.like();
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
-				result.setQuick(i, j, matrix1.getQuick(i, j)
-						- matrix2.getQuick(i, j));
+				result.setQuick(i, j, matrix1.getQuick(i, j) - matrix2.getQuick(i, j));
 			}
 		}
 		return result;
 	}
 
-	public static DoubleMatrix2D scalarMultiply(DoubleMatrix2D matrix,
-			double scalar) {
+	public static DoubleMatrix2D scalarMultiply(DoubleMatrix2D matrix, double scalar) {
 		int m = matrix.rows();
 		int n = matrix.columns();
 		DoubleMatrix2D result = matrix.like();
@@ -326,26 +307,23 @@ public class MatrixUtility {
 		return result;
 	}
 
-	public static DoubleMatrix1D product(DoubleMatrix2D matrix,
-			DoubleMatrix1D vector) {
+	public static DoubleMatrix1D product(DoubleMatrix2D matrix, DoubleMatrix1D vector) {
 		checkProductCompatibility(matrix, vector);
 		return Algebra.DEFAULT.mult(matrix, vector);
 	}
 
-	public static DoubleMatrix1D product(DoubleMatrix1D vector,
-			DoubleMatrix2D matrix) {
+	public static DoubleMatrix1D product(DoubleMatrix1D vector, DoubleMatrix2D matrix) {
 		checkProductCompatibility(vector, matrix);
 		return Algebra.DEFAULT.mult(Algebra.DEFAULT.transpose(matrix), vector);
 	}
 
-	public static DoubleMatrix2D product(DoubleMatrix2D matrix1,
-			DoubleMatrix2D matrix2) {
+	public static DoubleMatrix2D product(DoubleMatrix2D matrix1, DoubleMatrix2D matrix2) {
 		checkProductCompatibility(matrix1, matrix2);
 		return Algebra.DEFAULT.mult(matrix1, matrix2);
 	}
 
 	public static DoubleMatrix2D scaleRows(DoubleMatrix2D matrix, DoubleMatrix1D vector) {
-		checkProductCompatibility(vector, matrix); 
+		checkProductCompatibility(vector, matrix);
 		int m = matrix.rows();
 		int n = matrix.columns();
 		double multiplier = 0;
@@ -357,9 +335,9 @@ public class MatrixUtility {
 		}
 		return matrix;
 	}
-	
+
 	public static DoubleMatrix2D scaleColumns(DoubleMatrix2D matrix, DoubleMatrix1D vector) {
-		checkProductCompatibility(matrix, vector); 
+		checkProductCompatibility(matrix, vector);
 		int m = matrix.rows();
 		int n = matrix.columns();
 		double multiplier = 0;
@@ -375,7 +353,7 @@ public class MatrixUtility {
 	/*
 	 * Componentwise functions
 	 */
-	
+
 	public static DoubleMatrix1D abs(DoubleMatrix1D vector) {
 		DoubleMatrix1D result = vector.like();
 		int n = vector.size();
@@ -384,7 +362,7 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	public static DoubleMatrix1D sqrt(DoubleMatrix1D vector) {
 		DoubleMatrix1D result = vector.like();
 		int n = vector.size();
@@ -393,7 +371,7 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	public static DoubleMatrix1D reciprocal(DoubleMatrix1D vector) {
 		DoubleMatrix1D result = vector.like();
 		int n = vector.size();
@@ -402,7 +380,7 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	public static double max(DoubleMatrix1D vector) {
 		double max = Infinity.Double.getNegativeInfinity();
 		int n = vector.size();
@@ -415,7 +393,7 @@ public class MatrixUtility {
 		}
 		return max;
 	}
-	
+
 	public static double min(DoubleMatrix1D vector) {
 		double min = Infinity.Double.getPositiveInfinity();
 		int n = vector.size();
@@ -432,21 +410,18 @@ public class MatrixUtility {
 	/*
 	 * Norms, inner products and related functions
 	 */
-	
-	public static double distance(DoubleMatrix1D vector1,
-			DoubleMatrix1D vector2, double p) {
+
+	public static double distance(DoubleMatrix1D vector1, DoubleMatrix1D vector2, double p) {
 		vector1.checkSize(vector2);
 		double sum = 0;
 		int n = vector1.size();
 		for (int i = 0; i < n; i++) {
-			sum += Math.pow(
-					Math.abs(vector1.getQuick(i) - vector2.getQuick(i)), p);
+			sum += Math.pow(Math.abs(vector1.getQuick(i) - vector2.getQuick(i)), p);
 		}
 		return Math.pow(sum, 1 / p);
 	}
-	
-	public static double huberPenaltyFunction(DoubleMatrix1D vector1,
-			DoubleMatrix1D vector2, double M) {
+
+	public static double huberPenaltyFunction(DoubleMatrix1D vector1, DoubleMatrix1D vector2, double M) {
 		vector1.checkSize(vector2);
 		double sum = 0;
 		int n = vector1.size();
@@ -468,7 +443,7 @@ public class MatrixUtility {
 	public static double infinityNorm(DoubleMatrix1D vector) {
 		return Algebra.DEFAULT.normInfinity(vector);
 	}
-	
+
 	public static double innerProduct(DoubleMatrix1D vector1, DoubleMatrix1D vector2) {
 		return Algebra.DEFAULT.mult(vector1, vector2);
 	}
@@ -484,11 +459,11 @@ public class MatrixUtility {
 		}
 		return sum / n;
 	}
-	
+
 	public static double infinityNorm(DoubleMatrix2D matrix) {
 		return Algebra.DEFAULT.normInfinity(matrix);
 	}
-	
+
 	public static double oneNorm(DoubleMatrix2D matrix) {
 		return Algebra.DEFAULT.norm1(matrix);
 	}
@@ -496,7 +471,7 @@ public class MatrixUtility {
 	public static double frobeniusNorm(DoubleMatrix2D matrix) {
 		return Algebra.DEFAULT.normF(matrix);
 	}
-	
+
 	public static DoubleMatrix2D transpose(DoubleMatrix2D matrix) {
 		int m = matrix.rows();
 		int n = matrix.columns();
@@ -508,7 +483,7 @@ public class MatrixUtility {
 		}
 		return result;
 	}
-	
+
 	public static double innerProduct(DoubleMatrix2D matrix1, DoubleMatrix2D matrix2) {
 		matrix1.checkShape(matrix2);
 		double sum = 0;
@@ -521,7 +496,7 @@ public class MatrixUtility {
 		}
 		return sum;
 	}
-	
+
 	public static double trace(DoubleMatrix2D matrix) {
 		double sum = 0;
 		int m = Math.min(matrix.rows(), matrix.columns());
@@ -539,11 +514,11 @@ public class MatrixUtility {
 			return vector.like();
 		}
 	}
-	
+
 	public static double mean(DoubleMatrix1D array) {
 		return array.zSum() / array.size();
 	}
-	
+
 	public static double standardDeviation(DoubleMatrix1D array) {
 		if (array.size() <= 1) {
 			return 0;
@@ -557,7 +532,7 @@ public class MatrixUtility {
 		sd = Math.sqrt(sd / ((double) (n - 1)));
 		return sd;
 	}
-	
+
 	public static double meanSquareDistance(DoubleMatrix2D matrix1, DoubleMatrix2D matrix2) {
 		matrix1.checkShape(matrix2);
 		double sum = 0;
@@ -572,7 +547,7 @@ public class MatrixUtility {
 		}
 		return sum / (m * n);
 	}
-	
+
 	/*
 	 * Random generation
 	 */
@@ -607,7 +582,7 @@ public class MatrixUtility {
 		}
 		return vector;
 	}
-	
+
 	public static DoubleMatrix2D zScoreRows(DoubleMatrix2D matrix) {
 		DoubleMatrix2D result = matrix.like();
 		int m = matrix.rows();

@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.math.linear_algebra;
+package edu.stanford.math.plex4.deprecated;
 
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
 import edu.stanford.math.plex4.utility.ExceptionUtility;

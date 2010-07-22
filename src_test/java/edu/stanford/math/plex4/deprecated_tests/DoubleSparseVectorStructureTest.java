@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.math.matrix;
+package edu.stanford.math.plex4.deprecated_tests;
 
 import edu.stanford.math.plex4.math.matrix.impl.sparse.DoubleSparseVector;
 

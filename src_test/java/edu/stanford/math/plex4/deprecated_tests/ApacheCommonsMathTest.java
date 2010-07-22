@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.math.miscellaneous;
+package edu.stanford.math.plex4.deprecated_tests;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;

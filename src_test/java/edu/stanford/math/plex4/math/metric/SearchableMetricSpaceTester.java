@@ -1,21 +1,11 @@
 package edu.stanford.math.plex4.math.metric;
 
-import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.impl.KDEuclideanMetricSpace;
+import static org.junit.Assert.assertTrue;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
-import edu.stanford.math.plex4.math.metric.utility.MetricUtility;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.set.hash.TIntHashSet;
 
-public class SearchableMetricSpaceTest {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
+public class SearchableMetricSpaceTester {
 
 	/**
 	 * This function verifies that the the nearest neighbor query produces a point that 
@@ -24,15 +14,13 @@ public class SearchableMetricSpaceTest {
 	 * @param <M>
 	 * @param metricSpace
 	 */
-	private <M> void verifyNearestPoints(SearchableFiniteMetricSpace<M> metricSpace) {
+	public static <M> void verifyNearestPoints(SearchableFiniteMetricSpace<M> metricSpace) {
 		for (int i = 0; i < metricSpace.size(); i++) {
 			M queryPoint = metricSpace.getPoint(i);
 
 			int nearestPointIndex = metricSpace.getNearestPoint(queryPoint);
 
-			if (nearestPointIndex == i) {
-				throw new IllegalStateException("Nearest neighbor should not be equal to the query point.");
-			}
+			assertTrue("Nearest neighbor should not be equal to the query point.", nearestPointIndex != i);
 
 			double nearestDistance = metricSpace.distance(i, nearestPointIndex);
 
@@ -40,11 +28,27 @@ public class SearchableMetricSpaceTest {
 			for (int j = 0; j < metricSpace.size(); j++) {
 				if (i != j) {
 					double distance = metricSpace.distance(i, j);
-					if (distance < nearestDistance) {
-						throw new IllegalStateException("Point claimed to be nearest is not nearest.");
-					}
+					assertTrue("Claimed nearest point is not the nearest.", nearestDistance <= distance);
 				}
 			}
+		}
+	}
+	
+	public static <M> void verifyNearestPoints(SearchableFiniteMetricSpace<M> metricSpace, M[] queryPoints) {
+		for (M queryPoint: queryPoints) {
+			verifyNearestPoint(metricSpace, queryPoint);
+		}
+	}
+	
+	public static <M> void verifyNearestPoint(SearchableFiniteMetricSpace<M> metricSpace, M queryPoint) {
+		int nearestPointIndex = metricSpace.getNearestPoint(queryPoint);
+		M nearestPoint = metricSpace.getPoint(nearestPointIndex);
+		double nearestDistance = metricSpace.distance(queryPoint, nearestPoint);
+		
+		// make sure that all other points are not closer than the nearest point
+		for (int j = 0; j < metricSpace.size(); j++) {
+			double distance = metricSpace.distance(queryPoint, metricSpace.getPoint(j));
+			assertTrue("Claimed nearest point is not the nearest.", nearestDistance <= distance);
 		}
 	}
 
@@ -56,25 +60,19 @@ public class SearchableMetricSpaceTest {
 	 * @param metricSpace
 	 * @param epsilon
 	 */
-	private <M> void verifyNeighborhoods(SearchableFiniteMetricSpace<M> metricSpace, double epsilon) {
+	public static <M> void verifyNeighborhoods(SearchableFiniteMetricSpace<M> metricSpace, double epsilon) {
 
 		for (int i = 0; i < metricSpace.size(); i++) {
 			M queryPoint = metricSpace.getPoint(i);
 
 			TIntHashSet neighborhood = metricSpace.getNeighborhood(queryPoint, epsilon);
 
-			if (neighborhood.contains(i)) {
-				throw new IllegalStateException("Epsilon neighborhood of a point should not contain the query point.");
-			}
-
 			// make sure that the points in the neighborhood satisfy d(i, j) < epsilon 
 			for (TIntIterator iterator = neighborhood.iterator(); iterator.hasNext(); ) {
 				int j = iterator.next();
 				double distance = metricSpace.distance(i, j);
 
-				if (distance >= epsilon) {
-					throw new IllegalStateException("Epsilon neighborhood of point contains point further than epsilon away.");
-				}
+				assertTrue("Epsilon neighborhood of point contains point further than epsilon away.", distance < epsilon);
 			}
 
 			// make sure that points outside of the neighborhood satisfy d(i, j) >= epsilon
@@ -85,9 +83,7 @@ public class SearchableMetricSpaceTest {
 
 				double distance = metricSpace.distance(i, j);
 
-				if (distance < epsilon) {
-					throw new IllegalStateException("Epsilon neighborhood of point does not contain valid point.");
-				}
+				assertTrue("Epsilon neighborhood of point does not contain valid point.", distance >= epsilon);
 			}
 		}
 	}

@@ -3,6 +3,7 @@ package edu.stanford.math.plex4.homology.barcodes;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.stanford.math.plex4.utility.ComparisonUtility;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
 /**
@@ -103,5 +104,34 @@ public class Barcode {
 		}
 		
 		return builder.toString();
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + dimension;
+		result = prime * result + ((intervals == null) ? 0 : intervals.hashCode());
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Barcode other = (Barcode) obj;
+		if (dimension != other.dimension)
+			return false;
+		if (intervals == null) {
+			if (other.intervals != null)
+				return false;
+		} else if (!ComparisonUtility.setEquals(this.intervals, other.intervals))
+			return false;
+		return true;
 	}
 }

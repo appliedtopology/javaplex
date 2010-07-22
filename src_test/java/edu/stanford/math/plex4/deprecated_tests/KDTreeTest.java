@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.math.metric;
+package edu.stanford.math.plex4.deprecated_tests;
 
 import edu.stanford.math.plex4.kd.KDTree;
 import edu.stanford.math.plex4.utility.ArrayUtility2;

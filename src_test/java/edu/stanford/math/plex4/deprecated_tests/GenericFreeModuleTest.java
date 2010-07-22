@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.structures;
+package edu.stanford.math.plex4.deprecated_tests;
 
 import org.apache.commons.math.fraction.Fraction;
 

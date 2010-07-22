@@ -100,6 +100,10 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 	public double distance(int i, int j) {
 		return this.metricSpace.distance(i, j);
 	}
+	
+	public double distance(double[] a, double[] b) {
+		return this.metricSpace.distance(a, b);
+	}
 
 	public Simplex[] getBoundary(Simplex simplex) {
 		return simplex.getBoundaryArray();

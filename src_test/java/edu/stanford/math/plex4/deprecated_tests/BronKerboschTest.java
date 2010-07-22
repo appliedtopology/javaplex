@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.graph.utility;
+package edu.stanford.math.plex4.deprecated_tests;
 
 import edu.stanford.math.plex4.deprecated.BronKerboschAlgorithm;
 import edu.stanford.math.plex4.graph.UndirectedListGraph;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.stanford.math.plex4.math.linear_algebra;
+package edu.stanford.math.plex4.deprecated_tests;
 
 import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntField;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;

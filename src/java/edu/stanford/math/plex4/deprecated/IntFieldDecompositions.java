@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.math.linear_algebra;
+package edu.stanford.math.plex4.deprecated;
 
 import java.util.ArrayList;
 import java.util.List;

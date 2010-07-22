@@ -164,4 +164,30 @@ public class BarcodeCollection {
 		
 		return builder.toString();
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((barcodeMap == null) ? 0 : barcodeMap.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BarcodeCollection other = (BarcodeCollection) obj;
+		if (barcodeMap == null) {
+			if (other.barcodeMap != null)
+				return false;
+		} else if (!barcodeMap.equals(other.barcodeMap))
+			return false;
+		return true;
+	}
+
 }

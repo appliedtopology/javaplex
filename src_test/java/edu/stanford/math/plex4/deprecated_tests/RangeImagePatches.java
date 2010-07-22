@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.paper_validation;
+package edu.stanford.math.plex4.deprecated_tests;
 
 /**
  * Title: "On the Nonlinear Statistics of Range Image Patches" 

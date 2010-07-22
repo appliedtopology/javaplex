@@ -48,6 +48,16 @@ public class PointCloudExamples {
 		return points;
 	}
 	
+	public static double[][] getGaussianPoints(int n, int d) {
+		double[][] points = new double[n][d];
+		
+		for (int i = 0; i < n; i++) {
+			points[i] = RandomUtility.normalArray(d);
+		}
+
+		return points;
+	}
+	
 	public static double[][] getRandomTorusPoints(int n, double r, double R) {
 		double[][] points = new double[n][3];
 		
