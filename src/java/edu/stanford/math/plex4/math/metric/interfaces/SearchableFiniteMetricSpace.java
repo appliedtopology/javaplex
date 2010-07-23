@@ -14,6 +14,7 @@ import gnu.trove.set.hash.TIntHashSet;
  */
 public interface SearchableFiniteMetricSpace<T> extends FiniteMetricSpace<T> {
 	public int getNearestPoint(T queryPoint);
-	public TIntHashSet getNeighborhood(T queryPoint, double epsilon);
+	public TIntHashSet getOpenNeighborhood(T queryPoint, double epsilon);
+	public TIntHashSet getClosedNeighborhood(T queryPoint, double epsilon);
 	public TIntHashSet getKNearestNeighbors(T queryPoint, int k);
 }

@@ -69,25 +69,6 @@ public class BarcodeCollection {
 		this.addInterval(dimension, new LeftInfiniteInterval(end));
 	}
 	
-	/**
-	 * This function computes the Betti numbers for a particular filtration
-	 * value. It returns the results as a map which maps the dimension to the
-	 * Betti number.
-	 * 
-	 * @param filtrationValue the filtrationValue to compute the Betti numbers at
-	 * @return a TIntIntHashMap mapping dimension to the Betti number
-	 */
-	public TIntIntHashMap getBettiNumbers(double filtrationValue) {
-		TIntIntHashMap map = new TIntIntHashMap();
-		
-		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			map.put(iterator.key(), iterator.value().getSliceCardinality(filtrationValue));
-		}
-		
-		return map;
-	}
-	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -99,6 +80,48 @@ public class BarcodeCollection {
 		}
 		
 		return builder.toString();
+	}
+	
+	/**
+	 * This function computes the Betti numbers for a particular filtration
+	 * value. It returns the results as a map which maps the dimension to the
+	 * Betti number.
+	 * 
+	 * @param filtrationValue the filtrationValue to compute the Betti numbers at
+	 * @return a TIntIntHashMap mapping dimension to the Betti number
+	 */
+	public TIntIntHashMap getBettiNumbersMap(double filtrationValue) {
+		TIntIntHashMap map = new TIntIntHashMap();
+		
+		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			map.put(iterator.key(), iterator.value().getSliceCardinality(filtrationValue));
+		}
+		
+		return map;
+	}
+	
+	public int[] getBettiSequence() {
+		int maxDimension = Infinity.Int.getNegativeInfinity();
+		int minDimension = Infinity.Int.getPositiveInfinity();
+		
+		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			maxDimension = Math.max(maxDimension, iterator.key());
+			minDimension = Math.min(minDimension, iterator.key());
+		}
+		
+		int[] bettiNumbers = new int[maxDimension + 1];
+		
+		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			int dimension = iterator.key();
+			if (dimension >= 0) {
+				bettiNumbers[dimension] = iterator.value().getCardinality();
+			}
+		}
+		
+		return bettiNumbers;
 	}
 	
 	public String getBettiNumbers() {

@@ -27,7 +27,7 @@ public class KDTree {
 	 * Points are stored as rows in the dataPoints array
 	 */
 	private final double[][] dataPoints;
-	
+
 	private List<Integer> indexTranslation;
 
 	public KDTree(double[][] dataPoints) {
@@ -42,7 +42,7 @@ public class KDTree {
 	public List<Integer> getIndexTranslation() {
 		return this.invertPermutation(this.indexTranslation);
 	}
-	
+
 	public void constructTree() {
 		this.root = this.kdIteration(0, 0, this.size - 1);
 	}
@@ -63,36 +63,36 @@ public class KDTree {
 		}
 		int axis = depth % this.dimension;
 		int medianIndex = startIndex + (endIndex - startIndex + 1) / 2;
-		
+
 		int randomizedIndex = randomizedSelect(dataPoints, startIndex, endIndex, medianIndex, axis);
 		//System.out.println("StartIndex: " + startIndex + " EndIndex: " + endIndex);
 		//System.out.println(ArrayUtility.toString(dataPoints));
 		//System.out.println(ArrayUtility.toString(this.dataPoints[randomizedIndex]));
 		//System.out.println("Median index: " + medianIndex);
 		KDNode node = new KDNode(randomizedIndex);
-		
+
 		node.setLeft(this.kdIteration(depth + 1, startIndex, medianIndex - 1));
 		node.setRight(this.kdIteration(depth + 1, medianIndex + 1, endIndex));
 
 		return node;
 	}
-	
+
 	public int nearestNeighborSearch(double[] queryPoint) {
 		return nearestNeighborSearch(this.root, queryPoint, this.root.getIndex(), 0);
 	}
-	
+
 	private int nearestNeighborSearch(KDNode node, double[] queryPoint, int bestIndex, int depth) {
 		if (node == null) {
 			return bestIndex;
 		}
 		double[] bestPoint = this.dataPoints[bestIndex];
-		
+
 		// get the current axis
 		int axis = depth % this.dimension;
 		// get the current point
 		int currentIndex = node.getIndex();
 		double[] currentPoint = this.dataPoints[currentIndex];
-		
+
 		// Calculate whether current node is the best so far
 		double currentSquaredDistance = ArrayUtility2.squaredDistance(queryPoint, currentPoint);
 		double bestSquaredDistance = ArrayUtility2.squaredDistance(queryPoint, bestPoint);
@@ -100,7 +100,7 @@ public class KDTree {
 			bestPoint = currentPoint;
 			bestIndex = currentIndex;
 		}
-		
+
 		// determine which side of the hyperplane the query point is in
 		// if side > 0 then the query point is on the "right" side of the hyperplane
 		double axisDifference = queryPoint[axis] - currentPoint[axis];
@@ -115,30 +115,30 @@ public class KDTree {
 			nearChild = node.getLeft();
 			farChild = node.getRight();
 		}
-		
+
 		// search the current half-space (the half-space containing the query point)
 		bestIndex = nearestNeighborSearch(nearChild, queryPoint, bestIndex, depth + 1);
-		
+
 		// test to see if we need to search other half-space
 		double separatingPlaneDistance = ArrayUtility2.squaredDistance(queryPoint[axis], currentPoint[axis]);
 		if (bestSquaredDistance > separatingPlaneDistance) {
 			bestIndex = nearestNeighborSearch(farChild, queryPoint, bestIndex, depth + 1);
 		}
-		
+
 		return bestIndex;		
 	}
-	
-	public TIntHashSet epsilonNeighborhoodSearch(double[] queryPoint, double epsilon) {
+
+	public TIntHashSet epsilonNeighborhoodSearch(double[] queryPoint, double epsilon, boolean openNeighborhood) {
 		TIntHashSet neighborhood = new TIntHashSet();
-		epsilonNeighborhoodSearch(this.root, queryPoint, neighborhood, 0, epsilon * epsilon);
+		epsilonNeighborhoodSearch(this.root, queryPoint, neighborhood, 0, epsilon * epsilon, openNeighborhood);
 		return neighborhood;
 	}
-	
-	private void epsilonNeighborhoodSearch(KDNode node, double[] queryPoint, TIntHashSet neighborhood, int depth, double epsilonSquared) {		
+
+	private void epsilonNeighborhoodSearch(KDNode node, double[] queryPoint, TIntHashSet neighborhood, int depth, double epsilonSquared, boolean openNeighborhood) {		
 		if (node == null) {
 			return;
 		}
-		
+
 		// get the current axis
 		int axis = depth % this.dimension;
 		// get the current point
@@ -151,7 +151,7 @@ public class KDTree {
 		if (currentSquaredDistance < epsilonSquared) {
 			neighborhood.add(currentIndex);
 		}
-		
+
 		// determine which side of the hyperplane the query point is in
 		// if side > 0 then the query point is on the "right" side of the hyperplane
 		double axisDifference = queryPoint[axis] - currentPoint[axis];
@@ -167,17 +167,24 @@ public class KDTree {
 			nearChild = node.getLeft();
 			farChild = node.getRight();
 		}
-		
+
 		// determine whether the epsilon-neighborhood intersects the far half-space
-		if (epsilonSquared > squaredAxisDistance) {
-			// yes there is overlap - so search far half-space
-			epsilonNeighborhoodSearch(farChild, queryPoint, neighborhood, depth + 1, epsilonSquared);
+		if (openNeighborhood) {
+			if (epsilonSquared > squaredAxisDistance) {
+				// yes there is overlap - so search far half-space
+				epsilonNeighborhoodSearch(farChild, queryPoint, neighborhood, depth + 1, epsilonSquared, openNeighborhood);
+			}
+		} else {
+			if (epsilonSquared >= squaredAxisDistance) {
+				// yes there is overlap - so search far half-space
+				epsilonNeighborhoodSearch(farChild, queryPoint, neighborhood, depth + 1, epsilonSquared, openNeighborhood);
+			}
 		}
-		
+
 		// search the near half-space for more neighborhood members
-		epsilonNeighborhoodSearch(nearChild, queryPoint, neighborhood, depth + 1, epsilonSquared);
+		epsilonNeighborhoodSearch(nearChild, queryPoint, neighborhood, depth + 1, epsilonSquared, openNeighborhood);
 	}
-	
+
 	private int partition(double[][] array, int startIndex, int endIndex, int axis) {
 		ExceptionUtility.verifyNonNegative(startIndex);
 		ExceptionUtility.verifyGreaterThanOrEqual(endIndex, startIndex);
@@ -204,7 +211,7 @@ public class KDTree {
 			}
 		}
 	}
-	
+
 	private List<Integer> invertPermutation(List<Integer> permutation) {
 		List<Integer> inverse = new ArrayList<Integer>();
 		for (int i = 0; i < permutation.size(); i++) {

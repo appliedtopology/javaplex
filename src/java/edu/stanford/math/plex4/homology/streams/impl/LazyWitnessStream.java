@@ -63,6 +63,10 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 		this(metricSpace, landmarkSelector, maxDimension, maxDistance, 2, 0, numDivisions);
 	}
 
+	public static int getDefaultNuValue() {
+		return 2;
+	}
+	
 	@Override
 	protected UndirectedWeightedListGraph constructEdges() {
 		int N = this.metricSpace.size();

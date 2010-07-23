@@ -42,8 +42,12 @@ public class KDEuclideanMetricSpace implements SearchableFiniteMetricSpace<doubl
 		return this.tree.nearestNeighborSearch(queryPoint);
 	}
 
-	public TIntHashSet getNeighborhood(double[] queryPoint, double epsilon) {
-		return this.tree.epsilonNeighborhoodSearch(queryPoint, epsilon);
+	public TIntHashSet getOpenNeighborhood(double[] queryPoint, double epsilon) {
+		return this.tree.epsilonNeighborhoodSearch(queryPoint, epsilon, true);
+	}
+	
+	public TIntHashSet getClosedNeighborhood(double[] queryPoint, double epsilon) {
+		return this.tree.epsilonNeighborhoodSearch(queryPoint, epsilon, false);
 	}
 
 	public int size() {

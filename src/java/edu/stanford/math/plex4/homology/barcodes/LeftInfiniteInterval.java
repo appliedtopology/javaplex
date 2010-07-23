@@ -1,6 +1,6 @@
 package edu.stanford.math.plex4.homology.barcodes;
 
-import edu.stanford.math.plex4.utility.Infinity;
+import edu.stanford.math.plex4.utility.ComparisonUtility;
 import edu.stanford.math.plex4.utility.MathUtility;
 
 public class LeftInfiniteInterval implements HalfOpenInterval {
@@ -35,7 +35,7 @@ public class LeftInfiniteInterval implements HalfOpenInterval {
 	}
 
 	public double getStart() {
-		return Infinity.Double.getNegativeInfinity();
+		throw new UnsupportedOperationException();
 	}
 	
 	/* (non-Javadoc)
@@ -63,7 +63,7 @@ public class LeftInfiniteInterval implements HalfOpenInterval {
 		if (!(obj instanceof LeftInfiniteInterval))
 			return false;
 		LeftInfiniteInterval other = (LeftInfiniteInterval) obj;
-		if (Double.doubleToLongBits(end) != Double.doubleToLongBits(other.end))
+		if (!ComparisonUtility.compareDoublesGuardedRelative(end, other.end, ComparisonUtility.MED_PRECISION))
 			return false;
 		return true;
 	}

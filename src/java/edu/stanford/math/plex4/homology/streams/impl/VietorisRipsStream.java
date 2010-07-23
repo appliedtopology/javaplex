@@ -56,7 +56,7 @@ public class VietorisRipsStream<T> extends FlagComplexStream {
 		
 		for (int i = 0; i < n; i++) {
 			// obtain the neighborhood of the i-th point
-			neighborhood = this.metricSpace.getNeighborhood(metricSpace.getPoint(i), this.maxDistance);
+			neighborhood = this.metricSpace.getClosedNeighborhood(metricSpace.getPoint(i), this.maxDistance);
 			
 			// get the pairwise distances of the points and store them
 			TIntIterator iterator = neighborhood.iterator();

@@ -7,6 +7,10 @@ import java.util.Collection;
 
 public class ComparisonUtility {
 	
+	public static final double LOW_PRECISION = 1e-3;
+	public static final double MED_PRECISION = 1e-6;
+	public static final double HIGH_PRECISION = 1e-9;
+	
 	/**
 	 * This function compares the contents of two collections and returns true if and
 	 * only if they define the same set (ie. they have the same elements).
@@ -26,5 +30,25 @@ public class ComparisonUtility {
 	
 	public static boolean setEquals(TIntSet a, TIntSet b) {
 		return (a.containsAll(b) && b.containsAll(a));
+	}
+	
+	public static boolean compareDoublesAbsolute(double a, double b, double tolerance) {
+		return (Math.abs(a - b) <= tolerance);
+	}
+	
+	public static boolean compareDoublesRelative(double a, double b, double tolerance) {
+		if (a == 0 && b == 0) {
+			return true;
+		}
+		return (Math.abs((a - b) / (0.5 * (Math.abs(a) + Math.abs(b)))) <= tolerance);
+	}
+	
+	public static boolean compareDoublesGuardedRelative(double a, double b, double tolerance) {
+		double denom = 0.5 * (Math.abs(a) + Math.abs(b));
+		if (denom < 1) {
+			return (Math.abs(a - b) <= tolerance);
+		} else {
+			return (Math.abs(a - b) / denom <= tolerance);
+		}
 	}
 }

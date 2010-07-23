@@ -44,7 +44,7 @@ public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMet
 		return nearestIndex;
 	}
 
-	public TIntHashSet getNeighborhood(T queryPoint, double epsilon) {
+	public TIntHashSet getOpenNeighborhood(T queryPoint, double epsilon) {
 		ExceptionUtility.verifyNonNull(queryPoint);
 		ExceptionUtility.verifyNonNegative(epsilon);
 		
@@ -57,6 +57,26 @@ public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMet
 		
 		for (int i = 0; i < n; i++) {
 			if (this.distance(queryPoint, this.elements.get(i)) < epsilon) {
+				neighborhood.add(i);
+			}	
+		}
+
+		return neighborhood;
+	}
+	
+	public TIntHashSet getClosedNeighborhood(T queryPoint, double epsilon) {
+		ExceptionUtility.verifyNonNull(queryPoint);
+		ExceptionUtility.verifyNonNegative(epsilon);
+		
+		TIntHashSet neighborhood = new TIntHashSet();
+		if (epsilon == 0) {
+			return neighborhood;
+		}
+		
+		int n = this.elements.size();
+		
+		for (int i = 0; i < n; i++) {
+			if (this.distance(queryPoint, this.elements.get(i)) <= epsilon) {
 				neighborhood.add(i);
 			}	
 		}

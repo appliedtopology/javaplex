@@ -20,8 +20,8 @@ public class CellStreamExamples {
 	 * 
 	 * @return a filtered cell stream
 	 */
-	public static AbstractFilteredStream<Cell> getMorozovJohanssonExample() {
-		ExplicitStream<Cell> stream = new ExplicitStream<Cell>(CellComparator.getInstance());
+	public static ExplicitCellStream getMorozovJohanssonExample() {
+		ExplicitCellStream stream = new ExplicitCellStream();
 
 		Cell vertex_1 = new Cell();
 		Cell vertex_2 = new Cell();

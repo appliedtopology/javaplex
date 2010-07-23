@@ -65,7 +65,7 @@ public class SearchableMetricSpaceTester {
 		for (int i = 0; i < metricSpace.size(); i++) {
 			M queryPoint = metricSpace.getPoint(i);
 
-			TIntHashSet neighborhood = metricSpace.getNeighborhood(queryPoint, epsilon);
+			TIntHashSet neighborhood = metricSpace.getOpenNeighborhood(queryPoint, epsilon);
 
 			// make sure that the points in the neighborhood satisfy d(i, j) < epsilon 
 			for (TIntIterator iterator = neighborhood.iterator(); iterator.hasNext(); ) {

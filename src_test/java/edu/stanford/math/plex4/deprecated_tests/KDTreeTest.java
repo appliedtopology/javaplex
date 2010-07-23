@@ -59,15 +59,15 @@ public class KDTreeTest {
 		System.out.println("Query:" + ArrayUtility2.toString(queryPoint) + " Answer:" + ArrayUtility2.toString(points[nearestIndex]));
 		
 		queryPoint = new double[]{2, 2};
-		neighborhood = tree.epsilonNeighborhoodSearch(queryPoint, 1.1);
+		neighborhood = tree.epsilonNeighborhoodSearch(queryPoint, 1.1, true);
 		System.out.println(neighborhood);
 		
 		queryPoint = new double[]{2, 2};
-		neighborhood = tree.epsilonNeighborhoodSearch(queryPoint, 5);
+		neighborhood = tree.epsilonNeighborhoodSearch(queryPoint, 5, true);
 		System.out.println(neighborhood);
 		
 		queryPoint = new double[]{2, 2};
-		neighborhood = tree.epsilonNeighborhoodSearch(queryPoint, 500);
+		neighborhood = tree.epsilonNeighborhoodSearch(queryPoint, 500, true);
 		System.out.println(neighborhood);
 	}
 }

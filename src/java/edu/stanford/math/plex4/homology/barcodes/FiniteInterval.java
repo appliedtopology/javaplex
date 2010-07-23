@@ -1,5 +1,6 @@
 package edu.stanford.math.plex4.homology.barcodes;
 
+import edu.stanford.math.plex4.utility.ComparisonUtility;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.MathUtility;
 
@@ -69,9 +70,9 @@ public class FiniteInterval implements HalfOpenInterval, Comparable<HalfOpenInte
 		if (!(obj instanceof FiniteInterval))
 			return false;
 		FiniteInterval other = (FiniteInterval) obj;
-		if (Double.doubleToLongBits(end) != Double.doubleToLongBits(other.end))
+		if (!ComparisonUtility.compareDoublesGuardedRelative(start, other.start, ComparisonUtility.MED_PRECISION))
 			return false;
-		if (Double.doubleToLongBits(start) != Double.doubleToLongBits(other.start))
+		if (!ComparisonUtility.compareDoublesGuardedRelative(end, other.end, ComparisonUtility.MED_PRECISION))
 			return false;
 		return true;
 	}

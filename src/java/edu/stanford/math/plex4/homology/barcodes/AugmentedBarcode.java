@@ -95,5 +95,32 @@ public class AugmentedBarcode<T> {
 		
 		return builder.toString();
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + dimension;
+		result = prime * result + ((intervals == null) ? 0 : intervals.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AugmentedBarcode<?> other = (AugmentedBarcode<?>) obj;
+		if (dimension != other.dimension)
+			return false;
+		if (intervals == null) {
+			if (other.intervals != null)
+				return false;
+		} else if (!intervals.equals(other.intervals))
+			return false;
+		return true;
+	}
 }

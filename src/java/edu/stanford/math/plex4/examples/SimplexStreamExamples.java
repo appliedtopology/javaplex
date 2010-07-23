@@ -22,7 +22,7 @@ public class SimplexStreamExamples {
 	 * 
 	 * @return a filtered simplex stream
 	 */
-	public static AbstractFilteredStream<Simplex> getZomorodianCarlssonExample() {
+	public static ExplicitStream<Simplex> getZomorodianCarlssonExample() {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 
 		stream.addElement(new Simplex(new int[]{0}), 0);
@@ -47,7 +47,7 @@ public class SimplexStreamExamples {
 		return stream;
 	}
 	
-	public static AbstractFilteredStream<Simplex> getFilteredTriangle() {
+	public static ExplicitStream<Simplex> getFilteredTriangle() {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 
 		stream.addElement(new Simplex(new int[]{1}), 1);
@@ -70,7 +70,7 @@ public class SimplexStreamExamples {
 	 * 
 	 * @return a simplicial triangle
 	 */
-	public static AbstractFilteredStream<Simplex> getTriangle() {
+	public static ExplicitStream<Simplex> getTriangle() {
 		return getSimplicialSphere(1);
 	}
 	
@@ -80,7 +80,7 @@ public class SimplexStreamExamples {
 	 * 
 	 * @return a simplicial tetrahedron
 	 */
-	public static AbstractFilteredStream<Simplex> getTetrahedron() {
+	public static ExplicitStream<Simplex> getTetrahedron() {
 		return getSimplicialSphere(2);
 	}
 	
@@ -90,7 +90,7 @@ public class SimplexStreamExamples {
 	 * @param dimension the dimension of the sphere to produce
 	 * @return a simplicial sphere
 	 */
-	public static AbstractFilteredStream<Simplex> getSimplicialSphere(int dimension) {
+	public static ExplicitStream<Simplex> getSimplicialSphere(int dimension) {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 
 		stream.addElement(new Simplex(ArrayGeneration.range(0, dimension + 2)), 0);
@@ -108,7 +108,7 @@ public class SimplexStreamExamples {
 	 * 
 	 * @return a simplicial complex containing a 2-torus.
 	 */
-	public static AbstractFilteredStream<Simplex> getTorus() {
+	public static ExplicitStream<Simplex> getTorus() {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 
 		stream.addElement(new Simplex(new int[] {1}), 0);
@@ -188,7 +188,7 @@ public class SimplexStreamExamples {
 	 * @param m the number of vertices in the circle
 	 * @return a simplicial circle with m vertices
 	 */
-	public static AbstractFilteredStream<Simplex> getCircle(int m) {
+	public static ExplicitStream<Simplex> getCircle(int m) {
 		ExceptionUtility.verifyGreaterThanOrEqual(m, 3);
 		
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
