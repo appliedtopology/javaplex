@@ -171,4 +171,7 @@ public class SkeletalMetric implements FiniteMetricSpace<Simplex> {
 		return pathLengths;
 	}
 
+	public Simplex[] getPoints() {
+		throw new UnsupportedOperationException();
+	}
 }

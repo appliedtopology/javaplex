@@ -32,12 +32,11 @@ public class PersistenceAlgorithmTester {
 		}
 	}
 	
-	public static BarcodeCollection testLazyWitnessStream(double[][] points, LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions, PersistenceAlgorithmType type) {
+	public static BarcodeCollection testLazyWitnessStream(LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions, PersistenceAlgorithmType type) {
 		if (type == PersistenceAlgorithmType.Plex3Homology) {
-			return testPlex3LazyWitness(points, selector, maxDimension, maxFiltrationValue, numDivisions);
+			return testPlex3LazyWitness(selector, maxDimension, maxFiltrationValue, numDivisions);
 		} else {
-			SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
-			LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(metricSpace, selector, maxDimension + 1, maxFiltrationValue, numDivisions);
+			LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(selector.getUnderlyingMetricSpace(), selector, maxDimension + 1, maxFiltrationValue, numDivisions);
 			stream.finalizeStream();
 			
 			return computePlex4Barcodes(stream, maxDimension, type);
@@ -70,15 +69,15 @@ public class PersistenceAlgorithmTester {
 		return convertFromPlex3PersistenceIntervals(intervals);
 	}
 
-	private static BarcodeCollection testPlex3LazyWitness(double[][] points, LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
-		EuclideanArrayData pData = Plex.EuclideanArrayData(points);
+	private static BarcodeCollection testPlex3LazyWitness(LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
+		EuclideanArrayData pData = Plex.EuclideanArrayData(selector.getUnderlyingMetricSpace().getPoints());
 
 		edu.stanford.math.plex.LazyWitnessStream wit = Plex.LazyWitnessStream(maxFiltrationValue / numDivisions, maxDimension + 1, maxFiltrationValue, 2, selector.getLandmarkPoints(), pData);
 
 		PersistenceInterval[] intervals = Plex.Persistence().computeIntervals(wit);
 		return convertFromPlex3PersistenceIntervals(intervals);
 	}
-
+	
 	private static BarcodeCollection computePlex4Barcodes(AbstractFilteredStream<Simplex> stream, int d, PersistenceAlgorithmType type) {
 		switch (type) {
 		case GenericClassicalHomology:
@@ -97,13 +96,13 @@ public class PersistenceAlgorithmTester {
 		BarcodeCollection barcodes = classicalHomology.computeIntervals(stream, d + 1);
 		return barcodes;
 	}
-
+	
 	private static BarcodeCollection computeDualityHomology(AbstractFilteredStream<Simplex> stream, int d) {
 		GenericPersistenceAlgorithm<Integer, Simplex> homology = new GenericAbsoluteHomology<Integer, Simplex>(ModularIntegerField.getInstance(13), SimplexComparator.getInstance(), d);
 		BarcodeCollection barcodes = homology.computeIntervals(stream);
 		return barcodes;
 	}
-
+	
 	private static BarcodeCollection computeDualityCohomology(AbstractFilteredStream<Simplex> stream, int d) {
 		GenericPersistenceAlgorithm<Integer, Simplex> homology = new GenericAbsoluteCohomology<Integer, Simplex>(ModularIntegerField.getInstance(13), SimplexComparator.getInstance(), d);
 		BarcodeCollection barcodes = homology.computeIntervals(stream);

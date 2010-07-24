@@ -1,19 +1,21 @@
 package edu.stanford.math.plex4.math.metric.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import gnu.trove.set.hash.TIntHashSet;
 
 public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMetricSpace<T> {
-	protected final List<T> elements = new ArrayList<T>();
+	protected final T[] elements;
 	
 	GenericFiniteMetricSpace(T[] array) {
-		for (T element: array) {
-			this.elements.add(element);
-		}
+		ExceptionUtility.verifyNonNull(array);
+		ExceptionUtility.verifyPositive(array.length);
+
+		this.elements = array;
+	}
+	
+	public T[] getPoints() {
+		return this.elements;
 	}
 	
 	public TIntHashSet getKNearestNeighbors(T queryPoint, int k) {
@@ -24,17 +26,13 @@ public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMet
 	public int getNearestPoint(T queryPoint) {
 		ExceptionUtility.verifyNonNull(queryPoint);
 		
-		if (this.elements.isEmpty()) {
-			throw new IllegalStateException();
-		}
-		
 		double minimumDistance = Double.MAX_VALUE;
 		double currentDistance = 0;
 		int nearestIndex = 0;
-		int n = this.elements.size();
+		int n = this.elements.length;
 		
 		for (int i = 0; i < n; i++) {
-			currentDistance = this.distance(queryPoint, this.elements.get(i));
+			currentDistance = this.distance(queryPoint, this.elements[i]);
 			if (currentDistance < minimumDistance) {
 				minimumDistance = currentDistance;
 				nearestIndex = i;
@@ -53,10 +51,10 @@ public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMet
 			return neighborhood;
 		}
 		
-		int n = this.elements.size();
+		int n = this.elements.length;
 		
 		for (int i = 0; i < n; i++) {
-			if (this.distance(queryPoint, this.elements.get(i)) < epsilon) {
+			if (this.distance(queryPoint, this.elements[i]) < epsilon) {
 				neighborhood.add(i);
 			}	
 		}
@@ -73,10 +71,10 @@ public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMet
 			return neighborhood;
 		}
 		
-		int n = this.elements.size();
+		int n = this.elements.length;
 		
 		for (int i = 0; i < n; i++) {
-			if (this.distance(queryPoint, this.elements.get(i)) <= epsilon) {
+			if (this.distance(queryPoint, this.elements[i]) <= epsilon) {
 				neighborhood.add(i);
 			}	
 		}
@@ -85,17 +83,17 @@ public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMet
 	}
 
 	public int size() {
-		return this.elements.size();
+		return this.elements.length;
 	}
 
 	public abstract double distance(T a, T b);
 
 	public double distance(int i, int j) {
-		return this.distance(this.elements.get(i), this.elements.get(j));
+		return this.distance(this.elements[i], this.elements[j]);
 	}
 
 	public T getPoint(int index) {
-		ExceptionUtility.verifyIndex(this.elements.size(), index);
-		return this.elements.get(index);
+		ExceptionUtility.verifyIndex(this.elements.length, index);
+		return this.elements[index];
 	}
 }

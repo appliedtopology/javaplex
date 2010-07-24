@@ -10,25 +10,25 @@ import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import gnu.trove.map.hash.THashMap;
 
-public class GenericAbsoluteHomology<F, T> extends GenericPersistentHomology<F, T> {
+public class GenericRelativeHomology<F, T> extends GenericPersistentHomology<F, T> {
 
-	public GenericAbsoluteHomology(GenericField<F> field, Comparator<T> comparator, int minDimension, int maxDimension) {
+	public GenericRelativeHomology(GenericField<F> field, Comparator<T> comparator, int minDimension, int maxDimension) {
 		super(field, comparator, minDimension, maxDimension);
 	}
 	
-	public GenericAbsoluteHomology(GenericField<F> field, Comparator<T> comparator, int maxDimension) {
+	public GenericRelativeHomology(GenericField<F> field, Comparator<T> comparator, int maxDimension) {
 		super(field, comparator, maxDimension);
 	}
-
+	
 	@Override
 	protected AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> getAugmentedIntervals(
 			GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
-		return this.getAugmentedIntervals(RV_pair, stream, true);
+		return this.getAugmentedIntervals(RV_pair, stream, false);
 	}
 
 	@Override
 	protected BarcodeCollection getIntervals(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair,
 			AbstractFilteredStream<T> stream) {
-		return this.getIntervals(RV_pair, stream, true);
+		return this.getIntervals(RV_pair, stream, false);
 	}
 }

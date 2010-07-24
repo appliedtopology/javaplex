@@ -116,4 +116,8 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 	public int getDimension(Simplex element) {
 		return this.stream.getDimension(element);
 	}
+
+	public double[][] getPoints() {
+		return this.metricSpace.getPoints();
+	}
 }

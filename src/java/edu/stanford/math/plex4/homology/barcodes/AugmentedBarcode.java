@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
+import edu.stanford.math.plex4.utility.ComparisonUtility;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
 public class AugmentedBarcode<T> {
@@ -119,7 +120,7 @@ public class AugmentedBarcode<T> {
 		if (intervals == null) {
 			if (other.intervals != null)
 				return false;
-		} else if (!intervals.equals(other.intervals))
+		} else if (!ComparisonUtility.setEquals(intervals, other.intervals))
 			return false;
 		return true;
 	}

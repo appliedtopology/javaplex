@@ -1,9 +1,7 @@
 package edu.stanford.math.plex4.examples;
 
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
-import edu.stanford.math.plex4.homology.chain_basis.CellComparator;
 import edu.stanford.math.plex4.homology.streams.impl.ExplicitCellStream;
-import edu.stanford.math.plex4.homology.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 
 /**

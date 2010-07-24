@@ -69,7 +69,7 @@ public class PersistentHomologyTest {
 	}
 	
 	public static void SimplicalTest() {
-		AbstractFilteredStream<Simplex> stream = SimplexStreamExamples.getFilteredTriangle();
+		AbstractFilteredStream<Simplex> stream = SimplexStreamExamples.getTriangle();
 		testGenericDualityPersistentCohomology(stream, SimplexComparator.getInstance(), ModularIntegerField.getInstance(7));
 	}
 	
@@ -94,8 +94,10 @@ public class PersistentHomologyTest {
 	
 	public static <F, T> void testGenericDualityPersistentCohomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, GenericField<F> field) {
 		GenericPersistenceAlgorithm<F, T> homology = new GenericAbsoluteCohomology<F, T>(field, comparator, 2);
-		BarcodeCollection barcodes = homology.computeIntervals(stream);
-		//AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
+		//BarcodeCollection barcodes = homology.computeIntervals(stream);
+		System.out.println(homology.getBoundaryColumns(stream, 0));
+		AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
+		
 		System.out.println(barcodes);
 	}
 	

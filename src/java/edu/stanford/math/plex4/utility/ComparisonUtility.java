@@ -20,7 +20,7 @@ public class ComparisonUtility {
 	 * @param b
 	 * @return
 	 */
-	public static <T> boolean setEquals(Collection<T> a, Collection<T> b) {
+	public static boolean setEquals(Collection<?> a, Collection<?> b) {
 		return (a.containsAll(b) && b.containsAll(a));
 	}
 	

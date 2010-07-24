@@ -4,7 +4,6 @@ import edu.stanford.math.plex4.array_utility.ArrayGeneration;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.streams.impl.ExplicitStream;
-import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
 /**
