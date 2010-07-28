@@ -299,7 +299,7 @@ public class MappingUtility {
 					imageSizes.put(domainElement, Math.abs(iterator.value()) + imageSizes.get(domainElement));
 					preimageSizes.put(codomainElement, Math.abs(iterator.value()) + preimageSizes.get(codomainElement));
 					
-					chainNorm += Math.abs(iterator.value());
+					chainNorm += Math.abs(iterator.value() * iterator.value());
 					
 					coefficientPenaltySum += Math.abs(iterator.value()) + Math.abs(iterator.value() - 1) + Math.abs(iterator.value() + 1);
 					
@@ -329,7 +329,8 @@ public class MappingUtility {
 				for (TObjectDoubleIterator<M> iterator = imageSizes.iterator(); iterator.hasNext(); ) {
 					iterator.advance();
 					//if (domainStream.getDimension(iterator.key()) == 0) {
-						sumImageSize += Math.abs(iterator.value() - 0) * Math.abs(iterator.value() - 0);
+						//sumImageSize += Math.abs(iterator.value() - 0) * Math.abs(iterator.value() - 0);
+					sumImageSize += Math.abs(iterator.value() - 0);
 					//}
 					
 					maxImageSize = Math.max(maxImageSize, Math.abs(iterator.value()));
@@ -339,14 +340,17 @@ public class MappingUtility {
 					iterator.advance();
 					
 					//if (codomainStream.getDimension(iterator.key()) == 0) {
-						sumPreimageSize += Math.abs(iterator.value() - 0) * Math.abs(iterator.value() - 0);
+						//sumPreimageSize += Math.abs(iterator.value() - 0) * Math.abs(iterator.value() - 0);
+					sumPreimageSize += Math.abs(iterator.value() - 0);
 					//}
 					
 					maxPreimageSize = Math.max(maxPreimageSize, Math.abs(iterator.value()));
 				}
 
-				//return sumPreimageSize + sumImageSize;
-				return maxPreimageSize + maxImageSize + sumPreimageSize + sumImageSize;
+				//return sumPreimageSize + sumImageSize;// + chainNorm;
+				return chainNorm;
+				//return maxPreimageSize + maxImageSize + chainNorm;
+				//return maxPreimageSize + maxImageSize + sumPreimageSize + sumImageSize;
 				//return twoNormSum + sumPreimageSize + sumImageSize;
 				//return twoNormSum;
 			}
@@ -632,7 +636,7 @@ public class MappingUtility {
 		for (int i = 0; i < array.length; i++) {
 			result[i] = Math.round(array[i] * denominator) / denominator;
 		}
-		return result;
-		//return array;
+		//return result;
+		return array;
 	}
 }

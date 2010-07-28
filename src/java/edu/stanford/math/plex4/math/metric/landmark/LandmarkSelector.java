@@ -1,5 +1,6 @@
 package edu.stanford.math.plex4.math.metric.landmark;
 
+import edu.stanford.math.plex4.math.metric.interfaces.FiniteMetricSpace;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
@@ -17,7 +18,7 @@ import edu.stanford.math.plex4.utility.ExceptionUtility;
  *
  * @param <T> the underlying type of the metric space
  */
-public abstract class LandmarkSelector<T> /*implements FiniteMetricSpace<T>*/ {
+public abstract class LandmarkSelector<T> implements FiniteMetricSpace<T> {
 	
 	/**
 	 * This is the underlying metric space upon which the landmark set is build.
@@ -94,4 +95,8 @@ public abstract class LandmarkSelector<T> /*implements FiniteMetricSpace<T>*/ {
 	 * @return an array of indices corresponding to the landmark points in the metric space
 	 */
 	protected abstract int[] computeLandmarkSet();
+	
+	public T[] getPoints() {
+		throw new UnsupportedOperationException();
+	}
 }

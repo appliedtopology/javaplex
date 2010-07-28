@@ -124,6 +124,8 @@ public class HomComplexComputation<F extends Number, M, N> {
 		
 		MultivariateRealFunction objective = this.getObjectiveFunctionViaMappingPenalty(generatingCycle, homotopies, mappingPenaltyFunction);
 		
+		System.out.println("Convex: " + ConvexUtility.randomizedConvexityTest(objective, homotopies.size(), 10000));
+		
 		//MultivariateRealOptimizer optimizer = new NelderMead();
 		RandomVectorGenerator generator = new UncorrelatedRandomVectorGenerator(homotopies.size(), new GaussianRandomGenerator(new MersenneTwister()));
 		MultivariateRealOptimizer optimizer = new MultiStartMultivariateRealOptimizer(new NelderMead(), 10, generator);
@@ -163,7 +165,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 				for (int i = 0; i < arg0.length; i++) {
 					//penalty += Math.abs(arg0[i] - (i % 2 ==1 ? 1 : 1));
 					
-					penalty += Math.abs(arg0[i]);
+					penalty += Math.sin(i) * arg0[i];
 					
 					/*
 					if (arg0[i] > 1) {

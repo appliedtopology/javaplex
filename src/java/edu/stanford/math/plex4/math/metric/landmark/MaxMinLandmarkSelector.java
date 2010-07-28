@@ -87,5 +87,4 @@ public class MaxMinLandmarkSelector<T> extends LandmarkSelector<T> {
 
 		return minDistance;
 	}
-
 }

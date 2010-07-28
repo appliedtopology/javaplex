@@ -56,15 +56,15 @@ public class PersistentHomologyTest {
 	 */
 	public static void main(String[] args) {
 		//simplicialHomTest(RationalField.getInstance());
-		SimplicalTest();
+		CellularTest();
 	}
 	
 	public static void CellularTest() {
-		//AbstractFilteredStream<Cell> stream = CellStreamExamples.getMorozovJohanssonExample();
-		ExplicitCellStream stream1 = CellStreamExamples.getCellularSphere(2);
+		AbstractFilteredStream<Cell> stream = CellStreamExamples.getMorozovJohanssonExample();
+		ExplicitCellStream stream1 = CellStreamExamples.getCellularTorus();
 		ExplicitCellStream stream2 = CellStreamExamples.getCellularSphere(2);
-		ExplicitCellStream stream = CellComplexOperations.disjointUnion(stream1, stream2);
-		CellComplexOperations.identifyPoints(stream, new int[]{0, 2});
+		//ExplicitCellStream stream = CellComplexOperations.disjointUnion(stream1, stream2);
+		//CellComplexOperations.identifyPoints(stream, new int[]{0, 2});
 		testGenericDualityPersistentCohomology(stream, CellComparator.getInstance(), RationalField.getInstance());
 	}
 	
@@ -93,9 +93,9 @@ public class PersistentHomologyTest {
 	}
 	
 	public static <F, T> void testGenericDualityPersistentCohomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, GenericField<F> field) {
-		GenericPersistenceAlgorithm<F, T> homology = new GenericAbsoluteCohomology<F, T>(field, comparator, 2);
+		GenericPersistenceAlgorithm<F, T> homology = new GenericAbsoluteCohomology<F, T>(field, comparator, 7);
 		//BarcodeCollection barcodes = homology.computeIntervals(stream);
-		System.out.println(homology.getBoundaryColumns(stream, 0));
+		//System.out.println(homology.getBoundaryColumns(stream, 0));
 		AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
 		
 		System.out.println(barcodes);

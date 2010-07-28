@@ -63,7 +63,7 @@ public class CellStreamExamples {
 	 * 
 	 * @return a cellular torus
 	 */
-	public static AbstractFilteredStream<Cell> getCellularTorus() {
+	public static ExplicitCellStream getCellularTorus() {
 		ExplicitCellStream stream = new ExplicitCellStream();
 
 		int v = stream.addNewVertex();
@@ -81,7 +81,7 @@ public class CellStreamExamples {
 	 * 
 	 * @return a cellular Klein bottle
 	 */
-	public static AbstractFilteredStream<Cell> getCellularKleinBottle() {
+	public static ExplicitCellStream getCellularKleinBottle() {
 		ExplicitCellStream stream = new ExplicitCellStream();
 
 		int v = stream.addNewVertex();
@@ -99,7 +99,7 @@ public class CellStreamExamples {
 	 * 
 	 * @return a cellular RP^2
 	 */
-	public static AbstractFilteredStream<Cell> getCellularRP2() {
+	public static ExplicitCellStream getCellularRP2() {
 		ExplicitCellStream stream = new ExplicitCellStream();
 
 		int v = stream.addNewVertex();
@@ -117,7 +117,7 @@ public class CellStreamExamples {
 	 * 
 	 * @return a cellular mobius band
 	 */
-	public static AbstractFilteredStream<Cell> getCellularMobiusBand() {
+	public static ExplicitCellStream getCellularMobiusBand() {
 		ExplicitCellStream stream = new ExplicitCellStream();
 
 		int v_1 = stream.addNewVertex();
