@@ -24,6 +24,7 @@ import edu.stanford.math.plex4.homology.streams.utility.SkeletalMetric;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.Infinity;
+import edu.stanford.math.plex4.utility.MathUtility;
 import gnu.trove.iterator.TObjectDoubleIterator;
 import gnu.trove.map.hash.THashMap;
 import gnu.trove.map.hash.TObjectDoubleHashMap;
@@ -299,7 +300,8 @@ public class MappingUtility {
 					imageSizes.put(domainElement, Math.abs(iterator.value()) + imageSizes.get(domainElement));
 					preimageSizes.put(codomainElement, Math.abs(iterator.value()) + preimageSizes.get(codomainElement));
 					
-					chainNorm += Math.abs(iterator.value() * iterator.value());
+					//chainNorm += Math.abs(iterator.value() * iterator.value());
+					//chainNorm += MathUtility.absApproximation(iterator.value(), 0.01);
 					
 					coefficientPenaltySum += Math.abs(iterator.value()) + Math.abs(iterator.value() - 1) + Math.abs(iterator.value() + 1);
 					
@@ -310,7 +312,6 @@ public class MappingUtility {
 					//sumImageSize += Math.abs(iterator.value());
 					//maxImageSize = Math.max(maxImageSize, Math.abs(iterator.value()));
 				}
-				
 				
 				for (M i: domainStream) {
 					DoubleFormalSum<N> image = MappingUtility.computeImage(argument, i);
@@ -330,10 +331,13 @@ public class MappingUtility {
 					iterator.advance();
 					//if (domainStream.getDimension(iterator.key()) == 0) {
 						//sumImageSize += Math.abs(iterator.value() - 0) * Math.abs(iterator.value() - 0);
-					sumImageSize += Math.abs(iterator.value() - 0);
+					//sumImageSize += Math.abs(iterator.value() - 0);
+					sumImageSize += MathUtility.absApproximation(iterator.value(), 0.5);
 					//}
 					
-					maxImageSize = Math.max(maxImageSize, Math.abs(iterator.value()));
+					//maxImageSize = Math.max(maxImageSize, Math.abs(iterator.value()));
+					//maxImageSize = Math.max(maxImageSize, MathUtility.absApproximation(iterator.value(), 0.2));
+					maxImageSize = MathUtility.maxApproximation(maxImageSize, Math.abs(iterator.value()), 0.1);
 				}
 				
 				for (TObjectDoubleIterator<N> iterator = preimageSizes.iterator(); iterator.hasNext(); ) {
@@ -341,15 +345,19 @@ public class MappingUtility {
 					
 					//if (codomainStream.getDimension(iterator.key()) == 0) {
 						//sumPreimageSize += Math.abs(iterator.value() - 0) * Math.abs(iterator.value() - 0);
-					sumPreimageSize += Math.abs(iterator.value() - 0);
+					//sumPreimageSize += Math.abs(iterator.value() - 0);
+					sumPreimageSize += MathUtility.absApproximation(iterator.value(), 0.5);
 					//}
 					
-					maxPreimageSize = Math.max(maxPreimageSize, Math.abs(iterator.value()));
+					//maxPreimageSize = Math.max(maxPreimageSize, Math.abs(iterator.value()));
+					//maxPreimageSize = Math.max(maxPreimageSize, MathUtility.absApproximation(iterator.value(), 0.2));
+					maxPreimageSize = MathUtility.maxApproximation(maxImageSize, Math.abs(iterator.value()), 0.1);
 				}
 
-				//return sumPreimageSize + sumImageSize;// + chainNorm;
-				return chainNorm;
-				//return maxPreimageSize + maxImageSize + chainNorm;
+				//return sumPreimageSize + sumImageSize + chainNorm; // good
+				//return sumPreimageSize + sumImageSize;
+				//return chainNorm;
+				return maxPreimageSize + maxImageSize;// + chainNorm;
 				//return maxPreimageSize + maxImageSize + sumPreimageSize + sumImageSize;
 				//return twoNormSum + sumPreimageSize + sumImageSize;
 				//return twoNormSum;
@@ -636,7 +644,7 @@ public class MappingUtility {
 		for (int i = 0; i < array.length; i++) {
 			result[i] = Math.round(array[i] * denominator) / denominator;
 		}
-		//return result;
-		return array;
+		return result;
+		//return array;
 	}
 }

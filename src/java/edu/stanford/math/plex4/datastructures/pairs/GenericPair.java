@@ -21,8 +21,8 @@ public class GenericPair<T, U> {
 	 * @param second the value of the second component
 	 */
 	public GenericPair(T first, U second) {
-		ExceptionUtility.verifyNonNull(first);
-		ExceptionUtility.verifyNonNull(second);
+		//ExceptionUtility.verifyNonNull(first);
+		//ExceptionUtility.verifyNonNull(second);
 		this.first = first;
 		this.second = second;
 	}

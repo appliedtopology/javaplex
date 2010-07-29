@@ -3,6 +3,8 @@ package edu.stanford.math.plex4.homology.mapping;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 
+import cern.colt.Arrays;
+
 import edu.stanford.math.plex4.utility.RandomUtility;
 
 public class ConvexUtility {
@@ -23,7 +25,15 @@ public class ConvexUtility {
 			
 			double interpolatedValue = theta * f_a + (1 - theta) * f_b;
 			
-			if (interpolatedValue < f_m) {
+			if (interpolatedValue < f_m - 0.00001) {
+				System.out.println("Counter-example");
+				System.out.println("a:" + Arrays.toString(a));
+				System.out.println("b:" + Arrays.toString(b));
+				System.out.println("m:" + Arrays.toString(m));
+				System.out.println("f(a): " + f_a);
+				System.out.println("f(b): " + f_b);
+				System.out.println("f(m): " + f_m);
+				System.out.println("interpolated value: " + interpolatedValue);
 				return false;
 			}
 		}

@@ -188,6 +188,14 @@ public class MathUtility {
 		}
 	}
 	
+	public static double absApproximation(double x, double M) {
+		return huberPenaltyFunction(x, M) / (2 * M);
+	}
+	
+	public static double maxApproximation(double x, double y, double M) {
+		return 0.5 * (absApproximation(x - y, M) + x + y);
+	}
+	
 	/**
 	 * This function evaluates the standard gaussian density
 	 * with mean 0 and variance 1.

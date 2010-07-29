@@ -7,11 +7,11 @@ import java.util.List;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.MultiStartMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.RealConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.optimization.direct.NelderMead;
+import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.apache.commons.math.random.GaussianRandomGenerator;
 import org.apache.commons.math.random.MersenneTwister;
 import org.apache.commons.math.random.RandomVectorGenerator;
@@ -29,7 +29,9 @@ import edu.stanford.math.plex4.homology.GenericAbsoluteHomology;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.derived.HomStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex4.optimization.NesterovGradientOptimizer;
 import edu.stanford.math.plex4.utility.ArrayUtility;
+import edu.stanford.math.plex4.utility.RandomUtility;
 
 
 public class HomComplexComputation<F extends Number, M, N> {
@@ -124,18 +126,23 @@ public class HomComplexComputation<F extends Number, M, N> {
 		
 		MultivariateRealFunction objective = this.getObjectiveFunctionViaMappingPenalty(generatingCycle, homotopies, mappingPenaltyFunction);
 		
-		System.out.println("Convex: " + ConvexUtility.randomizedConvexityTest(objective, homotopies.size(), 10000));
+		System.out.println("Convex: " + ConvexUtility.randomizedConvexityTest(objective, homotopies.size(), 1000));
 		
 		//MultivariateRealOptimizer optimizer = new NelderMead();
 		RandomVectorGenerator generator = new UncorrelatedRandomVectorGenerator(homotopies.size(), new GaussianRandomGenerator(new MersenneTwister()));
-		MultivariateRealOptimizer optimizer = new MultiStartMultivariateRealOptimizer(new NelderMead(), 10, generator);
+		//MultivariateRealOptimizer optimizer = new MultiStartMultivariateRealOptimizer(new NelderMead(), 1, generator);
 		
-		DiscreteOptimization discreteOptimizer = new DiscreteOptimization();
+		//DiscreteOptimization discreteOptimizer = new DiscreteOptimization();
+		double tolerance = 1e-7;
+		RealConvergenceChecker checker = new SimpleScalarValueChecker(tolerance, tolerance);
+		
+		MultivariateRealOptimizer optimizer = new NesterovGradientOptimizer(checker, 0, 0);
+		
 		
 		double initialValue = objective.value(new double[homotopies.size()]);
 		System.out.println(initialValue);
 		
-		RealPointValuePair optimum = optimizer.optimize(objective, GoalType.MINIMIZE, new double[homotopies.size()]);
+		RealPointValuePair optimum = optimizer.optimize(objective, GoalType.MINIMIZE, RandomUtility.normalArray(homotopies.size()));
 		
 		//RealPointValuePair optimum = discreteOptimizer.multistartOptimize(objective, homotopies.size(), 20);
 		
@@ -161,21 +168,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 
 			public double value(double[] arg0) throws FunctionEvaluationException, IllegalArgumentException {
 				DoubleFormalSum<GenericPair<M, N>> homCycle = computeHomCycle(arg0, generatingCycle, homotopies);
-				double penalty = 0;
-				for (int i = 0; i < arg0.length; i++) {
-					//penalty += Math.abs(arg0[i] - (i % 2 ==1 ? 1 : 1));
-					
-					penalty += Math.sin(i) * arg0[i];
-					
-					/*
-					if (arg0[i] > 1) {
-						penalty += Math.abs(arg0[i] - 1);
-					} else if (arg0[i] < -1) {
-						penalty += Math.abs(arg0[i] + 1);
-					}*/
-				}
-				
-				return mappingPenaltyFunction.evaluate(homCycle) + 0 * penalty;
+				return mappingPenaltyFunction.evaluate(homCycle);
 			}
 		};
 	}
