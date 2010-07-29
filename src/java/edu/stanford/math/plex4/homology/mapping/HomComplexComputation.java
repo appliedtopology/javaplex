@@ -126,7 +126,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 		
 		MultivariateRealFunction objective = this.getObjectiveFunctionViaMappingPenalty(generatingCycle, homotopies, mappingPenaltyFunction);
 		
-		System.out.println("Convex: " + ConvexUtility.randomizedConvexityTest(objective, homotopies.size(), 1000));
+		//System.out.println("Convex: " + ConvexUtility.randomizedConvexityTest(objective, homotopies.size(), 1000));
 		
 		//MultivariateRealOptimizer optimizer = new NelderMead();
 		RandomVectorGenerator generator = new UncorrelatedRandomVectorGenerator(homotopies.size(), new GaussianRandomGenerator(new MersenneTwister()));
@@ -168,9 +168,19 @@ public class HomComplexComputation<F extends Number, M, N> {
 
 			public double value(double[] arg0) throws FunctionEvaluationException, IllegalArgumentException {
 				DoubleFormalSum<GenericPair<M, N>> homCycle = computeHomCycle(arg0, generatingCycle, homotopies);
-				return mappingPenaltyFunction.evaluate(homCycle);
+				return mappingPenaltyFunction.evaluate(homCycle) + 0 * computePenalty(arg0);
 			}
 		};
+	}
+	
+	private double computePenalty(double[] arg0) {
+		double penalty = 0;
+		
+		for (int i = 0; i < arg0.length; i++) {
+			penalty += Math.cos(i) * arg0[i];
+		}
+		
+		return penalty;
 	}
 	
 	MultivariateRealFunction getObjectiveFunctionViaImagePenalty(final AbstractGenericFormalSum<F, GenericPair<M, N>> generatingCycle, 

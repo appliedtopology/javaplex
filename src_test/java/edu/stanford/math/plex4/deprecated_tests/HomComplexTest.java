@@ -24,8 +24,8 @@ public class HomComplexTest {
 	}
 	
 	public static <F extends Number> void simplicialHomTest(GenericOrderedField<F> field) {
-		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(6);
-		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(6);
+		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(3);
+		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(3);
 		
 		HomComplexComputation<F, Simplex, Simplex> computation = new HomComplexComputation<F, Simplex, Simplex>(domainStream, codomainStream, SimplexComparator.getInstance(), SimplexComparator.getInstance(), field);
 		

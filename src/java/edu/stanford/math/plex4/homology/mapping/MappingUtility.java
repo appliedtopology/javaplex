@@ -332,12 +332,12 @@ public class MappingUtility {
 					//if (domainStream.getDimension(iterator.key()) == 0) {
 						//sumImageSize += Math.abs(iterator.value() - 0) * Math.abs(iterator.value() - 0);
 					//sumImageSize += Math.abs(iterator.value() - 0);
-					sumImageSize += MathUtility.absApproximation(iterator.value(), 0.5);
+					sumImageSize += MathUtility.absApproximation(iterator.value(), 0.01);
 					//}
 					
 					//maxImageSize = Math.max(maxImageSize, Math.abs(iterator.value()));
 					//maxImageSize = Math.max(maxImageSize, MathUtility.absApproximation(iterator.value(), 0.2));
-					maxImageSize = MathUtility.maxApproximation(maxImageSize, Math.abs(iterator.value()), 0.1);
+					maxImageSize = MathUtility.maxApproximation(maxImageSize, Math.abs(iterator.value()), 0.01);
 				}
 				
 				for (TObjectDoubleIterator<N> iterator = preimageSizes.iterator(); iterator.hasNext(); ) {
@@ -346,12 +346,12 @@ public class MappingUtility {
 					//if (codomainStream.getDimension(iterator.key()) == 0) {
 						//sumPreimageSize += Math.abs(iterator.value() - 0) * Math.abs(iterator.value() - 0);
 					//sumPreimageSize += Math.abs(iterator.value() - 0);
-					sumPreimageSize += MathUtility.absApproximation(iterator.value(), 0.5);
+					sumPreimageSize += MathUtility.absApproximation(iterator.value(), 0.01);
 					//}
 					
 					//maxPreimageSize = Math.max(maxPreimageSize, Math.abs(iterator.value()));
 					//maxPreimageSize = Math.max(maxPreimageSize, MathUtility.absApproximation(iterator.value(), 0.2));
-					maxPreimageSize = MathUtility.maxApproximation(maxImageSize, Math.abs(iterator.value()), 0.1);
+					maxPreimageSize = MathUtility.maxApproximation(maxImageSize, Math.abs(iterator.value()), 0.01);
 				}
 
 				//return sumPreimageSize + sumImageSize + chainNorm; // good
@@ -644,7 +644,7 @@ public class MappingUtility {
 		for (int i = 0; i < array.length; i++) {
 			result[i] = Math.round(array[i] * denominator) / denominator;
 		}
-		return result;
-		//return array;
+		//return result;
+		return array;
 	}
 }
