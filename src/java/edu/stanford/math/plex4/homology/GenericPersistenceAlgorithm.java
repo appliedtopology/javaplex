@@ -119,9 +119,9 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 			return null;
 		}
 
-		if (chain instanceof OrderedGenericFormalSum<?, ?>) {
+		if (chain instanceof OrderedGenericFormalSum) {
 			return this.orderedLow((OrderedGenericFormalSum<F, T>) chain);
-		}else if (chain instanceof UnorderedGenericFormalSum<?, ?>) {
+		}else if (chain instanceof UnorderedGenericFormalSum) {
 			return this.unorderedLow((UnorderedGenericFormalSum<F, T>) chain);
 		}else {
 			throw new UnsupportedOperationException();

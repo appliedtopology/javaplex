@@ -6,6 +6,15 @@ import java.util.Iterator;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
+/**
+ * This class implements an iterator which can iterate over two generic collections
+ * in parallel.
+ * 
+ * @author Andrew Tausz
+ *
+ * @param <T>
+ * @param <U>
+ */
 public class ParallelIterator<T, U> implements Iterator<GenericPair<T, U>> {
 	private final Iterator<T> TIterator;
 	private final Iterator<U> UIterator;
@@ -34,5 +43,4 @@ public class ParallelIterator<T, U> implements Iterator<GenericPair<T, U>> {
 		this.TIterator.remove();
 		this.UIterator.remove();
 	}
-
 }

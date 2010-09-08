@@ -14,7 +14,6 @@ import edu.stanford.math.plex4.datastructures.IntFormalSum;
 import edu.stanford.math.plex4.embedding.GraphEmbedding;
 import edu.stanford.math.plex4.embedding.GraphMetricEmbedding;
 import edu.stanford.math.plex4.embedding.MultidimensionalScaling;
-import edu.stanford.math.plex4.examples.CellComplexOperations;
 import edu.stanford.math.plex4.examples.CellStreamExamples;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.examples.SimplexStreamExamples;

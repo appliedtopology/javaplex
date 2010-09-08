@@ -3,6 +3,13 @@ package edu.stanford.math.plex4.examples;
 import edu.stanford.math.plex4.array_utility.DoubleArrayMath;
 import edu.stanford.math.plex4.utility.RandomUtility;
 
+/**
+ * This static class contains various functions which produce 
+ * examples of point cloud data sets.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class PointCloudExamples {
 	/**
 	 * House example in the plex tutorial by Henry Adams.
@@ -26,6 +33,13 @@ public class PointCloudExamples {
 		return points;
 	}
 	
+	/**
+	 * This function returns a dataset containing n equally spaced points on a
+	 * circle.
+	 * 
+	 * @param n
+	 * @return
+	 */
 	public static double[][] getEquispacedCirclePoints(int n) {
 		double[][] points = new double[n][2];
 		

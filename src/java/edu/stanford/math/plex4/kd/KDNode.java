@@ -11,9 +11,13 @@ public class KDNode {
 	private final int index;
 	private KDNode left;
 	private KDNode right;
-	
-	public KDNode(int index) {
+	private final int splitAxis;
+
+	public KDNode(int index,int splitAxis) {
+		this.left = null;
+		this.right = null;
 		this.index = index;
+		this.splitAxis = splitAxis;
 	}
 	
 	public int getIndex() {
@@ -26,6 +30,10 @@ public class KDNode {
 	
 	public KDNode getRight() {
 		return this.right;
+	}
+	
+	public int getSplitAxis() {
+		return this.splitAxis;
 	}
 	
 	public void setLeft(KDNode node) {

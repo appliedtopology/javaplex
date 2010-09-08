@@ -23,7 +23,6 @@ public class KDTreeTest {
 				new double[]{9, 6}};
 		
 		KDTree tree = new KDTree(points);
-		tree.constructTree();
 		
 		System.out.println("Nearest Neighbor Search");
 		double[] queryPoint = null;

@@ -4,7 +4,6 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 
 import cern.colt.Arrays;
-
 import edu.stanford.math.plex4.utility.RandomUtility;
 
 public class ConvexUtility {

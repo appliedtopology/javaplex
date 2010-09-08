@@ -38,8 +38,7 @@ public class ComparisonTests {
 		timer.stop();
 		timer.display();
 		timer.reset();
-
-
+		
 		timer.start();
 		sphereTestVersion4();
 		timer.stop();
@@ -118,7 +117,6 @@ public class ComparisonTests {
 		BarcodeCollection barcodes = homology.computeIntervals(stream);
 		System.out.println(barcodes);
 	}
-
 
 	public static void testPlex3LazyWitness(double[][] points, LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
 		EuclideanArrayData pData = Plex.EuclideanArrayData(points);

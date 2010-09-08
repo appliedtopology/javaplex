@@ -13,4 +13,7 @@ public class EuclideanMetricSpace extends GenericFiniteMetricSpace<double[]> {
 		return Math.sqrt(ArrayUtility2.squaredDistance(a, b));
 	}
 
+	public int getDimension() {
+		return this.elements[0].length;
+	}
 }

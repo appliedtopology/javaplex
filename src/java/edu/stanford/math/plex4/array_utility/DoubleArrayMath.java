@@ -16,8 +16,7 @@ public class DoubleArrayMath {
 		return result;
 	}
 	
-	public static double[] sum(double[] vector1,
-			double[] vector2) {
+	public static double[] sum(double[] vector1, double[] vector2) {
 		ExceptionUtility.verifyEqual(vector1.length, vector2.length);
 		int n = vector1.length;
 		double[] result = new double[n];
@@ -27,8 +26,7 @@ public class DoubleArrayMath {
 		return result;
 	}
 	
-	public static double[] difference(double[] vector1,
-			double[] vector2) {
+	public static double[] difference(double[] vector1, double[] vector2) {
 		ExceptionUtility.verifyEqual(vector1.length, vector2.length);
 		int n = vector1.length;
 		double[] result = new double[n];
@@ -38,8 +36,7 @@ public class DoubleArrayMath {
 		return result;
 	}
 	
-	public static double[] componentwiseProduct(double[] vector1,
-			double[] vector2) {
+	public static double[] componentwiseProduct(double[] vector1, double[] vector2) {
 		ExceptionUtility.verifyEqual(vector1.length, vector2.length);
 		int n = vector1.length;
 		double[] result = new double[n];
@@ -65,6 +62,23 @@ public class DoubleArrayMath {
 			result[i] = vector[i] * scalar;
 		}
 		return result;
+	}
+	
+	public static void accumulate(double[] vector1, double[] vector2) {
+		ExceptionUtility.verifyEqual(vector1.length, vector2.length);
+		int n = vector1.length;
+		double[] result = new double[n];
+		for (int i = 0; i < n; i++) {
+			vector1[i] += vector2[i];
+		}
+	}
+	
+	public static void inPlaceMultiply(double[] vector, double scalar) {
+		int n = vector.length;
+		double[] result = new double[n];
+		for (int i = 0; i < n; i++) {
+			vector[i] *= scalar;
+		}
 	}
 	
 	/*

@@ -5,14 +5,21 @@ import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpac
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.set.hash.TIntHashSet;
 
+/**
+ * This class contains functions for testing the validity of the
+ * subclasses of SearchableFiniteMetricSpace. It verifies that the
+ * claimed nearest points are indeed the nearest, etc.
+ *  
+ * @author Andrew Tausz
+ */
 public class SearchableMetricSpaceTester {
-
+	
 	/**
 	 * This function verifies that the the nearest neighbor query produces a point that 
-	 * is indeed closest to the query point.
+	 * is indeed closest to the query point. As query points 
 	 * 
-	 * @param <M>
-	 * @param metricSpace
+	 * @param <M> the underlying type of the metric space
+	 * @param metricSpace the metric space to test
 	 */
 	public static <M> void verifyNearestPoints(SearchableFiniteMetricSpace<M> metricSpace) {
 		for (int i = 0; i < metricSpace.size(); i++) {
@@ -34,12 +41,26 @@ public class SearchableMetricSpaceTester {
 		}
 	}
 	
+	/**
+	 * This function performs the nearest point verification for each point in the given array.
+	 * 
+	 * @param <M>
+	 * @param metricSpace the metric space to test
+	 * @param queryPoints the set of query points
+	 */
 	public static <M> void verifyNearestPoints(SearchableFiniteMetricSpace<M> metricSpace, M[] queryPoints) {
 		for (M queryPoint: queryPoints) {
 			verifyNearestPoint(metricSpace, queryPoint);
 		}
 	}
 	
+	/**
+	 * This function verifies that the claimed nearest point to the query point is indeed the nearest point.
+	 * 
+	 * @param <M>
+	 * @param metricSpace the metric space to test
+	 * @param queryPoint the query point
+	 */
 	public static <M> void verifyNearestPoint(SearchableFiniteMetricSpace<M> metricSpace, M queryPoint) {
 		int nearestPointIndex = metricSpace.getNearestPoint(queryPoint);
 		M nearestPoint = metricSpace.getPoint(nearestPointIndex);
@@ -77,7 +98,7 @@ public class SearchableMetricSpaceTester {
 
 			// make sure that points outside of the neighborhood satisfy d(i, j) >= epsilon
 			for (int j = 0; j < metricSpace.size(); j++) {
-				if (neighborhood.contains(j) || i ==j) {
+				if (neighborhood.contains(j) || i == j) {
 					continue;
 				}
 
@@ -87,6 +108,4 @@ public class SearchableMetricSpaceTester {
 			}
 		}
 	}
-	
-	
 }

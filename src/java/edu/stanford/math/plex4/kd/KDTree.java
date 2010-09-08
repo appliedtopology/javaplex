@@ -1,19 +1,20 @@
-/**
- * 
- */
 package edu.stanford.math.plex4.kd;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-import edu.stanford.math.plex4.array_utility.ArrayGeneration;
+import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.utility.ArrayUtility2;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.ListUtility;
 import gnu.trove.set.hash.TIntHashSet;
 
 /**
+ * This class implements the functionality of a KD-tree. It is 
+ * designed for the efficient searching of Euclidean spaces.
+ * 
  * @author Andrew Tausz
  *
  */
@@ -22,65 +23,164 @@ public class KDTree {
 	private final int dimension;
 	private KDNode root;
 	private static Random random = new Random();
-
+	
+	/**
+	 * There are two options for constructing the KD-tree. One is
+	 * to partition by medians, and the other is to partition randomly.
+	 * Partitioning by medians produces a more balanced tree, but is
+	 * more expensive to construct.
+	 */
+	private boolean useMedian = true;
+	
 	/**
 	 * Points are stored as rows in the dataPoints array
 	 */
 	private final double[][] dataPoints;
 
-	private List<Integer> indexTranslation;
-
+	/**
+	 * Constructor for initializing the KD-tree with a set of points.
+	 * @param dataPoints
+	 */
 	public KDTree(double[][] dataPoints) {
 		ExceptionUtility.verifyNonNull(dataPoints);
 		ExceptionUtility.verifyPositive(dataPoints.length);
 		this.dataPoints = dataPoints;
 		this.size = dataPoints.length;
 		this.dimension = dataPoints[0].length;
-		this.indexTranslation = ListUtility.toList(ArrayGeneration.range(0, this.size));
+		
+		// construct KD tree
+		this.root = this.construct(ListUtility.range(0, this.size - 1), 0);
 	}
-
-	public List<Integer> getIndexTranslation() {
-		return this.invertPermutation(this.indexTranslation);
-	}
-
-	public void constructTree() {
-		this.root = this.kdIteration(0, 0, this.size - 1);
-	}
-
+	
 	/**
+	 * This function recursively constructs the tree by partitioning the
+	 * Euclidean space axis-by-axis.
 	 * 
-	 * @param depth
-	 * @param startIndex
-	 * @param endIndex the last legal index
+	 * @param points the list of points to partition
+	 * @param depth the current depth of the iteration
+	 * @return a KDNode for the current subtree
 	 */
-	private KDNode kdIteration(int depth, int startIndex, int endIndex) {
-		if (startIndex > endIndex) {
+	private KDNode construct(List<Integer> points, int depth) {
+		int axis = depth % this.dimension;
+		
+		if (points.isEmpty()) {
 			return null;
 		}
-		if (startIndex == endIndex) {
-			//System.out.println(ArrayUtility.toString(dataPoints[startIndex]));
-			return new KDNode(startIndex);
+		if (points.size() == 1) {
+			return new KDNode(points.get(0), axis);
 		}
-		int axis = depth % this.dimension;
-		int medianIndex = startIndex + (endIndex - startIndex + 1) / 2;
-
-		int randomizedIndex = randomizedSelect(dataPoints, startIndex, endIndex, medianIndex, axis);
-		//System.out.println("StartIndex: " + startIndex + " EndIndex: " + endIndex);
-		//System.out.println(ArrayUtility.toString(dataPoints));
-		//System.out.println(ArrayUtility.toString(this.dataPoints[randomizedIndex]));
-		//System.out.println("Median index: " + medianIndex);
-		KDNode node = new KDNode(randomizedIndex);
-
-		node.setLeft(this.kdIteration(depth + 1, startIndex, medianIndex - 1));
-		node.setRight(this.kdIteration(depth + 1, medianIndex + 1, endIndex));
-
-		return node;
+		
+		int splitIndex = 0;
+		if (this.useMedian) {
+			splitIndex = this.getMedianSplitIndex(points, axis);
+		} else {
+			splitIndex = this.getRandomSplitIndex(points);
+		}
+		
+		GenericPair<List<Integer>, List<Integer>> pointListPair = this.splitPoints(points, axis, splitIndex);
+		
+		points = null;
+		
+		KDNode kdNode = new KDNode(splitIndex, axis);
+		
+		
+		kdNode.setLeft(this.construct(pointListPair.getFirst(), depth + 1));
+		kdNode.setRight(this.construct(pointListPair.getSecond(), depth + 1));
+		
+		return kdNode;
 	}
+	
+	/**
+	 * This function simply returns a random element within the list of indices.
+	 * 
+	 * @param pointIndices the list to select from
+	 * @return a random element from the list
+	 */
+	private int getRandomSplitIndex(List<Integer> pointIndices) {
+		return pointIndices.get(random.nextInt(pointIndices.size()));
+	}
+	
+	/**
+	 * This function selects the index that is the median of the values when sorted 
+	 * by the specified axis.
+	 * 
+	 * @param pointIndices
+	 * @param axis the axis to find the median along
+	 * @return the index of the median
+	 */
+	private int getMedianSplitIndex(List<Integer> pointIndices, final int axis) {
+		Comparator<Integer> comparator = getAxisComparator(axis);
+		java.util.Collections.sort(pointIndices, comparator);
+		return pointIndices.get((pointIndices.size() + 1) / 2);
+	}
+	
+	/**
+	 * This function splits the points into two groups - those that are less than the one at the split index,
+	 * and those that are greater than or equal.
+	 * 
+	 * @param pointIndices the list of points to divide
+	 * @param axis the axis to compare along
+	 * @param splitIndex the index to split on
+	 * @return a GenericPair containing the two lists described above
+	 */
+	private GenericPair<List<Integer>, List<Integer>> splitPoints(List<Integer> pointIndices, final int axis, int splitIndex) {
+		Comparator<Integer> comparator = getAxisComparator(axis);
+		List<Integer> lessThan = new ArrayList<Integer>();
+		List<Integer> greaterThanOrEqual = new ArrayList<Integer>();
+		
+		for (Integer index: pointIndices) {
+			if (comparator.compare(index, splitIndex) < 0) {
+				lessThan.add(index);
+			} else {
+				greaterThanOrEqual.add(index);
+			}
+		}
+		
+		return new GenericPair<List<Integer>, List<Integer>>(lessThan, greaterThanOrEqual);
+	}
+	
+	/**
+	 * This function returns a comparator used for ordering the points by their locations along
+	 * a particular axis.
+	 * 
+	 * @param axis the axis to order by
+	 * @return a comparator which compares points by a particular coordinate
+	 */
+	private Comparator<Integer> getAxisComparator(final int axis) {
+		return new Comparator<Integer>() {
 
+			public int compare(Integer o1, Integer o2) {
+				if (dataPoints[o1][axis] < dataPoints[o2][axis]) {
+					return -1;
+				} else if (dataPoints[o1][axis] > dataPoints[o2][axis]) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		};
+	}
+	
+	/**
+	 * This function returns the index of the nearest neighbor to the query point.
+	 * 
+	 * @param queryPoint the point to find the closest point to
+	 * @return the index of the nearest point to the query point
+	 */
 	public int nearestNeighborSearch(double[] queryPoint) {
 		return nearestNeighborSearch(this.root, queryPoint, this.root.getIndex(), 0);
 	}
 
+	/**
+	 * This function performs the nearest neighborhood search recursively.
+	 * It is an internal helper function.
+	 * 
+	 * @param node the node to search in
+	 * @param queryPoint the reference point
+	 * @param bestIndex the best point so far
+	 * @param depth the recursion depth
+	 * @return the index of the nearest point to the query point
+	 */
 	private int nearestNeighborSearch(KDNode node, double[] queryPoint, int bestIndex, int depth) {
 		if (node == null) {
 			return bestIndex;
@@ -88,7 +188,7 @@ public class KDTree {
 		double[] bestPoint = this.dataPoints[bestIndex];
 
 		// get the current axis
-		int axis = depth % this.dimension;
+		int axis = node.getSplitAxis();
 		// get the current point
 		int currentIndex = node.getIndex();
 		double[] currentPoint = this.dataPoints[currentIndex];
@@ -128,19 +228,37 @@ public class KDTree {
 		return bestIndex;		
 	}
 
+	/**
+	 * This function finds all points within an open or closed neighborhood of the query point.
+	 * 
+	 * @param queryPoint the center of the ball to query
+	 * @param epsilon the radius of the ball
+	 * @param openNeighborhood true if the neighborhood is open and false otherwise
+	 * @return the indices of those points that fall within the ball centered at the query point
+	 */
 	public TIntHashSet epsilonNeighborhoodSearch(double[] queryPoint, double epsilon, boolean openNeighborhood) {
 		TIntHashSet neighborhood = new TIntHashSet();
 		epsilonNeighborhoodSearch(this.root, queryPoint, neighborhood, 0, epsilon * epsilon, openNeighborhood);
 		return neighborhood;
 	}
 
+	/**
+	 * This is a helper function which performs the recursive search for the neighborhood search.
+	 * 
+	 * @param node the current KD-tree node
+	 * @param queryPoint the reference point
+	 * @param neighborhood the current set of points found
+	 * @param depth the recursion depth
+	 * @param epsilonSquared the square of the radius of the ball
+	 * @param openNeighborhood true if the neighborhood is open and false otherwise
+	 */
 	private void epsilonNeighborhoodSearch(KDNode node, double[] queryPoint, TIntHashSet neighborhood, int depth, double epsilonSquared, boolean openNeighborhood) {		
 		if (node == null) {
 			return;
 		}
 
 		// get the current axis
-		int axis = depth % this.dimension;
+		int axis = node.getSplitAxis();
 		// get the current point
 		int currentIndex = node.getIndex();
 		double[] currentPoint = this.dataPoints[currentIndex];
@@ -183,64 +301,5 @@ public class KDTree {
 
 		// search the near half-space for more neighborhood members
 		epsilonNeighborhoodSearch(nearChild, queryPoint, neighborhood, depth + 1, epsilonSquared, openNeighborhood);
-	}
-
-	private int partition(double[][] array, int startIndex, int endIndex, int axis) {
-		ExceptionUtility.verifyNonNegative(startIndex);
-		ExceptionUtility.verifyGreaterThanOrEqual(endIndex, startIndex);
-		ExceptionUtility.verifyLessThan(endIndex, array.length);
-
-		double pivotValue = array[startIndex][axis];
-		int i = startIndex;
-		int j = endIndex;
-
-		while (true) {
-			while (array[j][axis] > pivotValue) {
-				j--;
-			}
-			while (array[i][axis] < pivotValue) {
-				i++;
-			}
-			if (i < j) {
-				ArrayUtility2.swap(array, i, j);
-				this.indexTranslation = ArrayUtility2.swap(this.indexTranslation, i, j);
-				i++;
-				j--;
-			} else {
-				return j;
-			}
-		}
-	}
-
-	private List<Integer> invertPermutation(List<Integer> permutation) {
-		List<Integer> inverse = new ArrayList<Integer>();
-		for (int i = 0; i < permutation.size(); i++) {
-			inverse.add(0);
-		}
-		for (int i = 0; i < permutation.size(); i++) {
-			inverse.set(permutation.get(i), i);
-		}
-		return inverse;
-	}
-
-	private int randomizedPartition(double[][] array, int startIndex, int endIndex, int axis) {
-		int i = startIndex + random.nextInt(endIndex - startIndex);
-		ArrayUtility2.swap(array, i, startIndex);
-		this.indexTranslation = ArrayUtility2.swap(this.indexTranslation, i, startIndex);
-		return partition(array, startIndex, endIndex, axis);
-	}
-
-	private int randomizedSelect(double[][] array, int startIndex, int endIndex, int i, int axis) {
-		if (startIndex == endIndex) {
-			return startIndex;
-		}
-
-		int partitionBoundaryIndex = randomizedPartition(array, startIndex, endIndex, axis);
-		int k = partitionBoundaryIndex - startIndex + 1;
-		if (i < k) {
-			return randomizedSelect(array, startIndex, partitionBoundaryIndex, i, axis);
-		} else {
-			return randomizedSelect(array, partitionBoundaryIndex + 1, endIndex, i - k, axis);
-		}
 	}
 }

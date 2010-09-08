@@ -1,6 +1,8 @@
 package edu.stanford.math.plex4.math.metric.utility;
 
+import edu.stanford.math.plex4.math.metric.interfaces.FiniteMetricSpace;
 import edu.stanford.math.plex4.math.metric.interfaces.IntFiniteMetricSpace;
+import edu.stanford.math.plex4.utility.Infinity;
 import edu.stanford.math.plex4.utility.RandomUtility;
 
 public class MetricUtility {
@@ -32,4 +34,51 @@ public class MetricUtility {
 	public static double estimateDiameter(IntFiniteMetricSpace metricSpace) {
 		return estimateDiameter(metricSpace, Math.min(metricSpace.size(), 100));
 	}
+	
+	public static double[] computeMaxima(FiniteMetricSpace<double[]> metricSpace) {
+		int dimension = metricSpace.getPoint(0).length;
+		int numPoints = metricSpace.size();
+		double[] maxima = new double[dimension];
+		for (int j = 0; j < dimension; j++) {
+			maxima[j] = Infinity.Double.getNegativeInfinity();
+		}
+		for (int i = 0; i < numPoints; i++) {
+			for (int j = 0; j < dimension; j++) {
+				maxima[j] = Math.max(maxima[j], metricSpace.getPoint(i)[j]);
+			}
+		}
+		return maxima;
+	}
+	
+	public static double[] computeMinima(FiniteMetricSpace<double[]> metricSpace) {
+		int dimension = metricSpace.getPoint(0).length;
+		int numPoints = metricSpace.size();
+		double[] minima = new double[dimension];
+		for (int j = 0; j < dimension; j++) {
+			minima[j] = Infinity.Double.getPositiveInfinity();
+		}
+		for (int i = 0; i < numPoints; i++) {
+			for (int j = 0; j < dimension; j++) {
+				minima[j] = Math.min(minima[j], metricSpace.getPoint(i)[j]);
+			}
+		}
+		return minima;
+	}
+	
+	public static double[] computeMeans(FiniteMetricSpace<double[]> metricSpace) {
+		int dimension = metricSpace.getPoint(0).length;
+		int numPoints = metricSpace.size();
+		double[] means = new double[dimension];
+		for (int i = 0; i < numPoints; i++) {
+			for (int j = 0; j < dimension; j++) {
+				means[j] += metricSpace.getPoint(i)[j];
+			}
+		}
+		
+		for (int j = 0; j < dimension; j++) {
+			means[j] /= numPoints;
+		}
+		return means;
+	}
+
 }

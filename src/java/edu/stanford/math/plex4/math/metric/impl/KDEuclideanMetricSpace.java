@@ -1,7 +1,5 @@
 package edu.stanford.math.plex4.math.metric.impl;
 
-import java.util.List;
-
 import edu.stanford.math.plex4.kd.KDTree;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.utility.ArrayUtility2;
@@ -17,16 +15,13 @@ public class KDEuclideanMetricSpace implements SearchableFiniteMetricSpace<doubl
 	private final double[][] dataPoints;
 	private final KDTree tree;
 	private final int dimension;
-	private final List<Integer> indexTranslation;
 	
 	public KDEuclideanMetricSpace(double[][] dataPoints) {
 		ExceptionUtility.verifyNonNull(dataPoints);
 		ExceptionUtility.verifyPositive(dataPoints.length);
 		this.dataPoints = dataPoints;
 		this.tree = new KDTree(dataPoints);
-		this.tree.constructTree();
 		this.dimension = dataPoints[0].length;
-		this.indexTranslation = this.tree.getIndexTranslation();
 	}
 	
 	public double[][] getPoints() {
@@ -60,7 +55,7 @@ public class KDEuclideanMetricSpace implements SearchableFiniteMetricSpace<doubl
 
 	public double[] getPoint(int index) {
 		ExceptionUtility.verifyIndex(this.dataPoints.length, index);
-		return this.dataPoints[this.indexTranslation.get(index)];
+		return this.dataPoints[index];
 	}
 
 	public double distance(int i, int j) {

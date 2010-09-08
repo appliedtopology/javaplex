@@ -13,57 +13,69 @@ import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.math.metric.impl.KDEuclideanMetricSpace;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.math.metric.utility.MetricUtility;
+import edu.stanford.math.plex4.test_utility.Timing;
 
-
+/**
+ * This class contains tests for verifying the functionality of the
+ * metric space searching classes.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class SearchableMetricSpaceTest {
 	
 	// 2-D point cloud examples
-	private List<double[][]> pointCloudExamples2D = new ArrayList<double[][]>();
+	private List<double[][]> pointCloudExamples = new ArrayList<double[][]>();
 	
 	// 2-D query point set
-	private double[][] queryPointSet2D = null;
+	private double[][] queryPointSet = null;
 	
+	private int d = 4;
 
 	@Before
 	public void setUp() {
-		int n = 1000;
+		int n = 10000;
 		
-		pointCloudExamples2D.add(PointCloudExamples.getHouseExample());
-		pointCloudExamples2D.add(PointCloudExamples.getSquare());
-		pointCloudExamples2D.add(PointCloudExamples.getRandomFigure8Points(n));
-		pointCloudExamples2D.add(PointCloudExamples.getEquispacedCirclePoints(n));
-		pointCloudExamples2D.add(PointCloudExamples.getRandomSpherePoints(n, 1));
+		//pointCloudExamples2D.add(PointCloudExamples.getHouseExample());
+		//pointCloudExamples2D.add(PointCloudExamples.getSquare());
+		//pointCloudExamples2D.add(PointCloudExamples.getRandomFigure8Points(n));
+		//pointCloudExamples2D.add(PointCloudExamples.getEquispacedCirclePoints(n));
+		pointCloudExamples.add(PointCloudExamples.getRandomSpherePoints(n, d - 1));
 
-		queryPointSet2D = PointCloudExamples.getGaussianPoints(n, 2);
+		queryPointSet = PointCloudExamples.getGaussianPoints(n, d);
 	}
 
 	@After
 	public void tearDown() {
-		pointCloudExamples2D = null;
-		queryPointSet2D = null;
+		pointCloudExamples = null;
+		queryPointSet = null;
 	}
 	
 	@Test
 	public void testNonKDMetricSpace2D() {
-		for (double[][] pointCloud: this.pointCloudExamples2D) {
+		Timing.start();
+		for (double[][] pointCloud: this.pointCloudExamples) {
 			SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(pointCloud);
 			
 			double epsilon = MetricUtility.estimateDiameter(metricSpace) / 5.0;
 			
-			SearchableMetricSpaceTester.verifyNearestPoints(metricSpace, queryPointSet2D);
+			SearchableMetricSpaceTester.verifyNearestPoints(metricSpace, queryPointSet);
 			SearchableMetricSpaceTester.verifyNeighborhoods(metricSpace, epsilon);
 		}
+		Timing.stopAndDisplay("Non KD");
 	}
 	
 	@Test
 	public void testKDMetricSpace2D() {
-		for (double[][] pointCloud: this.pointCloudExamples2D) {
+		Timing.start();
+		for (double[][] pointCloud: this.pointCloudExamples) {
 			SearchableFiniteMetricSpace<double[]> metricSpace = new KDEuclideanMetricSpace(pointCloud);
 			
 			double epsilon = MetricUtility.estimateDiameter(metricSpace) / 5.0;
 			
-			SearchableMetricSpaceTester.verifyNearestPoints(metricSpace, queryPointSet2D);
+			SearchableMetricSpaceTester.verifyNearestPoints(metricSpace, queryPointSet);
 			SearchableMetricSpaceTester.verifyNeighborhoods(metricSpace, epsilon);
 		}
+		Timing.stopAndDisplay("KD");
 	}
 }
