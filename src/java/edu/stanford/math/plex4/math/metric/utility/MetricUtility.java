@@ -65,7 +65,7 @@ public class MetricUtility {
 		return minima;
 	}
 	
-	public static double[] computeMeans(FiniteMetricSpace<double[]> metricSpace) {
+	public static double[] computeCentroid(FiniteMetricSpace<double[]> metricSpace) {
 		int dimension = metricSpace.getPoint(0).length;
 		int numPoints = metricSpace.size();
 		double[] means = new double[dimension];
