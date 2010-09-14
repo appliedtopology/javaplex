@@ -87,6 +87,10 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 		return this.storageStructure.isFinalized();
 	}
 	
+	public final int getSize() {
+		return this.storageStructure.getSize();
+	}
+	
 	/**
 	 * This function validates the stream to make sure that it
 	 * contains a valid filtered simplicial or cell complex. It checks the

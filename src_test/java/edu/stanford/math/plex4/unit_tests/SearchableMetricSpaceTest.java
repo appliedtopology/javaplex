@@ -53,7 +53,7 @@ public class SearchableMetricSpaceTest {
 	
 	@Test
 	public void testNonKDMetricSpace2D() {
-		Timing.start();
+		Timing.restart();
 		for (double[][] pointCloud: this.pointCloudExamples) {
 			SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(pointCloud);
 			
@@ -67,7 +67,7 @@ public class SearchableMetricSpaceTest {
 	
 	@Test
 	public void testKDMetricSpace2D() {
-		Timing.start();
+		Timing.restart();
 		for (double[][] pointCloud: this.pointCloudExamples) {
 			SearchableFiniteMetricSpace<double[]> metricSpace = new KDEuclideanMetricSpace(pointCloud);
 			

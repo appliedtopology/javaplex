@@ -10,12 +10,33 @@ public class Timing {
 		
 	}
 	
-	public static void start() {
+	public static void restart() {
 		if (timer == null) {
 			initialize();
 		}
-		
+		timer.reset();
 		timer.start();
+	}
+	
+	public static void stop() {
+		if (timer == null) {
+			initialize();
+		}
+		timer.stop();
+	}
+	
+	public static void reset() {
+		if (timer == null) {
+			initialize();
+		}
+		timer.reset();
+	}
+	
+	public static float seconds() {
+		if (timer == null) {
+			initialize();
+		}
+		return timer.seconds();
 	}
 	
 	public static void stopAndDisplay() {

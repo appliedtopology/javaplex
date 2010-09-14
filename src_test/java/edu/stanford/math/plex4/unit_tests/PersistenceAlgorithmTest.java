@@ -14,6 +14,7 @@ import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.examples.SimplexStreamExamples;
 import edu.stanford.math.plex4.homology.LazyWitnessSpecifier;
+import edu.stanford.math.plex4.homology.PersistenceAlgorithmResult;
 import edu.stanford.math.plex4.homology.PersistenceAlgorithmTester;
 import edu.stanford.math.plex4.homology.VietorisRipsSpecifier;
 import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
@@ -41,7 +42,7 @@ public class PersistenceAlgorithmTest {
 	@Before
 	public void setUp() {
 		int n = 100;
-		int d = 4;
+		int d = 3;
 		int l = 50;
 		
 		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getEquispacedCirclePoints(n), 2, 0.3, 10));
@@ -66,44 +67,46 @@ public class PersistenceAlgorithmTest {
 		
 		persistenceAlgorithms.add(PersistenceAlgorithmType.GenericClassicalHomology);
 		persistenceAlgorithms.add(PersistenceAlgorithmType.GenericDualityHomology);
-		persistenceAlgorithms.add(PersistenceAlgorithmType.GenericDualityCohomology);
+		//persistenceAlgorithms.add(PersistenceAlgorithmType.GenericDualityCohomology);
 		persistenceAlgorithms.add(PersistenceAlgorithmType.Plex3Homology);
 	}
 
 	@After
 	public void tearDown() {
-		vietorisRipsExamples = null;
+		//vietorisRipsExamples = null;
 	}
 	
 	@Test
 	public void testVietorisRipsExamples() {
 		for (VietorisRipsSpecifier example: this.vietorisRipsExamples) {
-			THashMap<PersistenceAlgorithmType, BarcodeCollection> barcodeResults = new THashMap<PersistenceAlgorithmType, BarcodeCollection>();
+			THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult> persistenceResults = new THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult>();
 			
 			for (PersistenceAlgorithmType type: this.persistenceAlgorithms) {
-				BarcodeCollection barcodeCollection = PersistenceAlgorithmTester.testVietorisRipsStream(example.getPointCloud(), example.getMaxDimension(), example.getMaxFiltrationValue(), example.getNumDivisions(), type);
-				barcodeResults.put(type, barcodeCollection);
+				PersistenceAlgorithmResult result = PersistenceAlgorithmTester.testVietorisRipsStream(example.getPointCloud(), example.getMaxDimension(), example.getMaxFiltrationValue(), example.getNumDivisions(), type);
+				persistenceResults.put(type, result);
+				System.out.println(result);
 			}
 			
 			System.out.println("================");
 			
-			this.printBarcodeComparisons(barcodeResults);
+			this.printBarcodeComparisons(persistenceResults);
 		}
 	}
 	
 	@Test
 	public void testLazyWitnessExamples() {
 		for (LazyWitnessSpecifier example: this.lazyWitnessExamples) {
-			THashMap<PersistenceAlgorithmType, BarcodeCollection> barcodeResults = new THashMap<PersistenceAlgorithmType, BarcodeCollection>();
+			THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult> persistenceResults = new THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult>();
 			
 			for (PersistenceAlgorithmType type: this.persistenceAlgorithms) {
-				BarcodeCollection barcodeCollection = PersistenceAlgorithmTester.testLazyWitnessStream(example.getSelector(), example.getMaxDimension(), example.getMaxFiltrationValue(), example.getNumDivisions(), type);
-				barcodeResults.put(type, barcodeCollection);
+				PersistenceAlgorithmResult result = PersistenceAlgorithmTester.testLazyWitnessStream(example.getSelector(), example.getMaxDimension(), example.getMaxFiltrationValue(), example.getNumDivisions(), type);
+				persistenceResults.put(type, result);
+				System.out.println(result);
 			}
 			
 			System.out.println("================");
 			
-			this.printBarcodeComparisons(barcodeResults);
+			this.printBarcodeComparisons(persistenceResults);
 		}
 	}
 	
@@ -111,15 +114,15 @@ public class PersistenceAlgorithmTest {
 	public void testExplicitExamples() {
 		for (GenericPair<ExplicitStream<Simplex>, int[]> pair: this.explicitStreamExamples) {
 			ExplicitStream<Simplex> stream = pair.getFirst();
-			THashMap<PersistenceAlgorithmType, BarcodeCollection> barcodeResults = new THashMap<PersistenceAlgorithmType, BarcodeCollection>();
+			THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult> persistenceResults = new THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult>();
 			
 			System.out.println("actual: " + Arrays.toString(pair.getSecond()));
 			
 			for (PersistenceAlgorithmType type: this.persistenceAlgorithms) {
-				BarcodeCollection barcodeCollection = PersistenceAlgorithmTester.testExplicitStream(stream, 5, type);
-				barcodeResults.put(type, barcodeCollection);
+				PersistenceAlgorithmResult result = PersistenceAlgorithmTester.testExplicitStream(stream, 5, type);
+				persistenceResults.put(type, result);
 				
-				int[] computedBettiSequence = barcodeCollection.getInfiniteIntervals().getBettiSequence();
+				int[] computedBettiSequence = result.getBarcodeCollection().getInfiniteIntervals().getBettiSequence();
 				System.out.println(type + ": " + Arrays.toString(computedBettiSequence));
 				
 				assertTrue(HomologyUtility.compareIntArrays(computedBettiSequence, pair.getSecond()) == 0);
@@ -129,17 +132,17 @@ public class PersistenceAlgorithmTest {
 		}
 	}
 	
-	private void printBarcodeComparisons(THashMap<PersistenceAlgorithmType, BarcodeCollection> barcodeResults) {
+	private void printBarcodeComparisons(THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult> persistenceResults) {
 		int numFailures = 0;
 		
 		for (PersistenceAlgorithmType algorithm_type_1: this.persistenceAlgorithms) {
-			BarcodeCollection bc_1 = barcodeResults.get(algorithm_type_1);
+			BarcodeCollection bc_1 = persistenceResults.get(algorithm_type_1).getBarcodeCollection();
 			for (PersistenceAlgorithmType algorithm_type_2: this.persistenceAlgorithms) {
 				if (algorithm_type_1 == algorithm_type_2) {
 					break;
 				}
 				
-				BarcodeCollection bc_2 = barcodeResults.get(algorithm_type_2);
+				BarcodeCollection bc_2 = persistenceResults.get(algorithm_type_2).getBarcodeCollection();
 				
 				System.out.print(algorithm_type_1.toString() + "-" + algorithm_type_2.toString());
 				

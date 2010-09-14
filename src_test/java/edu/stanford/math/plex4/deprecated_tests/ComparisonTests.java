@@ -31,7 +31,8 @@ public class ComparisonTests {
 	public static void main(String[] args) {
 		Timer timer = new Timer();
 
-		testSphereLazyWitness();
+		//testSphereLazyWitness();
+		
 		/*
 		timer.start();
 		sphereTestVersion3();
