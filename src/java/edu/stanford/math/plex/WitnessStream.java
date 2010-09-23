@@ -225,7 +225,8 @@ public class WitnessStream extends SimplexStream {
 	static double distance_ln(int l, int n, int[] landmarks, PointData data) {
 		if (landmarks[l] == n)
 			// exclude the landmark from consideration
-			return HUGE;
+			//return HUGE;
+			return 0;
 		else
 			return data.distance(landmarks[l], n);
 	}

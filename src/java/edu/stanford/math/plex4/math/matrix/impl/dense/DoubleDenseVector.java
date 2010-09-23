@@ -3,10 +3,10 @@
  */
 package edu.stanford.math.plex4.math.matrix.impl.dense;
 
+import edu.stanford.math.plex4.array_utility.ArrayPrinting;
 import edu.stanford.math.plex4.math.matrix.impl.sparse.DoubleSparseVector;
 import edu.stanford.math.plex4.math.matrix.interfaces.DoubleAbstractVector;
 import edu.stanford.math.plex4.math.matrix.interfaces.DoubleAbstractVectorIterator;
-import edu.stanford.math.plex4.utility.ArrayUtility;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
 /**
@@ -95,7 +95,7 @@ public class DoubleDenseVector extends DoubleAbstractVector {
 	 */
 	@Override
 	public String toString() {
-		return ArrayUtility.toMatlabString(this.values);
+		return ArrayPrinting.toString(this.values);
 	}
 
 }

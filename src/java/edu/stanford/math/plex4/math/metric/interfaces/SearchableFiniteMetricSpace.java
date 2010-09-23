@@ -3,7 +3,7 @@
  */
 package edu.stanford.math.plex4.math.metric.interfaces;
 
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.TIntHashSet;
 
 /**
  * This class abstracts the functionality of a finite metric space. The elements

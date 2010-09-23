@@ -3,7 +3,7 @@ package edu.stanford.math.plex4.math.matrix.impl.sparse;
 import edu.stanford.math.plex4.math.matrix.interfaces.BinaryAbstractVector;
 import edu.stanford.math.plex4.math.matrix.interfaces.BinaryAbstractVectorIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.TIntHashSet;
 
 public class BinarySparseVector extends BinaryAbstractVector {
 	protected final TIntHashSet indices = new TIntHashSet();

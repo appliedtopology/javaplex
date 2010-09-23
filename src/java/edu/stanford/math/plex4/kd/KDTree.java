@@ -5,11 +5,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
+import edu.stanford.math.plex4.array_utility.DoubleArrayMath;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
-import edu.stanford.math.plex4.utility.ArrayUtility2;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.ListUtility;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.TIntHashSet;
 
 /**
  * This class implements the functionality of a KD-tree. It is 
@@ -194,8 +194,8 @@ public class KDTree {
 		double[] currentPoint = this.dataPoints[currentIndex];
 
 		// Calculate whether current node is the best so far
-		double currentSquaredDistance = ArrayUtility2.squaredDistance(queryPoint, currentPoint);
-		double bestSquaredDistance = ArrayUtility2.squaredDistance(queryPoint, bestPoint);
+		double currentSquaredDistance = DoubleArrayMath.squaredDistance(queryPoint, currentPoint);
+		double bestSquaredDistance = DoubleArrayMath.squaredDistance(queryPoint, bestPoint);
 		if (currentSquaredDistance < bestSquaredDistance) {
 			bestPoint = currentPoint;
 			bestIndex = currentIndex;
@@ -220,7 +220,7 @@ public class KDTree {
 		bestIndex = nearestNeighborSearch(nearChild, queryPoint, bestIndex, depth + 1);
 
 		// test to see if we need to search other half-space
-		double separatingPlaneDistance = ArrayUtility2.squaredDistance(queryPoint[axis], currentPoint[axis]);
+		double separatingPlaneDistance = DoubleArrayMath.squaredDistance(queryPoint[axis], currentPoint[axis]);
 		if (bestSquaredDistance > separatingPlaneDistance) {
 			bestIndex = nearestNeighborSearch(farChild, queryPoint, bestIndex, depth + 1);
 		}
@@ -265,7 +265,7 @@ public class KDTree {
 
 		// calculate whether the current node belongs in the epsilon-neighborhood
 		// of the query point
-		double currentSquaredDistance = ArrayUtility2.squaredDistance(queryPoint, currentPoint);
+		double currentSquaredDistance = DoubleArrayMath.squaredDistance(queryPoint, currentPoint);
 		if (currentSquaredDistance < epsilonSquared) {
 			neighborhood.add(currentIndex);
 		}

@@ -8,7 +8,7 @@ import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import gnu.trove.map.hash.THashMap;
+import gnu.trove.THashMap;
 
 public class GenericRelativeHomology<F, T> extends GenericPersistentHomology<F, T> {
 

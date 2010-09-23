@@ -1,6 +1,7 @@
 package edu.stanford.math.plex4.homology;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Set;
 
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
@@ -9,9 +10,8 @@ import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import gnu.trove.iterator.hash.TObjectHashIterator;
-import gnu.trove.map.hash.THashMap;
-import gnu.trove.set.hash.THashSet;
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
 
 public abstract class GenericPersistentHomology<F, T> extends GenericPersistenceAlgorithm<F, T> {
 	public GenericPersistentHomology(GenericField<F> field, Comparator<T> comparator, int minDimension, int maxDimension) {
@@ -59,8 +59,12 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 			/*
 			 * Do not process simplices of higher dimension than maxDimension.
 			 */
-			if (stream.getDimension(i) > this.maxDimension + 1 || stream.getDimension(i) < this.minDimension) {
+			if (stream.getDimension(i) < this.minDimension) {
 				continue;
+			}
+			
+			if (stream.getDimension(i) > this.maxDimension + 1) {
+				break;
 			}
 
 			// initialize V to be the identity matrix
@@ -81,13 +85,19 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 
 			THashSet<T> matchingLowSimplices = lowMap.get(low_R_i);
 			while (matchingLowSimplices != null && !matchingLowSimplices.isEmpty()) {
-				TObjectHashIterator<T> iterator = matchingLowSimplices.iterator();
+				Iterator<T> iterator = matchingLowSimplices.iterator();
+				/**
+				 * TODO: Is this the right thing to do???
+				 * Ie. should the iterator.next go at the end of the loop?
+				 */
 				T j = iterator.next();
 
 				F c = field.divide(R.get(i).getCoefficient(low_R_i), R.get(j).getCoefficient(low_R_i));
-
-				R.put(i, chainModule.subtract(R.get(i), chainModule.multiply(c, R.get(j))));
-				V.put(i, chainModule.subtract(V.get(i), chainModule.multiply(c, V.get(j))));
+				F negative_c = field.negate(c);
+				//R.put(i, chainModule.subtract(R.get(i), chainModule.multiply(c, R.get(j))));
+				//V.put(i, chainModule.subtract(V.get(i), chainModule.multiply(c, V.get(j))));
+				this.chainModule.accumulate(R.get(i), R.get(j), negative_c);
+				this.chainModule.accumulate(V.get(i), V.get(j), negative_c);
 
 				// remove old low_R(i) entry
 				//lowMap.get(low_R_i).remove(i);

@@ -2,17 +2,17 @@ package edu.stanford.math.plex4.homology;
 
 import java.util.Comparator;
 
-import edu.stanford.math.plex4.algebraic_structures.impl.IntFreeModule;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
-import edu.stanford.math.plex4.datastructures.IntFormalSum;
+import edu.stanford.math.plex4.free_module.IntFormalSum;
+import edu.stanford.math.plex4.free_module.IntFreeModule;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.utility.FilteredComparator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TObjectIntIterator;
-import gnu.trove.map.hash.THashMap;
-import gnu.trove.set.hash.THashSet;
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
+import gnu.trove.TObjectIntIterator;
 
 /**
  * This class performs the persistent homology algorithm as outlined in

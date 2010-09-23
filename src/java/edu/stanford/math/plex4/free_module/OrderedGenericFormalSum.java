@@ -1,29 +1,27 @@
 package edu.stanford.math.plex4.free_module;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
 public class OrderedGenericFormalSum<R, M> implements AbstractGenericFormalSum<R, M> {
 	private final Comparator<M> comparator;
+	private M maximumObject = null;
 	
 	/**
 	 * The coefficient-object pairs are held in a hash map, where the
 	 * key is the object (e.g. a simplex), and the value is the coefficient.
-	 * 
 	 */
-	private final SortedMap<M, R> map;
+	private final HashMap<M, R> map = new HashMap<M, R>();
 
 	/**
 	 * Default constructor which initializes the sum to be empty.
 	 */
 	public OrderedGenericFormalSum(Comparator<M> comparator) {
 		this.comparator = comparator;
-		this.map = new TreeMap<M, R>(this.comparator);
 	}
 	
 	/**
@@ -49,12 +47,8 @@ public class OrderedGenericFormalSum<R, M> implements AbstractGenericFormalSum<R
 		}
 	}
 	
-	public M minimumObject() {
-		return this.map.firstKey();
-	}
-	
 	public M maximumObject() {
-		return this.map.lastKey();
+		return this.maximumObject;
 	}
 	
 	/**
@@ -71,6 +65,9 @@ public class OrderedGenericFormalSum<R, M> implements AbstractGenericFormalSum<R
 		ExceptionUtility.verifyNonNull(coefficient);
 		ExceptionUtility.verifyNonNull(object);
 		this.map.put(object, coefficient);
+		if (this.maximumObject == null || this.comparator.compare(object, this.maximumObject) > 0) {
+			this.maximumObject = object;
+		}
 	}
 	
 	/**
@@ -105,6 +102,21 @@ public class OrderedGenericFormalSum<R, M> implements AbstractGenericFormalSum<R
 	public void remove(M object) {
 		ExceptionUtility.verifyNonNull(object);
 		this.map.remove(object);
+		// check if the maximum object is being removed - if so we have
+		// to search for a new maximum
+		if (this.maximumObject == null || this.maximumObject.equals(object)) {
+			this.maximumObject = this.findMaximumObject();
+		}
+	}
+	
+	private M findMaximumObject() {
+		M max = null;
+		for (Map.Entry<M, R> entry : this.map.entrySet()) {
+			if (max == null || this.comparator.compare(entry.getKey(), max) > 0) {
+				max = entry.getKey();
+			}
+		}
+		return max;
 	}
 	
 	/**
@@ -183,5 +195,27 @@ public class OrderedGenericFormalSum<R, M> implements AbstractGenericFormalSum<R
 		} else if (!map.equals(other.map))
 			return false;
 		return true;
+	}
+
+	public AbstractGenericFormalSum<R, M> like() {
+		return new OrderedGenericFormalSum<R, M>(this.comparator);
+	}
+
+	public AbstractGenericFormalSum<R, M> like(AbstractGenericFormalSum<R, M> contents) {
+		return new OrderedGenericFormalSum<R, M>(contents, this.comparator);
+	}
+	
+	public AbstractGenericFormalSum<R, M> clone() {
+		OrderedGenericFormalSum<R, M> result = new OrderedGenericFormalSum<R, M>(this.comparator);
+		
+		for (Map.Entry<M, R> entry: this) {
+			result.put(entry.getValue(), entry.getKey());
+		}
+		
+		return result;
+	}
+
+	public AbstractGenericFormalSum<R, M> like(R coefficient, M object) {
+		return new OrderedGenericFormalSum<R, M>(coefficient, object, this.comparator);
 	}
 }

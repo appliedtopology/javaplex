@@ -3,8 +3,8 @@ package edu.stanford.math.plex4.deprecated;
 import edu.stanford.math.plex4.datastructures.pairs.GenericOrderedPair;
 import edu.stanford.math.plex4.math.matrix.impl.sparse.IntSparseMatrix;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TObjectIntIterator;
-import gnu.trove.map.hash.TObjectIntHashMap;
+import gnu.trove.TObjectIntHashMap;
+import gnu.trove.TObjectIntIterator;
 
 @Deprecated
 public class IntLabeledGrid<T extends Comparable<T>> {

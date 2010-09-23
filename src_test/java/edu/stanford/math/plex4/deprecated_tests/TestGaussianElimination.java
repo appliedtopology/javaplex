@@ -5,9 +5,9 @@ package edu.stanford.math.plex4.deprecated_tests;
 
 import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntField;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
+import edu.stanford.math.plex4.array_utility.ArrayPrinting;
 import edu.stanford.math.plex4.deprecated.IntFieldDecompositions;
 import edu.stanford.math.plex4.deprecated.IntFieldLinearAlgebra;
-import edu.stanford.math.plex4.utility.ArrayUtility2;
 
 /**
  * @author Andris
@@ -46,14 +46,14 @@ public class TestGaussianElimination {
 		
 		int[][] product = IntFieldLinearAlgebra.product(A, N, field);
 		field.valueOfInPlace(product);
-		System.out.println(ArrayUtility2.toString(product));
+		System.out.println(ArrayPrinting.toString(product));
 	}
 	
 	public static void smallExample() {
 		int p = 2;
 		int[][] A = new int[][]{new int[]{1, 2, 3, 0, 1}, new int[]{0, 1, 2, -1, 0}, new int[]{0, 0, 0, 1, 1}};
 		
-		System.out.println(ArrayUtility2.toString(A));
+		System.out.println(ArrayPrinting.toString(A));
 		
 		IntField field = ModularIntField.getInstance(p);
 		
@@ -61,17 +61,17 @@ public class TestGaussianElimination {
 		
 		int[][] R = IntFieldDecompositions.computeRowEchelonForm(A, field);
 
-		System.out.println(ArrayUtility2.toString(R));
+		System.out.println(ArrayPrinting.toString(R));
 		
 		int[][] N = IntFieldDecompositions.computeNullSpace(A, field);
-		System.out.println(ArrayUtility2.toString(N));
+		System.out.println(ArrayPrinting.toString(N));
 		
 		int[][] product = IntFieldLinearAlgebra.product(A, N, field);
 		field.valueOfInPlace(product);
-		System.out.println(ArrayUtility2.toString(product));
+		System.out.println(ArrayPrinting.toString(product));
 		
 		int[][] C = IntFieldDecompositions.computeColumnSpace(A, field);
-		System.out.println(ArrayUtility2.toString(C));
+		System.out.println(ArrayPrinting.toString(C));
 	}
 
 }

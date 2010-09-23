@@ -1,7 +1,8 @@
 package edu.stanford.math.plex4.utility;
 
-import gnu.trove.set.TIntSet;
-import gnu.trove.set.hash.THashSet;
+
+import gnu.trove.THashSet;
+import gnu.trove.TIntHashSet;
 
 import java.util.Collection;
 
@@ -28,8 +29,8 @@ public class ComparisonUtility {
 		return (a.containsAll(b) && b.containsAll(a));
 	}
 	
-	public static boolean setEquals(TIntSet a, TIntSet b) {
-		return (a.containsAll(b) && b.containsAll(a));
+	public static boolean setEquals(TIntHashSet a, TIntHashSet b) {
+		return a.containsAll(b.toArray()) && b.containsAll(a.toArray());
 	}
 	
 	public static boolean compareDoublesAbsolute(double a, double b, double tolerance) {

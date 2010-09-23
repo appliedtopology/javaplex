@@ -3,28 +3,28 @@ package edu.stanford.math.plex4.unit_tests;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import cern.colt.Arrays;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
-import edu.stanford.math.plex4.examples.SimplexStreamExamples;
 import edu.stanford.math.plex4.homology.LazyWitnessSpecifier;
 import edu.stanford.math.plex4.homology.PersistenceAlgorithmResult;
 import edu.stanford.math.plex4.homology.PersistenceAlgorithmTester;
-import edu.stanford.math.plex4.homology.VietorisRipsSpecifier;
 import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
+import edu.stanford.math.plex4.homology.VietorisRipsSpecifier;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
-import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.landmark.MaxMinLandmarkSelector;
-import gnu.trove.map.hash.THashMap;
+import edu.stanford.math.plex4.utility.RandomUtility;
+import gnu.trove.THashMap;
+
+
 
 
 public class PersistenceAlgorithmTest {
@@ -41,22 +41,26 @@ public class PersistenceAlgorithmTest {
 	
 	@Before
 	public void setUp() {
-		int n = 100;
+		int n = 250;
 		int d = 3;
 		int l = 50;
 		
-		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getEquispacedCirclePoints(n), 2, 0.3, 10));
-		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getHouseExample(), 2, 2, 10));
-		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getSquare(), 2, 2, 10));
-		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getGaussianPoints(n, d), d, 0.4, 10));
-		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getRandomSpherePoints(n, d), d, 0.4, 10));
+		RandomUtility.initializeWithSeed(3);
 		
+		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getEquispacedCirclePoints(n), 2, 0.3, 10));
+		//vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getHouseExample(), 2, 2, 10));
+		//vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getSquare(), 2, 2, 10));
+		//vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getGaussianPoints(n, d), d, 0.4, 10));
+		//vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getRandomSpherePoints(n, d), d, 0.4, 10));
+		
+		/*
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(n)), l), 2, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getGaussianPoints(n, d)), l), d, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getRandomFigure8Points(n)), l), 2, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(n, d)), l), 2, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getRandomTorusPoints(n, 1, 2)), l), 2, 0.5, 10));	
-		
+		*/
+		/*
 		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getTriangle(), new int[]{1, 1}));
 		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getFilteredTriangle(), new int[]{1, 0}));
 		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getSimplicialSphere(4), new int[]{1, 0, 0, 0, 1}));
@@ -64,11 +68,13 @@ public class PersistenceAlgorithmTest {
 		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getTorus(), new int[]{1, 2, 1}));
 		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getCircle(n), new int[]{1, 1}));
 		
+		*/
+		//persistenceAlgorithms.add(PersistenceAlgorithmType.Plex3Homology);
+		//persistenceAlgorithms.add(PersistenceAlgorithmType.GenericClassicalHomology);
+		//persistenceAlgorithms.add(PersistenceAlgorithmType.IntAbsoluteHomology);
+		persistenceAlgorithms.add(PersistenceAlgorithmType.GenericAbsoluteHomology);
+		//persistenceAlgorithms.add(PersistenceAlgorithmType.GenericAbsoluteCohomology);
 		
-		persistenceAlgorithms.add(PersistenceAlgorithmType.GenericClassicalHomology);
-		persistenceAlgorithms.add(PersistenceAlgorithmType.GenericDualityHomology);
-		//persistenceAlgorithms.add(PersistenceAlgorithmType.GenericDualityCohomology);
-		persistenceAlgorithms.add(PersistenceAlgorithmType.Plex3Homology);
 	}
 
 	@After
@@ -111,7 +117,7 @@ public class PersistenceAlgorithmTest {
 	}
 	
 	//@Test
-	public void testExplicitExamples() {
+	private void testExplicitExamples() {
 		for (GenericPair<ExplicitStream<Simplex>, int[]> pair: this.explicitStreamExamples) {
 			ExplicitStream<Simplex> stream = pair.getFirst();
 			THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult> persistenceResults = new THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult>();
@@ -157,6 +163,6 @@ public class PersistenceAlgorithmTest {
 		
 		System.out.println("================");
 		
-		//assertTrue(numFailures == 0);
+		assertTrue(numFailures == 0);
 	}
 }

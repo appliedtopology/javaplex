@@ -17,20 +17,20 @@ import org.apache.commons.math.random.MersenneTwister;
 import org.apache.commons.math.random.RandomVectorGenerator;
 import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
 
-import edu.stanford.math.plex4.algebraic_structures.impl.DoubleFreeModule;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericOrderedField;
-import edu.stanford.math.plex4.datastructures.DoubleFormalSum;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.free_module.AbstractGenericFreeModule;
+import edu.stanford.math.plex4.free_module.DoubleFormalSum;
+import edu.stanford.math.plex4.free_module.DoubleFreeModule;
 import edu.stanford.math.plex4.free_module.UnorderedGenericFreeModule;
 import edu.stanford.math.plex4.functional.GenericDoubleFunction;
 import edu.stanford.math.plex4.homology.GenericAbsoluteHomology;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.derived.HomStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex4.io2.MatlabWriter;
 import edu.stanford.math.plex4.optimization.NesterovGradientOptimizer;
-import edu.stanford.math.plex4.utility.ArrayUtility;
 import edu.stanford.math.plex4.utility.RandomUtility;
 
 
@@ -147,7 +147,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 		//RealPointValuePair optimum = discreteOptimizer.multistartOptimize(objective, homotopies.size(), 20);
 		
 		System.out.println(optimum.getValue());
-		System.out.println(ArrayUtility.toMatlabString(optimum.getPoint()));
+		System.out.println(MatlabWriter.toRowVector(optimum.getPoint()));
 		
 		return optimum;
 	}

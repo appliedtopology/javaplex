@@ -233,8 +233,12 @@ public class LazyWitnessStream extends SimplexStream {
 					// fill in the distance matrix, if we can
 					D = new double[L * N];
 					for (int l = 1; l <= L; l++)
+					{
 						for (int n = 1; n <= N; n++)
+						{
 							D[D_index(l, n, L, N)] = distance_ln(l, n, landmarks, data);
+						}
+					}
 				}
 			} catch (OutOfMemoryError oom) {
 			} finally {

@@ -164,40 +164,48 @@ public class PersistenceAlgorithmTester {
 		result.setBarcodeCollection(barcodeCollection);
 		result.setMaxDimension(maxDimension);
 		result.setMaxFiltrationValue(maxFiltrationValue);
-		result.setNumPoints(pData.count());
+		result.setNumPoints(selector.size());
 		result.setNumSimplices(wit.size());
 		result.setSeconds(Timing.seconds());
 		result.setType(PersistenceAlgorithmType.Plex3Homology);
 		
 		return result;
 	}
-	
+
 	private static BarcodeCollection computePlex4Barcodes(AbstractFilteredStream<Simplex> stream, int d, PersistenceAlgorithmType type) {
 		switch (type) {
-		case GenericClassicalHomology:
-			return computeClassicalHomology(stream, d);
-		case GenericDualityHomology:
-			return computeDualityHomology(stream, d);
-		case GenericDualityCohomology:
-			return computeDualityCohomology(stream, d);
+		case IntClassicalHomology:
+			return computeIntClassicalHomology(stream, d);
+		case GenericAbsoluteHomology:
+			return computeGenericAbsoluteHomology(stream, d);
+		case GenericAbsoluteCohomology:
+			return computeGenericAbsoluteCohomology(stream, d);
+		case IntAbsoluteHomology:
+			return computeIntAbsoluteHomology(stream, d);
 		default:
 			return null;
 		}
 	}
 
-	private static BarcodeCollection computeClassicalHomology(AbstractFilteredStream<Simplex> stream, int d) {
+	private static BarcodeCollection computeIntClassicalHomology(AbstractFilteredStream<Simplex> stream, int d) {
 		ClassicalPersistentHomology<Simplex> classicalHomology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(13), SimplexComparator.getInstance());
 		BarcodeCollection barcodes = classicalHomology.computeIntervals(stream, d + 1);
 		return barcodes;
 	}
 	
-	private static BarcodeCollection computeDualityHomology(AbstractFilteredStream<Simplex> stream, int d) {
+	private static BarcodeCollection computeIntAbsoluteHomology(AbstractFilteredStream<Simplex> stream, int d) {
+		IntPersistenceAlgorithm<Simplex> homology = new IntAbsoluteHomology<Simplex>(ModularIntField.getInstance(13), SimplexComparator.getInstance(), d);
+		BarcodeCollection barcodes = homology.computeIntervals(stream);
+		return barcodes;
+	}
+	
+	private static BarcodeCollection computeGenericAbsoluteHomology(AbstractFilteredStream<Simplex> stream, int d) {
 		GenericPersistenceAlgorithm<Integer, Simplex> homology = new GenericAbsoluteHomology<Integer, Simplex>(ModularIntegerField.getInstance(13), SimplexComparator.getInstance(), d);
 		BarcodeCollection barcodes = homology.computeIntervals(stream);
 		return barcodes;
 	}
 	
-	private static BarcodeCollection computeDualityCohomology(AbstractFilteredStream<Simplex> stream, int d) {
+	private static BarcodeCollection computeGenericAbsoluteCohomology(AbstractFilteredStream<Simplex> stream, int d) {
 		GenericPersistenceAlgorithm<Integer, Simplex> homology = new GenericAbsoluteCohomology<Integer, Simplex>(ModularIntegerField.getInstance(13), SimplexComparator.getInstance(), d);
 		BarcodeCollection barcodes = homology.computeIntervals(stream);
 		return barcodes;

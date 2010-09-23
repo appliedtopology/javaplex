@@ -8,8 +8,8 @@ import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.streams.interfaces.PrimitiveStream;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.set.TIntSet;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIterator;
 
 /**
  * This class implements a simplex stream with the property that
@@ -114,7 +114,7 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 	 * @param tau the current simplex to add
 	 * @param N the lower neighbors to investigate
 	 */
-	protected void addCofaces(UndirectedWeightedListGraph G, int k, Simplex tau, TIntSet N, double filtrationValue) {
+	protected void addCofaces(UndirectedWeightedListGraph G, int k, Simplex tau, TIntHashSet N, double filtrationValue) {
 		// add the current simplex to the complex
 		this.storageStructure.addElement(tau, this.discretizeFiltrationValue(filtrationValue));
 		
@@ -136,7 +136,7 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 			Simplex sigma = new Simplex(HomologyUtility.appendToArray(tau.getVertices(), v));
 			
 			// compute the intersection between N and the lower neighbors of v
-			TIntSet M = HomologyUtility.computeIntersection(N, G.getLowerNeighbors(v));
+			TIntHashSet M = HomologyUtility.computeIntersection(N, G.getLowerNeighbors(v));
 			
 			// compute the weight of the simplex sigma
 			// the weight is defined to be the maximum weight of all of the simplex's

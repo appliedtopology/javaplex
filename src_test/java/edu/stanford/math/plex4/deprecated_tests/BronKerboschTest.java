@@ -2,8 +2,8 @@ package edu.stanford.math.plex4.deprecated_tests;
 
 import edu.stanford.math.plex4.deprecated.BronKerboschAlgorithm;
 import edu.stanford.math.plex4.graph.UndirectedListGraph;
-import gnu.trove.set.hash.THashSet;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.THashSet;
+import gnu.trove.TIntHashSet;
 
 public class BronKerboschTest {
 

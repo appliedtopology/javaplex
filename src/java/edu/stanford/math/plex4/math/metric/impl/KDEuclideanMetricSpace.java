@@ -1,11 +1,11 @@
 package edu.stanford.math.plex4.math.metric.impl;
 
+import edu.stanford.math.plex4.array_utility.DoubleArrayMath;
 import edu.stanford.math.plex4.kd.KDTree;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
-import edu.stanford.math.plex4.utility.ArrayUtility2;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.Infinity;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.TIntHashSet;
 
 /**
  * @author Andrew Tausz
@@ -50,7 +50,7 @@ public class KDEuclideanMetricSpace implements SearchableFiniteMetricSpace<doubl
 	}
 
 	public double distance(double[] a, double[] b) {
-		return Math.sqrt(ArrayUtility2.squaredDistance(a, b));
+		return Math.sqrt(DoubleArrayMath.squaredDistance(a, b));
 	}
 
 	public double[] getPoint(int index) {

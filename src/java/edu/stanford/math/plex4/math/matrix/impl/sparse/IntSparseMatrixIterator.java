@@ -2,8 +2,8 @@ package edu.stanford.math.plex4.math.matrix.impl.sparse;
 
 import edu.stanford.math.plex4.math.matrix.interfaces.IntAbstractMatrixIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TIntIntIterator;
-import gnu.trove.iterator.TIntObjectIterator;
+import gnu.trove.TIntIntIterator;
+import gnu.trove.TIntObjectIterator;
 
 public class IntSparseMatrixIterator implements IntAbstractMatrixIterator {
 	private final TIntObjectIterator<IntSparseVector> rowIterator;

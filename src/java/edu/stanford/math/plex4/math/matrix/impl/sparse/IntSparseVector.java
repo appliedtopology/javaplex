@@ -3,8 +3,8 @@ package edu.stanford.math.plex4.math.matrix.impl.sparse;
 import edu.stanford.math.plex4.math.matrix.interfaces.IntAbstractVector;
 import edu.stanford.math.plex4.math.matrix.interfaces.IntAbstractVectorIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TIntIntIterator;
-import gnu.trove.map.hash.TIntIntHashMap;
+import gnu.trove.TIntIntHashMap;
+import gnu.trove.TIntIntIterator;
 
 public class IntSparseVector implements IntAbstractVector {
 	protected final TIntIntHashMap map = new TIntIntHashMap();

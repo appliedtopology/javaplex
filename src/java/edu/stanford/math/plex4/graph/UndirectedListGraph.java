@@ -3,13 +3,12 @@
  */
 package edu.stanford.math.plex4.graph;
 
-import java.util.Iterator;
-
 import edu.stanford.math.plex4.datastructures.pairs.IntIntPair;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.set.TIntSet;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TIntObjectHashMap;
+
+import java.util.Iterator;
 
 /**
  * This class implements the functionality of an undirected graph.
@@ -123,7 +122,7 @@ public class UndirectedListGraph implements AbstractUndirectedGraph {
 	 * @param i the vertex to query
 	 * @return the set of j such that j < i and i ~ j
 	 */
-	public TIntSet getLowerNeighbors(int i) {
+	public TIntHashSet getLowerNeighbors(int i) {
 		ExceptionUtility.verifyIndex(this.numVertices, i);
 		if (this.adjacencySets.contains(i)) {
 			return this.adjacencySets.get(i);

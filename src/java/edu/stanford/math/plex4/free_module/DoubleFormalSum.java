@@ -1,8 +1,8 @@
-package edu.stanford.math.plex4.datastructures;
+package edu.stanford.math.plex4.free_module;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TObjectDoubleIterator;
-import gnu.trove.map.hash.TObjectDoubleHashMap;
+import gnu.trove.TObjectDoubleHashMap;
+import gnu.trove.TObjectDoubleIterator;
 
 /**
  * This class implements a data structure for formal sums 

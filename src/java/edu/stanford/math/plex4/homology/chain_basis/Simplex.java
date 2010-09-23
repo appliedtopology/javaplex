@@ -25,7 +25,6 @@ import edu.stanford.math.plex4.utility.ExceptionUtility;
  *
  */
 public class Simplex implements PrimitiveBasisElement {
-
 	/**
 	 * This stores the actual vertices of the simplex.
 	 */
@@ -42,11 +41,11 @@ public class Simplex implements PrimitiveBasisElement {
 	 * 
 	 * @param vertices the vertices to 
 	 */
-	public Simplex(int[] vertices) {
+	public Simplex(final int[] vertices) {
 		ExceptionUtility.verifyNonNull(vertices);
 
 		// store the vertices
-		this.vertices = vertices;
+		this.vertices = vertices.clone();
 
 		// make sure that the vertices are sorted
 		Arrays.sort(this.vertices);

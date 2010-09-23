@@ -1,13 +1,12 @@
 /**
  * 
  */
-package edu.stanford.math.plex4.algebraic_structures.impl;
+package edu.stanford.math.plex4.free_module;
 
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntLeftModule;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntRing;
-import edu.stanford.math.plex4.datastructures.IntFormalSum;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TObjectIntIterator;
+import gnu.trove.TObjectIntIterator;
 
 /**
  * This class implements the operations of the free R-module
@@ -30,8 +29,6 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 	}
 
 	public IntFormalSum<M> add(IntFormalSum<M> a, IntFormalSum<M> b) {
-		ExceptionUtility.verifyNonNull(a);
-		ExceptionUtility.verifyNonNull(b);
 		IntFormalSum<M> result = null;
 		TObjectIntIterator<M> iterator = null;
 		
@@ -52,8 +49,6 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 	}
 
 	public IntFormalSum<M> subtract(IntFormalSum<M> a, IntFormalSum<M> b) {
-		ExceptionUtility.verifyNonNull(a);
-		ExceptionUtility.verifyNonNull(b);
 		
 		IntFormalSum<M> result = new IntFormalSum<M>(a);
 		TObjectIntIterator<M> iterator = b.iterator();
@@ -67,7 +62,6 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 	}
 	
 	public IntFormalSum<M> multiply(int r, IntFormalSum<M> a) {
-		ExceptionUtility.verifyNonNull(a);
 		
 		IntFormalSum<M> result = new IntFormalSum<M>();
 		TObjectIntIterator<M> iterator = a.iterator();
@@ -81,7 +75,6 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 	}
 
 	public IntFormalSum<M> negate(IntFormalSum<M> a) {
-		ExceptionUtility.verifyNonNull(a);
 		
 		IntFormalSum<M> result = new IntFormalSum<M>();
 		TObjectIntIterator<M> iterator = a.iterator();
@@ -127,8 +120,6 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 	}
 	
 	private void addObject(IntFormalSum<M> formalSum, int coefficient, M object) {
-		ExceptionUtility.verifyNonNull(object);
-		ExceptionUtility.verifyNonNull(formalSum);
 		if (formalSum.containsObject(object)) {
 			int newCoefficient = this.ring.add(formalSum.getCoefficient(object), coefficient);
 			if (ring.isZero(newCoefficient)) {
@@ -156,10 +147,20 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 		
 		return sum;
 	}
+	
+	public IntFormalSum<M> createNewSum() {
+		return new IntFormalSum<M>();
+	}
+
+	public IntFormalSum<M> createNewSum(int coefficient, M object) {
+		return new IntFormalSum<M>(coefficient, object);
+	}
+
+	public IntFormalSum<M> createNewSum(IntFormalSum<M> contents) {
+		return new IntFormalSum<M>(contents);
+	}
 
 	public void accumulate(IntFormalSum<M> a, IntFormalSum<M> b) {
-		ExceptionUtility.verifyNonNull(a);
-		ExceptionUtility.verifyNonNull(b);
 		
 		for (TObjectIntIterator<M> iterator = b.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
@@ -168,9 +169,6 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 	}
 
 	public void accumulate(IntFormalSum<M> a, IntFormalSum<M> b, int c) {
-		ExceptionUtility.verifyNonNull(a);
-		ExceptionUtility.verifyNonNull(b);
-
 		for (TObjectIntIterator<M> iterator = b.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			this.addObject(a, c * iterator.value(), iterator.key());

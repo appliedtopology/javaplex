@@ -3,7 +3,7 @@ package edu.stanford.math.plex4.graph;
 import java.util.Iterator;
 
 import edu.stanford.math.plex4.datastructures.pairs.IntIntPair;
-import gnu.trove.set.TIntSet;
+import gnu.trove.TIntHashSet;
 
 /**
  * This interface abstracts the functionality of an unweighted graph.
@@ -62,7 +62,7 @@ public interface AbstractUndirectedGraph extends Iterable<IntIntPair> {
 	 * @param i the vertex to query
 	 * @return the set of j such that j < i and i ~ j
 	 */
-	public TIntSet getLowerNeighbors(int i);
+	public TIntHashSet getLowerNeighbors(int i);
 	
 	/**
 	 * This function returns an edge iterator that allows the user to 

@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import edu.stanford.math.plex4.algebraic_structures.impl.DoubleFreeModule;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.DoubleLeftModule;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericRing;
-import edu.stanford.math.plex4.datastructures.DoubleFormalSum;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.free_module.AbstractGenericFreeModule;
+import edu.stanford.math.plex4.free_module.DoubleFormalSum;
+import edu.stanford.math.plex4.free_module.DoubleFreeModule;
 import edu.stanford.math.plex4.free_module.UnorderedGenericFormalSum;
 import edu.stanford.math.plex4.free_module.UnorderedGenericFreeModule;
 import edu.stanford.math.plex4.functional.FunctionalUtility;
@@ -25,10 +25,10 @@ import edu.stanford.math.plex4.homology.utility.HomologyUtility;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.Infinity;
 import edu.stanford.math.plex4.utility.MathUtility;
-import gnu.trove.iterator.TObjectDoubleIterator;
-import gnu.trove.map.hash.THashMap;
-import gnu.trove.map.hash.TObjectDoubleHashMap;
-import gnu.trove.set.hash.THashSet;
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
+import gnu.trove.TObjectDoubleHashMap;
+import gnu.trove.TObjectDoubleIterator;
 
 public class MappingUtility {
 	public static <R, M, N> AbstractGenericFormalSum<R, N> computeImage(AbstractGenericFormalSum<R, GenericPair<M, N>> homChain, M argument) {

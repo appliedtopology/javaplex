@@ -1,15 +1,15 @@
 package edu.stanford.math.plex4.homology;
 
 import java.util.Comparator;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
 import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import gnu.trove.map.hash.THashMap;
+import gnu.trove.THashMap;
 
 public class GenericAbsoluteCohomology<F, T> extends GenericPersistenceAlgorithm<F, T> {
 

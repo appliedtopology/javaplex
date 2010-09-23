@@ -6,8 +6,8 @@ package edu.stanford.math.plex4.homology.streams.impl;
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.set.TIntSet;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIterator;
 
 
 /**
@@ -50,7 +50,7 @@ public class VietorisRipsStream<T> extends FlagComplexStream {
 	@Override
 	protected UndirectedWeightedListGraph constructEdges() {
 		int n = this.metricSpace.size();
-		TIntSet neighborhood = null;
+		TIntHashSet neighborhood = null;
 		
 		UndirectedWeightedListGraph graph = new UndirectedWeightedListGraph(n);
 		

@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.utility;
 
+import gnu.trove.TIntHashSet;
 import cern.jet.random.Normal;
 import cern.jet.random.Uniform;
-import gnu.trove.set.hash.TIntHashSet;
 
 
 /**
@@ -13,11 +13,18 @@ import gnu.trove.set.hash.TIntHashSet;
  *
  */
 public class RandomUtility {
-	protected static Normal normalGenerator = new Normal(0, 1, new cern.jet.random.engine.MersenneTwister(Uniform
+	private static int seed = 1;
+	
+	private static Normal normalGenerator = new Normal(0, 1, new cern.jet.random.engine.MersenneTwister(Uniform
 			.staticNextIntFromTo(0, Integer.MAX_VALUE)));
-	protected static Uniform uniformGenerator = new Uniform(new cern.jet.random.engine.MersenneTwister(Uniform
+	private static Uniform uniformGenerator = new Uniform(new cern.jet.random.engine.MersenneTwister(Uniform
 			.staticNextIntFromTo(0, Integer.MAX_VALUE)));
 
+	public static void initializeWithSeed(int seed) {
+		normalGenerator = new Normal(0, 1, new cern.jet.random.engine.MersenneTwister(seed));
+		uniformGenerator = new Uniform(new cern.jet.random.engine.MersenneTwister(seed));
+	}
+	
 	/**
 	 * This function returns a sample of a Bernoulli random
 	 * variable with parameter p.

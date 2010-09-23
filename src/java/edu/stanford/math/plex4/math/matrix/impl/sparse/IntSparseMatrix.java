@@ -4,8 +4,8 @@ import edu.stanford.math.plex4.math.matrix.interfaces.IntAbstractMatrix;
 import edu.stanford.math.plex4.math.matrix.interfaces.IntAbstractMatrixIterator;
 import edu.stanford.math.plex4.math.matrix.interfaces.IntAbstractVector;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TIntObjectIterator;
-import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TIntObjectIterator;
 
 public class IntSparseMatrix implements IntAbstractMatrix {
 	

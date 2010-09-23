@@ -7,7 +7,7 @@ import java.util.List;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.chain_basis.CellComparator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.TIntObjectHashMap;
 
 public class ExplicitCellStream extends ExplicitStream<Cell> {
 	private TIntObjectHashMap<Cell> indexCellMap = new TIntObjectHashMap<Cell>();

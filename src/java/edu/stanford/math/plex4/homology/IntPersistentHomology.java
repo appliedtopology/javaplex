@@ -1,96 +1,109 @@
 package edu.stanford.math.plex4.homology;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
-import edu.stanford.math.plex4.algebraic_structures.impl.IntFreeModule;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
-import edu.stanford.math.plex4.datastructures.IntFormalSum;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
+import edu.stanford.math.plex4.free_module.IntFormalSum;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import gnu.trove.iterator.TObjectIntIterator;
-import gnu.trove.map.hash.THashMap;
-import gnu.trove.set.hash.THashSet;
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
 
-/**
- * This class computes persistent (co)homology based on the paper
- * "Dualities in persistent (co)homology" by de Silva, Morozov, and
- * Vejdemo-Johansson. The algorithms described in this paper offer
- * significant performance gains and provide a more complete understanding
- * of persistent homology.
- * 
- * @author Andrew Tausz
- *
- * @param <T>
- */
-public class IntPersistentHomology<T> {
-	private final IntField field;
-	private final Comparator<T> comparator;
-
-	public IntPersistentHomology(IntField field, Comparator<T> comparator) {
-		this.field = field;
-		this.comparator = comparator;
+public abstract class IntPersistentHomology<T> extends IntPersistenceAlgorithm<T> {
+	public IntPersistentHomology(IntField field, Comparator<T> comparator, int minDimension, int maxDimension) {
+		super(field, comparator, minDimension, maxDimension);
+		// TODO Auto-generated constructor stub
 	}
 
-	public AugmentedBarcodeCollection<IntFormalSum<T>> computeIntervals(AbstractFilteredStream<T> stream, int maxDimension) {
-		return this.getIntervalsFromDecomposition(this.pHcol(stream, maxDimension), stream);
+	public IntPersistentHomology(IntField field, Comparator<T> comparator, int maxDimension) {
+		super(field, comparator, 0, maxDimension);
+		// TODO Auto-generated constructor stub
 	}
-	
-	public GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> pHcol(AbstractFilteredStream<T> stream, int maxDimension) {
-		
+
+	@Override
+	public AugmentedBarcodeCollection<IntFormalSum<T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
+		return this.getAugmentedIntervals(this.pHcol(stream), stream);
+	}
+
+	@Override
+	public BarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream) {
+		return this.getIntervals(this.pHcol(stream), stream);
+	}
+
+	/**
+	 * This function implements the pHcol algorithm described in the paper. It computes the decomposition
+	 * R = D * V, where D is the boundary matrix, R is reduced, and is invertible and upper triangular.
+	 * This function returns the pair (R, V). Note that in our implementation, we represent a matrix by
+	 * a hash map which maps a generating object to a formal sum which corresponds to a column in the matrix.
+	 * Note that this is simply a sparse representation of a linear transformation on a vector space with
+	 * free basis consisting of elements of type T.
+	 * 
+	 * @param stream the filtered chain complex which provides elements in increasing filtration order
+	 * @return a GenericPair containing the matrices R and V
+	 */
+	private GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> pHcol(AbstractFilteredStream<T> stream) {
+
 		THashMap<T, IntFormalSum<T>> R = new THashMap<T, IntFormalSum<T>>();
 		THashMap<T, IntFormalSum<T>> V = new THashMap<T, IntFormalSum<T>>();
-		
+
 		/**
 		 * This maps a simplex to the set of columns containing the key as its low value.
 		 */
 		THashMap<T, THashSet<T>> lowMap = new THashMap<T, THashSet<T>>();
-		
-		IntFreeModule<T> chainModule = new IntFreeModule<T>(this.field);
-		
+
 		for (T i : stream) {
 			/*
 			 * Do not process simplices of higher dimension than maxDimension.
 			 */
-			if (stream.getDimension(i) > maxDimension) {
+			if (stream.getDimension(i) < this.minDimension) {
 				continue;
 			}
 			
+			if (stream.getDimension(i) > this.maxDimension + 1) {
+				break;
+			}
+
 			// initialize V to be the identity matrix
-			V.put(i, new IntFormalSum<T>(i));
-			
+			V.put(i, this.chainModule.createNewSum(this.field.valueOf(1), i));
+
 			// form the column R[i] which equals the boundary of the current simplex.
 			// store the column as a column in R
 			R.put(i, chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
-			
+
 			// compute low_R(i)
 			T low_R_i = this.low(R.get(i));
-			
+
 			// if the boundary of i is empty, then continue to next iteration since there
 			// is nothing to process
 			if (low_R_i == null) {
 				continue;
 			}
-			
+
 			THashSet<T> matchingLowSimplices = lowMap.get(low_R_i);
 			while (matchingLowSimplices != null && !matchingLowSimplices.isEmpty()) {
-				T j = matchingLowSimplices.iterator().next();
-				int c = field.divide(R.get(i).getCoefficient(low_R_i), R.get(j).getCoefficient(this.low(R.get(j))));
-				
-				R.put(i, chainModule.subtract(R.get(i), chainModule.multiply(c, R.get(j))));
-				V.put(i, chainModule.subtract(V.get(i), chainModule.multiply(c, V.get(j))));
-				
+				Iterator<T> iterator = matchingLowSimplices.iterator();
+				T j = iterator.next();
+
+				int c = field.divide(R.get(i).getCoefficient(low_R_i), R.get(j).getCoefficient(low_R_i));
+				int negative_c = field.negate(c);
+				//R.put(i, chainModule.subtract(R.get(i), chainModule.multiply(c, R.get(j))));
+				//V.put(i, chainModule.subtract(V.get(i), chainModule.multiply(c, V.get(j))));
+				this.chainModule.accumulate(R.get(i), R.get(j), negative_c);
+				this.chainModule.accumulate(V.get(i), V.get(j), negative_c);
+
+				// remove old low_R(i) entry
+				//lowMap.get(low_R_i).remove(i);
+
 				// recompute low_R(i)
 				low_R_i = this.low(R.get(i));
-				// recompute matching indices
+
 				matchingLowSimplices = lowMap.get(low_R_i);
 			}
-			
+
 			// store the low value in the map
 			if (low_R_i != null) {
 				if (!lowMap.containsKey(low_R_i)) {
@@ -99,138 +112,110 @@ public class IntPersistentHomology<T> {
 				lowMap.get(low_R_i).add(i);
 			}
 		}
-		
+
 		// at this point we have computed the decomposition R = D * V
 		// we return the pair (R, V)
-		
+
 		return new GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>>(R, V);
 	}
-	
-	public AugmentedBarcodeCollection<IntFormalSum<T>> getIntervalsFromDecomposition(GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream) {
+
+	protected abstract AugmentedBarcodeCollection<IntFormalSum<T>> getAugmentedIntervals(GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream);
+
+	protected abstract BarcodeCollection getIntervals(GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream);
+
+	protected AugmentedBarcodeCollection<IntFormalSum<T>> getAugmentedIntervals(
+			GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
 		AugmentedBarcodeCollection<IntFormalSum<T>> barcodeCollection = new AugmentedBarcodeCollection<IntFormalSum<T>>();
-		
+
 		THashMap<T, IntFormalSum<T>> R = RV_pair.getFirst();
 		THashMap<T, IntFormalSum<T>> V = RV_pair.getSecond();
-		
-		/*
-		 * We follow the naming convention used in Theorem 2.5 in "Dualities in Persistent (Co)homology".
-		 * 
-		 * Given our chain complex (C, d), we use the partition {0, ..., n-1} = F u G u H.
-		 * Then the persistence diagram consists of intervals [a_f, \infinity) for f in F,
-		 * and [a_g, a_h) for g in G, and h in H. 
-		 * 
-		 */
-		Set<T> F = new THashSet<T>();
-		Set<T> G = new THashSet<T>();
-		Set<T> H = new THashSet<T>();
-		
-		Set<T> simplices = R.keySet();
-		F.addAll(simplices);
-		
-		for (Iterator<T> iterator = simplices.iterator(); iterator.hasNext(); ) {
-			T i = iterator.next();
+
+		Set<T> births = new THashSet<T>();
+
+		for (T i: stream) {
+			if (!R.containsKey(i)) {
+				continue;
+			}
 			T low_R_i = this.low(R.get(i));
-			if (low_R_i != null) {
-				G.add(low_R_i);
-				H.add(i);
-				// remove i from F
-				F.remove(i);
-				// remove low_R_i from F as well
-				F.remove(low_R_i);
+			int dimension = stream.getDimension(i);
+			if (low_R_i == null) {
+				if (dimension <= this.maxDimension && dimension >= this.minDimension) {
+					births.add(i);
+				}
+			} else {
+				// simplex i kills low_R_i
+				births.remove(low_R_i);
+				births.remove(i);
 				double start = stream.getFiltrationValue(low_R_i);
 				double end = stream.getFiltrationValue(i);
-				if (start < end) {
-					barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end, R.get(i));
+				if (end >= start + this.minGranularity) {
+					if (absolute) {
+						barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end, R.get(i));
+					} else {
+						barcodeCollection.addInterval(stream.getDimension(i), start, end, V.get(i));
+					}
 				}
 			}
 		}
-		
-		// add the collection of semi-infinite intervals to the barcode collection
-		for (T i: F) {
-			barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
-		}
-		
-		return barcodeCollection;
-	}
-	
-	public BarcodeCollection pCoh(AbstractFilteredStream<T> stream, int maxDimension) {
-		BarcodeCollection barcodeCollection = new BarcodeCollection();
-		IntFreeModule<T> chainModule = new IntFreeModule<T>(this.field);
-		
-		THashSet<T> Z_perp = new THashSet<T>();
-		THashSet<T> markedSimplices = new THashSet<T>();
-		THashSet<T> birth = new THashSet<T>();
-		
-		for (T simplex : stream) {
-			
-			if (stream.getDimension(simplex) > maxDimension) {
-				continue;
-			}
-			
-			IntFormalSum<T> boundary = chainModule.createSum(stream.getBoundaryCoefficients(simplex), stream.getBoundary(simplex));
-			List<T> indices = new ArrayList<T>();
-			
-			// form the set of indices
-			// indices = [j | sigma*_i in d* z*_j, where z*_j is unmarked in Z_perp]
-			for (TObjectIntIterator<T> iterator = boundary.iterator(); iterator.hasNext(); ) {
-				iterator.advance();
-				
-				if (!markedSimplices.contains(iterator.key()) && Z_perp.contains(iterator.key())) {
-					indices.add(iterator.key());
-				}
-			}
-			
-			if (indices.isEmpty()) {
-				Z_perp.add(simplex);
-				birth.add(simplex);
-			} else {
-				
-			}
-			
-		}
-		
-		return barcodeCollection;
-	}
-	
-	public List<IntFormalSum<T>> getBoundaryColumns(AbstractFilteredStream<T> stream, int dimension) {
-		List<IntFormalSum<T>> D = new ArrayList<IntFormalSum<T>>();
-		IntFreeModule<T> chainModule = new IntFreeModule<T>(this.field);
-		
-		for (T i: stream) {
-			if (stream.getDimension(i) != dimension) {
-				continue;
-			}
-			
-			D.add(chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
-		}
-		
-		return D;
-	}
-	
-	/**
-	 * This function computes the operation low_A(j) as described in the paper. Note that if
-	 * the chain is empty (for example the column contains only zeros), then this function
-	 * returns null.
-	 * 
-	 * @param formalSum
-	 * @return
-	 */
-	private T low(IntFormalSum<T> chain) {
-		T maxObject = null;
 
-		for (TObjectIntIterator<T> iterator = chain.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			if (maxObject == null) {
-				maxObject = iterator.key();
-			}
-			
-			if (this.comparator.compare(iterator.key(), maxObject) > 0) {
-				maxObject = iterator.key();
+		// the elements in birth are the ones that are never killed
+		// these correspond to semi-infinite intervals
+		for (T i: births) {
+			if (absolute) {
+				barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
+			} else {
+				barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
 			}
 		}
-		
-		return maxObject;
+
+		return barcodeCollection;
 	}
-	
-	
+
+	protected BarcodeCollection getIntervals(
+			GenericPair<THashMap<T, IntFormalSum<T>>, THashMap<T, IntFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
+		BarcodeCollection barcodeCollection = new BarcodeCollection();
+
+		THashMap<T, IntFormalSum<T>> R = RV_pair.getFirst();
+
+		Set<T> births = new THashSet<T>();
+
+		for (T i: stream) {
+			if (!R.containsKey(i)) {
+				continue;
+			}
+			T low_R_i = this.low(R.get(i));
+			int dimension = stream.getDimension(i);
+			if (low_R_i == null) {
+				if (dimension <= this.maxDimension && dimension >= this.minDimension) {
+					births.add(i);
+				}
+			} else {
+				// simplex i kills low_R_i
+				births.remove(low_R_i);
+				births.remove(i);
+				double start = stream.getFiltrationValue(low_R_i);
+				double end = stream.getFiltrationValue(i);
+				if (end >= start + this.minGranularity) {
+					if (absolute) {
+						barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end);
+					} else {
+						barcodeCollection.addInterval(stream.getDimension(i), start, end);
+					}
+				}
+			}
+		}
+
+		// the elements in birth are the ones that are never killed
+		// these correspond to semi-infinite intervals
+		for (T i: births) {
+			if (absolute) {
+				barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i));
+			} else {
+				barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i));
+			}
+		}
+
+		return barcodeCollection;
+	}	
 }
+

@@ -6,7 +6,7 @@ import java.util.List;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.MemoryUtility;
-import gnu.trove.map.hash.TIntIntHashMap;
+import gnu.trove.TIntIntHashMap;
 
 public class IntFieldDecompositions {
 	/**

@@ -1,7 +1,7 @@
 package edu.stanford.math.plex4.deprecated;
 
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
-import gnu.trove.set.hash.THashSet;
+import gnu.trove.THashSet;
 
 /**
  * This abstract class defines functionality for a static simplicial complex.

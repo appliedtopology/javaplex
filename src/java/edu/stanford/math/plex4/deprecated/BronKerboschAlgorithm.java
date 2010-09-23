@@ -1,9 +1,9 @@
 package edu.stanford.math.plex4.deprecated;
 
 import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.set.hash.THashSet;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.THashSet;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIterator;
 
 /**
  * 

@@ -10,7 +10,6 @@ import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntegerField;
 import edu.stanford.math.plex4.algebraic_structures.impl.RationalField;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
-import edu.stanford.math.plex4.datastructures.IntFormalSum;
 import edu.stanford.math.plex4.embedding.GraphEmbedding;
 import edu.stanford.math.plex4.embedding.GraphMetricEmbedding;
 import edu.stanford.math.plex4.embedding.MultidimensionalScaling;
@@ -18,11 +17,13 @@ import edu.stanford.math.plex4.examples.CellStreamExamples;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.examples.SimplexStreamExamples;
 import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
+import edu.stanford.math.plex4.free_module.IntFormalSum;
 import edu.stanford.math.plex4.graph_metric.ShortestPathMetric;
 import edu.stanford.math.plex4.homology.ClassicalPersistentHomology;
 import edu.stanford.math.plex4.homology.GenericAbsoluteCohomology;
 import edu.stanford.math.plex4.homology.GenericAbsoluteHomology;
 import edu.stanford.math.plex4.homology.GenericPersistenceAlgorithm;
+import edu.stanford.math.plex4.homology.IntAbsoluteHomology;
 import edu.stanford.math.plex4.homology.IntPersistentHomology;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
@@ -79,8 +80,8 @@ public class PersistentHomologyTest {
 	}
 	
 	public static <T> void testIntDualityPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, IntField field) {
-		IntPersistentHomology<T> homology = new IntPersistentHomology<T>(field, comparator);
-		AugmentedBarcodeCollection<IntFormalSum<T>> barcodes = homology.computeIntervals(stream, 8);
+		IntPersistentHomology<T> homology = new IntAbsoluteHomology<T>(field, comparator, 8);
+		AugmentedBarcodeCollection<IntFormalSum<T>> barcodes = homology.computeAugmentedIntervals(stream);
 		System.out.println(barcodes);
 	}
 	

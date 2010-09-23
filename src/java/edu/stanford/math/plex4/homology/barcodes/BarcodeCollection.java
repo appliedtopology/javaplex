@@ -2,9 +2,9 @@ package edu.stanford.math.plex4.homology.barcodes;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.Infinity;
-import gnu.trove.iterator.TIntObjectIterator;
-import gnu.trove.map.hash.TIntIntHashMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.TIntIntHashMap;
+import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TIntObjectIterator;
 
 /**
  * This class implements functionality for storing a collection of barcodes. 

@@ -1,8 +1,8 @@
-package edu.stanford.math.plex4.datastructures;
+package edu.stanford.math.plex4.free_module;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TObjectIntIterator;
-import gnu.trove.map.hash.TObjectIntHashMap;
+import gnu.trove.TObjectIntHashMap;
+import gnu.trove.TObjectIntIterator;
 
 /**
  * This class implements a data structure for formal sums 
@@ -87,7 +87,6 @@ public class IntFormalSum<M> {
 	 * @param object the object to add
 	 */
 	public void put(int coefficient, M object) {
-		ExceptionUtility.verifyNonNull(object);
 		if (coefficient != 0) {
 			this.map.put(object, coefficient);
 		}
@@ -101,7 +100,6 @@ public class IntFormalSum<M> {
 	 * @return true if this contains the supplied object, and false otherwise
 	 */
 	public boolean containsObject(M object) {
-		ExceptionUtility.verifyNonNull(object);
 		return this.map.containsKey(object);
 	}
 	
@@ -113,7 +111,6 @@ public class IntFormalSum<M> {
 	 * @return the coefficient of the supplied object
 	 */
 	public int getCoefficient(M object) {
-		ExceptionUtility.verifyNonNull(object);
 		return this.map.get(object);
 	}
 	
@@ -123,7 +120,6 @@ public class IntFormalSum<M> {
 	 * @param object the object to remove
 	 */
 	public void remove(M object) {
-		ExceptionUtility.verifyNonNull(object);
 		this.map.remove(object);
 	}
 	

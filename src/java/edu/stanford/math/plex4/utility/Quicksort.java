@@ -1,5 +1,6 @@
 package edu.stanford.math.plex4.utility;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -113,7 +114,7 @@ public class Quicksort {
 					i++;
 				}
 				if (i < j) {
-					ArrayUtility2.swap(array, i, j);
+					swap(array, i, j);
 					i++;
 					j--;
 				} else {
@@ -133,7 +134,7 @@ public class Quicksort {
 		 */
 		public static int randomizedPartition(int[] array, int startIndex, int endIndex) {
 			int i = startIndex + random.nextInt(endIndex - startIndex);
-			ArrayUtility2.swap(array, i, startIndex);
+			swap(array, i, startIndex);
 			return partition(array, startIndex, endIndex);
 		}
 
@@ -177,6 +178,12 @@ public class Quicksort {
 			} else {
 				return randomizedSelect(array, partitionBoundaryIndex + 1, endIndex, i - k);
 			}
+		}
+		
+		private static void swap(int[] array, int i, int j) {
+			int temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
 		}
 	}
 
@@ -273,7 +280,7 @@ public class Quicksort {
 					i++;
 				}
 				if (i < j) {
-					ArrayUtility2.swap(array, i, j);
+					swap(array, i, j);
 					i++;
 					j--;
 				} else {
@@ -293,7 +300,7 @@ public class Quicksort {
 		 */
 		public static <T> int randomizedPartition(T[] array, int startIndex, int endIndex, Comparator<T> comparator) {
 			int i = startIndex + random.nextInt(endIndex - startIndex);
-			ArrayUtility2.swap(array, i, startIndex);
+			swap(array, i, startIndex);
 			return partition(array, startIndex, endIndex, comparator);
 		}
 
@@ -337,6 +344,12 @@ public class Quicksort {
 			} else {
 				return randomizedSelect(array, partitionBoundaryIndex + 1, endIndex, i - k, comparator);
 			}
+		}
+		
+		private static <T> void swap(T[] array, int i, int j) {
+			T temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
 		}
 	}
 
@@ -410,7 +423,7 @@ public class Quicksort {
 					i++;
 				}
 				if (i < j) {
-					ArrayUtility2.swap(array, i, j);
+					swap(array, i, j);
 					i++;
 					j--;
 				} else {
@@ -421,7 +434,7 @@ public class Quicksort {
 
 		public static <T> int randomizedPartition(List<T> array, int startIndex, int endIndex, Comparator<T> comparator) {
 			int i = startIndex + random.nextInt(endIndex - startIndex);
-			ArrayUtility2.swap(array, i, startIndex);
+			swap(array, i, startIndex);
 			return partition(array, startIndex, endIndex, comparator);
 		}
 
@@ -441,6 +454,11 @@ public class Quicksort {
 			} else {
 				return randomizedSelect(array, partitionBoundaryIndex + 1, endIndex, i - k, comparator);
 			}
+		}
+		
+		private static <T> List<T> swap(List<T> array, int i, int j) {
+			Collections.swap(array, i, j);
+			return array;
 		}
 	}
 }

@@ -3,8 +3,8 @@ package edu.stanford.math.plex4.math.matrix.impl.sparse;
 import edu.stanford.math.plex4.math.matrix.interfaces.DoubleAbstractVector;
 import edu.stanford.math.plex4.math.matrix.interfaces.DoubleAbstractVectorIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TIntDoubleIterator;
-import gnu.trove.map.hash.TIntDoubleHashMap;
+import gnu.trove.TIntDoubleHashMap;
+import gnu.trove.TIntDoubleIterator;
 
 public class DoubleSparseVector extends DoubleAbstractVector {
 	protected final TIntDoubleHashMap map = new TIntDoubleHashMap();

@@ -1,9 +1,8 @@
-package edu.stanford.math.plex4.algebraic_structures.impl;
+package edu.stanford.math.plex4.free_module;
 
 import edu.stanford.math.plex4.algebraic_structures.interfaces.DoubleLeftModule;
-import edu.stanford.math.plex4.datastructures.DoubleFormalSum;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TObjectDoubleIterator;
+import gnu.trove.TObjectDoubleIterator;
 
 public class DoubleFreeModule<M> implements	DoubleLeftModule<DoubleFormalSum<M>> {
 	

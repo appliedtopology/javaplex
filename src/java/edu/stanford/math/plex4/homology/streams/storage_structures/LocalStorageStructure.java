@@ -13,7 +13,7 @@ import edu.stanford.math.plex4.datastructures.pairs.DoubleGenericPair;
 import edu.stanford.math.plex4.datastructures.pairs.DoubleGenericPairComparator;
 import edu.stanford.math.plex4.datastructures.pairs.DoubleOrderedIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.map.hash.TObjectDoubleHashMap;
+import gnu.trove.TObjectDoubleHashMap;
 
 /**
  * This class implements an in-memory stream storage mechanism where all of the

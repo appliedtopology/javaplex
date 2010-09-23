@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.free_module;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
+import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TObjectIntHashMap;
 
 import java.util.Map;
 

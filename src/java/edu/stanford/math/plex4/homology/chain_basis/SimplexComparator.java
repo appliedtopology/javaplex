@@ -6,7 +6,6 @@ package edu.stanford.math.plex4.homology.chain_basis;
 import java.util.Comparator;
 
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
-import edu.stanford.math.plex4.utility.ExceptionUtility;
 
 /**
  * This class defines the standard ordering on the Simplex class and
@@ -52,10 +51,7 @@ public class SimplexComparator implements Comparator<Simplex> {
 	/* (non-Javadoc)
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare(Simplex o1, Simplex o2) {
-		ExceptionUtility.verifyNonNull(o1);
-		ExceptionUtility.verifyNonNull(o2);
-		
+	public int compare(Simplex o1, Simplex o2) {		
 		// call the compareIntArrays function which actually performs the comparison
 		return HomologyUtility.compareIntArrays(o1.getVertices(), o2.getVertices());
 	}

@@ -427,6 +427,24 @@ public class DoubleArrayMath {
 		return dist;
 	}
 	
+	public static double squaredDistance(double[] point1, double[] point2) {
+		ExceptionUtility.verifyNonNull(point1);
+		ExceptionUtility.verifyNonNull(point2);
+		ExceptionUtility.verifyEqual(point1.length, point2.length);
+		double squaredDistance = 0;
+		double difference = 0;
+		for (int i = 0; i < point1.length; i++) {
+			difference = (point1[i] - point2[i]);
+			squaredDistance += difference * difference;
+		}
+		return squaredDistance;
+	}
+
+	public static double squaredDistance(double point1, double point2) {
+		double difference = (point1 - point2);
+		return difference * difference;
+	}
+	
 	public static double norm(double[] vector, double p) {
 		int n = vector.length;
 		double norm = 0;

@@ -3,11 +3,11 @@
  */
 package edu.stanford.math.plex4.math.matrix.impl.dense;
 
+import edu.stanford.math.plex4.array_utility.ArrayPrinting;
 import edu.stanford.math.plex4.math.matrix.interfaces.DoubleAbstractMatrix;
 import edu.stanford.math.plex4.math.matrix.interfaces.DoubleAbstractMatrixIterator;
 import edu.stanford.math.plex4.math.matrix.interfaces.DoubleAbstractVector;
 import edu.stanford.math.plex4.math.matrix.interfaces.DoubleAbstractVectorIterator;
-import edu.stanford.math.plex4.utility.ArrayUtility2;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
 /**
@@ -108,7 +108,7 @@ public class DoubleDenseMatrix extends DoubleAbstractMatrix {
 	 */
 	@Override
 	public String toString() {
-		return ArrayUtility2.toString(this.values);
+		return ArrayPrinting.toString(this.values);
 	}
 
 }

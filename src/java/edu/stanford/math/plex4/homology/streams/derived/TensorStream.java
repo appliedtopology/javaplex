@@ -5,11 +5,11 @@ package edu.stanford.math.plex4.homology.streams.derived;
 
 import java.util.Comparator;
 
+import edu.stanford.math.plex4.array_utility.ArrayCreation;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPairComparator;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.DerivedStream;
-import edu.stanford.math.plex4.utility.ArrayUtility2;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
 
@@ -41,7 +41,7 @@ public class TensorStream<T, U> extends DerivedStream<GenericPair<T, U>>{
 		T[] d_a = this.stream1.getBoundary(a);
 		U[] d_b = this.stream2.getBoundary(b);
 	
-		GenericPair<T, U>[] boundary = ArrayUtility2.newGenericArray(d_a.length + d_b.length, basisElement);
+		GenericPair<T, U>[] boundary = ArrayCreation.newGenericArray(d_a.length + d_b.length, basisElement);
 		
 		int currentDimension = this.getDimension(basisElement);
 		

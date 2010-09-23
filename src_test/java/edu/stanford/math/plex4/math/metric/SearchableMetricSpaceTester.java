@@ -2,8 +2,8 @@ package edu.stanford.math.plex4.math.metric;
 
 import static org.junit.Assert.assertTrue;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIterator;
 
 /**
  * This class contains functions for testing the validity of the

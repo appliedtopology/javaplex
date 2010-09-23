@@ -2,12 +2,12 @@ package edu.stanford.math.plex4.deprecated_tests;
 
 import org.apache.commons.math.fraction.Fraction;
 
-import edu.stanford.math.plex4.algebraic_structures.impl.IntFreeModule;
 import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntField;
 import edu.stanford.math.plex4.algebraic_structures.impl.RationalField;
-import edu.stanford.math.plex4.datastructures.IntFormalSum;
 import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.free_module.AbstractGenericFreeModule;
+import edu.stanford.math.plex4.free_module.IntFormalSum;
+import edu.stanford.math.plex4.free_module.IntFreeModule;
 import edu.stanford.math.plex4.free_module.UnorderedGenericFreeModule;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 

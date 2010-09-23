@@ -2,7 +2,7 @@ package edu.stanford.math.plex4.math.metric.impl;
 
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.TIntHashSet;
 
 public abstract class GenericFiniteMetricSpace<T> implements SearchableFiniteMetricSpace<T> {
 	protected final T[] elements;

@@ -5,8 +5,8 @@ package edu.stanford.math.plex4.math.metric.landmark;
 
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.utility.RandomUtility;
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIterator;
 
 /**
  * This class defines a landmark set in a finite metric space by random selection.

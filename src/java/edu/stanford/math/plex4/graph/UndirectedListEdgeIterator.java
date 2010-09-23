@@ -6,10 +6,10 @@ package edu.stanford.math.plex4.graph;
 import java.util.Iterator;
 
 import edu.stanford.math.plex4.datastructures.pairs.IntIntPair;
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.iterator.TIntObjectIterator;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIterator;
+import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TIntObjectIterator;
 
 /**
  * @author Andrew Tausz

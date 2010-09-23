@@ -6,13 +6,13 @@ package edu.stanford.math.plex4.homology.streams.derived;
 import java.util.Comparator;
 import java.util.Set;
 
+import edu.stanford.math.plex4.array_utility.ArrayCreation;
 import edu.stanford.math.plex4.datastructures.ReversedComparator;
 import edu.stanford.math.plex4.datastructures.pairs.IntGenericPair;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.DerivedStream;
-import edu.stanford.math.plex4.utility.ArrayUtility2;
-import gnu.trove.map.hash.THashMap;
-import gnu.trove.set.hash.THashSet;
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
 
 /**
  * @author Andrew Tausz
@@ -32,7 +32,7 @@ public class DualStream<T> extends DerivedStream<T> {
 		if (this.coboundaryMap.containsKey(basisElement)) {
 			return this.coboundaryMap.get(basisElement);
 		} else {
-			return ArrayUtility2.newGenericArray(0, basisElement);
+			return ArrayCreation.newGenericArray(0, basisElement);
 		}
 	}
 
@@ -67,7 +67,7 @@ public class DualStream<T> extends DerivedStream<T> {
 		Set<T> coboundaryKeys = coboundarySetMap.keySet();
 		for (T element: coboundaryKeys) {
 			THashSet<IntGenericPair<T>> coboundarySet = coboundarySetMap.get(element);
-			T[] coboundaryArray = ArrayUtility2.newGenericArray(coboundarySet.size(), element);
+			T[] coboundaryArray = ArrayCreation.newGenericArray(coboundarySet.size(), element);
 			int[] coboundaryCoefficients = new int[coboundarySet.size()];
 			int i = 0;
 			for (IntGenericPair<T> pair: coboundarySet) {

@@ -1,9 +1,8 @@
 package edu.stanford.math.plex4.homology.utility;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.set.TIntSet;
-import gnu.trove.set.hash.TIntHashSet;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIterator;
 
 /**
  * This class contains static utility functions to aid
@@ -99,8 +98,6 @@ public class HomologyUtility {
 	 * @return 1 if array1 > array2, 0 if array1 == array2, -1 if array1 < array2
 	 */
 	public static int compareIntArrays (int[] array1, int[] array2) {
-		ExceptionUtility.verifyNonNull(array1);
-		ExceptionUtility.verifyNonNull(array2);
 		int length1 = array1.length;
 		int length2 = array2.length;
 		if (length1 > length2) {
@@ -208,9 +205,9 @@ public class HomologyUtility {
 	 * @param set2 the second set
 	 * @return a TIntSet containing elements common to both input sets
 	 */
-	public static TIntSet computeIntersection(TIntSet set1, TIntSet set2) {
-		TIntSet smallerSet = null;
-		TIntSet largerSet = null;
+	public static TIntHashSet computeIntersection(TIntHashSet set1, TIntHashSet set2) {
+		TIntHashSet smallerSet = null;
+		TIntHashSet largerSet = null;
 		
 		/*
 		 * Let's identify the smaller and larger sets,

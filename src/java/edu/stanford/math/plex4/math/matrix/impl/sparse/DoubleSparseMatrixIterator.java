@@ -3,7 +3,7 @@ package edu.stanford.math.plex4.math.matrix.impl.sparse;
 import edu.stanford.math.plex4.math.matrix.interfaces.DoubleAbstractMatrixIterator;
 import edu.stanford.math.plex4.math.matrix.interfaces.DoubleAbstractVectorIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TIntObjectIterator;
+import gnu.trove.TIntObjectIterator;
 
 public class DoubleSparseMatrixIterator implements DoubleAbstractMatrixIterator {
 	private final TIntObjectIterator<DoubleSparseVector> rowIterator;

@@ -9,8 +9,8 @@ import edu.stanford.math.plex4.math.matrix.interfaces.BinaryAbstractVector;
 import edu.stanford.math.plex4.math.matrix.interfaces.GenericAbstractMatrix;
 import edu.stanford.math.plex4.math.matrix.interfaces.GenericAbstractMatrixIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TIntObjectIterator;
-import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TIntObjectIterator;
 
 /**
  * @author atausz

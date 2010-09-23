@@ -3,16 +3,16 @@ package edu.stanford.math.plex4.homology.streams.utility;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.stanford.math.plex4.datastructures.DoubleFormalSum;
+import edu.stanford.math.plex4.array_utility.ArrayCreation;
+import edu.stanford.math.plex4.free_module.DoubleFormalSum;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.math.metric.interfaces.FiniteMetricSpace;
-import edu.stanford.math.plex4.utility.ArrayUtility2;
 import edu.stanford.math.plex4.utility.Infinity;
-import gnu.trove.iterator.TObjectDoubleIterator;
-import gnu.trove.map.hash.TIntIntHashMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
+import gnu.trove.TIntIntHashMap;
+import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TObjectDoubleIterator;
+import gnu.trove.TObjectIntHashMap;
 
 public class SkeletalMetric implements FiniteMetricSpace<Simplex> {
 	/**
@@ -108,7 +108,7 @@ public class SkeletalMetric implements FiniteMetricSpace<Simplex> {
 	private double[][] computeShortestPaths() {
 		int N = this.size();
 		int n = this.numVertices;
-		double[][] pathLengths = ArrayUtility2.newDoubleMatrix(N, N);
+		double[][] pathLengths = ArrayCreation.newDoubleMatrix(N, N);
 		
 		// initialize distances to +infinity
 		for (int i = 0; i < N; i++) {

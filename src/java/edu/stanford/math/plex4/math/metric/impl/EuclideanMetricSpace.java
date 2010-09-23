@@ -1,6 +1,6 @@
 package edu.stanford.math.plex4.math.metric.impl;
 
-import edu.stanford.math.plex4.utility.ArrayUtility2;
+import edu.stanford.math.plex4.array_utility.DoubleArrayMath;
 
 public class EuclideanMetricSpace extends GenericFiniteMetricSpace<double[]> {
 	
@@ -10,7 +10,7 @@ public class EuclideanMetricSpace extends GenericFiniteMetricSpace<double[]> {
 
 	@Override
 	public double distance(double[] a, double[] b) {
-		return Math.sqrt(ArrayUtility2.squaredDistance(a, b));
+		return Math.sqrt(DoubleArrayMath.squaredDistance(a, b));
 	}
 
 	public int getDimension() {

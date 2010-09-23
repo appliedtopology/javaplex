@@ -1,9 +1,9 @@
 package edu.stanford.math.plex4.homology.barcodes;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TIntObjectIterator;
-import gnu.trove.map.hash.TIntIntHashMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.TIntIntHashMap;
+import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TIntObjectIterator;
 
 public class AugmentedBarcodeCollection<T> {
 	private final TIntObjectHashMap<AugmentedBarcode<T>> barcodeMap = new TIntObjectHashMap<AugmentedBarcode<T>>();

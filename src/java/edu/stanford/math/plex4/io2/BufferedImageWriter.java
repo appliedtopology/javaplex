@@ -1,5 +1,7 @@
 package edu.stanford.math.plex4.io2;
 
+import gnu.trove.THashMap;
+
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -7,8 +9,6 @@ import java.io.IOException;
 
 import com.sun.media.jai.codec.ImageCodec;
 import com.sun.media.jai.codec.ImageEncoder;
-
-import gnu.trove.map.hash.THashMap;
 
 public class BufferedImageWriter implements ObjectWriter<BufferedImage> {
 	private final String encoderFormat;

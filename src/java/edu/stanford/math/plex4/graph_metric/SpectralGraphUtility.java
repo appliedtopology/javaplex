@@ -3,8 +3,8 @@ package edu.stanford.math.plex4.graph_metric;
 import cern.colt.matrix.DoubleFactory2D;
 import cern.colt.matrix.DoubleMatrix2D;
 import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.set.TIntSet;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIterator;
 
 public class SpectralGraphUtility {
 	
@@ -13,7 +13,7 @@ public class SpectralGraphUtility {
 		DoubleMatrix2D laplacian = DoubleFactory2D.sparse.make(n, n);
 		int[] degrees = new int[n];
 		for (int i = 0; i < n; i++) {
-			TIntSet set = graph.getLowerNeighbors(i);
+			TIntHashSet set = graph.getLowerNeighbors(i);
 			for (TIntIterator iterator = set.iterator(); iterator.hasNext(); ) {
 				int j = iterator.next();
 				laplacian.setQuick(i, j, -1);

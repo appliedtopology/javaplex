@@ -6,7 +6,7 @@ package edu.stanford.math.plex4.math.matrix.impl.sparse;
 import edu.stanford.math.plex4.math.matrix.interfaces.GenericAbstractMatrix;
 import edu.stanford.math.plex4.math.matrix.interfaces.GenericAbstractMatrixIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.TIntObjectHashMap;
 
 /**
  * @author Andrew Tausz

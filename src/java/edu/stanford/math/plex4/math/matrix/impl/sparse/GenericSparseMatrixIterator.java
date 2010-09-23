@@ -5,7 +5,7 @@ package edu.stanford.math.plex4.math.matrix.impl.sparse;
 
 import edu.stanford.math.plex4.math.matrix.interfaces.GenericAbstractMatrixIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.iterator.TIntObjectIterator;
+import gnu.trove.TIntObjectIterator;
 
 /**
  * @author atausz

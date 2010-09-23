@@ -2,9 +2,8 @@ package edu.stanford.math.plex4.free_module;
 
 import java.util.Map.Entry;
 
-import edu.stanford.math.plex4.datastructures.DoubleFormalSum;
+import edu.stanford.math.plex4.array_utility.ArrayCreation;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
-import edu.stanford.math.plex4.utility.ArrayUtility2;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
 /**
@@ -48,7 +47,7 @@ public class ModuleMorphismRepresentation<R extends Number, M, N> {
 	}
 	
 	public double[][] toDoubleMatrix(UnorderedGenericFormalSum<R, GenericPair<M, N>> basisMapping) {
-		double[][] matrix = ArrayUtility2.newDoubleMatrix(this.codomainRepresentation.getDimension(), this.domainRepresentation.getDimension());
+		double[][] matrix = ArrayCreation.newDoubleMatrix(this.codomainRepresentation.getDimension(), this.domainRepresentation.getDimension());
 		
 		for (Entry<GenericPair<M, N>, R> entry: basisMapping) {
 			int row = this.codomainRepresentation.getIndex(entry.getKey().getSecond());

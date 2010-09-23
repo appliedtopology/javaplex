@@ -3,8 +3,11 @@ package edu.stanford.math.plex4.homology;
 public class PersistenceCalculationData {
 	public enum PersistenceAlgorithmType {
 		GenericClassicalHomology,
-		GenericDualityHomology,
-		GenericDualityCohomology,
+		GenericAbsoluteHomology,
+		GenericAbsoluteCohomology,
+		IntClassicalHomology,
+		IntAbsoluteHomology,
+		IntAbsoluteCohomology,
 		Plex3Homology
 	}
 	

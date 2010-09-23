@@ -1,6 +1,8 @@
 package edu.stanford.math.plex4.homology.streams.impl;
 
-import edu.stanford.math.plex4.array_utility.DoubleArrayQuery;
+import java.util.Arrays;
+
+import edu.stanford.math.plex4.array_utility.ArrayCreation;
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
@@ -70,13 +72,13 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 	@Override
 	protected UndirectedWeightedListGraph constructEdges() {
 		int N = this.metricSpace.size();
-		int n = this.landmarkSelector.size();
+		int L = this.landmarkSelector.size();
 
-		UndirectedWeightedListGraph graph = new UndirectedWeightedListGraph(n);
+		UndirectedWeightedListGraph graph = new UndirectedWeightedListGraph(L);
 
 		/*
 		 * Let N be the number of points in the metric space, and n the number of 
-		 * landmark points. Let D be the n x N matrix of distances between the set
+		 * landmark points. Let D be the L x N matrix of distances between the set
 		 * of landmark points, and the set of all points in the metric space.
 		 * 
 		 * The definition of the 1-skeleton of the lazy witness complex is as follows:
@@ -89,88 +91,74 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 		 */
 
 		/**
-		 * This is will hold the i-th column in the n x N distance matrix.
+		 * Key difference between Plex3 and Plex4:
+		 * - if landmarks[l] == n, Plex3 sets the distance to infinity
+		 * - in Plex4, the distance is just set to 0
 		 */
-		double[] distanceMatrixColumn = new double[n];
-		double[] m_i = new double[N];
-
-		for (int i = 0; i < N; i++) {
-			// form the i-th column of the distance matrix;
-			for (int k = 0; k < n; k++) {
-				distanceMatrixColumn[k] = this.metricSpace.distance(i, this.landmarkSelector.getLandmarkIndex(k));
-			}	
-
-			// get the minimum indices within the set of landmark points
-			int[] minimumIndices = DoubleArrayQuery.getMinimumIndices(distanceMatrixColumn, Math.max(2, nu));
-
-
-			// If nu = 0, then define m_i = 0, otherwise define m_i to be the nu-th smallest entry
-			// in the i-th column of D.
-			if (this.nu > 0) {
-				m_i[i] = distanceMatrixColumn[minimumIndices[this.nu - 1]];
+		
+		double[][] D = null;
+		double[] m = ArrayCreation.newDoubleArray(N);
+		
+		try {
+			D = ArrayCreation.newDoubleMatrix(L, N);
+			for (int l = 0; l < L; l++) {
+				for (int n = 0; n < N; n++) {
+					D[l][n] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(l), n);
+				}
 			}
+		} catch (OutOfMemoryError error) {
+			D = null;
+		} finally {
 		}
 		
-		for (int i_index = 0; i_index < this.landmarkSelector.size(); i_index++) {
-			int i = this.landmarkSelector.getLandmarkIndex(i_index);
-			for (int j_index = i_index + 1; j_index < this.landmarkSelector.size(); j_index++) {
-				int j = this.landmarkSelector.getLandmarkIndex(j_index);
-				double E_ij = Infinity.Double.getPositiveInfinity();
-				double R_ij = 0;
-				for (int k = 0; k < N; k++) {
-					E_ij = Math.min(E_ij, Math.max(this.metricSpace.distance(i, k), this.metricSpace.distance(j, k)));
-					R_ij = E_ij - m_i[k];
-				}
-				
-				if (R_ij < 0) {
-					R_ij = 0;
-				}
-				
-				if (R_ij <= this.maxDistance) {
-					graph.addEdge(i_index, j_index, R_ij);
-				}
-			}
-		}
-		
-		/*
-		// iterate through the columns
-		for (int i = 0; i < N; i++) {
-			// form the i-th column of the distance matrix;
-			for (int k = 0; k < n; k++) {
-				distanceMatrixColumn[k] = this.metricSpace.distance(i, this.landmarkSelector.getLandmarkIndex(k));
-			}	
-
-			// get the minimum indices within the set of landmark points
-			int[] minimumIndices = DoubleArrayQuery.getMinimumIndices(distanceMatrixColumn, Math.max(2, nu));
-
-
-			// If nu = 0, then define m_i = 0, otherwise define m_i to be the nu-th smallest entry
-			// in the i-th column of D.
-			if (this.nu > 0) {
-				m_i = distanceMatrixColumn[minimumIndices[this.nu - 1]];
-			}
-
-			for (int b_index = 0; b_index < this.landmarkSelector.size(); b_index++) {
-				int b = this.landmarkSelector.getLandmarkIndex(b_index);
-				for (int a_index = 0; a_index < b_index; a_index++) {
-					int a = this.landmarkSelector.getLandmarkIndex(a_index);
-					double edge_weight = Math.max(distanceMatrixColumn[a_index], distanceMatrixColumn[b_index]) - m_i;
-					if (edge_weight < 0) {
-						edge_weight = 0;
+		if (this.nu > 0) {
+			double[] m_temp = new double[L + 1];
+			for (int n = 0; n < N; n++) {
+				for (int l = 0; l < L; l++) {
+					if (D == null) {
+						m_temp[l + 1] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(l), n);
+					} else {
+						m_temp[l + 1] = D[l][n];
 					}
-					if (edge_weight <= this.maxDistance) {
-						//double distance = this.metricSpace.distance(a, b);
-						if (graph.containsEdge(a_index, b_index) && (graph.getWeight(a_index, b_index) > edge_weight)) {
-							graph.addEdge(a_index, b_index, edge_weight);
-						} else if (!graph.containsEdge(a_index, b_index)) {
-							graph.addEdge(a_index, b_index, edge_weight);
+				}
+				Arrays.sort(m_temp);
+				assert (m_temp[0] == 0.0);
+				m[n] = m_temp[this.nu];
+				assert (m[n] > 0.0);
+			}
+		}
+		
+		int edge_count = 0;
+		
+		{
+			double d_ijn, e_ij;
+			
+			for (int i = 0; i < L; i++) {
+				for (int j = i + 1; j < L; j++) {
+					e_ij = Infinity.Double.getPositiveInfinity();
+					for (int n = 0; n < N; n++) {
+						if (D == null) {
+							double d_in = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(i), n);
+							double d_jn = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(j), n);
+							d_ijn = Math.max(d_in, d_jn);
+						} else {
+							d_ijn = Math.max(D[i][n], D[j][n]);
 						}
+						if (d_ijn < m[n]) {
+							d_ijn = 0.0;
+						} else {
+							d_ijn -= m[n];
+						}
+						e_ij = Math.min(e_ij, d_ijn);
+					}
+					
+					if (e_ij <= this.maxDistance) {
+						graph.addEdge(i, j, e_ij);
+						edge_count++;
 					}
 				}
 			}
-
 		}
-		 */
 
 		return graph;
 	}
