@@ -140,6 +140,24 @@ public abstract class AbstractGenericFreeModule<R, M> implements GenericLeftModu
 		return this.multiply(r, this.createNewSum(ring.getOne(), a));
 	}
 	
+	public R innerProduct(AbstractGenericFormalSum<R, M> v, AbstractGenericFormalSum<R, M> w) {
+		R sum = this.ring.getZero();
+		
+		AbstractGenericFormalSum<R, M> smaller = (v.size() < w.size() ? v : w);
+		AbstractGenericFormalSum<R, M> larger = (v.size() < w.size() ? w : v);
+		
+		Iterator<Map.Entry<M, R>> iterator = smaller.iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<M, R> entry = iterator.next();
+			if (larger.containsObject(entry.getKey())) {
+				R other_coefficient = larger.getCoefficient(entry.getKey());
+				sum = this.ring.add(sum, this.ring.multiply(entry.getValue(), other_coefficient));
+			}
+		} 
+		
+		return sum;
+	}
+	
 	private void addObject(AbstractGenericFormalSum<R, M> formalSum, R coefficient, M object) {
 		ExceptionUtility.verifyNonNull(object);
 		ExceptionUtility.verifyNonNull(formalSum);

@@ -146,6 +146,23 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 		return maxObject;
 	}
 	
+	protected T high(AbstractGenericFormalSum<F, T> chain) {
+		if (chain.isEmpty()) {
+			return null;
+		}
+		
+		T maxObject = null;
+		
+		for (Iterator<Entry<T, F>> iterator = chain.iterator(); iterator.hasNext(); ) {
+			Entry<T, F> entry = iterator.next();
+			if (maxObject == null || this.filteredComparator.compare(entry.getKey(), maxObject) < 0) {
+				maxObject = entry.getKey();
+			}
+		}
+
+		return maxObject;
+	}
+	
 	/**
 	 * This function returns the columns of the boundary matrix of specified dimension.
 	 * 

@@ -220,6 +220,6 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 		}
 
 		return barcodeCollection;
-	}	
+	}
 }
 
