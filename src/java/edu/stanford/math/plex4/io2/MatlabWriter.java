@@ -3,7 +3,10 @@ package edu.stanford.math.plex4.io2;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import bsh.This;
 
 import cern.colt.matrix.DoubleMatrix1D;
 import cern.colt.matrix.DoubleMatrix2D;
@@ -87,6 +90,18 @@ public class MatlabWriter {
 			return input;
 		}
 	}
+	
+	public void writeClearAll() throws IOException {
+		this.out.write("clc; clear; close all;\n");
+	}
+	
+	public void assignValue(String varName, double value) throws IOException {
+		this.out.write(varName + " = " + value + ";");
+	}
+	
+	public void assignValue(String varName, int value) throws IOException {
+		this.out.write(varName + " = " + value + ";");
+	}
 
 	/**
 	 * This function writes a string to the file. If comment mode is turned on,
@@ -98,6 +113,11 @@ public class MatlabWriter {
 	 */
 	public void write(String string) throws IOException {
 		this.out.write(insertComments(string));
+	}
+	
+	public void writeLine(String string) throws IOException {
+		this.out.write(insertComments(string));
+		this.newLine();
 	}
 
 	/**
@@ -220,6 +240,22 @@ public class MatlabWriter {
 	public void writeColumnVector(int[] array) throws IOException {
 		this.write(toColumnVector(array));
 	}
+	
+	public <T> void writeRowVector(Iterable<T> collection) throws IOException {
+		this.write(toRowVector(collection));
+	}
+	
+	public <T> void writeColumnVector(Iterable<T> collection) throws IOException {
+		this.write(toColumnVector(collection));
+	}
+	
+	public <T> void writeRowVector(Iterable<T> collection, String name) throws IOException {
+		this.write(toRowVector(collection, name));
+	}
+
+	public <T> void writeColumnVector(Iterable<T> collection, String name) throws IOException {
+		this.write(toColumnVector(collection, name));
+	}
 
 	/*
 	 * Matrix to Stream
@@ -256,6 +292,32 @@ public class MatlabWriter {
 			}
 		}
 		this.out.write("];");
+	}
+	
+	public void writeSparseMatrix(double[][] matrix, String name) throws IOException {
+		this.out.write("tmp_m = " + matrix.length + ";\n");
+		this.out.write("tmp_n = " + matrix[0].length + ";\n");
+		List<Integer> _tmp_i = new ArrayList<Integer>();
+		List<Integer> _tmp_j = new ArrayList<Integer>();
+		List<Double> _tmp_s = new ArrayList<Double>();
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				if (matrix[i][j] != 0) {
+					_tmp_i.add(i + 1);
+					_tmp_j.add(j + 1);
+					_tmp_s.add(matrix[i][j]);
+				}
+			}
+		}
+		
+		this.writeRowVector(_tmp_i, "tmp_i");
+		this.newLine();
+		this.writeRowVector(_tmp_j, "tmp_j");
+		this.newLine();
+		this.writeRowVector(_tmp_s, "tmp_s");
+		this.newLine();
+		this.out.write(name + " = sparse(tmp_i, tmp_j, tmp_s, tmp_m, tmp_n);");
+		this.newLine();
 	}
 
 	public void writeMatrix(double[][] matrix, String name) throws IOException {
@@ -325,6 +387,22 @@ public class MatlabWriter {
 	public static String toColumnVector(double[] array) {
 		return toVector(array, "; ");
 	}
+	
+	public static <T> String toRowVector(Iterable<T> collection, String name) {
+		return (name + " = " + toVector(collection, ", ") + ";");
+	}
+
+	public static <T> String toColumnVector(Iterable<T> collection, String name) {
+		return (name + " = " + toVector(collection, "; ") + ";");
+	}
+	
+	public static <T> String toRowVector(Iterable<T> collection) {
+		return toVector(collection, ", ");
+	}
+	
+	public static <T> String toColumnVector(Iterable<T> collection) {
+		return toVector(collection, "; ");
+	}
 
 	/*
 	 * Matrix to String
@@ -346,6 +424,23 @@ public class MatlabWriter {
 	 * Helper functions
 	 */
 
+	private static <T> String toVector(Iterable<T> collection, String separator) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("[");
+		
+		int i = 0;
+		for (T element : collection) {
+			if (i > 0) {
+				stringBuilder.append(separator);
+			}
+			stringBuilder.append(element.toString());
+			i++;
+		}
+		
+		stringBuilder.append("]");
+		return stringBuilder.toString();
+	}
+	
 	private static String toVector(int[] array, String separator) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("[");
