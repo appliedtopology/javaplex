@@ -46,7 +46,7 @@ public class ModuleMorphismRepresentation<R extends Number, M, N> {
 		return this.codomainRepresentation;
 	}
 	
-	public double[][] toDoubleMatrix(UnorderedGenericFormalSum<R, GenericPair<M, N>> basisMapping) {
+	public double[][] toDoubleMatrix(AbstractGenericFormalSum<R, GenericPair<M, N>> basisMapping) {
 		double[][] matrix = ArrayCreation.newDoubleMatrix(this.codomainRepresentation.getDimension(), this.domainRepresentation.getDimension());
 		
 		for (Entry<GenericPair<M, N>, R> entry: basisMapping) {

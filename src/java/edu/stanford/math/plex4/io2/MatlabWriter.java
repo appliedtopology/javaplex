@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bsh.This;
-
 import cern.colt.matrix.DoubleMatrix1D;
 import cern.colt.matrix.DoubleMatrix2D;
 
@@ -307,6 +305,30 @@ public class MatlabWriter {
 					_tmp_j.add(j + 1);
 					_tmp_s.add(matrix[i][j]);
 				}
+			}
+		}
+		
+		this.writeRowVector(_tmp_i, "tmp_i");
+		this.newLine();
+		this.writeRowVector(_tmp_j, "tmp_j");
+		this.newLine();
+		this.writeRowVector(_tmp_s, "tmp_s");
+		this.newLine();
+		this.out.write(name + " = sparse(tmp_i, tmp_j, tmp_s, tmp_m, tmp_n);");
+		this.newLine();
+	}
+	
+	public void writeSparseVector(double[] matrix, String name) throws IOException {
+		this.out.write("tmp_m = " + matrix.length + ";\n");
+		this.out.write("tmp_n = " + 1 + ";\n");
+		List<Integer> _tmp_i = new ArrayList<Integer>();
+		List<Integer> _tmp_j = new ArrayList<Integer>();
+		List<Double> _tmp_s = new ArrayList<Double>();
+		for (int i = 0; i < matrix.length; i++) {
+			if (matrix[i] != 0) {
+				_tmp_i.add(i + 1);
+				_tmp_j.add(1);
+				_tmp_s.add(matrix[i]);
 			}
 		}
 		

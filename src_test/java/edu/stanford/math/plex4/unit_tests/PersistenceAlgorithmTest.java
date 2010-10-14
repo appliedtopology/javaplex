@@ -15,14 +15,12 @@ import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.homology.LazyWitnessSpecifier;
 import edu.stanford.math.plex4.homology.PersistenceAlgorithmResult;
 import edu.stanford.math.plex4.homology.PersistenceAlgorithmTester;
-import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
 import edu.stanford.math.plex4.homology.VietorisRipsSpecifier;
+import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
-import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.landmark.MaxMinLandmarkSelector;
 import edu.stanford.math.plex4.utility.RandomUtility;
 import gnu.trove.THashMap;
 

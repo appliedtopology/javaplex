@@ -114,7 +114,7 @@ public class FreeModuleRepresentation<R extends Number, M> {
 		return array;
 	}*/
 	
-	public double[] toDoubleArray(UnorderedGenericFormalSum<R, M> formalSum) {
+	public double[] toDoubleArray(AbstractGenericFormalSum<R, M> formalSum) {
 		double[] array = new double[this.dimension];
 		
 		for (Map.Entry<M, R> entry: formalSum) {
