@@ -52,7 +52,7 @@ public class DualStream<T> extends DerivedStream<T> {
 	protected void constructDerivedStream() {
 		THashMap<T, THashSet<IntGenericPair<T>>> coboundarySetMap = new THashMap<T, THashSet<IntGenericPair<T>>>();
 		for (T a: this.forwardStream) {
-			this.storageStructure.addElement(a, this.forwardStream.getFiltrationValue(a));
+			this.storageStructure.addElement(a, this.forwardStream.getFiltrationIndex(a));
 			T[] boundary = this.forwardStream.getBoundary(a);
 			int[] boundaryCoefficients = this.forwardStream.getBoundaryCoefficients(a);
 			for (int i = 0; i < boundary.length; i++) {
@@ -85,5 +85,9 @@ public class DualStream<T> extends DerivedStream<T> {
 		if (!forwardStream.isFinalized()) {
 			forwardStream.finalizeStream();
 		}
+	}
+	
+	public double getFiltrationValue(T basisElement) {
+		return forwardStream.getFiltrationValue(basisElement);
 	}
 }

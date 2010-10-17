@@ -30,11 +30,11 @@ public class CellComplexOperations {
 		ExplicitCellStream union = new ExplicitCellStream();
 
 		for (Cell cell: stream1) {
-			union.addElement(cell, stream1.getFiltrationValue(cell));
+			union.addElement(cell, stream1.getFiltrationIndex(cell));
 		}
 		
 		for (Cell cell: stream2) {
-			union.addElement(cell, stream2.getFiltrationValue(cell));
+			union.addElement(cell, stream2.getFiltrationIndex(cell));
 		}
 		
 		return union;

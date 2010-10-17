@@ -64,8 +64,8 @@ public abstract class DerivedStream<T> implements AbstractFilteredStream<T> {
 		this.storageStructure.setAsFinalized();
 	}
 
-	public final double getFiltrationValue(T basisElement) {
-		return this.storageStructure.getFiltrationValue(basisElement);
+	public final int getFiltrationIndex(T basisElement) {
+		return this.storageStructure.getFiltrationIndex(basisElement);
 	}
 
 	public final boolean isFinalized() {

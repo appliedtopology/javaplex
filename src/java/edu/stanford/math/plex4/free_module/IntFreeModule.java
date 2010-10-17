@@ -174,4 +174,12 @@ public class IntFreeModule<M> implements IntLeftModule<IntFormalSum<M>> {
 			this.addObject(a, c * iterator.value(), iterator.key());
 		}
 	}
+	
+	public void accumulate(IntFormalSum<M> a, M b) {
+		this.addObject(a, 1, b);
+	}
+
+	public void accumulate(IntFormalSum<M> a, M b, int c) {
+		this.addObject(a, c, b);
+	}
 }

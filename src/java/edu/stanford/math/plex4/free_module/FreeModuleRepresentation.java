@@ -4,8 +4,6 @@ import edu.stanford.math.plex4.utility.ExceptionUtility;
 import gnu.trove.TIntObjectHashMap;
 import gnu.trove.TObjectIntHashMap;
 
-import java.util.Map;
-
 /**
  * This class implements the isomorphism between a free module on a set of
  * finite generators, and the module R^n, where R is a commutative ring.
@@ -20,29 +18,29 @@ import java.util.Map;
  * @param <R> the type of the underlying ring
  * @param <M> the type of the set of free generators
  */
-public class FreeModuleRepresentation<R extends Number, M> {
+public class FreeModuleRepresentation<R, M> {
 	/**
 	 * This is the iterable collection of elements which constitute the free basis
 	 * of the module.
 	 */
-	private final Iterable<M> stream;
+	protected final Iterable<M> stream;
 	
 	/**
 	 * This maps a basis element to an index. The index is the appropriate
 	 * index of the standard basis vector the generating element is mapped to.
 	 */
-	private final TObjectIntHashMap<M> indexMapping = new TObjectIntHashMap<M>();
+	protected final TObjectIntHashMap<M> indexMapping = new TObjectIntHashMap<M>();
 	
 	/**
 	 * This maps an index (ie. the index of a standard basis vector) to a generating
 	 * element of the free module.
 	 */
-	private final TIntObjectHashMap<M> basisMapping = new TIntObjectHashMap<M>();
+	protected final TIntObjectHashMap<M> basisMapping = new TIntObjectHashMap<M>();
 	
 	/**
 	 * This stores the cardinality of the generating set of the module.
 	 */
-	private final int dimension;
+	protected final int dimension;
 	
 	/**
 	 * This constructor initializes the object with an Iterable stream of the 
@@ -113,17 +111,6 @@ public class FreeModuleRepresentation<R extends Number, M> {
 		
 		return array;
 	}*/
-	
-	public double[] toDoubleArray(AbstractGenericFormalSum<R, M> formalSum) {
-		double[] array = new double[this.dimension];
-		
-		for (Map.Entry<M, R> entry: formalSum) {
-			int index = this.getIndex(entry.getKey());
-			array[index] = entry.getValue().doubleValue();
-		}
-		
-		return array;
-	}
 	
 	public UnorderedGenericFormalSum<R, M> toFormalSum(R[] array) {
 		UnorderedGenericFormalSum<R, M> sum = new UnorderedGenericFormalSum<R, M>();

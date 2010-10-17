@@ -71,9 +71,9 @@ public class PersistenceAlgorithmTest {
 		
 		*/
 		persistenceAlgorithms.add(PersistenceAlgorithmType.Plex3Homology);
-		//persistenceAlgorithms.add(PersistenceAlgorithmType.GenericClassicalHomology);
-		//persistenceAlgorithms.add(PersistenceAlgorithmType.IntAbsoluteHomology);
-		//persistenceAlgorithms.add(PersistenceAlgorithmType.GenericAbsoluteHomology);
+		persistenceAlgorithms.add(PersistenceAlgorithmType.IntClassicalHomology);
+		persistenceAlgorithms.add(PersistenceAlgorithmType.IntAbsoluteHomology);
+		persistenceAlgorithms.add(PersistenceAlgorithmType.GenericAbsoluteHomology);
 		persistenceAlgorithms.add(PersistenceAlgorithmType.GenericAbsoluteCohomology);
 		
 	}

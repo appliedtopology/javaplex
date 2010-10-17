@@ -1,11 +1,14 @@
 package edu.stanford.math.plex4.homology;
 
+import org.apache.commons.math.fraction.Fraction;
+
 import edu.stanford.math.plex.EuclideanArrayData;
 import edu.stanford.math.plex.PersistenceInterval;
 import edu.stanford.math.plex.Plex;
 import edu.stanford.math.plex.RipsStream;
 import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntField;
 import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntegerField;
+import edu.stanford.math.plex4.algebraic_structures.impl.RationalField;
 import edu.stanford.math.plex4.array_utility.IntArrayMath;
 import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
@@ -14,6 +17,8 @@ import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.homology.streams.impl.VietorisRipsStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex4.homology.streams.storage_structures.HashedStorageStructure;
+import edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure;
 import edu.stanford.math.plex4.homology.streams.utility.StreamUtility;
 import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
@@ -31,7 +36,8 @@ public class PersistenceAlgorithmTester {
 			Timing.restart();
 			
 			SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
-			VietorisRipsStream<double[]> stream = new VietorisRipsStream<double[]>(metricSpace, maxFiltrationValue, maxDimension + 1, numDivisions);
+			StreamStorageStructure<Simplex> structure = new HashedStorageStructure(SimplexComparator.getInstance());
+			VietorisRipsStream<double[]> stream = new VietorisRipsStream<double[]>(metricSpace, maxFiltrationValue, maxDimension + 1, numDivisions, structure);
 			stream.finalizeStream();
 			BarcodeCollection barcodeCollection = computePlex4Barcodes(stream, maxDimension, type);
 			
@@ -206,7 +212,7 @@ public class PersistenceAlgorithmTester {
 	}
 	
 	private static BarcodeCollection computeGenericAbsoluteCohomology(AbstractFilteredStream<Simplex> stream, int d) {
-		GenericPersistenceAlgorithm<Integer, Simplex> homology = new GenericAbsoluteCohomology<Integer, Simplex>(ModularIntegerField.getInstance(13), SimplexComparator.getInstance(), d);
+		GenericPersistenceAlgorithm<Fraction, Simplex> homology = new GenericAbsoluteCohomology<Fraction, Simplex>(RationalField.getInstance(), SimplexComparator.getInstance(), d);
 		BarcodeCollection barcodes = homology.computeIntervals(stream);
 		return barcodes;
 	}

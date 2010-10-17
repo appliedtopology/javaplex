@@ -45,9 +45,9 @@ public class ExplicitCellStream extends ExplicitStream<Cell> {
 	}
 	
 	@Override
-	public void addElement(Cell basisElement, double filtrationValue) {
+	public void addElement(Cell basisElement, int filtrationIndex) {
 		this.indexCellMap.put(basisElement.getCellId(), basisElement);
-		this.storageStructure.addElement(basisElement, filtrationValue);
+		this.storageStructure.addElement(basisElement, filtrationIndex);
 	}
 	
 	/*

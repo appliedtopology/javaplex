@@ -13,7 +13,11 @@ public class ArrayPrinting {
 				if (j > 0) {
 					builder.append(", ");
 				}
-				builder.append(array[i][j]);
+				if (array[i][j] != null) {
+					builder.append(array[i][j]);
+				} else {
+					builder.append(" ");
+				}
 			}
 			builder.append("]\n");
 		}

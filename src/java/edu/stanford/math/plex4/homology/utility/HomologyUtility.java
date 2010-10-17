@@ -122,9 +122,6 @@ public class HomologyUtility {
 	 * @return
 	 */
 	public static int[] removeIndex(int[] array, int index) {
-		ExceptionUtility.verifyNonNull(array);
-		ExceptionUtility.verifyIndex(array.length, index);
-		ExceptionUtility.verifyNonEmpty(array);
 		
 		int[] result = new int[array.length - 1];
 		int newIndex = 0;
@@ -150,7 +147,6 @@ public class HomologyUtility {
 	 * @return the supplied array with newValue appended
 	 */
 	public static int[] appendToArray(int[] array, int newValue) {
-		ExceptionUtility.verifyNonNull(array);
 		int[] result = new int[array.length + 1];
 		for (int i = 0; i < array.length; i++) {
 			result[i] = array[i];

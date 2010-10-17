@@ -4,6 +4,8 @@
 package edu.stanford.math.plex4.homology.streams.impl;
 
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
+import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import gnu.trove.TIntHashSet;
@@ -38,11 +40,17 @@ public class VietorisRipsStream<T> extends FlagComplexStream {
 	 * @param maxDimension the maximum dimension of the complex
 	 */
 	public VietorisRipsStream(SearchableFiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension) {
-		this(metricSpace, maxDistance, maxDimension, 100);
+		this(metricSpace, maxDistance, maxDimension, 20);
 	}
 	
 	public VietorisRipsStream(SearchableFiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int numDivisions) {
 		super(maxDimension, maxDistance, numDivisions);
+		ExceptionUtility.verifyNonNull(metricSpace);
+		this.metricSpace = metricSpace;
+	}
+	
+	public VietorisRipsStream(SearchableFiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int numDivisions, StreamStorageStructure<Simplex> storageStructure) {
+		super(maxDimension, maxDistance, numDivisions, storageStructure);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		this.metricSpace = metricSpace;
 	}

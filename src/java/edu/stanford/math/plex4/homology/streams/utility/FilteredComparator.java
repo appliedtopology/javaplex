@@ -14,8 +14,8 @@ public class FilteredComparator<M> implements Comparator<M> {
 	}
 	
 	public int compare(M arg0, M arg1) {
-		double filtration0 = stream.getFiltrationValue(arg0);
-		double filtration1 = stream.getFiltrationValue(arg1);
+		int filtration0 = stream.getFiltrationIndex(arg0);
+		int filtration1 = stream.getFiltrationIndex(arg1);
 		
 		if (filtration0 < filtration1) {
 			return -1;
@@ -23,6 +23,7 @@ public class FilteredComparator<M> implements Comparator<M> {
 			return 1;
 		} else {
 			return this.basisComparator.compare(arg0, arg1);
+			//return 0;
 		}
 	}
 }

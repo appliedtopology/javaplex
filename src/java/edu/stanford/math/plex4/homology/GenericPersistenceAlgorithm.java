@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
+import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.free_module.AbstractGenericFreeModule;
 import edu.stanford.math.plex4.free_module.OrderedGenericFormalSum;
@@ -16,6 +17,7 @@ import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.utility.FilteredComparator;
+import gnu.trove.THashMap;
 
 /**
  * This class implements the persistent homology and cohomology algorithms
@@ -183,5 +185,32 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 		}
 
 		return D;
+	}
+	
+	protected boolean verifyDecomposition(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
+		THashMap<T, AbstractGenericFormalSum<F, T>> R_perp = RV_pair.getFirst();
+		THashMap<T, AbstractGenericFormalSum<F, T>> V_perp = RV_pair.getSecond();
+
+		for (T i: stream) {
+			AbstractGenericFormalSum<F, T> D_row = chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i));
+			for (T j: stream) {
+				AbstractGenericFormalSum<F, T> V_col = V_perp.get(j);
+				F product_entry = this.chainModule.innerProduct(D_row, V_col);
+				F R_entry;
+				if (R_perp.contains(j)) {
+					R_entry = R_perp.get(j).getCoefficient(i);
+					if (R_entry == null) {
+						R_entry = this.field.getZero();
+					}
+				} else {
+					R_entry = this.field.getZero();
+				}
+				if (!R_entry.equals(product_entry)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 }

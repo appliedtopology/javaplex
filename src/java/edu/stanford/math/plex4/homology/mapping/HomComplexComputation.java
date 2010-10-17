@@ -25,8 +25,8 @@ import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.free_module.AbstractGenericFreeModule;
 import edu.stanford.math.plex4.free_module.DoubleFormalSum;
 import edu.stanford.math.plex4.free_module.DoubleFreeModule;
-import edu.stanford.math.plex4.free_module.FreeModuleRepresentation;
-import edu.stanford.math.plex4.free_module.ModuleMorphismRepresentation;
+import edu.stanford.math.plex4.free_module.NumericFreeModuleRepresentation;
+import edu.stanford.math.plex4.free_module.NumericModuleMorphismRepresentation;
 import edu.stanford.math.plex4.free_module.UnorderedGenericFreeModule;
 import edu.stanford.math.plex4.functional.GenericDoubleFunction;
 import edu.stanford.math.plex4.homology.GenericAbsoluteHomology;
@@ -198,7 +198,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 	public void produceMatlabOutput() throws IOException {
 		//String filename = FileManager.getUniqueFilePath("hom", "m");
 		MatlabWriter writer = MatlabInterface.makeNewMatlabWriter("hom_data");
-		ModuleMorphismRepresentation<F, M, N> rep = new ModuleMorphismRepresentation<F, M, N>(this.domainStream, this.codomainStream);
+		NumericModuleMorphismRepresentation<F, M, N> rep = new NumericModuleMorphismRepresentation<F, M, N>(this.domainStream, this.codomainStream);
 		System.out.println("Computing Generating Cycles");
 		List<AbstractGenericFormalSum<F, GenericPair<M, N>>> generatingCycles = this.computeGeneratingCycles();
 		AbstractGenericFormalSum<F, GenericPair<M, N>> cycleSum = this.sumGeneratingCycles(generatingCycles);
@@ -252,7 +252,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 		//String filename = FileManager.getUniqueFilePath("hom", "m");
 		MatlabWriter writer = MatlabInterface.makeNewMatlabWriter("hom_data2");
 		//ModuleMorphismRepresentation<F, M, N> rep = new ModuleMorphismRepresentation<F, M, N>(this.domainStream, this.codomainStream);
-		FreeModuleRepresentation<F, GenericPair<M, N>> rep = new FreeModuleRepresentation<F, GenericPair<M, N>>(this.homStream);
+		NumericFreeModuleRepresentation<F, GenericPair<M, N>> rep = new NumericFreeModuleRepresentation<F, GenericPair<M, N>>(this.homStream);
 		System.out.println("Computing Generating Cycles");
 		List<AbstractGenericFormalSum<F, GenericPair<M, N>>> generatingCycles = this.computeGeneratingCycles();
 		AbstractGenericFormalSum<F, GenericPair<M, N>> cycleSum = this.sumGeneratingCycles(generatingCycles);
@@ -285,7 +285,7 @@ public class HomComplexComputation<F extends Number, M, N> {
 		return array;
 	}
 	
-	private double[][] createHomotopyMatrix(List<AbstractGenericFormalSum<F, GenericPair<M, N>>> homotopies, FreeModuleRepresentation<F, GenericPair<M, N>> rep) {
+	private double[][] createHomotopyMatrix(List<AbstractGenericFormalSum<F, GenericPair<M, N>>> homotopies, NumericFreeModuleRepresentation<F, GenericPair<M, N>> rep) {
 		int m = homotopies.size();
 		int n = rep.getDimension();
 		double[][] matrix = ArrayCreation.newDoubleMatrix(m, n);

@@ -4,18 +4,18 @@ import java.util.Comparator;
 
 import edu.stanford.math.plex4.utility.MathUtility;
 
-public class DoubleGenericPairComparator<T> implements Comparator<DoubleGenericPair<T>> {
+public class IntGenericPairComparator<T> implements Comparator<IntGenericPair<T>> {
 
 	private final Comparator<T> genericComparator;
 	
-	public DoubleGenericPairComparator(Comparator<T> genericComparator) {
+	public IntGenericPairComparator(Comparator<T> genericComparator) {
 		this.genericComparator = genericComparator;
 	}
 	
 	/* (non-Javadoc)
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare(DoubleGenericPair<T> o1, DoubleGenericPair<T> o2) {
+	public int compare(IntGenericPair<T> o1, IntGenericPair<T> o2) {
 		int comparison = MathUtility.signum(o1.getFirst() - o2.getFirst());
 		if (comparison != 0) {
 			return comparison;

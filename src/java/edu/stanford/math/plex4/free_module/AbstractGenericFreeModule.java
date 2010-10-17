@@ -158,7 +158,7 @@ public abstract class AbstractGenericFreeModule<R, M> implements GenericLeftModu
 		return sum;
 	}
 	
-	private void addObject(AbstractGenericFormalSum<R, M> formalSum, R coefficient, M object) {
+	public void addObject(AbstractGenericFormalSum<R, M> formalSum, R coefficient, M object) {
 		ExceptionUtility.verifyNonNull(object);
 		ExceptionUtility.verifyNonNull(formalSum);
 		ExceptionUtility.verifyNonNull(coefficient);
@@ -212,5 +212,19 @@ public abstract class AbstractGenericFreeModule<R, M> implements GenericLeftModu
 		for (Map.Entry<M, R> entry: b) {
 			this.addObject(a, ring.multiply(c, entry.getValue()), entry.getKey());
 		}
+	}
+	
+	public void accumulate(AbstractGenericFormalSum<R, M> a, M b) {
+		ExceptionUtility.verifyNonNull(a);
+		ExceptionUtility.verifyNonNull(b);
+		
+		this.addObject(a, this.ring.getOne(), b);
+	}
+	
+	public void accumulate(AbstractGenericFormalSum<R, M> a, M b, R c) {
+		ExceptionUtility.verifyNonNull(a);
+		ExceptionUtility.verifyNonNull(b);
+		
+		this.addObject(a, c, b);
 	}
 }

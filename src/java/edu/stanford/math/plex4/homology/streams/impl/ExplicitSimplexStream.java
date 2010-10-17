@@ -19,7 +19,7 @@ public class ExplicitSimplexStream extends ExplicitStream<Simplex> {
 		this.addElement(new Simplex(vertices), 0);
 	}
 	
-	public void addElement(int[] vertices, double filtrationValue) {
-		this.addElement(new Simplex(vertices), filtrationValue);
+	public void addElement(int[] vertices, int filtrationIndex) {
+		this.addElement(new Simplex(vertices), filtrationIndex);
 	}
 }

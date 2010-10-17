@@ -7,6 +7,7 @@ import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.streams.interfaces.PrimitiveStream;
+import edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIterator;
@@ -65,6 +66,13 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 		this.numDivisions = numDivisions;
 	}
 	
+	public FlagComplexStream(int maxAllowableDimension, double maxDistance, int numDivisions, StreamStorageStructure<Simplex> storageStructure) {
+		super(storageStructure);
+		this.maxAllowableDimension = maxAllowableDimension;
+		this.maxDistance = maxDistance;
+		this.numDivisions = numDivisions;
+	}
+	
 	/**
 	 * This function implements the construction of the 1-skeleton. It must output
 	 * a list containing pairs of filtration values and 1-simplices. The filtration
@@ -77,6 +85,10 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 	
 	public UndirectedWeightedListGraph getNeighborhoodGraph() {
 		return this.neighborhoodGraph;
+	}
+
+	public double getFiltrationValue(Simplex simplex) {
+		return this.computeFiltrationValue(this.storageStructure.getFiltrationIndex(simplex));
 	}
 	
 	@Override
@@ -116,7 +128,8 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 	 */
 	protected void addCofaces(UndirectedWeightedListGraph G, int k, Simplex tau, TIntHashSet N, double filtrationValue) {
 		// add the current simplex to the complex
-		this.storageStructure.addElement(tau, this.discretizeFiltrationValue(filtrationValue));
+		//this.storageStructure.addElement(tau, this.discretizeFiltrationValue(filtrationValue));
+		this.storageStructure.addElement(tau, this.computeFiltrationIndex(filtrationValue));
 		
 		// exit if the dimension is the maximum allowed
 		if (tau.getDimension() >= k) {
@@ -158,11 +171,12 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 		}
 	}
 	
-	protected double discretizeFiltrationValue(double filtrationValue) {
-		if (this.numDivisions == 0) {
-			return filtrationValue;
-		}
-		
-		return (((double) Math.floor((filtrationValue / this.maxDistance) * this.numDivisions)) / this.numDivisions) * this.maxDistance;
+	
+	protected int computeFiltrationIndex(double filtrationValue) {
+		return (int) ((filtrationValue / this.maxDistance) * this.numDivisions);
+	}
+	
+	protected double computeFiltrationValue(int filtrationIndex) {
+		return ((double) (filtrationIndex * this.maxDistance)) / ((double) this.numDivisions); 
 	}
 }

@@ -1,6 +1,6 @@
 package edu.stanford.math.plex4.array_utility;
 
-import java.util.List;
+import java.util.Collection;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 
@@ -48,30 +48,30 @@ public class DoubleArrayManipulation {
 		return result;
 	}
 	
-	public static double[][] stackRows(List<double[]> vectors) {
-		ExceptionUtility.verifyPositive(vectors.size());
-		int n = vectors.get(0).length;
+	public static double[][] stackRows(Collection<double[]> vectors) {
 		int m = vectors.size();
+		int n = vectors.iterator().next().length;
 		double[][] result = new double[m][n];
-		for (int i = 0; i < m; i++) {
-			ExceptionUtility.verifyEqual(n, vectors.get(i).length);
+		int i = 0;
+		for (double[] row: vectors) {
 			for (int j = 0; j < n; j++) {
-				result[i][j] = vectors.get(i)[j];
+				result[i][j] = row[j];
 			}
+			i++;
 		}
 		return result;
 	}
 	
-	public static double[][] stackColumns(List<double[]> vectors) {
-		ExceptionUtility.verifyPositive(vectors.size());
-		int m = vectors.get(0).length;
-		int n = vectors.size();
-		double[][] result = new double[m][n];
-		for (int j = 0; j < n; j++) {
-			ExceptionUtility.verifyEqual(m, vectors.get(j).length);
-			for (int i = 0; i < m; i++) {
-				result[i][j] = vectors.get(j)[i];
+	public static double[][] stackColumns(Collection<double[]> vectors) {
+		int m = vectors.size();
+		int n = vectors.iterator().next().length;
+		double[][] result = new double[n][m];
+		int i = 0;
+		for (double[] row: vectors) {
+			for (int j = 0; j < n; j++) {
+				result[j][i] = row[j];
 			}
+			i++;
 		}
 		return result;
 	}
@@ -89,18 +89,16 @@ public class DoubleArrayManipulation {
 		return result;
 	}
 	
-	public static double[] concatenate(List<double[]> vectors) {
-		ExceptionUtility.verifyPositive(vectors.size());
+	public static double[] concatenate(Iterable<double[]> vectors) {
 		int totalSize = 0;
-		int numVectors = vectors.size();
-		for (int vectorIndex = 0; vectorIndex < numVectors; vectorIndex++) {
-			totalSize += vectors.get(vectorIndex).length;
+		for (double[] vector: vectors) {
+			totalSize += vector.length;
 		}
 		double[] result = new double[totalSize];
 		int writeIndex = 0;
-		for (int vectorIndex = 0; vectorIndex < numVectors; vectorIndex++) {
-			for (int i = 0; i < vectors.get(vectorIndex).length; i++) {
-				result[writeIndex] = vectors.get(vectorIndex)[i];
+		for (double[] vector: vectors) {
+			for (int i = 0; i < vector.length; i++) {
+				result[writeIndex] = vector[i];
 				writeIndex++;
 			}
 		}

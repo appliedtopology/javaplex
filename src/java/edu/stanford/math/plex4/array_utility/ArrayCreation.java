@@ -33,7 +33,11 @@ public class ArrayCreation {
 	
 	public static <T> T[] newGenericArray(int length, T initializer) {
 		//return ((T[]) new Object[length]);
-		
 		return ((T[]) Array.newInstance(initializer.getClass(), length));
+	}
+	
+	public static <T> T[][] newGenericMatrix(int rows, int columns, T initializer) {
+		//return ((T[]) new Object[length]);
+		return ((T[][]) Array.newInstance(initializer.getClass(), new int[]{rows, columns}));
 	}
 }

@@ -79,8 +79,8 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 		this.storageStructure.setAsFinalized();
 	}
 
-	public final double getFiltrationValue(T basisElement) {
-		return this.storageStructure.getFiltrationValue(basisElement);
+	public final int getFiltrationIndex(T basisElement) {
+		return this.storageStructure.getFiltrationIndex(basisElement);
 	}
 
 	public final boolean isFinalized() {
@@ -104,7 +104,7 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 	 */
 	public boolean validate() {	
 		for (T basisElement: this.storageStructure) {
-			double filtrationValue = this.getFiltrationValue(basisElement);
+			int filtrationIndex = this.getFiltrationIndex(basisElement);
 
 			// get the boundary
 			T[] boundary = this.getBoundary(basisElement);
@@ -116,7 +116,7 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 				
 				// if the face's filtration value is greater than that of the
 				// current simplex, the stream is also inconsistent
-				if (this.storageStructure.getFiltrationValue(face) > filtrationValue) {
+				if (this.storageStructure.getFiltrationIndex(face) > filtrationIndex) {
 					return false;
 				}
 			}

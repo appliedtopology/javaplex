@@ -1,10 +1,11 @@
 package edu.stanford.math.plex4.free_module;
 
-import java.util.Map.Entry;
+import java.util.Map;
 
 import edu.stanford.math.plex4.array_utility.ArrayCreation;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import gnu.trove.THashMap;
 
 /**
  * This class computes matrix representations of module homomorphisms
@@ -17,9 +18,9 @@ import edu.stanford.math.plex4.utility.ExceptionUtility;
  * @param <M> the type of the generating set of the domain
  * @param <N> the type of the generating set of the codomain
  */
-public class ModuleMorphismRepresentation<R extends Number, M, N> {
-	private final FreeModuleRepresentation<R, M> domainRepresentation;
-	private final FreeModuleRepresentation<R, N> codomainRepresentation;
+public class ModuleMorphismRepresentation<R, M, N> {
+	protected final FreeModuleRepresentation<R, M> domainRepresentation;
+	protected final FreeModuleRepresentation<R, N> codomainRepresentation;
 	
 	/**
 	 * This constructor initializes the object with a basis for the domain and codomain.
@@ -46,16 +47,7 @@ public class ModuleMorphismRepresentation<R extends Number, M, N> {
 		return this.codomainRepresentation;
 	}
 	
-	public double[][] toDoubleMatrix(AbstractGenericFormalSum<R, GenericPair<M, N>> basisMapping) {
-		double[][] matrix = ArrayCreation.newDoubleMatrix(this.codomainRepresentation.getDimension(), this.domainRepresentation.getDimension());
-		
-		for (Entry<GenericPair<M, N>, R> entry: basisMapping) {
-			int row = this.codomainRepresentation.getIndex(entry.getKey().getSecond());
-			int column = this.domainRepresentation.getIndex(entry.getKey().getFirst());
-			matrix[row][column] = entry.getValue().doubleValue();
-		}
-		return matrix;
-	}
+	
 	
 	public UnorderedGenericFormalSum<R, GenericPair<M, N>> toBasisMapping(R[][] matrix) {
 		UnorderedGenericFormalSum<R, GenericPair<M, N>> sum = new UnorderedGenericFormalSum<R, GenericPair<M, N>>();
@@ -77,5 +69,24 @@ public class ModuleMorphismRepresentation<R extends Number, M, N> {
 			}
 		}
 		return sum;
+	}
+	
+	public R[][] toMatrix(THashMap<M, AbstractGenericFormalSum<R, N>> columnList, R initializer) {
+		R[][] matrix = ArrayCreation.newGenericMatrix(this.codomainRepresentation.getDimension(), this.domainRepresentation.getDimension(), initializer);
+		
+		for (int i = 0; i < this.codomainRepresentation.getDimension(); i++)
+			for (int j = 0; j < this.domainRepresentation.getDimension(); j++)
+				matrix[i][j] = initializer;
+		
+		for (M key: columnList.keySet()) {
+			AbstractGenericFormalSum<R, N> column = columnList.get(key);
+			int columnIndex = this.domainRepresentation.getIndex(key);
+			for (Map.Entry<N, R> entry: column) {
+				int rowIndex = this.codomainRepresentation.getIndex(entry.getKey());
+				matrix[rowIndex][columnIndex] = entry.getValue();
+			}
+		}
+		
+		return matrix;
 	}
 }

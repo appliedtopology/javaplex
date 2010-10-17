@@ -1,6 +1,5 @@
 package edu.stanford.math.plex4.free_module;
 
-import edu.stanford.math.plex4.utility.ExceptionUtility;
 import gnu.trove.TObjectIntHashMap;
 import gnu.trove.TObjectIntIterator;
 
@@ -63,7 +62,6 @@ public class IntFormalSum<M> {
 	 * @param map the hash map to import from
 	 */
 	private IntFormalSum(TObjectIntHashMap<M> map) {
-		ExceptionUtility.verifyNonNull(map);
 		this.map.putAll(map);
 	}
 	

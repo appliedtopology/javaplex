@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
 import edu.stanford.math.plex4.utility.CRC;
-import edu.stanford.math.plex4.utility.ExceptionUtility;
 
 /**
  * This class implements the functionality of a simplex. A simplex
@@ -42,7 +41,6 @@ public class Simplex implements PrimitiveBasisElement {
 	 * @param vertices the vertices to 
 	 */
 	public Simplex(final int[] vertices) {
-		ExceptionUtility.verifyNonNull(vertices);
 
 		// store the vertices
 		this.vertices = vertices.clone();
@@ -90,6 +88,9 @@ public class Simplex implements PrimitiveBasisElement {
 			return false;
 		}
 		Simplex o = (Simplex) obj;
+		if (this.cachedHashCode != o.cachedHashCode) {
+			return false;
+		}
 		return (HomologyUtility.compareIntArrays(this.getVertices(), o.getVertices()) == 0);
 	}
 

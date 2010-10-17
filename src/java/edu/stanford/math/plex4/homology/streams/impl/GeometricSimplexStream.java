@@ -77,8 +77,12 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 		this.stream.finalizeStream();
 	}
 
-	public double getFiltrationValue(Simplex simplex) {
-		return this.stream.getFiltrationValue(simplex);
+	public int getFiltrationIndex(Simplex basisElement) {
+		return this.stream.getFiltrationIndex(basisElement);
+	}
+	
+	public double getFiltrationValue(Simplex basisElement) {
+		return this.stream.getFiltrationValue(basisElement);
 	}
 
 	public boolean isFinalized() {

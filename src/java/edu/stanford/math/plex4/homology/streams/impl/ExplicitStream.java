@@ -10,8 +10,8 @@ import java.util.Queue;
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.PrimitiveStream;
-import gnu.trove.TObjectDoubleHashMap;
-import gnu.trove.TObjectDoubleIterator;
+import gnu.trove.TObjectIntHashMap;
+import gnu.trove.TObjectIntIterator;
 
 /**
  * This class implements the functionality of a user-defined filtered chain complex.
@@ -23,7 +23,6 @@ import gnu.trove.TObjectDoubleIterator;
  */
 
 public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveStream<T> {
-
 	/**
 	 * Constructor which accepts a comparator for comparing the type T.
 	 * This comparator defines the ordering on the type T. Thus the overall
@@ -43,7 +42,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	
 	private void addAllElements(AbstractFilteredStream<T> stream) {
 		for (T element: stream) {
-			this.storageStructure.addElement(element, stream.getFiltrationValue(element));
+			this.storageStructure.addElement(element, stream.getFiltrationIndex(element));
 		}
 	}
 	
@@ -53,8 +52,8 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	 * @param basisElement the basis element to add
 	 * @param filtrationValue the filtration value of the basis element
 	 */
-	public void addElement(T basisElement, double filtrationValue) {
-		this.storageStructure.addElement(basisElement, filtrationValue);
+	public void addElement(T basisElement, int filtrationIndex) {
+		this.storageStructure.addElement(basisElement, filtrationIndex);
 	}
 
 	/**
@@ -85,7 +84,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	 */
 	public void ensureAllFaces() {
 		Queue<T> elementQueue = new LinkedList<T>();
-		TObjectDoubleHashMap<T> newElements = new TObjectDoubleHashMap<T>();
+		TObjectIntHashMap<T> newElements = new TObjectIntHashMap<T>();
 		
 		for (T basisElement: this.storageStructure) {
 			// add element to the queue
@@ -94,7 +93,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 		
 		while (!elementQueue.isEmpty()) {
 			T basisElement = elementQueue.remove();
-			double elementFiltrationValue = this.getFiltrationValue(basisElement);
+			int elementFiltrationIndex = this.getFiltrationIndex(basisElement);
 			T[] boundary = this.getBoundary(basisElement);
 			
 			for (T face: boundary) {
@@ -102,9 +101,9 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 					// do nothing
 				} else {
 					if (newElements.containsKey(face)) {
-						newElements.adjustValue(face, Math.min(elementFiltrationValue, newElements.get(face)));
+						newElements.adjustValue(face, Math.min(elementFiltrationIndex, newElements.get(face)));
 					} else {
-						newElements.put(face, elementFiltrationValue);
+						newElements.put(face, elementFiltrationIndex);
 						if (!elementQueue.contains(face)) {
 							elementQueue.add(face);
 						}
@@ -113,7 +112,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 			}
 		}
 		
-		for (TObjectDoubleIterator<T> iterator = newElements.iterator(); iterator.hasNext(); ) {
+		for (TObjectIntIterator<T> iterator = newElements.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			this.addElement(iterator.key(), iterator.value());
 		}
@@ -122,4 +121,9 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	public String toString() {
 		return this.storageStructure.toString();
 	}
+	
+	public double getFiltrationValue(T basisElement) {
+		return getFiltrationIndex(basisElement);
+	}
+
 }

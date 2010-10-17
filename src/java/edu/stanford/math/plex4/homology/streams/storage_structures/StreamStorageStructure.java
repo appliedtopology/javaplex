@@ -21,9 +21,9 @@ public interface StreamStorageStructure<T> extends Iterable<T> {
 	 * the supplied filtration value.
 	 * 
 	 * @param basisElement the basis element to add
-	 * @param filtrationValue the filtration value of the basis element
+	 * @param filtrationIndex the filtration index of the basis element
 	 */
-	void addElement(T basisElement, double filtrationValue);
+	void addElement(T basisElement, int filtrationIndex);
 	
 	/**
 	 * This function either adds the specified basis element with the given filtration
@@ -31,9 +31,9 @@ public interface StreamStorageStructure<T> extends Iterable<T> {
 	 * filtration value with supplied one.
 	 * 
 	 * @param basisElement the basis element to add or update
-	 * @param filtrationValue the new filtration value of the basis element
+	 * @param filtrationIndex the new filtration index of the basis element
 	 */
-	void updateOrAddElement(T basisElement, double filtrationValue);
+	void updateOrAddElement(T basisElement, int filtrationIndex);
 	
 	/**
 	 * This function removes the specified element form the storage structure.
@@ -54,12 +54,12 @@ public interface StreamStorageStructure<T> extends Iterable<T> {
 	boolean containsElement(T basisElement);
 	
 	/**
-	 * This function returns the filtration value of the given basis element.
+	 * This function returns the filtration index of the given basis element.
 	 * 
 	 * @param basisElement the element to query
-	 * @return the filtration value of the given basis element
+	 * @return the filtration index of the given basis element
 	 */
-	double getFiltrationValue(T basisElement);
+	int getFiltrationIndex(T basisElement);
 	
 	/**
 	 * This function ensures that the stream is in sorted order. 

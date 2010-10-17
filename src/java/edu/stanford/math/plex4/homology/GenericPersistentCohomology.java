@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.homology;
 
 import java.util.Comparator;
-import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
@@ -26,29 +26,193 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 
 	@Override
 	public AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
-		return this.getAugmentedIntervals(this.pHrow(stream), stream);
+		//return this.getAugmentedIntervals(this.pHrow(stream), stream);
+		return null;
 	}
 
 	@Override
 	public BarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream) {
-		return this.getIntervals(this.pHrow(stream), stream);
+		//return this.getIntervals(this.pHrow(stream), stream);
+		return this.pCoh(stream);
 	}
 	
+	public BarcodeCollection pCoh(AbstractFilteredStream<T> stream) {
+		BarcodeCollection barcodeCollection = new BarcodeCollection();
+
+		THashMap<T, AbstractGenericFormalSum<F, T>> cocycles = new THashMap<T, AbstractGenericFormalSum<F, T>>();
+
+		for (T sigma_k : stream) {
+			//Do not process simplices of higher dimension than maxDimension.
+			if (stream.getDimension(sigma_k) < this.minDimension) {
+				continue;
+			}
+
+			if (stream.getDimension(sigma_k) > this.maxDimension + 1) {
+				break;
+			}
+
+			AbstractGenericFormalSum<F, T> boundary = chainModule.createSum(stream.getBoundaryCoefficients(sigma_k), stream.getBoundary(sigma_k));
+
+			/**
+			 * This maintains the coboundary coefficients of the live cocycles. Only nonzero coefficients
+			 * are stored.
+			 */
+			THashMap<T, F> liveCocycleCoefficients = new THashMap<T, F>();
+
+			/**
+			 * This is this largest live cocycle with nonzero coefficient.
+			 */
+			T sigma_j = null;
+			F c_j = this.field.getZero();
+
+			/*
+			 * Compute the coefficients of the the current cocycle sigma_i* within the coboundaries of the
+			 * live cocycles.
+			 */
+
+			Set<T> cocycleKeySet = cocycles.keySet();
+
+			THashMap<T, F> cocycleCoefficients = new THashMap<T, F>();
+			
+			/*
+			for (Entry<T, F> boundaryElementPair: boundary) {
+				T boundaryObject = boundaryElementPair.getKey();
+				F boundaryCoefficient = boundaryElementPair.getValue();
+				if (cocycleKeySet.contains(boundaryObject)) {
+					if (sigma_j == null || (this.filteredComparator.compare(boundaryObject, sigma_j) > 0)) {
+						sigma_j = boundaryObject;
+						c_j = boundaryCoefficient;
+					}
+				}
+			}*/
+			
+			//System.out.println("Cocycle set size: " + cocycles.size());
+			
+			for (T sigma_i: cocycleKeySet) {
+				AbstractGenericFormalSum<F, T> cocycle = cocycles.get(sigma_i);
+
+				F c_i = this.field.getZero();
+				for (Entry<T, F> boundaryElementPair: boundary) {
+					T boundaryObject = boundaryElementPair.getKey();
+					F boundaryCoefficient = boundaryElementPair.getValue();
+
+					if (cocycle.containsObject(boundaryObject)) {
+						c_i = this.field.add(c_i, this.field.multiply(boundaryCoefficient, cocycle.getCoefficient(boundaryObject)));
+					}
+				}
+
+				if (!this.field.isZero(c_i)) {
+					liveCocycleCoefficients.put(sigma_i, c_i);
+
+					if (sigma_j == null || (this.filteredComparator.compare(sigma_i, sigma_j) > 0)) {
+						sigma_j = sigma_i;
+						c_j = c_i;
+					}
+				}
+			}
+
+			// destroy the boundary since we no longer need it
+			boundary = null;
+			cocycleKeySet = null;
+
+			if (liveCocycleCoefficients.isEmpty()) {
+				// we have a new cocycle
+				cocycles.put(sigma_k, this.chainModule.createNewSum(this.field.getOne(), sigma_k));
+			} else {
+
+				// kill the cocycle sigma_j
+				AbstractGenericFormalSum<F, T> alpha_j = cocycles.get(sigma_j);
+
+				for (T sigma_i: liveCocycleCoefficients.keySet()) {
+					if (this.basisComparator.compare(sigma_i, sigma_j) != 0) {
+						AbstractGenericFormalSum<F, T> alpha_i = cocycles.get(sigma_i);
+						F c_i = this.field.getZero();
+						if (liveCocycleCoefficients.containsKey(sigma_i)) {
+							c_i = liveCocycleCoefficients.get(sigma_i);
+						}
+						cocycles.remove(sigma_i);
+						cocycles.put(sigma_i, this.chainModule.subtract(alpha_i, this.chainModule.multiply(this.field.divide(c_i, c_j), alpha_j)));
+					}
+				}
+
+				cocycles.remove(sigma_j);
+
+				// output the interval [a_j, a_k)
+				double epsilon_j = stream.getFiltrationValue(sigma_j);
+				double epsilon_k = stream.getFiltrationValue(sigma_k);
+				int dimension = stream.getDimension(sigma_j);
+				if (epsilon_k >= epsilon_j + this.minGranularity && (dimension >= this.minDimension) && (dimension <= this.maxDimension)) {
+					barcodeCollection.addInterval(dimension, epsilon_j, epsilon_k);
+				}
+			}
+		}
+
+		// output the remaining cocycles as semi-infinite intervals
+		for (T sigma_i: cocycles.keySet()) {
+			int dimension = stream.getDimension(sigma_i);
+			if ((dimension >= this.minDimension) && (dimension <= this.maxDimension)) {
+				barcodeCollection.addRightInfiniteInterval(dimension, stream.getFiltrationValue(sigma_i));
+			}
+		}
+
+		return barcodeCollection;
+	}
+
+	/*
+	private BarcodeCollection pCoh(AbstractFilteredStream<T> stream) {
+		THashSet<T> marked = new THashSet<T>();
+		List<AbstractGenericFormalSum<F, T>> Z_perp = new ArrayList<AbstractGenericFormalSum<F, T>>();
+		List<T> birth = new ArrayList<T>();
+
+		for (T i: stream) {
+
+			//Do not process simplices of higher dimension than maxDimension.
+			if (stream.getDimension(i) < this.minDimension) {
+				continue;
+			}
+
+			if (stream.getDimension(i) > this.maxDimension + 1) {
+				break;
+			}
+
+			AbstractGenericFormalSum<F, T> boundary = chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i))
+
+			THashSet<T> candidates = new THashSet<T>();
+			for (Map.Entry<T, F> boundary_entry: boundary) {
+				T boundary_element = boundary_entry.getKey();
+				F boundary_coefficient = boundary_entry.getValue();
+				if (!marked.contains(boundary_element)) {
+					candidates.add(boundary_element);
+				}
+			}
+
+			if (candidates.isEmpty()) {
+				Z_perp.add(0, chainModule.createNewSum(field.getOne(), i));
+				birth.add(0, i);
+			} else {
+
+			}
+		}
+
+		return null;
+	}
+	/*
 	private GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> pHrow(AbstractFilteredStream<T> stream) {
 
 		THashMap<T, AbstractGenericFormalSum<F, T>> R_perp = new THashMap<T, AbstractGenericFormalSum<F, T>>();
 		THashMap<T, AbstractGenericFormalSum<F, T>> V_perp = new THashMap<T, AbstractGenericFormalSum<F, T>>();
-		
-		THashSet<T> dead_cocycles = new THashSet<T>();
-		
+
+		THashSet<T> dead_columns = new THashSet<T>();
+
+		THashMap<T, GenericPair<F, T>> eliminations = new THashMap<T, GenericPair<F, T>>();
+
 		for (T i: stream) {
-			/*
-			 * Do not process simplices of higher dimension than maxDimension.
-			 */
+
+			// Do not process simplices of higher dimension than maxDimension.
 			if (stream.getDimension(i) < this.minDimension) {
 				continue;
 			}
-			
+
 			if (stream.getDimension(i) > this.maxDimension + 1) {
 				break;
 			}
@@ -59,41 +223,71 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 			// form the row R^perp[i] which equals the boundary of the current simplex.
 			AbstractGenericFormalSum<F, T> boundary = chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i));
 			//R_perp.put(i, boundary);
-			
+
 			if (boundary.size() == 0) {
 				continue;
 			}
-			
+
 			T pivot = this.low(boundary);
 			F pivot_coefficient = boundary.getCoefficient(pivot);
-			
-			for (Map.Entry<T, F> boundary_entry: boundary) {
-				T boundary_element = boundary_entry.getKey();
-				// skip the pivot element and dead cocycles
-				if (boundary_element.equals(pivot) || dead_cocycles.contains(boundary_element)) {
-					continue;
+
+			if (dead_columns.contains(pivot)) {
+				AbstractGenericFormalSum<F, T> new_boundary = chainModule.createNewSum();
+				// perform elimination
+				for (Map.Entry<T, F> boundary_entry: boundary) {
+					T boundary_element = boundary_entry.getKey();
+					F boundary_coefficient = boundary_entry.getValue();
+					// skip the pivot element
+					if (boundary_element.equals(pivot)) {
+						this.chainModule.accumulate(new_boundary, boundary_element, boundary_coefficient);
+						continue;
+					}
+					if (eliminations.containsKey(boundary_element)) {
+						//this.chainModule.addObject(boundary, eliminations.get(boundary_element), boundary_element);
+						//F new_coefficient = field.multiply(a, b)
+
+						this.chainModule.accumulate(new_boundary, boundary_element, field.multiply(eliminations.get(boundary_element), pivot_coefficient));
+					} else {
+						this.chainModule.accumulate(new_boundary, boundary_element, boundary_coefficient);
+					}
 				}
-				F negative_c = this.field.negate(this.field.divide(boundary_entry.getValue(), pivot_coefficient));
-				this.chainModule.accumulate(V_perp.get(boundary_element), V_perp.get(pivot), negative_c);
-				//this.chainModule.accumulate(R_perp.get(boundary_element), V_perp.get(pivot), negative_c);
-				dead_cocycles.add(boundary_element);
-			}
-			//dead_cocycles.add(pivot);
-			/*
-			for (Map.Entry<T, F> element: V_perp.get(pivot)) {
-				dead_cocycles.add(element.getKey());
-			}
-			*/
-			
-			if (pivot != null) {
-				//R_perp.get(pivot, this.chainModule.createNewSum(pivot_coefficient, i));
-				if(R_perp.containsKey(pivot)) {
-					this.chainModule.accumulate(R_perp.get(pivot), this.chainModule.createNewSum(pivot_coefficient, i));
-				} else {
-					R_perp.put(pivot, this.chainModule.createNewSum(pivot_coefficient, i));
+
+				for (Map.Entry<T, F> boundary_entry: new_boundary) {
+					T boundary_element = boundary_entry.getKey();
+					F boundary_coefficient = boundary_entry.getValue();
+					if (!R_perp.containsKey(boundary_element)) {
+						R_perp.put(boundary_element, chainModule.createNewSum());
+					}
+					this.chainModule.accumulate(R_perp.get(boundary_element), i, boundary_coefficient);
 				}
+
+				continue;
+			} else {
+				for (Map.Entry<T, F> boundary_entry: boundary) {
+					T boundary_element = boundary_entry.getKey();
+					// skip the pivot element and dead cocycles
+					if (boundary_element.equals(pivot)) {
+						continue;
+					}
+					F c = this.field.divide(boundary_entry.getValue(), pivot_coefficient);
+					F negative_c = this.field.negate(c);
+					this.chainModule.accumulate(V_perp.get(boundary_element), V_perp.get(pivot), negative_c);
+					if (!eliminations.containsKey(boundary_element)) {
+						eliminations.put(boundary_element, field.getZero());
+					}
+					eliminations.put(boundary_element, field.add(negative_c, eliminations.get(boundary_element)));
+				}
+				dead_columns.add(pivot);
+				if (!R_perp.containsKey(pivot)) {
+					R_perp.put(pivot, chainModule.createNewSum());
+				}
+				this.chainModule.accumulate(R_perp.get(pivot), i, pivot_coefficient);
 			}
 		}
+
+		ModuleMorphismRepresentation<F, T, T> rep = new ModuleMorphismRepresentation<F, T,T>(stream, stream);
+		System.out.println(ArrayPrinting.toString(rep.toMatrix(R_perp, this.field.getZero())));
+
 		GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> pair = new GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>>(R_perp, V_perp);
 		if (!this.verifyDecomposition(pair, stream)) {
 			System.out.println("VERIFICATION FAILED!!!!");
@@ -101,8 +295,8 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 			System.out.println("VERIFICATION SUCCEEDED!!!!");
 		}
 		return pair;
-	}
-	
+	}*/
+
 	protected abstract AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> getAugmentedIntervals(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
 
 	protected abstract BarcodeCollection getIntervals(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
@@ -116,7 +310,7 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 
 		Set<T> births = new THashSet<T>();
 		Set<T> deaths = new THashSet<T>();
-		
+
 		AbstractGenericFormalSum<F, T> R_i = null;
 		T low_R_perp_i = null;
 		for (T i: stream) {
@@ -173,7 +367,7 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 
 		Set<T> births = new THashSet<T>();
 		Set<T> deaths = new THashSet<T>();
-		
+
 		AbstractGenericFormalSum<F, T> R_i = null;
 		T low_R_perp_i = null;
 		for (T i: stream) {
@@ -221,32 +415,5 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 		}
 
 		return barcodeCollection;
-	}
-	
-	protected boolean verifyDecomposition(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
-		THashMap<T, AbstractGenericFormalSum<F, T>> R_perp = RV_pair.getFirst();
-		THashMap<T, AbstractGenericFormalSum<F, T>> V_perp = RV_pair.getSecond();
-		
-		for (T i: stream) {
-			AbstractGenericFormalSum<F, T> D_row = chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i));
-			for (T j: stream) {
-				AbstractGenericFormalSum<F, T> V_col = V_perp.get(j);
-				F product_entry = this.chainModule.innerProduct(D_row, V_col);
-				F R_entry;
-				if (R_perp.contains(j)) {
-					R_entry = R_perp.get(j).getCoefficient(i);
-					if (R_entry == null) {
-						R_entry = this.field.getZero();
-					}
-				} else {
-					R_entry = this.field.getZero();
-				}
-				if (!R_entry.equals(product_entry)) {
-					return false;
-				}
-			}
-		}
-		
-		return true;
 	}
 }

@@ -92,9 +92,9 @@ public class TensorStream<T, U> extends DerivedStream<GenericPair<T, U>>{
 	@Override
 	protected void constructDerivedStream() {
 		for (T a: this.stream1) {
-			double a_filtration = this.stream1.getFiltrationValue(a);
+			int a_filtration = this.stream1.getFiltrationIndex(a);
 			for (U b: this.stream2) {
-				double b_filtration = this.stream2.getFiltrationValue(b);
+				int b_filtration = this.stream2.getFiltrationIndex(b);
 				this.storageStructure.addElement(new GenericPair<T, U>(a, b), Math.max(a_filtration, b_filtration));
 			}
 		}
@@ -109,5 +109,9 @@ public class TensorStream<T, U> extends DerivedStream<GenericPair<T, U>>{
 		if (!this.stream2.isFinalized()) {
 			this.stream2.finalizeStream();
 		}
-	}	
+	}
+	
+	public double getFiltrationValue(GenericPair<T, U> basisElement) {
+		return this.getFiltrationIndex(basisElement);
+	}
 }

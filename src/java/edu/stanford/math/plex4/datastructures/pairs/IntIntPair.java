@@ -1,6 +1,5 @@
 package edu.stanford.math.plex4.datastructures.pairs;
 
-import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.MathUtility;
 
 /**
@@ -37,7 +36,6 @@ public class IntIntPair implements Comparable<IntIntPair> {
 	 * @param pair the DoubleLongPair to initialize from
 	 */
 	public IntIntPair(IntIntPair pair) {
-		ExceptionUtility.verifyNonNull(pair);
 		this.first = pair.first;
 		this.second = pair.second;
 	}
@@ -66,7 +64,6 @@ public class IntIntPair implements Comparable<IntIntPair> {
 	}
 	
 	public int compareTo(IntIntPair o) {
-		ExceptionUtility.verifyNonNull(o);
 		int comparison = MathUtility.signum(this.first - o.first);
 		if (comparison != 0) {
 			return comparison;

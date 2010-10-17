@@ -9,7 +9,6 @@ import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.utility.FilteredComparator;
-import edu.stanford.math.plex4.utility.ExceptionUtility;
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
 import gnu.trove.TObjectIntIterator;
@@ -26,6 +25,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 	private final THashSet<BasisElementType> markedSimplices = new THashSet<BasisElementType>();
 	private final THashMap<BasisElementType, IntFormalSum<BasisElementType>> T = new THashMap<BasisElementType, IntFormalSum<BasisElementType>>();
 	private final IntField field;
+	private final IntFreeModule<BasisElementType> chainModule;
 	private AbstractFilteredStream<BasisElementType> currentStream = null;
 	private final Comparator<BasisElementType> comparator;
 	private Comparator<BasisElementType> filteredComparator;
@@ -33,6 +33,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 	
 	public ClassicalPersistentHomology(IntField field, Comparator<BasisElementType> comparator) {
 		this.field = field;
+		this.chainModule = new IntFreeModule<BasisElementType>(this.field);
 		this.comparator = comparator;
 	}
 	
@@ -58,7 +59,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 
 			this.T.remove(simplex);
 			
-			IntFormalSum<BasisElementType> d = this.removePivotRows(simplex);
+			IntFormalSum<BasisElementType> d = this.removePivotRows(simplex, stream);
 			
 			if (d.isEmpty()) {
 				this.markedSimplices.add(simplex);
@@ -102,11 +103,11 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 		return barcodeCollection;
 	}
 	
-	private IntFormalSum<BasisElementType> removePivotRows(BasisElementType simplex) {
-		ExceptionUtility.verifyNonNull(simplex);
+	private IntFormalSum<BasisElementType> removePivotRows(BasisElementType simplex, AbstractFilteredStream<BasisElementType> stream) {;
 		//IntFormalSum<BasisElementType> d = createBoundaryChain(simplex.getBoundaryArray());
-		IntFreeModule<BasisElementType> chainModule = new IntFreeModule<BasisElementType>(this.field);
-		IntFormalSum<BasisElementType> d = chainModule.createSum(simplex.getBoundaryCoefficients(), (BasisElementType[]) simplex.getBoundaryArray());
+		
+		//IntFormalSum<BasisElementType> d = chainModule.createSum(simplex.getBoundaryCoefficients(), (BasisElementType[]) simplex.getBoundaryArray());
+		IntFormalSum<BasisElementType> d = chainModule.createSum(stream.getBoundaryCoefficients(simplex), stream.getBoundary(simplex));
 
 		// remove unmarked terms from d
 		for (TObjectIntIterator<BasisElementType> iterator = d.iterator(); iterator.hasNext(); ) {
@@ -116,20 +117,23 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 			}
 		}
 		
+		BasisElementType sigma_i = null;
+		int q = 0;
 		while (!d.isEmpty()) {
-			BasisElementType sigma_i = getMaximumObject(d);
+			sigma_i = getMaximumObject(d);
 			
 			if (!this.T.containsKey(sigma_i) || this.T.get(sigma_i).isEmpty()) {
 				break;
 			}
 			
-			int q = T.get(sigma_i).getCoefficient(sigma_i);
+			q = T.get(sigma_i).getCoefficient(sigma_i);
 			
 			if (q == 0) {
 				break;
 			}
 			
-			d = chainModule.subtract(d, chainModule.multiply(field.invert(q), T.get(sigma_i)));
+			//d = chainModule.subtract(d, chainModule.multiply(field.invert(q), T.get(sigma_i)));
+			chainModule.accumulate(d, T.get(sigma_i), field.invert(q));
 		}
 		
 		return d;

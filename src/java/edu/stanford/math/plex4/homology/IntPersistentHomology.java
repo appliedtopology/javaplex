@@ -1,7 +1,6 @@
 package edu.stanford.math.plex4.homology;
 
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Set;
 
 import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
@@ -85,8 +84,7 @@ public abstract class IntPersistentHomology<T> extends IntPersistenceAlgorithm<T
 
 			THashSet<T> matchingLowSimplices = lowMap.get(low_R_i);
 			while (matchingLowSimplices != null && !matchingLowSimplices.isEmpty()) {
-				Iterator<T> iterator = matchingLowSimplices.iterator();
-				T j = iterator.next();
+				T j = matchingLowSimplices.iterator().next();
 
 				int c = field.divide(R.get(i).getCoefficient(low_R_i), R.get(j).getCoefficient(low_R_i));
 				int negative_c = field.negate(c);

@@ -9,11 +9,11 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.stanford.math.plex4.datastructures.pairs.DoubleGenericPair;
-import edu.stanford.math.plex4.datastructures.pairs.DoubleGenericPairComparator;
-import edu.stanford.math.plex4.datastructures.pairs.DoubleOrderedIterator;
+import edu.stanford.math.plex4.datastructures.pairs.IntGenericPair;
+import edu.stanford.math.plex4.datastructures.pairs.IntGenericPairComparator;
+import edu.stanford.math.plex4.datastructures.pairs.IntOrderedIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import gnu.trove.TObjectDoubleHashMap;
+import gnu.trove.TObjectIntHashMap;
 
 /**
  * This class implements an in-memory stream storage mechanism where all of the
@@ -28,12 +28,12 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	/**
 	 * This contains the basis elements of the complex.
 	 */
-	private final List<DoubleGenericPair<T>> elementFiltrationPairs = new ArrayList<DoubleGenericPair<T>>();
+	private final List<IntGenericPair<T>> elementFiltrationPairs = new ArrayList<IntGenericPair<T>>();
 
 	/**
 	 * This hash map contains the filtration values of the basis elements in the complex.
 	 */
-	private final TObjectDoubleHashMap<T> filtrationValues = new TObjectDoubleHashMap<T>();
+	private final TObjectIntHashMap<T> filtrationIndices = new TObjectIntHashMap<T>();
 
 	/**
 	 * Comparator which provides ordering of elements of the stream.
@@ -43,7 +43,7 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	/**
 	 * This comparator defines the filtration ordering on filtration-object pairs.
 	 */
-	private final DoubleGenericPairComparator<T> filteredComparator;
+	private final IntGenericPairComparator<T> filteredComparator;
 	
 	/**
 	 * Boolean which indicates whether stream has been finalized or not
@@ -52,55 +52,55 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	
 	public LocalStorageStructure(Comparator<T> basisComparator) {
 		this.basisComparator = basisComparator;
-		this.filteredComparator = new DoubleGenericPairComparator<T>(this.basisComparator);
+		this.filteredComparator = new IntGenericPairComparator<T>(this.basisComparator);
 	}
 	
 	/* (non-Javadoc)
-	 * @see edu.stanford.math.plex_plus.homology.stream_structure.StreamStorageStructure#addElement(java.lang.Object, double)
+	 * @see edu.stanford.math.plex_plus.homology.stream_structure.StreamStorageStructure#addElement(java.lang.Object, int)
 	 */
-	public void addElement(T basisElement, double filtrationValue) {
+	public void addElement(T basisElement, int filtrationValue) {
 		ExceptionUtility.verifyNonNull(basisElement);
 
 		if (this.isFinalized) {
 			throw new IllegalStateException("Cannot add objects to finalized storage structure.");
 		}
 
-		this.elementFiltrationPairs.add(new DoubleGenericPair<T>(filtrationValue, basisElement));
-		this.filtrationValues.put(basisElement, filtrationValue);
+		this.elementFiltrationPairs.add(new IntGenericPair<T>(filtrationValue, basisElement));
+		this.filtrationIndices.put(basisElement, filtrationValue);
 	}
 	
-	public void updateOrAddElement(T basisElement, double newFiltrationValue) {
+	public void updateOrAddElement(T basisElement, int newFiltrationValue) {
 		ExceptionUtility.verifyNonNull(basisElement);
 		
 		if (this.isFinalized) {
 			throw new IllegalStateException("Cannot update objects in finalized storage structure.");
 		}
 		
-		if (this.filtrationValues.containsKey(basisElement)) {
+		if (this.filtrationIndices.containsKey(basisElement)) {
 			// remove the old (filtration value, basis element) pair
-			DoubleGenericPair<T> pair = new DoubleGenericPair<T>(this.filtrationValues.get(basisElement), basisElement);
+			IntGenericPair<T> pair = new IntGenericPair<T>(this.filtrationIndices.get(basisElement), basisElement);
 			this.elementFiltrationPairs.remove(pair);
 			
 			// add the new pair
-			this.elementFiltrationPairs.add(new DoubleGenericPair<T>(newFiltrationValue, basisElement));
+			this.elementFiltrationPairs.add(new IntGenericPair<T>(newFiltrationValue, basisElement));
 		} else {
-			this.elementFiltrationPairs.add(new DoubleGenericPair<T>(newFiltrationValue, basisElement));
+			this.elementFiltrationPairs.add(new IntGenericPair<T>(newFiltrationValue, basisElement));
 		}
 		
-		this.filtrationValues.adjustOrPutValue(basisElement, newFiltrationValue, newFiltrationValue);
+		this.filtrationIndices.adjustOrPutValue(basisElement, newFiltrationValue, newFiltrationValue);
 	}
 
 	public void removeElement(T basisElement) {
-		if (!this.filtrationValues.containsKey(basisElement)) {
+		if (!this.filtrationIndices.containsKey(basisElement)) {
 			throw new IllegalArgumentException("Element: " + basisElement + " is not present in the stream.");
 		}
 		
 		// remove the old (filtration value, basis element) pair
-		DoubleGenericPair<T> pair = new DoubleGenericPair<T>(this.filtrationValues.get(basisElement), basisElement);
+		IntGenericPair<T> pair = new IntGenericPair<T>(this.filtrationIndices.get(basisElement), basisElement);
 		this.elementFiltrationPairs.remove(pair);
 		
 		// remove the element from the filtration values map
-		this.filtrationValues.remove(basisElement);
+		this.filtrationIndices.remove(basisElement);
 	}
 	
 	/* (non-Javadoc)
@@ -125,18 +125,18 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	}
 
 	public Iterator<T> iterator() {
-		return new DoubleOrderedIterator<T>(this.elementFiltrationPairs);
+		return new IntOrderedIterator<T>(this.elementFiltrationPairs);
 	}
 
-	public double getFiltrationValue(T basisElement) {
-		return this.filtrationValues.get(basisElement);
+	public int getFiltrationIndex(T basisElement) {
+		return this.filtrationIndices.get(basisElement);
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 
-		for (DoubleGenericPair<T> pair : this.elementFiltrationPairs) {
+		for (IntGenericPair<T> pair : this.elementFiltrationPairs) {
 			builder.append(pair.toString());
 			builder.append('\n');
 		}
@@ -149,11 +149,11 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	}
 
 	public boolean containsElement(T basisElement) {
-		return this.filtrationValues.containsKey(basisElement);
+		return this.filtrationIndices.containsKey(basisElement);
 	}
 
 	public int getSize() {
-		return this.filtrationValues.size();
+		return this.filtrationIndices.size();
 	}
 
 }
