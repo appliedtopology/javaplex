@@ -1,7 +1,7 @@
-% clear variables
+best_% clear variables
 clc; close all;
 
-%cvx_solver sdpt3
+cvx_solver sdpt3
 %cvx_solver sedumi
 
 % import data

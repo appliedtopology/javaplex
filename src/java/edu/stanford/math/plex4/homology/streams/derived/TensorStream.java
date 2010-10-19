@@ -72,7 +72,7 @@ public class TensorStream<T, U> extends DerivedStream<GenericPair<T, U>>{
 		 * Compute (-1)^p
 		 */
 		int p = this.stream1.getDimension(a);
-		int multiplier = ((n + 1) % 2 == 0 ? 1 : -1);
+		int multiplier = ((n) % 2 == 0 ? 1 : -1);
 		
 		for (int i = 0; i < a_coefficients.length; i++) {
 			coefficients[i] = a_coefficients[i];

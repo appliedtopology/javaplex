@@ -1,7 +1,9 @@
 package edu.stanford.math.plex4.free_module;
 
+import edu.stanford.math.plex4.math.matrix.impl.sparse.DoubleSparseVector;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TObjectDoubleIterator;
 import gnu.trove.TObjectIntHashMap;
 
 /**
@@ -120,5 +122,21 @@ public class FreeModuleRepresentation<R, M> {
 		}
 		
 		return sum;
+	}
+	
+	public DoubleSparseVector toSparseVector(DoubleFormalSum<M> formalSum) {
+		DoubleSparseVector vector = new DoubleSparseVector(this.getDimension());
+		
+		for (TObjectDoubleIterator<M> iterator = formalSum.map.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			if (iterator.value() == 0) {
+				continue;
+			}
+			
+			int index = this.getIndex(iterator.key());
+			vector.set(index, iterator.value());
+		}
+		
+		return vector;
 	}
 }

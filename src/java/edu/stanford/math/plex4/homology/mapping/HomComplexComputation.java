@@ -36,6 +36,7 @@ import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStrea
 import edu.stanford.math.plex4.homology.streams.utility.StreamUtility;
 import edu.stanford.math.plex4.io2.MatlabInterface;
 import edu.stanford.math.plex4.io2.MatlabWriter;
+import edu.stanford.math.plex4.math.matrix.impl.sparse.DoubleSparseVector;
 import edu.stanford.math.plex4.optimization.NesterovGradientOptimizer;
 import edu.stanford.math.plex4.utility.RandomUtility;
 
@@ -265,9 +266,14 @@ public class HomComplexComputation<F extends Number, M, N> {
 		
 		writer.writeSparseVector(rep.toDoubleArray(cycleSum), "cycle_sum");
 		
-		double[][] homotopyMatrix = this.createHomotopyMatrix(homotopies, rep);
-		writer.writeSparseMatrix(homotopyMatrix, "homotopies");
+		//double[][] homotopyMatrix = this.createHomotopyMatrix(homotopies, rep);
+		//writer.writeSparseMatrix(homotopyMatrix, "homotopies");
 		
+		List<DoubleSparseVector> constraints = new ArrayList<DoubleSparseVector>();
+		
+		for (AbstractGenericFormalSum<F, GenericPair<M, N>> homotopy: homotopies) {
+			
+		}
 		
 		writer.close();
 	}

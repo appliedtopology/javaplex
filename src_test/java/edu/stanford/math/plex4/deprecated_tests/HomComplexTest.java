@@ -20,11 +20,11 @@ public class HomComplexTest {
 	}
 
 	public static <F extends Number> void simplicialHomTest(GenericOrderedField<F> field) {
-		//AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(4);
+		//AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getTorus();
 		//AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getTorus();
 
-		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(10);
-		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(10);
+		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(20);
+		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(20);
 
 		HomComplexComputation<F, Simplex, Simplex> computation = new HomComplexComputation<F, Simplex, Simplex>(domainStream, codomainStream, SimplexComparator.getInstance(), SimplexComparator.getInstance(), field);
 
@@ -63,7 +63,7 @@ public class HomComplexTest {
 
 			//System.out.println(mappingPenaltyFunction.evaluate(optimalChainMap));
 
-			computation.produceMatlabOutput2();
+			computation.produceMatlabOutput();
 
 			//} catch (OptimizationException e) {
 			// TODO Auto-generated catch block
