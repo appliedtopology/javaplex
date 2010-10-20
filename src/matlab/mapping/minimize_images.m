@@ -12,11 +12,11 @@ function [optimum_value, chain_map, coefficients] = minimize_images(candidate_ma
         %minimize sum(sum(square(P)));
         subject to
             P == compute_chain_map(c, candidate_map, homotopies);
-            %P >= 0
-            %P <= 1
+            P >= 0
+            P <= 1
             
-            c <= 1
-            c >= -1
+            %c <= 1
+            %c >= 0
             %P >= 0
     cvx_end
 

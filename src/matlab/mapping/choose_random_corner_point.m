@@ -13,11 +13,12 @@ function [optimum_value, chain_map, coefficients] = choose_random_corner_point(c
         minimize v * c
         subject to
             original_objective(P) <= initial_optimum
+            %sum(sum(abs(P))) <= initial_optimum
             P == compute_chain_map(c, candidate_map, homotopies);
-            c <= 1
-            c >= -1
-            %P >= 0
-            %P <= 1
+            %c <= 1
+            %c >= -1
+            P >= 0
+            P <= 1
     cvx_end
 
     optimum_value = cvx_optval;

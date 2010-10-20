@@ -23,10 +23,10 @@ public class HomComplexTest {
 		//AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getTorus();
 		//AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getTorus();
 
-		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(20);
-		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(20);
+		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(6);
+		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(6);
 
-		HomComplexComputation<F, Simplex, Simplex> computation = new HomComplexComputation<F, Simplex, Simplex>(domainStream, codomainStream, SimplexComparator.getInstance(), SimplexComparator.getInstance(), field);
+		HomComplexComputation<F> computation = new HomComplexComputation<F>(domainStream, codomainStream, SimplexComparator.getInstance(), SimplexComparator.getInstance(), field);
 
 		//System.out.println("Computing Generating Cycles");
 		//List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> generatingCycles = computation.computeGeneratingCycles();

@@ -166,8 +166,8 @@ public class HomologyUtility {
 		ExceptionUtility.verifyNonNull(array);
 		ExceptionUtility.verifyNonNegative(k);
 		ExceptionUtility.verifyLessThan(k, array.length);
-		int[] result = new int[k];
-		for (int i = 0; i < k; i++) {
+		int[] result = new int[k + 1];
+		for (int i = 0; i <= k; i++) {
 			result[i] = array[i];
 		}
 		return result;

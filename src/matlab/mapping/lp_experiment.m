@@ -4,11 +4,40 @@ hom_data;
 fval = 2000;
 create_lp_data;
 
-[x, fval, exitflag] = linprog(f,A,b,Aeq,beq,lb,ub);
+[x,fval,exitflag,output,lambda] = linprog(f,A,b,Aeq,beq,lb,ub);
 
 compute_chain_map(x(1:K), cycle_sum, homotopies)
 fval
+b(num_constraints) = fval;
 
+
+%%
+objective_function = @(c) aw_norm(compute_chain_map(c(1:K), cycle_sum, homotopies), domain_aw_maps, codomain_aw_maps, domain_vertices, codomain_vertices);
+constraint_function = [];
+initial_point = randn(K, 1);
+A = [];
+b = [];
+Aeq = [];
+beq = [];
+lb = -ones(K, 1);
+ub = ones(K, 1);
+[coefficients, optimum_value] = fmincon(objective_function, initial_point, A, b, Aeq, beq, lb, ub, constraint_function)
+
+chain_map = compute_chain_map(coefficients, cycle_sum, homotopies)
+
+%%
+%{
+b(num_constraints) = fval;
+v = randn(num_variables, 1);
+v(1:K) = randn(K, 1);
+%v(r) = -1;
+[x,fval,exitflag,output,lambda] = linprog(v,A,b,Aeq,beq,lb,ub);
+map = compute_chain_map(x(1:K), cycle_sum, homotopies)
+fval
+lambda
+x;
+%}
+%%
 %%
 %{
 b(num_constraints) = fval + 1e-2;
@@ -17,7 +46,28 @@ map = compute_chain_map(x(1:K), cycle_sum, homotopies)
 fval
 %}
 %%
+%{
+b(num_constraints) = fval + 1e-2;
+max_peakiness = -9999;
 
+for r = 1:(K * 10)
+    v = zeros(num_variables, 1);
+    v(1:K) = randn(K, 1);
+    %v(r) = -1;
+    [x, fval_unused, exitflag] = linprog(v,A,b,Aeq,beq,lb,ub);
+    map = compute_chain_map(x(1:K), cycle_sum, homotopies);
+    peakiness = sum(sum(map.^2)) / sum(sum(abs(map)));
+    if (peakiness > max_peakiness)
+        max_peakiness = peakiness;
+        best_map = map;
+    end
+end
+
+best_map = (abs(best_map) > 1e-3) .* best_map
+
+x(1:K)
+%}
+%%
 %{
 b(num_constraints) = fval + 1e-2;
 min_peakiness = 999;
@@ -44,7 +94,7 @@ x(1:K)
 %}
 
 %%
-
+%{
 repititions = K + 2;
 corner_coefficients = zeros(repititions, K);
 integral_point = [];
@@ -66,7 +116,7 @@ for i = 1:repititions
 end
 
 %%
-samples = 100000;
+samples = 10000;
 b = 1;
 for i = 1:samples
     convex_v = rand(1, repititions);
@@ -83,3 +133,5 @@ for i = 1:samples
         break;
     end
 end
+%}
+
