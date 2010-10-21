@@ -1,5 +1,5 @@
 clc; close all; clear;
-
+tic()
 hom_data;
 fval = 2000;
 create_lp_data;
@@ -9,22 +9,25 @@ create_lp_data;
 compute_chain_map(x(1:K), cycle_sum, homotopies)
 fval
 b(num_constraints) = fval;
-
+toc()
 
 %%
-objective_function = @(c) aw_norm(compute_chain_map(c(1:K), cycle_sum, homotopies), domain_aw_maps, codomain_aw_maps, domain_vertices, codomain_vertices);
-constraint_function = [];
+tic()
+objective_function = @(c) aw_norm(compute_chain_map(c, cycle_sum, homotopies), domain_aw_maps, codomain_aw_maps, domain_vertices, codomain_vertices);
+constraint_function = @(c) maximum_constraint(c, cycle_sum, homotopies, fval);
 initial_point = randn(K, 1);
+%initial_point = randn(K, 1);
 A = [];
 b = [];
 Aeq = [];
 beq = [];
 lb = -ones(K, 1);
 ub = ones(K, 1);
-[coefficients, optimum_value] = fmincon(objective_function, initial_point, A, b, Aeq, beq, lb, ub, constraint_function)
+[coefficients, optimum_value] = fmincon(objective_function, initial_point, A, b, Aeq, beq, lb, ub, constraint_function);
 
 chain_map = compute_chain_map(coefficients, cycle_sum, homotopies)
-
+optimum_value
+toc()
 %%
 %{
 b(num_constraints) = fval;
@@ -34,8 +37,8 @@ v(1:K) = randn(K, 1);
 [x,fval,exitflag,output,lambda] = linprog(v,A,b,Aeq,beq,lb,ub);
 map = compute_chain_map(x(1:K), cycle_sum, homotopies)
 fval
-lambda
-x;
+%lambda
+%x;
 %}
 %%
 %%

@@ -23,8 +23,8 @@ public class HomComplexTest {
 		//AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getTorus();
 		//AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getTorus();
 
-		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(6);
-		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(6);
+		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(10);
+		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(10);
 
 		HomComplexComputation<F> computation = new HomComplexComputation<F>(domainStream, codomainStream, SimplexComparator.getInstance(), SimplexComparator.getInstance(), field);
 
