@@ -14,7 +14,22 @@ toc()
 total_sum = sum(sum(abs(map)))
 %col_sums = sum(abs(map))
 %row_sums = sum(abs(map'))
+map = diag(1.0 ./ sqrt(sum((map.^2)'))) * map;
+dlmwrite('corner_point.txt', full(map));
 
+%%
+%{
+tic()
+
+H = speye(num_variables);
+v = zeros(num_variables, 1);
+[x,fval,exitflag,output,lambda] = quadprog(H,v,A,b,Aeq,beq,lb,ub);
+
+map = compute_chain_map(x(1:K), cycle_sum, homotopies)
+fval
+b(num_constraints) = fval;
+toc()
+%}
 %%
 %{
 tic()
@@ -35,7 +50,7 @@ optimum_value
 toc()
 %}
 %%
-
+%{
 tic()
 %b(num_constraints) = 2000;
 v = randn(num_variables, 1);
@@ -55,7 +70,7 @@ total_sum = sum(sum(abs(map)))
 %row_sums = sum(abs(map'))
 %lambda
 %x;
-
+%}
 %%
 %%
 %{
@@ -72,12 +87,21 @@ sum(sum(abs(map)))
 %b(num_constraints) = fval + 1e-2;
 max_peakiness = -9999;
 
-for r = 1:(10)
-    v = zeros(num_variables, 1);
-    v(1:K) = randn(K, 1);
-    %v(r) = -1;
-    [x, fval_unused, exitflag] = linprog(v,A,b,Aeq,beq,lb,ub);
-    map = compute_chain_map(x(1:K), cycle_sum, homotopies);
+repititions = 100;
+maps = cell(repititions, 1);
+x = cell(repititions, 1);
+matlabpool
+
+parfor i = 1:repititions
+    v = randn(num_variables, 1);
+    [x{i}, fval_unused, exitflag] = linprog(v,A,b,Aeq,beq,lb,ub);
+    maps{i} = compute_chain_map(x{i}(1:K), cycle_sum, homotopies);
+end
+
+matlabpool close
+
+for i = 1:repititions
+    map = maps{i};
     peakiness = sum(sum(map.^2)) / sum(sum(abs(map)));
     if (peakiness > max_peakiness)
         max_peakiness = peakiness;
@@ -87,10 +111,10 @@ end
 
 best_map = (abs(best_map) > 1e-3) .* best_map
 
-x(1:K);
 dlmwrite('corner_point.txt', full(best_map));
 %sums = sum(abs(best_map))
 total_sum = sum(sum(abs(map)))
+
 %}
 
 %%

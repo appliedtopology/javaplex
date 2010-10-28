@@ -200,5 +200,46 @@ public class SimplexStreamExamples {
 		stream.finalizeStream();
 		
 		return stream;
-	}	
+	}
+	
+	public static ExplicitStream<Simplex> getOctahedron() {
+		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
+
+		stream.addElement(new Simplex(new int[] {0}), 0);
+		stream.addElement(new Simplex(new int[] {1}), 0);
+		stream.addElement(new Simplex(new int[] {2}), 0);
+		stream.addElement(new Simplex(new int[] {3}), 0);
+		stream.addElement(new Simplex(new int[] {4}), 0);
+		stream.addElement(new Simplex(new int[] {5}), 0);
+
+		stream.addElement(new Simplex(new int[] {0, 1}), 0);
+		stream.addElement(new Simplex(new int[] {0, 3}), 0);
+		stream.addElement(new Simplex(new int[] {0, 4}), 0);
+		stream.addElement(new Simplex(new int[] {0, 5}), 0);
+		
+		stream.addElement(new Simplex(new int[] {1, 2}), 0);
+		stream.addElement(new Simplex(new int[] {1, 4}), 0);
+		stream.addElement(new Simplex(new int[] {1, 5}), 0);
+		
+		stream.addElement(new Simplex(new int[] {2, 3}), 0);
+		stream.addElement(new Simplex(new int[] {2, 4}), 0);
+		stream.addElement(new Simplex(new int[] {2, 5}), 0);
+
+		stream.addElement(new Simplex(new int[] {3, 4}), 0);
+		stream.addElement(new Simplex(new int[] {3, 5}), 0);
+
+		stream.addElement(new Simplex(new int[] {0, 1, 4}), 0);
+		stream.addElement(new Simplex(new int[] {1, 2, 4}), 0);
+		stream.addElement(new Simplex(new int[] {2, 3, 4}), 0);
+		stream.addElement(new Simplex(new int[] {0, 3, 4}), 0);
+		
+		stream.addElement(new Simplex(new int[] {0, 1, 5}), 0);
+		stream.addElement(new Simplex(new int[] {1, 2, 5}), 0);
+		stream.addElement(new Simplex(new int[] {2, 3, 5}), 0);
+		stream.addElement(new Simplex(new int[] {0, 3, 5}), 0);
+		
+		stream.finalizeStream();
+		
+		return stream;
+	}
 }

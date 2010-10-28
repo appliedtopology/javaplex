@@ -3,26 +3,61 @@ I = codomain_dimension;
 J = domain_dimension;
 
 %{
-x = [c_1 ... c_K, s_11 ... s_IJ, r_11 ... r_IJ, t_1 ... t_J, u_1 ... u_I, t, u]
-s_ij >= abs(sum_k c_k H_ij^k + H_ij^0)
-r_ij <= abs(sum_k c_k H_ij^k + H_ij^0)
+x = [c_1 ... c_K, a_11 ... a_IJ, r_1 ... r_I, l_1 ... l_J, r, l]
+a_ij = sum_k c_k H_ij^k + H_ij^0
+r_i = sum_i a_ij (sum over i'th row)
+l_j = sum_j a_ij (sum over j'th col)
+
+r >= r_i (all i)
+l >= l_j (all j)
+
+Equality constraints:
+
+for i, j = 1, 1 ... I, J:
+    a_ij = sum_k sum_k c_k H_ij^k + H_ij^0
+
+for i = 1 ... I:
+    r_i = sum_i a_ij
+
+for j = 1 ...  J:
+    l_j = sum_j a_ij
+
+Inequality constraints:
+
+for i = 1 ... I:
+    r >= r_i
+
+for j = 1 ...  J:
+    l >= l_j
+
+r + l <= fval
+
+ub/lb constraints:
+for i, j = 1, 1 ... I, J:
+    a_ij >= 0
+
+minimize max_i r_i + max_j l_j
+
 %}
 
-num_variables = K + 2 * I*J + I + J + 2;
-num_constraints = 2 * I*J + 2 * I + 2 * J + 1;
+num_variables = K + I*J + I + J + 2;
 
-A = sparse(num_constraints, num_variables);
-b = sparse(num_constraints, 1);
+num_equality_constraints = I*J + I + J;
+num_inequality_constraints = I + J + 1;
+
+Aeq = sparse(num_equality_constraints, num_variables);
+beq = sparse(num_equality_constraints, 1);
+A = sparse(num_inequality_constraints, num_variables);
+b = sparse(num_inequality_constraints, 1);
 f = sparse(num_variables, 1);
-
-% set s_ij = 1
+lb = sparse(num_variables, 1);
+ub = sparse(num_variables, 1);
 
 for i = 1:I
     for j = 1:J
-        s_index = K + flatten(i, j, I, J);
-        constraint_index = 2 * flatten(i, j, I, J) - 1;
-        A(constraint_index, s_index) = -1;
-        A(constraint_index + 1, s_index) = -1;
+        a_ij_index = K + flatten(i, j, I, J);
+        equality_constraint_index = flatten(i, j, I, J);
+        Aeq(equality_constraint_index, a_ij_index) = -1;
     end
 end
 
@@ -33,9 +68,8 @@ for k = 1:K
         i = i_indices(index);
         j = j_indices(index);
         v = values(index);
-        constraint_index = 2 * flatten(i, j, I, J) - 1;
-        A(constraint_index, k) = v;
-        A(constraint_index + 1, k) = -v;
+        equality_constraint_index = flatten(i, j, I, J);
+        Aeq(equality_constraint_index, k) = v;
     end
 end
 
@@ -45,107 +79,72 @@ for index = 1:count
     i = i_indices(index);
     j = j_indices(index);
     v = values(index);
-    s_index = K + flatten(i, j, I, J);
-    constraint_index = 2 * flatten(i, j, I, J) - 1;
-    b(constraint_index) = -v;
-    b(constraint_index + 1) = v;
+    equality_constraint_index = flatten(i, j, I, J);
+    beq(equality_constraint_index) = -v;
 end
 
-% r_ij
+
 for i = 1:I
+    r_i_index = K + I*J + i;
+    equality_constraint_index = I*J + i;
+    Aeq(equality_constraint_index, r_i_index) = -1;
     for j = 1:J
-        r_index = K + I*J + flatten(i, j, I, J);
-        constraint_index = 2 * I*J + 2 * flatten(i, j, I, J) - 1;
-        A(constraint_index, s_index) = -1;
-        A(constraint_index + 1, s_index) = -1;
+        a_ij_index = K + flatten(i, j, I, J);
+        Aeq(equality_constraint_index, a_ij_index) = 1;
     end
 end
-
-for k = 1:K
-    [i_indices, j_indices, values] = find(homotopies{k});
-    count = length(i_indices);
-    for index = 1:count
-        i = i_indices(index);
-        j = j_indices(index);
-        v = values(index);
-        constraint_index = 2 * I*J + 2 * flatten(i, j, I, J) - 1;
-        A(constraint_index, k) = v;
-        A(constraint_index + 1, k) = -v;
-    end
-end
-
-[i_indices, j_indices, values] = find(cycle_sum);
-count = length(i_indices);
-for index = 1:count
-    i = i_indices(index);
-    j = j_indices(index);
-    v = values(index);
-    r_ij_index = K + I*J + flatten(i, j, I, J);
-    constraint_index = 2 * I*J + 2 * flatten(i, j, I, J) - 1;
-    b(constraint_index) = -v;
-    b(constraint_index + 1) = v;
-end
-
-% t_j
-
-constraint_index = 4 * I * J + 1;
 
 for j = 1:J
-    t_j_index = K + 2 * I*J + j;
-    A(constraint_index, t_j_index) = -1;
+    l_j_index = K + I*J + I + j;
+    equality_constraint_index = I*J + I + j;
+    Aeq(equality_constraint_index, l_j_index) = -1;
     for i = 1:I
-        s_ij_index = K + flatten(i, j, I, J);
-        A(constraint_index, s_ij_index) = 1;
+        a_ij_index = K + flatten(i, j, I, J);
+        Aeq(equality_constraint_index, a_ij_index) = 1;
     end
-    constraint_index = constraint_index + 1;
 end
+
+r_index = K + I*J + I + J + 1;
+l_index = K + I*J + I + J + 2;
 
 for i = 1:I
-    u_i_index = K + 2 * I*J + J + i;
-    A(constraint_index, u_i_index) = -1;
-    for j = 1:J
-        s_ij_index = K + flatten(i, j, I, J);
-        A(constraint_index, s_ij_index) = 1;
-    end
-    constraint_index = constraint_index + 1;
+    r_i_index = K + I*J + i;
+    inequality_constraint_index = i;
+    A(inequality_constraint_index, r_index) = -1;
+    A(inequality_constraint_index, r_i_index) = 1;
 end
-
-t_index = K + 2 * I*J + J + I + 1;
-u_index = t_index + 1;
 
 for j = 1:J
-    t_j_index = K + 2 * I*J + j;
-    A(constraint_index, t_j_index) = 1;
-    A(constraint_index, t_index) = -1;
-    constraint_index = constraint_index + 1;
+    l_j_index = K + I*J + I + j;
+    inequality_constraint_index = I + j;
+    A(inequality_constraint_index, l_index) = -1;
+    A(inequality_constraint_index, l_j_index) = 1;
+end
+
+for index = 1:num_variables
+    lb(index) = -inf;
+    ub(index) = inf;
+end
+
+for index = 1:K
+    lb(index) = -1;
+    ub(index) = 1;
 end
 
 for i = 1:I
-    u_i_index = K + 2 * I*J + J + i;
-    A(constraint_index, u_i_index) = 1;
-    A(constraint_index, u_index) = -1;
-    constraint_index = constraint_index + 1;
+    for j = 1:J
+        a_ij_index = K + flatten(i, j, I, J);
+        lb(a_ij_index) = 0;
+        ub(a_ij_index) = inf;
+    end
 end
 
-A(constraint_index, t_index) = 1;
-A(constraint_index, u_index) = 1;
-b(constraint_index) = fval;
+inequality_constraint_index = I + J + 1;
+A(inequality_constraint_index, l_index) = 1;
+A(inequality_constraint_index, r_index) = 1;
+b(I + J + 1) = fval;
 
-f(t_index) = 1;
-f(u_index) = 1;
+f(r_index) = 1;
+f(l_index) = 1;
+%f(1:K) = randn(K, 1);
 
-for k = 1:K
-    %f(k) = randn();
-end
-
-large = 100;
-
-Aeq = [];
-beq = [];
-lb = -large * ones(num_variables, 1);
-ub = large * ones(num_variables, 1);
-
-for k = 1:K
-    lb(k) = -1;
-    ub(k) = 1;
-end
