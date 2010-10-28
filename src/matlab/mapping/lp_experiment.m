@@ -83,7 +83,7 @@ dlmwrite('corner_point.txt', full(map));
 sum(sum(abs(map)))
 %}
 %%
-%{
+
 %b(num_constraints) = fval + 1e-2;
 max_peakiness = -9999;
 
@@ -115,7 +115,7 @@ dlmwrite('corner_point.txt', full(best_map));
 %sums = sum(abs(best_map))
 total_sum = sum(sum(abs(map)))
 
-%}
+
 
 %%
 %{

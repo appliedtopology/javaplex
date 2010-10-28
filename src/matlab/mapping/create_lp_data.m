@@ -105,6 +105,6 @@ lb = -large * ones(num_variables, 1);
 ub = large * ones(num_variables, 1);
 
 for k = 1:K
-    lb(k) = -1;
+    lb(k) = 0;
     ub(k) = 1;
 end

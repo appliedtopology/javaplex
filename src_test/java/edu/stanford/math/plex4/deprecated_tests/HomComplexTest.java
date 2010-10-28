@@ -5,6 +5,7 @@ import java.io.IOException;
 import edu.stanford.math.plex4.algebraic_structures.impl.RationalField;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericOrderedField;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
+import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.examples.SimplexStreamExamples;
 import edu.stanford.math.plex4.free_module.DoubleFormalSum;
 import edu.stanford.math.plex4.functional.GenericDoubleFunction;
@@ -13,6 +14,8 @@ import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.mapping.HomComplexComputation;
 import edu.stanford.math.plex4.homology.mapping.MappingUtility;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 
 public class HomComplexTest {
 	public static void main(String[] args) {
@@ -23,9 +26,13 @@ public class HomComplexTest {
 		//AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getTorus();
 		//AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getTorus();
 
-		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(3);
-		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(3);
+		//AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(3);
+		//AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(3);
 		
+		SearchableFiniteMetricSpace<double[]> domainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.gettetrahedronVertices());
+		SearchableFiniteMetricSpace<double[]> codomainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getoctahedronVertices());
+		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getTetrahedron();
+		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getOctahedron();
 		
 		//SearchableFiniteMetricSpace<double[]> domainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(domainCardinality));
 		//SearchableFiniteMetricSpace<double[]> codomainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(codomainCardinality));
