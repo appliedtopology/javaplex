@@ -17,11 +17,11 @@ full(chain_map)
 dlmwrite('initial.txt', full(chain_map));
 sum(sum(abs(chain_map)))
 
-% choose l1 minimizer within space of minimizers
-%[optimum_value, chain_map, coefficients] = choose_sparse_point(cycle_sum, homotopies, initial_optimum);
+%choose l1 minimizer within space of minimizers
+[optimum_value, chain_map, coefficients] = choose_sparse_point(cycle_sum, homotopies, initial_optimum);
 
-%full(chain_map)
-%dlmwrite('sparse_point.txt', full(chain_map));
+full(chain_map)
+dlmwrite('corner_point.txt', full(chain_map));
 
 
 % find random corner point within the space of minimizers

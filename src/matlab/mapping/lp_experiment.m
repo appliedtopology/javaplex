@@ -6,12 +6,17 @@ create_lp_data;
 
 [x,fval,exitflag,output,lambda] = linprog(f,A,b,Aeq,beq,lb,ub);
 
-compute_chain_map(x(1:K), cycle_sum, homotopies)
+map = compute_chain_map(x(1:K), cycle_sum, homotopies)
 fval
 b(num_constraints) = fval;
 toc()
 
+total_sum = sum(sum(abs(map)))
+%col_sums = sum(abs(map))
+%row_sums = sum(abs(map'))
+
 %%
+%{
 tic()
 objective_function = @(c) aw_norm(compute_chain_map(c, cycle_sum, homotopies), domain_aw_maps, codomain_aw_maps, domain_vertices, codomain_vertices);
 constraint_function = @(c) maximum_constraint(c, cycle_sum, homotopies, fval);
@@ -28,32 +33,46 @@ ub = ones(K, 1);
 chain_map = compute_chain_map(coefficients, cycle_sum, homotopies)
 optimum_value
 toc()
+%}
 %%
-%{
-b(num_constraints) = fval;
+
+tic()
+%b(num_constraints) = 2000;
 v = randn(num_variables, 1);
 v(1:K) = randn(K, 1);
 %v(r) = -1;
-[x,fval,exitflag,output,lambda] = linprog(v,A,b,Aeq,beq,lb,ub);
-map = compute_chain_map(x(1:K), cycle_sum, homotopies)
-fval
+f = zeros(num_variables, 1);
+for i = 1:I*J
+    f(i + K) = 1;
+end
+[x,fval,exitflag,output,lambda] = linprog(f,A,b,Aeq,beq,lb,ub);
+map = compute_chain_map(x(1:K), cycle_sum, homotopies);
+map = (abs(map) > 1e-3) .* map
+toc()
+dlmwrite('corner_point.txt', full(map));
+total_sum = sum(sum(abs(map)))
+%col_sums = sum(abs(map))
+%row_sums = sum(abs(map'))
 %lambda
 %x;
-%}
+
 %%
 %%
 %{
-b(num_constraints) = fval + 1e-2;
+tic()
 [x, fval_unused, exitflag] = bintprog(zeros(num_variables, 1),A,b,Aeq,beq);
 map = compute_chain_map(x(1:K), cycle_sum, homotopies)
 fval
+toc()
+dlmwrite('corner_point.txt', full(map));
+sum(sum(abs(map)))
 %}
 %%
 %{
-b(num_constraints) = fval + 1e-2;
+%b(num_constraints) = fval + 1e-2;
 max_peakiness = -9999;
 
-for r = 1:(K * 10)
+for r = 1:(10)
     v = zeros(num_variables, 1);
     v(1:K) = randn(K, 1);
     %v(r) = -1;
@@ -68,8 +87,12 @@ end
 
 best_map = (abs(best_map) > 1e-3) .* best_map
 
-x(1:K)
+x(1:K);
+dlmwrite('corner_point.txt', full(best_map));
+%sums = sum(abs(best_map))
+total_sum = sum(sum(abs(map)))
 %}
+
 %%
 %{
 b(num_constraints) = fval + 1e-2;
