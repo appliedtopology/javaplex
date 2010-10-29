@@ -33,7 +33,8 @@ toc()
 %%
 %{
 tic()
-objective_function = @(c) aw_norm(compute_chain_map(c, cycle_sum, homotopies), domain_aw_maps, codomain_aw_maps, domain_vertices, codomain_vertices);
+objective_function = @(c) aw_
+%{norm(compute_chain_map(c, cycle_sum, homotopies), domain_aw_maps, codomain_aw_maps, domain_vertices, codomain_vertices);
 constraint_function = @(c) maximum_constraint(c, cycle_sum, homotopies, fval);
 initial_point = randn(K, 1);
 %initial_point = randn(K, 1);
@@ -87,7 +88,7 @@ sum(sum(abs(map)))
 %b(num_constraints) = fval + 1e-2;
 max_peakiness = -9999;
 
-repititions = 100;
+repititions = 8 * 1;
 maps = cell(repititions, 1);
 x = cell(repititions, 1);
 matlabpool
@@ -110,13 +111,17 @@ for i = 1:repititions
 end
 
 best_map = (abs(best_map) > 1e-3) .* best_map
-
+best_map = diag(1.0 ./ sum(abs(best_map)')) * best_map;
 dlmwrite('corner_point.txt', full(best_map));
 %sums = sum(abs(best_map))
 total_sum = sum(sum(abs(map)))
 
-
-
+%%
+domain_dimension
+codomain_dimension
+domain_vertices
+codomain_vertices
+constraint_matrix_size = size(A)
 %%
 %{
 b(num_constraints) = fval + 1e-2;

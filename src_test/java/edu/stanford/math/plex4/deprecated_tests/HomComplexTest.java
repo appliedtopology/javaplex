@@ -13,9 +13,14 @@ import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.mapping.HomComplexComputation;
 import edu.stanford.math.plex4.homology.mapping.MappingUtility;
+import edu.stanford.math.plex4.homology.streams.impl.ExplicitStream;
+import edu.stanford.math.plex4.homology.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
+import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
+import edu.stanford.math.plex4.math.metric.landmark.MaxMinLandmarkSelector;
+import edu.stanford.math.plex4.utility.RandomUtility;
 
 public class HomComplexTest {
 	public static void main(String[] args) {
@@ -23,34 +28,64 @@ public class HomComplexTest {
 	}
 
 	public static <F extends Number> void simplicialHomTest(GenericOrderedField<F> field) {
+		/*
+		int domainCardinality = 4;
+		SearchableFiniteMetricSpace<double[]> domainMetricSpace = new EuclideanMetricSpace(getFigure8Vertices());
+		SearchableFiniteMetricSpace<double[]> codomainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(domainCardinality));
+		AbstractFilteredStream<Simplex> domainStream = getFigure8();
+		AbstractFilteredStream<Simplex> codomainStream =  SimplexStreamExamples.getCircle(domainCardinality);
+		*/
+		/*
+		int domainCardinality = 40;
+		int codomainCardinality = 70;
+		SearchableFiniteMetricSpace<double[]> domainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(domainCardinality));
+		SearchableFiniteMetricSpace<double[]> codomainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(codomainCardinality));
+		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(domainCardinality);
+		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(codomainCardinality);
+		*/
+		
 		//AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getTorus();
 		//AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getTorus();
 
-		//AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(3);
+		//AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getCircle(10);
 		//AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(3);
-		
+		/*
 		SearchableFiniteMetricSpace<double[]> domainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.gettetrahedronVertices());
 		SearchableFiniteMetricSpace<double[]> codomainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getoctahedronVertices());
 		AbstractFilteredStream<Simplex> domainStream = SimplexStreamExamples.getTetrahedron();
 		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getOctahedron();
-		
+		*/
 		//SearchableFiniteMetricSpace<double[]> domainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(domainCardinality));
 		//SearchableFiniteMetricSpace<double[]> codomainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(codomainCardinality));
+		RandomUtility.initializeWithSeed(0);
+		int n = 500;
+		int l = 14;
+		double r_max = 0.2;
+		int d_max = 3;
+		SearchableFiniteMetricSpace<double[]> domainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(n, 1));
+		SearchableFiniteMetricSpace<double[]> codomainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(n, 1));
+		LandmarkSelector<double[]> domainSelector = new MaxMinLandmarkSelector<double[]>(domainMetricSpace, l);
+		LandmarkSelector<double[]> codomainSelector = new MaxMinLandmarkSelector<double[]>(codomainMetricSpace, l);
+		AbstractFilteredStream<Simplex> domainStream = new LazyWitnessStream<double[]>(domainMetricSpace, domainSelector, d_max, r_max, 20);
+		AbstractFilteredStream<Simplex> codomainStream = new LazyWitnessStream<double[]>(codomainMetricSpace, codomainSelector, d_max, r_max, 20);
+		domainStream.finalizeStream();
+		codomainStream.finalizeStream();
 		/*
 		RandomUtility.initializeWithSeed(0);
-		SearchableFiniteMetricSpace<double[]> domainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(40, 1));
-		SearchableFiniteMetricSpace<double[]> codomainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(40, 1));
-		int n = 100;
-		int l = 30;
+		int n = 200;
+		int l = 20;
 		double r_max = 0.1;
+		int d_max = 2;
+		int codomainCardinality = 5;
+		SearchableFiniteMetricSpace<double[]> domainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(n, 1));
+		SearchableFiniteMetricSpace<double[]> codomainMetricSpace = new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(codomainCardinality));
 		LandmarkSelector<double[]> domainSelector = new MaxMinLandmarkSelector<double[]>(domainMetricSpace, l);
-		LandmarkSelector<double[]> codomainSelector = new MaxMinLandmarkSelector<double[]>(domainMetricSpace, l);
-		AbstractFilteredStream<Simplex> domainStream = new LazyWitnessStream<double[]>(domainMetricSpace, domainSelector, 1, r_max, 20);
-		AbstractFilteredStream<Simplex> codomainStream = new LazyWitnessStream<double[]>(codomainMetricSpace, codomainSelector, 1, r_max, 20);
-		
+		AbstractFilteredStream<Simplex> domainStream = new LazyWitnessStream<double[]>(domainMetricSpace, domainSelector, d_max, r_max, 20);
+		AbstractFilteredStream<Simplex> codomainStream = SimplexStreamExamples.getCircle(codomainCardinality);
 		domainStream.finalizeStream();
 		codomainStream.finalizeStream();
 		*/
+		
 		HomComplexComputation<F> computation = new HomComplexComputation<F>(domainStream, codomainStream, SimplexComparator.getInstance(), SimplexComparator.getInstance(), field);
 
 		//System.out.println("Computing Generating Cycles");
@@ -103,5 +138,44 @@ public class HomComplexTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+	}
+	
+	public static ExplicitStream<Simplex> getFigure8() {
+		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
+
+		stream.addElement(new Simplex(new int[] {0}), 0);
+		stream.addElement(new Simplex(new int[] {1}), 0);
+		stream.addElement(new Simplex(new int[] {2}), 0);
+		stream.addElement(new Simplex(new int[] {3}), 0);
+		stream.addElement(new Simplex(new int[] {4}), 0);
+		stream.addElement(new Simplex(new int[] {5}), 0);
+		stream.addElement(new Simplex(new int[] {6}), 0);
+
+		stream.addElement(new Simplex(new int[] {0, 1}), 0);
+		stream.addElement(new Simplex(new int[] {0, 3}), 0);
+		stream.addElement(new Simplex(new int[] {1, 2}), 0);
+		stream.addElement(new Simplex(new int[] {2, 3}), 0);
+		stream.addElement(new Simplex(new int[] {2, 4}), 0);
+		stream.addElement(new Simplex(new int[] {4, 5}), 0);
+		stream.addElement(new Simplex(new int[] {5, 6}), 0);
+		stream.addElement(new Simplex(new int[] {2, 6}), 0);
+		
+		stream.finalizeStream();
+		
+		return stream;
+	}
+	
+	public static double[][] getFigure8Vertices() {
+		double[][] points = new double[7][2];
+		
+		points[0] = new double[]{0, 2};
+		points[1] = new double[]{-1, 1};
+		points[2] = new double[]{0, 0};
+		points[3] = new double[]{1, 1};
+		points[4] = new double[]{-1, -1};
+		points[5] = new double[]{0, -2};
+		points[6] = new double[]{1, -1};
+		
+		return points;
 	}
 }

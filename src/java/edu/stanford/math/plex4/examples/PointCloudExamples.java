@@ -75,6 +75,19 @@ public class PointCloudExamples {
 		return points;
 	}
 	
+	public static double[][] subdivide(double[][] points) {
+		int n = points.length;
+		double[][] result = new double[n + n * (n-1) / 2][3];
+		
+		for (int i = 0; i < n; i++) {
+			result[i] = points[i];
+		}
+		
+		//for (int i = 0; i < )
+		
+		return result;
+	}
+	
 	public static double[][] getRandomSpherePoints(int n, int d) {
 		double[][] points = new double[n][d + 1];
 		

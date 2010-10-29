@@ -134,7 +134,7 @@ end
 for i = 1:I
     for j = 1:J
         a_ij_index = K + flatten(i, j, I, J);
-        lb(a_ij_index) = -1;
+        lb(a_ij_index) = 0;
         ub(a_ij_index) = 1;
     end
 end
