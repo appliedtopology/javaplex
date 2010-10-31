@@ -7,16 +7,6 @@ import java.util.List;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.MultivariateRealOptimizer;
-import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.optimization.RealConvergenceChecker;
-import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
-import org.apache.commons.math.random.GaussianRandomGenerator;
-import org.apache.commons.math.random.MersenneTwister;
-import org.apache.commons.math.random.RandomVectorGenerator;
-import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
 
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericOrderedField;
 import edu.stanford.math.plex4.array_utility.ArrayCreation;
@@ -38,8 +28,6 @@ import edu.stanford.math.plex4.homology.streams.utility.StreamUtility;
 import edu.stanford.math.plex4.io2.MatlabInterface;
 import edu.stanford.math.plex4.io2.MatlabWriter;
 import edu.stanford.math.plex4.math.matrix.impl.sparse.DoubleSparseVector;
-import edu.stanford.math.plex4.optimization.NesterovGradientOptimizer;
-import edu.stanford.math.plex4.utility.RandomUtility;
 import gnu.trove.TObjectDoubleIterator;
 
 
@@ -128,6 +116,7 @@ public class HomComplexComputation<F extends Number> {
 		return this.computeHomCycle(homotopyCoefficients, MappingUtility.toDoubleFormalSum(generatingCycle), MappingUtility.toDoubleFormalSumList(homotopies));
 	}
 
+	/*
 	public RealPointValuePair findOptimalCoefficients(final AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle, 
 			final List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies,
 			final GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction) throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
@@ -144,22 +133,22 @@ public class HomComplexComputation<F extends Number> {
 		double tolerance = 1e-7;
 		RealConvergenceChecker checker = new SimpleScalarValueChecker(tolerance, tolerance);
 
-		MultivariateRealOptimizer optimizer = new NesterovGradientOptimizer(checker, 0, 0);
+		//MultivariateRealOptimizer optimizer = new NesterovGradientOptimizer(checker, 0, 0);
 
 
 		double initialValue = objective.value(new double[homotopies.size()]);
 		System.out.println(initialValue);
 
-		RealPointValuePair optimum = optimizer.optimize(objective, GoalType.MINIMIZE, RandomUtility.normalArray(homotopies.size()));
+		//RealPointValuePair optimum = optimizer.optimize(objective, GoalType.MINIMIZE, RandomUtility.normalArray(homotopies.size()));
 
 		//RealPointValuePair optimum = discreteOptimizer.multistartOptimize(objective, homotopies.size(), 20);
 
-		System.out.println(optimum.getValue());
-		System.out.println(MatlabWriter.toRowVector(optimum.getPoint()));
+		//System.out.println(optimum.getValue());
+		//System.out.println(MatlabWriter.toRowVector(optimum.getPoint()));
 
 		return optimum;
-	}
-
+	}*/
+/*
 	public DoubleFormalSum<GenericPair<Simplex, Simplex>> findOptimalChainMap(final AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle, 
 			final List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies,
 			final GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction) throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
@@ -167,7 +156,7 @@ public class HomComplexComputation<F extends Number> {
 		RealPointValuePair pair = this.findOptimalCoefficients(generatingCycle, homotopies, mappingPenaltyFunction);
 		return this.computeHomCycle(MappingUtility.round(pair.getPoint()), generatingCycle, homotopies);
 	}
-
+*/
 	MultivariateRealFunction getObjectiveFunctionViaMappingPenalty(final AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle, 
 			final List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies,
 			final GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction) {

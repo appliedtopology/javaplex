@@ -6,7 +6,6 @@ import edu.stanford.math.plex4.algebraic_structures.impl.RationalField;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericOrderedField;
 import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
-import edu.stanford.math.plex4.examples.SimplexStreamExamples;
 import edu.stanford.math.plex4.free_module.DoubleFormalSum;
 import edu.stanford.math.plex4.functional.GenericDoubleFunction;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;

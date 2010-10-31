@@ -13,7 +13,7 @@ public class KDNode {
 	private KDNode right;
 	private final int splitAxis;
 
-	public KDNode(int index,int splitAxis) {
+	public KDNode(int index, int splitAxis) {
 		this.left = null;
 		this.right = null;
 		this.index = index;
@@ -43,5 +43,4 @@ public class KDNode {
 	public void setRight(KDNode node) {
 		this.right = node;
 	}
-	
 }

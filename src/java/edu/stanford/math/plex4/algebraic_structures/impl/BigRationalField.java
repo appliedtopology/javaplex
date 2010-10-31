@@ -5,15 +5,15 @@ import org.apache.commons.math.fraction.BigFraction;
 import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericOrderedField;
 
 public class BigRationalField extends GenericOrderedField<BigFraction> {
-	
+
 	private BigRationalField() {}
-	
+
 	private static final BigRationalField instance = new BigRationalField();
-	
+
 	public BigRationalField getInstance() {
 		return instance;
 	}
-	
+
 	@Override
 	public BigFraction add(BigFraction a, BigFraction b) {
 		return a.add(b);
@@ -63,17 +63,17 @@ public class BigRationalField extends GenericOrderedField<BigFraction> {
 	public boolean isUnit(BigFraction a) {
 		return (!a.equals(BigFraction.ZERO));
 	}
-	
+
 	@Override
 	public boolean isZero(BigFraction a) {
 		return (a.equals(BigFraction.ZERO));
 	}
-	
+
 	@Override
 	public boolean isOne(BigFraction a) {
 		return (a.equals(BigFraction.ONE));
 	}
-	
+
 	@Override
 	public int characteristic() {
 		return 0;
