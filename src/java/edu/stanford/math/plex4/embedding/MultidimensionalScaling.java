@@ -9,7 +9,7 @@ import cern.colt.matrix.doublealgo.Sorting;
 import cern.colt.matrix.impl.DenseDoubleMatrix1D;
 import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 import cern.colt.matrix.linalg.EigenvalueDecomposition;
-import edu.stanford.math.plex4.math.metric.interfaces.IntFiniteMetricSpace;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace;
 
 /**
  * @author Andris
@@ -27,7 +27,7 @@ public class MultidimensionalScaling implements MetricSpaceEmbedding {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex_plus.embedding.MetricSpaceEmbedding#computedEmbedding(edu.stanford.math.plex_plus.math.metric.interfaces.IntFiniteMetricSpace, int)
 	 */
-	public double[][] computedEmbedding(IntFiniteMetricSpace metricSpace, int dimension) {
+	public double[][] computedEmbedding(AbstractIntMetricSpace metricSpace, int dimension) {
 		return this.doScaling(metricSpace, dimension, TOLERANCE).toArray();
 	}
 	
@@ -60,7 +60,7 @@ public class MultidimensionalScaling implements MetricSpaceEmbedding {
 	}
 	 */
 	
-	protected DoubleMatrix2D doScaling(IntFiniteMetricSpace D, int dim, double tol) {
+	protected DoubleMatrix2D doScaling(AbstractIntMetricSpace D, int dim, double tol) {
 		// Build the intermediate matrix B
 		DoubleMatrix2D B = buildB(D);
 		DoubleMatrix2D P;
@@ -191,7 +191,7 @@ public class MultidimensionalScaling implements MetricSpaceEmbedding {
 		return nonzero;
 	}
 
-	protected DoubleMatrix2D buildB(IntFiniteMetricSpace D) {
+	protected DoubleMatrix2D buildB(AbstractIntMetricSpace D) {
 		int n = D.size();
 		double ndub = n;
 		DoubleMatrix2D B = new DenseDoubleMatrix2D(n, n);

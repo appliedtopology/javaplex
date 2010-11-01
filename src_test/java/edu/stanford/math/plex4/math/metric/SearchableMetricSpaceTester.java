@@ -1,13 +1,13 @@
 package edu.stanford.math.plex4.math.metric;
 
 import static org.junit.Assert.assertTrue;
-import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIterator;
 
 /**
  * This class contains functions for testing the validity of the
- * subclasses of SearchableFiniteMetricSpace. It verifies that the
+ * subclasses of AbstractSearchableMetricSpace. It verifies that the
  * claimed nearest points are indeed the nearest, etc.
  *  
  * @author Andrew Tausz
@@ -21,11 +21,11 @@ public class SearchableMetricSpaceTester {
 	 * @param <M> the underlying type of the metric space
 	 * @param metricSpace the metric space to test
 	 */
-	public static <M> void verifyNearestPoints(SearchableFiniteMetricSpace<M> metricSpace) {
+	public static <M> void verifyNearestPoints(AbstractSearchableMetricSpace<M> metricSpace) {
 		for (int i = 0; i < metricSpace.size(); i++) {
 			M queryPoint = metricSpace.getPoint(i);
 
-			int nearestPointIndex = metricSpace.getNearestPoint(queryPoint);
+			int nearestPointIndex = metricSpace.getNearestPointIndex(queryPoint);
 
 			assertTrue("Nearest neighbor should not be equal to the query point.", nearestPointIndex != i);
 
@@ -48,7 +48,7 @@ public class SearchableMetricSpaceTester {
 	 * @param metricSpace the metric space to test
 	 * @param queryPoints the set of query points
 	 */
-	public static <M> void verifyNearestPoints(SearchableFiniteMetricSpace<M> metricSpace, M[] queryPoints) {
+	public static <M> void verifyNearestPoints(AbstractSearchableMetricSpace<M> metricSpace, M[] queryPoints) {
 		for (M queryPoint: queryPoints) {
 			verifyNearestPoint(metricSpace, queryPoint);
 		}
@@ -61,8 +61,8 @@ public class SearchableMetricSpaceTester {
 	 * @param metricSpace the metric space to test
 	 * @param queryPoint the query point
 	 */
-	public static <M> void verifyNearestPoint(SearchableFiniteMetricSpace<M> metricSpace, M queryPoint) {
-		int nearestPointIndex = metricSpace.getNearestPoint(queryPoint);
+	public static <M> void verifyNearestPoint(AbstractSearchableMetricSpace<M> metricSpace, M queryPoint) {
+		int nearestPointIndex = metricSpace.getNearestPointIndex(queryPoint);
 		M nearestPoint = metricSpace.getPoint(nearestPointIndex);
 		double nearestDistance = metricSpace.distance(queryPoint, nearestPoint);
 		
@@ -81,7 +81,7 @@ public class SearchableMetricSpaceTester {
 	 * @param metricSpace
 	 * @param epsilon
 	 */
-	public static <M> void verifyNeighborhoods(SearchableFiniteMetricSpace<M> metricSpace, double epsilon) {
+	public static <M> void verifyNeighborhoods(AbstractSearchableMetricSpace<M> metricSpace, double epsilon) {
 
 		for (int i = 0; i < metricSpace.size(); i++) {
 			M queryPoint = metricSpace.getPoint(i);

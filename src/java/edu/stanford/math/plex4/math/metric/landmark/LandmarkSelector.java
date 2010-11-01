@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.math.metric.landmark;
 
-import edu.stanford.math.plex4.math.metric.interfaces.FiniteMetricSpace;
-import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 /**
  * This abstract class defines the functionality of a landmark set within an arbitrary
@@ -18,12 +18,12 @@ import edu.stanford.math.plex4.utility.ExceptionUtility;
  *
  * @param <T> the underlying type of the metric space
  */
-public abstract class LandmarkSelector<T> implements FiniteMetricSpace<T> {
+public abstract class LandmarkSelector<T> implements AbstractObjectMetricSpace<T> {
 	
 	/**
 	 * This is the underlying metric space upon which the landmark set is build.
 	 */
-	protected final SearchableFiniteMetricSpace<T> metricSpace;
+	protected final AbstractSearchableMetricSpace<T> metricSpace;
 	
 	/**
 	 * This is the size of the landmark set
@@ -43,7 +43,7 @@ public abstract class LandmarkSelector<T> implements FiniteMetricSpace<T> {
 	 * @param metricSpace the metric space to build the landmarks set in
 	 * @param landmarkSetSize the size of the landmark set
 	 */
-	public LandmarkSelector(SearchableFiniteMetricSpace<T> metricSpace, int landmarkSetSize) {
+	public LandmarkSelector(AbstractSearchableMetricSpace<T> metricSpace, int landmarkSetSize) {
 		ExceptionUtility.verifyNonNull(metricSpace);
 		ExceptionUtility.verifyLessThanOrEqual(landmarkSetSize, metricSpace.size());
 		
@@ -83,7 +83,7 @@ public abstract class LandmarkSelector<T> implements FiniteMetricSpace<T> {
 		return this.metricSpace.getPoint(this.getLandmarkIndex(index));
 	}
 	
-	public SearchableFiniteMetricSpace<T> getUnderlyingMetricSpace() {
+	public AbstractSearchableMetricSpace<T> getUnderlyingMetricSpace() {
 		return this.metricSpace;
 	}
 	

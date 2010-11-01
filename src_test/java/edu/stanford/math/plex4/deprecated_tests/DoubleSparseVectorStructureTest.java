@@ -1,6 +1,6 @@
 package edu.stanford.math.plex4.deprecated_tests;
 
-import edu.stanford.math.plex4.math.matrix.impl.sparse.DoubleSparseVector;
+import edu.stanford.math.primitivelib.autogen.matrix.DoubleSparseVector;
 
 
 public class DoubleSparseVectorStructureTest {

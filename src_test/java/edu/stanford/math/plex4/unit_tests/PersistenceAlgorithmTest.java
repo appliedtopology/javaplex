@@ -1,7 +1,5 @@
 package edu.stanford.math.plex4.unit_tests;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +8,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.homology.LazyWitnessSpecifier;
 import edu.stanford.math.plex4.homology.PersistenceAlgorithmResult;
@@ -21,7 +18,10 @@ import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
+import edu.stanford.math.plex4.math.metric.landmark.MaxMinLandmarkSelector;
 import edu.stanford.math.plex4.utility.RandomUtility;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
+import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 import gnu.trove.THashMap;
 
 
@@ -35,7 +35,7 @@ public class PersistenceAlgorithmTest {
 	private List<VietorisRipsSpecifier> vietorisRipsExamples = new ArrayList<VietorisRipsSpecifier>();
 	private List<LazyWitnessSpecifier> lazyWitnessExamples = new ArrayList<LazyWitnessSpecifier>();
 	
-	private List<GenericPair<ExplicitStream<Simplex>, int[]>> explicitStreamExamples = new ArrayList<GenericPair<ExplicitStream<Simplex>, int[]>>();
+	private List<ObjectObjectPair<ExplicitStream<Simplex>, int[]>> explicitStreamExamples = new ArrayList<ObjectObjectPair<ExplicitStream<Simplex>, int[]>>();
 
 	private List<PersistenceAlgorithmType> persistenceAlgorithms = new ArrayList<PersistenceAlgorithmType>();
 	
@@ -47,34 +47,33 @@ public class PersistenceAlgorithmTest {
 		
 		RandomUtility.initializeWithSeed(3);
 		
-		//vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getEquispacedCirclePoints(4), 3, 2, 100));
-		//vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getEquispacedCirclePoints(n), 2, 0.3, 10));
-		//vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getHouseExample(), 2, 2, 10));
+		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getEquispacedCirclePoints(4), 3, 2, 100));
+		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getEquispacedCirclePoints(n), 2, 0.3, 10));
+		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getHouseExample(), 2, 2, 10));
 		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getSquare(), 2, 2, 10));
-		//vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getGaussianPoints(n, d), d, 0.4, 10));
-		//vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getRandomSpherePoints(n, d), d, 0.4, 10));
+		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getGaussianPoints(n, d), d, 0.4, 10));
+		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getRandomSpherePoints(n, d), d, 0.4, 10));
 		
-		/*
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(n)), l), 2, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getGaussianPoints(n, d)), l), d, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getRandomFigure8Points(n)), l), 2, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(n, d)), l), 2, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getRandomTorusPoints(n, 1, 2)), l), 2, 0.5, 10));	
-		*/
+		
 		/*
-		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getTriangle(), new int[]{1, 1}));
-		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getFilteredTriangle(), new int[]{1, 0}));
-		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getSimplicialSphere(4), new int[]{1, 0, 0, 0, 1}));
-		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getZomorodianCarlssonExample(), new int[]{1, 0}));
-		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getTorus(), new int[]{1, 2, 1}));
-		explicitStreamExamples.add(new GenericPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getCircle(n), new int[]{1, 1}));
+		explicitStreamExamples.add(new ObjectObjectPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getTriangle(), new int[]{1, 1}));
+		explicitStreamExamples.add(new ObjectObjectPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getFilteredTriangle(), new int[]{1, 0}));
+		explicitStreamExamples.add(new ObjectObjectPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getSimplicialSphere(4), new int[]{1, 0, 0, 0, 1}));
+		explicitStreamExamples.add(new ObjectObjectPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getZomorodianCarlssonExample(), new int[]{1, 0}));
+		explicitStreamExamples.add(new ObjectObjectPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getTorus(), new int[]{1, 2, 1}));
+		explicitStreamExamples.add(new ObjectObjectPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getCircle(n), new int[]{1, 1}));
 		
 		*/
 		persistenceAlgorithms.add(PersistenceAlgorithmType.Plex3Homology);
 		persistenceAlgorithms.add(PersistenceAlgorithmType.IntClassicalHomology);
 		persistenceAlgorithms.add(PersistenceAlgorithmType.IntAbsoluteHomology);
 		persistenceAlgorithms.add(PersistenceAlgorithmType.GenericAbsoluteHomology);
-		persistenceAlgorithms.add(PersistenceAlgorithmType.GenericAbsoluteCohomology);
+		//persistenceAlgorithms.add(PersistenceAlgorithmType.GenericAbsoluteCohomology);
 		
 	}
 
@@ -93,7 +92,7 @@ public class PersistenceAlgorithmTest {
 				persistenceResults.put(type, result);
 				System.out.println(result);
 				
-				System.out.println(result.getBarcodeCollection());
+				//System.out.println(result.getBarcodeCollection());
 			}
 			
 			System.out.println("================");
@@ -121,7 +120,7 @@ public class PersistenceAlgorithmTest {
 	
 	//@Test
 	private void testExplicitExamples() {
-		for (GenericPair<ExplicitStream<Simplex>, int[]> pair: this.explicitStreamExamples) {
+		for (ObjectObjectPair<ExplicitStream<Simplex>, int[]> pair: this.explicitStreamExamples) {
 			ExplicitStream<Simplex> stream = pair.getFirst();
 			THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult> persistenceResults = new THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult>();
 			
@@ -134,7 +133,7 @@ public class PersistenceAlgorithmTest {
 				int[] computedBettiSequence = result.getBarcodeCollection().getInfiniteIntervals().getBettiSequence();
 				System.out.println(type + ": " + Arrays.toString(computedBettiSequence));
 				
-				assertTrue(HomologyUtility.compareIntArrays(computedBettiSequence, pair.getSecond()) == 0);
+				assert(HomologyUtility.compareIntArrays(computedBettiSequence, pair.getSecond()) == 0);
 			}
 			
 			System.out.println("================");

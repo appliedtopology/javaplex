@@ -1,15 +1,11 @@
 package edu.stanford.math.plex4.homology;
 
-import org.apache.commons.math.fraction.Fraction;
+import org.apache.commons.lang.math.Fraction;
 
 import edu.stanford.math.plex.EuclideanArrayData;
 import edu.stanford.math.plex.PersistenceInterval;
 import edu.stanford.math.plex.Plex;
 import edu.stanford.math.plex.RipsStream;
-import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntField;
-import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntegerField;
-import edu.stanford.math.plex4.algebraic_structures.impl.RationalField;
-import edu.stanford.math.plex4.array_utility.IntArrayMath;
 import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
@@ -20,10 +16,13 @@ import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStrea
 import edu.stanford.math.plex4.homology.streams.storage_structures.HashedStorageStructure;
 import edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure;
 import edu.stanford.math.plex4.homology.streams.utility.StreamUtility;
-import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.test_utility.Timing;
+import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
+import edu.stanford.math.primitivelib.algebraic.impl.RationalField;
+import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
+import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 public class PersistenceAlgorithmTester {
 	
@@ -35,7 +34,7 @@ public class PersistenceAlgorithmTester {
 			
 			Timing.restart();
 			
-			SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
+			AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
 			StreamStorageStructure<Simplex> structure = new HashedStorageStructure(SimplexComparator.getInstance());
 			VietorisRipsStream<double[]> stream = new VietorisRipsStream<double[]>(metricSpace, maxFiltrationValue, maxDimension + 1, numDivisions, structure);
 			stream.finalizeStream();
@@ -206,7 +205,7 @@ public class PersistenceAlgorithmTester {
 	}
 	
 	private static BarcodeCollection computeGenericAbsoluteHomology(AbstractFilteredStream<Simplex> stream, int d) {
-		GenericPersistenceAlgorithm<Integer, Simplex> homology = new GenericAbsoluteHomology<Integer, Simplex>(ModularIntegerField.getInstance(13), SimplexComparator.getInstance(), d);
+		GenericPersistenceAlgorithm<Fraction, Simplex> homology = new GenericAbsoluteHomology<Fraction, Simplex>(RationalField.getInstance(), SimplexComparator.getInstance(), d);
 		BarcodeCollection barcodes = homology.computeIntervals(stream);
 		return barcodes;
 	}

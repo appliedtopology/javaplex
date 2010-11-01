@@ -8,12 +8,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.stanford.math.plex4.examples.PointCloudExamples;
+import edu.stanford.math.plex4.kd.KDEuclideanMetricSpace;
 import edu.stanford.math.plex4.math.metric.SearchableMetricSpaceTester;
-import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.impl.KDEuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.math.metric.utility.MetricUtility;
 import edu.stanford.math.plex4.test_utility.Timing;
+import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 /**
  * This class contains tests for verifying the functionality of the
@@ -55,7 +55,7 @@ public class SearchableMetricSpaceTest {
 	public void testNonKDMetricSpace2D() {
 		Timing.restart();
 		for (double[][] pointCloud: this.pointCloudExamples) {
-			SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(pointCloud);
+			AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(pointCloud);
 			
 			double epsilon = MetricUtility.estimateDiameter(metricSpace) / 5.0;
 			
@@ -69,7 +69,7 @@ public class SearchableMetricSpaceTest {
 	public void testKDMetricSpace2D() {
 		Timing.restart();
 		for (double[][] pointCloud: this.pointCloudExamples) {
-			SearchableFiniteMetricSpace<double[]> metricSpace = new KDEuclideanMetricSpace(pointCloud);
+			AbstractSearchableMetricSpace<double[]> metricSpace = new KDEuclideanMetricSpace(pointCloud);
 			
 			double epsilon = MetricUtility.estimateDiameter(metricSpace) / 5.0;
 			

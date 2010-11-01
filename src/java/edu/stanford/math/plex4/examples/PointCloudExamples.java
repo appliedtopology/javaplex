@@ -1,7 +1,7 @@
 package edu.stanford.math.plex4.examples;
 
-import edu.stanford.math.plex4.array_utility.DoubleArrayMath;
 import edu.stanford.math.plex4.utility.RandomUtility;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
 
 /**
  * This static class contains various functions which produce 

@@ -6,8 +6,8 @@ package edu.stanford.math.plex4.homology.streams.impl;
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure;
-import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIterator;
 
@@ -30,7 +30,7 @@ public class VietorisRipsStream<T> extends FlagComplexStream {
 	/**
 	 * This is the metric space upon which the stream is built from.
 	 */
-	protected final SearchableFiniteMetricSpace<T> metricSpace;
+	protected final AbstractSearchableMetricSpace<T> metricSpace;
 	
 	/**
 	 * Constructor which initializes the complex with a metric space.
@@ -39,17 +39,17 @@ public class VietorisRipsStream<T> extends FlagComplexStream {
 	 * @param maxDistance the maximum allowable distance
 	 * @param maxDimension the maximum dimension of the complex
 	 */
-	public VietorisRipsStream(SearchableFiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension) {
+	public VietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, double maxDistance, int maxDimension) {
 		this(metricSpace, maxDistance, maxDimension, 20);
 	}
 	
-	public VietorisRipsStream(SearchableFiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int numDivisions) {
+	public VietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int numDivisions) {
 		super(maxDimension, maxDistance, numDivisions);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		this.metricSpace = metricSpace;
 	}
 	
-	public VietorisRipsStream(SearchableFiniteMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int numDivisions, StreamStorageStructure<Simplex> storageStructure) {
+	public VietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int numDivisions, StreamStorageStructure<Simplex> storageStructure) {
 		super(maxDimension, maxDistance, numDivisions, storageStructure);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		this.metricSpace = metricSpace;

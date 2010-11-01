@@ -5,10 +5,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-import edu.stanford.math.plex4.array_utility.DoubleArrayMath;
-import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.ListUtility;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import gnu.trove.TIntHashSet;
 
 /**
@@ -77,7 +77,7 @@ public class KDTree {
 			splitIndex = this.getRandomSplitIndex(points);
 		}
 		
-		GenericPair<List<Integer>, List<Integer>> pointListPair = this.splitPoints(points, axis, splitIndex);
+		ObjectObjectPair<List<Integer>, List<Integer>> pointListPair = this.splitPoints(points, axis, splitIndex);
 		
 		points = null;
 		
@@ -123,7 +123,7 @@ public class KDTree {
 	 * @param splitIndex the index to split on
 	 * @return a GenericPair containing the two lists described above
 	 */
-	private GenericPair<List<Integer>, List<Integer>> splitPoints(List<Integer> pointIndices, final int axis, int splitIndex) {
+	private ObjectObjectPair<List<Integer>, List<Integer>> splitPoints(List<Integer> pointIndices, final int axis, int splitIndex) {
 		Comparator<Integer> comparator = getAxisComparator(axis);
 		List<Integer> lessThan = new ArrayList<Integer>();
 		List<Integer> greaterThanOrEqual = new ArrayList<Integer>();
@@ -136,7 +136,7 @@ public class KDTree {
 			}
 		}
 		
-		return new GenericPair<List<Integer>, List<Integer>>(lessThan, greaterThanOrEqual);
+		return new ObjectObjectPair<List<Integer>, List<Integer>>(lessThan, greaterThanOrEqual);
 	}
 	
 	/**

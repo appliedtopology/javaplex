@@ -2,9 +2,9 @@ package edu.stanford.math.plex4.homology.streams.derived;
 
 import java.util.Comparator;
 
-import edu.stanford.math.plex4.datastructures.ReversedComparator;
-import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
+import edu.stanford.math.primitivelib.utility.ReversedComparator;
 
 public class HomStream<T, U> extends TensorStream<T, U>{
 	
@@ -13,7 +13,7 @@ public class HomStream<T, U> extends TensorStream<T, U>{
 	}
 	
 	@Override
-	public int getDimension(GenericPair<T, U> element) {
+	public int getDimension(ObjectObjectPair<T, U> element) {
 		return (this.stream2.getDimension(element.getSecond()) - this.stream1.getDimension(element.getFirst()));
 	}
 }

@@ -2,12 +2,12 @@ package edu.stanford.math.plex4.homology.streams.impl;
 
 import java.util.Arrays;
 
-import edu.stanford.math.plex4.array_utility.ArrayCreation;
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
-import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.Infinity;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 /**
  * This class implements the lazy witness complex described in the paper
@@ -25,7 +25,7 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 	/**
 	 * This is the metric space upon which the stream is built from.
 	 */
-	protected final SearchableFiniteMetricSpace<T> metricSpace;
+	protected final AbstractSearchableMetricSpace<T> metricSpace;
 
 	/**
 	 * This is the selection of landmark points
@@ -50,7 +50,7 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 	 * @param maxDistance the maximum allowable distance
 	 * @param maxDimension the maximum dimension of the complex
 	 */
-	public LazyWitnessStream(SearchableFiniteMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int nu, double R, int numDivisions) {
+	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int nu, double R, int numDivisions) {
 		super(maxDimension, maxDistance, numDivisions);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		ExceptionUtility.verifyNonNegative(nu);
@@ -61,7 +61,7 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 		this.R = R;
 	}
 
-	public LazyWitnessStream(SearchableFiniteMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int numDivisions) {
+	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int numDivisions) {
 		this(metricSpace, landmarkSelector, maxDimension, maxDistance, 2, 0, numDivisions);
 	}
 
@@ -97,10 +97,10 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 		 */
 		
 		double[][] D = null;
-		double[] m = ArrayCreation.newDoubleArray(N);
+		double[] m = DoubleArrayUtility.createArray(N);
 		
 		try {
-			D = ArrayCreation.newDoubleMatrix(L, N);
+			D = DoubleArrayUtility.createMatrix(L, N);
 			for (int l = 0; l < L; l++) {
 				for (int n = 0; n < N; n++) {
 					D[l][n] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(l), n);

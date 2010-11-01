@@ -3,8 +3,8 @@ package edu.stanford.math.plex4.io2;
 import java.io.IOException;
 
 import cern.colt.matrix.DoubleMatrix2D;
-import edu.stanford.math.plex4.array_utility.IntArrayMath;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
 
 /**
  * This class has static methods for creating Matlab files to visualize data.

@@ -5,19 +5,12 @@ package edu.stanford.math.plex4.deprecated_tests;
 
 import java.util.Comparator;
 
-import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntField;
-import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntegerField;
-import edu.stanford.math.plex4.algebraic_structures.impl.RationalField;
-import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
-import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
 import edu.stanford.math.plex4.embedding.GraphEmbedding;
 import edu.stanford.math.plex4.embedding.GraphMetricEmbedding;
 import edu.stanford.math.plex4.embedding.MultidimensionalScaling;
 import edu.stanford.math.plex4.examples.CellStreamExamples;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.examples.SimplexStreamExamples;
-import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
-import edu.stanford.math.plex4.free_module.IntFormalSum;
 import edu.stanford.math.plex4.graph_metric.ShortestPathMetric;
 import edu.stanford.math.plex4.homology.ClassicalPersistentHomology;
 import edu.stanford.math.plex4.homology.GenericAbsoluteCohomology;
@@ -40,10 +33,16 @@ import edu.stanford.math.plex4.homology.streams.impl.GeometricSimplexStream;
 import edu.stanford.math.plex4.homology.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.homology.streams.impl.VietorisRipsStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.math.metric.landmark.MaxMinLandmarkSelector;
+import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
+import edu.stanford.math.primitivelib.algebraic.impl.RationalField;
+import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
+import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
+import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 /**
  * @author atausz
@@ -70,33 +69,33 @@ public class PersistentHomologyTest {
 	
 	public static void SimplicalTest() {
 		AbstractFilteredStream<Simplex> stream = SimplexStreamExamples.getTriangle();
-		testGenericDualityPersistentCohomology(stream, SimplexComparator.getInstance(), ModularIntegerField.getInstance(7));
+		testGenericDualityPersistentCohomology(stream, SimplexComparator.getInstance(), RationalField.getInstance());
 	}
 	
-	public static <T extends PrimitiveBasisElement> void testClassicalPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, IntField field, int dimension) {
+	public static <T extends PrimitiveBasisElement> void testClassicalPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, IntAbstractField field, int dimension) {
 		ClassicalPersistentHomology<T> homology = new ClassicalPersistentHomology<T>(field, comparator);
 		BarcodeCollection barcodes = homology.computeIntervals(stream, dimension);
 		System.out.println(barcodes);
 	}
 	
-	public static <T> void testIntDualityPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, IntField field) {
+	public static <T> void testIntDualityPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, IntAbstractField field) {
 		IntPersistentHomology<T> homology = new IntAbsoluteHomology<T>(field, comparator, 8);
-		AugmentedBarcodeCollection<IntFormalSum<T>> barcodes = homology.computeAugmentedIntervals(stream);
+		AugmentedBarcodeCollection<IntSparseFormalSum<T>> barcodes = homology.computeAugmentedIntervals(stream);
 		System.out.println(barcodes);
 	}
 	
-	public static <F, T> void testGenericDualityPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, GenericField<F> field) {
+	public static <F, T> void testGenericDualityPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, ObjectAbstractField<F> field) {
 		GenericPersistenceAlgorithm<F, T> homology = new GenericAbsoluteHomology<F, T>(field, comparator, 8);
 		//BarcodeCollection barcodes = homology.computeIntervals(stream);
-		AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
+		AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
 		System.out.println(barcodes);
 	}
 	
-	public static <F, T> void testGenericDualityPersistentCohomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, GenericField<F> field) {
+	public static <F, T> void testGenericDualityPersistentCohomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, ObjectAbstractField<F> field) {
 		GenericPersistenceAlgorithm<F, T> homology = new GenericAbsoluteCohomology<F, T>(field, comparator, 7);
 		//BarcodeCollection barcodes = homology.computeIntervals(stream);
 		//System.out.println(homology.getBoundaryColumns(stream, 0));
-		AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
+		AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
 		
 		System.out.println(barcodes);
 	}
@@ -150,7 +149,7 @@ public class PersistentHomologyTest {
 	public static void lazyWitnessTest() {
 		int n = 100;
 		int d = 3;
-		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(n, d));
+		AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(n, d));
 		
 		LandmarkSelector<double[]> selector = new MaxMinLandmarkSelector<double[]>(metricSpace, 50);
 		LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(metricSpace, selector, 3, 0.3, 100);
@@ -161,7 +160,7 @@ public class PersistentHomologyTest {
 	
 	public static void vietorisRipsTest() {
 		int n = 20;
-		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(n));
+		AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(n));
 		VietorisRipsStream<double[]> stream = new VietorisRipsStream<double[]>(metricSpace, 0.5, 2);
 		stream.finalizeStream();
 		

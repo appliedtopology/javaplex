@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.graph.utility;
 
-import edu.stanford.math.plex4.array_utility.ArrayCreation;
 import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex4.utility.Infinity;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
 
 public class GraphUtility {
 	
@@ -15,7 +15,7 @@ public class GraphUtility {
 	 */
 	public static double[][] computeShortestPaths(AbstractUndirectedGraph graph) {
 		int n = graph.getNumVertices();
-		double[][] pathLengths = ArrayCreation.newDoubleMatrix(n, n);
+		double[][] pathLengths = DoubleArrayUtility.createMatrix(n, n);
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				if (graph.containsEdge(i, j)) {

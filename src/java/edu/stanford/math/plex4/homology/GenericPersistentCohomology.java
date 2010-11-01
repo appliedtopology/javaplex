@@ -1,31 +1,32 @@
 package edu.stanford.math.plex4.homology;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
-import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
-import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
 
 public abstract class GenericPersistentCohomology<F, T> extends GenericPersistenceAlgorithm<F, T> {
-	public GenericPersistentCohomology(GenericField<F> field, Comparator<T> comparator, int minDimension, int maxDimension) {
+	public GenericPersistentCohomology(ObjectAbstractField<F> field, Comparator<T> comparator, int minDimension, int maxDimension) {
 		super(field, comparator, minDimension, maxDimension);
 		// TODO Auto-generated constructor stub
 	}
 
-	public GenericPersistentCohomology(GenericField<F> field, Comparator<T> comparator, int maxDimension) {
+	public GenericPersistentCohomology(ObjectAbstractField<F> field, Comparator<T> comparator, int maxDimension) {
 		super(field, comparator, 0, maxDimension);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
+	public AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
 		//return this.getAugmentedIntervals(this.pHrow(stream), stream);
 		return null;
 	}
@@ -39,7 +40,7 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 	public BarcodeCollection pCoh(AbstractFilteredStream<T> stream) {
 		BarcodeCollection barcodeCollection = new BarcodeCollection();
 
-		THashMap<T, AbstractGenericFormalSum<F, T>> cocycles = new THashMap<T, AbstractGenericFormalSum<F, T>>();
+		THashMap<T, ObjectSparseFormalSum<F, T>> cocycles = new THashMap<T, ObjectSparseFormalSum<F, T>>();
 
 		for (T sigma_k : stream) {
 			//Do not process simplices of higher dimension than maxDimension.
@@ -51,7 +52,7 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 				break;
 			}
 
-			AbstractGenericFormalSum<F, T> boundary = chainModule.createSum(stream.getBoundaryCoefficients(sigma_k), stream.getBoundary(sigma_k));
+			ObjectSparseFormalSum<F, T> boundary = chainModule.createNewSum(stream.getBoundaryCoefficients(sigma_k), stream.getBoundary(sigma_k));
 
 			/**
 			 * This maintains the coboundary coefficients of the live cocycles. Only nonzero coefficients
@@ -89,10 +90,11 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 			//System.out.println("Cocycle set size: " + cocycles.size());
 			
 			for (T sigma_i: cocycleKeySet) {
-				AbstractGenericFormalSum<F, T> cocycle = cocycles.get(sigma_i);
+				ObjectSparseFormalSum<F, T> cocycle = cocycles.get(sigma_i);
 
 				F c_i = this.field.getZero();
-				for (Entry<T, F> boundaryElementPair: boundary) {
+				for (Iterator<Entry<T, F>> iterator = boundary.iterator(); iterator.hasNext(); ) {
+					Entry<T, F> boundaryElementPair  = iterator.next();
 					T boundaryObject = boundaryElementPair.getKey();
 					F boundaryCoefficient = boundaryElementPair.getValue();
 
@@ -121,11 +123,11 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 			} else {
 
 				// kill the cocycle sigma_j
-				AbstractGenericFormalSum<F, T> alpha_j = cocycles.get(sigma_j);
+				ObjectSparseFormalSum<F, T> alpha_j = cocycles.get(sigma_j);
 
 				for (T sigma_i: liveCocycleCoefficients.keySet()) {
 					if (this.basisComparator.compare(sigma_i, sigma_j) != 0) {
-						AbstractGenericFormalSum<F, T> alpha_i = cocycles.get(sigma_i);
+						ObjectSparseFormalSum<F, T> alpha_i = cocycles.get(sigma_i);
 						F c_i = this.field.getZero();
 						if (liveCocycleCoefficients.containsKey(sigma_i)) {
 							c_i = liveCocycleCoefficients.get(sigma_i);
@@ -161,7 +163,7 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 	/*
 	private BarcodeCollection pCoh(AbstractFilteredStream<T> stream) {
 		THashSet<T> marked = new THashSet<T>();
-		List<AbstractGenericFormalSum<F, T>> Z_perp = new ArrayList<AbstractGenericFormalSum<F, T>>();
+		List<ObjectSparseFormalSum<F, T>> Z_perp = new ArrayList<ObjectSparseFormalSum<F, T>>();
 		List<T> birth = new ArrayList<T>();
 
 		for (T i: stream) {
@@ -175,7 +177,7 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 				break;
 			}
 
-			AbstractGenericFormalSum<F, T> boundary = chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i))
+			ObjectSparseFormalSum<F, T> boundary = chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i))
 
 			THashSet<T> candidates = new THashSet<T>();
 			for (Map.Entry<T, F> boundary_entry: boundary) {
@@ -197,14 +199,14 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 		return null;
 	}
 	/*
-	private GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> pHrow(AbstractFilteredStream<T> stream) {
+	private ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> pHrow(AbstractFilteredStream<T> stream) {
 
-		THashMap<T, AbstractGenericFormalSum<F, T>> R_perp = new THashMap<T, AbstractGenericFormalSum<F, T>>();
-		THashMap<T, AbstractGenericFormalSum<F, T>> V_perp = new THashMap<T, AbstractGenericFormalSum<F, T>>();
+		THashMap<T, ObjectSparseFormalSum<F, T>> R_perp = new THashMap<T, ObjectSparseFormalSum<F, T>>();
+		THashMap<T, ObjectSparseFormalSum<F, T>> V_perp = new THashMap<T, ObjectSparseFormalSum<F, T>>();
 
 		THashSet<T> dead_columns = new THashSet<T>();
 
-		THashMap<T, GenericPair<F, T>> eliminations = new THashMap<T, GenericPair<F, T>>();
+		THashMap<T, ObjectObjectPair<F, T>> eliminations = new THashMap<T, ObjectObjectPair<F, T>>();
 
 		for (T i: stream) {
 
@@ -221,7 +223,7 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 			V_perp.put(i, this.chainModule.createNewSum(this.field.valueOf(1), i));
 
 			// form the row R^perp[i] which equals the boundary of the current simplex.
-			AbstractGenericFormalSum<F, T> boundary = chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i));
+			ObjectSparseFormalSum<F, T> boundary = chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i));
 			//R_perp.put(i, boundary);
 
 			if (boundary.size() == 0) {
@@ -232,7 +234,7 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 			F pivot_coefficient = boundary.getCoefficient(pivot);
 
 			if (dead_columns.contains(pivot)) {
-				AbstractGenericFormalSum<F, T> new_boundary = chainModule.createNewSum();
+				ObjectSparseFormalSum<F, T> new_boundary = chainModule.createNewSum();
 				// perform elimination
 				for (Map.Entry<T, F> boundary_entry: boundary) {
 					T boundary_element = boundary_entry.getKey();
@@ -288,7 +290,7 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 		ModuleMorphismRepresentation<F, T, T> rep = new ModuleMorphismRepresentation<F, T,T>(stream, stream);
 		System.out.println(ArrayPrinting.toString(rep.toMatrix(R_perp, this.field.getZero())));
 
-		GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> pair = new GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>>(R_perp, V_perp);
+		ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> pair = new ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>>(R_perp, V_perp);
 		if (!this.verifyDecomposition(pair, stream)) {
 			System.out.println("VERIFICATION FAILED!!!!");
 		} else {
@@ -297,21 +299,21 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 		return pair;
 	}*/
 
-	protected abstract AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> getAugmentedIntervals(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
+	protected abstract AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> getAugmentedIntervals(ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
 
-	protected abstract BarcodeCollection getIntervals(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
+	protected abstract BarcodeCollection getIntervals(ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
 
-	protected AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> getAugmentedIntervals(
-			GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
-		AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> barcodeCollection = new AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>>();
+	protected AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> getAugmentedIntervals(
+			ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
+		AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> barcodeCollection = new AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>>();
 
-		THashMap<T, AbstractGenericFormalSum<F, T>> R_perp = RV_pair.getFirst();
-		THashMap<T, AbstractGenericFormalSum<F, T>> V_perp = RV_pair.getSecond();
+		THashMap<T, ObjectSparseFormalSum<F, T>> R_perp = RV_pair.getFirst();
+		THashMap<T, ObjectSparseFormalSum<F, T>> V_perp = RV_pair.getSecond();
 
 		Set<T> births = new THashSet<T>();
 		Set<T> deaths = new THashSet<T>();
 
-		AbstractGenericFormalSum<F, T> R_i = null;
+		ObjectSparseFormalSum<F, T> R_i = null;
 		T low_R_perp_i = null;
 		for (T i: stream) {
 			if (deaths.contains(i)) {
@@ -360,15 +362,15 @@ public abstract class GenericPersistentCohomology<F, T> extends GenericPersisten
 	}
 
 	protected BarcodeCollection getIntervals(
-			GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
+			ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
 		BarcodeCollection barcodeCollection = new BarcodeCollection();
 
-		THashMap<T, AbstractGenericFormalSum<F, T>> R_perp = RV_pair.getFirst();
+		THashMap<T, ObjectSparseFormalSum<F, T>> R_perp = RV_pair.getFirst();
 
 		Set<T> births = new THashSet<T>();
 		Set<T> deaths = new THashSet<T>();
 
-		AbstractGenericFormalSum<F, T> R_i = null;
+		ObjectSparseFormalSum<F, T> R_i = null;
 		T low_R_perp_i = null;
 		for (T i: stream) {
 			if (deaths.contains(i)) {

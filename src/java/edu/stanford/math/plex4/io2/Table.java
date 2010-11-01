@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import edu.stanford.math.plex4.array_utility.IntArrayMath;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
 
 /**
  * This class holds a table of string values. It contains functionality for

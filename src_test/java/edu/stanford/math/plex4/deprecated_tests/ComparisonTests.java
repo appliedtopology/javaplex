@@ -1,6 +1,8 @@
 package edu.stanford.math.plex4.deprecated_tests;
 
 
+import org.apache.commons.lang.math.Fraction;
+
 import cern.colt.Arrays;
 import cern.colt.Timer;
 import edu.stanford.math.plex.EuclideanArrayData;
@@ -9,8 +11,6 @@ import edu.stanford.math.plex.Plex;
 import edu.stanford.math.plex.RipsStream;
 import edu.stanford.math.plex.WitnessStream;
 import edu.stanford.math.plex.PersistenceInterval.Float;
-import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntField;
-import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntegerField;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.homology.ClassicalPersistentHomology;
 import edu.stanford.math.plex4.homology.GenericAbsoluteCohomology;
@@ -22,10 +22,12 @@ import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.homology.streams.impl.VietorisRipsStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.math.metric.landmark.RandomLandmarkSelector;
+import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
+import edu.stanford.math.primitivelib.algebraic.impl.RationalField;
+import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 public class ComparisonTests {
 	public static void main(String[] args) {
@@ -56,7 +58,7 @@ public class ComparisonTests {
 		double maxFiltrationValue = 0.4;
 		double[][] torusPoints = PointCloudExamples.getRandomTorusPoints(n, r, R);
 
-		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(torusPoints);
+		AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(torusPoints);
 
 		//double diameterEstimate = MetricUtility.estimateDiameter(metricSpace);
 
@@ -105,7 +107,7 @@ public class ComparisonTests {
 
 	public static void computeDualityHomology(AbstractFilteredStream<Simplex> stream, int d) {
 		System.out.println("Duality Homology");
-		GenericPersistenceAlgorithm<Integer, Simplex> homology = new GenericAbsoluteHomology<Integer, Simplex>(ModularIntegerField.getInstance(13), SimplexComparator.getInstance(), d);
+		GenericPersistenceAlgorithm<Fraction, Simplex> homology = new GenericAbsoluteHomology<Fraction, Simplex>(RationalField.getInstance(), SimplexComparator.getInstance(), d);
 		//AugmentedBarcodeCollection<AbstractGenericFormalSum<Integer, Simplex>> barcodes = homology.computeAugmentedIntervals(stream);
 		BarcodeCollection barcodes = homology.computeIntervals(stream);
 		System.out.println(barcodes);
@@ -113,7 +115,7 @@ public class ComparisonTests {
 
 	public static void computeDualityCohomology(AbstractFilteredStream<Simplex> stream, int d) {
 		System.out.println("Duality Cohomology");
-		GenericPersistenceAlgorithm<Integer, Simplex> homology = new GenericAbsoluteCohomology<Integer, Simplex>(ModularIntegerField.getInstance(13), SimplexComparator.getInstance(), d);
+		GenericPersistenceAlgorithm<Fraction, Simplex> homology = new GenericAbsoluteCohomology<Fraction, Simplex>(RationalField.getInstance(), SimplexComparator.getInstance(), d);
 		//AugmentedBarcodeCollection<AbstractGenericFormalSum<Integer, Simplex>> barcodes = homology.computeAugmentedIntervals(stream);
 		BarcodeCollection barcodes = homology.computeIntervals(stream);
 		System.out.println(barcodes);
@@ -129,7 +131,7 @@ public class ComparisonTests {
 	}
 	
 	public static void testPlex4LazyWitness(double[][] points, LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
-		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
+		AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
 		LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(metricSpace, selector, maxDimension + 1, maxFiltrationValue, numDivisions);
 		stream.finalizeStream();
 
@@ -144,7 +146,7 @@ public class ComparisonTests {
 		int numDivisions = 100;
 		double[][] points = PointCloudExamples.getRandomSpherePoints(n, d);
 		
-		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
+		AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
 		LandmarkSelector<double[]> selector = new RandomLandmarkSelector<double[]>(metricSpace, landmarkPoints);
 		
 		testPlex3LazyWitness(points, selector, d, maxFiltrationValue, numDivisions);
@@ -161,7 +163,7 @@ public class ComparisonTests {
 	}
 	
 	public static void testPlex4Vietoris(double[][] points, int maxDimension, double maxFiltrationValue, int numDivisions) {
-		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
+		AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
 		VietorisRipsStream<double[]> stream = new VietorisRipsStream<double[]>(metricSpace, maxFiltrationValue, maxDimension + 1, numDivisions);
 		stream.finalizeStream();
 
@@ -175,7 +177,7 @@ public class ComparisonTests {
 		int numDivisions = 10;
 		double[][] points = PointCloudExamples.getRandomSpherePoints(n, d);
 		
-		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
+		AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
 		
 		testPlex3Vietoris(points, d, maxFiltrationValue, numDivisions);
 		testPlex4Vietoris(points, d, maxFiltrationValue, numDivisions);

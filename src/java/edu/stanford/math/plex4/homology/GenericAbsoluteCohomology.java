@@ -2,32 +2,32 @@ package edu.stanford.math.plex4.homology;
 
 import java.util.Comparator;
 
-import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
-import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
-import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import gnu.trove.THashMap;
 
 public class GenericAbsoluteCohomology<F, T> extends GenericPersistentCohomology<F, T> {
 
-	public GenericAbsoluteCohomology(GenericField<F> field, Comparator<T> comparator, int minDimension, int maxDimension) {
+	public GenericAbsoluteCohomology(ObjectAbstractField<F> field, Comparator<T> comparator, int minDimension, int maxDimension) {
 		super(field, comparator, minDimension, maxDimension);
 	}
 	
-	public GenericAbsoluteCohomology(GenericField<F> field, Comparator<T> comparator, int maxDimension) {
+	public GenericAbsoluteCohomology(ObjectAbstractField<F> field, Comparator<T> comparator, int maxDimension) {
 		super(field, comparator, maxDimension);
 	}
 
 	@Override
-	protected AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> getAugmentedIntervals(
-			GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
+	protected AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> getAugmentedIntervals(
+			ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
 		return this.getAugmentedIntervals(RV_pair, stream, true);
 	}
 
 	@Override
-	protected BarcodeCollection getIntervals(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair,
+	protected BarcodeCollection getIntervals(ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair,
 			AbstractFilteredStream<T> stream) {
 		return this.getIntervals(RV_pair, stream, true);
 	}

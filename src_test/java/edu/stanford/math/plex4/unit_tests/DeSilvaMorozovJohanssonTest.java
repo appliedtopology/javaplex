@@ -7,8 +7,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntegerField;
-import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
 import edu.stanford.math.plex4.homology.GenericAbsoluteCohomology;
 import edu.stanford.math.plex4.homology.GenericAbsoluteHomology;
 import edu.stanford.math.plex4.homology.GenericPersistenceAlgorithm;
@@ -16,9 +14,11 @@ import edu.stanford.math.plex4.homology.GenericRelativeHomology;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.chain_basis.CellComparator;
+import edu.stanford.math.primitivelib.algebraic.impl.ModularIntegerField;
+import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
 
 public class DeSilvaMorozovJohanssonTest {
-	private final GenericField<Integer> field = ModularIntegerField.getInstance(13);
+	private final ObjectAbstractField<Integer> field = ModularIntegerField.getInstance(13);
 	private final DeSilvaMorozovJohanssonExample<Integer> example = new DeSilvaMorozovJohanssonExample<Integer>(field);
 	
 	@Before

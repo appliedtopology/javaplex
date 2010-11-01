@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
-import edu.stanford.math.plex4.free_module.IntFormalSum;
-import edu.stanford.math.plex4.free_module.IntFreeModule;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.utility.FilteredComparator;
+import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import gnu.trove.TObjectIntIterator;
 
 /**
@@ -40,7 +40,7 @@ public abstract class IntPersistenceAlgorithm<T> {
 	/**
 	 * This is the field over which we perform the arithmetic computations.
 	 */
-	protected final IntField field;
+	protected final IntAbstractField field;
 	
 	/**
 	 * This comparator defines the ordering on the basis elements.
@@ -56,7 +56,7 @@ public abstract class IntPersistenceAlgorithm<T> {
 	/**
 	 * This objects performs the chain computations.
 	 */
-	protected IntFreeModule<T> chainModule;
+	protected IntAlgebraicFreeModule<T> chainModule;
 
 	/**
 	 * This stores the minimum dimension for which to compute (co)homology.
@@ -77,7 +77,7 @@ public abstract class IntPersistenceAlgorithm<T> {
 	 * @param basisComparator a Comparator for ordering the basis elements
 	 * @param maxDimension the maximum dimension to compute to
 	 */
-	public IntPersistenceAlgorithm(IntField field, Comparator<T> basisComparator, int minDimension, int maxDimension) {
+	public IntPersistenceAlgorithm(IntAbstractField field, Comparator<T> basisComparator, int minDimension, int maxDimension) {
 		this.field = field;
 		this.basisComparator = basisComparator;
 		this.minDimension = minDimension;
@@ -88,17 +88,17 @@ public abstract class IntPersistenceAlgorithm<T> {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
 	}
-	public AugmentedBarcodeCollection<IntFormalSum<T>> computeAugmentedIntervals(AbstractFilteredStream<T> stream) {
+	public AugmentedBarcodeCollection<IntSparseFormalSum<T>> computeAugmentedIntervals(AbstractFilteredStream<T> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeAugmentedIntervalsImpl(stream);
 	}
 	
 	protected abstract BarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream);
-	protected abstract AugmentedBarcodeCollection<IntFormalSum<T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream);
+	protected abstract AugmentedBarcodeCollection<IntSparseFormalSum<T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream);
 	
 	protected void initializeFilteredComparator(AbstractFilteredStream<T> stream) {
 		this.filteredComparator = new FilteredComparator<T>(stream, this.basisComparator);
-		this.chainModule = new IntFreeModule<T>(this.field);
+		this.chainModule = new IntAlgebraicFreeModule<T>(this.field);
 	}
 	
 	/**
@@ -109,7 +109,7 @@ public abstract class IntPersistenceAlgorithm<T> {
 	 * @param formalSum
 	 * @return
 	 */
-	protected T low(IntFormalSum<T> chain) {
+	protected T low(IntSparseFormalSum<T> chain) {
 		T maxObject = null;
 		
 		for (TObjectIntIterator<T> iterator = chain.iterator(); iterator.hasNext(); ) {
@@ -129,16 +129,16 @@ public abstract class IntPersistenceAlgorithm<T> {
 	 * @param dimension the dimension at which to get the boundary matrix
 	 * @return the columns of the boundary matrix at the specified dimension
 	 */
-	public List<IntFormalSum<T>> getBoundaryColumns(AbstractFilteredStream<T> stream, int dimension) {
+	public List<IntSparseFormalSum<T>> getBoundaryColumns(AbstractFilteredStream<T> stream, int dimension) {
 		this.initializeFilteredComparator(stream);
-		List<IntFormalSum<T>> D = new ArrayList<IntFormalSum<T>>();
+		List<IntSparseFormalSum<T>> D = new ArrayList<IntSparseFormalSum<T>>();
 
 		for (T i: stream) {
 			if (stream.getDimension(i) != dimension) {
 				continue;
 			}
 
-			D.add(chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
+			D.add(chainModule.createNewSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
 		}
 
 		return D;

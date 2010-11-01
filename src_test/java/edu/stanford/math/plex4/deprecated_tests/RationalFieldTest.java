@@ -3,7 +3,7 @@
  */
 package edu.stanford.math.plex4.deprecated_tests;
 
-import edu.stanford.math.plex4.algebraic_structures.impl.RationalField;
+import edu.stanford.math.primitivelib.algebraic.impl.RationalField;
 
 /**
  * @author Andrew Tausz

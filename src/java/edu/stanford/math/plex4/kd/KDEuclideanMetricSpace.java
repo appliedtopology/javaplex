@@ -1,17 +1,16 @@
-package edu.stanford.math.plex4.math.metric.impl;
+package edu.stanford.math.plex4.kd;
 
-import edu.stanford.math.plex4.array_utility.DoubleArrayMath;
-import edu.stanford.math.plex4.kd.KDTree;
-import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.plex4.utility.Infinity;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 import gnu.trove.TIntHashSet;
 
 /**
  * @author Andrew Tausz
  *
  */
-public class KDEuclideanMetricSpace implements SearchableFiniteMetricSpace<double[]> {
+public class KDEuclideanMetricSpace implements AbstractSearchableMetricSpace<double[]> {
 	private final double[][] dataPoints;
 	private final KDTree tree;
 	private final int dimension;
@@ -33,7 +32,7 @@ public class KDEuclideanMetricSpace implements SearchableFiniteMetricSpace<doubl
 		return null;
 	}
 
-	public int getNearestPoint(double[] queryPoint) {
+	public int getNearestPointIndex(double[] queryPoint) {
 		return this.tree.nearestNeighborSearch(queryPoint);
 	}
 

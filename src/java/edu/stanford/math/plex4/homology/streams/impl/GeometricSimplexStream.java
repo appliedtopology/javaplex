@@ -12,9 +12,9 @@ import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex4.graph.UndirectedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.math.metric.impl.KDEuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.interfaces.FiniteMetricSpace;
+import edu.stanford.math.plex4.kd.KDEuclideanMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace;
 
 /**
  * This class defines a geometric realization of a filtered simplicial
@@ -26,11 +26,11 @@ import edu.stanford.math.plex4.utility.ExceptionUtility;
  * @author Andrew Tausz
  *
  */
-public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, FiniteMetricSpace<double[]> {
+public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, AbstractObjectMetricSpace<double[]> {
 	private final AbstractFilteredStream<Simplex> stream;
-	private final FiniteMetricSpace<double[]> metricSpace;
+	private final AbstractObjectMetricSpace<double[]> metricSpace;
 	
-	public GeometricSimplexStream(AbstractFilteredStream<Simplex> stream, FiniteMetricSpace<double[]> metricSpace) {
+	public GeometricSimplexStream(AbstractFilteredStream<Simplex> stream, AbstractObjectMetricSpace<double[]> metricSpace) {
 		ExceptionUtility.verifyNonNull(stream);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		this.stream = stream;

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import edu.stanford.math.plex4.array_utility.ArrayPrinting;
-import edu.stanford.math.plex4.array_utility.IntArrayManipulation;
+import edu.stanford.math.primitivelib.autogen.array.IntArrayManipulation;
+import edu.stanford.math.primitivelib.autogen.array.IntArrayUtility;
 
 public class ListUtility {
 	
@@ -13,7 +13,7 @@ public class ListUtility {
 		StringBuilder builder = new StringBuilder();
 		builder.append('{');
 		for (int[] element: list) {
-			builder.append(ArrayPrinting.toString(element));
+			builder.append(IntArrayUtility.toString(element));
 			builder.append("\n");
 		}
 		builder.append('}');

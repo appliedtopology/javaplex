@@ -2,7 +2,7 @@ package edu.stanford.math.plex4.graph;
 
 import java.util.Iterator;
 
-import edu.stanford.math.plex4.datastructures.pairs.IntIntPair;
+import edu.stanford.math.primitivelib.autogen.pair.IntIntPair;
 import gnu.trove.TIntHashSet;
 
 /**

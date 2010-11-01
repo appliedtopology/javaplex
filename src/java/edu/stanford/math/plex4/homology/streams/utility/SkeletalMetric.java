@@ -3,18 +3,18 @@ package edu.stanford.math.plex4.homology.streams.utility;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.stanford.math.plex4.array_utility.ArrayCreation;
-import edu.stanford.math.plex4.free_module.DoubleFormalSum;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.math.metric.interfaces.FiniteMetricSpace;
 import edu.stanford.math.plex4.utility.Infinity;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
+import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleSparseFormalSum;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace;
 import gnu.trove.TIntIntHashMap;
 import gnu.trove.TIntObjectHashMap;
 import gnu.trove.TObjectDoubleIterator;
 import gnu.trove.TObjectIntHashMap;
 
-public class SkeletalMetric implements FiniteMetricSpace<Simplex> {
+public class SkeletalMetric implements AbstractObjectMetricSpace<Simplex> {
 	/**
 	 * This maps a basis element to an index. The index is the appropriate
 	 * index of the standard basis vector the generating element is mapped to.
@@ -41,7 +41,7 @@ public class SkeletalMetric implements FiniteMetricSpace<Simplex> {
 		this.distances = this.computeShortestPaths();
 	}
 	
-	public double getDiameter(DoubleFormalSum<Simplex> chain) {
+	public double getDiameter(DoubleSparseFormalSum<Simplex> chain) {
 		double diameter = 0;
 		
 		for (TObjectDoubleIterator<Simplex> iterator_1 = chain.iterator(); iterator_1.hasNext(); ) {
@@ -108,7 +108,7 @@ public class SkeletalMetric implements FiniteMetricSpace<Simplex> {
 	private double[][] computeShortestPaths() {
 		int N = this.size();
 		int n = this.numVertices;
-		double[][] pathLengths = ArrayCreation.newDoubleMatrix(N, N);
+		double[][] pathLengths = DoubleArrayUtility.createMatrix(N, N);
 		
 		// initialize distances to +infinity
 		for (int i = 0; i < N; i++) {

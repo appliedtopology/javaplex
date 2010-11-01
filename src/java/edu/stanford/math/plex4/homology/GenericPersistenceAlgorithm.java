@@ -6,17 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
-import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
-import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
-import edu.stanford.math.plex4.free_module.AbstractGenericFreeModule;
-import edu.stanford.math.plex4.free_module.OrderedGenericFormalSum;
-import edu.stanford.math.plex4.free_module.UnorderedGenericFormalSum;
-import edu.stanford.math.plex4.free_module.UnorderedGenericFreeModule;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.utility.FilteredComparator;
+import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectAlgebraicFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import gnu.trove.THashMap;
 
 /**
@@ -46,7 +43,7 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 	/**
 	 * This is the field over which we perform the arithmetic computations.
 	 */
-	protected final GenericField<F> field;
+	protected final ObjectAbstractField<F> field;
 	
 	/**
 	 * This comparator defines the ordering on the basis elements.
@@ -62,7 +59,7 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 	/**
 	 * This objects performs the chain computations.
 	 */
-	protected AbstractGenericFreeModule<F, T> chainModule;
+	protected ObjectAlgebraicFreeModule<F, T> chainModule;
 
 	/**
 	 * This stores the minimum dimension for which to compute (co)homology.
@@ -83,7 +80,7 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 	 * @param basisComparator a Comparator for ordering the basis elements
 	 * @param maxDimension the maximum dimension to compute to
 	 */
-	public GenericPersistenceAlgorithm(GenericField<F> field, Comparator<T> basisComparator, int minDimension, int maxDimension) {
+	public GenericPersistenceAlgorithm(ObjectAbstractField<F> field, Comparator<T> basisComparator, int minDimension, int maxDimension) {
 		this.field = field;
 		this.basisComparator = basisComparator;
 		this.minDimension = minDimension;
@@ -94,18 +91,18 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
 	}
-	public AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> computeAugmentedIntervals(AbstractFilteredStream<T> stream) {
+	public AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> computeAugmentedIntervals(AbstractFilteredStream<T> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeAugmentedIntervalsImpl(stream);
 	}
 	
 	protected abstract BarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream);
-	protected abstract AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream);
+	protected abstract AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream);
 	
 	protected void initializeFilteredComparator(AbstractFilteredStream<T> stream) {
 		this.filteredComparator = new FilteredComparator<T>(stream, this.basisComparator);
 		//this.chainModule = new OrderedGenericFreeModule<F, T>(this.field, this.filteredComparator);
-		this.chainModule = new UnorderedGenericFreeModule<F, T>(this.field);
+		this.chainModule = new ObjectAlgebraicFreeModule<F, T>(this.field);
 	}
 	
 	/**
@@ -116,25 +113,7 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 	 * @param formalSum
 	 * @return
 	 */
-	protected T low(AbstractGenericFormalSum<F, T> chain) {
-		if (chain.isEmpty()) {
-			return null;
-		}
-
-		if (chain instanceof OrderedGenericFormalSum) {
-			return this.orderedLow((OrderedGenericFormalSum<F, T>) chain);
-		}else if (chain instanceof UnorderedGenericFormalSum) {
-			return this.unorderedLow((UnorderedGenericFormalSum<F, T>) chain);
-		}else {
-			throw new UnsupportedOperationException();
-		}
-	}
-	
-	protected T orderedLow(OrderedGenericFormalSum<F, T> chain) {
-		return chain.maximumObject();
-	}
-	
-	protected T unorderedLow(UnorderedGenericFormalSum<F, T> chain) {
+	protected T low(ObjectSparseFormalSum<F, T> chain) {
 	
 		T maxObject = null;
 		
@@ -148,7 +127,7 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 		return maxObject;
 	}
 	
-	protected T high(AbstractGenericFormalSum<F, T> chain) {
+	protected T high(ObjectSparseFormalSum<F, T> chain) {
 		if (chain.isEmpty()) {
 			return null;
 		}
@@ -172,29 +151,29 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 	 * @param dimension the dimension at which to get the boundary matrix
 	 * @return the columns of the boundary matrix at the specified dimension
 	 */
-	public List<AbstractGenericFormalSum<F, T>> getBoundaryColumns(AbstractFilteredStream<T> stream, int dimension) {
+	public List<ObjectSparseFormalSum<F, T>> getBoundaryColumns(AbstractFilteredStream<T> stream, int dimension) {
 		this.initializeFilteredComparator(stream);
-		List<AbstractGenericFormalSum<F, T>> D = new ArrayList<AbstractGenericFormalSum<F, T>>();
+		List<ObjectSparseFormalSum<F, T>> D = new ArrayList<ObjectSparseFormalSum<F, T>>();
 
 		for (T i: stream) {
 			if (stream.getDimension(i) != dimension) {
 				continue;
 			}
 
-			D.add(chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
+			D.add(chainModule.createNewSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
 		}
 
 		return D;
 	}
 	
-	protected boolean verifyDecomposition(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
-		THashMap<T, AbstractGenericFormalSum<F, T>> R_perp = RV_pair.getFirst();
-		THashMap<T, AbstractGenericFormalSum<F, T>> V_perp = RV_pair.getSecond();
+	protected boolean verifyDecomposition(ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream) {
+		THashMap<T, ObjectSparseFormalSum<F, T>> R_perp = RV_pair.getFirst();
+		THashMap<T, ObjectSparseFormalSum<F, T>> V_perp = RV_pair.getSecond();
 
 		for (T i: stream) {
-			AbstractGenericFormalSum<F, T> D_row = chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i));
+			ObjectSparseFormalSum<F, T> D_row = chainModule.createNewSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i));
 			for (T j: stream) {
-				AbstractGenericFormalSum<F, T> V_col = V_perp.get(j);
+				ObjectSparseFormalSum<F, T> V_col = V_perp.get(j);
 				F product_entry = this.chainModule.innerProduct(D_row, V_col);
 				F R_entry;
 				if (R_perp.contains(j)) {

@@ -4,28 +4,28 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 
-import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericField;
-import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
-import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
 
 public abstract class GenericPersistentHomology<F, T> extends GenericPersistenceAlgorithm<F, T> {
-	public GenericPersistentHomology(GenericField<F> field, Comparator<T> comparator, int minDimension, int maxDimension) {
+	public GenericPersistentHomology(ObjectAbstractField<F> field, Comparator<T> comparator, int minDimension, int maxDimension) {
 		super(field, comparator, minDimension, maxDimension);
 		// TODO Auto-generated constructor stub
 	}
 
-	public GenericPersistentHomology(GenericField<F> field, Comparator<T> comparator, int maxDimension) {
+	public GenericPersistentHomology(ObjectAbstractField<F> field, Comparator<T> comparator, int maxDimension) {
 		super(field, comparator, 0, maxDimension);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
+	public AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
 		return this.getAugmentedIntervals(this.pHcol(stream), stream);
 	}
 
@@ -43,12 +43,12 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 	 * free basis consisting of elements of type T.
 	 * 
 	 * @param stream the filtered chain complex which provides elements in increasing filtration order
-	 * @return a GenericPair containing the matrices R and V
+	 * @return a ObjectObjectPair containing the matrices R and V
 	 */
-	private GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> pHcol(AbstractFilteredStream<T> stream) {
+	private ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> pHcol(AbstractFilteredStream<T> stream) {
 
-		THashMap<T, AbstractGenericFormalSum<F, T>> R = new THashMap<T, AbstractGenericFormalSum<F, T>>();
-		THashMap<T, AbstractGenericFormalSum<F, T>> V = new THashMap<T, AbstractGenericFormalSum<F, T>>();
+		THashMap<T, ObjectSparseFormalSum<F, T>> R = new THashMap<T, ObjectSparseFormalSum<F, T>>();
+		THashMap<T, ObjectSparseFormalSum<F, T>> V = new THashMap<T, ObjectSparseFormalSum<F, T>>();
 
 		/**
 		 * This maps a simplex to the set of columns containing the key as its low value.
@@ -72,7 +72,7 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 
 			// form the column R[i] which equals the boundary of the current simplex.
 			// store the column as a column in R
-			R.put(i, chainModule.createSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
+			R.put(i, chainModule.createNewSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
 
 			// compute low_R(i)
 			T low_R_i = this.low(R.get(i));
@@ -120,19 +120,19 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 		// at this point we have computed the decomposition R = D * V
 		// we return the pair (R, V)
 
-		return new GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>>(R, V);
+		return new ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>>(R, V);
 	}
 
-	protected abstract AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> getAugmentedIntervals(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
+	protected abstract AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> getAugmentedIntervals(ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
 
-	protected abstract BarcodeCollection getIntervals(GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
+	protected abstract BarcodeCollection getIntervals(ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
 
-	protected AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> getAugmentedIntervals(
-			GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
-		AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>> barcodeCollection = new AugmentedBarcodeCollection<AbstractGenericFormalSum<F, T>>();
+	protected AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> getAugmentedIntervals(
+			ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
+		AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> barcodeCollection = new AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>>();
 
-		THashMap<T, AbstractGenericFormalSum<F, T>> R = RV_pair.getFirst();
-		THashMap<T, AbstractGenericFormalSum<F, T>> V = RV_pair.getSecond();
+		THashMap<T, ObjectSparseFormalSum<F, T>> R = RV_pair.getFirst();
+		THashMap<T, ObjectSparseFormalSum<F, T>> V = RV_pair.getSecond();
 
 		Set<T> births = new THashSet<T>();
 
@@ -176,10 +176,10 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 	}
 
 	protected BarcodeCollection getIntervals(
-			GenericPair<THashMap<T, AbstractGenericFormalSum<F, T>>, THashMap<T, AbstractGenericFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
+			ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
 		BarcodeCollection barcodeCollection = new BarcodeCollection();
 
-		THashMap<T, AbstractGenericFormalSum<F, T>> R = RV_pair.getFirst();
+		THashMap<T, ObjectSparseFormalSum<F, T>> R = RV_pair.getFirst();
 
 		Set<T> births = new THashSet<T>();
 

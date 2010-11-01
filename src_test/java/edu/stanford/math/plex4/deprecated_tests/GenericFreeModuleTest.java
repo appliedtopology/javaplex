@@ -1,15 +1,14 @@
 package edu.stanford.math.plex4.deprecated_tests;
 
-import org.apache.commons.math.fraction.Fraction;
+import org.apache.commons.lang.math.Fraction;
 
-import edu.stanford.math.plex4.algebraic_structures.impl.ModularIntField;
-import edu.stanford.math.plex4.algebraic_structures.impl.RationalField;
-import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
-import edu.stanford.math.plex4.free_module.AbstractGenericFreeModule;
-import edu.stanford.math.plex4.free_module.IntFormalSum;
-import edu.stanford.math.plex4.free_module.IntFreeModule;
-import edu.stanford.math.plex4.free_module.UnorderedGenericFreeModule;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
+import edu.stanford.math.primitivelib.algebraic.impl.RationalField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectAlgebraicFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
 
 /**
  * 
@@ -23,8 +22,8 @@ public class GenericFreeModuleTest {
 	public static void main(String[] args) {
 		
 		// Formal sums of String objects with Fraction coefficients
-		AbstractGenericFreeModule<Fraction, String> M = new UnorderedGenericFreeModule<Fraction, String>(RationalField.getInstance());
-		AbstractGenericFormalSum<Fraction, String> sum = M.multiply(5, M.add(M.add("b", "b"), "a"));
+		ObjectAlgebraicFreeModule<Fraction, String> M = new ObjectAlgebraicFreeModule<Fraction, String>(RationalField.getInstance());
+		ObjectSparseFormalSum<Fraction, String> sum = M.multiply(5, M.add(M.add("b", "b"), "a"));
 		System.out.println(sum.toString());
 		
 		// Formal sums of Simplex objects with Fraction coefficients
@@ -34,8 +33,8 @@ public class GenericFreeModuleTest {
 		//System.out.println(chain);
 		
 		// Formal sums of Simplex objects with int coefficients
-		IntFreeModule<Simplex> D = new IntFreeModule<Simplex>(ModularIntField.getInstance(3));
-		IntFormalSum<Simplex> chain2 = D.add(new Simplex(new int[]{0, 1}), new Simplex(new int[]{2, 1}));
+		IntAlgebraicFreeModule<Simplex> D = new IntAlgebraicFreeModule<Simplex>(ModularIntField.getInstance(3));
+		IntSparseFormalSum<Simplex> chain2 = D.add(new Simplex(new int[]{0, 1}), new Simplex(new int[]{2, 1}));
 		chain2 = D.add(chain2, chain2);
 		chain2 = D.add(chain2, new Simplex(new int[]{0, 1}));
 		System.out.println(chain2);

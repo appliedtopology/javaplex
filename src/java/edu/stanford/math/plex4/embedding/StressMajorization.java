@@ -6,7 +6,7 @@ import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 import cern.colt.matrix.linalg.Algebra;
 import cern.colt.matrix.linalg.CholeskyDecomposition;
 import cern.jet.math.Functions;
-import edu.stanford.math.plex4.math.metric.interfaces.IntFiniteMetricSpace;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace;
 
 public class StressMajorization implements MetricSpaceEmbedding {
 	private static final StressMajorization instance = new StressMajorization();
@@ -22,7 +22,7 @@ public class StressMajorization implements MetricSpaceEmbedding {
 	 * 
 	 * @see edu.stanford.math.plex_plus.embedding.MetricSpaceEmbedding#computedEmbedding(edu.stanford.math.plex_plus.math.metric.interfaces.IntFiniteMetricSpace, int)
 	 */
-	public double[][] computedEmbedding(IntFiniteMetricSpace metricSpace, int dimension) {
+	public double[][] computedEmbedding(AbstractIntMetricSpace metricSpace, int dimension) {
 		DoubleMatrix2D P = doStressMajorization(metricSpace, dimension);
 		return P.toArray();
 	}
@@ -45,7 +45,7 @@ public class StressMajorization implements MetricSpaceEmbedding {
 	 * @param dim the required dimension of the embedded points
 	 * @return an N by 2 matrix containing the N layout points in R^dim
 	 */
-	public static DoubleMatrix2D doStressMajorization(IntFiniteMetricSpace D, int dim) {
+	public static DoubleMatrix2D doStressMajorization(AbstractIntMetricSpace D, int dim) {
 		int n = D.size();
 
 		// Housekeeping
@@ -108,7 +108,7 @@ public class StressMajorization implements MetricSpaceEmbedding {
 	 * @param D a matrix of distances between the N nodes of the graph
 	 * @return the matrix L defined right below equation (4)
 	 */
-	protected static DoubleMatrix2D computeL(IntFiniteMetricSpace D) {
+	protected static DoubleMatrix2D computeL(AbstractIntMetricSpace D) {
 		DoubleMatrix2D L = new DenseDoubleMatrix2D(D.size(), D.size());
 
 		int n = D.size();
@@ -142,7 +142,7 @@ public class StressMajorization implements MetricSpaceEmbedding {
 	 * @param Z the N by 2 matrix containing the N layout points in R^2
 	 * @return the matrix L^Z defined above equation (6)
 	 */
-	protected static DoubleMatrix2D computeLZ(IntFiniteMetricSpace D, DoubleMatrix2D Z) {
+	protected static DoubleMatrix2D computeLZ(AbstractIntMetricSpace D, DoubleMatrix2D Z) {
 		int n = D.size();
 
 		DoubleMatrix2D LZ = new DenseDoubleMatrix2D(D.size(), D.size());
@@ -187,7 +187,7 @@ public class StressMajorization implements MetricSpaceEmbedding {
 	 * @param D a matrix of distances between the N nodes of the graph
 	 * @return the result of applying equation (2) to X
 	 */
-	protected static double stress(DoubleMatrix2D X, IntFiniteMetricSpace D) {
+	protected static double stress(DoubleMatrix2D X, AbstractIntMetricSpace D) {
 		int n = D.size();
 		DoubleMatrix1D X_i, X_j, Y;
 		double stress = 0d, norm, w_ij, z0, z1, d_ij, z2;

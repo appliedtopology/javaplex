@@ -9,10 +9,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.stanford.math.plex4.datastructures.pairs.IntGenericPair;
-import edu.stanford.math.plex4.datastructures.pairs.IntGenericPairComparator;
-import edu.stanford.math.plex4.datastructures.pairs.IntOrderedIterator;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.autogen.pair.IntObjectPair;
+import edu.stanford.math.primitivelib.autogen.pair.IntObjectPairComparator;
 import gnu.trove.TObjectIntHashMap;
 
 /**
@@ -28,7 +27,7 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	/**
 	 * This contains the basis elements of the complex.
 	 */
-	private final List<IntGenericPair<T>> elementFiltrationPairs = new ArrayList<IntGenericPair<T>>();
+	private final List<IntObjectPair<T>> elementFiltrationPairs = new ArrayList<IntObjectPair<T>>();
 
 	/**
 	 * This hash map contains the filtration values of the basis elements in the complex.
@@ -43,7 +42,7 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	/**
 	 * This comparator defines the filtration ordering on filtration-object pairs.
 	 */
-	private final IntGenericPairComparator<T> filteredComparator;
+	private final IntObjectPairComparator<T> filteredComparator;
 	
 	/**
 	 * Boolean which indicates whether stream has been finalized or not
@@ -52,7 +51,7 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	
 	public LocalStorageStructure(Comparator<T> basisComparator) {
 		this.basisComparator = basisComparator;
-		this.filteredComparator = new IntGenericPairComparator<T>(this.basisComparator);
+		this.filteredComparator = new IntObjectPairComparator<T>(this.basisComparator);
 	}
 	
 	/* (non-Javadoc)
@@ -65,7 +64,7 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 			throw new IllegalStateException("Cannot add objects to finalized storage structure.");
 		}
 
-		this.elementFiltrationPairs.add(new IntGenericPair<T>(filtrationValue, basisElement));
+		this.elementFiltrationPairs.add(new IntObjectPair<T>(filtrationValue, basisElement));
 		this.filtrationIndices.put(basisElement, filtrationValue);
 	}
 	
@@ -78,13 +77,13 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 		
 		if (this.filtrationIndices.containsKey(basisElement)) {
 			// remove the old (filtration value, basis element) pair
-			IntGenericPair<T> pair = new IntGenericPair<T>(this.filtrationIndices.get(basisElement), basisElement);
+			IntObjectPair<T> pair = new IntObjectPair<T>(this.filtrationIndices.get(basisElement), basisElement);
 			this.elementFiltrationPairs.remove(pair);
 			
 			// add the new pair
-			this.elementFiltrationPairs.add(new IntGenericPair<T>(newFiltrationValue, basisElement));
+			this.elementFiltrationPairs.add(new IntObjectPair<T>(newFiltrationValue, basisElement));
 		} else {
-			this.elementFiltrationPairs.add(new IntGenericPair<T>(newFiltrationValue, basisElement));
+			this.elementFiltrationPairs.add(new IntObjectPair<T>(newFiltrationValue, basisElement));
 		}
 		
 		this.filtrationIndices.adjustOrPutValue(basisElement, newFiltrationValue, newFiltrationValue);
@@ -96,7 +95,7 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 		}
 		
 		// remove the old (filtration value, basis element) pair
-		IntGenericPair<T> pair = new IntGenericPair<T>(this.filtrationIndices.get(basisElement), basisElement);
+		IntObjectPair<T> pair = new IntObjectPair<T>(this.filtrationIndices.get(basisElement), basisElement);
 		this.elementFiltrationPairs.remove(pair);
 		
 		// remove the element from the filtration values map
@@ -136,7 +135,7 @@ public class LocalStorageStructure<T> implements StreamStorageStructure<T> {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 
-		for (IntGenericPair<T> pair : this.elementFiltrationPairs) {
+		for (IntObjectPair<T> pair : this.elementFiltrationPairs) {
 			builder.append(pair.toString());
 			builder.append('\n');
 		}

@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.stanford.math.plex4.array_utility.ArrayConversion;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.homology.streams.impl.GeometricSimplexStream;
-import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
+import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 
 public class ObjReader implements ObjectReader<GeometricSimplexStream> {
 
@@ -66,7 +66,7 @@ public class ObjReader implements ObjectReader<GeometricSimplexStream> {
 			e.printStackTrace();
 		}
 		
-		EuclideanMetricSpace metricSpace = new EuclideanMetricSpace(ArrayConversion.toMatrix(vertices));
+		EuclideanMetricSpace metricSpace = new EuclideanMetricSpace(DoubleArrayUtility.toMatrix(vertices));
 		ExplicitSimplexStream stream = new ExplicitSimplexStream(SimplexComparator.getInstance());
 		
 		for (int i = 0; i < vertices.size(); i++) {

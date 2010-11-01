@@ -1,10 +1,10 @@
 package edu.stanford.math.plex4.examples;
 
-import edu.stanford.math.plex4.array_utility.ArrayGeneration;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.autogen.array.IntArrayGeneration;
 
 /**
  * This class contains various functions for producing examples of 
@@ -92,9 +92,9 @@ public class SimplexStreamExamples {
 	public static ExplicitStream<Simplex> getSimplicialSphere(int dimension) {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 
-		stream.addElement(new Simplex(ArrayGeneration.range(0, dimension + 2)), 0);
+		stream.addElement(new Simplex(IntArrayGeneration.range(0, dimension + 2)), 0);
 		stream.ensureAllFaces();
-		stream.removeElementIfPresent(new Simplex(ArrayGeneration.range(0, dimension + 2)));
+		stream.removeElementIfPresent(new Simplex(IntArrayGeneration.range(0, dimension + 2)));
 		stream.finalizeStream();
 		
 		return stream;

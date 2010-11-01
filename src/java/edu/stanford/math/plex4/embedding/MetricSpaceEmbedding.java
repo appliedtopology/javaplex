@@ -1,7 +1,8 @@
 package edu.stanford.math.plex4.embedding;
 
-import edu.stanford.math.plex4.math.metric.interfaces.IntFiniteMetricSpace;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace;
+
 
 public interface MetricSpaceEmbedding {
-	public double[][] computedEmbedding(IntFiniteMetricSpace metricSpace, int dimension);
+	public double[][] computedEmbedding(AbstractIntMetricSpace metricSpace, int dimension);
 }

@@ -3,22 +3,10 @@ package edu.stanford.math.plex4.homology.mapping;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
-
-import edu.stanford.math.plex4.algebraic_structures.interfaces.GenericOrderedField;
-import edu.stanford.math.plex4.array_utility.ArrayCreation;
-import edu.stanford.math.plex4.datastructures.pairs.GenericPair;
-import edu.stanford.math.plex4.free_module.AbstractGenericFormalSum;
-import edu.stanford.math.plex4.free_module.AbstractGenericFreeModule;
-import edu.stanford.math.plex4.free_module.DoubleFormalSum;
-import edu.stanford.math.plex4.free_module.DoubleFreeModule;
-import edu.stanford.math.plex4.free_module.NumericFreeModuleRepresentation;
-import edu.stanford.math.plex4.free_module.NumericModuleMorphismRepresentation;
-import edu.stanford.math.plex4.free_module.UnorderedGenericFreeModule;
-import edu.stanford.math.plex4.functional.GenericDoubleFunction;
 import edu.stanford.math.plex4.homology.GenericAbsoluteHomology;
 import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
@@ -27,14 +15,23 @@ import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStrea
 import edu.stanford.math.plex4.homology.streams.utility.StreamUtility;
 import edu.stanford.math.plex4.io2.MatlabInterface;
 import edu.stanford.math.plex4.io2.MatlabWriter;
-import edu.stanford.math.plex4.math.matrix.impl.sparse.DoubleSparseVector;
+import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
+import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleMatrixConverter;
+import edu.stanford.math.primitivelib.autogen.formal_sum.DoublePrimitiveFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleVectorConverter;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectAlgebraicFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.matrix.DoubleSparseVector;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import gnu.trove.TObjectDoubleIterator;
 
 
 public class HomComplexComputation<F extends Number> {
-	private final GenericOrderedField<F> field;
-	private final AbstractGenericFreeModule<F, GenericPair<Simplex, Simplex>> genericChainModule;
-	private final DoubleFreeModule<GenericPair<Simplex, Simplex>> doubleChainModule = new DoubleFreeModule<GenericPair<Simplex, Simplex>>();
+	private final ObjectAbstractField<F> field;
+	private final ObjectAlgebraicFreeModule<F, ObjectObjectPair<Simplex, Simplex>> genericChainModule;
+	private final DoublePrimitiveFreeModule<ObjectObjectPair<Simplex, Simplex>> doubleChainModule = new DoublePrimitiveFreeModule<ObjectObjectPair<Simplex, Simplex>>();
 
 	private final AbstractFilteredStream<Simplex> domainStream;
 	private final AbstractFilteredStream<Simplex> codomainStream;
@@ -47,7 +44,7 @@ public class HomComplexComputation<F extends Number> {
 			AbstractFilteredStream<Simplex> codomainStream, 
 			Comparator<Simplex> domainComparator, 
 			Comparator<Simplex> codomainComparator, 
-			GenericOrderedField<F> field) {
+			ObjectAbstractField<F> field) {
 
 		this.domainStream = domainStream;
 		this.codomainStream = codomainStream;
@@ -55,18 +52,18 @@ public class HomComplexComputation<F extends Number> {
 		this.codomainComparator = codomainComparator;
 
 		this.field = field;
-		genericChainModule = new UnorderedGenericFreeModule<F, GenericPair<Simplex, Simplex>>(this.field);
+		genericChainModule = new ObjectAlgebraicFreeModule<F, ObjectObjectPair<Simplex, Simplex>>(this.field);
 
 		this.homStream = new HomStream<Simplex, Simplex>(this.domainStream, this.codomainStream, this.domainComparator, this.codomainComparator);
 		homStream.finalizeStream();
 	}
 
-	public List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> computeGeneratingCycles() {
-		//GenericPersistentHomologyOld<F, GenericPair<M, N>> homology = new GenericPersistentHomologyOld<F, GenericPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
-		GenericAbsoluteHomology<F, GenericPair<Simplex, Simplex>> homology = new GenericAbsoluteHomology<F, GenericPair<Simplex, Simplex>>(this.field, homStream.getDerivedComparator(), 1);
-		AugmentedBarcodeCollection<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> barcodes = homology.computeAugmentedIntervals(homStream);
+	public List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> computeGeneratingCycles() {
+		//GenericPersistentHomologyOld<F, ObjectObjectPair<M, N>> homology = new GenericPersistentHomologyOld<F, ObjectObjectPair<M, N>>(this.field, homStream.getDerivedComparator(), 1);
+		GenericAbsoluteHomology<F, ObjectObjectPair<Simplex, Simplex>> homology = new GenericAbsoluteHomology<F, ObjectObjectPair<Simplex, Simplex>>(this.field, homStream.getDerivedComparator(), 1);
+		AugmentedBarcodeCollection<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> barcodes = homology.computeAugmentedIntervals(homStream);
 
-		List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> generatingCycles = new ArrayList<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>>();
+		List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> generatingCycles = new ArrayList<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>>();
 
 		int numCycles = barcodes.getBarcode(0).getSize();
 		for (int i = 0; i < numCycles; i++) {
@@ -76,8 +73,8 @@ public class HomComplexComputation<F extends Number> {
 		return generatingCycles;
 	}
 
-	public AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> sumGeneratingCycles(List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> generatingCycles) {
-		AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> sum = this.genericChainModule.createNewSum();
+	public ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> sumGeneratingCycles(List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> generatingCycles) {
+		ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> sum = this.genericChainModule.createNewSum();
 		int numCycles = generatingCycles.size();
 
 		for (int i = 0; i < numCycles; i++) {
@@ -87,39 +84,39 @@ public class HomComplexComputation<F extends Number> {
 		return sum;
 	}
 
-	public List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> getChainHomotopies() {
-		GenericAbsoluteHomology<F, GenericPair<Simplex, Simplex>> homology = new GenericAbsoluteHomology<F, GenericPair<Simplex, Simplex>>(this.field, homStream.getDerivedComparator(), 1);
+	public List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> getChainHomotopies() {
+		GenericAbsoluteHomology<F, ObjectObjectPair<Simplex, Simplex>> homology = new GenericAbsoluteHomology<F, ObjectObjectPair<Simplex, Simplex>>(this.field, homStream.getDerivedComparator(), 1);
 
 		return homology.getBoundaryColumns(this.homStream, 1);
 	}
 
-	private DoubleFormalSum<GenericPair<Simplex, Simplex>> computeHomCycle(double[] homotopyCoefficients,
-			DoubleFormalSum<GenericPair<Simplex, Simplex>> generatingCycle,
-			List<DoubleFormalSum<GenericPair<Simplex, Simplex>>> homotopies) {
+	private DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>> computeHomCycle(double[] homotopyCoefficients,
+			DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>> generatingCycle,
+			List<DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>>> homotopies) {
 
-		DoubleFormalSum<GenericPair<Simplex, Simplex>> homCycle = new DoubleFormalSum<GenericPair<Simplex, Simplex>>();
+		DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>> homCycle = doubleChainModule.createNewSum();
 
 		homCycle = doubleChainModule.add(homCycle, generatingCycle);
 
 		int i = 0;
-		for (DoubleFormalSum<GenericPair<Simplex, Simplex>> homotopy: homotopies) {
+		for (DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>> homotopy: homotopies) {
 			homCycle = doubleChainModule.add(homCycle, doubleChainModule.multiply(homotopyCoefficients[i], homotopy));
 			i++;
 		}
 
 		return homCycle;		
 	}
-
-	private DoubleFormalSum<GenericPair<Simplex, Simplex>> computeHomCycle(double[] homotopyCoefficients,
-			AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle,
-			List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies) {
+/*
+	private DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>> computeHomCycle(double[] homotopyCoefficients,
+			ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> generatingCycle,
+			List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> homotopies) {
 		return this.computeHomCycle(homotopyCoefficients, MappingUtility.toDoubleFormalSum(generatingCycle), MappingUtility.toDoubleFormalSumList(homotopies));
 	}
-
+*/
 	/*
-	public RealPointValuePair findOptimalCoefficients(final AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle, 
-			final List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies,
-			final GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction) throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
+	public RealPointValuePair findOptimalCoefficients(final ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> generatingCycle, 
+			final List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> homotopies,
+			final GenericDoubleFunction<DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>>> mappingPenaltyFunction) throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
 
 		MultivariateRealFunction objective = this.getObjectiveFunctionViaMappingPenalty(generatingCycle, homotopies, mappingPenaltyFunction);
 
@@ -149,26 +146,14 @@ public class HomComplexComputation<F extends Number> {
 		return optimum;
 	}*/
 /*
-	public DoubleFormalSum<GenericPair<Simplex, Simplex>> findOptimalChainMap(final AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle, 
-			final List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies,
-			final GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction) throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
+	public DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>> findOptimalChainMap(final ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> generatingCycle, 
+			final List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> homotopies,
+			final GenericDoubleFunction<DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>>> mappingPenaltyFunction) throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
 
 		RealPointValuePair pair = this.findOptimalCoefficients(generatingCycle, homotopies, mappingPenaltyFunction);
 		return this.computeHomCycle(MappingUtility.round(pair.getPoint()), generatingCycle, homotopies);
 	}
 */
-	MultivariateRealFunction getObjectiveFunctionViaMappingPenalty(final AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle, 
-			final List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies,
-			final GenericDoubleFunction<DoubleFormalSum<GenericPair<Simplex, Simplex>>> mappingPenaltyFunction) {
-
-		return new MultivariateRealFunction() {
-
-			public double value(double[] arg0) throws FunctionEvaluationException, IllegalArgumentException {
-				DoubleFormalSum<GenericPair<Simplex, Simplex>> homCycle = computeHomCycle(arg0, generatingCycle, homotopies);
-				return mappingPenaltyFunction.evaluate(homCycle) + 0 * computePenalty(arg0);
-			}
-		};
-	}
 
 	private double computePenalty(double[] arg0) {
 		double penalty = 0;
@@ -180,31 +165,24 @@ public class HomComplexComputation<F extends Number> {
 		return penalty;
 	}
 
-	MultivariateRealFunction getObjectiveFunctionViaImagePenalty(final AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle, 
-			final List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies,
-			final GenericDoubleFunction<DoubleFormalSum<Simplex>> imagePenaltyFunction) {
-
-		return getObjectiveFunctionViaMappingPenalty(generatingCycle, homotopies, MappingUtility.computeInducedFunction(imagePenaltyFunction, domainStream));
-	}
-
 	public void produceMatlabOutput() throws IOException {
 		//String filename = FileManager.getUniqueFilePath("hom", "m");
 		MatlabWriter writer = MatlabInterface.makeNewMatlabWriter("hom_data");
-		NumericModuleMorphismRepresentation<F, Simplex, Simplex> rep = new NumericModuleMorphismRepresentation<F, Simplex, Simplex>(this.domainStream, this.codomainStream);
+		DoubleMatrixConverter<Simplex, Simplex> rep = new DoubleMatrixConverter<Simplex, Simplex>(this.domainStream, this.codomainStream);
 		System.out.println("Computing Generating Cycles");
-		List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> generatingCycles = this.computeGeneratingCycles();
-		AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> cycleSum = this.sumGeneratingCycles(generatingCycles);
-		List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies = this.getChainHomotopies();
+		List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> generatingCycles = this.computeGeneratingCycles();
+		ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> cycleSum = this.sumGeneratingCycles(generatingCycles);
+		List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> homotopies = this.getChainHomotopies();
 		writer.writeClearAll();
 		writer.turnOnCommentMode();
 		writer.writeLine("Generating Cycles");
-		for (AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> generatingCycle: generatingCycles) {
+		for (ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> generatingCycle: generatingCycles) {
 			writer.writeLine(generatingCycle.toString());
 		}
 		writer.writeLine("Cycle Sum");
 		writer.writeLine(cycleSum.toString());
 		writer.writeLine("Homotopies");
-		for (AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> homotopy: homotopies) {
+		for (ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> homotopy: homotopies) {
 			writer.writeLine(homotopy.toString());
 		}
 		writer.writeLine("Domain Basis");
@@ -226,13 +204,13 @@ public class HomComplexComputation<F extends Number> {
 		writer.newLine();
 		writer.assignValue("codomain_vertices", StreamUtility.getSkeletonSize(codomainStream, 0));
 		writer.newLine();
-		writer.writeSparseMatrix(rep.toDoubleMatrix(cycleSum), "cycle_sum");
+		writer.writeSparseMatrix(rep.toArray(toDoubleSum(cycleSum)), "cycle_sum");
 		writer.newLine();
 		writer.write("homotopies = cell(homotopies_dimension, 1);");
 		writer.newLine();
 		int i = 1;
-		for (AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> homotopy: homotopies) {
-			writer.writeSparseMatrix(rep.toDoubleMatrix(homotopy), "homotopies{ " + i + "}");
+		for (ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> homotopy: homotopies) {
+			writer.writeSparseMatrix(rep.toArray(toDoubleSum(homotopy)), "homotopies{ " + i + "}");
 			writer.newLine();
 			i++;
 
@@ -246,11 +224,11 @@ public class HomComplexComputation<F extends Number> {
 		int N = rep.getDomainRepresentation().getDimension();
 		
 		for (Simplex element: this.domainStream) {
-			DoubleFormalSum<GenericPair<Simplex, Simplex>> sum = MappingUtility.computeAlexanderWhitneyMap(element);
+			DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>> sum = MappingUtility.computeAlexanderWhitneyMap(element);
 			int col = rep.getDomainRepresentation().getIndex(element) + 1;
-			for (TObjectDoubleIterator<GenericPair<Simplex, Simplex>> iterator = sum.iterator(); iterator.hasNext(); ) {
+			for (TObjectDoubleIterator<ObjectObjectPair<Simplex, Simplex>> iterator = sum.iterator(); iterator.hasNext(); ) {
 				iterator.advance();
-				GenericPair<Simplex, Simplex> pair = iterator.key();
+				ObjectObjectPair<Simplex, Simplex> pair = iterator.key();
 				int c1 = rep.getDomainRepresentation().getIndex(pair.getFirst());
 				int c2 = rep.getDomainRepresentation().getIndex(pair.getSecond());
 				int row = this.flattenIndex(c1, c2, N, N) + 1;
@@ -262,11 +240,11 @@ public class HomComplexComputation<F extends Number> {
 		N = rep.getCodomainRepresentation().getDimension();
 		
 		for (Simplex element: this.codomainStream) {
-			DoubleFormalSum<GenericPair<Simplex, Simplex>> sum = MappingUtility.computeAlexanderWhitneyMap(element);
+			DoubleSparseFormalSum<ObjectObjectPair<Simplex, Simplex>> sum = MappingUtility.computeAlexanderWhitneyMap(element);
 			int col = rep.getCodomainRepresentation().getIndex(element) + 1;
-			for (TObjectDoubleIterator<GenericPair<Simplex, Simplex>> iterator = sum.iterator(); iterator.hasNext(); ) {
+			for (TObjectDoubleIterator<ObjectObjectPair<Simplex, Simplex>> iterator = sum.iterator(); iterator.hasNext(); ) {
 				iterator.advance();
-				GenericPair<Simplex, Simplex> pair = iterator.key();
+				ObjectObjectPair<Simplex, Simplex> pair = iterator.key();
 				int c1 = rep.getCodomainRepresentation().getIndex(pair.getFirst());
 				int c2 = rep.getCodomainRepresentation().getIndex(pair.getSecond());
 				int row = this.flattenIndex(c1, c2, N, N) + 1;
@@ -282,25 +260,25 @@ public class HomComplexComputation<F extends Number> {
 		//String filename = FileManager.getUniqueFilePath("hom", "m");
 		MatlabWriter writer = MatlabInterface.makeNewMatlabWriter("hom_data2");
 		//ModuleMorphismRepresentation<F, M, N> rep = new ModuleMorphismRepresentation<F, M, N>(this.domainStream, this.codomainStream);
-		NumericFreeModuleRepresentation<F, GenericPair<Simplex, Simplex>> rep = new NumericFreeModuleRepresentation<F, GenericPair<Simplex, Simplex>>(this.homStream);
+		DoubleVectorConverter<ObjectObjectPair<Simplex, Simplex>> rep = new DoubleVectorConverter<ObjectObjectPair<Simplex, Simplex>>(this.homStream);
 		System.out.println("Computing Generating Cycles");
-		List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> generatingCycles = this.computeGeneratingCycles();
-		AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> cycleSum = this.sumGeneratingCycles(generatingCycles);
-		List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies = this.getChainHomotopies();
+		List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> generatingCycles = this.computeGeneratingCycles();
+		ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> cycleSum = this.sumGeneratingCycles(generatingCycles);
+		List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> homotopies = this.getChainHomotopies();
 		writer.writeClearAll();
 		writer.turnOnCommentMode();
 		rep.toString();
 		
 		writer.turnOffCommentMode();
 		
-		writer.writeSparseVector(rep.toDoubleArray(cycleSum), "cycle_sum");
+		writer.writeSparseVector(rep.toArray(toDoubleSum(cycleSum)), "cycle_sum");
 		
 		//double[][] homotopyMatrix = this.createHomotopyMatrix(homotopies, rep);
 		//writer.writeSparseMatrix(homotopyMatrix, "homotopies");
 		
 		List<DoubleSparseVector> constraints = new ArrayList<DoubleSparseVector>();
 		
-		for (AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> homotopy: homotopies) {
+		for (ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> homotopy: homotopies) {
 			
 		}
 		
@@ -324,19 +302,31 @@ public class HomComplexComputation<F extends Number> {
 		return array;
 	}
 	
-	private double[][] createHomotopyMatrix(List<AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>>> homotopies, NumericFreeModuleRepresentation<F, GenericPair<Simplex, Simplex>> rep) {
+	private double[][] createHomotopyMatrix(List<ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>>> homotopies, DoubleVectorConverter<ObjectObjectPair<Simplex, Simplex>> rep) {
 		int m = homotopies.size();
 		int n = rep.getDimension();
-		double[][] matrix = ArrayCreation.newDoubleMatrix(m, n);
+		double[][] matrix = DoubleArrayUtility.createMatrix(m, n);
 		int j = 0;
-		for (AbstractGenericFormalSum<F, GenericPair<Simplex, Simplex>> homotopy: homotopies) {
-			double[] col = rep.toDoubleArray(homotopy);
+		for (ObjectSparseFormalSum<F, ObjectObjectPair<Simplex, Simplex>> homotopy: homotopies) {
+			double[] col = rep.toArray(toDoubleSum(homotopy));
 			for (int i = 0; i < m; i++) {
 				matrix[i][j] = col[i];
 			}
 			j++;
 		}
 		return matrix;
+	}
+	
+	private static <M, R extends Number> DoubleSparseFormalSum<M> toDoubleSum(ObjectSparseFormalSum<R, M> sum) {
+		DoublePrimitiveFreeModule module = new DoublePrimitiveFreeModule();
+		DoubleSparseFormalSum<M> result = module.createNewSum();
+		
+		for (Iterator<Entry<M, R>> iterator = sum.iterator(); iterator.hasNext(); ) {
+			Entry<M, R> entry = iterator.next();
+			result.put(entry.getValue().doubleValue(), entry.getKey());
+		}
+		
+		return result;
 	}
 }
 

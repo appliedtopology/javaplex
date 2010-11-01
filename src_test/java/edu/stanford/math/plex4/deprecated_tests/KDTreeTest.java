@@ -1,7 +1,7 @@
 package edu.stanford.math.plex4.deprecated_tests;
 
-import edu.stanford.math.plex4.array_utility.ArrayPrinting;
 import edu.stanford.math.plex4.kd.KDTree;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
 import gnu.trove.TIntHashSet;
 
 public class KDTreeTest {
@@ -31,31 +31,31 @@ public class KDTreeTest {
 		
 		queryPoint = new double[]{2.2, 2.9};
 		nearestIndex = tree.nearestNeighborSearch(queryPoint);
-		System.out.println("Query:" + ArrayPrinting.toString(queryPoint) + " Answer:" + ArrayPrinting.toString(points[nearestIndex]));
+		System.out.println("Query:" + DoubleArrayUtility.toString(queryPoint) + " Answer:" + DoubleArrayUtility.toString(points[nearestIndex]));
 		
 		queryPoint = new double[]{5, 4};
 		nearestIndex = tree.nearestNeighborSearch(queryPoint);
-		System.out.println("Query:" + ArrayPrinting.toString(queryPoint) + " Answer:" + ArrayPrinting.toString(points[nearestIndex]));
+		System.out.println("Query:" + DoubleArrayUtility.toString(queryPoint) + " Answer:" + DoubleArrayUtility.toString(points[nearestIndex]));
 		
 		queryPoint = new double[]{11, 34};
 		nearestIndex = tree.nearestNeighborSearch(queryPoint);
-		System.out.println("Query:" + ArrayPrinting.toString(queryPoint) + " Answer:" + ArrayPrinting.toString(points[nearestIndex]));
+		System.out.println("Query:" + DoubleArrayUtility.toString(queryPoint) + " Answer:" + DoubleArrayUtility.toString(points[nearestIndex]));
 		
 		queryPoint = new double[]{0, 0};
 		nearestIndex = tree.nearestNeighborSearch(queryPoint);
-		System.out.println("Query:" + ArrayPrinting.toString(queryPoint) + " Answer:" + ArrayPrinting.toString(points[nearestIndex]));
+		System.out.println("Query:" + DoubleArrayUtility.toString(queryPoint) + " Answer:" + DoubleArrayUtility.toString(points[nearestIndex]));
 		
 		queryPoint = new double[]{-2, -3};
 		nearestIndex = tree.nearestNeighborSearch(queryPoint);
-		System.out.println("Query:" + ArrayPrinting.toString(queryPoint) + " Answer:" + ArrayPrinting.toString(points[nearestIndex]));
+		System.out.println("Query:" + DoubleArrayUtility.toString(queryPoint) + " Answer:" + DoubleArrayUtility.toString(points[nearestIndex]));
 		
 		queryPoint = new double[]{9, 1};
 		nearestIndex = tree.nearestNeighborSearch(queryPoint);
-		System.out.println("Query:" + ArrayPrinting.toString(queryPoint) + " Answer:" + ArrayPrinting.toString(points[nearestIndex]));
+		System.out.println("Query:" + DoubleArrayUtility.toString(queryPoint) + " Answer:" + DoubleArrayUtility.toString(points[nearestIndex]));
 		
 		queryPoint = new double[]{9, 5};
 		nearestIndex = tree.nearestNeighborSearch(queryPoint);
-		System.out.println("Query:" + ArrayPrinting.toString(queryPoint) + " Answer:" + ArrayPrinting.toString(points[nearestIndex]));
+		System.out.println("Query:" + DoubleArrayUtility.toString(queryPoint) + " Answer:" + DoubleArrayUtility.toString(points[nearestIndex]));
 		
 		queryPoint = new double[]{2, 2};
 		neighborhood = tree.epsilonNeighborhoodSearch(queryPoint, 1.1, true);

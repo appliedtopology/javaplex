@@ -3,15 +3,15 @@ package edu.stanford.math.plex4.examples;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.math.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.interfaces.SearchableFiniteMetricSpace;
 import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.math.metric.landmark.MaxMinLandmarkSelector;
+import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 public class MetricStreamExamples {
 	
 	public static AbstractFilteredStream<Simplex> getLazyWitnessTorus(int points, int landmarkPoints, double r, double R, double maxFiltrationValue, int numDivisions) {
-		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomTorusPoints(points, r, R));
+		AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomTorusPoints(points, r, R));
 		
 		LandmarkSelector<double[]> selector = new MaxMinLandmarkSelector<double[]>(metricSpace, landmarkPoints);
 		LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(metricSpace, selector, 3, maxFiltrationValue, numDivisions);
@@ -25,7 +25,7 @@ public class MetricStreamExamples {
 	}
 	
 	public static AbstractFilteredStream<Simplex> getLazyWitnessSphere(int points, int landmarkPoints, int dimension, double maxFiltrationValue, int numDivisions) {		
-		SearchableFiniteMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(points, dimension));
+		AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(points, dimension));
 		
 		LandmarkSelector<double[]> selector = new MaxMinLandmarkSelector<double[]>(metricSpace, landmarkPoints);
 		LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(metricSpace, selector, dimension + 1, maxFiltrationValue, numDivisions);

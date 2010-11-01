@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.homology.streams.impl;
 
-import edu.stanford.math.plex4.datastructures.pairs.IntIntPair;
 import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
+import edu.stanford.math.primitivelib.autogen.pair.IntIntPair;
 
 public class CliqueComplexStream extends FlagComplexStream {
 	private final AbstractUndirectedGraph graph;

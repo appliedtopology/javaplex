@@ -2,13 +2,13 @@ package edu.stanford.math.plex4.homology;
 
 import java.util.Comparator;
 
-import edu.stanford.math.plex4.algebraic_structures.interfaces.IntField;
-import edu.stanford.math.plex4.free_module.IntFormalSum;
-import edu.stanford.math.plex4.free_module.IntFreeModule;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.utility.FilteredComparator;
+import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
 import gnu.trove.TObjectIntIterator;
@@ -23,17 +23,17 @@ import gnu.trove.TObjectIntIterator;
  */
 public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasisElement> {
 	private final THashSet<BasisElementType> markedSimplices = new THashSet<BasisElementType>();
-	private final THashMap<BasisElementType, IntFormalSum<BasisElementType>> T = new THashMap<BasisElementType, IntFormalSum<BasisElementType>>();
-	private final IntField field;
-	private final IntFreeModule<BasisElementType> chainModule;
+	private final THashMap<BasisElementType, IntSparseFormalSum<BasisElementType>> T = new THashMap<BasisElementType, IntSparseFormalSum<BasisElementType>>();
+	private final IntAbstractField field;
+	private final IntAlgebraicFreeModule<BasisElementType> chainModule;
 	private AbstractFilteredStream<BasisElementType> currentStream = null;
 	private final Comparator<BasisElementType> comparator;
 	private Comparator<BasisElementType> filteredComparator;
 	private final double minimalGranularity = 0.000001;
 	
-	public ClassicalPersistentHomology(IntField field, Comparator<BasisElementType> comparator) {
+	public ClassicalPersistentHomology(IntAbstractField field, Comparator<BasisElementType> comparator) {
 		this.field = field;
-		this.chainModule = new IntFreeModule<BasisElementType>(this.field);
+		this.chainModule = new IntAlgebraicFreeModule<BasisElementType>(this.field);
 		this.comparator = comparator;
 	}
 	
@@ -59,7 +59,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 
 			this.T.remove(simplex);
 			
-			IntFormalSum<BasisElementType> d = this.removePivotRows(simplex, stream);
+			IntSparseFormalSum<BasisElementType> d = this.removePivotRows(simplex, stream);
 			
 			if (d.isEmpty()) {
 				this.markedSimplices.add(simplex);
@@ -103,11 +103,11 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 		return barcodeCollection;
 	}
 	
-	private IntFormalSum<BasisElementType> removePivotRows(BasisElementType simplex, AbstractFilteredStream<BasisElementType> stream) {;
-		//IntFormalSum<BasisElementType> d = createBoundaryChain(simplex.getBoundaryArray());
+	private IntSparseFormalSum<BasisElementType> removePivotRows(BasisElementType simplex, AbstractFilteredStream<BasisElementType> stream) {;
+		//IntSparseFormalSum<BasisElementType> d = createBoundaryChain(simplex.getBoundaryArray());
 		
-		//IntFormalSum<BasisElementType> d = chainModule.createSum(simplex.getBoundaryCoefficients(), (BasisElementType[]) simplex.getBoundaryArray());
-		IntFormalSum<BasisElementType> d = chainModule.createSum(stream.getBoundaryCoefficients(simplex), stream.getBoundary(simplex));
+		//IntSparseFormalSum<BasisElementType> d = chainModule.createSum(simplex.getBoundaryCoefficients(), (BasisElementType[]) simplex.getBoundaryArray());
+		IntSparseFormalSum<BasisElementType> d = chainModule.createNewSum(stream.getBoundaryCoefficients(simplex), stream.getBoundary(simplex));
 
 		// remove unmarked terms from d
 		for (TObjectIntIterator<BasisElementType> iterator = d.iterator(); iterator.hasNext(); ) {
@@ -140,9 +140,9 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 	}
 	
 	/*
-	private static <M extends Comparable<M>> IntFormalSum<M> createBoundaryChain(M[] boundaryObjects) {
+	private static <M extends Comparable<M>> IntSparseFormalSum<M> createBoundaryChain(M[] boundaryObjects) {
 		ExceptionUtility.verifyNonNull(boundaryObjects);
-		IntFormalSum<M> sum = new IntFormalSum<M>();
+		IntSparseFormalSum<M> sum = new IntSparseFormalSum<M>();
 		
 		for (int i = 0; i < boundaryObjects.length; i++) {
 			sum.put((i % 2 == 0 ? 1 : -1), boundaryObjects[i]);
@@ -153,7 +153,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 	*/
 	
 	/*
-	private AbstractSimplex getMaximumObject(IntFormalSum<AbstractSimplex> chain) {
+	private AbstractSimplex getMaximumObject(IntSparseFormalSum<AbstractSimplex> chain) {
 		AbstractSimplex maxObject = null;
 		double maxFiltration = Infinity.getNegativeInfinity();
 		
@@ -179,7 +179,7 @@ public class ClassicalPersistentHomology<BasisElementType extends PrimitiveBasis
 	}
 	*/
 	
-	private BasisElementType getMaximumObject(IntFormalSum<BasisElementType> chain) {
+	private BasisElementType getMaximumObject(IntSparseFormalSum<BasisElementType> chain) {
 		BasisElementType maxObject = null;
 
 		for (TObjectIntIterator<BasisElementType> iterator = chain.iterator(); iterator.hasNext(); ) {
