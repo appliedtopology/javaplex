@@ -7,15 +7,18 @@ import edu.stanford.math.plex.PersistenceInterval;
 import edu.stanford.math.plex.Plex;
 import edu.stanford.math.plex.RipsStream;
 import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
-import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
+import edu.stanford.math.plex4.homology.filtration.FiltrationConverter;
+import edu.stanford.math.plex4.homology.filtration.FiltrationUtility;
+import edu.stanford.math.plex4.homology.filtration.IdentityConverter;
 import edu.stanford.math.plex4.homology.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.homology.streams.impl.VietorisRipsStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.storage_structures.HashedStorageStructure;
 import edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure;
-import edu.stanford.math.plex4.homology.streams.utility.StreamUtility;
 import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.test_utility.Timing;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
@@ -24,7 +27,7 @@ import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
-public class PersistenceAlgorithmTester {
+public class PersistenceAlgorithmInterface {
 	
 	public static PersistenceAlgorithmResult testVietorisRipsStream(double[][] points, int maxDimension, double maxFiltrationValue, int numDivisions, PersistenceAlgorithmType type) {
 		if (type == PersistenceAlgorithmType.Plex3Homology) {
@@ -35,10 +38,10 @@ public class PersistenceAlgorithmTester {
 			Timing.restart();
 			
 			AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
-			StreamStorageStructure<Simplex> structure = new HashedStorageStructure(SimplexComparator.getInstance());
+			StreamStorageStructure<Simplex> structure = new HashedStorageStructure<Simplex>(SimplexComparator.getInstance());
 			VietorisRipsStream<double[]> stream = new VietorisRipsStream<double[]>(metricSpace, maxFiltrationValue, maxDimension + 1, numDivisions, structure);
 			stream.finalizeStream();
-			BarcodeCollection barcodeCollection = computePlex4Barcodes(stream, maxDimension, type);
+			DoubleBarcodeCollection barcodeCollection = computePlex4Barcodes(stream, maxDimension, stream.getConverter(), type);
 			
 			Timing.stop();
 			
@@ -46,7 +49,7 @@ public class PersistenceAlgorithmTester {
 			result.setMaxDimension(maxDimension);
 			result.setMaxFiltrationValue(maxFiltrationValue);
 			result.setNumPoints(points.length);
-			result.setNumSimplices(StreamUtility.getSize(stream));
+			result.setNumSimplices(stream.getSize());
 			result.setSeconds(Timing.seconds());
 			result.setType(type);
 			
@@ -64,15 +67,14 @@ public class PersistenceAlgorithmTester {
 			
 			LazyWitnessStream<double[]> stream = new LazyWitnessStream<double[]>(selector.getUnderlyingMetricSpace(), selector, maxDimension + 1, maxFiltrationValue, numDivisions);
 			stream.finalizeStream();
-			BarcodeCollection barcodeCollection = computePlex4Barcodes(stream, maxDimension, type);
+			DoubleBarcodeCollection barcodeCollection = computePlex4Barcodes(stream, maxDimension, stream.getConverter(), type);
 			
 			Timing.stop();
 			
 			result.setBarcodeCollection(barcodeCollection);
 			result.setMaxDimension(maxDimension);
 			result.setMaxFiltrationValue(maxFiltrationValue);
-			result.setNumPoints(StreamUtility.getSkeletonSize(stream, 0));
-			result.setNumSimplices(StreamUtility.getSize(stream));
+			result.setNumSimplices(stream.getSize());
 			result.setSeconds(Timing.seconds());
 			result.setType(type);
 			
@@ -88,15 +90,14 @@ public class PersistenceAlgorithmTester {
 			
 			Timing.restart();
 			
-			BarcodeCollection barcodeCollection = computePlex4Barcodes(plex4Stream, maxDimension, type);
+			DoubleBarcodeCollection barcodeCollection = computePlex4Barcodes(plex4Stream, maxDimension, IdentityConverter.getInstance(), type);
 			
 			Timing.stop();
 			
 			result.setBarcodeCollection(barcodeCollection);
 			result.setMaxDimension(maxDimension);
 			result.setMaxFiltrationValue(0);
-			result.setNumPoints(StreamUtility.getSkeletonSize(plex4Stream, 0));
-			result.setNumSimplices(StreamUtility.getSize(plex4Stream));
+			result.setNumSimplices(plex4Stream.getSize());
 			result.setSeconds(Timing.seconds());
 			result.setType(type);
 			
@@ -109,16 +110,15 @@ public class PersistenceAlgorithmTester {
 		
 		Timing.restart();
 		
-		edu.stanford.math.plex.ExplicitStream plex3Stream = convertToPlex3ExplicitStream(plex4Stream);
+		edu.stanford.math.plex.ExplicitStream plex3Stream = convertToPlex3ExplicitStream(plex4Stream, IdentityConverter.getInstance());
 		PersistenceInterval[] intervals = Plex.Persistence().computeIntervals(plex3Stream);
-		BarcodeCollection barcodeCollection = convertFromPlex3PersistenceIntervals(intervals);
+		DoubleBarcodeCollection barcodeCollection = convertFromPlex3PersistenceIntervals(intervals);
 		
 		Timing.stop();
 		
 		result.setBarcodeCollection(barcodeCollection);
 		result.setMaxDimension(plex3Stream.maxDimension());
 		result.setMaxFiltrationValue(0);
-		result.setNumPoints(StreamUtility.getSkeletonSize(plex4Stream, 0));
 		result.setNumSimplices(plex3Stream.size());
 		result.setSeconds(Timing.seconds());
 		result.setType(PersistenceAlgorithmType.Plex3Homology);
@@ -126,7 +126,7 @@ public class PersistenceAlgorithmTester {
 		return result;
 	}
 	
-	private static BarcodeCollection testPlex3ExplicitStream(edu.stanford.math.plex.ExplicitStream plex3Stream) {
+	private static DoubleBarcodeCollection testPlex3ExplicitStream(edu.stanford.math.plex.ExplicitStream plex3Stream) {
 		PersistenceInterval[] intervals = Plex.Persistence().computeIntervals(plex3Stream);
 		return convertFromPlex3PersistenceIntervals(intervals);
 	}
@@ -139,7 +139,7 @@ public class PersistenceAlgorithmTester {
 		EuclideanArrayData pData = Plex.EuclideanArrayData(points);		
 		RipsStream stream = Plex.RipsStream(maxFiltrationValue / numDivisions, maxDimension + 1, maxFiltrationValue, pData);
 		PersistenceInterval[] intervals = Plex.Persistence().computeIntervals(stream);
-		BarcodeCollection barcodeCollection = convertFromPlex3PersistenceIntervals(intervals);
+		DoubleBarcodeCollection barcodeCollection = convertFromPlex3PersistenceIntervals(intervals);
 		
 		Timing.stop();
 		
@@ -162,7 +162,7 @@ public class PersistenceAlgorithmTester {
 		EuclideanArrayData pData = Plex.EuclideanArrayData(selector.getUnderlyingMetricSpace().getPoints());
 		edu.stanford.math.plex.LazyWitnessStream wit = Plex.LazyWitnessStream(maxFiltrationValue / numDivisions, maxDimension + 1, maxFiltrationValue, 2, convertTo1Based(selector.getLandmarkPoints()), pData);
 		PersistenceInterval[] intervals = Plex.Persistence().computeIntervals(wit);
-		BarcodeCollection barcodeCollection = convertFromPlex3PersistenceIntervals(intervals);
+		DoubleBarcodeCollection barcodeCollection = convertFromPlex3PersistenceIntervals(intervals);
 		
 		Timing.stop();
 		
@@ -177,47 +177,47 @@ public class PersistenceAlgorithmTester {
 		return result;
 	}
 
-	private static BarcodeCollection computePlex4Barcodes(AbstractFilteredStream<Simplex> stream, int d, PersistenceAlgorithmType type) {
+	private static DoubleBarcodeCollection computePlex4Barcodes(AbstractFilteredStream<Simplex> stream, int d, FiltrationConverter converter, PersistenceAlgorithmType type) {
 		switch (type) {
 		case IntClassicalHomology:
-			return computeIntClassicalHomology(stream, d);
+			return computeIntClassicalHomology(stream, d, converter);
 		case GenericAbsoluteHomology:
-			return computeGenericAbsoluteHomology(stream, d);
+			return computeGenericAbsoluteHomology(stream, d, converter);
 		case GenericAbsoluteCohomology:
-			return computeGenericAbsoluteCohomology(stream, d);
+			return computeGenericAbsoluteCohomology(stream, d, converter);
 		case IntAbsoluteHomology:
-			return computeIntAbsoluteHomology(stream, d);
+			return computeIntAbsoluteHomology(stream, d, converter);
 		default:
 			return null;
 		}
 	}
 
-	private static BarcodeCollection computeIntClassicalHomology(AbstractFilteredStream<Simplex> stream, int d) {
-		ClassicalPersistentHomology<Simplex> classicalHomology = new ClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(13), SimplexComparator.getInstance());
-		BarcodeCollection barcodes = classicalHomology.computeIntervals(stream, d + 1);
-		return barcodes;
+	private static DoubleBarcodeCollection computeIntClassicalHomology(AbstractFilteredStream<Simplex> stream, int d, FiltrationConverter converter) {
+		IntClassicalPersistentHomology<Simplex> classicalHomology = new IntClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(13), SimplexComparator.getInstance());
+		IntBarcodeCollection barcodes = classicalHomology.computeIntervals(stream, d + 1);
+		return FiltrationUtility.transformBarcodeCollection(barcodes, converter);
 	}
 	
-	private static BarcodeCollection computeIntAbsoluteHomology(AbstractFilteredStream<Simplex> stream, int d) {
+	private static DoubleBarcodeCollection computeIntAbsoluteHomology(AbstractFilteredStream<Simplex> stream, int d, FiltrationConverter converter) {
 		IntPersistenceAlgorithm<Simplex> homology = new IntAbsoluteHomology<Simplex>(ModularIntField.getInstance(13), SimplexComparator.getInstance(), d);
-		BarcodeCollection barcodes = homology.computeIntervals(stream);
-		return barcodes;
+		IntBarcodeCollection barcodes = homology.computeIntervals(stream);
+		return FiltrationUtility.transformBarcodeCollection(barcodes, converter);
 	}
 	
-	private static BarcodeCollection computeGenericAbsoluteHomology(AbstractFilteredStream<Simplex> stream, int d) {
+	private static DoubleBarcodeCollection computeGenericAbsoluteHomology(AbstractFilteredStream<Simplex> stream, int d, FiltrationConverter converter) {
 		GenericPersistenceAlgorithm<Fraction, Simplex> homology = new GenericAbsoluteHomology<Fraction, Simplex>(RationalField.getInstance(), SimplexComparator.getInstance(), d);
-		BarcodeCollection barcodes = homology.computeIntervals(stream);
-		return barcodes;
+		IntBarcodeCollection barcodes = homology.computeIntervals(stream);
+		return FiltrationUtility.transformBarcodeCollection(barcodes, converter);
 	}
 	
-	private static BarcodeCollection computeGenericAbsoluteCohomology(AbstractFilteredStream<Simplex> stream, int d) {
+	private static DoubleBarcodeCollection computeGenericAbsoluteCohomology(AbstractFilteredStream<Simplex> stream, int d, FiltrationConverter converter) {
 		GenericPersistenceAlgorithm<Fraction, Simplex> homology = new GenericAbsoluteCohomology<Fraction, Simplex>(RationalField.getInstance(), SimplexComparator.getInstance(), d);
-		BarcodeCollection barcodes = homology.computeIntervals(stream);
-		return barcodes;
+		IntBarcodeCollection barcodes = homology.computeIntervals(stream);
+		return FiltrationUtility.transformBarcodeCollection(barcodes, converter);
 	}
 
-	private static BarcodeCollection convertFromPlex3PersistenceIntervals(PersistenceInterval[] intervals) {
-		BarcodeCollection barcodes = new BarcodeCollection();
+	private static DoubleBarcodeCollection convertFromPlex3PersistenceIntervals(PersistenceInterval[] intervals) {
+		DoubleBarcodeCollection barcodes = new DoubleBarcodeCollection();
 
 		for (PersistenceInterval interval: intervals) {
 			if (interval.infiniteExtent()) {
@@ -230,11 +230,11 @@ public class PersistenceAlgorithmTester {
 		return barcodes;
 	}
 
-	private static edu.stanford.math.plex.ExplicitStream convertToPlex3ExplicitStream(edu.stanford.math.plex4.homology.streams.impl.ExplicitStream<Simplex> plex4Stream) {
+	private static edu.stanford.math.plex.ExplicitStream convertToPlex3ExplicitStream(edu.stanford.math.plex4.homology.streams.impl.ExplicitStream<Simplex> plex4Stream, FiltrationConverter converter) {
 		edu.stanford.math.plex.ExplicitStream plex3Stream = new edu.stanford.math.plex.ExplicitStream();
 
 		for (Simplex simplex: plex4Stream) {
-			plex3Stream.add(IntArrayMath.scalarAdd(simplex.getVertices(), 1), plex4Stream.getFiltrationValue(simplex));
+			plex3Stream.add(IntArrayMath.scalarAdd(simplex.getVertices(), 1), converter.getFiltrationValue(plex4Stream.getFiltrationIndex(simplex)));
 		}
 		
 		plex3Stream.close();

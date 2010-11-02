@@ -30,16 +30,12 @@ public class SearchableMetricSpaceTest {
 	// 2-D query point set
 	private double[][] queryPointSet = null;
 	
-	private int d = 4;
+	private int d = 3;
 
 	@Before
 	public void setUp() {
-		int n = 10000;
+		int n = 20000;
 		
-		//pointCloudExamples2D.add(PointCloudExamples.getHouseExample());
-		//pointCloudExamples2D.add(PointCloudExamples.getSquare());
-		//pointCloudExamples2D.add(PointCloudExamples.getRandomFigure8Points(n));
-		//pointCloudExamples2D.add(PointCloudExamples.getEquispacedCirclePoints(n));
 		pointCloudExamples.add(PointCloudExamples.getRandomSpherePoints(n, d - 1));
 
 		queryPointSet = PointCloudExamples.getGaussianPoints(n, d);

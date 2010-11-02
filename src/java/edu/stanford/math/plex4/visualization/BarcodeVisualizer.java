@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.stanford.math.plex4.homology.barcodes.Barcode;
-import edu.stanford.math.plex4.homology.barcodes.HalfOpenInterval;
+import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
+import edu.stanford.math.plex4.homology.barcodes.DoubleHalfOpenInterval;
 
 public class BarcodeVisualizer {
 
@@ -33,24 +33,24 @@ public class BarcodeVisualizer {
 
 	public static final int DEFAULT_WIDTH = 600;
 
-	public static BufferedImage drawBarcode(Barcode barcode) throws IOException {
+	public static BufferedImage drawBarcode(DoubleBarcode barcode) throws IOException {
 		return drawBarcode(barcode, DEFAULT_WIDTH, barcode.getLabel());
 	}
 
-	public static BufferedImage drawBarcode(Barcode barcode, String title) throws IOException {
+	public static BufferedImage drawBarcode(DoubleBarcode barcode, String title) throws IOException {
 		return drawBarcode(barcode, DEFAULT_WIDTH, title);
 	}
 
-	public static BufferedImage drawBarcode(Barcode barcode, int width) throws IOException {
+	public static BufferedImage drawBarcode(DoubleBarcode barcode, int width) throws IOException {
 		return drawBarcode(barcode, width, barcode.getLabel());
 	}
 
-	public static BufferedImage drawBarcode(Barcode barcode, int width, String title) throws IOException {
+	public static BufferedImage drawBarcode(DoubleBarcode barcode, int width, String title) throws IOException {
 		if (barcode == null) {
 			throw new IllegalArgumentException();
 		}
 
-		List<HalfOpenInterval> intervals = barcode.getIntervals();
+		List<DoubleHalfOpenInterval> intervals = barcode.getIntervals();
 
 		// Set the image generation parameters
 		int barHeight = 3;
@@ -192,7 +192,7 @@ public class BarcodeVisualizer {
 		graphics.drawLine(region.xoffset, region.yoffset + region.height, region.xoffset + region.width, region.yoffset + region.height);
 	}
 
-	protected static void drawBarsInPlace(Graphics2D graphics, List<HalfOpenInterval> intervals, ImageRegion.Int region, int barHeight, int spacing, double scale) {
+	protected static void drawBarsInPlace(Graphics2D graphics, List<DoubleHalfOpenInterval> intervals, ImageRegion.Int region, int barHeight, int spacing, double scale) {
 		graphics.setColor(Color.BLACK);
 
 		// Set the amount of overlap for infinite extents
@@ -214,7 +214,7 @@ public class BarcodeVisualizer {
 		}
 	}
 
-	protected static double getMaxBarWidth(List<HalfOpenInterval> intervals) {
+	protected static double getMaxBarWidth(List<DoubleHalfOpenInterval> intervals) {
 		// Compute a multiplier to scale the barcodes to the image width
 		double max_x = 0;
 		for (int j = 0; j < intervals.size(); j++) {

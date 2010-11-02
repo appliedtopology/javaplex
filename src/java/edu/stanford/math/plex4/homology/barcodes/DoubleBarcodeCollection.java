@@ -1,7 +1,7 @@
 package edu.stanford.math.plex4.homology.barcodes;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import edu.stanford.math.plex4.utility.Infinity;
+import edu.stanford.math.primitivelib.utility.Infinity;
 import gnu.trove.TIntIntHashMap;
 import gnu.trove.TIntObjectHashMap;
 import gnu.trove.TIntObjectIterator;
@@ -14,13 +14,18 @@ import gnu.trove.TIntObjectIterator;
  * @author Andrew Tausz
  *
  */
-public class BarcodeCollection {
-	private final TIntObjectHashMap<Barcode> barcodeMap = new TIntObjectHashMap<Barcode>();
+public class DoubleBarcodeCollection {
+	private final TIntObjectHashMap<DoubleBarcode> barcodeMap = new TIntObjectHashMap<DoubleBarcode>();
 	
-	public BarcodeCollection getInfiniteIntervals() {
-		BarcodeCollection collection = new BarcodeCollection();
+	/**
+	 * This function returns a barcode collection containing only the infinite intervals.
+	 * 
+	 * @return a barcode collection with only inifinite intervals
+	 */
+	public DoubleBarcodeCollection getInfiniteIntervals() {
+		DoubleBarcodeCollection collection = new DoubleBarcodeCollection();
 		
-		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			collection.barcodeMap.put(iterator.key(), iterator.value().getInfiniteIntervals());
 		}
@@ -34,10 +39,10 @@ public class BarcodeCollection {
 	 * @param dimension the dimension to add to
 	 * @param interval the interval to add
 	 */
-	public void addInterval(int dimension, HalfOpenInterval interval) {
+	public void addInterval(int dimension, DoubleHalfOpenInterval interval) {
 		ExceptionUtility.verifyNonNull(interval);
 		if (!this.barcodeMap.containsKey(dimension)) {
-			this.barcodeMap.put(dimension, new Barcode(dimension));
+			this.barcodeMap.put(dimension, new DoubleBarcode(dimension));
 		}
 		this.barcodeMap.get(dimension).addInterval(interval);
 	}
@@ -51,7 +56,7 @@ public class BarcodeCollection {
 	 * @param end the ending point of the interval
 	 */
 	public void addInterval(int dimension, double start, double end) {
-		this.addInterval(dimension, new FiniteInterval(start, end));
+		this.addInterval(dimension, new DoubleFiniteInterval(start, end));
 	}
 	
 	/**
@@ -62,18 +67,25 @@ public class BarcodeCollection {
 	 * @param start the starting point of the interval
 	 */
 	public void addRightInfiniteInterval(int dimension, double start) {
-		this.addInterval(dimension, new RightInfiniteInterval(start));
+		this.addInterval(dimension, new DoubleRightInfiniteInterval(start));
 	}
 	
+	/**
+	 * This function adds the specified semi-infinite intervals [-infinity, end)
+	 * at the supplied dimension
+	 * 
+	 * @param dimension the dimension to add to
+	 * @param end the ending point of the interval
+	 */
 	public void addLeftInfiniteInterval(int dimension, double end) {
-		this.addInterval(dimension, new LeftInfiniteInterval(end));
+		this.addInterval(dimension, new DoubleLeftInfiniteInterval(end));
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		
-		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			builder.append(iterator.value().toString());
 			builder.append("\n");
@@ -93,7 +105,7 @@ public class BarcodeCollection {
 	public TIntIntHashMap getBettiNumbersMap(double filtrationValue) {
 		TIntIntHashMap map = new TIntIntHashMap();
 		
-		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			map.put(iterator.key(), iterator.value().getSliceCardinality(filtrationValue));
 		}
@@ -105,7 +117,7 @@ public class BarcodeCollection {
 		int maxDimension = Infinity.Int.getNegativeInfinity();
 		int minDimension = Infinity.Int.getPositiveInfinity();
 		
-		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			maxDimension = Math.max(maxDimension, iterator.key());
 			minDimension = Math.min(minDimension, iterator.key());
@@ -113,7 +125,7 @@ public class BarcodeCollection {
 		
 		int[] bettiNumbers = new int[maxDimension + 1];
 		
-		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			int dimension = iterator.key();
 			if (dimension >= 0) {
@@ -129,7 +141,7 @@ public class BarcodeCollection {
 		int maxDimension = Infinity.Int.getNegativeInfinity();
 		int minDimension = Infinity.Int.getPositiveInfinity();
 		
-		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			maxDimension = Math.max(maxDimension, iterator.key());
 			minDimension = Math.min(minDimension, iterator.key());
@@ -137,7 +149,7 @@ public class BarcodeCollection {
 		
 		int[] bettiNumbers = new int[maxDimension - minDimension + 1];
 		
-		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			bettiNumbers[iterator.key() - minDimension] = iterator.value().getCardinality();
 		}
@@ -161,7 +173,7 @@ public class BarcodeCollection {
 		int maxDimension = Infinity.Int.getNegativeInfinity();
 		int minDimension = Infinity.Int.getPositiveInfinity();
 		
-		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			maxDimension = Math.max(maxDimension, iterator.key());
 			minDimension = Math.min(minDimension, iterator.key());
@@ -169,7 +181,7 @@ public class BarcodeCollection {
 		
 		int[] bettiNumbers = new int[maxDimension - minDimension + 1];
 		
-		for (TIntObjectIterator<Barcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			bettiNumbers[iterator.key() - minDimension] = iterator.value().getSliceCardinality(point);
 		}
@@ -204,7 +216,7 @@ public class BarcodeCollection {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BarcodeCollection other = (BarcodeCollection) obj;
+		DoubleBarcodeCollection other = (DoubleBarcodeCollection) obj;
 		if (barcodeMap == null) {
 			if (other.barcodeMap != null)
 				return false;

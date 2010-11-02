@@ -5,19 +5,28 @@ import gnu.trove.TIntIntHashMap;
 import gnu.trove.TIntObjectHashMap;
 import gnu.trove.TIntObjectIterator;
 
-public class AugmentedBarcodeCollection<T> {
-	private final TIntObjectHashMap<AugmentedBarcode<T>> barcodeMap = new TIntObjectHashMap<AugmentedBarcode<T>>();
+/**
+ * This class implements functionality for storing a collection of barcodes with 
+ * their generators. It is designed to be the output of a persistent homology or 
+ * cohomology algorithm so that it contains the persistence intervals at each dimension.
+ * 
+ * @author Andrew Tausz
+ *
+ */
+public class DoubleAugmentedBarcodeCollection<T> {
+	private final TIntObjectHashMap<DoubleAugmentedBarcode<T>> barcodeMap = new TIntObjectHashMap<DoubleAugmentedBarcode<T>>();
 	
 	/**
 	 * This function adds an interval at the specified dimension.
 	 * 
 	 * @param dimension the dimension to add to
 	 * @param interval the interval to add
+	 * @param generatingCycle the generating cycle
 	 */
-	public void addInterval(int dimension, HalfOpenInterval interval, T generatingCycle) {
+	public void addInterval(int dimension, DoubleHalfOpenInterval interval, T generatingCycle) {
 		ExceptionUtility.verifyNonNull(interval);
 		if (!this.barcodeMap.containsKey(dimension)) {
-			this.barcodeMap.put(dimension, new AugmentedBarcode<T>(dimension));
+			this.barcodeMap.put(dimension, new DoubleAugmentedBarcode<T>(dimension));
 		}
 		this.barcodeMap.get(dimension).addInterval(interval, generatingCycle);
 	}
@@ -29,9 +38,10 @@ public class AugmentedBarcodeCollection<T> {
 	 * @param dimension the dimension to add to
 	 * @param start the starting point of the interval
 	 * @param end the ending point of the interval
+	 * @param generatingCycle the generating cycle
 	 */
 	public void addInterval(int dimension, double start, double end, T generatingCycle) {
-		this.addInterval(dimension, new FiniteInterval(start, end), generatingCycle);
+		this.addInterval(dimension, new DoubleFiniteInterval(start, end), generatingCycle);
 	}
 	
 	/**
@@ -40,19 +50,33 @@ public class AugmentedBarcodeCollection<T> {
 	 * 
 	 * @param dimension the dimension to add to
 	 * @param start the starting point of the interval
+	 * @param generatingCycle the generating cycle
 	 */
 	public void addRightInfiniteInterval(int dimension, double start, T generatingCycle) {
-		this.addInterval(dimension, new RightInfiniteInterval(start), generatingCycle);
+		this.addInterval(dimension, new DoubleRightInfiniteInterval(start), generatingCycle);
 	}
 	
+	/**
+	 * This function adds the specified semi-infinite intervals [-infinity, end)
+	 * at the supplied dimension
+	 * 
+	 * @param dimension the dimension to add to
+	 * @param end the ending point of the interval
+	 * @param generatingCycle the generating cycle
+	 */
 	public void addLeftInfiniteInterval(int dimension, double end, T generatingCycle) {
-		this.addInterval(dimension, new LeftInfiniteInterval(end), generatingCycle);
+		this.addInterval(dimension, new DoubleLeftInfiniteInterval(end), generatingCycle);
 	}
 	
-	public AugmentedBarcodeCollection<T> getInfiniteIntervals() {
-		AugmentedBarcodeCollection<T> collection = new AugmentedBarcodeCollection<T>();
+	/**
+	 * This function returns a barcode collection containing only the infinite intervals.
+	 * 
+	 * @return a barcode collection with only inifinite intervals
+	 */
+	public DoubleAugmentedBarcodeCollection<T> getInfiniteIntervals() {
+		DoubleAugmentedBarcodeCollection<T> collection = new DoubleAugmentedBarcodeCollection<T>();
 		
-		for (TIntObjectIterator<AugmentedBarcode<T>> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleAugmentedBarcode<T>> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			collection.barcodeMap.put(iterator.key(), iterator.value().getInfiniteIntervals());
 		}
@@ -64,9 +88,9 @@ public class AugmentedBarcodeCollection<T> {
 	 * This function returns the barcode at the specified dimension.
 	 * 
 	 * @param dimension
-	 * @return
+	 * @return the barcode at the specified dimension
 	 */
-	public AugmentedBarcode<T> getBarcode(int dimension) {
+	public DoubleAugmentedBarcode<T> getBarcode(int dimension) {
 		return this.barcodeMap.get(dimension);
 	}
 	
@@ -81,7 +105,7 @@ public class AugmentedBarcodeCollection<T> {
 	public TIntIntHashMap getBettiNumbers(double filtrationValue) {
 		TIntIntHashMap map = new TIntIntHashMap();
 		
-		for (TIntObjectIterator<AugmentedBarcode<T>> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleAugmentedBarcode<T>> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			map.put(iterator.key(), iterator.value().getSliceCardinality(filtrationValue));
 		}
@@ -93,7 +117,7 @@ public class AugmentedBarcodeCollection<T> {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		
-		for (TIntObjectIterator<AugmentedBarcode<T>> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<DoubleAugmentedBarcode<T>> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			builder.append(iterator.value().toString());
 			builder.append("\n");
@@ -118,7 +142,7 @@ public class AugmentedBarcodeCollection<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AugmentedBarcodeCollection<?> other = (AugmentedBarcodeCollection<?>) obj;
+		DoubleAugmentedBarcodeCollection<?> other = (DoubleAugmentedBarcodeCollection<?>) obj;
 		if (barcodeMap == null) {
 			if (other.barcodeMap != null)
 				return false;

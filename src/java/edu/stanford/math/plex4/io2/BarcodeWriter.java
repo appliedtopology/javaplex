@@ -3,10 +3,10 @@ package edu.stanford.math.plex4.io2;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import edu.stanford.math.plex4.homology.barcodes.Barcode;
+import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
 import edu.stanford.math.plex4.visualization.BarcodeVisualizer;
 
-public class BarcodeWriter implements ObjectWriter<Barcode> {
+public class BarcodeWriter implements ObjectWriter<DoubleBarcode> {
 	private static final BarcodeWriter instance = new BarcodeWriter();
 	
 	private BarcodeWriter() {}
@@ -15,7 +15,7 @@ public class BarcodeWriter implements ObjectWriter<Barcode> {
 		return instance;
 	}
 	
-	public void writeToFile(Barcode object, String path) throws IOException {
+	public void writeToFile(DoubleBarcode object, String path) throws IOException {
 		if (object == null) {
 			throw new IllegalArgumentException();
 		}

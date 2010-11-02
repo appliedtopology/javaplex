@@ -7,16 +7,25 @@ import edu.stanford.math.plex4.utility.ComparisonUtility;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 
-public class AugmentedBarcode<T> {
+/**
+ * This class implements the functionality of a barcode, which is an
+ * ordered collection of persistence intervals along with a dimension 
+ * specifier. Additionally, each interval is annotated with a generating
+ * object (usually a generating cycle).
+ * 
+ * @author Andrew Tausz
+ *
+ */
+public class DoubleAugmentedBarcode<T> {
 	private final int dimension;
-	private final List<ObjectObjectPair<HalfOpenInterval, T>> intervals = new ArrayList<ObjectObjectPair<HalfOpenInterval, T>>();
+	private final List<ObjectObjectPair<DoubleHalfOpenInterval, T>> intervals = new ArrayList<ObjectObjectPair<DoubleHalfOpenInterval, T>>();
 	/**
 	 * This constructor initializes the barcode to be empty, with the
 	 * specified dimension.
 	 * 
 	 * @param dimension the dimension to initialize to
 	 */
-	public AugmentedBarcode(int dimension) {
+	public DoubleAugmentedBarcode(int dimension) {
 		this.dimension = dimension;
 	}
 	
@@ -29,21 +38,44 @@ public class AugmentedBarcode<T> {
 		return this.dimension;
 	}
 	
+	/**
+	 * Gets the number of intervals in the barcode.
+	 * 
+	 * @return the number of intervals in the barcode
+	 */
 	public int getSize() {
 		return this.intervals.size();
 	}
 	
-	public HalfOpenInterval getInterval(int index) {
+	/**
+	 * Gets the interval at the given index.
+	 * 
+	 * @param index the index
+	 * @return the interval at the given index
+	 */
+	public DoubleHalfOpenInterval getInterval(int index) {
 		return this.intervals.get(index).getFirst();
 	}
 	
+	/**
+	 * Gets the generating cycle at the given index.
+	 * 
+	 * @param index the index
+	 * @return the generating cycle at the given index
+	 */
 	public T getGeneratingCycle(int index) {
 		return this.intervals.get(index).getSecond();
 	}
 	
-	public AugmentedBarcode<T> getInfiniteIntervals() {
-		AugmentedBarcode<T> infiniteBarcode = new AugmentedBarcode<T>(this.dimension);
-		for (ObjectObjectPair<HalfOpenInterval, T> pair: this.intervals) {
+	/**
+	 * This returns an augmented collection containing only the infinite intervals and their
+	 * generators.
+	 * 
+	 * @return an augmented barcode containing the infinite intervals
+	 */
+	public DoubleAugmentedBarcode<T> getInfiniteIntervals() {
+		DoubleAugmentedBarcode<T> infiniteBarcode = new DoubleAugmentedBarcode<T>(this.dimension);
+		for (ObjectObjectPair<DoubleHalfOpenInterval, T> pair: this.intervals) {
 			if (pair.getFirst().isInfinite()) {
 				infiniteBarcode.addInterval(pair.getFirst(), pair.getSecond());
 			}
@@ -57,10 +89,10 @@ public class AugmentedBarcode<T> {
 	 * 
 	 * @param interval the PersistentInterval to add
 	 */
-	public void addInterval(HalfOpenInterval interval, T representative) {
+	public void addInterval(DoubleHalfOpenInterval interval, T representative) {
 		ExceptionUtility.verifyNonNull(interval);
 		ExceptionUtility.verifyNonNull(representative);
-		this.intervals.add(new ObjectObjectPair<HalfOpenInterval, T>(interval, representative));
+		this.intervals.add(new ObjectObjectPair<DoubleHalfOpenInterval, T>(interval, representative));
 	}
 	
 	/**
@@ -73,7 +105,7 @@ public class AugmentedBarcode<T> {
 	public int getSliceCardinality(double point) {
 		int cardinality = 0;
 		
-		for (ObjectObjectPair<HalfOpenInterval, T> pair: this.intervals) {
+		for (ObjectObjectPair<DoubleHalfOpenInterval, T> pair: this.intervals) {
 			if (pair.getFirst().containsPoint(point)) {
 				cardinality++;
 			}
@@ -87,7 +119,7 @@ public class AugmentedBarcode<T> {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Dimension: " + this.dimension + "\n");
-		for (ObjectObjectPair<HalfOpenInterval, T> pair: this.intervals) {
+		for (ObjectObjectPair<DoubleHalfOpenInterval, T> pair: this.intervals) {
 			builder.append(pair.getFirst().toString());
 			builder.append(": ");
 			builder.append(pair.getSecond().toString());
@@ -114,7 +146,7 @@ public class AugmentedBarcode<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AugmentedBarcode<?> other = (AugmentedBarcode<?>) obj;
+		DoubleAugmentedBarcode<?> other = (DoubleAugmentedBarcode<?>) obj;
 		if (dimension != other.dimension)
 			return false;
 		if (intervals == null) {

@@ -3,8 +3,8 @@ package edu.stanford.math.plex4.homology;
 import java.util.Comparator;
 import java.util.Set;
 
-import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
@@ -24,12 +24,12 @@ public abstract class IntPersistentHomology<T> extends IntPersistenceAlgorithm<T
 	}
 
 	@Override
-	public AugmentedBarcodeCollection<IntSparseFormalSum<T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
+	public IntAugmentedBarcodeCollection<IntSparseFormalSum<T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
 		return this.getAugmentedIntervals(this.pHcol(stream), stream);
 	}
 
 	@Override
-	public BarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream) {
+	public IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream) {
 		return this.getIntervals(this.pHcol(stream), stream);
 	}
 
@@ -117,13 +117,13 @@ public abstract class IntPersistentHomology<T> extends IntPersistenceAlgorithm<T
 		return new ObjectObjectPair<THashMap<T, IntSparseFormalSum<T>>, THashMap<T, IntSparseFormalSum<T>>>(R, V);
 	}
 
-	protected abstract AugmentedBarcodeCollection<IntSparseFormalSum<T>> getAugmentedIntervals(ObjectObjectPair<THashMap<T, IntSparseFormalSum<T>>, THashMap<T, IntSparseFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream);
+	protected abstract IntAugmentedBarcodeCollection<IntSparseFormalSum<T>> getAugmentedIntervals(ObjectObjectPair<THashMap<T, IntSparseFormalSum<T>>, THashMap<T, IntSparseFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream);
 
-	protected abstract BarcodeCollection getIntervals(ObjectObjectPair<THashMap<T, IntSparseFormalSum<T>>, THashMap<T, IntSparseFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream);
+	protected abstract IntBarcodeCollection getIntervals(ObjectObjectPair<THashMap<T, IntSparseFormalSum<T>>, THashMap<T, IntSparseFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream);
 
-	protected AugmentedBarcodeCollection<IntSparseFormalSum<T>> getAugmentedIntervals(
+	protected IntAugmentedBarcodeCollection<IntSparseFormalSum<T>> getAugmentedIntervals(
 			ObjectObjectPair<THashMap<T, IntSparseFormalSum<T>>, THashMap<T, IntSparseFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
-		AugmentedBarcodeCollection<IntSparseFormalSum<T>> barcodeCollection = new AugmentedBarcodeCollection<IntSparseFormalSum<T>>();
+		IntAugmentedBarcodeCollection<IntSparseFormalSum<T>> barcodeCollection = new IntAugmentedBarcodeCollection<IntSparseFormalSum<T>>();
 
 		THashMap<T, IntSparseFormalSum<T>> R = RV_pair.getFirst();
 		THashMap<T, IntSparseFormalSum<T>> V = RV_pair.getSecond();
@@ -144,8 +144,8 @@ public abstract class IntPersistentHomology<T> extends IntPersistenceAlgorithm<T
 				// simplex i kills low_R_i
 				births.remove(low_R_i);
 				births.remove(i);
-				double start = stream.getFiltrationValue(low_R_i);
-				double end = stream.getFiltrationValue(i);
+				int start = stream.getFiltrationIndex(low_R_i);
+				int end = stream.getFiltrationIndex(i);
 				if (end >= start + this.minGranularity) {
 					if (absolute) {
 						barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end, R.get(i));
@@ -160,18 +160,18 @@ public abstract class IntPersistentHomology<T> extends IntPersistenceAlgorithm<T
 		// these correspond to semi-infinite intervals
 		for (T i: births) {
 			if (absolute) {
-				barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
+				barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i), V.get(i));
 			} else {
-				barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
+				barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i), V.get(i));
 			}
 		}
 
 		return barcodeCollection;
 	}
 
-	protected BarcodeCollection getIntervals(
+	protected IntBarcodeCollection getIntervals(
 			ObjectObjectPair<THashMap<T, IntSparseFormalSum<T>>, THashMap<T, IntSparseFormalSum<T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
-		BarcodeCollection barcodeCollection = new BarcodeCollection();
+		IntBarcodeCollection barcodeCollection = new IntBarcodeCollection();
 
 		THashMap<T, IntSparseFormalSum<T>> R = RV_pair.getFirst();
 
@@ -191,8 +191,8 @@ public abstract class IntPersistentHomology<T> extends IntPersistenceAlgorithm<T
 				// simplex i kills low_R_i
 				births.remove(low_R_i);
 				births.remove(i);
-				double start = stream.getFiltrationValue(low_R_i);
-				double end = stream.getFiltrationValue(i);
+				int start = stream.getFiltrationIndex(low_R_i);
+				int end = stream.getFiltrationIndex(i);
 				if (end >= start + this.minGranularity) {
 					if (absolute) {
 						barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end);
@@ -207,9 +207,9 @@ public abstract class IntPersistentHomology<T> extends IntPersistenceAlgorithm<T
 		// these correspond to semi-infinite intervals
 		for (T i: births) {
 			if (absolute) {
-				barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i));
+				barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i));
 			} else {
-				barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i));
+				barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i));
 			}
 		}
 

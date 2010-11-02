@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.utility.FilteredComparator;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
@@ -87,17 +87,17 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 		this.maxDimension = maxDimension;
 	}
 	
-	public BarcodeCollection computeIntervals(AbstractFilteredStream<T> stream) {
+	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<T> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
 	}
-	public AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> computeAugmentedIntervals(AbstractFilteredStream<T> stream) {
+	public IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> computeAugmentedIntervals(AbstractFilteredStream<T> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeAugmentedIntervalsImpl(stream);
 	}
 	
-	protected abstract BarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream);
-	protected abstract AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream);
+	protected abstract IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream);
+	protected abstract IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream);
 	
 	protected void initializeFilteredComparator(AbstractFilteredStream<T> stream) {
 		this.filteredComparator = new FilteredComparator<T>(stream, this.basisComparator);

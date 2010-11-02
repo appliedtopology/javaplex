@@ -3,17 +3,12 @@
  */
 package edu.stanford.math.plex4.homology.streams.impl;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
-import edu.stanford.math.plex4.embedding.GraphEmbedding;
-import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
-import edu.stanford.math.plex4.graph.UndirectedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.kd.KDEuclideanMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace;
 
 /**
@@ -21,15 +16,29 @@ import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpac
  * complex, ie. one in which the vertices are elements of Euclidean space.
  * A geometric simplex stream is defined to be a simplex stream along
  * with a mapping of the set of vertices to Euclidean space, which in this
- * case is an object of type FiniteMetricSpace<double[]>.
+ * case is an object of type AbstractObjectMetricSpace<double[]>.
  * 
  * @author Andrew Tausz
  *
  */
 public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, AbstractObjectMetricSpace<double[]> {
+	
+	/**
+	 * The underlying filtered simplicial complex.
+	 */
 	private final AbstractFilteredStream<Simplex> stream;
+	
+	/**
+	 * The Euclidean metric consisting of the vertices of the complex.
+	 */
 	private final AbstractObjectMetricSpace<double[]> metricSpace;
 	
+	/**
+	 * This constructor initializes the geometric complex from an abstract filtered complex and a metric space.
+	 * 
+	 * @param stream the abstract simplicial complex
+	 * @param metricSpace the Euclidean metric space of vertices
+	 */
 	public GeometricSimplexStream(AbstractFilteredStream<Simplex> stream, AbstractObjectMetricSpace<double[]> metricSpace) {
 		ExceptionUtility.verifyNonNull(stream);
 		ExceptionUtility.verifyNonNull(metricSpace);
@@ -37,91 +46,108 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 		this.metricSpace = metricSpace;
 	}
 	
+	/**
+	 * This constructor initializes the geometric complex from an abstract simplicial complex and double array
+	 * whose rows consist of the Euclidean coordinates of the vertices.
+	 * 
+	 * @param stream the abstract simplicial complex
+	 * @param points the array of points
+	 */
 	public GeometricSimplexStream(AbstractFilteredStream<Simplex> stream, double[][] points) {
 		ExceptionUtility.verifyNonNull(stream);
 		ExceptionUtility.verifyNonNull(points);
 		this.stream = stream;
-		this.metricSpace = new KDEuclideanMetricSpace(points);
+		this.metricSpace = new EuclideanMetricSpace(points);
 	}
 	
-	public GeometricSimplexStream(AbstractFilteredStream<Simplex> stream, GraphEmbedding embedding, int dimension) {
-		ExceptionUtility.verifyNonNull(stream);
-		ExceptionUtility.verifyNonNull(embedding);
-		this.stream = stream;
-		this.metricSpace = new KDEuclideanMetricSpace(embedding.computeEmbedding(this.construct1Skeleton(stream), dimension));
-	}
-	
-	private AbstractUndirectedGraph construct1Skeleton(AbstractFilteredStream<Simplex> stream) {
-		List<Simplex> skeleton = new ArrayList<Simplex>();
-		int maxVertexIndex = 0;
-		
-		for (Simplex simplex: stream) {
-			if (simplex.getDimension() == 0) {
-				maxVertexIndex = Math.max(maxVertexIndex, simplex.getVertices()[0]);
-			}else if (simplex.getDimension() == 1) {
-				skeleton.add(simplex);
-			}
-		}
-		
-		AbstractUndirectedGraph graph = new UndirectedListGraph(maxVertexIndex + 1);
-		
-		for (Simplex edge: skeleton) {
-			int[] vertices = edge.getVertices();
-			graph.addEdge(vertices[0], vertices[1]);
-		}
-		
-		return graph;
-	}
-	
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#finalizeStream()
+	 */
 	public void finalizeStream() {
 		this.stream.finalizeStream();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getFiltrationIndex(java.lang.Object)
+	 */
 	public int getFiltrationIndex(Simplex basisElement) {
 		return this.stream.getFiltrationIndex(basisElement);
 	}
-	
-	public double getFiltrationValue(Simplex basisElement) {
-		return this.stream.getFiltrationValue(basisElement);
-	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#isFinalized()
+	 */
 	public boolean isFinalized() {
 		return this.stream.isFinalized();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Iterable#iterator()
+	 */
 	public Iterator<Simplex> iterator() {
 		return this.stream.iterator();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace#getPoint(int)
+	 */
 	public double[] getPoint(int index) {
 		return this.metricSpace.getPoint(index);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace#size()
+	 */
 	public int size() {
 		return this.metricSpace.size();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace#distance(int, int)
+	 */
 	public double distance(int i, int j) {
 		return this.metricSpace.distance(i, j);
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace#distance(java.lang.Object, java.lang.Object)
+	 */
 	public double distance(double[] a, double[] b) {
 		return this.metricSpace.distance(a, b);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getBoundary(java.lang.Object)
+	 */
 	public Simplex[] getBoundary(Simplex simplex) {
 		return simplex.getBoundaryArray();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getBoundaryCoefficients(java.lang.Object)
+	 */
 	public int[] getBoundaryCoefficients(Simplex simplex) {
 		return simplex.getBoundaryCoefficients();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getDimension(java.lang.Object)
+	 */
 	public int getDimension(Simplex element) {
 		return this.stream.getDimension(element);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace#getPoints()
+	 */
 	public double[][] getPoints() {
 		return this.metricSpace.getPoints();
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getSize()
+	 */
+	public int getSize() {
+		return this.stream.getSize();
 	}
 }

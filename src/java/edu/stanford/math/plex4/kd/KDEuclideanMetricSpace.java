@@ -1,9 +1,9 @@
 package edu.stanford.math.plex4.kd;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import edu.stanford.math.plex4.utility.Infinity;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
+import edu.stanford.math.primitivelib.utility.Infinity;
 import gnu.trove.TIntHashSet;
 
 /**
@@ -53,7 +53,6 @@ public class KDEuclideanMetricSpace implements AbstractSearchableMetricSpace<dou
 	}
 
 	public double[] getPoint(int index) {
-		ExceptionUtility.verifyIndex(this.dataPoints.length, index);
 		return this.dataPoints[index];
 	}
 

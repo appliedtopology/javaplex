@@ -1,172 +1,173 @@
+/**
+ * 
+ */
 package edu.stanford.math.plex4.homology.streams.storage_structures;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
-import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TIntObjectIterator;
 import gnu.trove.TObjectIntHashMap;
 
-public class HashedStorageStructure implements StreamStorageStructure<Simplex> {
+/**
+ * This class provides a stream storage mechanism that is based on a multi-layer map. The motivation
+ * behind the design of this class is that the ordering of chain basis elements (e.g. simplices) is 
+ * first determined by filtration index, then by dimension, and then by some other ordering (e.g.
+ * lexicographical ordering on the vertices). This storage structure uses a sequence of maps to store
+ * a basis element. One can think of it as a tree, where the first node is split on the filtration index,
+ * the second layer is split on dimension. This class was inspired by the original version of java plex.
+ * 
+ * @author Andrew Tausz
+ *
+ * @param <T>
+ */
+public class HashedStorageStructure<T extends PrimitiveBasisElement> implements StreamStorageStructure<T> {
+	/**
+	 * This multilayered map maps filtration index -> dimension -> basis element list. Thus, an element is stored first by
+	 * its filtration value, and then by its dimension.
+	 */
+	private final TIntObjectHashMap<TIntObjectHashMap<List<T>>> indexDimensionObjectMap = new TIntObjectHashMap<TIntObjectHashMap<List<T>>>();
 	
-	private class HashedStorageStructureIterator implements Iterator<Simplex> {
-		private final HashedStorageStructure storageStructure;
-		private int fiIndex = 0;
-		private int dIndex = 0;
-		private int fIndexKey;
-		private int dimKey;
-		private Iterator<Simplex> segmentIterator;
-		
-		private int[] fIndexKeys;
-		private int[] dimensionKeys;
-		
-		public HashedStorageStructureIterator(HashedStorageStructure storageStructure) {
-			this.storageStructure = storageStructure;
-			this.fIndexKeys = this.storageStructure.items.keys();
-			Arrays.sort(this.fIndexKeys);
-			fiIndex = 0;
-			fIndexKey = fIndexKeys[fiIndex];
-			dimensionKeys = this.storageStructure.items.get(fIndexKey).keys();
-			Arrays.sort(dimensionKeys);
-			dIndex = 0;
-			dimKey = dimensionKeys[dIndex];
-			Collections.sort(storageStructure.items.get(fIndexKey).get(dimKey), storageStructure.basisComparator);
-			segmentIterator = storageStructure.items.get(fIndexKey).get(dimKey).iterator();
-		}
-		
-		public boolean hasNext() {
-			return ((fiIndex < fIndexKeys.length - 1) || (dIndex < dimensionKeys.length - 1)  || segmentIterator.hasNext());
-		}
-
-		public Simplex next() {
-			if (!segmentIterator.hasNext()) {
-				if (dIndex == dimensionKeys.length - 1) {
-					if (fiIndex == fIndexKeys.length - 1) {
-						// nothing to do - can't advance further
-						return null;
-					} else {
-						// fiIndex < fIndexKeys.length - 1
-						// we increment the filtration index
-						fiIndex++;
-						fIndexKey = fIndexKeys[fiIndex];
-						dimensionKeys = this.storageStructure.items.get(fIndexKey).keys();
-						Arrays.sort(dimensionKeys);
-						dIndex = 0;
-						dimKey = dimensionKeys[dIndex];
-						Collections.sort(storageStructure.items.get(fIndexKey).get(dimKey), storageStructure.basisComparator);
-						segmentIterator = storageStructure.items.get(fIndexKey).get(dimKey).iterator();
-						return segmentIterator.next();
-					}
-				} else {
-					// (dIndex < dimensionKeys.length - 1)
-					dIndex++;
-					dimKey = dimensionKeys[dIndex];
-					Collections.sort(storageStructure.items.get(fIndexKey).get(dimKey), storageStructure.basisComparator);
-					segmentIterator = storageStructure.items.get(fIndexKey).get(dimKey).iterator();
-					return segmentIterator.next();
-				}
-			} else {
-				// segmentIterator.hasNext()
-				return segmentIterator.next();
-			}
-		}
-
-		public void remove() {
-			segmentIterator.remove();
-		}
-		
-	}
+	/**
+	 * This stores the filtration indices of the basis elements.
+	 */
+	private final TObjectIntHashMap<T> filtrationIndices = new TObjectIntHashMap<T>();
 	
-	private final TIntObjectHashMap<TIntObjectHashMap<ArrayList<Simplex>>> items = new TIntObjectHashMap<TIntObjectHashMap<ArrayList<Simplex>>>();
-	//private final ArrayList<ArrayList<ArrayList<Simplex>>> items = new ArrayList<ArrayList<ArrayList<Simplex>>>();
-	private final TObjectIntHashMap<Simplex> filtrationIndices = new TObjectIntHashMap<Simplex>();
+	/**
+	 * Indicates whether the storage structure is finalized or not.
+	 */
+	private boolean isFinalized = false;
 	
 	/**
 	 * Comparator which provides ordering of elements of the stream.
 	 */
-	private final Comparator<Simplex> basisComparator;
-	private boolean finalized = false;
+	private final Comparator<T> basisComparator;
 	
-	public HashedStorageStructure(Comparator<Simplex> basisComparator) {
+	/**
+	 * This construction initializes the class with a comparator for comparing the basis elements.
+	 * 
+	 * @param basisComparator the comparator
+	 */
+	public HashedStorageStructure(Comparator<T> basisComparator) {
 		this.basisComparator = basisComparator;
-
 	}
-	public void addElement(Simplex basisElement, int filtrationIndex) {
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Iterable#iterator()
+	 */
+	public Iterator<T> iterator() {
+		return new HashedStorageStructureIterator<T>(this.indexDimensionObjectMap);
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure#addElement(java.lang.Object, int)
+	 */
+	public void addElement(T basisElement, int filtrationIndex) {
+		TIntObjectHashMap<List<T>> dimensionMap = null;
+		if (!this.indexDimensionObjectMap.containsKey(filtrationIndex)) {
+			dimensionMap = new TIntObjectHashMap<List<T>>();
+			this.indexDimensionObjectMap.put(filtrationIndex, dimensionMap);
+		} else {
+			dimensionMap = this.indexDimensionObjectMap.get(filtrationIndex);
+		}
+		
 		int dimension = basisElement.getDimension();
-		this.ensureCapacity(filtrationIndex, dimension);
-		items.get(filtrationIndex).get(dimension).add(basisElement);
+		List<T> elementList = null;
+		
+		if (!dimensionMap.containsKey(dimension)) {
+			elementList = new ArrayList<T>();
+			dimensionMap.put(dimension, elementList);
+		} else {
+			elementList = dimensionMap.get(dimension);
+		}
+		
+		elementList.add(basisElement);
+		
 		this.filtrationIndices.put(basisElement, filtrationIndex);
 	}
 
-	public boolean containsElement(Simplex basisElement) {
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure#removeElement(java.lang.Object)
+	 */
+	public void removeElement(T basisElement) {
+		if (!this.filtrationIndices.containsKey(basisElement)) {
+			return;
+		}
+		
+		int filtrationIndex = this.filtrationIndices.get(basisElement);
+		int dimension = basisElement.getDimension();
+		
+		this.indexDimensionObjectMap.get(filtrationIndex).get(dimension).remove(basisElement);
+		
+		// make sure that we do not store empty lists in the storage structure
+		if (this.indexDimensionObjectMap.get(filtrationIndex).get(dimension).isEmpty()) {
+			this.indexDimensionObjectMap.get(filtrationIndex).remove(dimension);
+		}
+		
+		// remove empty filtration-index map
+		if (this.indexDimensionObjectMap.get(filtrationIndex).isEmpty()) {
+			this.indexDimensionObjectMap.remove(filtrationIndex);
+		}
+		
+		this.filtrationIndices.remove(basisElement);
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure#containsElement(java.lang.Object)
+	 */
+	public boolean containsElement(T basisElement) {
 		return this.filtrationIndices.containsKey(basisElement);
 	}
 
-	public Comparator<Simplex> getBasisComparator() {
-		return this.basisComparator;
-	}
-
-	public int getFiltrationIndex(Simplex basisElement) {
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure#getFiltrationIndex(java.lang.Object)
+	 */
+	public int getFiltrationIndex(T basisElement) {
 		return this.filtrationIndices.get(basisElement);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure#isFinalized()
+	 */
+	public boolean isFinalized() {
+		return this.isFinalized;
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure#getBasisComparator()
+	 */
+	public Comparator<T> getBasisComparator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure#getSize()
+	 */
 	public int getSize() {
 		return this.filtrationIndices.size();
 	}
 
-	public boolean isFinalized() {
-		return this.finalized;
-	}
-
-	public void removeElement(Simplex basisElement) {
-		int filtrationIndex = this.filtrationIndices.get(basisElement);
-		if (!this.filtrationIndices.containsKey(basisElement)) {
-			return;
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure#finalizeStructure()
+	 */
+	public void finalizeStructure() {
+		// we must go through the map and sort the list segments
+		for (TIntObjectIterator<TIntObjectHashMap<List<T>>> filtrationIndexIterator = this.indexDimensionObjectMap.iterator(); filtrationIndexIterator.hasNext(); ) {
+			filtrationIndexIterator.advance();
+			TIntObjectHashMap<List<T>> dimensionMap = filtrationIndexIterator.value();
+			
+			for (TIntObjectIterator<List<T>> dimensionIterator = dimensionMap.iterator(); dimensionIterator.hasNext(); ) {
+				dimensionIterator.advance();
+				Collections.sort(dimensionIterator.value(), this.basisComparator);
+			}
 		}
-		int dimension = basisElement.getDimension();
 		
-		this.filtrationIndices.remove(basisElement);
-		items.get(filtrationIndex).get(dimension).remove(basisElement);
-	}
-
-	public void setAsFinalized() {
-		this.finalized = true;
-	}
-
-	public void sortByFiltration() {
-		// Nothing to do
-	}
-
-	public void updateOrAddElement(Simplex basisElement, int newFiltrationIndex) {
-		if (this.containsElement(basisElement)) {
-			int oldFiltrationIndex = this.filtrationIndices.get(basisElement);
-			int dimension = basisElement.getDimension();
-			
-			// remove old item
-			items.get(oldFiltrationIndex).get(dimension).remove(basisElement);
-			// add new item
-			this.ensureCapacity(newFiltrationIndex, dimension);
-			items.get(newFiltrationIndex).get(dimension).add(basisElement);
-			
-			this.filtrationIndices.adjustOrPutValue(basisElement, newFiltrationIndex, newFiltrationIndex);
-		} else {
-			this.addElement(basisElement, newFiltrationIndex);
-		}
-	}
-
-	public Iterator<Simplex> iterator() {
-		return new HashedStorageStructureIterator(this);
-	}
-	
-	private void ensureCapacity(int filtrationIndex, int dimension) {
-		if (!this.items.containsKey(filtrationIndex)) {
-			items.put(filtrationIndex, new TIntObjectHashMap<ArrayList<Simplex>>());
-		}
-		if (!this.items.get(filtrationIndex).containsKey(dimension)) {
-			items.get(filtrationIndex).put(dimension, new ArrayList<Simplex>());
-		}
+		this.isFinalized = true;
 	}
 }

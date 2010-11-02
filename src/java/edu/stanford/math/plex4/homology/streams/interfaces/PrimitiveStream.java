@@ -8,17 +8,17 @@ import edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorage
 import edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructureFactory;
 
 /**
- * This class implements a filtered chain complex where the underlying type
+ * <p>This class implements a filtered chain complex where the underlying type
  * is a geometric primitive (a Simplex or a Cell). Thus the appropriate
  * homological functions are defined by the geometric properties of the
  * underlying type. For example, the homological dimension is given by
  * the actual geometric dimension, and the boundary is the geometric boundary
- * of the cell or simplex in question.
+ * of the cell or simplex in question.</p>
  * 
- * Note that this class does not actually implement a storage mechanism, but
+ * <p>Note that this class does not actually implement a storage mechanism, but
  * allows a user to define one via a supplied StreamStorageStructure object.
  * In the event that the user does not supply one, it reverts to the default
- * one.
+ * one.</p>
  * 
  * @author Andrew Tausz
  *
@@ -56,37 +56,60 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 	 */
 	protected abstract void constructComplex();
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getBoundary(java.lang.Object)
+	 */
 	@SuppressWarnings("unchecked")
 	public final T[] getBoundary(T basisElement) {
 		return (T[]) basisElement.getBoundaryArray();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getBoundaryCoefficients(java.lang.Object)
+	 */
 	public final int[] getBoundaryCoefficients(T basisElement) {
 		return basisElement.getBoundaryCoefficients();
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getDimension(java.lang.Object)
+	 */
 	public final int getDimension(T basisElement) {
 		return basisElement.getDimension();
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Iterable#iterator()
+	 */
 	public final Iterator<T> iterator() {
 		return this.storageStructure.iterator();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#finalizeStream()
+	 */
 	public final void finalizeStream() {
 		this.constructComplex();
-		this.storageStructure.sortByFiltration();
-		this.storageStructure.setAsFinalized();
+		this.storageStructure.finalizeStructure();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getFiltrationIndex(java.lang.Object)
+	 */
 	public final int getFiltrationIndex(T basisElement) {
 		return this.storageStructure.getFiltrationIndex(basisElement);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#isFinalized()
+	 */
 	public final boolean isFinalized() {
 		return this.storageStructure.isFinalized();
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getSize()
+	 */
 	public final int getSize() {
 		return this.storageStructure.getSize();
 	}
@@ -124,5 +147,12 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 
 		// all simplices in the complex have been checked - good, return true
 		return true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return this.storageStructure.toString();
 	}
 }

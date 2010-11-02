@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.utility;
 
+import gnu.trove.TIntHashSet;
 import cern.jet.random.Normal;
 import cern.jet.random.Uniform;
-import gnu.trove.TIntHashSet;
 
 
 /**
@@ -13,7 +13,6 @@ import gnu.trove.TIntHashSet;
  *
  */
 public class RandomUtility {
-	private static int seed = 1;
 	
 	private static Normal normalGenerator = new Normal(0, 1, new cern.jet.random.engine.MersenneTwister(Uniform
 			.staticNextIntFromTo(0, Integer.MAX_VALUE)));

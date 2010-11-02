@@ -8,7 +8,7 @@ import java.util.Comparator;
  * 
  * Note that this interface extends the Iterable<T> interface. An implementing
  * class must ensure that the elements are provided in increasing order of
- * filtration value.
+ * filtration index.
  * 
  * @author Andrew Tausz
  *
@@ -18,22 +18,12 @@ public interface StreamStorageStructure<T> extends Iterable<T> {
 	
 	/**
 	 * This function adds the given basis element to the storage structure, with
-	 * the supplied filtration value.
+	 * the supplied filtration index.
 	 * 
 	 * @param basisElement the basis element to add
 	 * @param filtrationIndex the filtration index of the basis element
 	 */
 	void addElement(T basisElement, int filtrationIndex);
-	
-	/**
-	 * This function either adds the specified basis element with the given filtration
-	 * value, or if the basis element already exists in the stream, it updates its
-	 * filtration value with supplied one.
-	 * 
-	 * @param basisElement the basis element to add or update
-	 * @param filtrationIndex the new filtration index of the basis element
-	 */
-	void updateOrAddElement(T basisElement, int filtrationIndex);
 	
 	/**
 	 * This function removes the specified element form the storage structure.
@@ -62,14 +52,10 @@ public interface StreamStorageStructure<T> extends Iterable<T> {
 	int getFiltrationIndex(T basisElement);
 	
 	/**
-	 * This function ensures that the stream is in sorted order. 
+	 * This function sets the stream as being finalized. A finalized storage structure
+	 * cannot accept any more elements, and should be ready for consumption.
 	 */
-	void sortByFiltration();
-	
-	/**
-	 * This function sets the stream as being finalized.
-	 */
-	void setAsFinalized();
+	void finalizeStructure();
 	
 	/**
 	 * This function returns true if the stream has been finalized.

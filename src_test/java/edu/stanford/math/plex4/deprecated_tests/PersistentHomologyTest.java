@@ -5,21 +5,17 @@ package edu.stanford.math.plex4.deprecated_tests;
 
 import java.util.Comparator;
 
-import edu.stanford.math.plex4.embedding.GraphEmbedding;
-import edu.stanford.math.plex4.embedding.GraphMetricEmbedding;
-import edu.stanford.math.plex4.embedding.MultidimensionalScaling;
 import edu.stanford.math.plex4.examples.CellStreamExamples;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.examples.SimplexStreamExamples;
-import edu.stanford.math.plex4.graph_metric.ShortestPathMetric;
-import edu.stanford.math.plex4.homology.ClassicalPersistentHomology;
 import edu.stanford.math.plex4.homology.GenericAbsoluteCohomology;
 import edu.stanford.math.plex4.homology.GenericAbsoluteHomology;
 import edu.stanford.math.plex4.homology.GenericPersistenceAlgorithm;
 import edu.stanford.math.plex4.homology.IntAbsoluteHomology;
+import edu.stanford.math.plex4.homology.IntClassicalPersistentHomology;
 import edu.stanford.math.plex4.homology.IntPersistentHomology;
-import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.chain_basis.CellComparator;
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
@@ -29,7 +25,6 @@ import edu.stanford.math.plex4.homology.streams.derived.DualStream;
 import edu.stanford.math.plex4.homology.streams.derived.HomStream;
 import edu.stanford.math.plex4.homology.streams.derived.TensorStream;
 import edu.stanford.math.plex4.homology.streams.impl.ExplicitCellStream;
-import edu.stanford.math.plex4.homology.streams.impl.GeometricSimplexStream;
 import edu.stanford.math.plex4.homology.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.homology.streams.impl.VietorisRipsStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
@@ -41,8 +36,11 @@ import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPairComparator;
+import edu.stanford.math.primitivelib.collections.utility.ReversedComparator;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
+
 
 /**
  * @author atausz
@@ -73,21 +71,21 @@ public class PersistentHomologyTest {
 	}
 	
 	public static <T extends PrimitiveBasisElement> void testClassicalPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, IntAbstractField field, int dimension) {
-		ClassicalPersistentHomology<T> homology = new ClassicalPersistentHomology<T>(field, comparator);
-		BarcodeCollection barcodes = homology.computeIntervals(stream, dimension);
+		IntClassicalPersistentHomology<T> homology = new IntClassicalPersistentHomology<T>(field, comparator);
+		IntBarcodeCollection barcodes = homology.computeIntervals(stream, dimension);
 		System.out.println(barcodes);
 	}
 	
 	public static <T> void testIntDualityPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, IntAbstractField field) {
 		IntPersistentHomology<T> homology = new IntAbsoluteHomology<T>(field, comparator, 8);
-		AugmentedBarcodeCollection<IntSparseFormalSum<T>> barcodes = homology.computeAugmentedIntervals(stream);
+		IntAugmentedBarcodeCollection<IntSparseFormalSum<T>> barcodes = homology.computeAugmentedIntervals(stream);
 		System.out.println(barcodes);
 	}
 	
 	public static <F, T> void testGenericDualityPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, ObjectAbstractField<F> field) {
 		GenericPersistenceAlgorithm<F, T> homology = new GenericAbsoluteHomology<F, T>(field, comparator, 8);
 		//BarcodeCollection barcodes = homology.computeIntervals(stream);
-		AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
+		IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
 		System.out.println(barcodes);
 	}
 	
@@ -95,55 +93,48 @@ public class PersistentHomologyTest {
 		GenericPersistenceAlgorithm<F, T> homology = new GenericAbsoluteCohomology<F, T>(field, comparator, 7);
 		//BarcodeCollection barcodes = homology.computeIntervals(stream);
 		//System.out.println(homology.getBoundaryColumns(stream, 0));
-		AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
+		IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> barcodes = homology.computeAugmentedIntervals(stream);
 		
 		System.out.println(barcodes);
-	}
-	
-	public static void testTriangle() {
-		int dimension = 3;
-		AbstractFilteredStream<Simplex> stream = SimplexStreamExamples.getTriangle();
-		GraphEmbedding embedding = new GraphMetricEmbedding(ShortestPathMetric.getInstance(), MultidimensionalScaling.getInstance());
-		GeometricSimplexStream geometricStream = new GeometricSimplexStream(stream, embedding, dimension);
 	}
 	
 	public static void simplicialTensorTest() {
 		AbstractFilteredStream<Simplex> stream1 = SimplexStreamExamples.getTorus();
 		AbstractFilteredStream<Simplex> stream2 = SimplexStreamExamples.getTorus();
-		TensorStream<Simplex, Simplex> tensorStream = new TensorStream<Simplex, Simplex>(stream1, stream2, SimplexComparator.getInstance(), SimplexComparator.getInstance());
+		TensorStream<Simplex, Simplex> tensorStream = new TensorStream<Simplex, Simplex>(stream1, stream2);
 		tensorStream.finalizeStream();
-		testIntDualityPersistentHomology(tensorStream, tensorStream.getDerivedComparator(), ModularIntField.getInstance(2));
+		testIntDualityPersistentHomology(tensorStream, new ObjectObjectPairComparator<Simplex, Simplex>(SimplexComparator.getInstance(), SimplexComparator.getInstance()), ModularIntField.getInstance(2));
 	}
 	
 	public static void cellularTensorTest() {
 		AbstractFilteredStream<Cell> stream1 = CellStreamExamples.getCellularTorus();
 		AbstractFilteredStream<Cell> stream2 = CellStreamExamples.getCellularSphere(2);
-		TensorStream<Cell, Cell> tensorStream = new TensorStream<Cell, Cell>(stream1, stream2, CellComparator.getInstance(), CellComparator.getInstance());
+		TensorStream<Cell, Cell> tensorStream = new TensorStream<Cell, Cell>(stream1, stream2);
 		tensorStream.finalizeStream();
-		testGenericDualityPersistentHomology(tensorStream, tensorStream.getDerivedComparator(), RationalField.getInstance());
+		testGenericDualityPersistentHomology(tensorStream, new ObjectObjectPairComparator<Cell, Cell>(CellComparator.getInstance(), CellComparator.getInstance()), RationalField.getInstance());
 	}
 	
 	public static void mixedTensorTest() {
 		AbstractFilteredStream<Simplex> stream1 = SimplexStreamExamples.getTriangle();
 		AbstractFilteredStream<Cell> stream2 = CellStreamExamples.getCellularSphere(1);
-		TensorStream<Simplex, Cell> tensorStream = new TensorStream<Simplex, Cell>(stream1, stream2, SimplexComparator.getInstance(), CellComparator.getInstance());
+		TensorStream<Simplex, Cell> tensorStream = new TensorStream<Simplex, Cell>(stream1, stream2);
 		tensorStream.finalizeStream();
-		testIntDualityPersistentHomology(tensorStream, tensorStream.getDerivedComparator(), ModularIntField.getInstance(2));
+		testIntDualityPersistentHomology(tensorStream, new ObjectObjectPairComparator<Simplex, Cell>(SimplexComparator.getInstance(), CellComparator.getInstance()), ModularIntField.getInstance(2));
 	}
 	
 	public static void simplicialDualTest() {
 		AbstractFilteredStream<Simplex> stream = SimplexStreamExamples.getTorus();
-		DualStream<Simplex> dualStream = new DualStream<Simplex>(stream, SimplexComparator.getInstance());
+		DualStream<Simplex> dualStream = new DualStream<Simplex>(stream);
 		dualStream.finalizeStream();
-		testGenericDualityPersistentCohomology(dualStream, dualStream.getDerivedComparator(), RationalField.getInstance());
+		testGenericDualityPersistentCohomology(dualStream, new ReversedComparator<Simplex>(SimplexComparator.getInstance()), RationalField.getInstance());
 	}
 	
 	public static void cellularHomTest() {
 		AbstractFilteredStream<Cell> stream1 = CellStreamExamples.getCellularSphere(2);
 		AbstractFilteredStream<Cell> stream2 = CellStreamExamples.getCellularTorus();
-		HomStream<Cell, Cell> homStream = new HomStream<Cell, Cell>(stream1, stream2, CellComparator.getInstance(), CellComparator.getInstance());
+		HomStream<Cell, Cell> homStream = new HomStream<Cell, Cell>(stream1, stream2);
 		homStream.finalizeStream();
-		testIntDualityPersistentHomology(homStream, homStream.getDerivedComparator(), ModularIntField.getInstance(2));
+		testIntDualityPersistentHomology(homStream, new ObjectObjectPairComparator<Cell, Cell>(new ReversedComparator<Cell>(CellComparator.getInstance()), CellComparator.getInstance()), ModularIntField.getInstance(2));
 	}
 	
 	public static void lazyWitnessTest() {

@@ -3,22 +3,22 @@ package edu.stanford.math.plex4.homology.chain_basis;
 import java.util.Arrays;
 
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
-import edu.stanford.math.plex4.utility.CRC;
+import edu.stanford.math.primitivelib.utility.CRC;
 
 /**
- * This class implements the functionality of a simplex. A simplex
+ * <p>This class implements the functionality of a simplex. A simplex
  * is an n-dimensional polytope which is the convex hull of its 
  * vertices. For our purposes, we simply represent a simplex by its
  * vertices which are labeled by integers. For example, a 2-simplex 
- * could be [0, 5, 9].
+ * could be [0, 5, 9].</p>
  * 
- * The vertices of a simplex are specified by non-negative integers. It uses
+ * <p>The vertices of a simplex are specified by non-negative integers. It uses
  * an array implementation to store the indices of the vertices of the 
- * simplex. 
+ * simplex.</p> 
  * 
- * This class is designed to be a standard implementation of the 
+ * <p>This class is designed to be a standard implementation of the 
  * PrimitiveBasisElement interface. It is also immutable and implements 
- * value semantics. 
+ * value semantics.</p> 
  * 
  * @author Andrew Tausz
  *
@@ -52,14 +52,25 @@ public class Simplex implements PrimitiveBasisElement {
 		this.cachedHashCode = CRC.hash32(this.getVertices());
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement#getDimension()
+	 */
 	public int getDimension() {
 		return (this.vertices.length - 1);
 	}
 
+	/**
+	 * This function returns an array containing the vertices of the simplex.
+	 * 
+	 * @return an array containing the vertices of the simplex
+	 */
 	public int[] getVertices() {
 		return this.vertices;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement#getBoundaryArray()
+	 */
 	public Simplex[] getBoundaryArray() {
 		// if this a point, return an empty array
 		if (this.getDimension() == 0) {
@@ -73,6 +84,9 @@ public class Simplex implements PrimitiveBasisElement {
 		return boundaryArray;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement#getBoundaryCoefficients()
+	 */
 	public int[] getBoundaryCoefficients() {
 		if (this.vertices.length == 1) {
 			return HomologyUtility.getDefaultBoundaryCoefficients(0);
@@ -80,6 +94,9 @@ public class Simplex implements PrimitiveBasisElement {
 		return HomologyUtility.getDefaultBoundaryCoefficients(this.vertices.length);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -94,10 +111,16 @@ public class Simplex implements PrimitiveBasisElement {
 		return (HomologyUtility.compareIntArrays(this.getVertices(), o.getVertices()) == 0);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode() {
 		return this.cachedHashCode;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append('[');

@@ -1,21 +1,21 @@
 package edu.stanford.math.plex4.homology;
 
 import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
-import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
 
 public class PersistenceAlgorithmResult {
 	private PersistenceAlgorithmType type;
-	private BarcodeCollection barcodeCollection;
+	private DoubleBarcodeCollection barcodeCollection;
 	private int numSimplices;
 	private int numPoints;
 	private int maxDimension;
 	private double maxFiltrationValue;
 	private float seconds;
 	
-	public BarcodeCollection getBarcodeCollection() {
+	public DoubleBarcodeCollection getBarcodeCollection() {
 		return barcodeCollection;
 	}
-	public void setBarcodeCollection(BarcodeCollection barcodeCollection) {
+	public void setBarcodeCollection(DoubleBarcodeCollection barcodeCollection) {
 		this.barcodeCollection = barcodeCollection;
 	}
 	public int getMaxDimension() {

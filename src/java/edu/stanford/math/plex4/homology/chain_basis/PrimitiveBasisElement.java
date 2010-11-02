@@ -49,14 +49,4 @@ public interface PrimitiveBasisElement {
 	 * @return the coefficients of the boundary elements
 	 */
 	public int[] getBoundaryCoefficients();
-	
-	
-	public int hashCode();
-	
-	/**
-	 * Force the implementer to provide an equals implementation.
-	 * @param obj
-	 * @return
-	 */
-	public boolean equals(Object obj);
 }

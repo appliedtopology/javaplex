@@ -7,38 +7,45 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
-import edu.stanford.math.plex4.utility.CRC;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.utility.CRC;
 
 /**
  * This class implements the functionality of a cell within a CW complex.
  * A CW complex can be described as follows:
- * 1. Start with a discrete set X_0 consisting of the 0-cells
- * 2. Inductively form the n-skeleton by attaching n-cells e_a via the
+ * <ol>
+ * <li>Start with a discrete set X_0 consisting of the 0-cells</li>
+ * <li>Inductively form the n-skeleton by attaching n-cells e_a via the
  * maps phi_a: S^(n-1) -> X_{n-1} which map the boundary of e_a into the
- * n-1 skeleton of X.
+ * n-1 skeleton of X.</li>
+ * </ol>
  * 
- * To define a cell within the CW complex, we require its dimensionality,
+ * <p>To define a cell within the CW complex, we require its dimensionality,
  * its boundary, and the degrees of the map attaching map followed by a 
  * quotient map. The user of this class is advised to be familiar with
  * cellular homology, as described in (for example) section 2.2 of the 
- * book "Algebraic Topology" by Allen Hatcher.
+ * book "Algebraic Topology" by Allen Hatcher.</p>
  * 
- * The required input degrees are the degrees of the composite map
- * S_a^{n-1}
+ * <p>The required input degrees are the degrees of the composite map
+ * S_a^{n-1}</p>
  * 
- * For example, we will construct a torus using a cell complex. 
- * - Start with 1 0-cell, called v.
- * - Add 2 1-cells, a and b, each with boundary glued to the 0-cell. The degree
- * of such a mapping is zero.
- * - Add a 2-cell with boundary elements (a, b, a, b), and degrees (1, -1, 1, -1)
+ * <p>For example, we will construct a torus using a cell complex.
+ * <ul> 
+ * <li>Start with 1 0-cell, called v.</li>
+ * <li>Add 2 1-cells, a and b, each with boundary glued to the 0-cell. The degree
+ * of such a mapping is zero.</li>
+ * <li>Add a 2-cell with boundary elements (a, b, a, b), and degrees (1, -1, 1, -1)</li>
+ * </ul>
  * This corresponds to the familiar construction of a square with opposite edges
- * identified.
+ * identified.</p>
  * 
  * @author Andrew Tausz
  *
  */
 public class Cell implements PrimitiveBasisElement {
+	/**
+	 * This holds the class-wide cell counter.
+	 */
 	private static int cellIdCounter;
 	
 	/**
@@ -46,7 +53,10 @@ public class Cell implements PrimitiveBasisElement {
 	 */
 	private final PrimitiveBasisElement[] boundaryArray;
 	
-	private final int[] boundaryIndices;
+	/**
+	 * This holds the cell ids of the boundary elements.
+	 */
+	private final int[] boundaryIds;
 	
 	/**
 	 * This array holds the coefficients of the boundary. These are equal
@@ -71,13 +81,13 @@ public class Cell implements PrimitiveBasisElement {
 	
 	/**
 	 * This constructor initializes the cell to be a 0-cell (a vertex),
-	 * with the specified cellId as the vertex index.
+	 * with the default cellId as the vertex index.
 	 * 
 	 */
 	public Cell() {
 		this.boundaryArray = new PrimitiveBasisElement[0];
 		this.boundaryCoefficients = new int[0];
-		this.boundaryIndices = new int[0];
+		this.boundaryIds = new int[0];
 		this.dimension = 0;
 		this.cellId = cellIdCounter++;
 		
@@ -90,7 +100,6 @@ public class Cell implements PrimitiveBasisElement {
 	 * is specified by its boundary elements. The degrees of the attaching maps
 	 * for this constructor are taken to be the default [1, -1, 1, -1, ...].
 	 * 
-	 * @param cellId the unique id of the cell
 	 * @param dimension the geometric dimension of the cell
 	 * @param boundaryElements an array containing the objects in the boundary
 	 */
@@ -98,6 +107,14 @@ public class Cell implements PrimitiveBasisElement {
 		this(dimension, boundaryElements.toArray(new PrimitiveBasisElement[0]), HomologyUtility.getDefaultBoundaryCoefficients(boundaryElements.size()), getCellIds(boundaryElements));
 	}
 	
+	/**
+	 * This constructor initializes the cell to be an n-cell with n > 0. It allows the specification
+	 * of the boundary elements as well as the attaching degrees.
+	 * 
+	 * @param dimension  the geometric dimension of the cell
+	 * @param boundaryElements an array containing the objects in the boundary
+	 * @param attachingDegrees the degrees of the attaching maps to the boundary objects
+	 */
 	public Cell(int dimension, Collection<Cell> boundaryElements, int[] attachingDegrees) {
 		this(dimension, boundaryElements.toArray(new PrimitiveBasisElement[0]), attachingDegrees, getCellIds(boundaryElements));
 	}
@@ -107,7 +124,6 @@ public class Cell implements PrimitiveBasisElement {
 	 * is specified by its boundary elements. The degrees of the attaching maps
 	 * for this constructor are taken to be the default [1, -1, 1, -1, ...].
 	 * 
-	 * @param cellId the unique id of the cell
 	 * @param dimension the geometric dimension of the cell
 	 * @param boundaryElements an array containing the objects in the boundary
 	 */
@@ -117,27 +133,32 @@ public class Cell implements PrimitiveBasisElement {
 	
 	/**
 	 * This constructor initializes the cell to be a n-cell with n > 0. Such a 
-	 * cell is specified by its boundary elements and the degrees of the attaching
-	 * maps to those elements. Additionally, we require a cellId which is a unique
-	 * identifier, since two cells can have the same boundary. We also accept the 
-	 * dimension of the cell.
+	 * cell is specified by its boundary elements, the degrees of the attaching
+	 * maps to those elements and its dimension.
 	 * 
-	 * @param cellId the unique id of the cell
 	 * @param dimension the geometric dimension of the cell
 	 * @param boundaryElements an array containing the objects in the boundary
 	 * @param attachingDegrees the degrees of the attaching maps to the boundary objects
+	 * @param boundaryIds the cell ids of the boundary elements
 	 */
-	private Cell(int dimension, PrimitiveBasisElement[] boundaryElements, int[] attachingDegrees, int[] boundaryIndices) {
+	private Cell(int dimension, PrimitiveBasisElement[] boundaryElements, int[] attachingDegrees, int[] boundaryIds) {
 		ExceptionUtility.verifyNonNull(boundaryElements);
 		ExceptionUtility.verifyEqual(boundaryElements.length, attachingDegrees.length);
 		this.boundaryArray = boundaryElements;
 		this.boundaryCoefficients = attachingDegrees;
-		this.boundaryIndices = boundaryIndices;
+		this.boundaryIds = boundaryIds;
 		this.cellId = cellIdCounter++;
 		this.dimension = dimension;
 		this.cachedHashCode = this.precomputeHashCode();
 	}
 	
+	/**
+	 * This function produces an array containing the cell id's of the supplied
+	 * collection of cells.
+	 * 
+	 * @param boundaryElements the collection of cells
+	 * @return an array holding the cell id's
+	 */
 	private static int[] getCellIds(Collection<Cell> boundaryElements) {
 		int[] id_array = new int[boundaryElements.size()];
 		int i = 0;
@@ -150,6 +171,13 @@ public class Cell implements PrimitiveBasisElement {
 		return id_array;
 	}
 	
+	/**
+	 * This function produces an array containing the cell id's of the supplied
+	 * array of cells
+	 * 
+	 * @param boundaryElements
+	 * @return an array holding the cell id's
+	 */
 	private static int[] getCellIds(Cell[] boundaryElements) {
 		int[] id_array = new int[boundaryElements.length];
 		int i = 0;
@@ -162,8 +190,13 @@ public class Cell implements PrimitiveBasisElement {
 		return id_array;
 	}
 
-	public int[] getBoundaryIndices() {
-		return this.boundaryIndices;
+	/**
+	 * This function returns the cell ids of the boundary elements.
+	 * 
+	 * @return an array containing the cell ids of the boundary elements.
+	 */
+	public int[] getBoundaryIds() {
+		return this.boundaryIds;
 	}
 	
 	/**
@@ -176,21 +209,21 @@ public class Cell implements PrimitiveBasisElement {
 	}
 	
 	/* (non-Javadoc)
-	 * @see edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex#getBoundaryArray()
+	 * @see edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement#getBoundaryArray()
 	 */
 	public PrimitiveBasisElement[] getBoundaryArray() {
 		return this.boundaryArray;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.stanford.math.plex_plus.homology.simplex.AbstractSimplex#getDimension()
+	 * @see edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement#getDimension()
 	 */
 	public int getDimension() {
 		return this.dimension;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.stanford.math.plex_plus.homology.chain_basis.PrimitiveBasisElement#getBoundaryCoefficients()
+	 * @see edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement#getBoundaryCoefficients()
 	 */
 	public int[] getBoundaryCoefficients() {
 		return this.boundaryCoefficients;

@@ -10,11 +10,11 @@ import org.junit.Test;
 
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.homology.LazyWitnessSpecifier;
+import edu.stanford.math.plex4.homology.PersistenceAlgorithmInterface;
 import edu.stanford.math.plex4.homology.PersistenceAlgorithmResult;
-import edu.stanford.math.plex4.homology.PersistenceAlgorithmTester;
-import edu.stanford.math.plex4.homology.VietorisRipsSpecifier;
 import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
-import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
+import edu.stanford.math.plex4.homology.VietorisRipsSpecifier;
+import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
@@ -48,18 +48,20 @@ public class PersistenceAlgorithmTest {
 		RandomUtility.initializeWithSeed(3);
 		
 		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getEquispacedCirclePoints(4), 3, 2, 100));
+		/*
 		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getEquispacedCirclePoints(n), 2, 0.3, 10));
 		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getHouseExample(), 2, 2, 10));
 		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getSquare(), 2, 2, 10));
 		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getGaussianPoints(n, d), d, 0.4, 10));
 		vietorisRipsExamples.add(new VietorisRipsSpecifier(PointCloudExamples.getRandomSpherePoints(n, d), d, 0.4, 10));
-		
+		*/
+		/*
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getEquispacedCirclePoints(n)), l), 2, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getGaussianPoints(n, d)), l), d, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getRandomFigure8Points(n)), l), 2, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getRandomSpherePoints(n, d)), l), 2, 0.5, 10));
 		lazyWitnessExamples.add(new LazyWitnessSpecifier(new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(PointCloudExamples.getRandomTorusPoints(n, 1, 2)), l), 2, 0.5, 10));	
-		
+		*/
 		/*
 		explicitStreamExamples.add(new ObjectObjectPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getTriangle(), new int[]{1, 1}));
 		explicitStreamExamples.add(new ObjectObjectPair<ExplicitStream<Simplex>, int[]>(SimplexStreamExamples.getFilteredTriangle(), new int[]{1, 0}));
@@ -88,11 +90,11 @@ public class PersistenceAlgorithmTest {
 			THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult> persistenceResults = new THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult>();
 			
 			for (PersistenceAlgorithmType type: this.persistenceAlgorithms) {
-				PersistenceAlgorithmResult result = PersistenceAlgorithmTester.testVietorisRipsStream(example.getPointCloud(), example.getMaxDimension(), example.getMaxFiltrationValue(), example.getNumDivisions(), type);
+				PersistenceAlgorithmResult result = PersistenceAlgorithmInterface.testVietorisRipsStream(example.getPointCloud(), example.getMaxDimension(), example.getMaxFiltrationValue(), example.getNumDivisions(), type);
 				persistenceResults.put(type, result);
 				System.out.println(result);
 				
-				//System.out.println(result.getBarcodeCollection());
+				System.out.println(result.getBarcodeCollection());
 			}
 			
 			System.out.println("================");
@@ -107,7 +109,7 @@ public class PersistenceAlgorithmTest {
 			THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult> persistenceResults = new THashMap<PersistenceAlgorithmType, PersistenceAlgorithmResult>();
 			
 			for (PersistenceAlgorithmType type: this.persistenceAlgorithms) {
-				PersistenceAlgorithmResult result = PersistenceAlgorithmTester.testLazyWitnessStream(example.getSelector(), example.getMaxDimension(), example.getMaxFiltrationValue(), example.getNumDivisions(), type);
+				PersistenceAlgorithmResult result = PersistenceAlgorithmInterface.testLazyWitnessStream(example.getSelector(), example.getMaxDimension(), example.getMaxFiltrationValue(), example.getNumDivisions(), type);
 				persistenceResults.put(type, result);
 				System.out.println(result);
 			}
@@ -127,7 +129,7 @@ public class PersistenceAlgorithmTest {
 			System.out.println("actual: " + Arrays.toString(pair.getSecond()));
 			
 			for (PersistenceAlgorithmType type: this.persistenceAlgorithms) {
-				PersistenceAlgorithmResult result = PersistenceAlgorithmTester.testExplicitStream(stream, 5, type);
+				PersistenceAlgorithmResult result = PersistenceAlgorithmInterface.testExplicitStream(stream, 5, type);
 				persistenceResults.put(type, result);
 				
 				int[] computedBettiSequence = result.getBarcodeCollection().getInfiniteIntervals().getBettiSequence();
@@ -144,13 +146,13 @@ public class PersistenceAlgorithmTest {
 		int numFailures = 0;
 		
 		for (PersistenceAlgorithmType algorithm_type_1: this.persistenceAlgorithms) {
-			BarcodeCollection bc_1 = persistenceResults.get(algorithm_type_1).getBarcodeCollection();
+			DoubleBarcodeCollection bc_1 = persistenceResults.get(algorithm_type_1).getBarcodeCollection();
 			for (PersistenceAlgorithmType algorithm_type_2: this.persistenceAlgorithms) {
 				if (algorithm_type_1 == algorithm_type_2) {
 					break;
 				}
 				
-				BarcodeCollection bc_2 = persistenceResults.get(algorithm_type_2).getBarcodeCollection();
+				DoubleBarcodeCollection bc_2 = persistenceResults.get(algorithm_type_2).getBarcodeCollection();
 				
 				System.out.print(algorithm_type_1.toString() + "-" + algorithm_type_2.toString());
 				

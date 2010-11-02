@@ -11,7 +11,7 @@ import edu.stanford.math.plex4.homology.GenericAbsoluteCohomology;
 import edu.stanford.math.plex4.homology.GenericAbsoluteHomology;
 import edu.stanford.math.plex4.homology.GenericPersistenceAlgorithm;
 import edu.stanford.math.plex4.homology.GenericRelativeHomology;
-import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.chain_basis.CellComparator;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntegerField;
@@ -29,10 +29,10 @@ public class DeSilvaMorozovJohanssonTest {
 	public void tearDown() throws Exception {
 	}
 
-	//@Test
+	@Test
 	public void testAbsoluteHomology() {
 		GenericPersistenceAlgorithm<Integer, Cell> homology = new GenericAbsoluteHomology<Integer, Cell>(field, CellComparator.getInstance(), 8);
-		AugmentedBarcodeCollection<?> collection = homology.computeAugmentedIntervals(example.getCellComplex());
+		IntAugmentedBarcodeCollection<?> collection = homology.computeAugmentedIntervals(example.getCellComplex());
 		System.out.println("Computed barcodes");
 		System.out.println(collection);
 		System.out.println("Actual barcodes");
@@ -41,10 +41,10 @@ public class DeSilvaMorozovJohanssonTest {
 		assertTrue(collection.equals(example.getAbsoluteHomologyBarcodes()));
 	}
 	
-	@Test
+	//@Test
 	public void testAbsoluteCohomology() {
 		GenericPersistenceAlgorithm<Integer, Cell> homology = new GenericAbsoluteCohomology<Integer, Cell>(field, CellComparator.getInstance(), 8);
-		AugmentedBarcodeCollection<?> collection = homology.computeAugmentedIntervals(example.getCellComplex());
+		IntAugmentedBarcodeCollection<?> collection = homology.computeAugmentedIntervals(example.getCellComplex());
 		System.out.println("Computed barcodes");
 		System.out.println(collection);
 		System.out.println("Actual barcodes");
@@ -53,10 +53,10 @@ public class DeSilvaMorozovJohanssonTest {
 		assertTrue(collection.equals(example.getAbsoluteCohomologyBarcodes()));
 	}
 	
-	//@Test
+	@Test
 	public void testRelativeHomology() {
 		GenericPersistenceAlgorithm<Integer, Cell> homology = new GenericRelativeHomology<Integer, Cell>(field, CellComparator.getInstance(), 8);
-		AugmentedBarcodeCollection<?> collection = homology.computeAugmentedIntervals(example.getCellComplex());
+		IntAugmentedBarcodeCollection<?> collection = homology.computeAugmentedIntervals(example.getCellComplex());
 		System.out.println("Computed barcodes");
 		System.out.println(collection);
 		System.out.println("Actual barcodes");

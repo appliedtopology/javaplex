@@ -3,18 +3,19 @@ package edu.stanford.math.plex4.homology.streams.impl;
 import java.util.Arrays;
 
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
+import edu.stanford.math.plex4.homology.filtration.IncreasingLinearConverter;
 import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import edu.stanford.math.plex4.utility.Infinity;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
+import edu.stanford.math.primitivelib.utility.Infinity;
 
 /**
  * This class implements the lazy witness complex described in the paper
  * "Topological estimation using witness complexes", by Vin de Silva and
  * Gunnar Carlsson. The details of the construction are described in this
  * paper. Note that a lazy witness complex is fully described by its 
- * 1-skeleton, therefore we simply derive from the MaximalStream class.
+ * 1-skeleton, therefore we simply derive from the FlagComplexStream class.
  * 
  * @author Andrew Tausz
  *
@@ -39,10 +40,10 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 	protected final int nu;
 
 	/**
-	 * This is the R value described. It has a default value of 0.
+	 * The maximum distance allowed between two connected vertices.
 	 */
-	protected final double R;
-
+	protected final double maxDistance;
+	
 	/**
 	 * Constructor which initializes the complex with a metric space.
 	 * 
@@ -50,19 +51,19 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 	 * @param maxDistance the maximum allowable distance
 	 * @param maxDimension the maximum dimension of the complex
 	 */
-	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int nu, double R, int numDivisions) {
-		super(maxDimension, maxDistance, numDivisions);
+	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int nu, int numDivisions) {
+		super(maxDimension, new IncreasingLinearConverter(numDivisions, maxDistance));
 		ExceptionUtility.verifyNonNull(metricSpace);
 		ExceptionUtility.verifyNonNegative(nu);
 		ExceptionUtility.verifyLessThan(nu, landmarkSelector.size());
 		this.metricSpace = metricSpace;
 		this.landmarkSelector = landmarkSelector;
 		this.nu = nu;
-		this.R = R;
+		this.maxDistance = maxDistance;
 	}
 
 	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int numDivisions) {
-		this(metricSpace, landmarkSelector, maxDimension, maxDistance, 2, 0, numDivisions);
+		this(metricSpace, landmarkSelector, maxDimension, maxDistance, 2, numDivisions);
 	}
 
 	public static int getDefaultNuValue() {

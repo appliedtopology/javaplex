@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.utility.FilteredComparator;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
@@ -84,17 +84,17 @@ public abstract class IntPersistenceAlgorithm<T> {
 		this.maxDimension = maxDimension;
 	}
 	
-	public BarcodeCollection computeIntervals(AbstractFilteredStream<T> stream) {
+	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<T> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
 	}
-	public AugmentedBarcodeCollection<IntSparseFormalSum<T>> computeAugmentedIntervals(AbstractFilteredStream<T> stream) {
+	public IntAugmentedBarcodeCollection<IntSparseFormalSum<T>> computeAugmentedIntervals(AbstractFilteredStream<T> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeAugmentedIntervalsImpl(stream);
 	}
 	
-	protected abstract BarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream);
-	protected abstract AugmentedBarcodeCollection<IntSparseFormalSum<T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream);
+	protected abstract IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream);
+	protected abstract IntAugmentedBarcodeCollection<IntSparseFormalSum<T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream);
 	
 	protected void initializeFilteredComparator(AbstractFilteredStream<T> stream) {
 		this.filteredComparator = new FilteredComparator<T>(stream, this.basisComparator);

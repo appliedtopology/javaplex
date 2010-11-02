@@ -121,7 +121,7 @@ public class TmpStream extends SimplexStream implements Iterable<Simplex>, Itera
 
 
 	// don't use
-	private TmpStream() { simplices = null; }
+	//private TmpStream() { simplices = null; }
 
 	public TmpStream(Simplex[] entries) {
 		simplices = entries;

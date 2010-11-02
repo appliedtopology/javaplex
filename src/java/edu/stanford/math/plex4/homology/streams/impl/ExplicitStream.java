@@ -3,9 +3,9 @@
  */
 package edu.stanford.math.plex4.homology.streams.impl;
 
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
@@ -21,7 +21,6 @@ import gnu.trove.TObjectIntIterator;
  * @author Andrew Tausz
  *
  */
-
 public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveStream<T> {
 	/**
 	 * Constructor which accepts a comparator for comparing the type T.
@@ -35,22 +34,34 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 		super(comparator);
 	}
 	
+	/**
+	 * This constructor initializes the stream from an existing stream. It copies all
+	 * of the elements of the supplied stream to the current one.
+	 * 
+	 * @param stream the stream to copy from
+	 * @param comparator a Comparator which provides an ordering on the basis elements
+	 */
 	public ExplicitStream(AbstractFilteredStream<T> stream, Comparator<T> comparator) {
 		super(comparator);
 		this.addAllElements(stream);
 	}
 	
-	private void addAllElements(AbstractFilteredStream<T> stream) {
+	/**
+	 * This function copies all of the elements in the supplied stream to the current one.
+	 * 
+	 * @param stream the stream to copy from
+	 */
+	public void addAllElements(AbstractFilteredStream<T> stream) {
 		for (T element: stream) {
 			this.storageStructure.addElement(element, stream.getFiltrationIndex(element));
 		}
 	}
 	
 	/**
-	 * This function adds a basis element the stream with specified filtration value.
+	 * This function adds a basis element the stream with specified filtration index.
 	 * 
 	 * @param basisElement the basis element to add
-	 * @param filtrationValue the filtration value of the basis element
+	 * @param filtrationIndex the filtration index of the basis element
 	 */
 	public void addElement(T basisElement, int filtrationIndex) {
 		this.storageStructure.addElement(basisElement, filtrationIndex);
@@ -78,12 +89,12 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	
 	/**
 	 * This function ensures that all of the faces of the all of the elements are
-	 * present in the stream. It adds the missing faces with filtration values that
-	 * are consistent. In other words, it ensures that the filtration value of an
+	 * present in the stream. It adds the missing faces with filtration indices that
+	 * are consistent. In other words, it ensures that the filtration indices of an
 	 * element is less than or equal to the filtration values of its cofaces.
 	 */
 	public void ensureAllFaces() {
-		Queue<T> elementQueue = new LinkedList<T>();
+		List<T> elementQueue = new ArrayList<T>();
 		TObjectIntHashMap<T> newElements = new TObjectIntHashMap<T>();
 		
 		for (T basisElement: this.storageStructure) {
@@ -92,7 +103,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 		}
 		
 		while (!elementQueue.isEmpty()) {
-			T basisElement = elementQueue.remove();
+			T basisElement = elementQueue.remove(elementQueue.size() - 1);
 			int elementFiltrationIndex = this.getFiltrationIndex(basisElement);
 			T[] boundary = this.getBoundary(basisElement);
 			
@@ -117,13 +128,4 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 			this.addElement(iterator.key(), iterator.value());
 		}
 	}
-	
-	public String toString() {
-		return this.storageStructure.toString();
-	}
-	
-	public double getFiltrationValue(T basisElement) {
-		return getFiltrationIndex(basisElement);
-	}
-
 }

@@ -5,6 +5,7 @@ package edu.stanford.math.plex4.homology.streams.impl;
 
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.homology.filtration.IncreasingLinearConverter;
 import edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
@@ -13,13 +14,13 @@ import gnu.trove.TIntIterator;
 
 
 /**
- * This class implements the Vietoris-Rips filtered simplicial complex.
+ * <p>This class implements the Vietoris-Rips filtered simplicial complex.
  * A simplex [v_0, ..., v_k] is in VR(r) if and only if the pairwise distances
  * d(v_i, v_j) are less than r for all 0 <= i, j <= k. Thus a Vietoris-Rips
  * complex is fully defined by its 1-skeleton, in that it is the maximal 
  * simplicial complex given such a 1-skeleton. For this reason, we simply
- * derive from the MaximalStream abstract class, and implement the pairwise
- * thresholding in order to generate the 1-skeleton.
+ * derive from the FlagComplexStream abstract class, and implement the pairwise
+ * thresholding in order to generate the 1-skeleton.</p>
  * 
  * @author Andrew Tausz
  *
@@ -33,6 +34,11 @@ public class VietorisRipsStream<T> extends FlagComplexStream {
 	protected final AbstractSearchableMetricSpace<T> metricSpace;
 	
 	/**
+	 * The maximum distance allowed between two connected vertices.
+	 */
+	protected final double maxDistance;
+	
+	/**
 	 * Constructor which initializes the complex with a metric space.
 	 * 
 	 * @param metricSpace the metric space to use in the construction of the complex
@@ -44,15 +50,17 @@ public class VietorisRipsStream<T> extends FlagComplexStream {
 	}
 	
 	public VietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int numDivisions) {
-		super(maxDimension, maxDistance, numDivisions);
+		super(maxDimension, new IncreasingLinearConverter(numDivisions, maxDistance));
 		ExceptionUtility.verifyNonNull(metricSpace);
 		this.metricSpace = metricSpace;
+		this.maxDistance = maxDistance;
 	}
 	
 	public VietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int numDivisions, StreamStorageStructure<Simplex> storageStructure) {
-		super(maxDimension, maxDistance, numDivisions, storageStructure);
+		super(maxDimension, new IncreasingLinearConverter(numDivisions, maxDistance), storageStructure);
 		ExceptionUtility.verifyNonNull(metricSpace);
 		this.metricSpace = metricSpace;
+		this.maxDistance = maxDistance;
 	}
 
 	@Override

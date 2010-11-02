@@ -5,10 +5,10 @@ import java.util.List;
 
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.utility.Infinity;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
 import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleSparseFormalSum;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace;
+import edu.stanford.math.primitivelib.utility.Infinity;
 import gnu.trove.TIntIntHashMap;
 import gnu.trove.TIntObjectHashMap;
 import gnu.trove.TObjectDoubleIterator;

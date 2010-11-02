@@ -6,6 +6,7 @@ package edu.stanford.math.plex4.homology.streams.impl;
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
+import edu.stanford.math.plex4.homology.filtration.FiltrationConverter;
 import edu.stanford.math.plex4.homology.streams.interfaces.PrimitiveStream;
 import edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
@@ -13,24 +14,23 @@ import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIterator;
 
 /**
- * This class implements a simplex stream with the property that
+ * <p>This class implements a simplex stream with the property that
  * given its 1-skeleton, its higher skeletons are maximal in the 
  * following sense. A k-simplex [v_0, ..., v_k] is a member of the
- * complex iff all of its edges [v_i, v_j] are in the complex.
- * Thus such a complex is the maximal complex given its 1-skeleton.
+ * complex iff all of its edges [v_i, v_j] are in the complex.</p>
  * 
- * This class is abstract in that it does not provide a mechanism 
+ * <p>This class is abstract in that it does not provide a mechanism 
  * for constructing the 1-skeleton, and only constructs the higher
  * order skeletons inductively. The reason is that there are different
  * choices for definitions of the 1-skeletons, the main ones being the
  * lazy witness complex, the Vietoris-Rips complex, and the clique complex. 
- * Thus a child class must provide the implementation of the 1-skeleton.
+ * Thus a child class must provide the implementation of the 1-skeleton.</p>
  * 
- * Also note that the FlagComplexStream construction can be used with 
+ * <p>Also note that the FlagComplexStream construction can be used with 
  * any finite metric space. For information on the implementation,
  * consult the paper "Fast Construction of the Vietoris-Rips Complex",
  * by Afra Zomorodian. This implementation uses the incremental
- * algorithm described in the above paper.
+ * algorithm described in the above paper.</p>
  * 
  * @author Andrew Tausz
  *
@@ -45,32 +45,35 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 	 * Stores the neighborhood graph.
 	 */
 	protected UndirectedWeightedListGraph neighborhoodGraph = null;
-
-	/**
-	 * The maximum distance to use in the construction of the complex.
-	 */
-	protected final double maxDistance;
 	
-	protected final int numDivisions;
+	/**
+	 * This converts between filtration indices and values
+	 */
+	protected FiltrationConverter converter;
+	
+	/**
+	 * This constructor initializes the class.
+	 * 
+	 * @param maxAllowableDimension the maximum dimension of the simplicial complex
+	 * @param converter a FiltrationConverter for translating between filtration indices and values
+	 */
+	public FlagComplexStream(int maxAllowableDimension, FiltrationConverter converter) {
+		super(SimplexComparator.getInstance());
+		this.maxAllowableDimension = maxAllowableDimension;
+		this.converter = converter;
+	}
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param maxDistance the maximum allowable distance in the complex
-	 * @param maxAllowableDimension the maximum dimension of the complex
+	 * @param maxAllowableDimension the maximum dimension of the simplicial complex
+	 * @param converter a FiltrationConverter for translating between filtration indices and values
+	 * @param storageStructure the StreamStorageStructure to use
 	 */
-	public FlagComplexStream(int maxAllowableDimension, double maxDistance, int numDivisions) {
-		super(SimplexComparator.getInstance());
-		this.maxAllowableDimension = maxAllowableDimension;
-		this.maxDistance = maxDistance;
-		this.numDivisions = numDivisions;
-	}
-	
-	public FlagComplexStream(int maxAllowableDimension, double maxDistance, int numDivisions, StreamStorageStructure<Simplex> storageStructure) {
+	public FlagComplexStream(int maxAllowableDimension, FiltrationConverter converter, StreamStorageStructure<Simplex> storageStructure) {
 		super(storageStructure);
 		this.maxAllowableDimension = maxAllowableDimension;
-		this.maxDistance = maxDistance;
-		this.numDivisions = numDivisions;
+		this.converter = converter;
 	}
 	
 	/**
@@ -83,12 +86,22 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 	 */
 	protected abstract UndirectedWeightedListGraph constructEdges();
 	
+	/**
+	 * This returns the neighborhood graph (equivalent to the 1-skeleton) of the complex.
+	 * 
+	 * @return the neighborhood graph
+	 */
 	public UndirectedWeightedListGraph getNeighborhoodGraph() {
 		return this.neighborhoodGraph;
 	}
-
-	public double getFiltrationValue(Simplex simplex) {
-		return this.computeFiltrationValue(this.storageStructure.getFiltrationIndex(simplex));
+	
+	/**
+	 * This function returns the FiltrationConverter object used by the complex.
+	 * 
+	 * @return the FiltrationConverter used by the complex
+	 */
+	public FiltrationConverter getConverter() {
+		return this.converter;
 	}
 	
 	@Override
@@ -112,7 +125,7 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 		
 		// inductively add all of the singletons as well as their cofaces
 		for (int u = 0; u < n; u++) {
-			this.addCofaces(G, k, new Simplex(new int[]{u}), G.getLowerNeighbors(u), 0);
+			this.addCofaces(G, k, new Simplex(new int[]{u}), G.getLowerNeighbors(u), this.converter.getInitialFiltrationValue());
 		}
 	}
 	
@@ -125,11 +138,11 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 	 * @param k the maximum allowable dimension
 	 * @param tau the current simplex to add
 	 * @param N the lower neighbors to investigate
+	 * @param filtrationValue the filtration value of the current simplex, tau
 	 */
 	protected void addCofaces(UndirectedWeightedListGraph G, int k, Simplex tau, TIntHashSet N, double filtrationValue) {
 		// add the current simplex to the complex
-		//this.storageStructure.addElement(tau, this.discretizeFiltrationValue(filtrationValue));
-		this.storageStructure.addElement(tau, this.computeFiltrationIndex(filtrationValue));
+		this.storageStructure.addElement(tau, this.converter.getFiltrationIndex(filtrationValue));
 		
 		// exit if the dimension is the maximum allowed
 		if (tau.getDimension() >= k) {
@@ -162,21 +175,12 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 				weight = filtrationValue;
 				int[] tauVertices = tau.getVertices();
 				for(int tauVertex : tauVertices) {
-					weight = Math.max(weight, G.getWeight(tauVertex, v));
+					weight = this.converter.computeInducedFiltrationValue(weight, G.getWeight(tauVertex, v));
 				}
 			}
 			
 			// recurse: add the cofaces of sigma
 			this.addCofaces(G, k, sigma, M, weight);
 		}
-	}
-	
-	
-	protected int computeFiltrationIndex(double filtrationValue) {
-		return (int) ((filtrationValue / this.maxDistance) * this.numDivisions);
-	}
-	
-	protected double computeFiltrationValue(int filtrationIndex) {
-		return ((double) (filtrationIndex * this.maxDistance)) / ((double) this.numDivisions); 
 	}
 }

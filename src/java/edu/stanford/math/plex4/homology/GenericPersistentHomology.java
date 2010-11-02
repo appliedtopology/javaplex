@@ -4,8 +4,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 
-import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
@@ -25,12 +25,12 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 	}
 
 	@Override
-	public AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
+	public IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> computeAugmentedIntervalsImpl(AbstractFilteredStream<T> stream) {
 		return this.getAugmentedIntervals(this.pHcol(stream), stream);
 	}
 
 	@Override
-	public BarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream) {
+	public IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<T> stream) {
 		return this.getIntervals(this.pHcol(stream), stream);
 	}
 
@@ -123,13 +123,13 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 		return new ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>>(R, V);
 	}
 
-	protected abstract AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> getAugmentedIntervals(ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
+	protected abstract IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> getAugmentedIntervals(ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
 
-	protected abstract BarcodeCollection getIntervals(ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
+	protected abstract IntBarcodeCollection getIntervals(ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream);
 
-	protected AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> getAugmentedIntervals(
+	protected IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> getAugmentedIntervals(
 			ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
-		AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> barcodeCollection = new AugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>>();
+		IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>> barcodeCollection = new IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, T>>();
 
 		THashMap<T, ObjectSparseFormalSum<F, T>> R = RV_pair.getFirst();
 		THashMap<T, ObjectSparseFormalSum<F, T>> V = RV_pair.getSecond();
@@ -150,8 +150,8 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 				// simplex i kills low_R_i
 				births.remove(low_R_i);
 				births.remove(i);
-				double start = stream.getFiltrationValue(low_R_i);
-				double end = stream.getFiltrationValue(i);
+				int start = stream.getFiltrationIndex(low_R_i);
+				int end = stream.getFiltrationIndex(i);
 				if (end >= start + this.minGranularity) {
 					if (absolute) {
 						barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end, R.get(i));
@@ -166,18 +166,18 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 		// these correspond to semi-infinite intervals
 		for (T i: births) {
 			if (absolute) {
-				barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
+				barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i), V.get(i));
 			} else {
-				barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i), V.get(i));
+				barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i), V.get(i));
 			}
 		}
 
 		return barcodeCollection;
 	}
 
-	protected BarcodeCollection getIntervals(
+	protected IntBarcodeCollection getIntervals(
 			ObjectObjectPair<THashMap<T, ObjectSparseFormalSum<F, T>>, THashMap<T, ObjectSparseFormalSum<F, T>>> RV_pair, AbstractFilteredStream<T> stream, boolean absolute) {
-		BarcodeCollection barcodeCollection = new BarcodeCollection();
+		IntBarcodeCollection barcodeCollection = new IntBarcodeCollection();
 
 		THashMap<T, ObjectSparseFormalSum<F, T>> R = RV_pair.getFirst();
 
@@ -197,8 +197,8 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 				// simplex i kills low_R_i
 				births.remove(low_R_i);
 				births.remove(i);
-				double start = stream.getFiltrationValue(low_R_i);
-				double end = stream.getFiltrationValue(i);
+				int start = stream.getFiltrationIndex(low_R_i);
+				int end = stream.getFiltrationIndex(i);
 				if (end >= start + this.minGranularity) {
 					if (absolute) {
 						barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end);
@@ -213,9 +213,9 @@ public abstract class GenericPersistentHomology<F, T> extends GenericPersistence
 		// these correspond to semi-infinite intervals
 		for (T i: births) {
 			if (absolute) {
-				barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i));
+				barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i));
 			} else {
-				barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationValue(i));
+				barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i));
 			}
 		}
 

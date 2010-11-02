@@ -5,14 +5,14 @@ import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpac
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 /**
- * This abstract class defines the functionality of a landmark set within an arbitrary
+ * <p>This abstract class defines the functionality of a landmark set within an arbitrary
  * finite metric space. A landmark set is used as an approximation to the whole metric space
  * for efficiency purposes. It also tends to denoise the dataset under investigation. For 
  * further information about landmark sets, please consult the paper "Topological estimation
- * using witness complexes", by Vin de Silva and Gunnar Carlsson. 
+ * using witness complexes", by Vin de Silva and Gunnar Carlsson.</p> 
  * 
- * A class that derives from LandmarkSelector must implement the computeLandmarkSet function
- * which implements the computation of the landmark set.
+ * <p>A class that derives from LandmarkSelector must implement the computeLandmarkSet function
+ * which implements the computation of the landmark set.</p>
  * 
  * @author Andrew Tausz
  *

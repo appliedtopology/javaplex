@@ -9,6 +9,7 @@ import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 import cern.colt.matrix.linalg.Algebra;
 import cern.jet.random.Normal;
 import cern.jet.random.Uniform;
+import edu.stanford.math.primitivelib.utility.Infinity;
 
 public class MatrixUtility {
 	protected static Normal normalGenerator = new Normal(0, 1, new cern.jet.random.engine.MersenneTwister(Uniform.staticNextIntFromTo(0, Integer.MAX_VALUE)));

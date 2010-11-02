@@ -1,7 +1,7 @@
 package edu.stanford.math.plex4.unit_tests;
 
 
-import edu.stanford.math.plex4.homology.barcodes.AugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.streams.impl.ExplicitCellStream;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
@@ -14,10 +14,10 @@ public class DeSilvaMorozovJohanssonExample<R> {
 	private final ObjectAlgebraicFreeModule<R, Cell> module;
 	private final ExplicitCellStream cellComplex;
 	
-	private final AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> absoluteHomologyBarcodes = new AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
-	private final AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> relativeHomologyBarcodes = new AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
-	private final AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> absoluteCohomologyBarcodes = new AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
-	private final AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> relativeCohomologyBarcodes = new AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
+	private final IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> absoluteHomologyBarcodes = new IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
+	private final IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> relativeHomologyBarcodes = new IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
+	private final IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> absoluteCohomologyBarcodes = new IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
+	private final IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> relativeCohomologyBarcodes = new IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
 	
 	public DeSilvaMorozovJohanssonExample(ObjectAbstractField<R> field) {
 		this.field = field;
@@ -71,19 +71,19 @@ public class DeSilvaMorozovJohanssonExample<R> {
 		return this.cellComplex;
 	}
 	
-	public AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getAbsoluteHomologyBarcodes() {
+	public IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getAbsoluteHomologyBarcodes() {
 		return this.absoluteHomologyBarcodes;
 	}
 	
-	public AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getRelativeHomologyBarcodes() {
+	public IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getRelativeHomologyBarcodes() {
 		return this.relativeHomologyBarcodes;
 	}
 	
-	public AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getAbsoluteCohomologyBarcodes() {
+	public IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getAbsoluteCohomologyBarcodes() {
 		return this.absoluteCohomologyBarcodes;
 	}
 	
-	public AugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getRelativeCohomologyBarcodes() {
+	public IntAugmentedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getRelativeCohomologyBarcodes() {
 		return this.relativeCohomologyBarcodes;
 	}
 }

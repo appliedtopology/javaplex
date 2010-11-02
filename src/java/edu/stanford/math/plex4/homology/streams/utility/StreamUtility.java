@@ -1,12 +1,8 @@
 package edu.stanford.math.plex4.homology.streams.utility;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.homology.streams.interfaces.PrimitiveStream;
 
 public class StreamUtility {
+	/*
 	public static <T> List<T> getModuleBasis(AbstractFilteredStream<T> stream, int dimension, boolean increasingDimensionality) {
 		List<T> basis = new ArrayList<T>();
 		
@@ -57,4 +53,5 @@ public class StreamUtility {
 		
 		return size;
 	}
+	*/
 }

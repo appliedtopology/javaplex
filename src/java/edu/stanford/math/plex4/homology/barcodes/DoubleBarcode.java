@@ -14,11 +14,10 @@ import edu.stanford.math.plex4.utility.ExceptionUtility;
  * @author Andrew Tausz
  *
  */
-public class Barcode {
+public class DoubleBarcode {
 	private final String label;
-	
 	private final int dimension;
-	private List<HalfOpenInterval> intervals = new ArrayList<HalfOpenInterval>();
+	private List<DoubleHalfOpenInterval> intervals = new ArrayList<DoubleHalfOpenInterval>();
 	
 	/**
 	 * This constructor initializes the barcode to be empty, with the
@@ -26,15 +25,20 @@ public class Barcode {
 	 * 
 	 * @param dimension the dimension to initialize to
 	 */
-	public Barcode(int dimension) {
+	public DoubleBarcode(int dimension) {
 		ExceptionUtility.verifyNonNegative(dimension);
 		this.dimension = dimension;
 		this.label = "Dimension: " + dimension;
 	}
 	
-	public Barcode getInfiniteIntervals() {
-		Barcode infiniteBarcode = new Barcode(this.dimension);
-		for (HalfOpenInterval interval: this.intervals) {
+	/**
+	 * This returns a barcode containing only the infinite intervals.
+	 * 
+	 * @return a barcode containing only the infinite intervals
+	 */
+	public DoubleBarcode getInfiniteIntervals() {
+		DoubleBarcode infiniteBarcode = new DoubleBarcode(this.dimension);
+		for (DoubleHalfOpenInterval interval: this.intervals) {
 			if (interval.isInfinite()) {
 				infiniteBarcode.addInterval(interval);
 			}
@@ -42,10 +46,20 @@ public class Barcode {
 		return infiniteBarcode;
 	}
 	
-	public List<HalfOpenInterval> getIntervals() {
+	/**
+	 * This returns the list of intervals.
+	 * 
+	 * @return the list of intervals
+	 */
+	public List<DoubleHalfOpenInterval> getIntervals() {
 		return this.intervals;
 	}
 	
+	/**
+	 * This function returns the label of the barcode.
+	 * 
+	 * @return the label of the barcode
+	 */
 	public String getLabel() {
 		return this.label;
 	}
@@ -65,7 +79,7 @@ public class Barcode {
 	 * 
 	 * @param interval the PersistentInterval to add
 	 */
-	public void addInterval(HalfOpenInterval interval) {
+	public void addInterval(DoubleHalfOpenInterval interval) {
 		ExceptionUtility.verifyNonNull(interval);
 		this.intervals.add(interval);
 	}
@@ -80,7 +94,7 @@ public class Barcode {
 	public int getSliceCardinality(double point) {
 		int cardinality = 0;
 		
-		for (HalfOpenInterval interval: this.intervals) {
+		for (DoubleHalfOpenInterval interval: this.intervals) {
 			if (interval.containsPoint(point)) {
 				cardinality++;
 			}
@@ -89,6 +103,11 @@ public class Barcode {
 		return cardinality;
 	}
 	
+	/**
+	 * This returns the number of intervals in the barcode.
+	 * 
+	 * @return the number of intervals in the barcode
+	 */
 	public int getCardinality() {
 		return this.intervals.size();
 	}
@@ -98,7 +117,7 @@ public class Barcode {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Dimension: " + this.dimension + "\n");
-		for (HalfOpenInterval interval : this.intervals) {
+		for (DoubleHalfOpenInterval interval : this.intervals) {
 			builder.append(interval.toString());
 			builder.append("\n");
 		}
@@ -124,7 +143,7 @@ public class Barcode {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Barcode other = (Barcode) obj;
+		DoubleBarcode other = (DoubleBarcode) obj;
 		if (dimension != other.dimension)
 			return false;
 		if (intervals == null) {
