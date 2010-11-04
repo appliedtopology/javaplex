@@ -38,7 +38,7 @@ public class IdentityConverter extends FiltrationConverter {
 	}
 
 	@Override
-	public DoubleHalfOpenInterval transformInterval(IntHalfOpenInterval interval) {
+	public DoubleHalfOpenInterval transform(IntHalfOpenInterval interval) {
 		if (interval instanceof IntLeftInfiniteInterval) {
 			IntLeftInfiniteInterval castedInterval = (IntLeftInfiniteInterval) interval;
 			return new DoubleLeftInfiniteInterval(this.getFiltrationValue(castedInterval.getEnd()));

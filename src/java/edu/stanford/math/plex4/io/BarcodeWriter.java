@@ -6,7 +6,7 @@ import java.io.IOException;
 import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
 import edu.stanford.math.plex4.visualization.BarcodeVisualizer;
 
-public class BarcodeWriter implements ObjectWriter<DoubleBarcode> {
+public class BarcodeWriter {
 	private static final BarcodeWriter instance = new BarcodeWriter();
 	
 	private BarcodeWriter() {}
@@ -15,11 +15,11 @@ public class BarcodeWriter implements ObjectWriter<DoubleBarcode> {
 		return instance;
 	}
 	
-	public void writeToFile(DoubleBarcode object, String path) throws IOException {
+	public void writeToFile(DoubleBarcode object, String path, double endPoint) throws IOException {
 		if (object == null) {
 			throw new IllegalArgumentException();
 		}
-		BufferedImage image = BarcodeVisualizer.drawBarcode(object);
+		BufferedImage image = BarcodeVisualizer.drawBarcode(object, endPoint);
 		
 		BufferedImageWriter.getInstance(BufferedImageWriter.getDefaultEncoderFormat()).writeToFile(image, path);
 	}

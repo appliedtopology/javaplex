@@ -4,9 +4,18 @@
 package edu.stanford.math.plex4.streams.impl;
 
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
+import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcode;
+import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
+import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcode;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntBarcode;
+import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.filtration.FiltrationConverter;
+import edu.stanford.math.plex4.homology.filtration.FiltrationUtility;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
 import edu.stanford.math.plex4.streams.interfaces.PrimitiveStream;
 import edu.stanford.math.plex4.streams.storage_structures.StreamStorageStructure;
@@ -102,6 +111,46 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 	 */
 	public FiltrationConverter getConverter() {
 		return this.converter;
+	}
+	
+	/**
+	 * This function converts a filtration index barcode to a filtration value barcode.
+	 * 
+	 * @param intBarcode the integer barcode to convert
+	 * @return the filtration value function applied to the barcode
+	 */
+	public DoubleBarcode transform(IntBarcode intBarcode) {
+		return FiltrationUtility.transformBarcode(intBarcode, this.converter);
+	}
+	
+	/**
+	 * This function converts a filtration index barcode collection to a filtration value barcode collection.
+	 * 
+	 * @param intBarcodeCollection the integer barcode collection to convert
+	 * @return the filtration value function applied to the barcode collection
+	 */
+	public DoubleBarcodeCollection transform(IntBarcodeCollection intBarcodeCollection) {
+		return FiltrationUtility.transformBarcodeCollection(intBarcodeCollection, this.converter);
+	}
+	
+	/**
+	 * This function converts a filtration index barcode to a filtration value barcode.
+	 * 
+	 * @param intBarcode the integer barcode to convert
+	 * @return the filtration value function applied to the barcode
+	 */
+	public <T> DoubleAnnotatedBarcode<T> transform(IntAnnotatedBarcode<T> intBarcode) {
+		return FiltrationUtility.transformBarcode(intBarcode, this.converter);
+	}
+	
+	/**
+	 * This function converts a filtration index barcode collection to a filtration value barcode collection.
+	 * 
+	 * @param intBarcodeCollection the integer barcode collection to convert
+	 * @return the filtration value function applied to the barcode collection
+	 */
+	public <T> DoubleAnnotatedBarcodeCollection<T> transform(IntAnnotatedBarcodeCollection<T> intBarcodeCollection) {
+		return FiltrationUtility.transformBarcodeCollection(intBarcodeCollection, this.converter);
 	}
 	
 	@Override

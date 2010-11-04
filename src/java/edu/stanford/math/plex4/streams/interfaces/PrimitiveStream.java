@@ -89,6 +89,9 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#finalizeStream()
 	 */
 	public final void finalizeStream() {
+		if (this.isFinalized()) {
+			return;
+		}
 		this.constructComplex();
 		this.storageStructure.finalizeStructure();
 	}

@@ -18,7 +18,7 @@ public class FiltrationUtility {
 		DoubleBarcode barcode = new DoubleBarcode(intBarcode.getDimension());
 		
 		for (IntHalfOpenInterval interval: intBarcode.getIntervals()) {
-			barcode.addInterval(converter.transformInterval(interval));
+			barcode.addInterval(converter.transform(interval));
 		}
 		
 		return barcode;
@@ -31,7 +31,7 @@ public class FiltrationUtility {
 			iterator.advance();
 			IntBarcode intBarcode = iterator.value();
 			for (IntHalfOpenInterval interval: intBarcode.getIntervals()) {
-				barcodeCollection.addInterval(iterator.key(), converter.transformInterval(interval));
+				barcodeCollection.addInterval(iterator.key(), converter.transform(interval));
 			}
 		}
 		
@@ -42,7 +42,7 @@ public class FiltrationUtility {
 		DoubleAnnotatedBarcode<T> barcode = new DoubleAnnotatedBarcode<T>(intBarcode.getDimension());
 		
 		for (ObjectObjectPair<IntHalfOpenInterval, T> pair: intBarcode.getIntervals()) {
-			barcode.addInterval(converter.transformInterval(pair.getFirst()), pair.getSecond());
+			barcode.addInterval(converter.transform(pair.getFirst()), pair.getSecond());
 		}
 		
 		return barcode;
@@ -55,7 +55,7 @@ public class FiltrationUtility {
 			iterator.advance();
 			IntAnnotatedBarcode<T> intBarcode = iterator.value();
 			for (ObjectObjectPair<IntHalfOpenInterval, T> pair: intBarcode.getIntervals()) {
-				barcodeCollection.addInterval(iterator.key(), converter.transformInterval(pair.getFirst()), pair.getSecond());
+				barcodeCollection.addInterval(iterator.key(), converter.transform(pair.getFirst()), pair.getSecond());
 			}
 		}
 		

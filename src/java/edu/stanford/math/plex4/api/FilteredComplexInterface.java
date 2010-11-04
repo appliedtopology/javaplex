@@ -15,11 +15,11 @@ import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 public class FilteredComplexInterface {
-	ExplicitSimplexStream createExplicitSimplexStream() {
+	public static ExplicitSimplexStream createExplicitSimplexStream() {
 		return new ExplicitSimplexStream();
 	}
 	
-	ExplicitCellStream createExplicitCellStream() {
+	public static ExplicitCellStream createExplicitCellStream() {
 		return new ExplicitCellStream();
 	}
 	

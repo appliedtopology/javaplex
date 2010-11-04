@@ -112,6 +112,15 @@ public class DoubleBarcode {
 		return this.intervals.size();
 	}
 	
+	/**
+	 * This function returns true if the barcode contains no intervals.
+	 * 
+	 * @return true if the barcode is empty
+	 */
+	public boolean isEmpty() {
+		return this.intervals.isEmpty();
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

@@ -10,8 +10,7 @@
 	<classpathentry kind="lib" path="lib/jai_codec.jar"/>
 	<classpathentry kind="lib" path="lib/trove-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/primitive-lib.jar"/>
-	<classpathentry kind="lib" path="lib/commons-math-2.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.5.jar"/>
 	<classpathentry kind="lib" path="lib/velocity-1.6.4-dep.jar"/>
+	<classpathentry kind="lib" path="lib/commons-math-2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

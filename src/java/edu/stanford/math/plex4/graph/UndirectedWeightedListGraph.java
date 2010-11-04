@@ -3,13 +3,13 @@
  */
 package edu.stanford.math.plex4.graph;
 
-import java.util.Iterator;
-
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.primitivelib.autogen.pair.IntIntPair;
 import gnu.trove.TIntDoubleHashMap;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntObjectHashMap;
+
+import java.util.Iterator;
 
 /**
  * This class implements the functionality of an undirected weighted graph.

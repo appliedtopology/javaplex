@@ -27,10 +27,22 @@ public class DoubleBarcodeCollection {
 		
 		for (TIntObjectIterator<DoubleBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
-			collection.barcodeMap.put(iterator.key(), iterator.value().getInfiniteIntervals());
+			DoubleBarcode infinite = iterator.value().getInfiniteIntervals();
+			if (!infinite.isEmpty()) {
+				collection.barcodeMap.put(iterator.key(), infinite);
+			}
 		}
 		
 		return collection;
+	}
+	
+	/**
+	 * This function returns an iterator for traversing the barcode collection
+	 * 
+	 * @return an iterator
+	 */
+	public TIntObjectIterator<DoubleBarcode> iterator() {
+		return this.barcodeMap.iterator();
 	}
 	
 	/**

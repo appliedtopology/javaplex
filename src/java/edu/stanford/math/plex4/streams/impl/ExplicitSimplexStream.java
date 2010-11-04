@@ -71,4 +71,8 @@ public class ExplicitSimplexStream extends ExplicitStream<Simplex> {
 	public void addElement(int[] vertices, int filtrationIndex) {
 		this.addElement(new Simplex(vertices), filtrationIndex);
 	}
+	
+	public boolean removeElementIfPresent(int[] vertices) {
+		return this.removeElementIfPresent(new Simplex(vertices));
+	}
 }

@@ -58,7 +58,7 @@ public class StaticConverter extends FiltrationConverter {
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.homology.filtration.FiltrationConverter#transformInterval(edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval)
 	 */
-	public DoubleHalfOpenInterval transformInterval(IntHalfOpenInterval interval) {
+	public DoubleHalfOpenInterval transform(IntHalfOpenInterval interval) {
 		if (interval instanceof IntLeftInfiniteInterval) {
 			IntLeftInfiniteInterval castedInterval = (IntLeftInfiniteInterval) interval;
 			return new DoubleLeftInfiniteInterval(this.getFiltrationValue(castedInterval.getEnd()));

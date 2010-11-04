@@ -33,19 +33,11 @@ public class BarcodeVisualizer {
 
 	public static final int DEFAULT_WIDTH = 600;
 
-	public static BufferedImage drawBarcode(DoubleBarcode barcode) throws IOException {
-		return drawBarcode(barcode, DEFAULT_WIDTH, barcode.getLabel());
+	public static BufferedImage drawBarcode(DoubleBarcode barcode, double endPoint) throws IOException {
+		return drawBarcode(barcode, barcode.getLabel(), endPoint);
 	}
 
-	public static BufferedImage drawBarcode(DoubleBarcode barcode, String title) throws IOException {
-		return drawBarcode(barcode, DEFAULT_WIDTH, title);
-	}
-
-	public static BufferedImage drawBarcode(DoubleBarcode barcode, int width) throws IOException {
-		return drawBarcode(barcode, width, barcode.getLabel());
-	}
-
-	public static BufferedImage drawBarcode(DoubleBarcode barcode, int width, String title) throws IOException {
+	public static BufferedImage drawBarcode(DoubleBarcode barcode, String title, double endPoint) throws IOException {
 		if (barcode == null) {
 			throw new IllegalArgumentException();
 		}
@@ -55,7 +47,7 @@ public class BarcodeVisualizer {
 		// Set the image generation parameters
 		int barHeight = 3;
 		int barSpacing = 3;
-		int imgWidth = 600;
+		int imgWidth = DEFAULT_WIDTH;
 		int topMargin = 25;
 		int bottomMargin = 30;
 		int leftMargin = 20;
@@ -77,7 +69,7 @@ public class BarcodeVisualizer {
 		Graphics2D graphics = createGraphics(im);
 
 		// Calculate the bar scale
-		double maxBarWidth = getMaxBarWidth(intervals);
+		double maxBarWidth = endPoint;
 		double barScale = (barRegion.width) / maxBarWidth;
 
 		// Draw the ticks
@@ -177,8 +169,7 @@ public class BarcodeVisualizer {
 					// short tick
 					y1 = region.yoffset + region.height + smallOverlap;
 				}
-				graphics.drawString(tickLabel, x0 - (labelWidth) / 2, y1
-						+ fontHeight - 2);
+				graphics.drawString(tickLabel, x0 - (labelWidth) / 2, y1 + fontHeight - 2);
 			} else { // minor tick
 				graphics.setColor(minorTickColor);
 				y1 = region.yoffset + region.height;
