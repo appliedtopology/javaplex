@@ -1,7 +1,7 @@
 package edu.stanford.math.plex4.examples;
 
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
-import edu.stanford.math.plex4.homology.streams.impl.ExplicitCellStream;
+import edu.stanford.math.plex4.streams.impl.ExplicitCellStream;
 
 /**
  * This class contains various static functions for producing cell complexes.

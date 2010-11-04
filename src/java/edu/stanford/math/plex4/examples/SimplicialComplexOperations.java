@@ -9,7 +9,7 @@ import java.util.Set;
 
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
-import edu.stanford.math.plex4.homology.streams.impl.ExplicitStream;
+import edu.stanford.math.plex4.streams.impl.ExplicitStream;
 
 public class SimplicialComplexOperations {
 	ExplicitStream<Simplex> triangularSubivision(ExplicitStream<Simplex> stream) {

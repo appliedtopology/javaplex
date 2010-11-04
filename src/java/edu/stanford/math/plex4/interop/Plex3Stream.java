@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import edu.stanford.math.plex.SimplexStream;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
-import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.collections.utility.AdaptedIterator;
 import gnu.trove.TObjectIntHashMap;
 

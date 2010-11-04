@@ -2,7 +2,7 @@ package edu.stanford.math.plex4.examples;
 
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
-import edu.stanford.math.plex4.homology.streams.impl.ExplicitStream;
+import edu.stanford.math.plex4.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.primitivelib.autogen.array.IntArrayGeneration;
 

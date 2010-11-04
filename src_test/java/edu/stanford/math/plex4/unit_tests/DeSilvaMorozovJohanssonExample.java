@@ -3,7 +3,7 @@ package edu.stanford.math.plex4.unit_tests;
 
 import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
-import edu.stanford.math.plex4.homology.streams.impl.ExplicitCellStream;
+import edu.stanford.math.plex4.streams.impl.ExplicitCellStream;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectAlgebraicFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;

@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.stanford.math.plex4.examples.PointCloudExamples;
-import edu.stanford.math.plex4.homology.new_version.StreamTester;
-import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
-import edu.stanford.math.plex4.math.metric.landmark.RandomLandmarkSelector;
+import edu.stanford.math.plex4.homology.StreamTester;
+import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
+import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 
 public class StreamsTest {

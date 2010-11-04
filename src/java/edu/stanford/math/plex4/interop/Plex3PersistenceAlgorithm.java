@@ -4,8 +4,8 @@ import edu.stanford.math.plex.Persistence;
 import edu.stanford.math.plex.PersistenceInterval;
 import edu.stanford.math.plex.SimplexStream;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
-import edu.stanford.math.plex4.homology.new_version.AbstractPersistenceAlgorithm;
-import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
+import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.test_utility.Timing;
 import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
 

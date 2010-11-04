@@ -1,10 +1,10 @@
 package edu.stanford.math.plex4.examples;
 
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
-import edu.stanford.math.plex4.homology.streams.impl.LazyWitnessStream;
-import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
-import edu.stanford.math.plex4.math.metric.landmark.MaxMinLandmarkSelector;
+import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
+import edu.stanford.math.plex4.metric.landmark.MaxMinLandmarkSelector;
+import edu.stanford.math.plex4.streams.impl.LazyWitnessStream;
+import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 

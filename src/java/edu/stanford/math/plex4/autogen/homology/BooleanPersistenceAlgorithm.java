@@ -5,9 +5,9 @@ import java.util.Iterator;
 
 import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
-import edu.stanford.math.plex4.homology.new_version.AbstractPersistenceBasisAlgorithm;
-import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.homology.streams.utility.FilteredComparator;
+import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
+import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.plex4.streams.utility.FilteredComparator;
 import edu.stanford.math.primitivelib.autogen.formal_sum.BooleanPrimitiveFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.BooleanSparseFormalSum;
 

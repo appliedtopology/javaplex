@@ -10,12 +10,12 @@ import org.junit.Test;
 import edu.stanford.math.plex4.api.FilteredComplexInterface;
 import edu.stanford.math.plex4.api.PersistenceAlgorithmInterface;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
+import edu.stanford.math.plex4.homology.PersistenceAlgorithmTester;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
-import edu.stanford.math.plex4.homology.new_version.AbstractPersistenceAlgorithm;
-import edu.stanford.math.plex4.homology.new_version.PersistenceAlgorithmTester;
-import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;
-import edu.stanford.math.plex4.math.metric.landmark.RandomLandmarkSelector;
+import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
+import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
+import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
+import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.utility.RandomUtility;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 

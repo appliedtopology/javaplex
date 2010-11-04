@@ -1,0 +1,33 @@
+package edu.stanford.math.plex4.graph.metric;
+
+import cern.colt.matrix.DoubleFactory2D;
+import cern.colt.matrix.DoubleMatrix2D;
+import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIterator;
+
+public class SpectralGraphUtility {
+	
+	public static DoubleMatrix2D getLaplacianMatrix(AbstractUndirectedGraph graph) {
+		int n = graph.getNumVertices();
+		DoubleMatrix2D laplacian = DoubleFactory2D.sparse.make(n, n);
+		int[] degrees = new int[n];
+		for (int i = 0; i < n; i++) {
+			TIntHashSet set = graph.getLowerNeighbors(i);
+			for (TIntIterator iterator = set.iterator(); iterator.hasNext(); ) {
+				int j = iterator.next();
+				laplacian.setQuick(i, j, -1);
+				laplacian.setQuick(j, i, -1);
+				degrees[i]++;
+				degrees[j]++;
+			}
+		}
+		
+		for (int i = 0; i < n; i++) {
+			laplacian.setQuick(i, i, degrees[i]);
+		}
+		
+		return laplacian;
+	}
+	
+}

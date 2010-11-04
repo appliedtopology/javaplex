@@ -14,7 +14,7 @@ import edu.stanford.math.plex4.autogen.homology.ObjectClassicalHomology;
 import edu.stanford.math.plex4.autogen.homology.ObjectRelativeHomology;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
-import edu.stanford.math.plex4.homology.new_version.AbstractPersistenceAlgorithm;
+import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.interop.Plex3PersistenceAlgorithm;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntegerField;

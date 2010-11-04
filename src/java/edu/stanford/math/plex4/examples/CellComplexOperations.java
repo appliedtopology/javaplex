@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
-import edu.stanford.math.plex4.homology.streams.impl.ExplicitCellStream;
+import edu.stanford.math.plex4.streams.impl.ExplicitCellStream;
 import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
 import edu.stanford.math.primitivelib.autogen.array.IntArrayQuery;
 

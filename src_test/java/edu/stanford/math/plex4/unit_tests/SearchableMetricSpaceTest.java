@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.kd.KDEuclideanMetricSpace;
-import edu.stanford.math.plex4.math.metric.SearchableMetricSpaceTester;
-import edu.stanford.math.plex4.math.metric.utility.MetricUtility;
+import edu.stanford.math.plex4.metric.SearchableMetricSpaceTester;
+import edu.stanford.math.plex4.metric.utility.MetricUtility;
 import edu.stanford.math.plex4.test_utility.Timing;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
