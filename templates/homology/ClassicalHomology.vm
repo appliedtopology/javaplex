@@ -1,0 +1,258 @@
+package $packageName;
+
+import java.util.Iterator;
+
+#set ($coefficientType = $templateTypes.get(0))
+#set ($objectType = $genericTypes.get(0))
+
+#set ($sumClassName = $utility.getAnnotatedClassName("SparseFormalSum", $templateTypes, $genericTypes))
+#set ($fieldClassName = $utility.getAnnotatedClassName("AbstractField", [$coefficientType], []))
+#set ($className = $utility.getAnnotatedClassName("ClassicalHomology", $templateTypes, $genericTypes))
+#set ($basicClassName = $utility.getClassName("ClassicalHomology", $templateTypes, $genericTypes))
+#set ($superClassName = $utility.getAnnotatedClassName("AbstractPersistenceAlgorithm", [], $genericTypes))
+
+#if ($coefficientType == "boolean")
+#set ($moduleClassName = $utility.getAnnotatedClassName("PrimitiveFreeModule", $templateTypes, $genericTypes))
+#else
+#set ($moduleClassName = $utility.getAnnotatedClassName("AlgebraicFreeModule", $templateTypes, $genericTypes))
+#end
+
+#set ($mapType = $utility.getMapType($objectType, $coefficientType) + $utility.getGenericAnnotation([$objectType, $coefficientType]))
+#set ($iteratorType = $utility.getMapIteratorType($objectType, $coefficientType) + $utility.getGenericAnnotation([$objectType, $coefficientType]))
+
+/**
+ * This class performs the persistent homology algorithm as outlined in
+ * the paper "Computing Persistent Homology" by Zomorodian and Carlsson.
+ * 
+ * @author autogen
+ *
+ * @param <$coefficientType> the underlying type of the coefficient field
+ * @param <$objectType> the underlying basis type
+ */
+public class $className implements $superClassName {
+	#if (!($coefficientType == "boolean"))
+	protected final $fieldClassName field;
+	#end
+	private final $moduleClassName chainModule;
+	private final Comparator<$objectType> basisComparator;
+	private final int maxDimension;
+	private final int minDimension;
+	
+	private THashSet<$objectType> markedSimplices = null;
+	private THashMap<$objectType, $sumClassName> T = null;
+	private Comparator<$objectType> filteredComparator = null;
+	
+	#if ($coefficientType == "boolean")
+	/**
+	 * This constructor initializes the object with a comparator on the basis type.
+	 * 
+	 * @param basisComparator a comparator on the basis type $objectType
+	 * @param minDimension the minimum dimension to compute 
+	 * @param maxDimension the maximum dimension to compute
+	 */
+	public $basicClassName(Comparator<$objectType> basisComparator, int minDimension, int maxDimension) {
+		this.chainModule = new $moduleClassName();
+		this.basisComparator = basisComparator;
+		this.minDimension = minDimension;
+		this.maxDimension = maxDimension;
+	}
+	#else
+	/**
+	 * This constructor initializes the object with a field and a comparator on the basis type.
+	 * 
+	 * @param field a field structure on the type $coefficientType
+	 * @param basisComparator a comparator on the basis type $objectType
+	 * @param minDimension the minimum dimension to compute 
+	 * @param maxDimension the maximum dimension to compute
+	 */
+	public $basicClassName($fieldClassName field, Comparator<$objectType> basisComparator, int minDimension, int maxDimension) {
+		this.field = field;
+		this.chainModule = new $moduleClassName(this.field);
+		this.basisComparator = basisComparator;
+		this.minDimension = minDimension;
+		this.maxDimension = maxDimension;
+	}
+	#end
+	
+	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<$objectType> stream) {
+		IntBarcodeCollection barcodeCollection = new IntBarcodeCollection();
+		
+		this.filteredComparator = new FilteredComparator<$objectType>(stream, this.basisComparator);
+		this.markedSimplices = new THashSet<$objectType>();
+		this.T = new THashMap<$objectType, $sumClassName>();
+		
+		for ($objectType simplex : stream) {
+			
+			if (stream.getDimension(simplex) > maxDimension + 1) {
+				continue;
+			}
+			
+			if (stream.getDimension(simplex) < this.minDimension) {
+				continue;
+			}
+			
+			/*
+			 * Translation from paper:
+			 * 
+			 * sigma_j = simplex
+			 * sigma_i = d.maxObject();
+			 * 
+			 */
+
+			this.T.remove(simplex);
+			
+			$sumClassName d = this.removePivotRows(simplex, stream);
+			
+			if (d.isEmpty()) {
+				this.markedSimplices.add(simplex);
+			} else {
+				$objectType sigma_j = simplex;
+				$objectType sigma_i = getMaximumObject(d);
+				int k = stream.getDimension(sigma_i);
+				
+				// store j and d in $objectType[i]
+				this.T.put(sigma_i, d);
+				
+				// store interval
+				int index_i = stream.getFiltrationIndex(sigma_i);
+				int index_j = stream.getFiltrationIndex(sigma_j);
+				
+				assert (index_i <= index_j);
+				
+				
+				// don't store intervals that are simultaneously created and destroyed
+				if ((index_j - index_i > 0) && k < maxDimension) {
+					barcodeCollection.addInterval(k, index_i, index_j);
+				}
+			}
+		}
+		
+		for ($objectType simplex : this.markedSimplices) {
+			if (!this.T.containsKey(simplex) || this.T.get(simplex).isEmpty()) {
+				int k = stream.getDimension(simplex);
+				if (k < maxDimension) {
+					barcodeCollection.addRightInfiniteInterval(k, stream.getFiltrationIndex(simplex));
+				}
+			}
+		}
+	
+		this.T = null;
+		this.markedSimplices = null;
+		this.filteredComparator = null;
+		
+		return barcodeCollection;
+	}
+	
+	private $sumClassName removePivotRows($objectType simplex, AbstractFilteredStream<$objectType> stream) {
+		$sumClassName d = chainModule.createNewSum(stream.getBoundaryCoefficients(simplex), stream.getBoundary(simplex));
+
+		#if ($coefficientType == "boolean")
+		$objectType current = null;
+		for (Iterator<$objectType> iterator = d.iterator(); iterator.hasNext(); ) {
+			current = iterator.next();
+			if (!this.markedSimplices.contains(current)) {
+				iterator.remove();
+			}
+		}
+		
+		#else
+		
+		#if ($utility.isPrimitive($coefficientType))
+		
+		// remove unmarked terms from d
+		for ($iteratorType iterator = d.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			if (!this.markedSimplices.contains(iterator.key())) {
+				iterator.remove();
+			}
+		}
+		
+		#else
+		
+		for (Iterator<Map.Entry<$objectType, $coefficientType>> iterator = d.iterator(); iterator.hasNext(); ) {
+			Map.Entry<$objectType, $coefficientType> entry = iterator.next();
+			
+			if (!this.markedSimplices.contains(entry.getKey())) {
+				iterator.remove();
+			}
+		}
+		
+		#end
+		
+		#end
+		
+		$objectType sigma_i = null;
+		#if ($coefficientType == "boolean")
+		$coefficientType q = $utility.getDefaultElement($coefficientType);
+		#else
+		$coefficientType q = this.field.getZero();
+		#end
+		while (!d.isEmpty()) {
+			sigma_i = getMaximumObject(d);
+			
+			if (!this.T.containsKey(sigma_i) || this.T.get(sigma_i).isEmpty()) {
+				break;
+			}
+			
+			q = T.get(sigma_i).getCoefficient(sigma_i);
+			
+			#if ($coefficientType == "boolean")
+			if (q == $utility.getDefaultElement($coefficientType)) {
+				break;
+			}
+			#else
+			if (field.isZero(q)) {
+				break;
+			}
+			#end
+			
+			#if ($coefficientType == "boolean")
+			chainModule.accumulate(d, T.get(sigma_i), q);
+			#else
+			chainModule.accumulate(d, T.get(sigma_i), field.invert(q));
+			#end
+		}
+		
+		return d;
+	}
+
+	
+	private $objectType getMaximumObject($sumClassName chain) {
+		$objectType maxObject = null;
+		
+		#if ($coefficientType == "boolean")
+		$objectType current = null;
+		for (Iterator<$objectType> iterator = chain.iterator(); iterator.hasNext(); ) {
+			current = iterator.next();
+			if (maxObject == null || this.filteredComparator.compare(current, maxObject) > 0) {
+				maxObject = current;
+			}
+		}
+		
+		#else
+		
+		#if ($utility.isPrimitive($coefficientType))
+		
+		for ($iteratorType iterator = chain.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			if (maxObject == null || this.filteredComparator.compare(iterator.key(), maxObject) > 0) {
+				maxObject = iterator.key();
+			}
+		}
+		
+		#else
+		
+		for (Iterator<Map.Entry<$objectType, $coefficientType>> iterator = chain.iterator(); iterator.hasNext(); ) {
+			Map.Entry<$objectType, $coefficientType> entry = iterator.next();
+			if (maxObject == null || this.filteredComparator.compare(entry.getKey(), maxObject) > 0) {
+				maxObject = entry.getKey();
+			}
+		}
+		
+		#end
+
+		#end
+
+		return maxObject;
+	}
+}

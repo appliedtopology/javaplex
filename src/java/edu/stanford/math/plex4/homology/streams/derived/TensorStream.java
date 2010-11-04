@@ -157,4 +157,11 @@ public class TensorStream<T, U> implements AbstractFilteredStream<ObjectObjectPa
 	public int getSize() {
 		return this.stream1.getSize() * this.stream2.getSize();
 	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getMaximumFiltrationIndex()
+	 */
+	public int getMaximumFiltrationIndex() {
+		return Math.max(this.stream1.getMaximumFiltrationIndex(), this.stream2.getMaximumFiltrationIndex());
+	}
 }

@@ -150,4 +150,11 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 	public int getSize() {
 		return this.stream.getSize();
 	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getMaximumFiltrationIndex()
+	 */
+	public int getMaximumFiltrationIndex() {
+		return this.stream.getMaximumFiltrationIndex();
+	}
 }

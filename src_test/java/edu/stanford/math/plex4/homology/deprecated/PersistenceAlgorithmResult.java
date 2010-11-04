@@ -1,7 +1,7 @@
-package edu.stanford.math.plex4.homology;
+package edu.stanford.math.plex4.homology.deprecated;
 
-import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
 import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
+import edu.stanford.math.plex4.homology.deprecated.PersistenceCalculationData.PersistenceAlgorithmType;
 
 public class PersistenceAlgorithmResult {
 	private PersistenceAlgorithmType type;

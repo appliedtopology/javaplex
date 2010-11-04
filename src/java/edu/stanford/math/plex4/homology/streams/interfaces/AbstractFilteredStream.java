@@ -31,7 +31,7 @@ package edu.stanford.math.plex4.homology.streams.interfaces;
  * <ul>
  * <li>T = Simplex: a standard filtered simplicial complex</li>
  * <li>T = Cell: a standard filtered CW complex</li>
- * <li>T = GenericPair<T, U>: A pair may represent a tensor product</li>
+ * <li>T = ObjectObjectPair<T, U>: a pair may represent a tensor product</li>
  * </ul>
  * </p>
  * 
@@ -43,7 +43,7 @@ package edu.stanford.math.plex4.homology.streams.interfaces;
  * getFiltrationIndex and getDimension do not only depend on the 
  * queried basis element (ie. the simplex in question), but also 
  * the properties of the chain complex. For example, the getBoundary
- * function may return thnew THashMap<T, IntSparseFormalSum<T>>();e coboundary of a simplex rather than a 
+ * function may return the coboundary of a simplex rather than a 
  * boundary in the case that we are working in the context of a cochain
  * complex. Or, the getDimension may return a shifted version of
  * the actual geometric dimension of a simplex.</p>
@@ -124,4 +124,11 @@ public interface AbstractFilteredStream<T> extends Iterable<T> {
 	 * @return the size of the stream
 	 */
 	public int getSize();
+	
+	/**
+	 * This function gets the maximum filtration index in the complex.
+	 * 
+	 * @return the maximum filtration index
+	 */
+	public int getMaximumFiltrationIndex();
 }

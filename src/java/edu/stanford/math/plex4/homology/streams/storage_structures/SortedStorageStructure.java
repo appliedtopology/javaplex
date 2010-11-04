@@ -168,4 +168,18 @@ public class SortedStorageStructure<T> implements StreamStorageStructure<T> {
 	public int getSize() {
 		return this.filtrationIndices.size();
 	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure#getMaximumFiltrationIndex()
+	 */
+	public int getMaximumFiltrationIndex() {
+		int maxIndex = Integer.MIN_VALUE;
+		for (IntObjectPair<T> pair : this.elementFiltrationPairs) {
+			if (pair.getFirst() > maxIndex) {
+				maxIndex = pair.getFirst();
+			}
+		}
+		
+		return maxIndex;
+	}
 }

@@ -78,4 +78,11 @@ public interface StreamStorageStructure<T> extends Iterable<T> {
 	 * @return the number of elements in the storage structure
 	 */
 	int getSize();
+	
+	/**
+	 * This function gets the maximum filtration index in the complex.
+	 * 
+	 * @return the maximum filtration index
+	 */
+	public int getMaximumFiltrationIndex();
 }

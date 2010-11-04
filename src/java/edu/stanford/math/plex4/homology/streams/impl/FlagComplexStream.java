@@ -152,6 +152,7 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 		double weight = 0;
 		
 		TIntIterator iterator = N.iterator();
+		TIntHashSet M;
 		
 		// iterate through the lower neighborhood
 		while (iterator.hasNext()) {
@@ -162,7 +163,7 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 			Simplex sigma = new Simplex(HomologyUtility.appendToArray(tau.getVertices(), v));
 			
 			// compute the intersection between N and the lower neighbors of v
-			TIntHashSet M = HomologyUtility.computeIntersection(N, G.getLowerNeighbors(v));
+			M = HomologyUtility.computeIntersection(N, G.getLowerNeighbors(v));
 			
 			// compute the weight of the simplex sigma
 			// the weight is defined to be the maximum weight of all of the simplex's

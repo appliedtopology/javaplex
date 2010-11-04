@@ -1,6 +1,7 @@
 package edu.stanford.math.plex4.deprecated_tests;
 
-import org.apache.commons.lang.math.Fraction;
+
+import org.apache.commons.math.fraction.Fraction;
 
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;

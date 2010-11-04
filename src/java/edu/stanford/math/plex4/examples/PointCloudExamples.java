@@ -89,7 +89,7 @@ public class PointCloudExamples {
 	}
 	
 	public static double[][] getRandomSpherePoints(int n, int d) {
-		double[][] points = new double[n][d + 1];
+		double[][] points = new double[n][];
 		
 		for (int i = 0; i < n; i++) {
 			points[i] = RandomUtility.normalArray(d + 1);
@@ -100,7 +100,7 @@ public class PointCloudExamples {
 	}
 	
 	public static double[][] getGaussianPoints(int n, int d) {
-		double[][] points = new double[n][d];
+		double[][] points = new double[n][];
 		
 		for (int i = 0; i < n; i++) {
 			points[i] = RandomUtility.normalArray(d);

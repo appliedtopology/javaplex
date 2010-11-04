@@ -156,4 +156,11 @@ public class DualStream<T> implements AbstractFilteredStream<T> {
 		
 		Collections.reverse(this.reversedElements);
 	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getMaximumFiltrationIndex()
+	 */
+	public int getMaximumFiltrationIndex() {
+		return this.forwardStream.getMaximumFiltrationIndex();
+	}
 }

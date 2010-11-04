@@ -61,7 +61,7 @@ abstract public class PersistenceInterval implements Comparable<PersistenceInter
 		public final int end;
 
 		// don't use
-		private Int() { super(0); start = 0; end = 0; }
+		//private Int() { super(0); start = 0; end = 0; }
 
 		public Int(int dimension, int start, int end) {
 			super(dimension);
@@ -172,7 +172,7 @@ abstract public class PersistenceInterval implements Comparable<PersistenceInter
 		public final double end;
 
 		// don't use
-		private Float() { super(0); start = 0; end = 0; }
+		//private Float() { super(0); start = 0; end = 0; }
 
 		public Float(int dimension, double start, double end) {
 			super(dimension);

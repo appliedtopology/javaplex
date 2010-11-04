@@ -158,6 +158,7 @@ public class HashedStorageStructure<T extends PrimitiveBasisElement> implements 
 	 */
 	public void finalizeStructure() {
 		// we must go through the map and sort the list segments
+		
 		for (TIntObjectIterator<TIntObjectHashMap<List<T>>> filtrationIndexIterator = this.indexDimensionObjectMap.iterator(); filtrationIndexIterator.hasNext(); ) {
 			filtrationIndexIterator.advance();
 			TIntObjectHashMap<List<T>> dimensionMap = filtrationIndexIterator.value();
@@ -169,5 +170,20 @@ public class HashedStorageStructure<T extends PrimitiveBasisElement> implements 
 		}
 		
 		this.isFinalized = true;
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.storage_structures.StreamStorageStructure#getMaximumFiltrationIndex()
+	 */
+	public int getMaximumFiltrationIndex() {
+		int maxIndex = Integer.MIN_VALUE;
+		for (TIntObjectIterator<TIntObjectHashMap<List<T>>> filtrationIndexIterator = this.indexDimensionObjectMap.iterator(); filtrationIndexIterator.hasNext(); ) {
+			filtrationIndexIterator.advance();
+			if (filtrationIndexIterator.key() > maxIndex) {
+				maxIndex = filtrationIndexIterator.key();
+			}
+		}
+		
+		return maxIndex;
 	}
 }

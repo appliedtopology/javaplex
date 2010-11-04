@@ -1,16 +1,23 @@
-package edu.stanford.math.plex4.homology;
+package edu.stanford.math.plex4.homology.deprecated;
 
-import org.apache.commons.lang.math.Fraction;
+
+import org.apache.commons.math.fraction.Fraction;
 
 import edu.stanford.math.plex.EuclideanArrayData;
 import edu.stanford.math.plex.PersistenceInterval;
 import edu.stanford.math.plex.Plex;
 import edu.stanford.math.plex.RipsStream;
-import edu.stanford.math.plex4.homology.PersistenceCalculationData.PersistenceAlgorithmType;
+import edu.stanford.math.plex4.homology.GenericAbsoluteCohomology;
+import edu.stanford.math.plex4.homology.GenericAbsoluteHomology;
+import edu.stanford.math.plex4.homology.GenericPersistenceAlgorithm;
+import edu.stanford.math.plex4.homology.IntAbsoluteHomology;
+import edu.stanford.math.plex4.homology.IntClassicalAbsoluteHomology;
+import edu.stanford.math.plex4.homology.IntPersistenceAlgorithm;
 import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
+import edu.stanford.math.plex4.homology.deprecated.PersistenceCalculationData.PersistenceAlgorithmType;
 import edu.stanford.math.plex4.homology.filtration.FiltrationConverter;
 import edu.stanford.math.plex4.homology.filtration.FiltrationUtility;
 import edu.stanford.math.plex4.homology.filtration.IdentityConverter;
@@ -126,10 +133,12 @@ public class PersistenceAlgorithmInterface {
 		return result;
 	}
 	
+	/*
 	private static DoubleBarcodeCollection testPlex3ExplicitStream(edu.stanford.math.plex.ExplicitStream plex3Stream) {
 		PersistenceInterval[] intervals = Plex.Persistence().computeIntervals(plex3Stream);
 		return convertFromPlex3PersistenceIntervals(intervals);
 	}
+	*/
 	
 	private static PersistenceAlgorithmResult testPlex3Vietoris(double[][] points, int maxDimension, double maxFiltrationValue, int numDivisions) {
 		PersistenceAlgorithmResult result = new PersistenceAlgorithmResult();
@@ -193,8 +202,8 @@ public class PersistenceAlgorithmInterface {
 	}
 
 	private static DoubleBarcodeCollection computeIntClassicalHomology(AbstractFilteredStream<Simplex> stream, int d, FiltrationConverter converter) {
-		IntClassicalPersistentHomology<Simplex> classicalHomology = new IntClassicalPersistentHomology<Simplex>(ModularIntField.getInstance(13), SimplexComparator.getInstance());
-		IntBarcodeCollection barcodes = classicalHomology.computeIntervals(stream, d + 1);
+		IntClassicalAbsoluteHomology<Simplex> classicalHomology = new IntClassicalAbsoluteHomology<Simplex>(ModularIntField.getInstance(13), SimplexComparator.getInstance(), d + 1);
+		IntBarcodeCollection barcodes = classicalHomology.computeIntervals(stream);
 		return FiltrationUtility.transformBarcodeCollection(barcodes, converter);
 	}
 	

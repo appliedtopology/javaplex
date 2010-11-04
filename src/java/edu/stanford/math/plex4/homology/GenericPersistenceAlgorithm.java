@@ -78,7 +78,8 @@ public abstract class GenericPersistenceAlgorithm<F, T> {
 	 * 
 	 * @param field the field over which to perform arithmetic
 	 * @param basisComparator a Comparator for ordering the basis elements
-	 * @param maxDimension the maximum dimension to compute to
+	 * @param minDimension the minimum dimension to compute 
+	 * @param maxDimension the maximum dimension to compute
 	 */
 	public GenericPersistenceAlgorithm(ObjectAbstractField<F> field, Comparator<T> basisComparator, int minDimension, int maxDimension) {
 		this.field = field;

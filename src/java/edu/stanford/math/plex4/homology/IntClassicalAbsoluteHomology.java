@@ -3,7 +3,7 @@ package edu.stanford.math.plex4.homology;
 import java.util.Comparator;
 
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
-import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
+import edu.stanford.math.plex4.homology.new_version.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.homology.streams.utility.FilteredComparator;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
@@ -17,26 +17,28 @@ import gnu.trove.TObjectIntIterator;
  * This class performs the persistent homology algorithm as outlined in
  * the paper "Computing Persistent Homology" by Zomorodian and Carlsson.
  * 
- * @author Andrew Tausz
+ * @author autogen
  *
- * @param <T>
+ * @param <T> the underlying basis type
  */
-public class IntClassicalPersistentHomology<T extends PrimitiveBasisElement> {
+public class IntClassicalAbsoluteHomology<T> implements AbstractPersistenceAlgorithm<T> {
 	private final IntAbstractField field;
 	private final IntAlgebraicFreeModule<T> chainModule;
 	private final Comparator<T> comparator;
+	private final int maxDimension;
 	
 	private THashSet<T> markedSimplices = null;
 	private THashMap<T, IntSparseFormalSum<T>> T = null;
 	private Comparator<T> filteredComparator = null;
 	
-	public IntClassicalPersistentHomology(IntAbstractField field, Comparator<T> comparator) {
+	public IntClassicalAbsoluteHomology(IntAbstractField field, Comparator<T> comparator, int maxDimension) {
 		this.field = field;
 		this.chainModule = new IntAlgebraicFreeModule<T>(this.field);
 		this.comparator = comparator;
+		this.maxDimension = maxDimension;
 	}
 	
-	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<T> stream, int maxDimension) {
+	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<T> stream) {
 		IntBarcodeCollection barcodeCollection = new IntBarcodeCollection();
 		
 		this.filteredComparator = new FilteredComparator<T>(stream, this.comparator);
@@ -45,7 +47,7 @@ public class IntClassicalPersistentHomology<T extends PrimitiveBasisElement> {
 		
 		for (T simplex : stream) {
 			
-			if (simplex.getDimension() > maxDimension + 1) {
+			if (stream.getDimension(simplex) > maxDimension + 1) {
 				break;
 			}
 			
@@ -66,7 +68,7 @@ public class IntClassicalPersistentHomology<T extends PrimitiveBasisElement> {
 			} else {
 				T sigma_j = simplex;
 				T sigma_i = getMaximumObject(d);
-				int k = sigma_i.getDimension();
+				int k = stream.getDimension(sigma_i);
 				
 				// store j and d in T[i]
 				this.T.put(sigma_i, d);
@@ -87,7 +89,7 @@ public class IntClassicalPersistentHomology<T extends PrimitiveBasisElement> {
 		
 		for (T simplex : this.markedSimplices) {
 			if (!this.T.containsKey(simplex) || this.T.get(simplex).isEmpty()) {
-				int k = simplex.getDimension();
+				int k = stream.getDimension(simplex);
 				if (k < maxDimension) {
 					barcodeCollection.addRightInfiniteInterval(k, stream.getFiltrationIndex(simplex));
 				}
@@ -96,6 +98,7 @@ public class IntClassicalPersistentHomology<T extends PrimitiveBasisElement> {
 	
 		this.T = null;
 		this.markedSimplices = null;
+		this.filteredComparator = null;
 		
 		return barcodeCollection;
 	}

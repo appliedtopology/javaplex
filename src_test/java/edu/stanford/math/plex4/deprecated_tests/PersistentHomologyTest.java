@@ -12,7 +12,7 @@ import edu.stanford.math.plex4.homology.GenericAbsoluteCohomology;
 import edu.stanford.math.plex4.homology.GenericAbsoluteHomology;
 import edu.stanford.math.plex4.homology.GenericPersistenceAlgorithm;
 import edu.stanford.math.plex4.homology.IntAbsoluteHomology;
-import edu.stanford.math.plex4.homology.IntClassicalPersistentHomology;
+import edu.stanford.math.plex4.homology.IntClassicalAbsoluteHomology;
 import edu.stanford.math.plex4.homology.IntPersistentHomology;
 import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
@@ -24,7 +24,6 @@ import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.streams.derived.DualStream;
 import edu.stanford.math.plex4.homology.streams.derived.HomStream;
 import edu.stanford.math.plex4.homology.streams.derived.TensorStream;
-import edu.stanford.math.plex4.homology.streams.impl.ExplicitCellStream;
 import edu.stanford.math.plex4.homology.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.homology.streams.impl.VietorisRipsStream;
 import edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream;
@@ -37,7 +36,6 @@ import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPairComparator;
-import edu.stanford.math.primitivelib.collections.utility.ReversedComparator;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
@@ -58,8 +56,8 @@ public class PersistentHomologyTest {
 	
 	public static void CellularTest() {
 		AbstractFilteredStream<Cell> stream = CellStreamExamples.getMorozovJohanssonExample();
-		ExplicitCellStream stream1 = CellStreamExamples.getCellularTorus();
-		ExplicitCellStream stream2 = CellStreamExamples.getCellularSphere(2);
+		//ExplicitCellStream stream1 = CellStreamExamples.getCellularTorus();
+		//ExplicitCellStream stream2 = CellStreamExamples.getCellularSphere(2);
 		//ExplicitCellStream stream = CellComplexOperations.disjointUnion(stream1, stream2);
 		//CellComplexOperations.identifyPoints(stream, new int[]{0, 2});
 		testGenericDualityPersistentCohomology(stream, CellComparator.getInstance(), RationalField.getInstance());
@@ -71,8 +69,8 @@ public class PersistentHomologyTest {
 	}
 	
 	public static <T extends PrimitiveBasisElement> void testClassicalPersistentHomology(AbstractFilteredStream<T> stream, Comparator<T> comparator, IntAbstractField field, int dimension) {
-		IntClassicalPersistentHomology<T> homology = new IntClassicalPersistentHomology<T>(field, comparator);
-		IntBarcodeCollection barcodes = homology.computeIntervals(stream, dimension);
+		IntClassicalAbsoluteHomology<T> homology = new IntClassicalAbsoluteHomology<T>(field, comparator, dimension);
+		IntBarcodeCollection barcodes = homology.computeIntervals(stream);
 		System.out.println(barcodes);
 	}
 	
@@ -126,7 +124,7 @@ public class PersistentHomologyTest {
 		AbstractFilteredStream<Simplex> stream = SimplexStreamExamples.getTorus();
 		DualStream<Simplex> dualStream = new DualStream<Simplex>(stream);
 		dualStream.finalizeStream();
-		testGenericDualityPersistentCohomology(dualStream, new ReversedComparator<Simplex>(SimplexComparator.getInstance()), RationalField.getInstance());
+		//testGenericDualityPersistentCohomology(dualStream, new ReversedComparator<Simplex>(SimplexComparator.getInstance()), RationalField.getInstance());
 	}
 	
 	public static void cellularHomTest() {
@@ -134,7 +132,7 @@ public class PersistentHomologyTest {
 		AbstractFilteredStream<Cell> stream2 = CellStreamExamples.getCellularTorus();
 		HomStream<Cell, Cell> homStream = new HomStream<Cell, Cell>(stream1, stream2);
 		homStream.finalizeStream();
-		testIntDualityPersistentHomology(homStream, new ObjectObjectPairComparator<Cell, Cell>(new ReversedComparator<Cell>(CellComparator.getInstance()), CellComparator.getInstance()), ModularIntField.getInstance(2));
+		//testIntDualityPersistentHomology(homStream, new ObjectObjectPairComparator<Cell, Cell>(new ReversedComparator<Cell>(CellComparator.getInstance()), CellComparator.getInstance()), ModularIntField.getInstance(2));
 	}
 	
 	public static void lazyWitnessTest() {

@@ -1,0 +1,293 @@
+package $packageName;
+
+import java.util.Iterator;
+
+#set ($coefficientType = $templateTypes.get(0))
+#set ($objectType = $genericTypes.get(0))
+
+#set ($sumClassName = $utility.getAnnotatedClassName("SparseFormalSum", $templateTypes, $genericTypes))
+#set ($fieldClassName = $utility.getAnnotatedClassName("AbstractField", [$coefficientType], []))
+#set ($className = $utility.getAnnotatedClassName("PersistentHomology", $templateTypes, $genericTypes))
+#set ($basicClassName = $utility.getClassName("PersistentHomology", $templateTypes, $genericTypes))
+#set ($superClassName = $utility.getAnnotatedClassName("PersistenceAlgorithm", $templateTypes, $genericTypes))
+
+#if ($coefficientType == "boolean")
+#set ($moduleClassName = $utility.getAnnotatedClassName("PrimitiveFreeModule", $templateTypes, $genericTypes))
+#else
+#set ($moduleClassName = $utility.getAnnotatedClassName("AlgebraicFreeModule", $templateTypes, $genericTypes))
+#end
+
+#set ($mapType = $utility.getMapType($objectType, $coefficientType) + $utility.getGenericAnnotation([$objectType, $coefficientType]))
+#set ($iteratorType = $utility.getMapIteratorType($objectType, $coefficientType) + $utility.getGenericAnnotation([$objectType, $coefficientType]))
+
+/**
+ * This class defines the functionality for a persistence algorithm with underlying
+ * field type being $coefficientType and underlying basis element type being $objectType.
+ * It acts as an intermediate layer between the interface AbstractPersistenceBasisAlgorithm
+ * and the actual implementations of the persistent homology/cohomology algorithms.
+ * 
+ * @author autogen
+ *
+ * @param <$coefficientType> the underlying type of the field
+ * @param <$objectType> the type of the basis elements
+ */
+public abstract class $className extends $superClassName {
+
+	#if ($coefficientType == "boolean")
+	/**
+	 * This constructor initializes the object with a comparator on the basis type.
+	 * 
+	 * @param basisComparator a comparator on the basis type $objectType
+	 * @param minDimension the minimum dimension to compute 
+	 * @param maxDimension the maximum dimension to compute
+	 */
+	public $basicClassName(Comparator<$objectType> basisComparator, int minDimension, int maxDimension) {
+		super(basisComparator, minDimension, maxDimension);
+	}
+	#else
+	/**
+	 * This constructor initializes the object with a field and a comparator on the basis type.
+	 * 
+	 * @param field a field structure on the type $coefficientType
+	 * @param basisComparator a comparator on the basis type $objectType
+	 * @param minDimension the minimum dimension to compute 
+	 * @param maxDimension the maximum dimension to compute
+	 */
+	public $basicClassName($fieldClassName field, Comparator<$objectType> basisComparator, int minDimension, int maxDimension) {
+		super(field, basisComparator, minDimension, maxDimension);
+	}
+	#end
+
+	@Override
+	protected IntAugmentedBarcodeCollection<$sumClassName> computeAugmentedIntervalsImpl(AbstractFilteredStream<$objectType> stream) {
+		return this.getAugmentedIntervals(this.pHcol(stream), stream);
+	}
+
+	@Override
+	protected IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<$objectType> stream) {
+		return this.getIntervals(this.pHcol(stream), stream);
+	}
+	
+	/**
+	 * This function implements the pHcol algorithm described in the paper. It computes the decomposition
+	 * R = D * V, where D is the boundary matrix, R is reduced, and is invertible and upper triangular.
+	 * This function returns the pair (R, V). Note that in our implementation, we represent a matrix by
+	 * a hash map which maps a generating object to a formal sum which corresponds to a column in the matrix.
+	 * Note that this is simply a sparse representation of a linear transformation on a vector space with
+	 * free basis consisting of elements of type $objectType.
+	 * 
+	 * @param stream the filtered chain complex which provides elements in increasing filtration order
+	 * @return a ObjectObjectPair containing the matrices R and V
+	 */
+	private ObjectObjectPair<THashMap<$objectType, $sumClassName>, THashMap<$objectType, $sumClassName>> pHcol(AbstractFilteredStream<$objectType> stream) {
+
+		THashMap<$objectType, $sumClassName> R = new THashMap<$objectType, $sumClassName>();
+		THashMap<$objectType, $sumClassName> V = new THashMap<$objectType, $sumClassName>();
+
+		/**
+		 * This maps a simplex to the set of columns containing the key as its low value.
+		 */
+		THashMap<$objectType, THashSet<$objectType>> lowMap = new THashMap<$objectType, THashSet<$objectType>>();
+
+		for ($objectType i : stream) {
+			/*
+			 * Do not process simplices of higher dimension than maxDimension.
+			 */
+			if (stream.getDimension(i) < this.minDimension) {
+				continue;
+			}
+			
+			if (stream.getDimension(i) > this.maxDimension + 1) {
+				continue;
+			}
+
+			// initialize V to be the identity matrix
+			#if ($coefficientType == "boolean")
+			V.put(i, this.chainModule.createNewSum(i));
+			#else
+			V.put(i, this.chainModule.createNewSum(this.field.valueOf(1), i));
+			#end
+
+			// form the column R[i] which equals the boundary of the current simplex.
+			// store the column as a column in R
+			R.put(i, chainModule.createNewSum(stream.getBoundaryCoefficients(i), stream.getBoundary(i)));
+
+			// compute low_R(i)
+			$objectType low_R_i = this.low(R.get(i));
+
+			// if the boundary of i is empty, then continue to next iteration since there
+			// is nothing to process
+			if (low_R_i == null) {
+				continue;
+			}
+
+			THashSet<$objectType> matchingLowSimplices = lowMap.get(low_R_i);
+			while (matchingLowSimplices != null && !matchingLowSimplices.isEmpty()) {
+				Iterator<$objectType> iterator = matchingLowSimplices.iterator();
+				/**
+				 * TODO: Is this the right thing to do???
+				 * Ie. should the iterator.next go at the end of the loop?
+				 */
+				$objectType j = iterator.next();
+
+				#if ($coefficientType == "boolean")
+				assert (R.get(j).getCoefficient(low_R_i) == true);
+				$coefficientType negative_c = R.get(i).getCoefficient(low_R_i);
+				#else
+				$coefficientType c = field.divide(R.get(i).getCoefficient(low_R_i), R.get(j).getCoefficient(low_R_i));
+				$coefficientType negative_c = field.negate(c);
+				#end
+				//R.put(i, chainModule.subtract(R.get(i), chainModule.multiply(c, R.get(j))));
+				//V.put(i, chainModule.subtract(V.get(i), chainModule.multiply(c, V.get(j))));
+				this.chainModule.accumulate(R.get(i), R.get(j), negative_c);
+				this.chainModule.accumulate(V.get(i), V.get(j), negative_c);
+
+				// remove old low_R(i) entry
+				//lowMap.get(low_R_i).remove(i);
+
+				// recompute low_R(i)
+				low_R_i = this.low(R.get(i));
+
+				matchingLowSimplices = lowMap.get(low_R_i);
+			}
+
+			// store the low value in the map
+			if (low_R_i != null) {
+				if (!lowMap.containsKey(low_R_i)) {
+					lowMap.put(low_R_i, new THashSet<$objectType>());
+				}
+				lowMap.get(low_R_i).add(i);
+			}
+		}
+
+		// at this point we have computed the decomposition R = D * V
+		// we return the pair (R, V)
+
+		return new ObjectObjectPair<THashMap<$objectType, $sumClassName>, THashMap<$objectType, $sumClassName>>(R, V);
+	}
+	
+	protected abstract IntAugmentedBarcodeCollection<$sumClassName> getAugmentedIntervals(ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
+			THashMap<$objectType, $sumClassName>> RV_pair, 
+			AbstractFilteredStream<$objectType> stream);
+
+	protected abstract IntBarcodeCollection getIntervals(ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
+			THashMap<$objectType, $sumClassName>> RV_pair, 
+			AbstractFilteredStream<$objectType> stream);
+
+	protected IntAugmentedBarcodeCollection<$sumClassName> getAugmentedIntervals(
+			ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
+			THashMap<$objectType, $sumClassName>> RV_pair, 
+			AbstractFilteredStream<$objectType> stream, 
+			boolean absolute) {
+			
+		IntAugmentedBarcodeCollection<$sumClassName> barcodeCollection = new IntAugmentedBarcodeCollection<$sumClassName>();
+
+		THashMap<$objectType, $sumClassName> R = RV_pair.getFirst();
+		THashMap<$objectType, $sumClassName> V = RV_pair.getSecond();
+
+		Set<$objectType> births = new THashSet<$objectType>();
+
+		for ($objectType i: stream) {
+			if (!R.containsKey(i)) {
+				continue;
+			}
+			$objectType low_R_i = this.low(R.get(i));
+			int dimension = stream.getDimension(i);
+			if (low_R_i == null) {
+				if (dimension <= this.maxDimension && dimension >= this.minDimension) {
+					births.add(i);
+				}
+			} else {
+				// simplex i kills low_R_i
+				births.remove(low_R_i);
+				births.remove(i);
+				int start = stream.getFiltrationIndex(low_R_i);
+				int end = stream.getFiltrationIndex(i);
+				if (end > start) {
+					if (absolute) {
+						dimension = stream.getDimension(low_R_i);
+						if (dimension < this.maxDimension && dimension >= this.minDimension)
+							barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end, R.get(i));
+					} else {
+						dimension = stream.getDimension(i);
+						if (dimension < this.maxDimension && dimension >= this.minDimension)
+							barcodeCollection.addInterval(dimension, start, end, V.get(i));
+					}
+				}
+			}
+		}
+
+		// the elements in birth are the ones that are never killed
+		// these correspond to semi-infinite intervals
+		for ($objectType i: births) {
+			int dimension = stream.getDimension(i);
+			if (dimension < this.maxDimension && dimension >= this.minDimension) {
+				if (absolute) {
+					barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i), V.get(i));
+				} else {
+					barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i), V.get(i));
+				}
+			}
+		}
+
+		return barcodeCollection;
+	}
+
+	protected IntBarcodeCollection getIntervals(
+			ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
+			THashMap<$objectType, $sumClassName>> RV_pair, 
+			AbstractFilteredStream<$objectType> stream, 
+			boolean absolute) {
+			
+		IntBarcodeCollection barcodeCollection = new IntBarcodeCollection();
+
+		THashMap<$objectType, $sumClassName> R = RV_pair.getFirst();
+
+		Set<$objectType> births = new THashSet<$objectType>();
+
+		for ($objectType i: stream) {
+			if (!R.containsKey(i)) {
+				continue;
+			}
+			$objectType low_R_i = this.low(R.get(i));
+			int dimension = stream.getDimension(i);
+			if (low_R_i == null) {
+				if (dimension <= this.maxDimension && dimension >= this.minDimension) {
+					births.add(i);
+				}
+			} else {
+				// simplex i kills low_R_i
+				births.remove(low_R_i);
+				births.remove(i);
+				int start = stream.getFiltrationIndex(low_R_i);
+				int end = stream.getFiltrationIndex(i);
+				if (end > start) {
+					if (absolute) {
+						dimension = stream.getDimension(low_R_i);
+						if (dimension < this.maxDimension && dimension >= this.minDimension)
+							barcodeCollection.addInterval(stream.getDimension(low_R_i), start, end);
+					} else {
+						dimension = stream.getDimension(i);
+						if (dimension < this.maxDimension && dimension >= this.minDimension)
+							barcodeCollection.addInterval(dimension, start, end);
+					}
+				}
+			}
+		}
+
+		// the elements in birth are the ones that are never killed
+		// these correspond to semi-infinite intervals
+		for ($objectType i: births) {
+			int dimension = stream.getDimension(i);
+			if (dimension < this.maxDimension && dimension >= this.minDimension) {
+				if (absolute) {
+					barcodeCollection.addRightInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i));
+				} else {
+					barcodeCollection.addLeftInfiniteInterval(stream.getDimension(i), stream.getFiltrationIndex(i));
+				}
+			}
+		}
+
+		return barcodeCollection;
+	}
+}

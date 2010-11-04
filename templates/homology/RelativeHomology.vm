@@ -1,0 +1,65 @@
+package $packageName;
+
+import java.util.Iterator;
+
+#set ($coefficientType = $templateTypes.get(0))
+#set ($objectType = $genericTypes.get(0))
+
+#set ($sumClassName = $utility.getAnnotatedClassName("SparseFormalSum", $templateTypes, $genericTypes))
+#set ($fieldClassName = $utility.getAnnotatedClassName("AbstractField", [$coefficientType], []))
+#set ($className = $utility.getAnnotatedClassName("RelativeHomology", $templateTypes, $genericTypes))
+#set ($basicClassName = $utility.getClassName("RelativeHomology", $templateTypes, $genericTypes))
+#set ($superClassName = $utility.getAnnotatedClassName("PersistentHomology", $templateTypes, $genericTypes))
+
+#if ($coefficientType == "boolean")
+#set ($moduleClassName = $utility.getAnnotatedClassName("PrimitiveFreeModule", $templateTypes, $genericTypes))
+#else
+#set ($moduleClassName = $utility.getAnnotatedClassName("AlgebraicFreeModule", $templateTypes, $genericTypes))
+#end
+
+#set ($mapType = $utility.getMapType($objectType, $coefficientType) + $utility.getGenericAnnotation([$objectType, $coefficientType]))
+#set ($iteratorType = $utility.getMapIteratorType($objectType, $coefficientType) + $utility.getGenericAnnotation([$objectType, $coefficientType]))
+
+public class $className extends $superClassName {
+	#if ($coefficientType == "boolean")
+	/**
+	 * This constructor initializes the object with a comparator on the basis type.
+	 * 
+	 * @param basisComparator a comparator on the basis type $objectType
+	 * @param minDimension the minimum dimension to compute 
+	 * @param maxDimension the maximum dimension to compute
+	 */
+	public $basicClassName(Comparator<$objectType> basisComparator, int minDimension, int maxDimension) {
+		super(basisComparator, minDimension, maxDimension);
+	}
+	#else
+	/**
+	 * This constructor initializes the object with a field and a comparator on the basis type.
+	 * 
+	 * @param field a field structure on the type $coefficientType
+	 * @param basisComparator a comparator on the basis type $objectType
+	 * @param minDimension the minimum dimension to compute 
+	 * @param maxDimension the maximum dimension to compute
+	 */
+	public $basicClassName($fieldClassName field, Comparator<$objectType> basisComparator, int minDimension, int maxDimension) {
+		super(field, basisComparator, minDimension, maxDimension);
+	}
+	#end
+
+	@Override
+	protected IntAugmentedBarcodeCollection<$sumClassName> getAugmentedIntervals(
+			ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
+			THashMap<$objectType, $sumClassName>> RV_pair, 
+			AbstractFilteredStream<$objectType> stream) {
+			
+		return this.getAugmentedIntervals(RV_pair, stream, false);
+	}
+
+	@Override
+	protected IntBarcodeCollection getIntervals(ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
+			THashMap<$objectType, $sumClassName>> RV_pair,
+			AbstractFilteredStream<$objectType> stream) {
+			
+		return this.getIntervals(RV_pair, stream, false);
+	}
+}

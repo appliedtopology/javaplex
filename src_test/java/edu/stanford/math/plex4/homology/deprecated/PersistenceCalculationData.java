@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.homology;
+package edu.stanford.math.plex4.homology.deprecated;
 
 public class PersistenceCalculationData {
 	public enum PersistenceAlgorithmType {

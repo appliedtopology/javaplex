@@ -114,6 +114,13 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 		return this.storageStructure.getSize();
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getMaximumFiltrationIndex()
+	 */
+	public int getMaximumFiltrationIndex() {
+		return this.storageStructure.getMaximumFiltrationIndex();
+	}
+	
 	/**
 	 * This function validates the stream to make sure that it
 	 * contains a valid filtered simplicial or cell complex. It checks the
@@ -147,12 +154,5 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 
 		// all simplices in the complex have been checked - good, return true
 		return true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return this.storageStructure.toString();
 	}
 }

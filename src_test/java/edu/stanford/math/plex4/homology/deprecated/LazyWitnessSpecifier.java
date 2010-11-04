@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.homology;
+package edu.stanford.math.plex4.homology.deprecated;
 
 import edu.stanford.math.plex4.homology.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.math.metric.landmark.LandmarkSelector;

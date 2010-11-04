@@ -1,6 +1,5 @@
 package edu.stanford.math.plex4.homology.utility;
 
-import edu.stanford.math.plex4.utility.ExceptionUtility;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIterator;
 
@@ -59,7 +58,6 @@ public class HomologyUtility {
 	 * @return an array of with specified length containing the numbers (-1)^i
 	 */
 	public static int[] getDefaultBoundaryCoefficients(int length) {
-		ExceptionUtility.verifyNonNegative(length);
 		
 		// initialize cache if necessary
 		if (defaultBoundaryCoefficients == null) {
@@ -121,8 +119,7 @@ public class HomologyUtility {
 	 * @param index
 	 * @return
 	 */
-	public static int[] removeIndex(int[] array, int index) {
-		
+	public static int[] removeIndex(final int[] array, int index) {
 		int[] result = new int[array.length - 1];
 		int newIndex = 0;
 		int oldIndex = 0;
@@ -163,9 +160,6 @@ public class HomologyUtility {
 	 * @return the subarray array[0, ..., k]
 	 */
 	public static int[] lowerEntries(int[] array, int k) {
-		ExceptionUtility.verifyNonNull(array);
-		ExceptionUtility.verifyNonNegative(k);
-		ExceptionUtility.verifyLessThan(k, array.length);
 		int[] result = new int[k + 1];
 		for (int i = 0; i <= k; i++) {
 			result[i] = array[i];
@@ -182,9 +176,6 @@ public class HomologyUtility {
 	 * @return the subarray array[k, ..., array.length - 1]
 	 */
 	public static int[] upperEntries(int[] array, int k) {
-		ExceptionUtility.verifyNonNull(array);
-		ExceptionUtility.verifyNonNegative(k);
-		ExceptionUtility.verifyLessThan(k, array.length);
 		int n = array.length;
 		int[] result = new int[n - k];
 		for (int i = k; i < n; i++) {
