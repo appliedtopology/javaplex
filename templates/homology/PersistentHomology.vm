@@ -59,8 +59,8 @@ public abstract class $className extends $superClassName {
 	#end
 
 	@Override
-	protected IntAugmentedBarcodeCollection<$sumClassName> computeAugmentedIntervalsImpl(AbstractFilteredStream<$objectType> stream) {
-		return this.getAugmentedIntervals(this.pHcol(stream), stream);
+	protected IntAnnotatedBarcodeCollection<$sumClassName> computeAnnotatedIntervalsImpl(AbstractFilteredStream<$objectType> stream) {
+		return this.getAnnotatedIntervals(this.pHcol(stream), stream);
 	}
 
 	@Override
@@ -166,7 +166,7 @@ public abstract class $className extends $superClassName {
 		return new ObjectObjectPair<THashMap<$objectType, $sumClassName>, THashMap<$objectType, $sumClassName>>(R, V);
 	}
 	
-	protected abstract IntAugmentedBarcodeCollection<$sumClassName> getAugmentedIntervals(ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
+	protected abstract IntAnnotatedBarcodeCollection<$sumClassName> getAnnotatedIntervals(ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
 			THashMap<$objectType, $sumClassName>> RV_pair, 
 			AbstractFilteredStream<$objectType> stream);
 
@@ -174,13 +174,13 @@ public abstract class $className extends $superClassName {
 			THashMap<$objectType, $sumClassName>> RV_pair, 
 			AbstractFilteredStream<$objectType> stream);
 
-	protected IntAugmentedBarcodeCollection<$sumClassName> getAugmentedIntervals(
+	protected IntAnnotatedBarcodeCollection<$sumClassName> getAnnotatedIntervals(
 			ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
 			THashMap<$objectType, $sumClassName>> RV_pair, 
 			AbstractFilteredStream<$objectType> stream, 
 			boolean absolute) {
 			
-		IntAugmentedBarcodeCollection<$sumClassName> barcodeCollection = new IntAugmentedBarcodeCollection<$sumClassName>();
+		IntAnnotatedBarcodeCollection<$sumClassName> barcodeCollection = new IntAnnotatedBarcodeCollection<$sumClassName>();
 
 		THashMap<$objectType, $sumClassName> R = RV_pair.getFirst();
 		THashMap<$objectType, $sumClassName> V = RV_pair.getSecond();

@@ -6,7 +6,6 @@ import edu.stanford.math.plex.SimplexStream;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.plex4.test_utility.Timing;
 import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
 
 /**
@@ -39,8 +38,6 @@ public class Plex3PersistenceAlgorithm implements AbstractPersistenceAlgorithm<e
 		for (edu.stanford.math.plex4.homology.chain_basis.Simplex plex4Simplex: plex4Stream) {
 			stack.push(edu.stanford.math.plex.Simplex.getSimplex(IntArrayMath.scalarAdd(plex4Simplex.getVertices(), 1), plex4Stream.getFiltrationIndex(plex4Simplex)));
 		}
-		Timing.stopAndDisplay("Plex 3 Algorithm Preparation");
-		Timing.restart();
 		
 		Persistence persistenceInstance = new Persistence();
 		PersistenceInterval[] rawIntervals = persistenceInstance.computeRawIntervals(stack, false, Persistence.baseModulus());

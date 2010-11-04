@@ -12,6 +12,8 @@ import edu.stanford.math.plex4.autogen.homology.IntRelativeHomology;
 import edu.stanford.math.plex4.autogen.homology.ObjectAbsoluteHomology;
 import edu.stanford.math.plex4.autogen.homology.ObjectClassicalHomology;
 import edu.stanford.math.plex4.autogen.homology.ObjectRelativeHomology;
+import edu.stanford.math.plex4.homology.chain_basis.Cell;
+import edu.stanford.math.plex4.homology.chain_basis.CellComparator;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
@@ -54,6 +56,12 @@ public class PersistenceAlgorithmInterface {
 	}
 	
 	public static List<AbstractPersistenceAlgorithm<Simplex>> getAllSimplicialAbsoluteHomologyAlgorithms(int maxDimension) {
+		List<AbstractPersistenceAlgorithm<Simplex>> list = getAllPlex4SimplicialAbsoluteHomologyAlgorithms(maxDimension);
+		list.add(getPlex3SimplicialAbsoluteHomology(maxDimension));
+		return list;
+	}
+	
+	public static List<AbstractPersistenceAlgorithm<Simplex>> getAllPlex4SimplicialAbsoluteHomologyAlgorithms(int maxDimension) {
 		List<AbstractPersistenceAlgorithm<Simplex>> list = new ArrayList<AbstractPersistenceAlgorithm<Simplex>>();
 		
 		list.add(getBooleanSimplicialAbsoluteHomology(maxDimension));
@@ -62,8 +70,6 @@ public class PersistenceAlgorithmInterface {
 		list.add(getBooleanSimplicialClassicalHomology(maxDimension));
 		list.add(getIntSimplicialClassicalHomology(maxDimension));
 		list.add(getRationalSimplicialClassicalHomology(maxDimension));
-		
-		list.add(getPlex3SimplicialAbsoluteHomology(maxDimension));
 		
 		return list;
 	}
@@ -78,5 +84,47 @@ public class PersistenceAlgorithmInterface {
 	
 	public static AbstractPersistenceAlgorithm<Simplex> getRationalSimplicialRelativeHomology(int maxDimension) {
 		return new ObjectRelativeHomology<Integer, Simplex>(fractionField, SimplexComparator.getInstance(), 0, maxDimension);
+	}
+	
+	
+	/*
+	 * Cellular Homology
+	 */
+	
+	public static AbstractPersistenceAlgorithm<Cell> getBooleanCellularAbsoluteHomology(int maxDimension) {
+		return new BooleanAbsoluteHomology<Cell>(CellComparator.getInstance(), 0, maxDimension);
+	}
+	
+	public static AbstractPersistenceAlgorithm<Cell> getIntCellularAbsoluteHomology(int maxDimension) {
+		return new IntAbsoluteHomology<Cell>(intField, CellComparator.getInstance(), 0, maxDimension);
+	}
+	
+	public static AbstractPersistenceAlgorithm<Cell> getRationalCellularAbsoluteHomology(int maxDimension) {
+		return new ObjectAbsoluteHomology<Integer, Cell>(fractionField, CellComparator.getInstance(), 0, maxDimension);
+	}
+	
+	public static AbstractPersistenceAlgorithm<Cell> getBooleanCellularClassicalHomology(int maxDimension) {
+		return new BooleanClassicalHomology<Cell>(CellComparator.getInstance(), 0, maxDimension);
+	}
+	
+	public static AbstractPersistenceAlgorithm<Cell> getIntCellularClassicalHomology(int maxDimension) {
+		return new IntClassicalHomology<Cell>(intField, CellComparator.getInstance(), 0, maxDimension);
+	}
+	
+	public static AbstractPersistenceAlgorithm<Cell> getRationalCellularClassicalHomology(int maxDimension) {
+		return new ObjectClassicalHomology<Integer, Cell>(fractionField, CellComparator.getInstance(), 0, maxDimension);
+	}
+	
+	public static List<AbstractPersistenceAlgorithm<Cell>> getAllPlex4CellularAbsoluteHomologyAlgorithms(int maxDimension) {
+		List<AbstractPersistenceAlgorithm<Cell>> list = new ArrayList<AbstractPersistenceAlgorithm<Cell>>();
+		
+		list.add(getBooleanCellularAbsoluteHomology(maxDimension));
+		list.add(getIntCellularAbsoluteHomology(maxDimension));
+		list.add(getRationalCellularAbsoluteHomology(maxDimension));
+		list.add(getBooleanCellularClassicalHomology(maxDimension));
+		list.add(getIntCellularClassicalHomology(maxDimension));
+		list.add(getRationalCellularClassicalHomology(maxDimension));
+		
+		return list;
 	}
 }

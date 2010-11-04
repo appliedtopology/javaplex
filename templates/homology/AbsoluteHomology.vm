@@ -47,12 +47,12 @@ public class $className extends $superClassName {
 	#end
 	
 	@Override
-	protected IntAugmentedBarcodeCollection<$sumClassName> getAugmentedIntervals(
+	protected IntAnnotatedBarcodeCollection<$sumClassName> getAnnotatedIntervals(
 			ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
 			THashMap<$objectType, $sumClassName>> RV_pair, 
 			AbstractFilteredStream<$objectType> stream) {
 			
-		return this.getAugmentedIntervals(RV_pair, stream, true);
+		return this.getAnnotatedIntervals(RV_pair, stream, true);
 	}
 
 	@Override

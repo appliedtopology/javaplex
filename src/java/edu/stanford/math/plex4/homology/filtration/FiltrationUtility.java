@@ -1,11 +1,11 @@
 package edu.stanford.math.plex4.homology.filtration;
 
-import edu.stanford.math.plex4.homology.barcodes.DoubleAugmentedBarcode;
-import edu.stanford.math.plex4.homology.barcodes.DoubleAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcode;
+import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
 import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcode;
-import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcode;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcode;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
@@ -38,8 +38,8 @@ public class FiltrationUtility {
 		return barcodeCollection;
 	}
 	
-	public static <T> DoubleAugmentedBarcode<T> transformBarcode(IntAugmentedBarcode<T> intBarcode, FiltrationConverter converter) {
-		DoubleAugmentedBarcode<T> barcode = new DoubleAugmentedBarcode<T>(intBarcode.getDimension());
+	public static <T> DoubleAnnotatedBarcode<T> transformBarcode(IntAnnotatedBarcode<T> intBarcode, FiltrationConverter converter) {
+		DoubleAnnotatedBarcode<T> barcode = new DoubleAnnotatedBarcode<T>(intBarcode.getDimension());
 		
 		for (ObjectObjectPair<IntHalfOpenInterval, T> pair: intBarcode.getIntervals()) {
 			barcode.addInterval(converter.transformInterval(pair.getFirst()), pair.getSecond());
@@ -48,12 +48,12 @@ public class FiltrationUtility {
 		return barcode;
 	}
 	
-	public static <T> DoubleAugmentedBarcodeCollection<T> transformBarcodeCollection(IntAugmentedBarcodeCollection<T> intBarcodeCollection, FiltrationConverter converter) {
-		DoubleAugmentedBarcodeCollection<T> barcodeCollection = new DoubleAugmentedBarcodeCollection<T>();
+	public static <T> DoubleAnnotatedBarcodeCollection<T> transformBarcodeCollection(IntAnnotatedBarcodeCollection<T> intBarcodeCollection, FiltrationConverter converter) {
+		DoubleAnnotatedBarcodeCollection<T> barcodeCollection = new DoubleAnnotatedBarcodeCollection<T>();
 		
-		for (TIntObjectIterator<IntAugmentedBarcode<T>> iterator = intBarcodeCollection.iterator(); iterator.hasNext(); ) {
+		for (TIntObjectIterator<IntAnnotatedBarcode<T>> iterator = intBarcodeCollection.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
-			IntAugmentedBarcode<T> intBarcode = iterator.value();
+			IntAnnotatedBarcode<T> intBarcode = iterator.value();
 			for (ObjectObjectPair<IntHalfOpenInterval, T> pair: intBarcode.getIntervals()) {
 				barcodeCollection.addInterval(iterator.key(), converter.transformInterval(pair.getFirst()), pair.getSecond());
 			}

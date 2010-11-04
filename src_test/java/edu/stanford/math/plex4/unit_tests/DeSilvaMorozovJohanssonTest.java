@@ -1,12 +1,21 @@
 package edu.stanford.math.plex4.unit_tests;
 
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.stanford.math.plex4.autogen.homology.ObjectAbsoluteHomology;
+import edu.stanford.math.plex4.autogen.homology.ObjectRelativeHomology;
+import edu.stanford.math.plex4.examples.DeSilvaMorozovJohanssonExample;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.chain_basis.Cell;
+import edu.stanford.math.plex4.homology.chain_basis.CellComparator;
+import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntegerField;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
 
 public class DeSilvaMorozovJohanssonTest {
 	private final ObjectAbstractField<Integer> field = ModularIntegerField.getInstance(13);
@@ -22,45 +31,15 @@ public class DeSilvaMorozovJohanssonTest {
 
 	@Test
 	public void testAbsoluteHomology() {
-		//List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension - 1);
-		
-	}
-	
-	/*
-	@Test
-	public void testAbsoluteHomology() {
-		GenericPersistenceAlgorithm<Integer, Cell> homology = new GenericAbsoluteHomology<Integer, Cell>(field, CellComparator.getInstance(), 8);
-		IntAugmentedBarcodeCollection<?> collection = homology.computeAugmentedIntervals(example.getCellComplex());
-		System.out.println("Computed barcodes");
-		System.out.println(collection);
-		System.out.println("Actual barcodes");
-		System.out.println(example.getAbsoluteHomologyBarcodes());
-		
+		AbstractPersistenceBasisAlgorithm<Cell, ObjectSparseFormalSum<Integer, Cell>> persistenceAlgorithm = new ObjectAbsoluteHomology<Integer, Cell>(field, CellComparator.getInstance(), 0, 3);
+		IntAnnotatedBarcodeCollection<?> collection = persistenceAlgorithm.computeAnnotatedIntervals(example.getCellComplex());
 		assertTrue(collection.equals(example.getAbsoluteHomologyBarcodes()));
-	}
-	
-	//@Test
-	public void testAbsoluteCohomology() {
-		GenericPersistenceAlgorithm<Integer, Cell> homology = new GenericAbsoluteCohomology<Integer, Cell>(field, CellComparator.getInstance(), 8);
-		IntAugmentedBarcodeCollection<?> collection = homology.computeAugmentedIntervals(example.getCellComplex());
-		System.out.println("Computed barcodes");
-		System.out.println(collection);
-		System.out.println("Actual barcodes");
-		System.out.println(example.getAbsoluteCohomologyBarcodes());
-		
-		assertTrue(collection.equals(example.getAbsoluteCohomologyBarcodes()));
 	}
 	
 	@Test
 	public void testRelativeHomology() {
-		GenericPersistenceAlgorithm<Integer, Cell> homology = new GenericRelativeHomology<Integer, Cell>(field, CellComparator.getInstance(), 8);
-		IntAugmentedBarcodeCollection<?> collection = homology.computeAugmentedIntervals(example.getCellComplex());
-		System.out.println("Computed barcodes");
-		System.out.println(collection);
-		System.out.println("Actual barcodes");
-		System.out.println(example.getRelativeHomologyBarcodes());
-		
+		AbstractPersistenceBasisAlgorithm<Cell, ObjectSparseFormalSum<Integer, Cell>> persistenceAlgorithm = new ObjectRelativeHomology<Integer, Cell>(field, CellComparator.getInstance(), 0, 3);
+		IntAnnotatedBarcodeCollection<?> collection = persistenceAlgorithm.computeAnnotatedIntervals(example.getCellComplex());
 		assertTrue(collection.equals(example.getRelativeHomologyBarcodes()));
 	}
-	*/
 }

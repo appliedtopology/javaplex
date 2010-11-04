@@ -13,6 +13,12 @@ import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 
+/**
+ * This class tests the equality of streams produced by plex 3 and plex 4.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class StreamsTest {
 	private final List<double[][]> pointClouds = new ArrayList<double[][]>();
 	private final int n = 400;

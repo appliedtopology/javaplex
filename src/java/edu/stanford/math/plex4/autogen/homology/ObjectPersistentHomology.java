@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
@@ -43,8 +43,8 @@ public abstract class ObjectPersistentHomology<F, U> extends ObjectPersistenceAl
 	}
 	
 	@Override
-	protected IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, U>> computeAugmentedIntervalsImpl(AbstractFilteredStream<U> stream) {
-		return this.getAugmentedIntervals(this.pHcol(stream), stream);
+	protected IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>> computeAnnotatedIntervalsImpl(AbstractFilteredStream<U> stream) {
+		return this.getAnnotatedIntervals(this.pHcol(stream), stream);
 	}
 
 	@Override
@@ -141,7 +141,7 @@ public abstract class ObjectPersistentHomology<F, U> extends ObjectPersistenceAl
 		return new ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, THashMap<U, ObjectSparseFormalSum<F, U>>>(R, V);
 	}
 	
-	protected abstract IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, U>> getAugmentedIntervals(ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
+	protected abstract IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>> getAnnotatedIntervals(ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
 			THashMap<U, ObjectSparseFormalSum<F, U>>> RV_pair, 
 			AbstractFilteredStream<U> stream);
 
@@ -149,13 +149,13 @@ public abstract class ObjectPersistentHomology<F, U> extends ObjectPersistenceAl
 			THashMap<U, ObjectSparseFormalSum<F, U>>> RV_pair, 
 			AbstractFilteredStream<U> stream);
 
-	protected IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, U>> getAugmentedIntervals(
+	protected IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>> getAnnotatedIntervals(
 			ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
 			THashMap<U, ObjectSparseFormalSum<F, U>>> RV_pair, 
 			AbstractFilteredStream<U> stream, 
 			boolean absolute) {
 			
-		IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, U>> barcodeCollection = new IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, U>>();
+		IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>> barcodeCollection = new IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>>();
 
 		THashMap<U, ObjectSparseFormalSum<F, U>> R = RV_pair.getFirst();
 		THashMap<U, ObjectSparseFormalSum<F, U>> V = RV_pair.getSecond();

@@ -2,7 +2,7 @@ package edu.stanford.math.plex4.autogen.homology;
 
 import java.util.Comparator;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
@@ -28,12 +28,12 @@ public class ObjectRelativeHomology<F, U> extends ObjectPersistentHomology<F, U>
 	}
 	
 	@Override
-	protected IntAugmentedBarcodeCollection<ObjectSparseFormalSum<F, U>> getAugmentedIntervals(
+	protected IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>> getAnnotatedIntervals(
 			ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
 			THashMap<U, ObjectSparseFormalSum<F, U>>> RV_pair, 
 			AbstractFilteredStream<U> stream) {
 			
-		return this.getAugmentedIntervals(RV_pair, stream, false);
+		return this.getAnnotatedIntervals(RV_pair, stream, false);
 	}
 
 	@Override

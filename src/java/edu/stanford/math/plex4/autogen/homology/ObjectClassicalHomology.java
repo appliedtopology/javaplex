@@ -1,9 +1,5 @@
 package edu.stanford.math.plex4.autogen.homology;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Map;
-
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -13,6 +9,10 @@ import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectAlgebraicFreeModu
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
+
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
 
 
 

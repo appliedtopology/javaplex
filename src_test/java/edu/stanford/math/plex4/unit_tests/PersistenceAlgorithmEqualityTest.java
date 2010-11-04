@@ -9,8 +9,11 @@ import org.junit.Test;
 
 import edu.stanford.math.plex4.api.FilteredComplexInterface;
 import edu.stanford.math.plex4.api.PersistenceAlgorithmInterface;
+import edu.stanford.math.plex4.examples.CellStreamExamples;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
+import edu.stanford.math.plex4.examples.SimplexStreamExamples;
 import edu.stanford.math.plex4.homology.PersistenceAlgorithmTester;
+import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
@@ -19,6 +22,13 @@ import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.utility.RandomUtility;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 
+/**
+ * This class contains test for verifying that the different persistence algorithms produce the
+ * same results.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class PersistenceAlgorithmEqualityTest {
 	
 	@Before
@@ -29,6 +39,49 @@ public class PersistenceAlgorithmEqualityTest {
 	@After
 	public void tearDown() {}
 
+	/**
+	 * This function tests various small examples of filtered simplicial complexes.
+	 */
+	@Test
+	public void testSmallSimplexStreams() {
+		int maxDimension = 4;
+		
+		List<AbstractFilteredStream<Simplex>> streams = new ArrayList<AbstractFilteredStream<Simplex>>();
+		
+		streams.add(SimplexStreamExamples.getZomorodianCarlssonExample());
+		streams.add(SimplexStreamExamples.getFilteredTriangle());
+		streams.add(SimplexStreamExamples.getTriangle());
+		streams.add(SimplexStreamExamples.getTetrahedron());
+		streams.add(SimplexStreamExamples.getTorus());
+		streams.add(SimplexStreamExamples.getCircle(7));
+		streams.add(SimplexStreamExamples.getOctahedron());
+		
+		
+		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension);
+		PersistenceAlgorithmTester.verifyEqualityAll(algorithms, streams);
+	}
+	
+	/**
+	 * This function tests various small examples of filtered cell complexes. Note that we only test
+	 * the orientable examples, due to differing results due to torsion.
+	 */
+	@Test
+	public void testSmallCellStreams() {
+		int maxDimension = 4;
+		
+		List<AbstractFilteredStream<Cell>> streams = new ArrayList<AbstractFilteredStream<Cell>>();
+		
+		streams.add(CellStreamExamples.getMorozovJohanssonExample());
+		streams.add(CellStreamExamples.getCellularSphere(maxDimension - 1));
+		streams.add(CellStreamExamples.getCellularTorus());
+		
+		List<AbstractPersistenceAlgorithm<Cell>> algorithms = PersistenceAlgorithmInterface.getAllPlex4CellularAbsoluteHomologyAlgorithms(maxDimension);
+		PersistenceAlgorithmTester.verifyEqualityAll(algorithms, streams);
+	}
+	
+	/**
+	 * This function tests the algorithms on Vietoris-Rips complexes generated from point clouds.
+	 */
 	@Test
 	public void testVietorisRipsPointClouds() {
 		final int n = 120;
@@ -48,16 +101,13 @@ public class PersistenceAlgorithmEqualityTest {
 			streams.add(FilteredComplexInterface.createPlex4VietorisRipsStream(pointCloud, maxDimension + 1, maxFiltrationValue, numDivisions));
 		}
 		
-		PersistenceAlgorithmTester<Simplex> tester = new PersistenceAlgorithmTester<Simplex>();
-		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension - 1);
-		for (AbstractPersistenceAlgorithm<Simplex> algorithm : algorithms) {
-			tester.addAlgorithm(algorithm);
-		}
-		
-		tester.verifyEqualityAll(streams);
+		PersistenceAlgorithmTester.verifyEqualityAll(algorithms, streams);
 	}
 	
+	/**
+	 * This function tests the algorithms on Lazy-Witness complexes generated from point clouds.
+	 */
 	@Test
 	public void testLazyWitnessPointClouds() {
 		final int n = 500;
@@ -79,16 +129,14 @@ public class PersistenceAlgorithmEqualityTest {
 			streams.add(FilteredComplexInterface.createPlex4LazyWitnessStream(landmarkSet, maxDimension, maxFiltrationValue, numDivisions));
 		}
 		
-		PersistenceAlgorithmTester<Simplex> tester = new PersistenceAlgorithmTester<Simplex>();
-		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension - 1);
-		for (AbstractPersistenceAlgorithm<Simplex> algorithm : algorithms) {
-			tester.addAlgorithm(algorithm);
-		}
-		
-		tester.verifyEqualityAll(streams);
+		PersistenceAlgorithmTester.verifyEqualityAll(algorithms, streams);
 	}
 	
+	/**
+	 * This function tests a complex that contains approximately 500,000 simplices. It compares the
+	 * efficiency of the different algorithms on a large complex.
+	 */
 	@Test
 	public void testLargeFigure8Complex() {
 		final int n = 220;
@@ -98,16 +146,14 @@ public class PersistenceAlgorithmEqualityTest {
 		
 		double[][] points = PointCloudExamples.getRandomFigure8Points(n);
 		AbstractFilteredStream<Simplex> stream = FilteredComplexInterface.createPlex4VietorisRipsStream(points, maxDimension + 1, maxFiltrationValue, numDivisions);
-		PersistenceAlgorithmTester<Simplex> tester = new PersistenceAlgorithmTester<Simplex>();
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension - 1);
-		for (AbstractPersistenceAlgorithm<Simplex> algorithm : algorithms) {
-			tester.addAlgorithm(algorithm);
-		}
-		
-		tester.verifyEquality(stream);
+		PersistenceAlgorithmTester.verifyEquality(algorithms, stream);
 	}
 	
+	/**
+	 * This function compares the algorithms on a Vietoris-Rips stream generated from sampling a 6-dimensional sphere.
+	 */
 	@Test
 	public void testHighDimensionalSphere() {
 		final int n = 48;
@@ -117,13 +163,8 @@ public class PersistenceAlgorithmEqualityTest {
 		
 		double[][] points = PointCloudExamples.getRandomSpherePoints(n, sphereDimension);
 		AbstractFilteredStream<Simplex> stream = FilteredComplexInterface.createPlex4VietorisRipsStream(points, sphereDimension + 1, maxFiltrationValue, numDivisions);
-		PersistenceAlgorithmTester<Simplex> tester = new PersistenceAlgorithmTester<Simplex>();
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(sphereDimension);
-		for (AbstractPersistenceAlgorithm<Simplex> algorithm : algorithms) {
-			tester.addAlgorithm(algorithm);
-		}
-		
-		tester.verifyEquality(stream);
+		PersistenceAlgorithmTester.verifyEquality(algorithms, stream);
 	}
 }

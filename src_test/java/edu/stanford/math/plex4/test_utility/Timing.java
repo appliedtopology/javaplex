@@ -2,6 +2,14 @@ package edu.stanford.math.plex4.test_utility;
 
 import cern.colt.Timer;
 
+/**
+ * This class contains static methods for measuring time intervals. It is exists
+ * for convenience purposes so that one doesn't have to instantiate an object whenever
+ * one wishes to measure a time interval.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class Timing {
 	private static Timer timer;
 	

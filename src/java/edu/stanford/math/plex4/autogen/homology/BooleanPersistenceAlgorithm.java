@@ -3,7 +3,7 @@ package edu.stanford.math.plex4.autogen.homology;
 import java.util.Comparator;
 import java.util.Iterator;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -82,9 +82,9 @@ public abstract class BooleanPersistenceAlgorithm<U> implements AbstractPersiste
 		return this.computeIntervalsImpl(stream);
 	}
 
-	public IntAugmentedBarcodeCollection<BooleanSparseFormalSum<U>> computeAugmentedIntervals(AbstractFilteredStream<U> stream) {
+	public IntAnnotatedBarcodeCollection<BooleanSparseFormalSum<U>> computeAnnotatedIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
-		return this.computeAugmentedIntervalsImpl(stream);
+		return this.computeAnnotatedIntervalsImpl(stream);
 	}
 	
 	/**
@@ -96,12 +96,12 @@ public abstract class BooleanPersistenceAlgorithm<U> implements AbstractPersiste
 	protected abstract IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<U> stream);
 	
 	/**
-	 * This function provides the implementation of computeAugmentedIntervals.
+	 * This function provides the implementation of computeAnnotatedIntervals.
 	 * 
 	 * @param stream the filtered chain complex
 	 * @return the augmented persistence intervals
 	 */
-	protected abstract IntAugmentedBarcodeCollection<BooleanSparseFormalSum<U>> computeAugmentedIntervalsImpl(AbstractFilteredStream<U> stream);
+	protected abstract IntAnnotatedBarcodeCollection<BooleanSparseFormalSum<U>> computeAnnotatedIntervalsImpl(AbstractFilteredStream<U> stream);
 	
 	/**
 	 * This function computes the operation low_A(j) as described in the paper. Note that if

@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.autogen.formal_sum.BooleanSparseFormalSum;
@@ -41,8 +41,8 @@ public abstract class BooleanPersistentHomology<U> extends BooleanPersistenceAlg
 	}
 	
 	@Override
-	protected IntAugmentedBarcodeCollection<BooleanSparseFormalSum<U>> computeAugmentedIntervalsImpl(AbstractFilteredStream<U> stream) {
-		return this.getAugmentedIntervals(this.pHcol(stream), stream);
+	protected IntAnnotatedBarcodeCollection<BooleanSparseFormalSum<U>> computeAnnotatedIntervalsImpl(AbstractFilteredStream<U> stream) {
+		return this.getAnnotatedIntervals(this.pHcol(stream), stream);
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public abstract class BooleanPersistentHomology<U> extends BooleanPersistenceAlg
 		return new ObjectObjectPair<THashMap<U, BooleanSparseFormalSum<U>>, THashMap<U, BooleanSparseFormalSum<U>>>(R, V);
 	}
 	
-	protected abstract IntAugmentedBarcodeCollection<BooleanSparseFormalSum<U>> getAugmentedIntervals(ObjectObjectPair<THashMap<U, BooleanSparseFormalSum<U>>, 
+	protected abstract IntAnnotatedBarcodeCollection<BooleanSparseFormalSum<U>> getAnnotatedIntervals(ObjectObjectPair<THashMap<U, BooleanSparseFormalSum<U>>, 
 			THashMap<U, BooleanSparseFormalSum<U>>> RV_pair, 
 			AbstractFilteredStream<U> stream);
 
@@ -147,13 +147,13 @@ public abstract class BooleanPersistentHomology<U> extends BooleanPersistenceAlg
 			THashMap<U, BooleanSparseFormalSum<U>>> RV_pair, 
 			AbstractFilteredStream<U> stream);
 
-	protected IntAugmentedBarcodeCollection<BooleanSparseFormalSum<U>> getAugmentedIntervals(
+	protected IntAnnotatedBarcodeCollection<BooleanSparseFormalSum<U>> getAnnotatedIntervals(
 			ObjectObjectPair<THashMap<U, BooleanSparseFormalSum<U>>, 
 			THashMap<U, BooleanSparseFormalSum<U>>> RV_pair, 
 			AbstractFilteredStream<U> stream, 
 			boolean absolute) {
 			
-		IntAugmentedBarcodeCollection<BooleanSparseFormalSum<U>> barcodeCollection = new IntAugmentedBarcodeCollection<BooleanSparseFormalSum<U>>();
+		IntAnnotatedBarcodeCollection<BooleanSparseFormalSum<U>> barcodeCollection = new IntAnnotatedBarcodeCollection<BooleanSparseFormalSum<U>>();
 
 		THashMap<U, BooleanSparseFormalSum<U>> R = RV_pair.getFirst();
 		THashMap<U, BooleanSparseFormalSum<U>> V = RV_pair.getSecond();

@@ -1,6 +1,6 @@
 package edu.stanford.math.plex4.homology.interfaces;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAugmentedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 
 /**
@@ -22,5 +22,5 @@ public interface AbstractPersistenceBasisAlgorithm<T, B> extends AbstractPersist
 	 * @param stream the filtered chain complex
 	 * @return the augmented persistence intervals
 	 */
-	public IntAugmentedBarcodeCollection<B> computeAugmentedIntervals(AbstractFilteredStream<T> stream);
+	public IntAnnotatedBarcodeCollection<B> computeAnnotatedIntervals(AbstractFilteredStream<T> stream);
 }
