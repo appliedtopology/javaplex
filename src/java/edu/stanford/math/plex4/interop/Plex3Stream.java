@@ -19,14 +19,19 @@ public class Plex3Stream implements AbstractFilteredStream<edu.stanford.math.ple
 	private final SimplexStream plex3Stream;
 	private final TObjectIntHashMap<Simplex> filtrationIndexMap = new TObjectIntHashMap<Simplex>();
 	private final Plex3ToPlex4SimplexAdapter simplexAdapter = Plex3ToPlex4SimplexAdapter.getInstance();
+	private final int maxFiltrationIndex;
 	
 	public Plex3Stream(SimplexStream plex3Stream) {
 		this.plex3Stream = plex3Stream;
+		int tempMaxFiltrationIndex = Integer.MIN_VALUE;
 		
 		for (Iterator<edu.stanford.math.plex.Simplex> iterator = plex3Stream.iterator(); iterator.hasNext(); ) {
 			edu.stanford.math.plex.Simplex plex3Simplex = iterator.next();
 			this.filtrationIndexMap.put(this.simplexAdapter.evaluate(plex3Simplex), plex3Simplex.findex());
+			tempMaxFiltrationIndex = Math.max(tempMaxFiltrationIndex, plex3Simplex.findex());
 		}
+		
+		this.maxFiltrationIndex = tempMaxFiltrationIndex;
 	}
 	
 	public void finalizeStream() { }
@@ -48,7 +53,7 @@ public class Plex3Stream implements AbstractFilteredStream<edu.stanford.math.ple
 	}
 
 	public int getMaximumFiltrationIndex() {
-		throw new UnsupportedOperationException();
+		return this.maxFiltrationIndex;
 	}
 
 	public int getSize() {
