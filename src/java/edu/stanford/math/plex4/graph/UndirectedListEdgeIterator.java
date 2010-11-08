@@ -40,16 +40,22 @@ public class UndirectedListEdgeIterator implements Iterator<IntIntPair> {
 	 * @see java.util.Iterator#hasNext()
 	 */
 	public boolean hasNext() {
-		if (this.elementIterator.hasNext()) {
+		if (this.listIterator.hasNext()) {
 			return true;
 		}
-		return (this.listIterator.hasNext());
+		
+		return this.elementIterator.hasNext();
 	}
 
 	/* (non-Javadoc)
 	 * @see java.util.Iterator#next()
 	 */
 	public IntIntPair next() {
+		if (!this.elementIterator.hasNext()) {
+			this.listIterator.advance();
+			this.elementIterator = this.listIterator.value().iterator();
+		}
+		
 		int j = this.listIterator.key();
 		int i = this.elementIterator.next();
 		return new IntIntPair(i, j);
@@ -59,7 +65,7 @@ public class UndirectedListEdgeIterator implements Iterator<IntIntPair> {
 	 * @see java.util.Iterator#remove()
 	 */
 	public void remove() {
-		this.elementIterator.remove();
+		throw new UnsupportedOperationException();
 	}
 
 }

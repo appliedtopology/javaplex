@@ -3,6 +3,7 @@
  */
 package edu.stanford.math.plex4.streams.impl;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
@@ -94,7 +95,7 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 	public double[] getPoint(int index) {
 		return this.metricSpace.getPoint(index);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace#size()
 	 */
@@ -156,5 +157,12 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 	 */
 	public int getMaximumFiltrationIndex() {
 		return this.stream.getMaximumFiltrationIndex();
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream#getBasisComparator()
+	 */
+	public Comparator<Simplex> getBasisComparator() {
+		return this.stream.getBasisComparator();
 	}
 }

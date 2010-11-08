@@ -6,15 +6,19 @@ import java.util.Vector;
 import edu.stanford.math.primitivelib.generation.ClassSpecifier;
 import edu.stanford.math.primitivelib.generation.JavaCodeGenerator;
 
+/**
+ * This class contains functions for creating auto-generated code. In particular it generates the homology algorithms
+ * for different underlying types (int, boolean, object) from template files in the templates folder.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class GeneratorDriver {
 	private static List<ClassSpecifier> classSpecifiers = new Vector<ClassSpecifier>();
 	private static String basePackageName = "edu.stanford.math.plex4.autogen";
 	private static String baseSourceDirectory = "src/java";
 	private static String templateDirectory = "templates/";
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		addHomologyClasses();
 		generateClasses();

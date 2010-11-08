@@ -3,18 +3,20 @@
  */
 package edu.stanford.math.plex4.streams.derived;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.array.ObjectArrayUtility;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPairComparator;
 import edu.stanford.math.primitivelib.collections.utility.PairwiseIterator;
 
 /**
  * This implements the tensor product of two filtered chain complexes. For the definition
  * of the tensor product of complexes, one is invited to consult any standard textbook on
  * algebraic topology or homological algebra. Note that we define the filtration index for
- * a tensor product pair to be the maximum of the filtraiton indices of its components. This
+ * a tensor product pair to be the maximum of the filtration indices of its components. This
  * definition was chosen since it was the only definition that makes sense - a pair comes
  * into existence exactly when both components have come into existence.
  * 
@@ -22,12 +24,6 @@ import edu.stanford.math.primitivelib.collections.utility.PairwiseIterator;
  *
  * @param <T> the underlying basis type of the first chain complex
  * @param <U> the underlying basis type of the second chain complex
- */
-/**
- * @author atausz
- *
- * @param <T>
- * @param <U>
  */
 public class TensorStream<T, U> implements AbstractFilteredStream<ObjectObjectPair<T, U>> {
 	
@@ -163,5 +159,9 @@ public class TensorStream<T, U> implements AbstractFilteredStream<ObjectObjectPa
 	 */
 	public int getMaximumFiltrationIndex() {
 		return Math.max(this.stream1.getMaximumFiltrationIndex(), this.stream2.getMaximumFiltrationIndex());
+	}
+
+	public Comparator<ObjectObjectPair<T, U>> getBasisComparator() {
+		return new ObjectObjectPairComparator<T, U>(this.stream1.getBasisComparator(), this.stream2.getBasisComparator());
 	}
 }

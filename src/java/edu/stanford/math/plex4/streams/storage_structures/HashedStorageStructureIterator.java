@@ -10,7 +10,6 @@ import java.util.List;
  * This class implements the Iterator interface for a HashedStorageStructure. It allows
  * the user to traverse the structure in increasing order of filtration index and dimension.
  * 
- * 
  * @author Andrew Tausz
  *
  * @param <E>

@@ -7,6 +7,9 @@ import edu.stanford.math.primitivelib.utility.Infinity;
 import gnu.trove.TIntHashSet;
 
 /**
+ * This class implements the AbstractSearchableMetricSpace interface for providing query functions
+ * for a Euclidean metric space. The underlying search operations are performed with the help of a KD-tree.
+ * 
  * @author Andrew Tausz
  *
  */

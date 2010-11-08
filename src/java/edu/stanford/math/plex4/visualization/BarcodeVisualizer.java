@@ -15,6 +15,12 @@ import java.util.Map;
 import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
 import edu.stanford.math.plex4.homology.barcodes.DoubleHalfOpenInterval;
 
+/**
+ * This class contains functions for visualizing barcodes.
+ * 
+ * @author Tim Harrington
+ *
+ */
 public class BarcodeVisualizer {
 
 	public static class BarAppearance {

@@ -12,7 +12,9 @@ import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
  */
 public class PointCloudExamples {
 	/**
-	 * House example in the plex tutorial by Henry Adams.
+	 * This produces the house example in the tutorial by Henry Adams.
+	 * 
+	 * @return the requested point cloud
 	 */
 	public static double[][] getHouseExample() {
 		double[][] points = new double[][]{new double[]{0, 3}, 
@@ -24,6 +26,11 @@ public class PointCloudExamples {
 		return points;
 	}
 	
+	/**
+	 * This function produces a square in the plane.
+	 * 
+	 * @return the requested point cloud
+	 */
 	public static double[][] getSquare() {
 		double[][] points = new double[][]{new double[]{0, 0}, 
 				new double[]{0, 1},
@@ -34,11 +41,11 @@ public class PointCloudExamples {
 	}
 	
 	/**
-	 * This function returns a dataset containing n equally spaced points on a
+	 * This function returns a point set containing n equally spaced points on a
 	 * circle.
 	 * 
 	 * @param n
-	 * @return
+	 * @return the requested point cloud
 	 */
 	public static double[][] getEquispacedCirclePoints(int n) {
 		double[][] points = new double[n][2];
@@ -51,7 +58,12 @@ public class PointCloudExamples {
 		return points;
 	}
 	
-	public static double[][] getoctahedronVertices() {
+	/**
+	 * This function returns the vertices of an octahedron.
+	 * 
+	 * @return the requested point cloud
+	 */
+	public static double[][] getOctahedronVertices() {
 		double[][] points = new double[6][3];
 		
 		points[0] = new double[]{1, 0, 0};
@@ -64,7 +76,12 @@ public class PointCloudExamples {
 		return points;
 	}
 	
-	public static double[][] gettetrahedronVertices() {
+	/**
+	 * This function returns the vertices of an tetrahedron.
+	 * 
+	 * @return the requested point cloud
+	 */
+	public static double[][] getTetrahedronVertices() {
 		double[][] points = new double[4][3];
 		
 		points[0] = new double[]{0, 0, 0};
@@ -75,19 +92,14 @@ public class PointCloudExamples {
 		return points;
 	}
 	
-	public static double[][] subdivide(double[][] points) {
-		int n = points.length;
-		double[][] result = new double[n + n * (n-1) / 2][3];
-		
-		for (int i = 0; i < n; i++) {
-			result[i] = points[i];
-		}
-		
-		//for (int i = 0; i < )
-		
-		return result;
-	}
-	
+	/**
+	 * This function returns n uniformly random point on the d-dimensional sphere as a subset
+	 * of R^{d+1}.
+	 * 
+	 * @param n the number of points to generate
+	 * @param d the dimension of the sphere to generate on
+	 * @return n points in (d+1)-dimensional Euclidean space uniformly distributed on the d-sphere
+	 */
 	public static double[][] getRandomSpherePoints(int n, int d) {
 		double[][] points = new double[n][];
 		
@@ -99,6 +111,14 @@ public class PointCloudExamples {
 		return points;
 	}
 	
+	/**
+	 * This function returns n points distributed to a standard Gaussian distribution in d-dimensional
+	 * Euclidean space.
+	 * 
+	 * @param n the number of points to generate
+	 * @param d the dimension of the space to generate in
+	 * @return n Gaussian points in R^d
+	 */
 	public static double[][] getGaussianPoints(int n, int d) {
 		double[][] points = new double[n][];
 		
@@ -109,6 +129,14 @@ public class PointCloudExamples {
 		return points;
 	}
 	
+	/**
+	 * This function returns non-uniformly generated points on the torus in R^3.
+	 * 
+	 * @param n the number of points to generate
+	 * @param r the inner radius
+	 * @param R the outer radius
+	 * @return randomly generated points on the torus in R^3
+	 */
 	public static double[][] getRandomTorusPoints(int n, double r, double R) {
 		double[][] points = new double[n][3];
 		
@@ -122,7 +150,44 @@ public class PointCloudExamples {
 		
 		return points;
 	}
+
+	/**
+	 * This function returns uniformly distributed points on the space S^k x ... x S^k.
+	 * Special cases of this include the 2-torus S^1 x S^1 in R^4, as well as the sphere S^k.
+	 * 
+	 * @param numPoints the number of points to generate
+	 * @param sphereDimension the sphere dimension (ie. the k in S^k x ... x S^k)
+	 * @param numFactors the number of factors in the product S^k x ... x S^k
+	 * @return uniformly generated points on the set S^k x ... x S^k
+	 */
+	public static double[][] getRandomSphereProductPoints(int numPoints, int sphereDimension, int numFactors) {
+		int dimension = (sphereDimension + 1) * numFactors;
+		double[][] points = new double[numPoints][];
+		
+		for (int i = 0; i < numPoints; i++) {
+			points[i] = RandomUtility.normalArray(dimension);
+			for (int N = 0; N < numFactors; N++) {
+				double sum = 0;
+				for (int j = 0; j < sphereDimension + 1; j++) {
+					sum += points[i][N * (sphereDimension + 1) + j] * points[i][N * (sphereDimension + 1) + j];
+				}
+				sum = Math.sqrt(sum);
+				for (int j = 0; j < sphereDimension + 1; j++) {
+					points[i][N * (sphereDimension + 1) + j] /= sum;
+				}
+			}
+		}
+
+		return points;
+	}
 	
+	/**
+	 * This function returns randomly generated points on a figure-8 in the plane. This consists
+	 * of two circles - one translated up by 1 unit, and the other translated down by 1 unit.
+	 * 
+	 * @param n the number of points to generate
+	 * @return randomly generated points on a figure-8.
+	 */
 	public static double[][] getRandomFigure8Points(int n) {
 		int m = n / 2;
 		double[][] points = new double[n][2];

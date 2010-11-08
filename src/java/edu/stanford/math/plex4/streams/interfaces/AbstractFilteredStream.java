@@ -1,5 +1,7 @@
 package edu.stanford.math.plex4.streams.interfaces;
 
+import java.util.Comparator;
+
 
 /**
  * <p>This interface defines the functionality of a streamed filtered
@@ -67,6 +69,12 @@ package edu.stanford.math.plex4.streams.interfaces;
  */
 public interface AbstractFilteredStream<T> extends Iterable<T> {
 	
+	/**
+	 * This function returns the filtration index of the requested basis element.
+	 * 
+	 * @param basisElement the basis element to get the filtration index for
+	 * @return the filtration index of the specified basis element
+	 */
 	public int getFiltrationIndex(T basisElement);
 	
 	/**
@@ -131,4 +139,11 @@ public interface AbstractFilteredStream<T> extends Iterable<T> {
 	 * @return the maximum filtration index
 	 */
 	public int getMaximumFiltrationIndex();
+	
+	/**
+	 * This function returns a comparator on the underlying basis type.
+	 * 
+	 * @return a comparator on the underlying basis type
+	 */
+	public Comparator<T> getBasisComparator();
 }

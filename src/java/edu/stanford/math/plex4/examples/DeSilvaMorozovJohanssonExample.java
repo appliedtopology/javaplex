@@ -28,6 +28,11 @@ public class DeSilvaMorozovJohanssonExample<R> {
 	private final IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> absoluteCohomologyBarcodes = new IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
 	private final IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> relativeCohomologyBarcodes = new IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
 	
+	/**
+	 * This constructor initializes the class with the specified field.
+	 * 
+	 * @param field the field over which to perform the algebraic operations
+	 */
 	public DeSilvaMorozovJohanssonExample(ObjectAbstractField<R> field) {
 		this.field = field;
 		this.module = new ObjectAlgebraicFreeModule<R, Cell>(this.field);
@@ -76,22 +81,47 @@ public class DeSilvaMorozovJohanssonExample<R> {
 		return stream;
 	}
 
+	/**
+	 * This function returns the cell complex.
+	 * 
+	 * @return the cell complex of the example
+	 */
 	public ExplicitCellStream getCellComplex() {
 		return this.cellComplex;
 	}
 	
+	/**
+	 * This function returns the correct absolute homology barcodes along with the generators.
+	 * 
+	 * @return the barcodes and generators for absolute homology
+	 */
 	public IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getAbsoluteHomologyBarcodes() {
 		return this.absoluteHomologyBarcodes;
 	}
 	
+	/**
+	 * This function returns the correct relative homology barcodes along with the generators.
+	 * 
+	 * @return the barcodes and generators for relative homology
+	 */
 	public IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getRelativeHomologyBarcodes() {
 		return this.relativeHomologyBarcodes;
 	}
 	
+	/**
+	 * This function returns the correct absolute cohomology barcodes along with the generators.
+	 * 
+	 * @return the barcodes and generators for absolute cohomology
+	 */
 	public IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getAbsoluteCohomologyBarcodes() {
 		return this.absoluteCohomologyBarcodes;
 	}
 	
+	/**
+	 * This function returns the correct relative cohomology barcodes along with the generators.
+	 * 
+	 * @return the barcodes and generators for relative cohomology
+	 */
 	public IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getRelativeCohomologyBarcodes() {
 		return this.relativeCohomologyBarcodes;
 	}

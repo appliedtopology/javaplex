@@ -13,8 +13,7 @@ import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
 
 
 /**
- * This interface defines a mapping between filtration values and 
- * filtration indices.
+ * This interface defines a mapping between filtration values and filtration indices.
  * 
  * @author Andrew Tausz
  *
@@ -44,7 +43,7 @@ public abstract class FiltrationConverter {
 	 * 
 	 * @param filtrationValue1
 	 * @param filtrationValue2
-	 * @return
+	 * @return the filtration value that is induced by two filtration values
 	 */
 	public abstract double computeInducedFiltrationValue(double filtrationValue1, double filtrationValue2);
 	

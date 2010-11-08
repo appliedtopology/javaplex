@@ -5,6 +5,12 @@ import edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace;
 import edu.stanford.math.primitivelib.utility.Infinity;
 
+/**
+ * This class contains various functions for dealing with metric spaces.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class MetricUtility {
 	
 	/**
@@ -31,10 +37,23 @@ public class MetricUtility {
 		return diameterEstimate * (((double) trials + 1) / ((double) trials));
 	}
 	
+	/**
+	 * This function performs randomized sampling to find the estimated diameter of the given
+	 * metric space. It uses a default number of samples equal to 100.
+	 * 
+	 * @param metricSpace the metric space to estimate the diameter of
+	 * @return an estimate of the diameter of the metric space
+	 */
 	public static double estimateDiameter(AbstractIntMetricSpace metricSpace) {
 		return estimateDiameter(metricSpace, Math.min(metricSpace.size(), 100));
 	}
 	
+	/**
+	 * This function computes the coordinate-wise maxima of a given Euclidean metric space.
+	 * 
+	 * @param metricSpace the metric space to compute the maxima for
+	 * @return the componentwise minima of the elements of the metric space
+	 */
 	public static double[] computeMaxima(AbstractObjectMetricSpace<double[]> metricSpace) {
 		int dimension = metricSpace.getPoint(0).length;
 		int numPoints = metricSpace.size();
@@ -50,6 +69,12 @@ public class MetricUtility {
 		return maxima;
 	}
 	
+	/**
+	 * This function computes the coordinate-wise minima of a given Euclidean metric space.
+	 * 
+	 * @param metricSpace the metric space to compute the minima for
+	 * @return the componentwise minima of the elements of the metric space
+	 */
 	public static double[] computeMinima(AbstractObjectMetricSpace<double[]> metricSpace) {
 		int dimension = metricSpace.getPoint(0).length;
 		int numPoints = metricSpace.size();
@@ -65,6 +90,12 @@ public class MetricUtility {
 		return minima;
 	}
 	
+	/**
+	 * This function computes the centroid of the set of points within the metric space.
+	 * 
+	 * @param metricSpace the metric space to compute the centroid of
+	 * @return the centroid of the given metric space
+	 */
 	public static double[] computeCentroid(AbstractObjectMetricSpace<double[]> metricSpace) {
 		int dimension = metricSpace.getPoint(0).length;
 		int numPoints = metricSpace.size();

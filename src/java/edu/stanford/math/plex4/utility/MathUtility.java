@@ -17,7 +17,7 @@ public class MathUtility {
 		}
 		return a;
 	}
-	
+
 	public static int signum(long l) {
 		if (l > 0) {
 			return 1;
@@ -27,7 +27,7 @@ public class MathUtility {
 			return 0;
 		}
 	}
-	
+
 	public static int signum(double l) {
 		if (l > 0) {
 			return 1;
@@ -37,7 +37,7 @@ public class MathUtility {
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * This function returns the multiplicative inverses of the integers
 	 * [0, 1, ..., p-1] in mod p arithmetic. Note that the 0-th index is 
@@ -69,10 +69,10 @@ public class MathUtility {
 
 			inverses[i] = inverse;
 		}
-		
+
 		return inverses;
 	}
-	
+
 	/**
 	 * This function returns the floor of the base-2 logarithm
 	 * of the input. The input must be strictly positive.
@@ -161,17 +161,17 @@ public class MathUtility {
 		double phi1 = Math.atan2(y1, x1);
 		double theta1 = Math.acos(z1 / Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1));
 		double latitude1 = 0.5 * Math.PI - theta1;
-		
+
 		double x2 = y[0];
 		double y2 = y[1];
 		double z2 = y[2];
 		double phi2 = Math.atan2(y2, x2);
 		double theta2 = Math.acos(z2 / Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2));
 		double latitude2 = 0.5 * Math.PI - theta2;
-		
+
 		return MathUtility.greatCircleDistance(latitude1, phi1, latitude2, phi2);		
 	}
-	
+
 	/**
 	 * This function computes the Huber penalty function of an 
 	 * input. The Huber penalty function is equal to x^2 for |x| <= M, 
@@ -187,15 +187,15 @@ public class MathUtility {
 			return M * (2 * Math.abs(x) - M);
 		}
 	}
-	
+
 	public static double absApproximation(double x, double M) {
 		return huberPenaltyFunction(x, M) / (2 * M);
 	}
-	
+
 	public static double maxApproximation(double x, double y, double M) {
 		return 0.5 * (absApproximation(x - y, M) + x + y);
 	}
-	
+
 	/**
 	 * This function evaluates the standard gaussian density
 	 * with mean 0 and variance 1.
@@ -207,7 +207,7 @@ public class MathUtility {
 		double constant = Math.sqrt(2 * Math.PI);
 		return (Math.exp(0.5 * x * x) / constant);
 	}
-	
+
 	/**
 	 * This function evaluates the 1-dimensional gaussian
 	 * density function with specified mean and standard deviation.

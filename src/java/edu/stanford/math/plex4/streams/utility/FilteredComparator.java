@@ -11,7 +11,7 @@ import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
  * 
  * @author Andrew Tausz
  *
- * @param <M>
+ * @param <M> the underlying type of the basis elements
  */
 public class FilteredComparator<M> implements Comparator<M> {
 	/**

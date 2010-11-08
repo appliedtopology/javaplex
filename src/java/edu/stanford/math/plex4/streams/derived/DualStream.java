@@ -5,6 +5,7 @@ package edu.stanford.math.plex4.streams.derived;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import java.util.Set;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.array.ObjectArrayUtility;
 import edu.stanford.math.primitivelib.autogen.pair.IntObjectPair;
+import edu.stanford.math.primitivelib.collections.utility.ReversedComparator;
 import gnu.trove.THashMap;
 
 /**
@@ -162,5 +164,12 @@ public class DualStream<T> implements AbstractFilteredStream<T> {
 	 */
 	public int getMaximumFiltrationIndex() {
 		return this.forwardStream.getMaximumFiltrationIndex();
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream#getBasisComparator()
+	 */
+	public Comparator<T> getBasisComparator() {
+		return new ReversedComparator<T>(this.forwardStream.getBasisComparator());
 	}
 }

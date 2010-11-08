@@ -12,8 +12,22 @@ import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import gnu.trove.TIntObjectIterator;
 
+/**
+ * This class contains various static functions that aid in the transformation between objects
+ * defined in terms of filtration indices to objects defined in terms of filtration values.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class FiltrationUtility {
 	
+	/**
+	 * This function converts a filtration index barcode to a filtration value barcode.
+	 * 
+	 * @param intBarcode the integer barcode to convert
+	 * @param converter the FiltrationConverter object that computes the index to value mapping
+	 * @return the filtration value function applied to the barcode
+	 */
 	public static DoubleBarcode transformBarcode(IntBarcode intBarcode, FiltrationConverter converter) {
 		DoubleBarcode barcode = new DoubleBarcode(intBarcode.getDimension());
 		
@@ -24,6 +38,14 @@ public class FiltrationUtility {
 		return barcode;
 	}
 	
+	/**
+	 * This function converts a filtration index barcode collection to a filtration 
+	 * value barcode collection.
+	 * 
+	 * @param intBarcodeCollection the integer barcode collection to convert
+	 * @param converter the FiltrationConverter object that computes the index to value mapping
+	 * @return the filtration value function applied to the barcode collection
+	 */
 	public static DoubleBarcodeCollection transformBarcodeCollection(IntBarcodeCollection intBarcodeCollection, FiltrationConverter converter) {
 		DoubleBarcodeCollection barcodeCollection = new DoubleBarcodeCollection();
 		
@@ -38,6 +60,13 @@ public class FiltrationUtility {
 		return barcodeCollection;
 	}
 	
+	/**
+	 * This function converts a filtration index barcode to a filtration value barcode.
+	 * 
+	 * @param intBarcode the integer barcode to convert
+	 * @param converter the FiltrationConverter object that computes the index to value mapping
+	 * @return the filtration value function applied to the barcode
+	 */
 	public static <T> DoubleAnnotatedBarcode<T> transformBarcode(IntAnnotatedBarcode<T> intBarcode, FiltrationConverter converter) {
 		DoubleAnnotatedBarcode<T> barcode = new DoubleAnnotatedBarcode<T>(intBarcode.getDimension());
 		
@@ -48,6 +77,13 @@ public class FiltrationUtility {
 		return barcode;
 	}
 	
+	/**
+	 * This function converts a filtration index barcode collection to a filtration value barcode collection.
+	 * 
+	 * @param intBarcodeCollection the integer barcode collection to convert
+	 * @param converter the FiltrationConverter object that computes the index to value mapping
+	 * @return the filtration value function applied to the barcode collection
+	 */
 	public static <T> DoubleAnnotatedBarcodeCollection<T> transformBarcodeCollection(IntAnnotatedBarcodeCollection<T> intBarcodeCollection, FiltrationConverter converter) {
 		DoubleAnnotatedBarcodeCollection<T> barcodeCollection = new DoubleAnnotatedBarcodeCollection<T>();
 		

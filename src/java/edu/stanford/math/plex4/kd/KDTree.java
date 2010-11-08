@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import edu.stanford.math.plex4.utility.ListUtility;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
+import edu.stanford.math.primitivelib.autogen.array.IntArrayGeneration;
+import edu.stanford.math.primitivelib.autogen.array.IntArrayUtility;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import gnu.trove.TIntHashSet;
 
@@ -49,7 +50,7 @@ public class KDTree {
 		this.dimension = dataPoints[0].length;
 		
 		// construct KD tree
-		this.root = this.construct(ListUtility.range(0, this.size - 1), 0);
+		this.root = this.construct(IntArrayUtility.toList(IntArrayGeneration.range(0, this.size)), 0);
 	}
 	
 	/**

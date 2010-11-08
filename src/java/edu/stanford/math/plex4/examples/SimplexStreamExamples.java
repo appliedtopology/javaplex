@@ -1,10 +1,13 @@
 package edu.stanford.math.plex4.examples;
 
+import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
+import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.primitivelib.autogen.array.IntArrayGeneration;
+import edu.stanford.math.primitivelib.autogen.pair.IntIntPair;
 
 /**
  * This class contains various functions for producing examples of 
@@ -46,6 +49,11 @@ public class SimplexStreamExamples {
 		return stream;
 	}
 	
+	/**
+	 * This function returns a filtered triangle where each simplex enters at a new filtration index.
+	 * 
+	 * @return a filtered triangle
+	 */
 	public static ExplicitStream<Simplex> getFilteredTriangle() {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 
@@ -61,7 +69,6 @@ public class SimplexStreamExamples {
 		
 		return stream;
 	}
-	
 	
 	/**
 	 * This function returns a simplicial triangle (which happens
@@ -202,6 +209,11 @@ public class SimplexStreamExamples {
 		return stream;
 	}
 	
+	/**
+	 * This function returns a simplicial octahedron.
+	 * 
+	 * @return a simplicial octahedron.
+	 */
 	public static ExplicitStream<Simplex> getOctahedron() {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 
@@ -239,6 +251,61 @@ public class SimplexStreamExamples {
 		stream.addElement(new Simplex(new int[] {0, 3, 5}), 0);
 		
 		stream.finalizeStream();
+		
+		return stream;
+	}
+	
+	/**
+	 * This function produces a simplicial complex from a given undirected graph. The resulting
+	 * complex contains the same vertices and edges as the given graph.
+	 * 
+	 * @param graph the graph to convert to a simplicial complex
+	 * @return a simplicial complex containing the same vertices and edges as the given graph
+	 */
+	public static ExplicitSimplexStream createGraphComplex(AbstractUndirectedGraph graph) {
+		ExplicitSimplexStream stream = new ExplicitSimplexStream();
+		
+		int n = graph.getNumVertices();
+		
+		// add vertices
+		for (int i = 0; i < n; i++) {
+			stream.addVertex(i);
+		}
+		
+		
+		// add edges
+		for (IntIntPair pair: graph) {
+			stream.addElement(new int[]{pair.getFirst(), pair.getSecond()});
+		}
+		
+		return stream;
+	}
+	
+	/**
+	 * This function produces a simplicial complex from the adjacency matrix of a given graph.
+	 * The resulting complex contains the same vertices and edges as the given graph.
+	 * 
+	 * @param adjacencyMatrix the adjacency matrix of the graph to convert to a simplicial complex
+	 * @return a simplicial complex containing the same vertices and edges as the given graph
+	 */
+	public static ExplicitSimplexStream createGraphComplex(int[][] adjacencyMatrix) {
+		ExplicitSimplexStream stream = new ExplicitSimplexStream();
+		
+		int n = adjacencyMatrix.length;
+		
+		// add vertices
+		for (int i = 0; i < n; i++) {
+			stream.addVertex(i);
+		}
+		
+		// add edges
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < i; j++) {
+				if (adjacencyMatrix[i][i] != 0) {
+					stream.addElement(new int[]{i, j});
+				}
+			}
+		}
 		
 		return stream;
 	}

@@ -1,5 +1,6 @@
 package edu.stanford.math.plex4.interop;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 import edu.stanford.math.plex.SimplexStream;
@@ -66,5 +67,9 @@ public class Plex3Stream implements AbstractFilteredStream<edu.stanford.math.ple
 
 	public Iterator<edu.stanford.math.plex4.homology.chain_basis.Simplex> iterator() {
 		return new AdaptedIterator<edu.stanford.math.plex.Simplex, Simplex>(this.plex3Stream.iterator(), simplexAdapter);
+	}
+
+	public Comparator<Simplex> getBasisComparator() {
+		throw new UnsupportedOperationException();
 	}
 }

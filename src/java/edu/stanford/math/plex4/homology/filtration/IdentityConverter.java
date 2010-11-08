@@ -9,10 +9,29 @@ import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
 import edu.stanford.math.plex4.homology.barcodes.IntLeftInfiniteInterval;
 import edu.stanford.math.plex4.homology.barcodes.IntRightInfiniteInterval;
 
+/**
+ * This class defines a filtration value conversion which simply defines the filtration
+ * value to be equal to the filtration index. (i.e. f_i = i)
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class IdentityConverter extends FiltrationConverter {
+	/**
+	 * This is the single instance of the class
+	 */
 	private static IdentityConverter instance = new IdentityConverter();
+	
+	/**
+	 * Private constructor to prevent instantiation.
+	 */
 	private IdentityConverter(){}
 	
+	/**
+	 * This returns the single instance of the class.
+	 * 
+	 * @return the single instance of the class
+	 */
 	public static IdentityConverter getInstance() {
 		return instance;
 	}

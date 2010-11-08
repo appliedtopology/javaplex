@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.utility;
 
+import gnu.trove.TIntHashSet;
 import cern.jet.random.Normal;
 import cern.jet.random.Uniform;
-import gnu.trove.TIntHashSet;
 
 
 /**
@@ -19,6 +19,12 @@ public class RandomUtility {
 	private static Uniform uniformGenerator = new Uniform(new cern.jet.random.engine.MersenneTwister(Uniform
 			.staticNextIntFromTo(0, Integer.MAX_VALUE)));
 
+	/**
+	 * This function initializes the seeds of the random number generators to the specified
+	 * values.
+	 * 
+	 * @param seed the seed to initialize with
+	 */
 	public static void initializeWithSeed(int seed) {
 		normalGenerator = new Normal(0, 1, new cern.jet.random.engine.MersenneTwister(seed));
 		uniformGenerator = new Uniform(new cern.jet.random.engine.MersenneTwister(seed));

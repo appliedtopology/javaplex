@@ -14,6 +14,14 @@ import gnu.trove.TIntObjectHashMap;
 import gnu.trove.TObjectDoubleIterator;
 import gnu.trove.TObjectIntHashMap;
 
+/**
+ * This class implements a metric on a simplicial complex. The distance between two simplices
+ * is defined to be the maximum of the distances between the any two pairs of vertices where one
+ * vertex is in the first simplex and the other is in the second simplex.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class SkeletalMetric implements AbstractObjectMetricSpace<Simplex> {
 	/**
 	 * This maps a basis element to an index. The index is the appropriate

@@ -4,10 +4,28 @@ import java.util.Iterator;
 
 import edu.stanford.math.primitivelib.autogen.pair.IntObjectPair;
 
+/**
+ * This class provides iteration over the second component of each element
+ * in an Iterable collection of type IntObjectPair<E>. It essentially 
+ * ignores the first component, and only returns the second. 
+ * 
+ * @author Andrew Tausz
+ *
+ * @param <E>
+ */
 public class IntOrderedIterator<E> implements Iterator<E> {
 
+	/**
+	 * The iterator over the pair collection.
+	 */
 	private final Iterator<IntObjectPair<E>> internalIterator;
 
+	/**
+	 * This constructor initializes the iterator with an iterable collection
+	 * over the type IntObjectPair<E>.
+	 * 
+	 * @param collection the Iterable collection to initialize with
+	 */
 	public IntOrderedIterator(Iterable<IntObjectPair<E>> collection) {
 		this.internalIterator = collection.iterator();
 	}

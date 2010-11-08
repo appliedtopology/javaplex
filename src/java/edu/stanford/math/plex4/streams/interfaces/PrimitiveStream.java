@@ -124,6 +124,13 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 		return this.storageStructure.getMaximumFiltrationIndex();
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream#getBasisComparator()
+	 */
+	public Comparator<T> getBasisComparator() {
+		return this.storageStructure.getBasisComparator();
+	}
+	
 	/**
 	 * This function validates the stream to make sure that it
 	 * contains a valid filtered simplicial or cell complex. It checks the

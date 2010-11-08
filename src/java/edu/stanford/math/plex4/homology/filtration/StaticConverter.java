@@ -20,9 +20,21 @@ import edu.stanford.math.plex4.homology.barcodes.IntRightInfiniteInterval;
  *
  */
 public class StaticConverter extends FiltrationConverter {
+	/**
+	 * This is the single instance of the class
+	 */
 	private static StaticConverter instance = new StaticConverter();
+	
+	/**
+	 * Private constructor to prevent instantiation.
+	 */
 	private StaticConverter(){}
 	
+	/**
+	 * This returns the single instance of the class.
+	 * 
+	 * @return the single instance of the class
+	 */
 	public static StaticConverter getInstance() {
 		return instance;
 	}

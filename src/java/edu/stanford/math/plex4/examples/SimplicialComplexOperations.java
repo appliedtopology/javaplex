@@ -6,7 +6,12 @@ import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
 
-
+/**
+ * This class contains various functions for creating new simplicial complexes out of old ones.
+ * 
+ * @author Andrew Tausz
+ *
+ */
 public class SimplicialComplexOperations {
 	/**
 	 * This function computes the cone of a given filtered simplicial complex.
