@@ -10,7 +10,7 @@ import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.test_utility.Timing;
 import edu.stanford.math.plex4.utility.ComparisonUtility;
-import gnu.trove.THashSet;
+import edu.stanford.math.primitivelib.collections.utility.CollectionsUtility;
 
 /**
  * This class contains functions for comparing streams (filtered chain complexes) for equality.
@@ -69,8 +69,8 @@ public class StreamTester {
 	 * @param stream2 the second stream
 	 */
 	public static <T> void verifyEqual(AbstractFilteredStream<T> stream1, AbstractFilteredStream<T> stream2) {
-		Set<T> stream1Contents = dumpStream(stream1);
-		Set<T> stream2Contents = dumpStream(stream2);
+		Set<T> stream1Contents = CollectionsUtility.dumpIterable(stream1);
+		Set<T> stream2Contents = CollectionsUtility.dumpIterable(stream2);
 		assertTrue(stream1 + " and " + stream2 + " are not equal", ComparisonUtility.setEquals(stream1Contents, stream2Contents));
 		
 		// verify the filtration indices
@@ -79,22 +79,5 @@ public class StreamTester {
 			int filtrationIndex2 = stream2.getFiltrationIndex(element);
 			assertTrue("The element " + element + " has differing filtration indices in" + stream1 + " and " + stream2, filtrationIndex1 == filtrationIndex2);
 		}
-	}
-	
-	/**
-	 * This function dumps the contents of an iterable stream into a set.
-	 * 
-	 * @param <T> the underlying type
-	 * @param stream the iterable collection
-	 * @return a set containing the same elements as the iterable collection
-	 */
-	public static <T> Set<T> dumpStream(Iterable<T> stream) {
-		Set<T> set = new THashSet<T>();
-		
-		for (T element: stream) {
-			set.add(element);
-		}
-		
-		return set;
 	}
 }

@@ -1,78 +1,131 @@
 package edu.stanford.math.plex4.examples;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
-import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
-import edu.stanford.math.plex4.streams.impl.ExplicitStream;
+import edu.stanford.math.plex4.homology.utility.HomologyUtility;
+import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
+import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
+
 
 public class SimplicialComplexOperations {
-	ExplicitStream<Simplex> triangularSubivision(ExplicitStream<Simplex> stream) {
-		ExplicitStream<Simplex> result = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
-		List<Simplex> edges = new ArrayList<Simplex>();
-		Set<Simplex> faces = new HashSet<Simplex>();
-		Map<Simplex, Simplex> midPointMap = new HashMap<Simplex, Simplex>();
+	/**
+	 * This function computes the cone of a given filtered simplicial complex.
+	 * 
+	 * @param simplexStream the simplicial complex to compute the cone of
+	 * @param vertexFiltrationIndex the filtration index of the vertex point of the cone
+	 * @return the cone of the simplicial complex
+	 */
+	public static AbstractFilteredStream<Simplex> computeCone(AbstractFilteredStream<Simplex> simplexStream, int vertexFiltrationIndex) {
+		ExplicitSimplexStream coneStream = new ExplicitSimplexStream();
+		int maxFiltrationIndex = Integer.MIN_VALUE;
+		int maxVertexIndex = Integer.MIN_VALUE;
 		
-		int numPoints = 0;
-		
-		for (Simplex simplex: stream) {
-			int dimension = stream.getDimension(simplex);
-			if (dimension == 1) {
-				edges.add(simplex);
-			} else if (dimension == 0) {
-				numPoints++;
-				result.addElement(simplex, stream.getFiltrationIndex(simplex));
-			} else if (dimension == 2) {
-				faces.add(simplex);
+		// add the existing simplices
+		for (Simplex simplex: simplexStream) {
+			int filtrationIndex = simplexStream.getFiltrationIndex(simplex);
+			coneStream.addElement(simplex, filtrationIndex);
+			if (simplex.getDimension() == 0 && (simplex.getVertices()[0] > maxVertexIndex)) {
+				maxVertexIndex = simplex.getVertices()[0];
+			}
+			if (filtrationIndex > maxFiltrationIndex) {
+				maxFiltrationIndex = filtrationIndex;
 			}
 		}
 		
-		int pointIndex = numPoints;
+		// add the new cone vertex
+		int coneVertexIndex = maxVertexIndex + 1;
+		coneStream.addVertex(coneVertexIndex, vertexFiltrationIndex);
 		
-		// subdivide each edge
-		
-		for (Simplex edge: edges) {
-			int[] edgeVertices = edge.getVertices();
-			int start = edgeVertices[0];
-			int end = edgeVertices[1];
-			Simplex startVertex = new Simplex(new int[]{start});
-			Simplex endVertex = new Simplex(new int[]{end});
-			Simplex midPoint = new Simplex(new int[]{pointIndex});
-			int averageFiltrationIndex = (int) (0.5 * (stream.getFiltrationIndex(startVertex) + stream.getFiltrationIndex(endVertex)));
-			result.addElement(midPoint, averageFiltrationIndex);
-			midPointMap.put(edge, midPoint);
-			Simplex edge1 = new Simplex(new int[]{start, pointIndex});
-			Simplex edge2 = new Simplex(new int[]{end, pointIndex});
-			result.addElement(edge1, averageFiltrationIndex);
-			result.addElement(edge2, averageFiltrationIndex);
-			pointIndex++;
+		// add the coned simplices
+		for (Simplex simplex: simplexStream) {
+			int filtrationIndex = simplexStream.getFiltrationIndex(simplex);
+			int[] vertices = simplex.getVertices();
+			int[] newVertices = HomologyUtility.appendToArray(vertices, coneVertexIndex);
+			coneStream.addElement(newVertices, Math.max(filtrationIndex, vertexFiltrationIndex));
 		}
 		
-		for (Simplex face: faces) {
-			int[] vertices = face.getVertices();
-			Simplex edge1 = new Simplex(new int[]{vertices[0], vertices[1]});
-			Simplex edge2 = new Simplex(new int[]{vertices[1], vertices[2]});
-			Simplex edge3 = new Simplex(new int[]{vertices[0], vertices[2]});
-			Simplex midpoint1 = midPointMap.get(edge1);
-			Simplex midpoint2 = midPointMap.get(edge2);
-			Simplex midpoint3 = midPointMap.get(edge3);
-			
-			Simplex face1 = new Simplex(new int[]{midpoint1.getVertices()[0], midpoint2.getVertices()[0], vertices[1]});
-			Simplex face2 = new Simplex(new int[]{midpoint1.getVertices()[0], midpoint3.getVertices()[0], vertices[0]});
-			Simplex face3 = new Simplex(new int[]{midpoint2.getVertices()[0], midpoint3.getVertices()[0], vertices[2]});
-			Simplex face4 = new Simplex(new int[]{midpoint1.getVertices()[0], midpoint2.getVertices()[0], midpoint3.getVertices()[0]});
-			
-			result.addElement(face1, stream.getFiltrationIndex(face));
-			result.addElement(face2, stream.getFiltrationIndex(face));
-			result.addElement(face3, stream.getFiltrationIndex(face));
-			result.addElement(face4, stream.getFiltrationIndex(face));
+		return coneStream;
+	}
+	
+	/**
+	 * This function computes the suspension of a given filtered simplicial complex.
+	 * 
+	 * @param simplexStream the simplicial complex to compute the suspension of
+	 * @param vertexFiltrationIndex the filtration index of the two newly added vertices
+	 * @return the suspension of the given simplicial complex
+	 */
+	public static AbstractFilteredStream<Simplex> computeSuspension(AbstractFilteredStream<Simplex> simplexStream, int vertexFiltrationIndex) {
+		ExplicitSimplexStream suspensionStream = new ExplicitSimplexStream();
+		int maxFiltrationIndex = Integer.MIN_VALUE;
+		int maxVertexIndex = Integer.MIN_VALUE;
+		
+		// add the existing simplices
+		for (Simplex simplex: simplexStream) {
+			int filtrationIndex = simplexStream.getFiltrationIndex(simplex);
+			suspensionStream.addElement(simplex, filtrationIndex);
+			if (simplex.getDimension() == 0 && (simplex.getVertices()[0] > maxVertexIndex)) {
+				maxVertexIndex = simplex.getVertices()[0];
+			}
+			if (filtrationIndex > maxFiltrationIndex) {
+				maxFiltrationIndex = filtrationIndex;
+			}
 		}
 		
-		return result;
+		// add the new 2 new vertices
+		int coneVertexIndex1 = maxVertexIndex + 1;
+		int coneVertexIndex2 = coneVertexIndex1 + 1;
+		suspensionStream.addVertex(coneVertexIndex1, vertexFiltrationIndex);
+		suspensionStream.addVertex(coneVertexIndex2, vertexFiltrationIndex);
+		
+		// add the coned simplices on both sides
+		for (Simplex simplex: simplexStream) {
+			int filtrationIndex = simplexStream.getFiltrationIndex(simplex);
+			int[] vertices = simplex.getVertices();
+			
+			int[] newVertices1 = HomologyUtility.appendToArray(vertices, coneVertexIndex1);
+			suspensionStream.addElement(newVertices1, Math.max(filtrationIndex, vertexFiltrationIndex));
+			
+			int[] newVertices2 = HomologyUtility.appendToArray(vertices, coneVertexIndex2);
+			suspensionStream.addElement(newVertices2, Math.max(filtrationIndex, vertexFiltrationIndex));
+		}
+		
+		return suspensionStream;
+	}
+	
+	/**
+	 * This function computes the disjoint union of two filtered simplicial complex.
+	 * 
+	 * @param stream1 the first simplicial complex
+	 * @param stream2 the second simplicial complex
+	 * @return the disjoint union of the two simplicial complexes
+	 */
+	public static AbstractFilteredStream<Simplex> computeDisjointUnion(AbstractFilteredStream<Simplex> stream1, AbstractFilteredStream<Simplex> stream2) {
+		ExplicitSimplexStream unionStream = new ExplicitSimplexStream();
+		
+		int maxFiltrationIndex = Integer.MIN_VALUE;
+		int maxVertexIndex = Integer.MIN_VALUE;
+		
+		// add the simplices from the first streams
+		for (Simplex simplex: stream1) {
+			int filtrationIndex = stream1.getFiltrationIndex(simplex);
+			unionStream.addElement(simplex, filtrationIndex);
+			if (simplex.getDimension() == 0 && (simplex.getVertices()[0] > maxVertexIndex)) {
+				maxVertexIndex = simplex.getVertices()[0];
+			}
+			if (filtrationIndex > maxFiltrationIndex) {
+				maxFiltrationIndex = filtrationIndex;
+			}
+		}
+		
+		int translation = maxVertexIndex + 1;
+		
+		// add the simplices from the second stream - make sure to translated indices
+		for (Simplex simplex: stream2) {
+			int filtrationIndex = stream2.getFiltrationIndex(simplex);
+			int[] vertices = simplex.getVertices();
+			unionStream.addElement(IntArrayMath.scalarAdd(vertices, translation), filtrationIndex);
+		}
+		
+		return unionStream;
 	}
 }

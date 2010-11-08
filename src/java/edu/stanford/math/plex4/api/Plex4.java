@@ -1,6 +1,7 @@
 package edu.stanford.math.plex4.api;
 
 import java.io.IOException;
+import java.util.Comparator;
 
 import org.apache.commons.math.fraction.Fraction;
 
@@ -19,12 +20,18 @@ import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.MaxMinLandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
 import edu.stanford.math.plex4.metric.utility.MetricUtility;
+import edu.stanford.math.plex4.streams.derived.HomStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitCellStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.streams.impl.VietorisRipsStream;
+import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
 import edu.stanford.math.primitivelib.algebraic.impl.RationalField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleMatrixConverter;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPairComparator;
+import edu.stanford.math.primitivelib.collections.utility.ReversedComparator;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace;
 import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
@@ -111,5 +118,19 @@ public class Plex4 {
 			BarcodeWriter writer = BarcodeWriter.getInstance();
 			writer.writeToFile(barcode, imageFilename + "." + writer.getExtension(), endPoint);
 		}
+	}
+	
+	public static <T, U> HomStream<T, U> createHomStream(AbstractFilteredStream<T> domainStream, AbstractFilteredStream<U> codomainStream) {
+		return new HomStream<T, U>(domainStream, codomainStream);
+	}
+	
+	public static AbstractPersistenceAlgorithm<ObjectObjectPair<Simplex, Simplex>> getRationalHomAlgorithm() {
+		Comparator<ObjectObjectPair<Simplex, Simplex>> comparator = new ObjectObjectPairComparator<Simplex, Simplex>(new ReversedComparator<Simplex>(SimplexComparator.getInstance()), SimplexComparator.getInstance());
+		AbstractPersistenceAlgorithm<ObjectObjectPair<Simplex, Simplex>> algorithm = new ObjectAbsoluteHomology<Fraction, ObjectObjectPair<Simplex, Simplex>>(RationalField.getInstance(), comparator, 0, 1);
+		return algorithm;
+	}
+	
+	public static DoubleMatrixConverter<Simplex, Simplex> createHomMatrixConverter(AbstractFilteredStream<Simplex> domainStream, AbstractFilteredStream<Simplex> codomainStream) {
+		return new DoubleMatrixConverter<Simplex, Simplex>(domainStream, codomainStream);
 	}
 }

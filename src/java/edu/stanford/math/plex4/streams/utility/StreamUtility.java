@@ -1,30 +1,26 @@
 package edu.stanford.math.plex4.streams.utility;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectAlgebraicFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
+
 
 public class StreamUtility {
-	/*
-	public static <T> List<T> getModuleBasis(AbstractFilteredStream<T> stream, int dimension, boolean increasingDimensionality) {
-		List<T> basis = new ArrayList<T>();
+	
+	public static <T> List<T> getSkeleton(AbstractFilteredStream<T> stream, int dimension) {
+		List<T> skeleton = new ArrayList<T>();
 		
 		for (T basisElement: stream) {
 			int elementDimension = stream.getDimension(basisElement);
 			if (elementDimension == dimension) {
-				basis.add(basisElement);
-			} else if (elementDimension > dimension && increasingDimensionality) {
-				break;
+				skeleton.add(basisElement);
 			}
 		}
-		return basis;
-	}
-	
-	public static <T> List<T> getAllBasisElements(AbstractFilteredStream<T> stream) {
-		List<T> basis = new ArrayList<T>();
 		
-		for (T basisElement: stream) {
-			basis.add(basisElement);
-		}
-		
-		return basis;
+		return skeleton;
 	}
 	
 	public static <T> int getSkeletonSize(AbstractFilteredStream<T> stream, int dimension) {
@@ -39,19 +35,16 @@ public class StreamUtility {
 		return size;
 	}
 	
-	public static <T> int getSize(AbstractFilteredStream<T> stream) {
-		if (stream instanceof PrimitiveStream<?>) {
-			PrimitiveStream<?> primitiveStream = (PrimitiveStream<?>) stream;
-			return primitiveStream.getSize();
-		}
-		
-		int size = 0;
+	public static <R, T> List<ObjectSparseFormalSum<R, T>> getBoundaryMatrixColumns(AbstractFilteredStream<T> stream, int dimension, ObjectAlgebraicFreeModule<R, T> chainModule) {
+		List<ObjectSparseFormalSum<R, T>> boundaryMatrixColumns = new ArrayList<ObjectSparseFormalSum<R, T>>();
 		
 		for (T basisElement: stream) {
-			size++;
+			int elementDimension = stream.getDimension(basisElement);
+			if (elementDimension == dimension) {
+				boundaryMatrixColumns.add(chainModule.createNewSum(stream.getBoundaryCoefficients(basisElement), stream.getBoundary(basisElement)));
+			}
 		}
 		
-		return size;
+		return boundaryMatrixColumns;
 	}
-	*/
 }

@@ -1,7 +1,5 @@
 package edu.stanford.math.plex4.autogen.homology;
 
-import java.util.Comparator;
-
 import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
@@ -11,6 +9,8 @@ import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import gnu.trove.TObjectIntIterator;
+
+import java.util.Comparator;
 
 
 
@@ -83,7 +83,25 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 	protected void initializeFilteredComparator(AbstractFilteredStream<U> stream) {
 		this.filteredComparator = new FilteredComparator<U>(stream, this.basisComparator);
 	}
+
+	/**
+	 * This function returns the free module used for the arithmetic computations.
+	 * 
+	 * @return the free module over chains in U
+	 */
+	public IntAlgebraicFreeModule<U> getChainModule() {
+		return this.chainModule;
+	}
 	
+		/**
+	 * This function returns the field over which the homology is computed.
+	 * 
+	 * @return the field over type int
+	 */
+	public IntAbstractField getField() {
+		return this.field;
+	}
+		
 	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);

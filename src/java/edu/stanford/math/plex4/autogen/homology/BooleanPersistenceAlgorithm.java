@@ -76,7 +76,17 @@ public abstract class BooleanPersistenceAlgorithm<U> implements AbstractPersiste
 	protected void initializeFilteredComparator(AbstractFilteredStream<U> stream) {
 		this.filteredComparator = new FilteredComparator<U>(stream, this.basisComparator);
 	}
+
+	/**
+	 * This function returns the free module used for the arithmetic computations.
+	 * 
+	 * @return the free module over chains in U
+	 */
+	public BooleanPrimitiveFreeModule<U> getChainModule() {
+		return this.chainModule;
+	}
 	
+		
 	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);

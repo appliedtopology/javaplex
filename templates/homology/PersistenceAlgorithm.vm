@@ -104,6 +104,26 @@ public abstract class $className implements AbstractPersistenceBasisAlgorithm<$o
 	protected void initializeFilteredComparator(AbstractFilteredStream<$objectType> stream) {
 		this.filteredComparator = new FilteredComparator<$objectType>(stream, this.basisComparator);
 	}
+
+	/**
+	 * This function returns the free module used for the arithmetic computations.
+	 * 
+	 * @return the free module over chains in $objectType
+	 */
+	public $moduleClassName getChainModule() {
+		return this.chainModule;
+	}
+	
+	#if (!($coefficientType == "boolean"))
+	/**
+	 * This function returns the field over which the homology is computed.
+	 * 
+	 * @return the field over type $coefficientType
+	 */
+	public $fieldClassName getField() {
+		return this.field;
+	}
+	#end
 	
 	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<$objectType> stream) {
 		this.initializeFilteredComparator(stream);
