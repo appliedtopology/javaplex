@@ -58,7 +58,7 @@ public class PersistenceAlgorithmEqualityTest {
 		
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension);
-		PersistenceAlgorithmTester.verifyEqualityAll(algorithms, streams);
+		PersistenceAlgorithmTester.verifyEquality(algorithms, streams);
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class PersistenceAlgorithmEqualityTest {
 		streams.add(CellStreamExamples.getCellularTorus());
 		
 		List<AbstractPersistenceAlgorithm<Cell>> algorithms = PersistenceAlgorithmInterface.getAllPlex4CellularAbsoluteHomologyAlgorithms(maxDimension);
-		PersistenceAlgorithmTester.verifyEqualityAll(algorithms, streams);
+		PersistenceAlgorithmTester.verifyEquality(algorithms, streams);
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class PersistenceAlgorithmEqualityTest {
 		}
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension - 1);
-		PersistenceAlgorithmTester.verifyEqualityAll(algorithms, streams);
+		PersistenceAlgorithmTester.verifyEquality(algorithms, streams);
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class PersistenceAlgorithmEqualityTest {
 		}
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension - 1);
-		PersistenceAlgorithmTester.verifyEqualityAll(algorithms, streams);
+		PersistenceAlgorithmTester.verifyEquality(algorithms, streams);
 	}
 	
 	/**
