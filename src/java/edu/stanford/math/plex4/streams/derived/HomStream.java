@@ -8,6 +8,7 @@ import java.util.Map;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.utility.StreamUtility;
 import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectAlgebraicFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
@@ -42,6 +43,10 @@ public class HomStream<T, U> extends TensorStream<T, U>{
 	@Override
 	public int getDimension(ObjectObjectPair<T, U> element) {
 		return (this.stream2.getDimension(element.getSecond()) - this.stream1.getDimension(element.getFirst()));
+	}
+	
+	public <R> List<IntSparseFormalSum<ObjectObjectPair<T, U>>> getHomotopies() {
+		return StreamUtility.getBoundaryMatrixColumns(this, 1);
 	}
 	
 	/**

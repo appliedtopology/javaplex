@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.stanford.math.plex4.api.FilteredComplexInterface;
+import edu.stanford.math.plex4.api.FilteredStreamInterface;
 import edu.stanford.math.plex4.api.PersistenceAlgorithmInterface;
 import edu.stanford.math.plex4.examples.CellStreamExamples;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
@@ -98,7 +98,7 @@ public class PersistenceAlgorithmEqualityTest {
 		List<AbstractFilteredStream<Simplex>> streams = new ArrayList<AbstractFilteredStream<Simplex>>();
 		
 		for (double[][] pointCloud: pointClouds) {
-			streams.add(FilteredComplexInterface.createPlex4VietorisRipsStream(pointCloud, maxDimension + 1, maxFiltrationValue, numDivisions));
+			streams.add(FilteredStreamInterface.createPlex4VietorisRipsStream(pointCloud, maxDimension + 1, maxFiltrationValue, numDivisions));
 		}
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension - 1);
@@ -126,7 +126,7 @@ public class PersistenceAlgorithmEqualityTest {
 		
 		for (double[][] pointCloud: pointClouds) {
 			LandmarkSelector<double[]> landmarkSet = new RandomLandmarkSelector<double[]>(new EuclideanMetricSpace(pointCloud), l);
-			streams.add(FilteredComplexInterface.createPlex4LazyWitnessStream(landmarkSet, maxDimension, maxFiltrationValue, numDivisions));
+			streams.add(FilteredStreamInterface.createPlex4LazyWitnessStream(landmarkSet, maxDimension, maxFiltrationValue, numDivisions));
 		}
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension - 1);
@@ -145,7 +145,7 @@ public class PersistenceAlgorithmEqualityTest {
 		final int numDivisions = 10;
 		
 		double[][] points = PointCloudExamples.getRandomFigure8Points(n);
-		AbstractFilteredStream<Simplex> stream = FilteredComplexInterface.createPlex4VietorisRipsStream(points, maxDimension + 1, maxFiltrationValue, numDivisions);
+		AbstractFilteredStream<Simplex> stream = FilteredStreamInterface.createPlex4VietorisRipsStream(points, maxDimension + 1, maxFiltrationValue, numDivisions);
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension - 1);
 		PersistenceAlgorithmTester.verifyEquality(algorithms, stream);
@@ -162,7 +162,7 @@ public class PersistenceAlgorithmEqualityTest {
 		final int numDivisions = 10;
 		
 		double[][] points = PointCloudExamples.getRandomSpherePoints(n, sphereDimension);
-		AbstractFilteredStream<Simplex> stream = FilteredComplexInterface.createPlex4VietorisRipsStream(points, sphereDimension + 1, maxFiltrationValue, numDivisions);
+		AbstractFilteredStream<Simplex> stream = FilteredStreamInterface.createPlex4VietorisRipsStream(points, sphereDimension + 1, maxFiltrationValue, numDivisions);
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(sphereDimension);
 		PersistenceAlgorithmTester.verifyEquality(algorithms, stream);

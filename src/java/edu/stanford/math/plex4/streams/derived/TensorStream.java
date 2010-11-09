@@ -55,7 +55,7 @@ public class TensorStream<T, U> implements AbstractFilteredStream<ObjectObjectPa
 		/*
 		 * p = degree of a
 		 * 
-		 * d(a x b) = da x b + (-1)^n a x db
+		 * d(a x b) = da x b + (-1)^{n+1} a x db
 		 */
 		
 		T a = basisElement.getFirst();
@@ -87,11 +87,11 @@ public class TensorStream<T, U> implements AbstractFilteredStream<ObjectObjectPa
 		int[] b_coefficients = this.stream2.getBoundaryCoefficients(b);
 		
 		int[] coefficients = new int[a_coefficients.length + b_coefficients.length];
-		
+
 		int n = this.getDimension(basisElement);
 		
 		/*
-		 * Compute (-1)^n
+		 * Compute (-1)^{n+1}
 		 */
 		int multiplier = ((n + 1) % 2 == 0 ? 1 : -1);
 		

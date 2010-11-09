@@ -19,6 +19,6 @@ function matlab_sparse_matrix = to_sparse_matlab_matrix(formal_sum, matrix_conve
     s = sparse_matrix_object.getValues()';
     matlab_sparse_matrix = sparse(m, n);
     for k = 1:length(i)
-        matlab_sparse_matrix(j(k), i(k)) = s(k);
+        matlab_sparse_matrix(i(k), j(k)) = s(k);
     end
 end

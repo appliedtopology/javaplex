@@ -7,8 +7,11 @@ import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex4.graph.UndirectedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntPrimitiveFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectAlgebraicFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 
 /**
  * This class contains various static functions for querying and manipulating filtered chain complexes.
@@ -57,6 +60,33 @@ public class StreamUtility {
 		}
 		
 		return size;
+	}
+	
+	public static <T> IntSparseFormalSum<ObjectObjectPair<T, T>> createBoundaryMatrixAsSum(AbstractFilteredStream<T> stream) {
+		IntPrimitiveFreeModule<ObjectObjectPair<T, T>> chainModule = new IntPrimitiveFreeModule<ObjectObjectPair<T, T>>();
+		IntSparseFormalSum<ObjectObjectPair<T, T>> sum = new IntSparseFormalSum<ObjectObjectPair<T, T>>();
+		for (T basisElement: stream) {
+			int[] boundaryCoefficients = stream.getBoundaryCoefficients(basisElement);
+			T[] boundaryElements = stream.getBoundary(basisElement);
+			for (int i = 0; i < boundaryElements.length; i++) {
+				chainModule.accumulate(sum, new ObjectObjectPair<T, T>(boundaryElements[i], basisElement), boundaryCoefficients[i]);
+			}
+		}
+		return sum;
+	}
+	
+	public static <T> List<IntSparseFormalSum<T>> getBoundaryMatrixColumns(AbstractFilteredStream<T> stream, int dimension) {
+		List<IntSparseFormalSum<T>> boundaryMatrixColumns = new ArrayList<IntSparseFormalSum<T>>();
+		IntPrimitiveFreeModule<T> chainModule = new IntPrimitiveFreeModule<T>();
+		
+		for (T basisElement: stream) {
+			int elementDimension = stream.getDimension(basisElement);
+			if (elementDimension == dimension) {
+				boundaryMatrixColumns.add(chainModule.createNewSum(stream.getBoundaryCoefficients(basisElement), stream.getBoundary(basisElement)));
+			}
+		}
+		
+		return boundaryMatrixColumns;
 	}
 	
 	/**

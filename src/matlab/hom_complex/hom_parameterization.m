@@ -25,7 +25,7 @@ function [cycle_sum, homotopies] = hom_parameterization(domain_stream, codomain_
 
     chain_module = persistence.getChainModule();
 
-    homotopies = hom_stream.getHomotopiesAsDouble(chain_module)
+    homotopies = hom_stream.getHomotopiesAsDouble(chain_module);
 
     homotopy_matrices = cell(homotopies.size(), 1);
 
@@ -56,7 +56,7 @@ function [cycle_sum, homotopies] = hom_parameterization(domain_stream, codomain_
         end
     end
     
-    cycle_sum = hom_stream.toDoubleFormalSum(cycle_sum)
+    cycle_sum = hom_stream.toDoubleFormalSum(cycle_sum);
     cycle_sum = to_sparse_matlab_matrix(cycle_sum, matrix_converter);
     homotopies = homotopy_matrices;
 end

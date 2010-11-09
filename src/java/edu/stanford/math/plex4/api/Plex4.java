@@ -66,19 +66,19 @@ public class Plex4 {
 	}
 	
 	public static VietorisRipsStream<double[]> createVietorisRipsStream(double[][] points, int maxDimension, double maxFiltrationValue, int numDivisions) {
-		return FilteredComplexInterface.createPlex4VietorisRipsStream(points, maxDimension, maxFiltrationValue, numDivisions);
+		return FilteredStreamInterface.createPlex4VietorisRipsStream(points, maxDimension, maxFiltrationValue, numDivisions);
 	}
 	
 	public static VietorisRipsStream<double[]> createVietorisRipsStream(double[][] points, int maxDimension, double maxFiltrationValue) {
-		return FilteredComplexInterface.createPlex4VietorisRipsStream(points, maxDimension, maxFiltrationValue, DEFAULT_NUM_DIVISIONS);
+		return FilteredStreamInterface.createPlex4VietorisRipsStream(points, maxDimension, maxFiltrationValue, DEFAULT_NUM_DIVISIONS);
 	}
 	
 	public static LazyWitnessStream<double[]> createLazyWitnessStream(LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
-		return FilteredComplexInterface.createPlex4LazyWitnessStream(selector, maxDimension, maxFiltrationValue, numDivisions);
+		return FilteredStreamInterface.createPlex4LazyWitnessStream(selector, maxDimension, maxFiltrationValue, numDivisions);
 	}
 	
 	public static LazyWitnessStream<double[]> createLazyWitnessStream(LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue) {
-		return FilteredComplexInterface.createPlex4LazyWitnessStream(selector, maxDimension, maxFiltrationValue, DEFAULT_NUM_DIVISIONS);
+		return FilteredStreamInterface.createPlex4LazyWitnessStream(selector, maxDimension, maxFiltrationValue, DEFAULT_NUM_DIVISIONS);
 	}
 	
 	public static LandmarkSelector<double[]> createMaxMinSelector(double[][] points, int numLandmarkPoints) {

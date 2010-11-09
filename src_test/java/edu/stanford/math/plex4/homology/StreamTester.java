@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
-import edu.stanford.math.plex4.api.FilteredComplexInterface;
+import edu.stanford.math.plex4.api.FilteredStreamInterface;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -30,11 +30,11 @@ public class StreamTester {
 	 */
 	public static void compareVietorisRipsStreams(double[][] points, int maxDimension, double maxFiltrationValue, int numDivisions) {
 		Timing.restart();
-		AbstractFilteredStream<Simplex> plex3Stream = FilteredComplexInterface.createPlex3VietorisRipsStream(points, maxDimension, maxFiltrationValue, numDivisions);
+		AbstractFilteredStream<Simplex> plex3Stream = FilteredStreamInterface.createPlex3VietorisRipsStream(points, maxDimension, maxFiltrationValue, numDivisions);
 		Timing.stopAndDisplay("Plex 3 Vietoris-Rips Stream");
 		
 		Timing.restart();
-		AbstractFilteredStream<Simplex> plex4Stream = FilteredComplexInterface.createPlex4VietorisRipsStream(points, maxDimension, maxFiltrationValue, numDivisions);
+		AbstractFilteredStream<Simplex> plex4Stream = FilteredStreamInterface.createPlex4VietorisRipsStream(points, maxDimension, maxFiltrationValue, numDivisions);
 		Timing.stopAndDisplay("Plex 4 Vietoris-Rips Stream");
 		
 		verifyEqual(plex3Stream, plex4Stream);
@@ -50,11 +50,11 @@ public class StreamTester {
 	 */
 	public static void compareLazyWitnessStreams(LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
 		Timing.restart();
-		AbstractFilteredStream<Simplex> plex3Stream = FilteredComplexInterface.createPlex3LazyWitnessStream(selector, maxDimension, maxFiltrationValue, numDivisions);
+		AbstractFilteredStream<Simplex> plex3Stream = FilteredStreamInterface.createPlex3LazyWitnessStream(selector, maxDimension, maxFiltrationValue, numDivisions);
 		Timing.stopAndDisplay("Plex 3 Lazy-Witness Stream");
 		
 		Timing.restart();
-		AbstractFilteredStream<Simplex> plex4Stream = FilteredComplexInterface.createPlex4LazyWitnessStream(selector, maxDimension, maxFiltrationValue, numDivisions);
+		AbstractFilteredStream<Simplex> plex4Stream = FilteredStreamInterface.createPlex4LazyWitnessStream(selector, maxDimension, maxFiltrationValue, numDivisions);
 		Timing.stopAndDisplay("Plex 4 Lazy-Witness Stream");
 		
 		verifyEqual(plex3Stream, plex4Stream);
