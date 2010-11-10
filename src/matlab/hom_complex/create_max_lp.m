@@ -1,4 +1,4 @@
-function [f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies)
+function [f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies, opt_max_constraint, opt_f)
 
     K = size(homotopies, 1);
     [I, J] = size(homotopies{1});
@@ -86,27 +86,29 @@ function [f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies)
         A(constraint_index, u_index) = -1;
         constraint_index = constraint_index + 1;
     end
-%{
-    A(constraint_index, t_index) = 1;
-    A(constraint_index, u_index) = 1;
-    b(constraint_index) = 1000;
-%}
+
+    if (exist('opt_max_constraint', 'var'))
+        A(constraint_index, t_index) = 1;
+        A(constraint_index, u_index) = 1;
+        b(constraint_index) = opt_max_constraint;
+    end
+
     f(t_index) = 1;
     f(u_index) = 1;
 
-    for k = 1:K
-        %f(k) = randn();
+    if (exist('opt_f', 'var'))
+        f(1:length(opt_f)) = opt_f;
     end
 
     large = 100;
 
     Aeq = [];
     beq = [];
-    lb = zeros(num_variables, 1);
+    lb = -large * ones(num_variables, 1);
     ub = large * ones(num_variables, 1);
 
     for k = 1:K
-        lb(k) = 0;
-        ub(k) = 2;
+        lb(k) = -1;
+        ub(k) = 1;
     end
 end
