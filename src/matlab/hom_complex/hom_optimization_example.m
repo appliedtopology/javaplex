@@ -51,7 +51,7 @@ codomain_index_intervals = persistence.computeIntervals(codomain_stream)
 % the set C
 [f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies);
 [x, fval, exitflag, output, lambda] = linprog(f, A, b, Aeq, beq, lb, ub);
-
+fval
 % find a random corner point of the set of optima
 [f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies, fval, randn(size(homotopies, 1), 1));
 [x, fval, exitflag, output, lambda] = linprog(f, A, b, Aeq, beq, lb, ub);

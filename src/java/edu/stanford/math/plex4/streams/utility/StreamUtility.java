@@ -6,11 +6,15 @@ import java.util.List;
 import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex4.graph.UndirectedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.homology.utility.HomologyUtility;
+import edu.stanford.math.plex4.streams.derived.TensorStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntMatrixConverter;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntPrimitiveFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectAlgebraicFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.matrix.IntSparseMatrix;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 
 /**
@@ -155,5 +159,39 @@ public class StreamUtility {
 	public static AbstractUndirectedGraph getNeighborhoodGraph(AbstractFilteredStream<Simplex> stream) {
 		return getNeighborhoodGraph(stream, 0);
 	}
+	
+	public static IntSparseMatrix createAlexanderWhitneyMatrix(AbstractFilteredStream<Simplex> stream) {
+		TensorStream<Simplex, Simplex> tensorStream = new TensorStream<Simplex, Simplex>(stream, stream);
+		IntMatrixConverter<Simplex, ObjectObjectPair<Simplex, Simplex>> matrixConverter = new IntMatrixConverter<Simplex, ObjectObjectPair<Simplex, Simplex>>(stream, tensorStream);
+		IntSparseMatrix matrix = new IntSparseMatrix(tensorStream.getSize(), stream.getSize());
 		
+		for (Simplex simplex: stream) {
+			List<ObjectObjectPair<Simplex, Simplex>> awMap = alexanderWhitneyDiagonal(simplex);
+			int col = matrixConverter.getDomainRepresentation().getIndex(simplex);
+			for (ObjectObjectPair<Simplex, Simplex> codomainElement : awMap) {
+				int row = matrixConverter.getCodomainRepresentation().getIndex(codomainElement);
+				matrix.set(row, col, 1);
+			}
+		}
+		
+		return matrix;
+	}
+	
+	/**
+	 * This function computes the Alexander-Whitney diagonal map of a given simplex defined by
+	 * Delta([v_0, ... v_n]) = sum_i [v_0, ... v_i] tensor [v_i, ... v_n]
+	 * 
+	 * @param simplex the simplex argument
+	 * @return the Alexander-Whitney diagonal map of the given simplex
+	 */
+	public static List<ObjectObjectPair<Simplex, Simplex>> alexanderWhitneyDiagonal(Simplex simplex) {
+		List<ObjectObjectPair<Simplex, Simplex>> result = new ArrayList<ObjectObjectPair<Simplex, Simplex>>();
+		int[] vertices = simplex.getVertices();
+		
+		for (int i = 0; i < vertices.length; i++) {
+			result.add(new ObjectObjectPair<Simplex, Simplex>(new Simplex(HomologyUtility.lowerEntries(vertices, i)), new Simplex(HomologyUtility.upperEntries(vertices, i))));
+		}
+		
+		return result;
+	}
 }
