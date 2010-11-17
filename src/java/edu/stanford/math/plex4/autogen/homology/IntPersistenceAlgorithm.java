@@ -28,21 +28,21 @@ import gnu.trove.TObjectIntIterator;
  * @param <U> the type of the basis elements
  */
 public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceBasisAlgorithm<U, IntSparseFormalSum<U>> {
-		/**
+	/**
 	 * This is the field over which we perform the arithmetic computations.
 	 */
 	protected final IntAbstractField field;
-		
+
 	/**
 	 * This objects performs the chain computations.
 	 */
 	protected final IntAlgebraicFreeModule<U> chainModule;
-	
+
 	/**
 	 * This comparator defines the ordering on the basis elements.
 	 */
 	protected final Comparator<U> basisComparator;
-	
+
 	/**
 	 * This comparator provides the dictionary ordering on filtration value - basis element
 	 * pairs.
@@ -53,13 +53,13 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 	 * This stores the minimum dimension for which to compute (co)homology.
 	 */
 	protected int minDimension = 0;
-	
+
 	/**
 	 * This stores the maximum dimension for which to compute (co)homology.
 	 */
 	protected int maxDimension = 2;	
 
-		/**
+	/**
 	 * This constructor initializes the object with a field and a comparator on the basis type.
 	 * 
 	 * @param field a field structure on the type int
@@ -74,7 +74,7 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 		this.minDimension = minDimension;
 		this.maxDimension = maxDimension;
 	}
-	
+
 	/**
 	 * This function simply updates the filtered comparator to the one induced by the given filtered stream.
 	 * 
@@ -92,8 +92,8 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 	public IntAlgebraicFreeModule<U> getChainModule() {
 		return this.chainModule;
 	}
-	
-		/**
+
+	/**
 	 * This function returns the field over which the homology is computed.
 	 * 
 	 * @return the field over type int
@@ -101,7 +101,7 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 	public IntAbstractField getField() {
 		return this.field;
 	}
-		
+
 	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
@@ -111,7 +111,7 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 		this.initializeFilteredComparator(stream);
 		return this.computeAnnotatedIntervalsImpl(stream);
 	}
-	
+
 	/**
 	 * This function provides the implementation of computeIntervals.
 	 * 
@@ -119,7 +119,7 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 	 * @return the persistence intervals of the given complex
 	 */
 	protected abstract IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<U> stream);
-	
+
 	/**
 	 * This function provides the implementation of computeAnnotatedIntervals.
 	 * 
@@ -127,7 +127,7 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 	 * @return the augmented persistence intervals
 	 */
 	protected abstract IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>> computeAnnotatedIntervalsImpl(AbstractFilteredStream<U> stream);
-	
+
 	/**
 	 * This function computes the operation low_A(j) as described in the paper. Note that if
 	 * the chain is empty (for example the column contains only zeros), then this function
@@ -137,20 +137,20 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 	 * @return
 	 */
 	protected U low(IntSparseFormalSum<U> chain) {
-	
+
 		U maxObject = null;
-		
-				
-				
+
+
+
 		for (TObjectIntIterator<U> iterator = chain.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			if (maxObject == null || this.filteredComparator.compare(iterator.key(), maxObject) > 0) {
 				maxObject = iterator.key();
 			}
 		}
-		
-		
-		
+
+
+
 		return maxObject;
 	}
 }
