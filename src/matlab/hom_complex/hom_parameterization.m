@@ -47,13 +47,15 @@ function [cycle_sum, homotopies] = hom_parameterization(domain_stream, codomain_
     cycle_sum = chain_module.createNewSum();
 
     iterator = intervals.iterator();
+    cycle_index = 1;
     while (iterator.hasNext())
         interval_generator_pair = iterator.next();
         interval = interval_generator_pair.getFirst();
         generator = interval_generator_pair.getSecond();
-        if (interval.isInfinite())
+        if (interval.isInfinite())% && (cycle_index == 1))
             chain_module.accumulate(cycle_sum, generator);
         end
+        cycle_index = cycle_index + 1;
     end
     
     cycle_sum = hom_stream.toDoubleFormalSum(cycle_sum);

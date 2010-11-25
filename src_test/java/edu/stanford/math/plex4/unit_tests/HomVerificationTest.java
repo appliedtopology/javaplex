@@ -22,8 +22,14 @@ public class HomVerificationTest {
 	public void tearDown() throws Exception {
 	}
 
-
 	@Test
+	public void dumpHomInformation() {
+		AbstractFilteredStream<Simplex> domain = SimplexStreamExamples.getCircle(3);
+		AbstractFilteredStream<Simplex> codomain = SimplexStreamExamples.getCircle(3);
+		HomTester.dumpHomInformation(domain, codomain);
+	}
+
+	
 	public void verifyHomotopyProperty() {
 		List<AbstractFilteredStream<Simplex>> complexes = new ArrayList<AbstractFilteredStream<Simplex>>();
 		

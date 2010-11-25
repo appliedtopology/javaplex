@@ -8,6 +8,7 @@ import org.apache.commons.math.fraction.Fraction;
 import edu.stanford.math.plex4.autogen.homology.BooleanClassicalHomology;
 import edu.stanford.math.plex4.autogen.homology.IntAbsoluteHomology;
 import edu.stanford.math.plex4.autogen.homology.ObjectAbsoluteHomology;
+import edu.stanford.math.plex4.autogen.homology.ObjectPersistenceAlgorithm;
 import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
 import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
@@ -105,6 +106,10 @@ public class Plex4 {
 		return new IntAbsoluteHomology<Cell>(ModularIntField.getInstance(prime), CellComparator.getInstance(), 0, maxDimension);
 	}
 	
+	public static ObjectAbsoluteHomology<Fraction, Simplex> getRationalSimplicialAlgorithm(int maxDimension) {
+		return new ObjectAbsoluteHomology<Fraction, Simplex>(RationalField.getInstance(), SimplexComparator.getInstance(), 0, maxDimension);
+	}
+	
 	public static AbstractPersistenceAlgorithm<Cell> getRationalCellularAlgorithm(int maxDimension) {
 		return new ObjectAbsoluteHomology<Fraction, Cell>(RationalField.getInstance(), CellComparator.getInstance(), 0, maxDimension);
 	}
@@ -124,9 +129,9 @@ public class Plex4 {
 		return new HomStream<T, U>(domainStream, codomainStream);
 	}
 	
-	public static AbstractPersistenceAlgorithm<ObjectObjectPair<Simplex, Simplex>> getRationalHomAlgorithm() {
+	public static ObjectPersistenceAlgorithm<Fraction, ObjectObjectPair<Simplex, Simplex>> getRationalHomAlgorithm() {
 		Comparator<ObjectObjectPair<Simplex, Simplex>> comparator = new ObjectObjectPairComparator<Simplex, Simplex>(new ReversedComparator<Simplex>(SimplexComparator.getInstance()), SimplexComparator.getInstance());
-		AbstractPersistenceAlgorithm<ObjectObjectPair<Simplex, Simplex>> algorithm = new ObjectAbsoluteHomology<Fraction, ObjectObjectPair<Simplex, Simplex>>(RationalField.getInstance(), comparator, 0, 1);
+		ObjectPersistenceAlgorithm<Fraction, ObjectObjectPair<Simplex, Simplex>> algorithm = new ObjectAbsoluteHomology<Fraction, ObjectObjectPair<Simplex, Simplex>>(RationalField.getInstance(), comparator, 0, 1);
 		return algorithm;
 	}
 	
