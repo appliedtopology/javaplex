@@ -1,8 +1,8 @@
 
 clc; clear; close all;
 
-domain_size = 3;
-codomain_size = 3;
+domain_size = 50;
+codomain_size = 4;
 
 % create the domain and codomain simplicial complexes
 %{
@@ -58,8 +58,8 @@ codomain_index_intervals = persistence.computeIntervals(codomain_stream)
 [x, fval, exitflag, output, lambda] = linprog(f, A, b, Aeq, beq, lb, ub);
 fval
 % find a random corner point of the set of optima
-%[f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies, fval, randn(size(homotopies, 1), 1));
-%[x, fval, exitflag, output, lambda] = linprog(f, A, b, Aeq, beq, lb, ub);
+[f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies, fval, randn(size(homotopies, 1), 1));
+[x, fval, exitflag, output, lambda] = linprog(f, A, b, Aeq, beq, lb, ub);
 
 map = compute_mapping(cycle_sum, homotopies, x(1:size(homotopies, 1)));
 map = (abs(map) > 1e-3) .* map

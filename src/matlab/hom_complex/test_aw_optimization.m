@@ -1,8 +1,8 @@
 
 clc; clear; close all;
 
-domain_size = 5;
-codomain_size = 4;
+domain_size = 4;
+codomain_size = 5;
 
 % create the domain and codomain simplicial complexes
 %{
@@ -42,8 +42,8 @@ loss_function = @(x) sum(x.^2);
 objective = @(c) alexander_whitney_loss_function(compute_mapping(cycle_sum, homotopies, c(1:K)), domain_aw_matrix, codomain_aw_matrix, loss_function);
 c_0 = randn(size(lb, 1), 1);
 
-%[x, fval, exitflag, output] = fminunc(objective, c_0);
-[x, fval, exitflag, output] = fmincon(objective, c_0, A, b, Aeq, beq, lb, ub);
+[x, fval, exitflag, output] = fminunc(objective, c_0);
+%[x, fval, exitflag, output] = fmincon(objective, c_0, A, b, Aeq, beq, lb, ub);
 
 %{
 opts.tol = 1e-6;
@@ -57,4 +57,4 @@ map = (abs(map) > 1e-2) .* map
 
 map = normalize_rows(map);
 %%
-PlexViewer.drawMapping(domain_stream, domain_points, codomain_stream, codomain_points, abs(map));
+%PlexViewer.drawMapping(domain_stream, domain_points, codomain_stream, codomain_points, abs(map));
