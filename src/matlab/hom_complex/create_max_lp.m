@@ -90,7 +90,7 @@ function [f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies, opt_
     if (exist('opt_max_constraint', 'var'))
         A(constraint_index, t_index) = 1;
         A(constraint_index, u_index) = 1;
-        b(constraint_index) = opt_max_constraint;
+        b(constraint_index) = opt_max_constraint + 0.1;
     end
 
     f(t_index) = 1;
@@ -108,7 +108,7 @@ function [f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies, opt_
     ub = large * ones(num_variables, 1);
 
     for k = 1:K
-        lb(k) = -1;
-        ub(k) = 1;
+        lb(k) = -large;
+        ub(k) = large;
     end
 end

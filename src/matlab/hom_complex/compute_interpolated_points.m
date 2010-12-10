@@ -7,4 +7,6 @@ vertex_mapping = mapping(1:J_0, 1:I_0);
 
 interpolated_points = vertex_mapping' * codomain_points;
 
+%interpolated_points = mod(interpolated_points, 2 * pi);
+
 end

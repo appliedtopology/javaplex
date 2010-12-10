@@ -1,8 +1,8 @@
 
 clc; clear; close all;
 
-domain_size = 4;
-codomain_size = 5;
+domain_size = 5;
+codomain_size = 4;
 
 % create the domain and codomain simplicial complexes
 %{
@@ -56,5 +56,8 @@ map = compute_mapping(cycle_sum, homotopies, x(1:K));
 map = (abs(map) > 1e-2) .* map
 
 map = normalize_rows(map);
+
+dlmwrite('matrix.txt', map');
+
 %%
 %PlexViewer.drawMapping(domain_stream, domain_points, codomain_stream, codomain_points, abs(map));
