@@ -80,8 +80,8 @@ public class PersistenceAlgorithmEqualityTest {
 		streams.add(SimplexStreamExamples.getTorus());
 		streams.add(SimplexStreamExamples.getCircle(7));
 		streams.add(SimplexStreamExamples.getOctahedron());
-		streams.add(SimplexStreamExamples.getIcosahedron());
-		streams.add(SimplexStreamExamples.getAnnulus(4, 10));
+		//streams.add(SimplexStreamExamples.getIcosahedron());
+		//streams.add(SimplexStreamExamples.getAnnulus(4, 10));
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension);
 		PersistenceAlgorithmTester.verifyEquality(algorithms, streams);
