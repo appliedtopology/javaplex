@@ -1,7 +1,7 @@
 
 clc; clear; close all;
 
-domain_size = 200;
+domain_size = 10;
 codomain_size = 4;
 
 % create the domain and codomain simplicial complexes
@@ -46,7 +46,7 @@ codomain_points = examples.PointCloudExamples.getEquispacedCirclePoints(codomain
 %domain_points = domain_points + ones(domain_size, 1) * [3, 0];
 
 % create a randomized landmark selector
-landmark_selector = api.Plex4.createMaxMinSelector(domain_points, 40);
+landmark_selector = api.Plex4.createMaxMinSelector(domain_points, 10);
 % create a Lazy-Witness Stream - note that this sets the number of
 % divisions to the default value of 20
 domain_stream = api.Plex4.createLazyWitnessStream(landmark_selector, 2, 0.5, 20);
@@ -99,5 +99,5 @@ dlmwrite('matrix.txt', full(map));
 %scatter(domain_theta, interpolated_theta);
 %map = normalize_rows(map);
 
-%PlexViewer.drawMapping(domain_stream, domain_points, codomain_stream, codomain_points, abs(map));
+PlexViewer.drawMapping(domain_stream, domain_points, codomain_stream, codomain_points, abs(map));
 %PlexViewer.drawMapping(codomain_stream, codomain_points, domain_stream, domain_points, abs(map'));

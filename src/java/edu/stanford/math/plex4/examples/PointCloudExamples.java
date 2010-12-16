@@ -22,10 +22,10 @@ public class PointCloudExamples {
 				new double[]{1, 0},
 				new double[]{-1, 0},
 				new double[]{-1, 2}};
-		
+
 		return points;
 	}
-	
+
 	/**
 	 * This function produces a square in the plane.
 	 * 
@@ -39,7 +39,7 @@ public class PointCloudExamples {
 
 		return points;
 	}
-	
+
 	/**
 	 * This function returns a point set containing n equally spaced points on a
 	 * circle.
@@ -49,7 +49,7 @@ public class PointCloudExamples {
 	 */
 	public static double[][] getEquispacedCirclePoints(int n) {
 		double[][] points = new double[n][2];
-		
+
 		for (int i = 0; i < n; i++) {
 			points[i][0] = Math.cos(2 * Math.PI * ((double) i / (double) n));
 			points[i][1] = Math.sin(2 * Math.PI * ((double) i / (double) n));
@@ -57,7 +57,7 @@ public class PointCloudExamples {
 
 		return points;
 	}
-	
+
 	/**
 	 * This function returns the vertices of an octahedron.
 	 * 
@@ -65,17 +65,17 @@ public class PointCloudExamples {
 	 */
 	public static double[][] getOctahedronVertices() {
 		double[][] points = new double[6][3];
-		
+
 		points[0] = new double[]{1, 0, 0};
 		points[1] = new double[]{0, -1, 0};
 		points[2] = new double[]{-1, 0, 0};
 		points[3] = new double[]{0, 1, 0};
 		points[4] = new double[]{0, 0, 1};
 		points[5] = new double[]{0, 0, -1};
-		
+
 		return points;
 	}
-	
+
 	/**
 	 * This function returns the vertices of an tetrahedron.
 	 * 
@@ -83,11 +83,54 @@ public class PointCloudExamples {
 	 */
 	public static double[][] getTetrahedronVertices() {
 		double[][] points = new double[4][3];
+
+		points[0] = new double[]{0, 0, 1};
+		points[1] = new double[]{0.943, 0, -0.333};
+		points[2] = new double[]{-0.471, 0.816, -0.333};
+		points[3] = new double[]{-0.471, -0.816, -0.333};
 		
-		points[0] = new double[]{0, 0, 0};
-		points[1] = new double[]{1, 0, 0};
-		points[2] = new double[]{0, 1, 0};
-		points[3] = new double[]{0, 0, 1};
+		return points;
+	}
+
+
+	public static double[][] getAnnulusVertices(int width, int length) {
+		double[][] points = new double[width * length][2];
+		double radius;
+		double angle;
+		int index = 0;
+		for (int radialIndex = 0; radialIndex < width; radialIndex++) {
+			if (width == 1) {
+				radius = 1;
+			} else {
+				radius = 1 + ((double) radialIndex) / ((double) width - 1);
+			}
+			for (int angularIndex = 0; angularIndex < length; angularIndex++) {
+				angle = 2 * Math.PI * ((double) angularIndex) / ((double) length);
+				points[index][0] = radius * Math.cos(angle);
+				points[index][1] = radius * Math.sin(angle);
+				index++;
+			}
+		}
+
+		return points;
+	}
+
+	public static double[][] getIcosahedronVertices() {
+		double[][] points = new double[12][3];
+
+		points[0] = new double[]{ 0.000, 0.000, 1.000 };
+		points[1] = new double[]{ 0.894, 0.000, 0.447 };
+		points[2] = new double[]{ 0.276, 0.851, 0.447 };
+		points[3] = new double[]{-0.724, 0.526, 0.447 };
+		points[4] = new double[]{-0.724, -0.526, 0.447 };
+		points[5] = new double[]{ 0.276, -0.851, 0.447 };
+		points[6] = new double[]{ 0.724, 0.526, -0.447 };
+		points[7] = new double[]{-0.276, 0.851, -0.447 };
+		points[8] = new double[]{-0.894, 0.000, -0.447 };
+		points[9] = new double[]{-0.276, -0.851, -0.447 };
+		points[10] = new double[]{ 0.724, -0.526, -0.447 };
+		points[11] = new double[]{ 0.000, 0.000, -1.000 };
+
 		
 		return points;
 	}
@@ -102,7 +145,7 @@ public class PointCloudExamples {
 	 */
 	public static double[][] getRandomSpherePoints(int n, int d) {
 		double[][] points = new double[n][];
-		
+
 		for (int i = 0; i < n; i++) {
 			points[i] = RandomUtility.normalArray(d + 1);
 			points[i] = DoubleArrayMath.scalarMultiply(points[i], 1.0 / DoubleArrayMath.norm(points[i], 2));
@@ -110,7 +153,7 @@ public class PointCloudExamples {
 
 		return points;
 	}
-	
+
 	/**
 	 * This function returns n points distributed to a standard Gaussian distribution in d-dimensional
 	 * Euclidean space.
@@ -121,14 +164,14 @@ public class PointCloudExamples {
 	 */
 	public static double[][] getGaussianPoints(int n, int d) {
 		double[][] points = new double[n][];
-		
+
 		for (int i = 0; i < n; i++) {
 			points[i] = RandomUtility.normalArray(d);
 		}
 
 		return points;
 	}
-	
+
 	/**
 	 * This function returns non-uniformly generated points on the torus in R^3.
 	 * 
@@ -139,7 +182,7 @@ public class PointCloudExamples {
 	 */
 	public static double[][] getRandomTorusPoints(int n, double r, double R) {
 		double[][] points = new double[n][3];
-		
+
 		for (int i = 0; i < n; i++) {
 			double u = RandomUtility.nextUniform() * 2 * Math.PI;
 			double v = RandomUtility.nextUniform() * 2 * Math.PI;
@@ -147,10 +190,23 @@ public class PointCloudExamples {
 			points[i][1] = (R + r * Math.cos(v)) * Math.sin(u);
 			points[i][2] = r * Math.sin(v);
 		}
-		
+
 		return points;
 	}
 
+	public static double[][] getRandomTrefoilKnotPoints(int n) {
+		double[][] points = new double[n][3];
+
+		for (int i = 0; i < n; i++) {
+			double t = RandomUtility.nextUniform() * 2 * Math.PI;
+			points[i][0] = (2 + Math.cos(3 * t)) * Math.cos(2 * t);
+			points[i][1] = (2 + Math.cos(3 * t)) * Math.sin(2 * t);
+			points[i][2] = Math.sin(3 * t);
+		}
+
+		return points;
+	}
+	
 	/**
 	 * This function returns uniformly distributed points on the space S^k x ... x S^k.
 	 * Special cases of this include the 2-torus S^1 x S^1 in R^4, as well as the sphere S^k.
@@ -163,7 +219,7 @@ public class PointCloudExamples {
 	public static double[][] getRandomSphereProductPoints(int numPoints, int sphereDimension, int numFactors) {
 		int dimension = (sphereDimension + 1) * numFactors;
 		double[][] points = new double[numPoints][];
-		
+
 		for (int i = 0; i < numPoints; i++) {
 			points[i] = RandomUtility.normalArray(dimension);
 			for (int N = 0; N < numFactors; N++) {
@@ -180,7 +236,7 @@ public class PointCloudExamples {
 
 		return points;
 	}
-	
+
 	/**
 	 * This function returns randomly generated points on a figure-8 in the plane. This consists
 	 * of two circles - one translated up by 1 unit, and the other translated down by 1 unit.
@@ -191,19 +247,19 @@ public class PointCloudExamples {
 	public static double[][] getRandomFigure8Points(int n) {
 		int m = n / 2;
 		double[][] points = new double[n][2];
-		
+
 		for (int i = 0; i < m; i++) {
 			points[i] = RandomUtility.normalArray(2);
 			points[i] = DoubleArrayMath.scalarMultiply(points[i], 1.0 / DoubleArrayMath.norm(points[i], 2));
-			
+
 			// translate by +1 vertically
 			points[i][1] += 1;
 		}
-		
+
 		for (int i = m; i < n; i++) {
 			points[i] = RandomUtility.normalArray(2);
 			points[i] = DoubleArrayMath.scalarMultiply(points[i], 1.0 / DoubleArrayMath.norm(points[i], 2));
-			
+
 			// translate by -1 vertically
 			points[i][1] -= 1;
 		}		

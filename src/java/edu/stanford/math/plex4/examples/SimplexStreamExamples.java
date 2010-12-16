@@ -255,6 +255,88 @@ public class SimplexStreamExamples {
 		return stream;
 	}
 	
+	public static ExplicitSimplexStream getIcosahedron() {
+		ExplicitSimplexStream stream = new ExplicitSimplexStream();
+		
+		// add vertices
+		for (int i = 0; i < 12; i++) {
+			stream.addVertex(i);
+		}
+		
+		// add faces
+		stream.addElement(new int[]{0, 1, 2});
+		stream.addElement(new int[]{0, 2, 3});
+		stream.addElement(new int[]{0, 3, 4});
+		stream.addElement(new int[]{0, 4, 5});
+		stream.addElement(new int[]{0, 5, 1});
+		stream.addElement(new int[]{11, 6, 7});
+		stream.addElement(new int[]{11, 7, 8});
+		stream.addElement(new int[]{11, 8, 9});
+		stream.addElement(new int[]{11, 9, 10});
+		stream.addElement(new int[]{11, 10, 6});
+		stream.addElement(new int[]{1, 2, 6});
+		stream.addElement(new int[]{2, 3, 7});
+		stream.addElement(new int[]{3, 4, 8});
+		stream.addElement(new int[]{4, 5, 9});
+		stream.addElement(new int[]{5, 1, 10});
+		stream.addElement(new int[]{6, 7, 2});
+		stream.addElement(new int[]{7, 8, 3});
+		stream.addElement(new int[]{8, 9, 4});
+		stream.addElement(new int[]{9, 10, 5});
+		stream.addElement(new int[]{10, 6, 1});
+
+		// add edges
+		stream.ensureAllFaces();
+		
+		stream.finalizeStream();
+		
+		return stream;
+	}
+	
+	public static ExplicitSimplexStream getAnnulus(int width, int length) {
+		ExplicitSimplexStream stream = new ExplicitSimplexStream();
+		
+		int vertexIndex = 0;
+		int neighborIndex0 = 0;
+		int neighborIndex1 = 0;
+		int neighborIndex2 = 0;
+		for (int radialIndex = 0; radialIndex < width; radialIndex++) {
+			for (int angularIndex = 0; angularIndex < length; angularIndex++) {
+				stream.addVertex(vertexIndex);
+				
+				
+				if (angularIndex == length - 1) {
+					neighborIndex0 = vertexIndex - length + 1;
+				} else {
+					neighborIndex0 = vertexIndex + 1;
+				}
+				
+				stream.addElement(new int[]{vertexIndex, neighborIndex0});
+				
+				if (radialIndex < width - 1) {
+					neighborIndex1 = vertexIndex + length;
+					stream.addElement(new int[]{vertexIndex, neighborIndex1});
+					
+					if (angularIndex == length - 1) {
+						neighborIndex2 = vertexIndex + 1;
+					} else {
+						neighborIndex2 = vertexIndex + length + 1;
+					}
+					stream.addElement(new int[]{vertexIndex, neighborIndex2});
+					
+					stream.addElement(new int[]{vertexIndex, neighborIndex1, neighborIndex2});
+					stream.addElement(new int[]{vertexIndex, neighborIndex0, neighborIndex2});
+				}
+				
+				vertexIndex++;
+			}
+		}
+		
+		stream.finalizeStream();
+		
+		return stream;
+	}
+	
 	/**
 	 * This function produces a simplicial complex from a given undirected graph. The resulting
 	 * complex contains the same vertices and edges as the given graph.
@@ -277,6 +359,8 @@ public class SimplexStreamExamples {
 		for (IntIntPair pair: graph) {
 			stream.addElement(new int[]{pair.getFirst(), pair.getSecond()});
 		}
+		
+		stream.finalizeStream();
 		
 		return stream;
 	}
@@ -306,6 +390,8 @@ public class SimplexStreamExamples {
 				}
 			}
 		}
+		
+		stream.finalizeStream();
 		
 		return stream;
 	}
