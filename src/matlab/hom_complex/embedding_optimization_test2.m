@@ -1,7 +1,7 @@
 
 clc; clear; close all;
 
-domain_size = 4;
+domain_size = 10;
 codomain_size = 3;
 
 % create the domain and codomain simplicial complexes

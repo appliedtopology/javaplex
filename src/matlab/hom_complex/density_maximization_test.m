@@ -2,7 +2,7 @@
 clc; clear; close all;
 
 domain_size = 4;
-codomain_size = 60;
+codomain_size = 200;
 
 % create the domain and codomain simplicial complexes
 
@@ -39,27 +39,30 @@ codomain_theta = ([0:codomain_size - 1] * (2 * pi / codomain_size))';
 
 utility.RandomUtility.initializeWithSeed(0);
 hold on;
-codomain_points = examples.PointCloudExamples.getRandomTrefoilKnotPoints(codomain_size);
-%codomain_points = examples.PointCloudExamples.getRandomSpherePoints(codomain_size, 1);
+%codomain_points = examples.PointCloudExamples.getRandomTrefoilKnotPoints(codomain_size);
+codomain_points = examples.PointCloudExamples.getRandomSpherePoints(codomain_size, 2);
 plot3(codomain_points(:, 1), codomain_points(:, 2), codomain_points(:, 3), 'bx') + randn() * 0.1;
 %scatter(codomain_points(:, 1), codomain_points(:, 2), 'bx');
-domain_points = examples.PointCloudExamples.getEquispacedCirclePoints(domain_size);
+%domain_points = examples.PointCloudExamples.getEquispacedCirclePoints(domain_size);
+domain_points = examples.PointCloudExamples.getTetrahedronVertices();
 %domain_points = domain_points + ones(domain_size, 1) * [3, 0];
 
 % create a randomized landmark selector
-landmark_selector = api.Plex4.createMaxMinSelector(codomain_points, codomain_size / 2);
+landmark_selector = api.Plex4.createMaxMinSelector(codomain_points, min(codomain_size / 2, 20));
 % create a Lazy-Witness Stream - note that this sets the number of
 % divisions to the default value of 20
-codomain_stream = api.Plex4.createLazyWitnessStream(landmark_selector, 2, 0.6, 5);
+codomain_stream = api.Plex4.createLazyWitnessStream(landmark_selector, 3, 0.2, 1);
 codomain_stream.finalizeStream();
+original_codomain_points = codomain_points;
 codomain_points = codomain_points(landmark_selector.getLandmarkPoints()+1, :);
 
-domain_stream = examples.SimplexStreamExamples.getCircle(domain_size);
+%domain_stream = examples.SimplexStreamExamples.getCircle(domain_size);
+domain_stream = examples.SimplexStreamExamples.getTetrahedron();
 domain_stream.finalizeStream();
 
 
 % get the default persistence algorithm
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(2);
+persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 
 % compute the intervals and transform them to filtration values
 domain_index_intervals = persistence.computeIntervals(domain_stream)
@@ -76,7 +79,7 @@ sigma = 0.5;
 
 K = size(homotopies, 1);
 edge_list = get_edges(domain_stream);
-distance_function = @(a, b) circle_distance(a, b);
+distance_function = @(a, b) circle_distance(a, b);3
 objective = @(c) density_objective(compute_mapping(cycle_sum, homotopies, c(1:K)), domain_points, codomain_points, gaussian_kernel_densities(codomain_points, codomain_points, sigma));
 
 %c_0 = randn(K, 1);
@@ -101,7 +104,6 @@ map = (abs(map) > 1e-3) .* map
 %%
 
 %interpolated_points = compute_interpolated_points((map), domain_points, codomain_points);
-interpolated_points = [codomain_points(30,:); codomain_points(18,:); codomain_points(3,:)] - rand() * 0.02;
 %figure;
 %plot3(codomain_points(:, 1), codomain_points(:, 2), codomain_points(:, 3), 'bo');
 hold on;

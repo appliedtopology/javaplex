@@ -1,7 +1,7 @@
 
 clc; clear; close all;
 
-domain_size = 4;
+domain_size = 20;
 codomain_size = 3;
 
 % create the domain and codomain simplicial complexes
@@ -82,7 +82,8 @@ codomain_points = [cos(codomain_theta), sin(codomain_theta)];
 
 scatter(codomain_points(:, 1), codomain_points(:, 2), 'bo');
 hold on;
-scatter(interpolated_points(:, 1), interpolated_points(:, 2), 'rx');
+scatter(interpolated_points(:, 1), interpolated_points(:, 2), 'ro');
+legend('Codomain Points', 'Domain Points');
 
 figure;
 scatter(domain_theta, mod(interpolated_theta, 2 * pi));

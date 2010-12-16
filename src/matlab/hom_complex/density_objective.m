@@ -8,7 +8,7 @@ function density = density_objective(map, domain_points, codomain_points, codoma
     %domain_densities = vertex_mapping' * codomain_densities;
     domain_densities = gaussian_kernel_densities(interpolated_points, codomain_points, 0.6);
     
-    total_distance = pdist(interpolated_points);
+    total_distance = pdist2(interpolated_points);
     lambda = 0.01;
     
     density = -(sum(domain_densities) + lambda * sum(total_distance));
