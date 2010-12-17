@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.autogen.homology;
+package edu.stanford.math.plex4.homology.nonautogen;
 
 import java.util.Comparator;
 import java.util.HashMap;
