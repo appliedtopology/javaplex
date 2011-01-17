@@ -11,7 +11,6 @@ import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.derived.DualStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.utility.FilteredComparator;
-import edu.stanford.math.plex4.test_utility.Timing;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
@@ -107,12 +106,9 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 	}
 
 	private IntBarcodeCollection pCohMatrix(AbstractFilteredStream<U> stream) {
-		Timing.restart();
 		AbstractFilteredStream<U> dualStream = new DualStream<U>(stream);
 		IntVectorConverter<U> vectorConverter = new IntVectorConverter<U>(stream);
 		dualStream.finalizeStream();
-		Timing.stopAndDisplay("Dual stream construction");
-		Timing.restart();
 
 		IntBarcodeCollection collection = new IntBarcodeCollection();
 
@@ -210,11 +206,8 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 	}
 
 	private IntBarcodeCollection pCoh(AbstractFilteredStream<U> stream) {
-		Timing.restart();
 		AbstractFilteredStream<U> dualStream = new DualStream<U>(stream);
 		dualStream.finalizeStream();
-		Timing.stopAndDisplay("Dual stream construction");
-		Timing.restart();
 
 		IntBarcodeCollection collection = new IntBarcodeCollection();
 

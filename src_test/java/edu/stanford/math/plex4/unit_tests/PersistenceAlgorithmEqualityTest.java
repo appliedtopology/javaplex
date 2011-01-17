@@ -15,15 +15,11 @@ import edu.stanford.math.plex4.examples.SimplexStreamExamples;
 import edu.stanford.math.plex4.homology.PersistenceAlgorithmTester;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
-import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
-import edu.stanford.math.plex4.homology.nonautogen.PersistentCohomologyPrototype;
-import edu.stanford.math.plex4.homology.nonautogen.ZeroDimHomology;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.utility.RandomUtility;
-import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
 import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 
 /**
@@ -43,67 +39,10 @@ public class PersistenceAlgorithmEqualityTest {
 	@After
 	public void tearDown() {}
 
-	@Test
-	public void testZeroDimHomology() {
-		final int n = 120;
-		final int maxDimension = 3;
-		final double maxFiltrationValue = 0.5;
-		final int numDivisions = 10;
-		
-		List<AbstractFilteredStream<Simplex>> streams = new ArrayList<AbstractFilteredStream<Simplex>>();
-		
-		streams.add(SimplexStreamExamples.getZomorodianCarlssonExample());
-		streams.add(SimplexStreamExamples.getFilteredTriangle());
-		streams.add(SimplexStreamExamples.getTriangle());
-		streams.add(SimplexStreamExamples.getTetrahedron());
-		streams.add(SimplexStreamExamples.getTorus());
-		streams.add(SimplexStreamExamples.getCircle(7));
-		streams.add(SimplexStreamExamples.getOctahedron());
-		
-		List<double[][]> pointClouds = new ArrayList<double[][]>();
-		
-		pointClouds.add(PointCloudExamples.getEquispacedCirclePoints(n));
-		pointClouds.add(PointCloudExamples.getGaussianPoints(n, maxDimension));
-		//pointClouds.add(PointCloudExamples.getRandomFigure8Points(n));
-		pointClouds.add(PointCloudExamples.getRandomSpherePoints(maxDimension * n, maxDimension - 1));
-		
-		for (double[][] pointCloud: pointClouds) {
-			streams.add(FilteredStreamInterface.createPlex4VietorisRipsStream(pointCloud, 1, maxFiltrationValue, numDivisions));
-		}
-		
-		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = new ArrayList<AbstractPersistenceAlgorithm<Simplex>>();
-		algorithms.add(PersistenceAlgorithmInterface.getPlex3SimplicialAbsoluteHomology(1));
-		algorithms.add(new ZeroDimHomology());
-		
-		PersistenceAlgorithmTester.verifyEquality(algorithms, streams);
-	}
-	
-	//@Test
-	public void testPersistentCohomology() {
-		int maxDimension = 4;
-		
-		List<AbstractFilteredStream<Simplex>> streams = new ArrayList<AbstractFilteredStream<Simplex>>();
-		
-		streams.add(SimplexStreamExamples.getZomorodianCarlssonExample());
-		streams.add(SimplexStreamExamples.getFilteredTriangle());
-		streams.add(SimplexStreamExamples.getTriangle());
-		streams.add(SimplexStreamExamples.getTetrahedron());
-		streams.add(SimplexStreamExamples.getTorus());
-		streams.add(SimplexStreamExamples.getCircle(7));
-		streams.add(SimplexStreamExamples.getOctahedron());
-		
-		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = new ArrayList<AbstractPersistenceAlgorithm<Simplex>>();
-		
-		algorithms.add(PersistenceAlgorithmInterface.getPlex3SimplicialAbsoluteHomology(maxDimension));
-		algorithms.add(new PersistentCohomologyPrototype<Simplex>(ModularIntField.getInstance(11), SimplexComparator.getInstance(), 0, maxDimension));
-		
-		PersistenceAlgorithmTester.verifyEquality(algorithms, streams);
-	}
-	
 	/**
 	 * This function tests various small examples of filtered simplicial complexes.
 	 */
-	//@Test
+	@Test
 	public void testSmallSimplexStreams() {
 		int maxDimension = 4;
 		
@@ -127,7 +66,7 @@ public class PersistenceAlgorithmEqualityTest {
 	 * This function tests various small examples of filtered cell complexes. Note that we only test
 	 * the orientable examples, due to differing results due to torsion.
 	 */
-	//@Test
+	@Test
 	public void testSmallCellStreams() {
 		int maxDimension = 4;
 		
@@ -144,7 +83,7 @@ public class PersistenceAlgorithmEqualityTest {
 	/**
 	 * This function tests the algorithms on Vietoris-Rips complexes generated from point clouds.
 	 */
-	//@Test
+	@Test
 	public void testVietorisRipsPointClouds() {
 		final int n = 120;
 		final int maxDimension = 5;
@@ -173,7 +112,7 @@ public class PersistenceAlgorithmEqualityTest {
 	/**
 	 * This function tests the algorithms on Lazy-Witness complexes generated from point clouds.
 	 */
-	//@Test
+	@Test
 	public void testLazyWitnessPointClouds() {
 		final int n = 500;
 		final int l = 50;
@@ -202,7 +141,7 @@ public class PersistenceAlgorithmEqualityTest {
 	 * This function tests a complex that contains approximately 500,000 simplices. It compares the
 	 * efficiency of the different algorithms on a large complex.
 	 */
-	//@Test
+	@Test
 	public void testLargeFigure8Complex() {
 		final int n = 220;
 		final int maxDimension = 4;
@@ -219,7 +158,7 @@ public class PersistenceAlgorithmEqualityTest {
 	/**
 	 * This function compares the algorithms on a Vietoris-Rips stream generated from sampling a 6-dimensional sphere.
 	 */
-	//@Test
+	@Test
 	public void testHighDimensionalSphere() {
 		final int n = 48;
 		final int sphereDimension = 6;
