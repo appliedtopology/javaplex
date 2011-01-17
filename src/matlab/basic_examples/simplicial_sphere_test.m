@@ -1,4 +1,4 @@
-% This script demonstrates the computation of the homology of a
+d% This script demonstrates the computation of the homology of a
 % high-dimensional sphere that is beyond the reach of the previous version
 % of plex.
 

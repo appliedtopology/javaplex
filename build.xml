@@ -1,101 +1,55 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="javaplex">
-    <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../usr/lib/eclipse"/>
-    <property name="junit.output.dir" value="junit"/>
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.5"/>
-    <property name="source" value="1.5"/>
-    <path id="JUnit 4.libraryclasspath">
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit4_4.5.0.v20090824/junit.jar"/>
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.1.0.jar"/>
-    </path>
-    <path id="javaplex.classpath">
-        <pathelement location="bin"/>
-        <pathelement location="lib/bsh-2.0b4.jar"/>
-        <path refid="JUnit 4.libraryclasspath"/>
-        <pathelement location="lib/colt.jar"/>
-        <pathelement location="lib/jai_codec.jar"/>
-        <pathelement location="lib/trove-2.1.0.jar"/>
-        <pathelement location="lib/primitive-lib.jar"/>
-        <pathelement location="lib/velocity-1.6.4-dep.jar"/>
-        <pathelement location="lib/commons-math-2.1.jar"/>
-    </path>
-    <target name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src/bsh">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src/java">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src_test/java">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="clean">
-        <delete dir="bin"/>
-    </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
-            <src path="src/bsh"/>
-            <classpath refid="javaplex.classpath"/>
-        </javac>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
-            <src path="src/java"/>
-            <classpath refid="javaplex.classpath"/>
-        </javac>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
-            <src path="src_test/java"/>
-            <classpath refid="javaplex.classpath"/>
-        </javac>
-    </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-        <copy todir="${ant.library.dir}">
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </copy>
-        <unzip dest="${ant.library.dir}">
-            <patternset includes="jdtCompilerAdapter.jar"/>
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </unzip>
-    </target>
-    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-        <antcall target="build"/>
-    </target>
-    <target name="PersistenceAlgorithmEqualityTest">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="edu.stanford.math.plex4.unit_tests.PersistenceAlgorithmEqualityTest" todir="${junit.output.dir}"/>
-            <classpath refid="javaplex.classpath"/>
-        </junit>
-    </target>
-    <target name="junitreport">
-        <junitreport todir="${junit.output.dir}">
-            <fileset dir="${junit.output.dir}">
-                <include name="TEST-*.xml"/>
-            </fileset>
-            <report format="frames" todir="${junit.output.dir}"/>
-        </junitreport>
-    </target>
+<project name="javaplex" default="compile" basedir=".">
+
+	<property name="build.home" value="${basedir}/classes" />
+	<property name="docs.home" value="${basedir}/doc" />
+	<property name="src.home" value="${basedir}/src" />
+	<property name="src_test.home" value="${basedir}/src_test" />
+	<property name="javadoc.home" value="${basedir}/javadoc" />
+
+	<property name="compile.debug" value="true" />
+	<property name="compile.deprecation" value="false" />
+	<property name="compile.optimize" value="true" />
+	<property name="compile.source" value="1.5" />
+
+	<property name="junit.output.dir" value="junit" />
+
+	<property name="jar.name" value="javaplex.jar" />
+
+	<path id="master-classpath">
+		<fileset dir="${basedir}/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="all" depends="clean,compile" description="Clean build and dist directories, then compile" />
+
+	<target name="clean" description="Delete old classes">
+		<delete dir="${build.home}" />
+	</target>
+
+	<target name="compile" depends="prepare" description="Compile Java sources">
+
+		<mkdir dir="${build.home}" />
+		<javac srcdir="${src.home}" destdir="${build.home}" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}" source="${compile.source}">
+
+			<classpath refid="master-classpath" />
+
+		</javac>
+
+	</target>
+
+	<target name="javadoc">
+		<javadoc destdir="${docs.home}" classpathref="master-classpath" sourcepath="${src.home}">
+			<package name="edu.stanford.math.plex4" />
+			<fileset dir="${src.home}" />
+		</javadoc>
+	</target>
+
+
+	<target name="prepare">
+		<mkdir dir="${build.home}" />
+	</target>
+
 </project>
+
+
