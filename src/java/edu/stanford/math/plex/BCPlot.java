@@ -445,10 +445,10 @@ public class BCPlot extends JPanel {
 			baseRegionUsedForPlotLegendRulerLabels =
 				new Rectangle(0, gridHeight, gridWidth,
 						heightOfBaseRegionUsedForPlotLegendRulerLabels);
-			unitsPerPixel = (double)plotUpperBound/gridWidth;
+			unitsPerPixel = plotUpperBound/gridWidth;
 			pixelsPerUnit = (double)gridWidth/plotUpperBound;
 			tickMajorPlacement = 5;
-			tickGap = (int)(gridWidth/100);
+			tickGap = (gridWidth/100);
 		}
 
 		/*

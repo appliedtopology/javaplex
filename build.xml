@@ -1,55 +1,132 @@
-<project name="javaplex" default="compile" basedir=".">
+<?xml version="1.0" ?>
 
-	<property name="build.home" value="${basedir}/classes" />
-	<property name="docs.home" value="${basedir}/doc" />
-	<property name="src.home" value="${basedir}/src" />
-	<property name="src_test.home" value="${basedir}/src_test" />
-	<property name="javadoc.home" value="${basedir}/javadoc" />
+<project name="javaplex" default="all" basedir=".">
+	<property name="build.dir" value="build" />
+	<property name="plex.bin" value="${build.dir}/bin" />
+	<property name="doc.dir" value="doc" />
+	<property name="dist.dir" value="dist" />
+	<property name="test.bin" value="${build.dir}/test" />
+	<property name="tmp.dir" value="tmp" />
+	<property name="plex.test" value="src_test" />
+	<property name="src.dir" value="src" />
+	<property name="plex.src" value="${src.dir}/plex" />
+	<property name="lib.dir" value="lib" />
+	<property name="plex.jar" value="${dist.dir}/javaplex.jar" />
+	<property name="tests.jar" value="${tmp.dir}/tests.jar" />
+	<property name="bshcommands.dir" value="${src.dir}/commands" />
+	<property name="plex-source.tarball" value="${dist.dir}/plexsrc.tar.gz" />
+	<property name="plexdoc.tarball" value="${dist.dir}/plexdoc.tar.gz" />
+	<property name="ant.build.javac.source" value="1.5" />
+	<property name="ant.build.javac.target" value="1.5" />
 
-	<property name="compile.debug" value="true" />
-	<property name="compile.deprecation" value="false" />
-	<property name="compile.optimize" value="true" />
-	<property name="compile.source" value="1.5" />
+	<property name="unit_tests.bin" value="${test.bin}/edu/stanford/math/plex4/unit_tests" />
 
-	<property name="junit.output.dir" value="junit" />
-
-	<property name="jar.name" value="javaplex.jar" />
-
-	<path id="master-classpath">
-		<fileset dir="${basedir}/lib">
+	<path id="classpath">
+		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
 		</fileset>
 	</path>
 
-	<target name="all" depends="clean,compile" description="Clean build and dist directories, then compile" />
+	<property name="debug.flag" value="on" />
 
-	<target name="clean" description="Delete old classes">
-		<delete dir="${build.home}" />
+	<target name="all" depends="clean,dist,test" />
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${tmp.dir}" />
+		<delete>
+			<fileset dir="." includes="TEST*.txt" />
+		</delete>
 	</target>
 
-	<target name="compile" depends="prepare" description="Compile Java sources">
+	<target name="mrproper" depends="clean">
+		<delete dir="${dist.dir}" />
+	</target>
 
-		<mkdir dir="${build.home}" />
-		<javac srcdir="${src.home}" destdir="${build.home}" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}" source="${compile.source}">
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${plex.bin}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${test.bin}" />
+		<mkdir dir="${tmp.dir}" />
+	</target>
 
-			<classpath refid="master-classpath" />
-
+	<target name="test.jar" depends="jar">
+		<javac destdir="${test.bin}" srcdir="${plex.test}" debug="${debug.flag}">
+			<classpath>
+				<fileset dir="${lib.dir}">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement location="${plex.jar}" />
+			</classpath>
+			<compilerarg value="-Xlint" />
 		</javac>
+		<jar destfile="${tests.jar}" basedir="${test.bin}" />
+	</target>
 
+	<target name="test" depends="test.jar">
+		<delete>
+			<fileset dir="." includes="TEST*.txt" />
+		</delete>
+		<junit fork="yes" timeout="1200000">
+			<classpath>
+				<fileset dir="${lib.dir}">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement location="${tests.jar}" />
+				<pathelement location="${plex.jar}" />
+			</classpath>
+
+			<formatter type="brief" />
+
+			<batchtest>
+				<fileset dir="${test.bin}">
+					<include name="**/*Test.class" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+
+	<target name="doc" depends="javadoc" />
+
+	<target name="plexdoc" depends="javadoc">
+		<tar destfile="${plexdoc.tarball}" compression="gzip">
+			<tarfileset dir="doc" prefix="doc">
+				<include name="bshmanual.pdf" />
+				<include name="stylesheet.css" />
+				<include name="*.html" />
+				<include name="**/*.html" />
+			</tarfileset>
+		</tar>
 	</target>
 
 	<target name="javadoc">
-		<javadoc destdir="${docs.home}" classpathref="master-classpath" sourcepath="${src.home}">
+		<javadoc destdir="${doc.dir}" classpathref="classpath" Overview="overview.htm" sourcepath="${src.dir}">
 			<package name="edu.stanford.math.plex4" />
-			<fileset dir="${src.home}" />
+			<fileset dir="${src.dir}" />
 		</javadoc>
 	</target>
 
+	<target name="dist" depends="jar,plexdoc,sourcedist" />
 
-	<target name="prepare">
-		<mkdir dir="${build.home}" />
+	<target name="sourcedist">
+		<tar basedir="." destfile="${plex-source.tarball}" compression="gzip" excludes="${dist.dir}/**,.hg/**,tmp/**,build/**,TEST-*" />
+	</target>
+
+	<target name="classes" depends="plexclasses" />
+
+	<target name="jar" depends="classes">
+		<jar destfile="${plex.jar}" basedir="${plex.bin}">
+		</jar>
+	</target>
+
+	<target name="plexclasses" depends="init">
+		<javac destdir="${plex.bin}" classpathref="classpath" debug="${debug.flag}">
+			<compilerarg value="-Xlint" />
+			<src>
+				<pathelement path="${src.dir}" />
+			</src>
+		</javac>
 	</target>
 
 </project>
-
-

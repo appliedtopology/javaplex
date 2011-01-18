@@ -1116,7 +1116,7 @@ public class Plex {
 		PersistenceInterval[] newarg = new PersistenceInterval[arg.length];
 		for(int i = 0; i < arg.length; i++)
 			newarg[i] = arg[i].toPersistenceInterval();
-		plot((PersistenceInterval[])newarg, label, upperBound);
+		plot(newarg, label, upperBound);
 	}
 
 	/**
@@ -1155,7 +1155,7 @@ public class Plex {
 		PersistenceInterval[] newarg = new PersistenceInterval[arg.length];
 		for(int i = 0; i < arg.length; i++) 
 			newarg[i] = arg[i].toPersistenceInterval();
-		scatter((PersistenceInterval[]) newarg, label, upperBound);
+		scatter(newarg, label, upperBound);
 	}
 
 	protected static boolean useMessageWindow = false;
