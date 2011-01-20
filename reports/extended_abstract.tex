@@ -1,0 +1,173 @@
+\documentclass[10pt]{article}
+
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage{amsxtra}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{amscd}
+\usepackage{amsthm}
+
+\usepackage{authblk}
+
+\textheight = 9.0in
+\headheight = -0.7in
+\oddsidemargin = -0.0in
+\evensidemargin = -0.0in 
+\textwidth = 6.5in
+\itemsep = 0in
+\parsep = 0in
+
+\newtheorem{remark}{Remark}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+\newcommand{\tr}[1]{\mbox{tr}(#1)}
+\newcommand{\vol}[0]{\mbox{vol}}
+
+\newcommand{\prob}[1]{\mathbb{P}\left[#1\right]}
+\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\expb}[1]{\exp\left(#1\right)}
+\newcommand{\indicator}[1]{\mathbb{I}_{#1}}
+\newcommand{\pd}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\pdd}[1]{\frac{\partial^2}{\partial #1^2}}
+
+\newcommand{\image}{\operatorname{im}}
+\newcommand{\preimage}{\operatorname{pre}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ext}{\operatorname{Ext}}
+
+\newcommand{\address}[1]{\subsubsection*{\it#1}}
+
+
+\title{Extended Abstract: A Description of the JavaPlex Software Package}
+
+\author[1,*]{Author}
+\author[2]{Author}
+
+\affil[1]{Affiliation}
+\affil[2]{Affiliation}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\let\oldthefootnote\thefootnote
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\footnotetext[1]{Contents of footnote}
+\let\thefootnote\oldthefootnote
+
+\begin{abstract}
+In this document, we describe the design and goals of the JavaPlex software package. This program can be summarized in two main capabilities: the construction of filtered chain complexes of vector spaces, and the computation of their persistent homology.
+\end{abstract}
+
+\section{Algebraic Background on Persistence Modules}
+
+// Maybe the best person to write this would be Mikael or Gunnar??
+
+// need to mention grading by filtration index vs grading by dimension
+
+\section{Previous Work}
+
+The JavaPlex package is the fourth version in the Plex family. These programs have been developed over the past decade by members of the computational topology research group at Stanford University. Each successive version incorporated the results of new advances in the relatively quickly developing fields of computational topology and topological data analysis.
+
+Like JavaPlex, its predecessor jPlex was also written in the Java language. However, it differed in that the main goal of jPlex was the computation of \emph{simplicial} homology. Recent research topics in topological data analysis have required practitioners to move beyond conventional simplicial homology to more general scenarios.
+
+\section{Design Goals}
+\begin{itemize}
+\item {\bf Support for new directions for research} The main goal of the JavaPlex package is to provide an extensible base to support new avenues for research in computational homology. While its predecesor jPlex was very well suited towards computing simplicial homology, its design made extention difficult.
+\item {\bf Interoperability} JavaPlex can be run either as a Java application, or it can be called from Matlab in jar form. Future possibilities include providing scripting interfaces in bsh or jython.
+\item {\bf Adherence to generally accepted software engineering practices}
+\end{itemize}
+\section{Capabilities}
+
+\subsection{Filtered Complex Generation}
+
+// talk about vietoris-rips, witness complexes
+// make sure to reference recent paper ``fast construction of vietoris rips complex''
+
+JavaPlex supports the consruction of two main types of filtered simplicial complexes. To begin, we are given a finite metric space $(\mathcal{X}, d)$. In practice, it is possible that $\mathcal{X}$ is a set of points in Euclidean space, although this is not necessary.
+
+\subsubsection{The Vietoris-Rips Construction}
+We define the filtered complex $VR(\mathcal{X}, r)$ as follows. Suppose that the points of $\mathcal{X}$ are $\{v_1, ... v_n\}$
+
+\begin{itemize}
+\item {\bf Add points:} For all points $x \in \mathcal{X}$, $x \in VR(\mathcal{X}, 0)$
+\item {\bf Add 1-skeleton:} The 1-simplex $[v_i, v_j]$ is in $VR_1(\mathcal{X}, r)$ iff $d(v_i, v_j) \leq r$
+\item {\bf Inductive expansion:} We define $VR(\mathcal{X}, r)$ to be the maximal simplicial complex containing $VR_1(\mathcal{X}, r)$. That is, a simplex $[v_0, .. v_k]$ is in $VR(\mathcal{X}, r)$ if and only if all of its edges are in $VR_1(\mathcal{X}, r)$.
+\end{itemize}
+
+An extensive discussion on algorithms for computing the Vietoris-Rips complex can be found in CITE. The JavaPlex implementation is based on the results of this paper.
+
+\subsection{Witness Complexes and Landmark Sets}
+
+\section{Homology computation}
+
+As mentioned in the abstract, the main goal of JavaPlex is to facilitate the computation of the homology of arbitrary filtered chain complexes of vector spaces. Almost always, such complexes arise from some sort of topological construction. Below we outline these different situations.
+
+// maybe talk about ``four-corners''
+
+\subsection{Simplicial Homology}
+
+This is the ``standard'' situation, which was also handled by previous versions in the Plex family. Here, we have a filtered sequence of simplicial complexes $X_1 \subset X_2 \subset ... \subset X_n$, from which we define the vector space of chains, $C(X_i)$ consisting of formal sums of elements of $X_i$ with coefficients in the field $\mathbb{F}$.
+
+In this case the boundary operator $\partial: C(X_i) \rightarrow C(X_{i-1})$ is the actual geometric boundary defined by
+$$\partial([v_0, ..., v_n]) = \sum_i (-1)^i [v_0, ..., \hat{v_i}, ..., v_n]$$
+
+\subsection{Cellular Homology}
+
+This is where we depart from previous Plex implementations. In this case, $X = X_*$ is a filtered cell complex. This complex is formed by inductively adding $n$-cells to the $n-1$-skeleton, by the gluing maps 
+$$\varphi_{\alpha}^n: S^{n-1} \rightarrow X_{d-1}$$
+which map the boundaries of the $n$-cells $e_{\alpha}^n$ to the $n-1$ skeleton. Note that in the above, we use $n$ to denote the grading by dimension, and $d$ to denote the grading by filtration index.
+
+The boundary operator then becomes 
+$$\partial(e_{\alpha}^n) = \sum_{\beta} \deg(\varphi_{\alpha \beta}^n) e_{\beta}^{n-1}$$
+where $\deg$ refers to the topological degree of a map.
+
+Note that while JavaPlex is fully capable of computing the persistent homology of arbitrary cell complex, the specification of such complexes are more tedious than simplicial complexes. Nevertheless they offer the user a parsimonious way of defining a wide class of topological spaces.
+
+\subsection{Operations on Chain Complexes}
+
+The abstraction away from geometric primitives allows JavaPlex to handle more general algebraic constructions using complexes.
+
+\begin{itemize}
+\item {\bf Tensor Products} Given two chain complexes (graded by dimension), $(A_*, d_*)$ and $(B_*, d^{\prime}_*)$, the tensor product complex $(A \otimes B)_*$ is defined by
+$$(A \otimes B)_n = \bigoplus_{p + q = n} A_p \otimes B_q$$
+
+Given two such complexes, the construction of the tensor product is very straightforwardly implemented in JavaPlex. 
+
+\item {\bf Hom Complex} Given two chain complexes (graded by dimension), $(A_*, d_*)$ and $(B_*, d\prime_*)$, the hom-complex $(\Hom(A,B)_*$ is defined by
+$$\Hom(A, B)_n = \bigoplus_{p \in \mathbb{Z}} \Hom(A_p, B_{p + n})$$
+which in the case of field coefficients reduces to 
+$$\Hom(A, B)_n = \bigoplus_{p \in \mathbb{Z}} A^p \otimes B_{p + n}$$
+
+Recently, in an upcoming paper (CITE), the hom-complex was used to compute a parameterization for the the space of homotopy classes of chain maps between simplicial complexes.
+
+\item {\bf Algebraic Mapping Cylinder}
+
+\end{itemize}
+
+\section{Examples}
+
+// Item to include
+
+\begin{itemize}
+\item examples of filtered simplicial complex construction - witness, vietoris-rips, etc.
+\item basic simplicial homology
+\item cellular homology examples - e.g. klein bottle in different coefficient fields
+\item hom-complex example - maybe a mapping
+\item benchmarks??
+\end{itemize}
+
+\section{Implementation notes}
+
+// maybe talk about performance of different coefficient fields - specialized Z/2Z 
+
+\bibliographystyle{amsalpha}
+\bibliography{biblio}
+
+\end{document}
