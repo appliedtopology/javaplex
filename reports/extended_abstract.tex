@@ -62,14 +62,20 @@
 \let\thefootnote\oldthefootnote
 
 \begin{abstract}
-In this document, we describe the design and goals of the JavaPlex software package. This program can be summarized in two main capabilities: the construction of filtered chain complexes of vector spaces, and the computation of their persistent homology.
+In this document, we describe the design and goals of the JavaPlex software package. Its main purpose is to support research in the area of topological data analysis; the two main capabilities being the construction of filtered chain complexes of vector spaces, and the computation of their persistent homology.
 \end{abstract}
 
-\section{Algebraic Background on Persistence Modules}
+\section{Motivation and Design Goals}
 
-// Maybe the best person to write this would be Mikael or Gunnar??
+The main reason for the existence of JavaPlex is to provide researchers in the area of topological data analysis a unified software library to support their investigations. With this in mind, the design goals for it are as follows:
 
-// need to mention grading by filtration index vs grading by dimension
+\begin{itemize}
+\item {\bf Support for new directions for research} The main goal of the JavaPlex package is to provide an extensible base to support new avenues for research in computational homology and data analysis. While its predecesor jPlex was very well suited towards computing simplicial homology, its design made extension difficult.
+\item {\bf Interoperability} JavaPlex can be run either as a Java application, or it can be called from Matlab in jar form. Future possibilities include providing scripting interfaces in bsh or jython.
+\item {\bf Adherence to generally accepted software engineering practices} As a means to realizing the first goal, the JavaPlex software package was designed and implemented with software engineering best-practices. Emphasis was placed on maintainability, modularity and reusability of the different parts of the code.
+\end{itemize}
+
+We refer the reader to \cite{Carlsson_09} for a very readable introduction to the field of topological data analysis as well as the computational tasks involved.
 
 \section{Previous Work}
 
@@ -77,39 +83,51 @@ The JavaPlex package is the fourth version in the Plex family. These programs ha
 
 Like JavaPlex, its predecessor jPlex was also written in the Java language. However, it differed in that the main goal of jPlex was the computation of \emph{simplicial} homology. Recent research topics in topological data analysis have required practitioners to move beyond conventional simplicial homology to more general scenarios.
 
-\section{Design Goals}
-\begin{itemize}
-\item {\bf Support for new directions for research} The main goal of the JavaPlex package is to provide an extensible base to support new avenues for research in computational homology. While its predecesor jPlex was very well suited towards computing simplicial homology, its design made extention difficult.
-\item {\bf Interoperability} JavaPlex can be run either as a Java application, or it can be called from Matlab in jar form. Future possibilities include providing scripting interfaces in bsh or jython.
-\item {\bf Adherence to generally accepted software engineering practices}
-\end{itemize}
-\section{Capabilities}
-
-\subsection{Filtered Complex Generation}
-
-// talk about vietoris-rips, witness complexes
-// make sure to reference recent paper ``fast construction of vietoris rips complex''
-
-JavaPlex supports the consruction of two main types of filtered simplicial complexes. To begin, we are given a finite metric space $(\mathcal{X}, d)$. In practice, it is possible that $\mathcal{X}$ is a set of points in Euclidean space, although this is not necessary.
-
-\subsubsection{The Vietoris-Rips Construction}
-We define the filtered complex $VR(\mathcal{X}, r)$ as follows. Suppose that the points of $\mathcal{X}$ are $\{v_1, ... v_n\}$
+\section{Algebraic Background on Persistence Modules}
 
 \begin{itemize}
-\item {\bf Add points:} For all points $x \in \mathcal{X}$, $x \in VR(\mathcal{X}, 0)$
-\item {\bf Add 1-skeleton:} The 1-simplex $[v_i, v_j]$ is in $VR_1(\mathcal{X}, r)$ iff $d(v_i, v_j) \leq r$
-\item {\bf Inductive expansion:} We define $VR(\mathcal{X}, r)$ to be the maximal simplicial complex containing $VR_1(\mathcal{X}, r)$. That is, a simplex $[v_0, .. v_k]$ is in $VR(\mathcal{X}, r)$ if and only if all of its edges are in $VR_1(\mathcal{X}, r)$.
+\item Maybe the best person to write this would be Mikael or Gunnar??
+\item need to mention grading by filtration index vs grading by dimension
 \end{itemize}
 
-An extensive discussion on algorithms for computing the Vietoris-Rips complex can be found in CITE. The JavaPlex implementation is based on the results of this paper.
+\section{Filtered Complex Generation}
 
-\subsection{Witness Complexes and Landmark Sets}
+As mentioned in the abstract, the first main function of JavaPlex is the construction of filtered chain complexes of vector spaces associated to actual point cloud datasets. The motivation for such constructions is that they provide a persistent model of the dataset in question across all scales. JavaPlex currently supports the consruction of two main types of filtered simplicial complexes: the Vietoris-Rips and lazy-witness constructions. To begin, suppose that we have a finite metric space $(\mathcal{X}, d)$. In practice, it is possible that $\mathcal{X}$ is a set of points in Euclidean space, although this is not necessary.
 
-\section{Homology computation}
+\subsection{The Vietoris-Rips Construction}
+We define the filtered complex $VR(\mathcal{X}, r)$ as follows. Suppose that the points of $\mathcal{X}$ are $\{x_1, ... x_N\}$, where $N = |\mathcal{X}|$. The Vietoris-Rips complex is constructed as follows:
 
-As mentioned in the abstract, the main goal of JavaPlex is to facilitate the computation of the homology of arbitrary filtered chain complexes of vector spaces. Almost always, such complexes arise from some sort of topological construction. Below we outline these different situations.
+\begin{itemize}
+\item {\bf Add points:} For all points $x \in \mathcal{X}$, $x \in VR_0(\mathcal{X}, 0)$
+\item {\bf Add 1-skeleton:} The 1-simplex $[x_i, x_j]$ is in $VR_1(\mathcal{X}, r)$ iff $d(x_i, x_j) \leq r$
+\item {\bf Expansion:} We define $VR(\mathcal{X}, r)$ to be the maximal simplicial complex containing $VR_1(\mathcal{X}, r)$. That is, a simplex $[x_0, .. x_k]$ is in $VR(\mathcal{X}, r)$ if and only if all of its edges are in $VR_1(\mathcal{X}, r)$.
+\end{itemize}
 
-// maybe talk about ``four-corners''
+An extensive discussion on algorithms for computing the Vietoris-Rips complex can be found in \cite{Zomorodian}. The JavaPlex implementation is based on the results of this paper.
+
+\subsection{The Lazy-Witness Construction}
+The fundamental idea behind the lazy-witness construction is that a relatively small subset of a point cloud can accurately describe the shape of the dataset. This construction has the advantage of being more resistant to noise than the Vietoris-Rips construction. An extensive discussion about it can be found in \cite{Witness}. 
+
+The lazy-witness construction starts with a selection of landmark points, $\mathcal{L} \subset \mathcal{X}$ with $|\mathcal{L}| = L$. One possibility is to simply choose a random subset of $\mathcal{X}$. Another possibility is to perform a sequential max-min selection: An initial point $l_0$ is selected, and then we inductively select the point $l_k$ which maximizes the minimum distance to all previously generated points. This max-min construction tends to produce more evenly spaced points than the random selection. Again we refer the reader to \cite{Witness} for a more detailed discussion, as well as empirical results supporting these claims.
+
+This construction is parameterized by a value $\nu$, which most commonly takes the values 0, 1, or 2. We also define the distance matrix $D$ to contain the pairwise distances between the points in $\mathcal{X}$. 
+
+\begin{itemize}
+\item {\bf Define $m_i$:} If $\nu = 0$, let $m_i = 0$, otherwise, define $m_i$ to be the $\nu$-th smallest entry in the $i$-th column of D
+\item {\bf Add points:} For all points $l \in \mathcal{L}$, $l \in LW_0(\mathcal{X}, 0, \nu)$
+\item {\bf Add 1-skeleton:} The 1-simplex $[l_i, l_j]$ is in $LW_1(\mathcal{X}, r, \nu)$ iff there exists an $x \in \mathcal{X}$ such that $\max(d(l_i, x), d(l_j, x)) \leq r + m_i$.
+\item {\bf Expansion:} We define $LW(\mathcal{X}, r, \nu)$ to be the maximal simplicial complex containing $LW_1(\mathcal{X}, r, \nu)$. 
+\end{itemize}
+
+\section{Homology Computation}
+
+At the core of the JavaPlex library is the set of algorithms that actually compute the homology of a filtered chain complex. Key references to background material regarding these algorithms can be found in \cite{Carlsson_04, Dualities}. Although we do not describe them in detail here, we note that the algorithms for computing persistent absolute/relative (co)homology can be formulated as matrix decomposition problems. The fundamental reason for this is the equivalence of category of persistent vector spaces of finite type, and the category finitely generated graded modules over $\mathbb{F}[t]$. This correspondence is described in \cite{Carlsson_04}. 
+
+The homology algorithms are built in a way that is optimized for chain complexes implemented as \emph{streams}. By this we mean that a filtered chain complex is represented by a sequence of basis elements that are produced in increasing order of their filtration indices. Enforcing the constraint that all complexes must be implemented this way allows JavaPlex to perform the matrix decomposition operations in an efficient online fashion.
+
+\section{Applications}
+
+Although in principle JavaPlex can compute the persistent homology of arbitrary chain complexes of vector spaces, almost always these complexes arise from some sort of topological construction. Below we outline these different situations.
 
 \subsection{Simplicial Homology}
 
@@ -135,37 +153,90 @@ Note that while JavaPlex is fully capable of computing the persistent homology o
 The abstraction away from geometric primitives allows JavaPlex to handle more general algebraic constructions using complexes.
 
 \begin{itemize}
-\item {\bf Tensor Products} Given two chain complexes (graded by dimension), $(A_*, d_*)$ and $(B_*, d^{\prime}_*)$, the tensor product complex $(A \otimes B)_*$ is defined by
+\item {\bf Tensor Products:} Given two chain complexes (graded by dimension), $(A_*, d_*)$ and $(B_*, d^{\prime}_*)$, the tensor product complex $(A \otimes B)_*$ is defined by
 $$(A \otimes B)_n = \bigoplus_{p + q = n} A_p \otimes B_q$$
 
 Given two such complexes, the construction of the tensor product is very straightforwardly implemented in JavaPlex. 
 
-\item {\bf Hom Complex} Given two chain complexes (graded by dimension), $(A_*, d_*)$ and $(B_*, d\prime_*)$, the hom-complex $(\Hom(A,B)_*$ is defined by
+\item {\bf Hom Complex:} Given two chain complexes (graded by dimension), $(A_*, d_*)$ and $(B_*, d^{\prime}_*)$, the hom-complex $\Hom(A,B)_*$ is defined by
 $$\Hom(A, B)_n = \bigoplus_{p \in \mathbb{Z}} \Hom(A_p, B_{p + n})$$
 which in the case of field coefficients reduces to 
 $$\Hom(A, B)_n = \bigoplus_{p \in \mathbb{Z}} A^p \otimes B_{p + n}$$
 
 Recently, in an upcoming paper (CITE), the hom-complex was used to compute a parameterization for the the space of homotopy classes of chain maps between simplicial complexes.
 
-\item {\bf Algebraic Mapping Cylinder}
+\item {\bf Algebraic Mapping Cylinder:}
 
 \end{itemize}
 
 \section{Examples}
 
-// Item to include
+\subsection{Simplicial Homology}
 
-\begin{itemize}
-\item examples of filtered simplicial complex construction - witness, vietoris-rips, etc.
-\item basic simplicial homology
-\item cellular homology examples - e.g. klein bottle in different coefficient fields
-\item hom-complex example - maybe a mapping
-\item benchmarks??
-\end{itemize}
+In Figure \ref{lwtorus}, one can see an example of a filtered simplicial complex generated from points on a torus. As one moves from left to right, the filtration parameter, $r$, is increased yielding a more connected complex. In Figure \ref{lwtorusbarcodes} we show the persistence barcodes for the same shape. Note that the significant intervals corresponding to homological features that last for a long time in the filtration.
 
-\section{Implementation notes}
+\begin{figure}
+\centering
+\mbox{
+\subfigure{\includegraphics[width=1in]{torus_0.png}}\quad
+\subfigure{\includegraphics[width=1in]{torus_1.png}}\quad
+\subfigure{\includegraphics[width=1in]{torus_2.png}}\quad
+\subfigure{\includegraphics[width=1in]{torus_3.png}}\quad
+\subfigure{\includegraphics[width=1in]{torus_4.png}}\quad
+\subfigure{\includegraphics[width=1in]{torus_5.png} }}
+\caption{Example of a Lazy-Witness complex generated from randomly sampled points on a torus.} \label{lwtorus}
+\end{figure}
 
-// maybe talk about performance of different coefficient fields - specialized Z/2Z 
+\begin{figure}
+\centering
+\mbox{
+\subfigure{\includegraphics[width=2in]{lazy-witness-torus-0.png}}\quad
+\subfigure{\includegraphics[width=2in]{lazy-witness-torus-1.png}}\quad
+\subfigure{\includegraphics[width=2in]{lazy-witness-torus-2.png} }}
+\caption{Persistence barcodes for a lazy-witness filtration of random points on a torus. The parameters used were: $N = 1000$, $L = 300$, $r_{\max} = 0.3$. The inner and outer radii of the torus were 0.5 and 1, respectively. The max-min selection procedure was used to create the landmark set. Note that long intervals correspond to significant homological features, and short ones are most likely the result of noise. We can see that the number of significant intervals in each dimension equals the expected Betti number.} \label{lwtorusbarcodes}
+\end{figure}
+
+\subsection{Matlab Scripting Example - Cellular Homology}
+
+In this section we show a brief Matlab session in which the cellular homology is computed for a Klein bottle over different coefficient fields. Essentially, this code examples constructs a cellular Klein bottle, initializes persistence algorithm objects over the fields $\mathbb{Z}/2\mathbb{Z}$, $\mathbb{Z}/3\mathbb{Z}$, and $\mathbb{Q}$, and computes the persistence intervals.
+
+\begin{verbatim}
+% get the cellular sphere of the specified dimension
+stream = examples.CellStreamExamples.getCellularKleinBottle();
+
+% get cellular homology algorithm over Z/2Z
+Z2_persistence = api.Plex4.getModularCellularAlgorithm(3, 2);
+% get cellular homology algorithm over Z/3Z
+Z3_persistence = api.Plex4.getModularCellularAlgorithm(3, 3);
+% get cellular homology algorithm over Q
+Q_persistence = api.Plex4.getRationalCellularAlgorithm(3);
+
+% compute over Z/2Z - should give (1, 2, 1)
+Z2_intervals = Z2_persistence.computeIntervals(stream)
+
+% compute over Z/3Z - should give (1, 1, 0)
+Z3_intervals = Z3_persistence.computeIntervals(stream)
+
+% compute over Q - should give (1, 1, 0)
+Q_intervals = Q_persistence.computeIntervals(stream)
+\end{verbatim}
+The output of this example is:
+\begin{verbatim}
+Z2_intervals =
+Dimension: 2 [0, infinity)
+Dimension: 1 [0, infinity), [0, infinity)
+Dimension: 0 [0, infinity)
+  
+Z3_intervals =
+Dimension: 1 [0, infinity)
+Dimension: 0 [0, infinity)
+ 
+Q_intervals =
+Dimension: 1 [0, infinity)
+Dimension: 0 [0, infinity)
+\end{verbatim}
+This is exactly what we expect, due to the presence of 2-torsion in the Klein bottle.
+
 
 \bibliographystyle{amsalpha}
 \bibliography{biblio}

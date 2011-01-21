@@ -1,0 +1,31 @@
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{dSMVJ10}
+
+\bibitem[Car09]{Carlsson_09}
+Gunnar Carlsson, \emph{{Topology and data}}, Bulletin of the American
+  Mathematical Society \textbf{46} (2009), no.~2, 255--308.
+
+\bibitem[dSC04]{Witness}
+Vin de~Silva and Gunnar Carlsson, \emph{{Topological estimation using witness
+  complexes}}, Eurographics Symposium on Point-Based Graphics (M.~Alexa and
+  S.~Rusinkiewicz, eds.), The Eurographics Association, 2004.
+
+\bibitem[dSMVJ10]{Dualities}
+Vin de~Silva, Dmitriy Morozov, and Mikael Vejdemo-Johansson, \emph{{Dualities
+  in persistent (co)homology}}, Unpublished manuscript, 2010.
+
+\bibitem[ZC05]{Carlsson_04}
+Afra Zomorodian and Gunnar Carlsson, \emph{Computing persistent homology},
+  Discrete Comput. Geom \textbf{33} (2005), 249--274.
+
+\bibitem[Zom10]{Zomorodian}
+A.~Zomorodian, \emph{Fast construction of the {V}ietoris-{R}ips complex},
+  Computers \& Graphics \textbf{34} (2010), no.~3, 263 -- 271.
+
+\end{thebibliography}

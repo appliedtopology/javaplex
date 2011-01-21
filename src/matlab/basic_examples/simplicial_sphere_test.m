@@ -1,4 +1,4 @@
-d% This script demonstrates the computation of the homology of a
+% This script demonstrates the computation of the homology of a
 % high-dimensional sphere that is beyond the reach of the previous version
 % of plex.
 
@@ -17,3 +17,4 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);
 
 % compute and print the intervals
 intervals = persistence.computeIntervals(stream)
+
