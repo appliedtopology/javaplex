@@ -9,6 +9,8 @@
 \usepackage{amscd}
 \usepackage{amsthm}
 
+\usepackage{bbold}
+
 \usepackage{authblk}
 
 \textheight = 9.0in
@@ -44,22 +46,16 @@
 
 \title{Extended Abstract: A Description of the JavaPlex Software Package}
 
-\author[1,*]{Author}
-\author[2]{Author}
+\author{Andrew Tausz}
+\author{Mikael Vejdemo-Johansson}
 
-\affil[1]{Affiliation}
-\affil[2]{Affiliation}
+\affil{Stanford University}
 
 \date{\today}
 
 \begin{document}
 
 \maketitle
-
-\let\oldthefootnote\thefootnote
-\renewcommand{\thefootnote}{\fnsymbol{footnote}}
-\footnotetext[1]{Contents of footnote}
-\let\thefootnote\oldthefootnote
 
 \begin{abstract}
 In this document, we describe the design and goals of the JavaPlex software package. Its main purpose is to support research in the area of topological data analysis; the two main capabilities being the construction of filtered chain complexes of vector spaces, and the computation of their persistent homology.
@@ -85,10 +81,92 @@ Like JavaPlex, its predecessor jPlex was also written in the Java language. Howe
 
 \section{Algebraic Background on Persistence Modules}
 
-\begin{itemize}
-\item Maybe the best person to write this would be Mikael or Gunnar??
-\item need to mention grading by filtration index vs grading by dimension
-\end{itemize}
+To compute the homological properties of a point cloud,
+\cite{ELZ_02} introduced persistent homology, refined by
+\cite{Carlsson_04}. Using one of a whole family of methods, the point
+cloud induces a filtered simplicial complex, where the filtration
+encodes distance data as increasing ``closeness'' data for the data
+points in the point cloud.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.4\textwidth]{images/perripstwo}
+  \includegraphics[width=0.4\textwidth]{images/perripsthree}
+  \caption{Motivating the definition of persistence: the homology classes that survive from one stage to the next are more likely to be large and significant; all the small, potentially noise-induced classes exist in only one of these two stages.}
+  \label{fig:betti3}
+\end{figure}
+
+Thus, from a point cloud, we acquire a filtered simplicial
+complex. The homology of this with field coefficients is, since
+homology is a functor, a linear diagram of vector spaces and linear
+maps. 
+
+Consider the situation in Figure \ref{fig:betti3}. To the left, we
+have a hypothetical intermediate stage of a filtered simplicial
+complex. The betti number at this stage, an indicator of the size of
+the homology of a geometric object, would indicate a structure with
+three holes. However, as the filtration continues, two of the three
+detected holes are filled in, yielding the picture to the
+right. However, the gap to the lower right ends up bridged, creating
+two holes, both detected by the homology computation.
+
+By a cursory inspection of the point cloud, we would be inclined to
+say that the ``true'' number of relevant holes, or cycles, in the data
+is just one -- and this one significant hole is characterized by the
+homology class corresponding to the hole being in the image of the
+inclusion map: the two superfluous cycles to the left vanish along the
+map induced by the inclusion of simplicial complexes, and the
+superfluous cycle to the left was not present before this induced
+map.
+
+This example motivates our definition of a \emph{persistent homology class}
+with life time starting at the filtration stage $p$ and
+\emph{persisting} through to filtration stage $q$ as an equivalence
+class of cycles in the simplicial complex $\Sigma_p$ modulo boundaries
+from the simplicial complex $\Sigma_q$.
+
+%% NOTE to Andrew: if you want the paper to discuss zig-zag, this is
+%% a good place to comment about how zig-zag modifies these
+%% definitions.
+
+The dimensions of such persistent homology groups are captured as
+\emph{betti barcodes}, in which a line is drawn parallel to the
+$x$-axis, from $p$ to $q$ for any basis element in this
+$H^{p,q}_*(\Sigma_*)$. Similarly, a \emph{persistence diagram}
+captures the same information, with each basis element corresponding
+to the point $(p,q)$ in the plane. We view as significant features
+those that are described by long intervals, or equivalently those with
+a long distance from the $x=y$ diagonal in the persistence diagram.
+
+As demonstrated in \cite{Carlsson_04}, the sequential diagrams of
+linear vector spaces and linear maps
+\[
+V_0 \xrightarrow{i_0} V_1 \xrightarrow{i_1} \dots 
+\]
+corresponding to the homology of a filtered simplicial complex
+correspond through an equivalence of categories to graded modules over
+$\mathbb k[x]$, the polynomial ring in one variable. The equivalence
+is by sending the diagram above to the vector space $\bigoplus_k V_k$,
+and introducing an action of $x$ on this vector space by $x\cdot v=i_k(v)$
+for $v\in V_k$.
+
+The equivalence carries a long way: the chain complex of a filtered
+simplicial complex is a filtered chain complex, which fits into this
+model too, by making each stage correspond to the corresponding
+filtration stage. Thus, the homology of a filtered simplicial complex
+becomes a process entirely internal to the category of graded $\mathbb
+k[x]$-modules.
+
+Note that these modules are graded in several useful ways. One grading
+comes from the filtration, setting $|v|=k$ for a basis element $v$ if
+$v\in V_k/V_{k-1}$. Another comes from the dimension: $|v|=k$ if $v$
+is a simplicial $k$-chain.
+
+
+% \begin{itemize}
+% \item Maybe the best person to write this would be Mikael or Gunnar??
+% \item need to mention grading by filtration index vs grading by dimension
+% \end{itemize}
 
 \section{Filtered Complex Generation}
 
@@ -178,21 +256,21 @@ In Figure \ref{lwtorus}, one can see an example of a filtered simplicial complex
 \begin{figure}
 \centering
 \mbox{
-\subfigure{\includegraphics[width=1in]{torus_0.png}}\quad
-\subfigure{\includegraphics[width=1in]{torus_1.png}}\quad
-\subfigure{\includegraphics[width=1in]{torus_2.png}}\quad
-\subfigure{\includegraphics[width=1in]{torus_3.png}}\quad
-\subfigure{\includegraphics[width=1in]{torus_4.png}}\quad
-\subfigure{\includegraphics[width=1in]{torus_5.png} }}
+\subfigure{\includegraphics[width=1in]{images/torus_0.png}}\quad
+\subfigure{\includegraphics[width=1in]{images/torus_1.png}}\quad
+\subfigure{\includegraphics[width=1in]{images/torus_2.png}}\quad
+\subfigure{\includegraphics[width=1in]{images/torus_3.png}}\quad
+\subfigure{\includegraphics[width=1in]{images/torus_4.png}}\quad
+\subfigure{\includegraphics[width=1in]{images/torus_5.png} }}
 \caption{Example of a Lazy-Witness complex generated from randomly sampled points on a torus.} \label{lwtorus}
 \end{figure}
 
 \begin{figure}
 \centering
 \mbox{
-\subfigure{\includegraphics[width=2in]{lazy-witness-torus-0.png}}\quad
-\subfigure{\includegraphics[width=2in]{lazy-witness-torus-1.png}}\quad
-\subfigure{\includegraphics[width=2in]{lazy-witness-torus-2.png} }}
+\subfigure{\includegraphics[width=2in]{images/lazy-witness-torus-0.png}}\quad
+\subfigure{\includegraphics[width=2in]{images/lazy-witness-torus-1.png}}\quad
+\subfigure{\includegraphics[width=2in]{images/lazy-witness-torus-2.png} }}
 \caption{Persistence barcodes for a lazy-witness filtration of random points on a torus. The parameters used were: $N = 1000$, $L = 300$, $r_{\max} = 0.3$. The inner and outer radii of the torus were 0.5 and 1, respectively. The max-min selection procedure was used to create the landmark set. Note that long intervals correspond to significant homological features, and short ones are most likely the result of noise. We can see that the number of significant intervals in each dimension equals the expected Betti number.} \label{lwtorusbarcodes}
 \end{figure}
 

@@ -1,45 +1,45 @@
-This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+This is BibTeX, Version 0.99c (TeX Live 2009)
 The top-level auxiliary file: extended_abstract.aux
 The style file: amsalpha.bst
 Database file #1: biblio.bib
-You've used 5 entries,
+You've used 6 entries,
             2624 wiz_defined-function locations,
-            594 strings with 5087 characters,
-and the built_in function-call counts, 1915 in all, are:
-= -- 173
-> -- 87
+            604 strings with 5334 characters,
+and the built_in function-call counts, 2371 in all, are:
+= -- 218
+> -- 112
 < -- 2
-+ -- 27
-- -- 27
-* -- 160
-:= -- 315
-add.period$ -- 5
-call.type$ -- 5
-change.case$ -- 29
-chr.to.int$ -- 5
-cite$ -- 5
-duplicate$ -- 76
-empty$ -- 154
-format.name$ -- 34
-if$ -- 383
++ -- 36
+- -- 36
+* -- 207
+:= -- 390
+add.period$ -- 6
+call.type$ -- 6
+change.case$ -- 36
+chr.to.int$ -- 6
+cite$ -- 6
+duplicate$ -- 90
+empty$ -- 185
+format.name$ -- 44
+if$ -- 472
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 9
-newline$ -- 25
-num.names$ -- 17
-pop$ -- 36
+missing$ -- 11
+newline$ -- 28
+num.names$ -- 20
+pop$ -- 39
 preamble$ -- 1
-purify$ -- 34
+purify$ -- 42
 quote$ -- 0
-skip$ -- 56
+skip$ -- 67
 stack$ -- 0
-substring$ -- 112
-swap$ -- 5
+substring$ -- 144
+swap$ -- 7
 text.length$ -- 2
 text.prefix$ -- 2
 top$ -- 0
-type$ -- 40
+type$ -- 48
 warning$ -- 0
-while$ -- 19
-width$ -- 7
-write$ -- 62
+while$ -- 24
+width$ -- 8
+write$ -- 75
