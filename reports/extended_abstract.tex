@@ -64,9 +64,9 @@ In this document, we describe the design and goals of the JavaPlex software pack
 The main reason for the existence of JavaPlex is to provide researchers in the area of topological data analysis a unified software library to support their investigations. With this in mind, the design goals for it are as follows:
 
 \begin{itemize}
-\item {\bf Support for new directions for research} The main goal of the JavaPlex package is to provide an extensible base to support new avenues for research in computational homology and data analysis. While its predecesor jPlex was very well suited towards computing simplicial homology, its design made extension difficult.
-\item {\bf Interoperability} JavaPlex can be run either as a Java application, or it can be called from Matlab in jar form. Future possibilities include providing scripting interfaces in bsh or jython.
-\item {\bf Adherence to generally accepted software engineering practices} As a means to realizing the first goal, the JavaPlex software package was designed and implemented with software engineering best-practices. Emphasis was placed on maintainability, modularity and reusability of the different parts of the code.
+\item {\bf Support for new directions for research: } The main goal of the JavaPlex package is to provide an extensible base to support new avenues for research in computational homology and data analysis. While its predecesor jPlex was very well suited towards computing simplicial homology, its design made extension difficult.
+\item {\bf Interoperability: } JavaPlex can be run either as a Java application, or it can be called from Matlab in jar form. Future possibilities include providing scripting interfaces in bsh or jython.
+\item {\bf Adherence to generally accepted software engineering practices: } As a means to realizing the first goal, the JavaPlex software package was designed and implemented with software engineering best-practices. Emphasis was placed on maintainability, modularity and reusability of the different parts of the code.
 \end{itemize}
 
 We refer the reader to \cite{Carlsson_09} for a very readable introduction to the field of topological data analysis as well as the computational tasks involved.
@@ -223,7 +223,7 @@ The boundary operator then becomes
 $$\partial(e_{\alpha}^n) = \sum_{\beta} \deg(\varphi_{\alpha \beta}^n) e_{\beta}^{n-1}$$
 where $\deg$ refers to the topological degree of a map.
 
-Note that while JavaPlex is fully capable of computing the persistent homology of arbitrary cell complex, the specification of such complexes are more tedious than simplicial complexes. Nevertheless they offer the user a parsimonious way of defining a wide class of topological spaces.
+Note that while JavaPlex is fully capable of computing the persistent homology of arbitrary cell complexes, the specification of such complexes are more tedious than simplicial complexes. Nevertheless they offer the user a parsimonious way of defining a wide class of topological spaces.
 
 \subsection{Operations on Chain Complexes}
 
