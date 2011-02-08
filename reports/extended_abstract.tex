@@ -39,10 +39,14 @@
 \newcommand{\Hom}{\operatorname{Hom}}
 \newcommand{\Ext}{\operatorname{Ext}}
 
+\newcommand{\VR}{\operatorname{VR}}
+\newcommand{\LW}{\operatorname{LW}}
+
+
 \newcommand{\address}[1]{\subsubsection*{\it#1}}
 
 
-\title{Extended Abstract: A Description of the JavaPlex Software Package}
+\title{JavaPlex: A research software package for persistent (co)homology}
 
 \author{Andrew Tausz}
 \author{Mikael Vejdemo-Johansson}
@@ -56,7 +60,11 @@
 \maketitle
 
 \begin{abstract}
-In this document, we describe the design and goals of the JavaPlex software package. Its main purpose is to support research in the area of topological data analysis; the two main capabilities being the construction of filtered chain complexes of vector spaces, and the computation of their persistent homology.
+The computation of persistent homology has proven a fundamental component of the nascent field of topological data analysis and computational topology. We describe a new software package for topological computation, with design focus on needs of the research community. This tool, replacing previous jPlex and Plex, enables researchers to access state of the art algorithms for persistent homology, cohomology, hom complexes, filtered simplicial complexes, filtered cell complexes, witness complex constructions, and many more essential components of computational topology.
+
+We describe, herewithin, the design goals we have chosen, as well as the resulting software package, and some of its more novel capabilities.
+
+%In this document, we describe the design and goals of the JavaPlex software package. Its main purpose is to support research in the area of topological data analysis; the two main capabilities being the construction of filtered chain complexes of vector spaces, and the computation of their persistent homology.
 \end{abstract}
 
 \section{Motivation and Design Goals}
@@ -154,7 +162,7 @@ model too, by making each stage correspond to the corresponding
 filtration stage. Thus, the homology of a filtered simplicial complex
 becomes a process entirely internal to the category of graded $\mathbb{F}[x]$-modules.
 
-Note that these modules are graded in several useful ways. One grading
+It should be noted that these modules are graded in two useful ways. One grading
 comes from the filtration, setting $|v|=k$ for a basis element $v$ if
 $v\in V_k/V_{k-1}$. Another comes from the dimension: $|v|=k$ if $v$
 is a simplicial $k$-chain.
@@ -167,15 +175,15 @@ is a simplicial $k$-chain.
 
 \section{Filtered Complex Generation}
 
-As mentioned in the abstract, the first main function of JavaPlex is the construction of filtered chain complexes of vector spaces associated to actual point cloud datasets. The motivation for such constructions is that they provide a persistent model of the dataset in question across all scales. JavaPlex currently supports the consruction of two main types of filtered simplicial complexes: the Vietoris-Rips and lazy-witness constructions. To begin, suppose that we have a finite metric space $(\mathcal{X}, d)$. In practice, it is possible that $\mathcal{X}$ is a set of points in Euclidean space, although this is not necessary.
+As mentioned in the abstract, the primary function of JavaPlex is the construction of filtered chain complexes of vector spaces associated to actual point cloud datasets. The motivation for such constructions is that they provide a persistent model of the dataset in question across all scales. JavaPlex currently supports the construction of two main types of filtered simplicial complexes: the Vietoris-Rips and lazy-witness constructions. To begin, suppose that we have a finite metric space $(\mathcal{X}, d)$. In practice, it is possible that $\mathcal{X}$ is a set of points in Euclidean space, although this is not necessary.
 
 \subsection{The Vietoris-Rips Construction}
-We define the filtered complex $VR(\mathcal{X}, r)$ as follows. Suppose that the points of $\mathcal{X}$ are $\{x_1, ... x_N\}$, where $N = |\mathcal{X}|$. The Vietoris-Rips complex is constructed as follows:
+We define the filtered complex $\VR(\mathcal{X}, r)$ as follows. Suppose that the points of $\mathcal{X}$ are $\{x_1, ... x_N\}$, where $N = |\mathcal{X}|$. The Vietoris-Rips complex is constructed as follows:
 
 \begin{itemize}
-\item {\bf Add points:} For all points $x \in \mathcal{X}$, $x \in VR_0(\mathcal{X}, 0)$
-\item {\bf Add 1-skeleton:} The 1-simplex $[x_i, x_j]$ is in $VR_1(\mathcal{X}, r)$ iff $d(x_i, x_j) \leq r$
-\item {\bf Expansion:} We define $VR(\mathcal{X}, r)$ to be the maximal simplicial complex containing $VR_1(\mathcal{X}, r)$. That is, a simplex $[x_0, .. x_k]$ is in $VR(\mathcal{X}, r)$ if and only if all of its edges are in $VR_1(\mathcal{X}, r)$.
+\item {\bf Add points:} For all points $x \in \mathcal{X}$, $x \in \VR_0(\mathcal{X}, 0)$
+\item {\bf Add 1-skeleton:} The 1-simplex $[x_i, x_j]$ is in $\VR_1(\mathcal{X}, r)$ iff $d(x_i, x_j) \leq r$
+\item {\bf Expansion:} We define $\VR(\mathcal{X}, r)$ to be the maximal simplicial complex containing $\VR_1(\mathcal{X}, r)$. That is, a simplex $[x_0, .. x_k]$ is in $\VR(\mathcal{X}, r)$ if and only if all of its edges are in $\VR_1(\mathcal{X}, r)$.
 \end{itemize}
 
 An extensive discussion on algorithms for computing the Vietoris-Rips complex can be found in \cite{Zomorodian}. The JavaPlex implementation is based on the results of this paper.
@@ -189,9 +197,9 @@ This construction is parameterized by a value $\nu$, which most commonly takes t
 
 \begin{itemize}
 \item {\bf Define $m_i$:} If $\nu = 0$, let $m_i = 0$, otherwise, define $m_i$ to be the $\nu$-th smallest entry in the $i$-th column of D
-\item {\bf Add points:} For all points $l \in \mathcal{L}$, $l \in LW_0(\mathcal{X}, 0, \nu)$
-\item {\bf Add 1-skeleton:} The 1-simplex $[l_i, l_j]$ is in $LW_1(\mathcal{X}, r, \nu)$ iff there exists an $x \in \mathcal{X}$ such that $\max(d(l_i, x), d(l_j, x)) \leq r + m_i$.
-\item {\bf Expansion:} We define $LW(\mathcal{X}, r, \nu)$ to be the maximal simplicial complex containing $LW_1(\mathcal{X}, r, \nu)$. 
+\item {\bf Add points:} For all points $l \in \mathcal{L}$, $l \in \LW_0(\mathcal{X}, 0, \nu)$
+\item {\bf Add 1-skeleton:} The 1-simplex $[l_i, l_j]$ is in $\LW_1(\mathcal{X}, r, \nu)$ iff there exists an $x \in \mathcal{X}$ such that $\max(d(l_i, x), d(l_j, x)) \leq r + m_i$.
+\item {\bf Expansion:} We define $\LW(\mathcal{X}, r, \nu)$ to be the maximal simplicial complex containing $\LW_1(\mathcal{X}, r, \nu)$. 
 \end{itemize}
 
 \section{Homology Computation}
@@ -206,7 +214,7 @@ Although in principle JavaPlex can compute the persistent homology of arbitrary 
 
 \subsection{Simplicial Homology}
 
-This is the ``standard'' situation, which was also handled by previous versions in the Plex family. Here, we have a filtered sequence of simplicial complexes $X_1 \subset X_2 \subset ... \subset X_n$, from which we define the vector space of chains, $C(X_i)$ consisting of formal sums of elements of $X_i$ with coefficients in the field $\mathbb{F}$.
+This is the ``standard'' situation, which was also handled by previous versions in the Plex software family. Here, we have a filtered sequence of simplicial complexes $X_1 \subset X_2 \subset ... \subset X_n$, from which we define the vector space of chains, $C(X_i)$ consisting of formal sums of elements of $X_i$ with coefficients in the field $\mathbb{F}$.
 
 In this case the boundary operator $\partial: C(X_i) \rightarrow C(X_{i-1})$ is the actual geometric boundary defined by
 $$\partial([v_0, ..., v_n]) = \sum_i (-1)^i [v_0, ..., \hat{v_i}, ..., v_n]$$
@@ -238,7 +246,7 @@ $$\Hom(A, B)_n = \bigoplus_{p \in \mathbb{Z}} \Hom(A_p, B_{p + n})$$
 which in the case of field coefficients reduces to 
 $$\Hom(A, B)_n = \bigoplus_{p \in \mathbb{Z}} A^p \otimes B_{p + n}$$
 
-Recently, in an upcoming paper by the first author, the hom-complex was used to compute a parameterization for the the space of homotopy classes of chain maps between simplicial complexes.
+Recently, in an upcoming paper \cite{hom}, the hom-complex was used to compute a parameterization for the the space of homotopy classes of chain maps between simplicial complexes.
 
 %\item {\bf Algebraic Mapping Cylinder:} 
 

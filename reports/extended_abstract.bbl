@@ -26,6 +26,10 @@ Herbert Edelsbrunner, David Letscher, and Afra Zomorodian, \emph{Topological
   no.~4, 511--533, Discrete and computational geometry and graph drawing
   (Columbia, SC, 2001). \MR{1949898 (2003m:52019)}
 
+\bibitem[TC11]{hom}
+Andrew Tausz and Gunnar Carlsson, \emph{{Homological Coordinatization}},
+  Preprint, 2011.
+
 \bibitem[ZC05]{Carlsson_04}
 Afra Zomorodian and Gunnar Carlsson, \emph{Computing persistent homology},
   Discrete Comput. Geom \textbf{33} (2005), 249--274.
