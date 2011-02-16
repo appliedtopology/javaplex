@@ -9,6 +9,8 @@ import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
 import edu.stanford.math.plex4.streams.derived.TensorStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.primitivelib.autogen.formal_sum.DoublePrimitiveFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntMatrixConverter;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntPrimitiveFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
@@ -66,7 +68,14 @@ public class StreamUtility {
 		return size;
 	}
 	
-	public static <T> IntSparseFormalSum<ObjectObjectPair<T, T>> createBoundaryMatrixAsSum(AbstractFilteredStream<T> stream) {
+	/**
+	 * This function returns the boundary matrix for the entire complex.
+	 * 
+	 * @param <T> the underlying basis type
+	 * @param stream the complex
+	 * @return the boundary matrix as an IntSparseFormalSum
+	 */
+	public static <T> IntSparseFormalSum<ObjectObjectPair<T, T>> createBoundaryMatrixAsIntSum(AbstractFilteredStream<T> stream) {
 		IntPrimitiveFreeModule<ObjectObjectPair<T, T>> chainModule = new IntPrimitiveFreeModule<ObjectObjectPair<T, T>>();
 		IntSparseFormalSum<ObjectObjectPair<T, T>> sum = new IntSparseFormalSum<ObjectObjectPair<T, T>>();
 		for (T basisElement: stream) {
@@ -79,6 +88,84 @@ public class StreamUtility {
 		return sum;
 	}
 	
+	/**
+	 * This function returns the boundary matrix for the entire complex.
+	 * 
+	 * @param <T> the underlying basis type
+	 * @param stream the complex
+	 * @return the boundary matrix as a DoubleSparseFormalSum
+	 */
+	public static <T> DoubleSparseFormalSum<ObjectObjectPair<T, T>> createBoundaryMatrixAsDoubleSum(AbstractFilteredStream<T> stream) {
+		DoublePrimitiveFreeModule<ObjectObjectPair<T, T>> chainModule = new DoublePrimitiveFreeModule<ObjectObjectPair<T, T>>();
+		DoubleSparseFormalSum<ObjectObjectPair<T, T>> sum = new DoubleSparseFormalSum<ObjectObjectPair<T, T>>();
+		for (T basisElement: stream) {
+			int[] boundaryCoefficients = stream.getBoundaryCoefficients(basisElement);
+			T[] boundaryElements = stream.getBoundary(basisElement);
+			for (int i = 0; i < boundaryElements.length; i++) {
+				chainModule.accumulate(sum, new ObjectObjectPair<T, T>(boundaryElements[i], basisElement), boundaryCoefficients[i]);
+			}
+		}
+		return sum;
+	}
+	
+	/**
+	 * This function returns the boundary matrix for the entire complex.
+	 * 
+	 * @param <T> the underlying basis type
+	 * @param stream the complex
+	 * @param dimension the dimension to get the boundary for
+	 * @return the boundary matrix as an IntSparseFormalSum
+	 */
+	public static <T> IntSparseFormalSum<ObjectObjectPair<T, T>> createBoundaryMatrixAsIntSum(AbstractFilteredStream<T> stream, int dimension) {
+		IntPrimitiveFreeModule<ObjectObjectPair<T, T>> chainModule = new IntPrimitiveFreeModule<ObjectObjectPair<T, T>>();
+		IntSparseFormalSum<ObjectObjectPair<T, T>> sum = new IntSparseFormalSum<ObjectObjectPair<T, T>>();
+		for (T basisElement: stream) {
+			int elementDimension = stream.getDimension(basisElement);
+			if (elementDimension != dimension) {
+				continue;
+			}
+			int[] boundaryCoefficients = stream.getBoundaryCoefficients(basisElement);
+			T[] boundaryElements = stream.getBoundary(basisElement);
+			for (int i = 0; i < boundaryElements.length; i++) {
+				chainModule.accumulate(sum, new ObjectObjectPair<T, T>(boundaryElements[i], basisElement), boundaryCoefficients[i]);
+			}
+		}
+		return sum;
+	}
+	
+	/**
+	 * This function returns the boundary matrix for the entire complex.
+	 * 
+	 * @param <T> the underlying basis type
+	 * @param stream the complex
+	 * @param dimension the dimension to get the boundary for
+	 * @return the boundary matrix as a DoubleSparseFormalSum
+	 */
+	public static <T> DoubleSparseFormalSum<ObjectObjectPair<T, T>> createBoundaryMatrixAsDoubleSum(AbstractFilteredStream<T> stream, int dimension) {
+		DoublePrimitiveFreeModule<ObjectObjectPair<T, T>> chainModule = new DoublePrimitiveFreeModule<ObjectObjectPair<T, T>>();
+		DoubleSparseFormalSum<ObjectObjectPair<T, T>> sum = new DoubleSparseFormalSum<ObjectObjectPair<T, T>>();
+		for (T basisElement: stream) {
+			int elementDimension = stream.getDimension(basisElement);
+			if (elementDimension != dimension) {
+				continue;
+			}
+			int[] boundaryCoefficients = stream.getBoundaryCoefficients(basisElement);
+			T[] boundaryElements = stream.getBoundary(basisElement);
+			for (int i = 0; i < boundaryElements.length; i++) {
+				chainModule.accumulate(sum, new ObjectObjectPair<T, T>(boundaryElements[i], basisElement), boundaryCoefficients[i]);
+			}
+		}
+		return sum;
+	}
+	
+	/**
+	 * This function returns the boundary matrix at the specified dimension as a list of columns
+	 * 
+	 * @param <T> the underlying basis type
+	 * @param stream the complex
+	 * @param dimension the dimension to get the boundary for
+	 * @return the boundary matrix as a list of formal sums
+	 */
 	public static <T> List<IntSparseFormalSum<T>> getBoundaryMatrixColumns(AbstractFilteredStream<T> stream, int dimension) {
 		List<IntSparseFormalSum<T>> boundaryMatrixColumns = new ArrayList<IntSparseFormalSum<T>>();
 		IntPrimitiveFreeModule<T> chainModule = new IntPrimitiveFreeModule<T>();
