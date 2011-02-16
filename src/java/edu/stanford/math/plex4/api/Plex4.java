@@ -30,6 +30,7 @@ import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
 import edu.stanford.math.primitivelib.algebraic.impl.RationalField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleMatrixConverter;
+import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleVectorConverter;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPairComparator;
 import edu.stanford.math.primitivelib.collections.utility.ReversedComparator;
@@ -137,5 +138,9 @@ public class Plex4 {
 	
 	public static DoubleMatrixConverter<Simplex, Simplex> createHomMatrixConverter(AbstractFilteredStream<Simplex> domainStream, AbstractFilteredStream<Simplex> codomainStream) {
 		return new DoubleMatrixConverter<Simplex, Simplex>(domainStream, codomainStream);
+	}
+	
+	public static DoubleVectorConverter<Simplex> createMatrixConverter(AbstractFilteredStream<Simplex> stream) {
+		return new DoubleVectorConverter<Simplex>(stream);
 	}
 }
