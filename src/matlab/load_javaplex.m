@@ -3,6 +3,10 @@
 clc; clear all; close all;
 clear import;
 
-javaaddpath('./../javaplex.jar');
+javaaddpath('./lib/javaplex.jar');
+
+cd './utility';
+addpath(pwd);
+cd '..';
 
 import edu.stanford.math.plex4.*;

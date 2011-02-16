@@ -3,7 +3,6 @@ clc; clear; close all;
 domain_size = 5;
 codomain_size = 4;
 
-
 domain_stream = examples.SimplexStreamExamples.getCircle(domain_size);
 codomain_stream = examples.SimplexStreamExamples.getCircle(codomain_size);
 

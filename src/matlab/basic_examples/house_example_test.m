@@ -2,9 +2,6 @@
 
 clc; clear; close all;
 
-import edu.stanford.math.plex4.examples.PointCloudExamples.getHouseExample;
-import edu.stanford.math.plex4.api.Plex4.*;
-
 max_dimension = 2;
 max_filtration_value = 4;
 num_divisions = 100;

@@ -1,0 +1,7 @@
+To run the MATLAB examples, perform the following steps:
+1. Run the 'load_javaplex.m' script from the current directory.
+2. Cd to the example directory of interest (e.g. 'basic_examples'), and run one of the scripts.
+
+Notes:
+- library files should be placed in 'lib'
+- common utility files are placed in the 'utilities' folder
