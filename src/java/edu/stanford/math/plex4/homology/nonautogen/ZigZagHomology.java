@@ -87,7 +87,7 @@ public class ZigZagHomology<U> implements AbstractPersistenceAlgorithm<U> {
 				continue;
 			}
 
-			zz.add(sigma, chainModule.createNewSum(stream.getBoundaryCoefficients(sigma), stream.getBoundary(sigma)));
+			zz.add(sigma);
 		}
 
 		List<ObjectObjectPair<Integer, U>> pairs = zz.getPairs();

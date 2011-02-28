@@ -95,7 +95,9 @@ public class ZigZagPrototype<U> {
 		return this.birth;
 	}
 
-	public void add(U sigma, IntSparseFormalSum<U> boundary) {
+	public void add(U sigma) {
+		IntSparseFormalSum<U> boundary = chainModule.createNewSum(stream.getBoundaryCoefficients(sigma), stream.getBoundary(sigma));
+		
 		// compute representation of boundary of sigma in terms of cycles Z_i
 		IntSparseFormalSum<Integer> v = new IntSparseFormalSum<Integer>();
 
@@ -167,7 +169,7 @@ public class ZigZagPrototype<U> {
 		i++;
 	}
 
-	public void remove(U sigma, IntSparseFormalSum<U> boundary) {
+	public void remove(U sigma) {
 		int j = -9999;
 		boolean found = false;
 		for (int k = 0; k < ZIndices.size(); k++) {
@@ -231,6 +233,10 @@ public class ZigZagPrototype<U> {
 
 			// 3. Subtract (r_sigma[k]/c) * C[j] from every column C[k] to get C'.
 			for (U sigma_k: C.keySet()) {
+				if (sigma_k.equals(sigma_j)) {
+					continue;
+				}
+				
 				int coefficient = field.negate(field.divide(r_sigma.getCoefficient(sigma_k), c));
 				chainModule.accumulate(C.get(sigma_k), C_j, coefficient);
 			}
@@ -255,15 +261,26 @@ public class ZigZagPrototype<U> {
 
 			// 5. Drop column l from Z'
 			Z.remove(l);
-
+			ZIndices.remove((Object) l);
+			
 			// 5. Drop column j from C to get C_{i+1}
 			C.remove(sigma_j);
+			CIndices.remove(sigma_j);
 
 			// 6. Reduce Z_{i+1} initially set to Z_i
 			while (true) {
 				U s = this.low(Z.get(j), this.filteredComparator);
 
-				Integer k = this.findColumnWithGivenLow(Z, s, this.filteredComparator);
+				//Integer k = this.findColumnWithGivenLow(Z, s, this.filteredComparator);
+				Integer k = null;
+				
+				for (int k_candidate = 0; k_candidate < j; k_candidate++) {
+					U low_candidate = this.low(Z.get(k_candidate), this.filteredComparator);
+					if (low_candidate != null && low_candidate.equals(s)) {
+						k = k_candidate;
+						break;
+					}
+				}
 
 				if (k == null) {
 					break;
@@ -318,9 +335,10 @@ public class ZigZagPrototype<U> {
 			// 3. Drop Z_{i+1}[j], the corresponding entry in vectors b_i and idx_i, row j 
 			// from B_i, row sigma from C_i and Z (as well as row and column of sigma from D_i)
 			Z.remove(j);
-			ZIndices.remove(j);
+			ZIndices.remove((Object) j);
+			
 			birth.remove(j);
-			idx.remove(j);
+			idx.remove((Object) j);
 
 			// remove row j from B_i
 			for (U BIndex: B.keySet()) {
