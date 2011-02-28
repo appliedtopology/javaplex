@@ -34,6 +34,7 @@ public class PersistenceAlgorithmTester {
 		for (AbstractPersistenceAlgorithm<T> algorithm: algorithms) {
 			Timing.restart();
 			barcodes.add(algorithm.computeIntervals(stream));
+			//System.out.println(barcodes.get(barcodes.size() - 1));
 			Timing.stopAndDisplay(algorithm.toString());
 		}
 		

@@ -55,8 +55,8 @@ public class PersistenceAlgorithmEqualityTest {
 		streams.add(SimplexStreamExamples.getTorus());
 		streams.add(SimplexStreamExamples.getCircle(7));
 		streams.add(SimplexStreamExamples.getOctahedron());
-		//streams.add(SimplexStreamExamples.getIcosahedron());
-		//streams.add(SimplexStreamExamples.getAnnulus(4, 10));
+		streams.add(SimplexStreamExamples.getIcosahedron());
+		streams.add(SimplexStreamExamples.getAnnulus(4, 10));
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension);
 		PersistenceAlgorithmTester.verifyEquality(algorithms, streams);
@@ -103,9 +103,7 @@ public class PersistenceAlgorithmEqualityTest {
 		}
 		
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllSimplicialAbsoluteHomologyAlgorithms(maxDimension - 1);
-		//List<AbstractPersistenceAlgorithm<Simplex>> algorithms = new ArrayList<AbstractPersistenceAlgorithm<Simplex>>();
-		//algorithms.add(new PersistentCohomologyPrototype<Simplex>(ModularIntField.getInstance(11), SimplexComparator.getInstance(), 0, maxDimension));
-		
+
 		PersistenceAlgorithmTester.verifyEquality(algorithms, streams);
 	}
 	
