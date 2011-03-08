@@ -32,7 +32,7 @@ public class SimplexComparator implements Comparator<Simplex> {
 	/**
 	 * This is the single instantiation of the class.
 	 */
-	private static SimplexComparator instance = new SimplexComparator();	
+	private static final SimplexComparator instance = new SimplexComparator();	
 	
 	/**
 	 * Private constructor to prevent instantiation.
