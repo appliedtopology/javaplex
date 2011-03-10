@@ -11,6 +11,7 @@ import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.derived.DualStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.utility.FilteredComparator;
+import edu.stanford.math.plex4.test_utility.Timing;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
@@ -102,7 +103,7 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 
 	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
-		return this.pCoh(stream);
+		return this.pCohMatrix(stream);
 	}
 
 	private IntBarcodeCollection pCohMatrix(AbstractFilteredStream<U> stream) {
@@ -123,24 +124,27 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 		TIntObjectHashMap<IntSparseVector> cocycles = new TIntObjectHashMap<IntSparseVector>();
 		TIntObjectHashMap<IntSparseVector> cocycleCoboundaries = new TIntObjectHashMap<IntSparseVector>();
 
+		TIntIntHashMap coefficients = new TIntIntHashMap();
 		for (U sigma_k : stream) {
-			int k = vectorConverter.getIndex(sigma_k);
+			int dim_sigma_k = stream.getDimension(sigma_k);
+			
 			/*
 			 * Do not process simplices of higher dimension than maxDimension.
 			 */
-			if (stream.getDimension(sigma_k) < this.minDimension) {
+			if (dim_sigma_k < this.minDimension) {
 				continue;
 			}
 
-			if (stream.getDimension(sigma_k) > this.maxDimension + 1) {
-				continue;
+			if (dim_sigma_k > this.maxDimension + 1) {
+				break;
 			}
 
-			TIntIntHashMap coefficients = new TIntIntHashMap();
+			
 			int j = -1;
 			int c_j = 0;
-
-			int dim_sigma_k = stream.getDimension(sigma_k);
+			int k = vectorConverter.getIndex(sigma_k);
+			
+			coefficients.clear();
 
 			for (TIntObjectIterator<IntSparseVector> iterator = cocycleCoboundaries.iterator(); iterator.hasNext(); ) {
 				iterator.advance();
@@ -179,6 +183,11 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 
 					accumulate(cocycles.get(i), alpha_j, q, this.field);
 					accumulate(cocycleCoboundaries.get(i), d_alpha_j, q, this.field);
+					
+					if (cocycles.get(i).isEmpty()) {
+						cocycles.remove(i);
+						cocycleCoboundaries.remove(i);
+					}
 				}
 
 				U sigma_j = vectorConverter.getBasisElement(j);
@@ -208,7 +217,8 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 	private IntBarcodeCollection pCoh(AbstractFilteredStream<U> stream) {
 		AbstractFilteredStream<U> dualStream = new DualStream<U>(stream);
 		dualStream.finalizeStream();
-
+		Timing.stopAndDisplay("Constructed dual stream");
+		Timing.restart();
 		IntBarcodeCollection collection = new IntBarcodeCollection();
 
 		//List<IntSparseFormalSum<U>> Z = new ArrayList<IntSparseFormalSum<U>>();
@@ -271,6 +281,11 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 					int q = field.negate(field.divide(c_i, c_j));
 					chainModule.accumulate(cocycles.get(i), alpha_j, q);
 					chainModule.accumulate(cocycleCoboundaries.get(i), d_alpha_j, q);
+					
+					if (cocycles.get(i).isEmpty()) {
+						cocycles.remove(i);
+						cocycleCoboundaries.remove(i);
+					}
 				}
 
 				int index_j = stream.getFiltrationIndex(j);
