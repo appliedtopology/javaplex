@@ -101,6 +101,7 @@ public class ZigZagPrototype<U> {
 		// compute representation of boundary of sigma in terms of cycles Z_i
 		IntSparseFormalSum<Integer> v = new IntSparseFormalSum<Integer>();
 
+		// compute v such that d sigma = Z v
 		while (true) {
 			U lowElement = this.low(boundary, this.filteredComparator);
 			if (lowElement == null) {
@@ -122,6 +123,7 @@ public class ZigZagPrototype<U> {
 
 		IntSparseFormalSum<U> u = new IntSparseFormalSum<U>();
 
+		// compute u, v' such that d sigma = Z g = Z (B u + v')
 		while (true) {
 			Integer lowElement = this.low(v, this.integerComparator);
 			if (lowElement == null) {
