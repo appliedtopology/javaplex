@@ -57,13 +57,13 @@ public class SimplexStreamExamples {
 	public static ExplicitStream<Simplex> getFilteredTriangle() {
 		ExplicitStream<Simplex> stream = new ExplicitStream<Simplex>(SimplexComparator.getInstance());
 
-		stream.addElement(new Simplex(new int[]{1}), 1);
-		stream.addElement(new Simplex(new int[]{2}), 2);
-		stream.addElement(new Simplex(new int[]{3}), 3);
-		stream.addElement(new Simplex(new int[]{1, 2}), 4);
-		stream.addElement(new Simplex(new int[]{2, 3}), 5);
-		stream.addElement(new Simplex(new int[]{1, 3}), 6);
-		stream.addElement(new Simplex(new int[]{1, 2, 3}), 7);
+		stream.addElement(new Simplex(new int[]{0}), 1);
+		stream.addElement(new Simplex(new int[]{1}), 2);
+		stream.addElement(new Simplex(new int[]{2}), 3);
+		stream.addElement(new Simplex(new int[]{0, 1}), 4);
+		stream.addElement(new Simplex(new int[]{1, 2}), 5);
+		stream.addElement(new Simplex(new int[]{0, 2}), 6);
+		stream.addElement(new Simplex(new int[]{0, 1, 2}), 7);
 
 		stream.finalizeStream();
 		

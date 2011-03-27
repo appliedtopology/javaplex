@@ -47,7 +47,7 @@ public class ZigZagTest {
 	 */
 	@Test
 	public void testTriangle() {
-		AbstractFilteredStream<Simplex> stream = SimplexStreamExamples.getFilteredTriangle();
+		AbstractFilteredStream<Simplex> stream = SimplexStreamExamples.getIcosahedron();
 		ZigZagPrototype<Simplex> zz = new ZigZagPrototype<Simplex>(intField, SimplexComparator.getInstance(), stream);
 
 		List<Simplex> elements = new ArrayList<Simplex>();

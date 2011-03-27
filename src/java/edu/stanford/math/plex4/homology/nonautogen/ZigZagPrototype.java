@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.utility.FilteredComparator;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
@@ -95,13 +96,13 @@ public class ZigZagPrototype<U> {
 		return this.birth;
 	}
 
-	public void add(U sigma) {
+	public IntHalfOpenInterval add(U sigma) {
+		IntHalfOpenInterval barcode = null;
 		IntSparseFormalSum<U> boundary = chainModule.createNewSum(stream.getBoundaryCoefficients(sigma), stream.getBoundary(sigma));
 		
 		// compute representation of boundary of sigma in terms of cycles Z_i
 		IntSparseFormalSum<Integer> v = new IntSparseFormalSum<Integer>();
 
-		// compute v such that d sigma = Z v
 		while (true) {
 			U lowElement = this.low(boundary, this.filteredComparator);
 			if (lowElement == null) {
@@ -123,7 +124,6 @@ public class ZigZagPrototype<U> {
 
 		IntSparseFormalSum<U> u = new IntSparseFormalSum<U>();
 
-		// compute u, v' such that d sigma = Z g = Z (B u + v')
 		while (true) {
 			Integer lowElement = this.low(v, this.integerComparator);
 			if (lowElement == null) {
@@ -152,7 +152,10 @@ public class ZigZagPrototype<U> {
 			Z.put(i, newCycle);
 			ZIndices.add(i);
 
-			birth.put(i, sigma);
+			int new_i = this.stream.getFiltrationIndex(sigma);
+			
+			birth.put(new_i, sigma);
+			System.out.println(i + ";" + new_i + ": Birth (" + sigma + ", _) - addition of " + sigma);
 			idx.add(sigma);
 		} else {
 			// Death
@@ -161,14 +164,22 @@ public class ZigZagPrototype<U> {
 			C.put(sigma, newChain);
 			CIndices.add(sigma);
 
-			B.put(sigma, v_prime);
+			B.put(sigma, integerChainModule.negate(v_prime));
 
+			int new_i = this.stream.getFiltrationIndex(sigma);
+			
+			
 			// update birth vector
 			Integer j = this.low(v_prime, this.integerComparator);
 			this.pairs.add(new ObjectObjectPair<Integer, U>(j, sigma));
+			System.out.println(i + ";" + new_i + ": Death (" + j + ", " + sigma + ") - addition of " + sigma);
 		}
 
 		i++;
+
+		this.checkInvariant();
+		
+		return barcode;
 	}
 
 	public void remove(U sigma) {
@@ -203,8 +214,11 @@ public class ZigZagPrototype<U> {
 			Z.put(i, DC_j);
 			ZIndices.add(0, i);
 
+			int new_i = this.stream.getFiltrationIndex(sigma);
+			
 			birth.put(i, sigma);
-
+			System.out.println(i + ";" + new_i + ": Birth (" + sigma + ", _) - removal of " + sigma);
+			
 			// 2. Let c = C[j][sigma]. Let r_sigma be the row of sigma in matrix C. We 
 			// prepend the row -r_sigma/c to the matrix B_i to get B_i'.
 
@@ -273,6 +287,10 @@ public class ZigZagPrototype<U> {
 			while (true) {
 				U s = this.low(Z.get(j), this.filteredComparator);
 
+				if (s == null) {
+					break;
+				}
+				
 				//Integer k = this.findColumnWithGivenLow(Z, s, this.filteredComparator);
 				Integer k = null;
 				
@@ -302,9 +320,11 @@ public class ZigZagPrototype<U> {
 			// Death
 			// Z_j is the first cycle that contains simplex sigma
 
+			int new_i = this.stream.getFiltrationIndex(sigma);
+			
 			// update birth vector
 			this.pairs.add(new ObjectObjectPair<Integer, U>(j, sigma));
-
+			System.out.println(i + ";" + new_i + ": Death (" + j + ", " + sigma + ") - removal of " + sigma);
 			// 1. Change basis to remove sigma from matrix Z
 			for (int k = j + 1; k < ZIndices.size(); k++) {
 				Integer sigma_k = ZIndices.get(k);
@@ -358,9 +378,25 @@ public class ZigZagPrototype<U> {
 			}
 		}
 
+		this.checkInvariant();
+		
 		i++;
 	}
 
+	protected void checkInvariant() {
+		for (U CIndex: C.keySet()) {
+			IntSparseFormalSum<U> Ck = C.get(CIndex);
+			IntSparseFormalSum<U> DCk = this.computeBoundary(Ck);
+			
+			IntSparseFormalSum<U> ZBk = this.multiply(this.Z, this.B.get(CIndex));
+			
+			if (!DCk.equals(ZBk)) {
+				System.out.println("Invariant Violated!");
+			}
+			
+		}
+	}
+	
 	protected <X, Y> X findColumnWithGivenLow(THashMap<X, IntSparseFormalSum<Y>> m, Y low, Comparator<Y> comparator) {
 
 		for (X columnIndex: m.keySet()) {
@@ -416,6 +452,11 @@ public class ZigZagPrototype<U> {
 	protected <X> X low(IntSparseFormalSum<X> chain, Comparator<X> comparator) {
 
 		X maxObject = null;
+		
+		if (chain == null) {
+			//System.out.println("stop");
+			return null;
+		}
 
 		for (TObjectIntIterator<X> iterator = chain.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
