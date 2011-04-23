@@ -5,8 +5,8 @@ package edu.stanford.math.plex4.graph.metric;
 
 import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex4.graph.utility.GraphUtility;
-import edu.stanford.math.primitivelib.metric.impl.ExplicitMetricSpace;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace;
+import edu.stanford.math.plex4.metric.impl.ExplicitMetricSpace;
+import edu.stanford.math.plex4.metric.interfaces.AbstractIntMetricSpace;
 
 /**
  * This class produces a metric space that is defined by the shortest-path distance

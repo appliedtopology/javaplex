@@ -7,10 +7,10 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.plex4.metric.interfaces.AbstractObjectMetricSpace;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace;
 
 /**
  * This class defines a geometric realization of a filtered simplicial

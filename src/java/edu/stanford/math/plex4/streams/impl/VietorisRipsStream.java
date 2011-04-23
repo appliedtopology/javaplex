@@ -6,9 +6,9 @@ package edu.stanford.math.plex4.streams.impl;
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.filtration.IncreasingLinearConverter;
+import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.streams.storage_structures.StreamStorageStructure;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIterator;
 

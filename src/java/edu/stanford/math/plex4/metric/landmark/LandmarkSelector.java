@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.metric.landmark;
 
+import edu.stanford.math.plex4.metric.interfaces.AbstractObjectMetricSpace;
+import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 /**
  * <p>This abstract class defines the functionality of a landmark set within an arbitrary

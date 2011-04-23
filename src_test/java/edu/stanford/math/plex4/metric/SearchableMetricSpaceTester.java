@@ -1,7 +1,7 @@
 package edu.stanford.math.plex4.metric;
 
 import static org.junit.Assert.assertTrue;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
+import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIterator;
 

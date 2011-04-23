@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
+import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.GeometricSimplexStream;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
-import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 
 public class ObjReader implements ObjectReader<GeometricSimplexStream> {
 

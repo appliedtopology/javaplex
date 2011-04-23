@@ -1,6 +1,7 @@
 package edu.stanford.math.plex4.homology.barcodes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import edu.stanford.math.plex4.utility.ComparisonUtility;
@@ -14,7 +15,7 @@ import edu.stanford.math.plex4.utility.ExceptionUtility;
  * @author Andrew Tausz
  *
  */
-public class IntBarcode {
+public class IntBarcode implements Iterable<IntHalfOpenInterval> {
 	private final String label;
 	private final int dimension;
 	private List<IntHalfOpenInterval> intervals = new ArrayList<IntHalfOpenInterval>();
@@ -152,5 +153,9 @@ public class IntBarcode {
 		} else if (!ComparisonUtility.setEquals(this.intervals, other.intervals))
 			return false;
 		return true;
+	}
+
+	public Iterator<IntHalfOpenInterval> iterator() {
+		return this.intervals.iterator();
 	}
 }

@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.metric.utility;
 
+import edu.stanford.math.plex4.metric.interfaces.AbstractIntMetricSpace;
+import edu.stanford.math.plex4.metric.interfaces.AbstractObjectMetricSpace;
 import edu.stanford.math.plex4.utility.RandomUtility;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractObjectMetricSpace;
 import edu.stanford.math.primitivelib.utility.Infinity;
 
 /**

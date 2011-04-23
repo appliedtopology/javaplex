@@ -1,18 +1,16 @@
-package edu.stanford.math.plex4.homology.nonautogen;
+package edu.stanford.math.plex4.homology.zigzag;
 
 import java.util.Comparator;
-import java.util.List;
 
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.utility.FilteredComparator;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
-import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
-import gnu.trove.THashMap;
 
-public class ZigZagHomology<U> implements AbstractPersistenceAlgorithm<U> {
+public class ZigZagHomology<U extends PrimitiveBasisElement> implements AbstractPersistenceAlgorithm<U> {
 	/**
 	 * This is the field over which we perform the arithmetic computations.
 	 */
@@ -71,9 +69,7 @@ public class ZigZagHomology<U> implements AbstractPersistenceAlgorithm<U> {
 
 	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
-		ZigZagPrototype<U> zz = new ZigZagPrototype<U>(this.field, this.basisComparator, stream);
-
-		IntBarcodeCollection collection = new IntBarcodeCollection();
+		AbstractBasisTracker<U> basisTracker = new HomologyBasisTracker<U>(this.field, this.basisComparator);
 
 		for (U sigma : stream) {
 			/*
@@ -87,33 +83,9 @@ public class ZigZagHomology<U> implements AbstractPersistenceAlgorithm<U> {
 				continue;
 			}
 
-			zz.add(sigma);
+			basisTracker.add(sigma, stream.getFiltrationIndex(sigma));
 		}
 
-		List<ObjectObjectPair<Integer, U>> pairs = zz.getPairs();
-		THashMap<Integer, U> birth = zz.getBirth();
-
-		for (ObjectObjectPair<Integer, U> pair: pairs) {
-			U sigma_j = birth.get(pair.getFirst());
-			int dimension = stream.getDimension(sigma_j);
-			int k = stream.getFiltrationIndex(sigma_j);
-			int j = stream.getFiltrationIndex(pair.getSecond());
-			if (k < j && dimension < this.maxDimension) {
-				collection.addInterval(dimension, k, j);
-			}
-
-			birth.remove(pair.getFirst());
-		}
-
-		for (Integer index: birth.keySet()) {
-			int dimension = stream.getDimension(birth.get(index));
-			int k = stream.getFiltrationIndex(birth.get(index));
-			if (dimension < this.maxDimension) {
-				collection.addRightInfiniteInterval(dimension, k);
-			}
-		}
-
-		return collection;
+		return basisTracker.getBarcodes();
 	}
-
 }

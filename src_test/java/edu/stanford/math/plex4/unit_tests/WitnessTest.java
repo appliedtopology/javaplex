@@ -13,7 +13,8 @@ import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
-import edu.stanford.math.plex4.homology.nonautogen.ZigZagPrototype;
+import edu.stanford.math.plex4.homology.nonautogen.SubsetZigZag;
+import edu.stanford.math.plex4.homology.zigzag.HomologyBasisTracker;
 import edu.stanford.math.plex4.streams.derived.TensorStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitStream;
@@ -23,7 +24,7 @@ import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 
 public class WitnessTest {
-	IntAbstractField intField = ModularIntField.getInstance(11);
+	IntAbstractField intField = ModularIntField.getInstance(2);
 	@Before
 	public void setUp() {
 		RandomUtility.initializeWithSeed(0);
@@ -80,14 +81,22 @@ public class WitnessTest {
 		return stream;
 	}
 	
-	
 	@Test
+	public void testSubsetZigZag() {
+		ExplicitSimplexStream X = this.getX();
+		ExplicitSimplexStream Y = this.getX();
+		ExplicitStream<SimplexPair> Z = this.getZ();
+		
+		SubsetZigZag.test1(X, Y, Z);
+	}
+	
+	//@Test
 	public void testZZ() {
 		
 		ExplicitStream<SimplexPair> Z = this.getZ();
 		ExplicitStream<SimplexPair> XY = this.getXY();
 		
-		ZigZagPrototype<SimplexPair> zz = new ZigZagPrototype<SimplexPair>(intField, SimplexPairComparator.getInstance(), XY);
+		HomologyBasisTracker<SimplexPair> zz = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
 
 		List<SimplexPair> Zset = new ArrayList<SimplexPair>();
 		for (SimplexPair pair: Z) {
@@ -111,9 +120,9 @@ public class WitnessTest {
 		
 		System.out.println("Removing pairs in X x Y \\ Z");
 		for (SimplexPair pair: XYset) {
-			//if (!Zset.contains(pair)) {
+			if (!Zset.contains(pair)) {
 				zz.remove(pair);
-			//}
+			}
 		}
 	}
 	

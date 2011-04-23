@@ -16,11 +16,11 @@ import edu.stanford.math.plex4.homology.PersistenceAlgorithmTester;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
+import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.utility.RandomUtility;
-import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 
 /**
  * This class contains test for verifying that the different persistence algorithms produce the

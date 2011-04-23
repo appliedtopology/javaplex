@@ -17,6 +17,9 @@ import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.io.BarcodeWriter;
+import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.plex4.metric.interfaces.AbstractIntMetricSpace;
+import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.MaxMinLandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
@@ -34,9 +37,6 @@ import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleVectorConverter;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPairComparator;
 import edu.stanford.math.primitivelib.collections.utility.ReversedComparator;
-import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 import gnu.trove.TIntObjectIterator;
 
 /**

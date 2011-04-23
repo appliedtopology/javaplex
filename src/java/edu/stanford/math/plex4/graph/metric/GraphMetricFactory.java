@@ -1,7 +1,7 @@
 package edu.stanford.math.plex4.graph.metric;
 
 import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractIntMetricSpace;
+import edu.stanford.math.plex4.metric.interfaces.AbstractIntMetricSpace;
 
 /**
  * This interface defines the functionality of a factory which creates a metric space on a 

@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.homology.filtration.IncreasingLinearConverter;
+import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.primitivelib.utility.Infinity;
 
 /**
@@ -160,8 +160,7 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 				}
 			}
 		}
-
+		
 		return graph;
 	}
-
 }

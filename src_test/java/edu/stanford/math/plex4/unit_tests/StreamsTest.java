@@ -9,9 +9,9 @@ import org.junit.Test;
 
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.homology.StreamTester;
+import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
-import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
 
 /**
  * This class tests the equality of streams produced by plex 3 and plex 4.
@@ -21,10 +21,10 @@ import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
  */
 public class StreamsTest {
 	private final List<double[][]> pointClouds = new ArrayList<double[][]>();
-	private final int n = 400;
-	private final int l = 300;
+	private final int n = 100;
+	private final int l = n/2;
 	private final int d = 4;
-	private final int maxDimension = 2;
+	private final int maxDimension = 1;
 	private final double maxFiltrationValue = 0.3;
 	private final int numDivisions = 20;
 	
@@ -39,18 +39,25 @@ public class StreamsTest {
 	@After
 	public void tearDown() {}
 	
-	@Test
+	//@Test
 	public void testVietorisRips() {
 		for (double[][] pointCloud: pointClouds) {
 			StreamTester.compareVietorisRipsStreams(pointCloud, maxDimension, maxFiltrationValue, numDivisions);
 		}
 	}
 	
-	
 	public void testLazyWitness() {
 		for (double[][] pointCloud: pointClouds) {
 			LandmarkSelector<double[]> landmarkSet = new RandomLandmarkSelector<double[]>(new EuclideanMetricSpace(pointCloud), l);
 			StreamTester.compareLazyWitnessStreams(landmarkSet, maxDimension, maxFiltrationValue, numDivisions);
+		}
+	}
+	
+	@Test
+	public void testWitness() {
+		for (double[][] pointCloud: pointClouds) {
+			LandmarkSelector<double[]> landmarkSet = new RandomLandmarkSelector<double[]>(new EuclideanMetricSpace(pointCloud), l);
+			StreamTester.compareWitnessStreams(landmarkSet, maxDimension, maxFiltrationValue, numDivisions);
 		}
 	}
 }

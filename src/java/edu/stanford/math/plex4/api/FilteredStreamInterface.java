@@ -4,15 +4,16 @@ import edu.stanford.math.plex.EuclideanArrayData;
 import edu.stanford.math.plex.Plex;
 import edu.stanford.math.plex.RipsStream;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.homology.nonautogen.WitnessStream;
 import edu.stanford.math.plex4.interop.Plex3Stream;
+import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
+import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.streams.impl.ExplicitCellStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.streams.impl.VietorisRipsStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
-import edu.stanford.math.primitivelib.metric.impl.EuclideanMetricSpace;
-import edu.stanford.math.primitivelib.metric.interfaces.AbstractSearchableMetricSpace;
 
 public class FilteredStreamInterface {
 	public static ExplicitSimplexStream createExplicitSimplexStream() {
@@ -54,6 +55,23 @@ public class FilteredStreamInterface {
 
 		EuclideanArrayData pData = Plex.EuclideanArrayData(selector.getUnderlyingMetricSpace().getPoints());
 		edu.stanford.math.plex.LazyWitnessStream plex3WitnessStream = Plex.LazyWitnessStream(maxFiltrationValue / numDivisions, maxDimension, maxFiltrationValue, 2, convertTo1Based(selector.getLandmarkPoints()), pData);
+		AbstractFilteredStream<Simplex> stream = new Plex3Stream(plex3WitnessStream);
+		stream.finalizeStream();
+		
+		return stream;
+	}
+	
+	public static WitnessStream<double[]> createPlex4WitnessStream(LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
+		WitnessStream<double[]> stream = new WitnessStream<double[]>(selector.getUnderlyingMetricSpace(), selector, maxDimension, maxFiltrationValue, numDivisions);
+		stream.finalizeStream();
+		
+		return stream;
+	}
+	
+	public static AbstractFilteredStream<Simplex> createPlex3WitnessStream(LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
+
+		EuclideanArrayData pData = Plex.EuclideanArrayData(selector.getUnderlyingMetricSpace().getPoints());
+		edu.stanford.math.plex.WitnessStream plex3WitnessStream = Plex.WitnessStream(maxFiltrationValue / numDivisions, maxDimension, maxFiltrationValue, convertTo1Based(selector.getLandmarkPoints()), pData);
 		AbstractFilteredStream<Simplex> stream = new Plex3Stream(plex3WitnessStream);
 		stream.finalizeStream();
 		

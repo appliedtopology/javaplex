@@ -51,6 +51,10 @@ public class Simplex implements PrimitiveBasisElement {
 		// compute the hash code via CRC hashing
 		this.cachedHashCode = CRC.hash32(this.getVertices());
 	}
+	
+	public static Simplex makeSimplex(int... args) {
+		return new Simplex(args);
+	}
 
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement#getDimension()

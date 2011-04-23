@@ -15,7 +15,7 @@ import edu.stanford.math.plex4.homology.PersistenceAlgorithmTester;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
-import edu.stanford.math.plex4.homology.nonautogen.ZigZagHomology;
+import edu.stanford.math.plex4.homology.zigzag.ZigZagHomology;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.utility.RandomUtility;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
