@@ -1,0 +1,132 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww11720\viewh9240\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs26 \cf0 % Commands in the JPlex with MATLAB tutorial.\
+% Henry Adams, henrya@math.stanford.edu\
+% You may copy and paste these commands into the MATLAB window.\
+% Or, you may put commands from this file into a MATLAB script.\
+\
+version -java\
+startJPlex\
+Simplex.makePoint(1, 2)\
+\
+s1 = ExplicitStream;\
+s1.add([1;2;3], [0;0;0])\
+s1.add([1,2;2,3;3,1], [0;0;0])\
+s1.dump(1).C\
+s1.dump(1).F\
+s1.close\
+intervals = Plex.Persistence.computeIntervals(s1);\
+Plex.FilterInfinite(intervals)\
+\
+s6 = ExplicitStream;\
+s6.add(1:8, 0)\
+s6.ensure_all_faces\
+s6.remove(1:8)\
+size(s6.dump(3).C)\
+s6.close\
+intervals = Plex.Persistence.computeIntervals(s6);\
+Plex.FilterInfinite(intervals)\
+\
+Persistence.baseModulus\
+Persistence.setBaseModulus(13)\
+\
+house = ExplicitStream;\
+house.add([1;2;3;4;5], [0;0;0;0;1])\
+house.add([1,2;2,3;3,4;4,1;3,5;4,5], [0;0;0;0;2;3])\
+house.add([3,4,5], 7)\
+house.close\
+intervals = Plex.Persistence.computeIntervals(house);\
+length(intervals)\
+intervals(4).dimension\
+intervals(4).start\
+intervals(4).end\
+intervals(4)\
+interval2mat(intervals)\
+Plex.FilterInfinite(intervals)\
+Plex.plot(intervals, 'house', 8)\
+Plex.scatter(intervals, 'house', 8)\
+\
+house.verify(1)\
+house.add([1,4,5], 0)\
+house.verify(1)\
+\
+pdataHouse = EuclideanArrayData([-1,0;1,0;1,2;-1,2;0,3]);\
+pdataHouse.count\
+pdataHouse.distance(1, 3)\
+pdataHouse.dimension\
+pdataHouse.coordinate(5, 0)\
+pdataHouse.coordinate(5, 1)\
+\
+pointsF100 = pointsFigure8(100);\
+plot(pointsF100(:,1), pointsF100(:,2), '.'), axis equal\
+pdataF100 = EuclideanArrayData(pointsF100);\
+\
+pointsT20 = pointsTorus(20);\
+plot(pointsT20(:,3), pointsT20(:,4), '.'), axis equal\
+pdataT20 = EuclideanArrayData(pointsT20);\
+\
+distances = [0,2,sqrt(8),2,sqrt(10);2,0,2,sqrt(8),sqrt(10);sqrt(8),2,0,2,sqrt(2);2,sqrt(8),2,0,sqrt(2);sqrt(10),sqrt(10),sqrt(2),sqrt(2),0]\
+pdataHouseDD = DistanceData(distances);\
+\
+ripsHouse = Plex.RipsStream(0.001, 3, 4, pdataHouse);\
+intervals = Plex.Persistence.computeIntervals(ripsHouse);\
+Plex.plot(intervals, 'ripsHouse', 4)\
+\
+ripsExpl = Plex.makeExplicit(ripsHouse);\
+\
+pointsT20 = pointsTorus(20);\
+pdataT20 = EuclideanArrayData(pointsT20);\
+ripsT20 = Plex.RipsStream(0.001, 3, 0.9, pdataT20);\
+ripsT20.size\
+intervals = Plex.Persistence.computeIntervals(ripsT20);\
+Plex.FilterInfinite(intervals)\
+Plex.plot(intervals, 'ripsTor20', 0.9)\
+\
+L1 = WitnessStream.makeRandomLandmarks(pdataF100, 25);\
+length(L1)\
+L2 = maxminLandmarks(pointsF100, 25, 'e');\
+pointsL1 = pointsF100(L1(2:end),:);\
+plot(pointsL1(:,1), pointsL1(:,2), 'o'), axis equal\
+pointsL2 = pointsF100(L2(2:end),:);\
+figure;\
+plot(pointsL2(:,1), pointsL2(:,2), 'o'), axis equal\
+\
+L = maxminLandmarks(distances, 3, 'd')\
+\
+pointsT100 = pointsTorus(100);\
+pdataT100 = EuclideanArrayData(pointsT100);\
+L = WitnessStream.makeRandomLandmarks(pdataT100, 50);\
+R = WitnessStream.estimateRmax(pdataT100, L)\
+witT100 = Plex.WitnessStream(0.001, 3, R/8, L, pdataT100);\
+witT100.size\
+intervals = Plex.Persistence.computeIntervals(witT100);\
+Plex.plot(intervals, 'witT100', R/8)\
+\
+load pointsRange.mat\
+size(pointsRange)\
+pdataRange = EuclideanArrayData(pointsRange);\
+L = maxminLandmarks(pointsRange, 50, 'e');\
+R = WitnessStream.estimateRmax(pdataRange, L)\
+lazRange = Plex.LazyWitnessStream(0.001, 3, R/3, 1, L, pdataRange);\
+lazRange.size\
+intervals = Plex.Persistence.computeIntervals(lazRange);\
+Plex.plot(intervals, 'lazRange', R/3)\
+\
+pointsRangeDct = pointsRange*dct(5);\
+plot(pointsRangeDct(:,1), pointsRangeDct(:,5),'.'), axis square\
+\
+eulerCharacteristic(s6)\
+\
+java.lang.Runtime.getRuntime.maxMemory\
+\
+p = primes(3571)';\
+length(p)\
+densities1 = kDensitySlow(p, 1);\
+core1 = coreSubset(p,densities1, 10)\
+densities50 = kDensitySlow(p ,50);\
+core50 = coreSubset(p,densities50, 10)\
+}
