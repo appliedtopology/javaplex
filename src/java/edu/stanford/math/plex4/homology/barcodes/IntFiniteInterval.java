@@ -125,4 +125,19 @@ public class IntFiniteInterval implements IntHalfOpenInterval, Comparable<IntHal
 			return false;
 		return true;
 	}
+
+	public void draw() {
+		for (int i = 0; i < this.start; i++) {
+			System.out.print(' ');
+		}
+		
+		System.out.print('[');
+		
+		for (int i = 0; i < ((this.end - this.start) - 1); i++) {
+			System.out.print('-');
+		}
+		
+		System.out.print(')');
+		System.out.print('\n');
+	}
 }

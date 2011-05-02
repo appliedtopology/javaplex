@@ -65,6 +65,14 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int numDivisions) {
 		this(metricSpace, landmarkSelector, maxDimension, maxDistance, 2, numDivisions);
 	}
+	
+	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int[] indices) {
+		super(maxDimension, new IncreasingLinearConverter(20, maxDistance), indices);
+		this.metricSpace = metricSpace;
+		this.landmarkSelector = landmarkSelector;
+		this.nu = 2;
+		this.maxDistance = maxDistance;
+	}
 
 	public static int getDefaultNuValue() {
 		return 2;

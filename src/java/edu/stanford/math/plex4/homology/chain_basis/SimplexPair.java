@@ -19,6 +19,14 @@ public class SimplexPair extends ObjectObjectPair<Simplex, Simplex> implements P
 	public static SimplexPair createPair(Simplex first, Simplex second) {
 		return new SimplexPair(first, second);
 	}
+	
+	public static SimplexPair createPair(int first, int second) {
+		return new SimplexPair(Simplex.makeSimplex(first), Simplex.makeSimplex(second));
+	}
+	
+	public static SimplexPair createPair(int[] first, int[] second) {
+		return new SimplexPair(Simplex.makeSimplex(first), Simplex.makeSimplex(second));
+	}
 
 	public PrimitiveBasisElement[] getBoundaryArray() {
 		Simplex[] firstBoundary = this.first.getBoundaryArray();

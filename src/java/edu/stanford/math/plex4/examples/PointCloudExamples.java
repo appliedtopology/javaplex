@@ -266,4 +266,17 @@ public class PointCloudExamples {
 
 		return points;
 	}
+	
+	public static double[][] getDisjointPatches(int n) {
+		double[][] points = new double[n][2];
+		double shift = 0;
+		
+		for (int i = 0; i < n; i++) {
+			shift = (i % 2 == 0 ? 0 : 2);
+			points[i] = RandomUtility.normalArray(2);
+			points[i][1] += shift;
+		}
+		
+		return points;
+	}
 }

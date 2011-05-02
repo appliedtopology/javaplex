@@ -81,7 +81,7 @@ public class ZigZagTest {
 		}
 
 		IntBarcodeCollection collection = zz.getBarcodes();
-		System.out.println(collection);
+		collection.draw();
 	}
 	
 	@Test
@@ -114,7 +114,7 @@ public class ZigZagTest {
 		
 		
 		IntBarcodeCollection collection = zz.getBarcodes();
-		System.out.println(collection);
+		collection.draw();
 	}
 
 	//@Test

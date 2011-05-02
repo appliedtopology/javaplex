@@ -310,6 +310,10 @@ public class ZigZagUtility {
 	public static <X extends PrimitiveBasisElement> IntSparseFormalSum<X> computeBoundary(IntSparseFormalSum<X> chain, IntAlgebraicFreeModule<X> chainModule) {
 		IntSparseFormalSum<X> result = new IntSparseFormalSum<X>();
 
+		if (chain == null) {
+			System.out.println("null chain");
+		}
+		
 		for (TObjectIntIterator<X> iterator = chain.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 
@@ -338,12 +342,46 @@ public class ZigZagUtility {
 
 		return index;
 	}
+	
+	public static <X, Y> X findLastIndexContainingElement(Map<X, IntSparseFormalSum<Y>> m, Y element, Comparator<X> comparator) {
+		X index = null;
+		Set<X> candidates = new THashSet<X>();
+
+		for (X key: m.keySet()) {
+			if (m.get(key).containsObject(element)) {
+				candidates.add(key);
+			}
+		}
+
+		for (X candidate: candidates) {
+			if (index == null || comparator.compare(candidate, index) > 0) {
+				index = candidate;
+			}
+		}
+
+		return index;
+	}
 
 	public static <X, Y> List<X> getAscendingIndicesContainingElement(Map<X, IntSparseFormalSum<Y>> m, Y element, Comparator<X> comparator) {
 		List<X> list = new ArrayList<X>();
 
 		for (X key: m.keySet()) {
 			if (m.get(key).containsObject(element)) {
+				list.add(key);
+			}
+		}
+		
+		Collections.sort(list, comparator);
+
+		return list;
+	}
+	
+	public static <X, Y> List<X> getAscendingIndicesWithGivenLow(Map<X, IntSparseFormalSum<Y>> m, Y element, Comparator<X> comparator, Comparator<Y> comparatorY) {
+		List<X> list = new ArrayList<X>();
+
+		for (X key: m.keySet()) {
+			Y low = low(m.get(key), comparatorY);
+			if (low != null && low.equals(element)) {
 				list.add(key);
 			}
 		}

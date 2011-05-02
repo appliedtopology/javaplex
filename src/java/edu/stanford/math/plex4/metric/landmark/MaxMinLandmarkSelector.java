@@ -40,8 +40,9 @@ public class MaxMinLandmarkSelector<T> extends LandmarkSelector<T> {
 		TIntHashSet landmarkSet = new TIntHashSet();
 
 		// select first point randomly
-		landmarkSet.add(RandomUtility.nextUniformInt(0, metricSpaceSize - 1));
-		landmarkIndices[0] = RandomUtility.nextUniformInt(0, metricSpaceSize - 1);
+		int first_point = RandomUtility.nextUniformInt(0, metricSpaceSize - 1);
+		landmarkSet.add(first_point);
+		landmarkIndices[0] = first_point;
 
 		/*
 		 * Construct the landmark set inductively. Suppose that

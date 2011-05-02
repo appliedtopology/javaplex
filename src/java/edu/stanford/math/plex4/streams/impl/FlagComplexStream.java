@@ -60,6 +60,8 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 	 */
 	protected FiltrationConverter converter;
 	
+	protected int[] indices = null;
+	
 	/**
 	 * This constructor initializes the class.
 	 * 
@@ -71,6 +73,14 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 		this.maxAllowableDimension = maxAllowableDimension;
 		this.converter = converter;
 	}
+	
+	public FlagComplexStream(int maxAllowableDimension, FiltrationConverter converter, int[] indices) {
+		super(SimplexComparator.getInstance());
+		this.maxAllowableDimension = maxAllowableDimension;
+		this.converter = converter;
+		this.indices = indices;
+	}
+	
 	
 	/**
 	 * Constructor.
@@ -190,8 +200,16 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 	 * @param filtrationValue the filtration value of the current simplex, tau
 	 */
 	protected void addCofaces(UndirectedWeightedListGraph G, int k, Simplex tau, TIntHashSet N, double filtrationValue) {
+		
+		Simplex newSimplex = null;
+		if (this.indices != null) {
+			newSimplex = convertIndices(tau, this.indices);
+		} else {
+			newSimplex = tau;
+		}
+		
 		// add the current simplex to the complex
-		this.storageStructure.addElement(tau, this.converter.getFiltrationIndex(filtrationValue));
+		this.storageStructure.addElement(newSimplex, this.converter.getFiltrationIndex(filtrationValue));
 		
 		// exit if the dimension is the maximum allowed
 		if (tau.getDimension() >= k) {
@@ -232,5 +250,16 @@ public abstract class FlagComplexStream extends PrimitiveStream<Simplex> {
 			// recurse: add the cofaces of sigma
 			this.addCofaces(G, k, sigma, M, weight);
 		}
+	}
+	
+	protected static Simplex convertIndices(Simplex simplex, int[] conversionArray) {
+		int[] vertices = simplex.getVertices();
+		int[] newVertices = new int[vertices.length];
+		
+		for (int i = 0; i < vertices.length; i++) {
+			newVertices[i] = conversionArray[vertices[i]];
+		}
+		
+		return Simplex.makeSimplex(newVertices);
 	}
 }

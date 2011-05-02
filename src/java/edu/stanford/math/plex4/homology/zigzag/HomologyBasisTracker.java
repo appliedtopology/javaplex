@@ -10,9 +10,12 @@ import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
 import gnu.trove.TIntIntHashMap;
+import gnu.trove.TObjectIntHashMap;
+import gnu.trove.TObjectIntIterator;
 
 /**
  * This class maintains the right-filtration for performing zig-zag homology.
@@ -56,10 +59,46 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 	protected final IntAlgebraicFreeModule<U> chainModule;
 	protected final IntAlgebraicFreeModule<Integer> integerChainModule;
 
-	protected final Comparator<U> basisComparator;
+	protected Comparator<U> basisComparator;
 	protected final Comparator<Integer> integerComparator = new Comparator<Integer>() {
 		public int compare(Integer o1, Integer o2) {
 			return o1.compareTo(o2);
+		}
+	};
+	
+	
+	
+	protected final Comparator<U> indexedComparator = new Comparator<U>() {
+		public int compare(U arg0, U arg1) {
+			int i0 = objectIndexMap.get(arg0);
+			int i1 = objectIndexMap.get(arg1);
+			if (i0 > i1) {
+				return 1;
+			}
+			
+			if (i0 < i1) {
+				return -1;
+			}
+			
+			return basisComparator.compare(arg0, arg1);
+		}
+	};
+	
+	protected final Comparator<U> comparator = new Comparator<U>() {
+		public int compare(U arg0, U arg1) {
+			//int i0 = internalExternalIndexMap.get(objectIndexMap.get(arg0));
+			//int i1 =internalExternalIndexMap.get(objectIndexMap.get(arg1));
+			int i0 = objectIndexMap.get(arg0);
+			int i1 = objectIndexMap.get(arg1);
+			if (i0 > i1) {
+				return 1;
+			}
+			
+			if (i0 < i1) {
+				return -1;
+			}
+			
+			return basisComparator.compare(arg0, arg1);
 		}
 	};
 
@@ -71,6 +110,8 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 	
 	protected TIntIntHashMap internalExternalIndexMap = new TIntIntHashMap();
 
+	protected TObjectIntHashMap<U> objectIndexMap = new TObjectIntHashMap<U>();
+	
 	protected Set<U> basisElements = new THashSet<U>();
 
 	protected int internalIndex = 0;
@@ -90,7 +131,13 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 		this.chainModule = new IntAlgebraicFreeModule<U>(this.field);
 		this.integerChainModule = new IntAlgebraicFreeModule<Integer>(this.field);
 		this.basisComparator = basisComparator;
+		//this.comparator = basisComparator;
 	}
+	
+	//public void setBasisComparator(Comparator<U> basisComparator) {
+	//	this.basisComparator = basisComparator;
+	//	this.comparator = basisComparator;
+	//}
 	
 	public IntBarcodeCollection getFiniteBarcodes() {
 		return this.barcodes;
@@ -114,64 +161,27 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 	}
 
 	public void add(U sigma, int externalIndex) {
+		this.objectIndexMap.put(sigma, internalIndex);
 		this.internalExternalIndexMap.put(internalIndex, externalIndex);
 		this.basisElements.add(sigma);
 
 		IntSparseFormalSum<U> boundary = ZigZagUtility.createNewSum(sigma.getBoundaryCoefficients(), sigma.getBoundaryArray());
 
 		// compute representation of boundary of sigma in terms of cycles Z_i
-		IntSparseFormalSum<Integer> v = new IntSparseFormalSum<Integer>();
 
 		// reduce boundary among the cycles
-		while (true) {
-			U lowElement = ZigZagUtility.low(boundary, this.basisComparator);
-			if (lowElement == null) {
-				break;
-			}
-
-			Integer columnWithLow = ZigZagUtility.findColumnWithGivenLow(Z, lowElement, this.basisComparator);
-			if (columnWithLow == null) {
-				
-				columnWithLow = ZigZagUtility.findFirstIndexContainingElement(Z, lowElement, this.integerComparator);
-				IntSparseFormalSum<U> boundaryOfColumn = ZigZagUtility.computeBoundary(Z.get(columnWithLow), chainModule);
-				break;
-			}
-
-			int a = Z.get(columnWithLow).getCoefficient(lowElement);
-			int b = boundary.getCoefficient(lowElement);
-			int multiplier = this.field.negate(this.field.divide(b, a));
-			chainModule.accumulate(boundary, Z.get(columnWithLow), multiplier);
-
-			v.put(field.negate(multiplier), columnWithLow);
-		}
-
+		ObjectObjectPair<IntSparseFormalSum<Integer>, IntSparseFormalSum<U>> Zpair = reduce(Z, boundary, this.comparator, chainModule);
+		IntSparseFormalSum<Integer> v = Zpair.getFirst();
+		IntSparseFormalSum<U> reduction = Zpair.getSecond();
+		
 		// verification
-		if (!boundary.isEmpty()) {
+		if (!reduction.isEmpty()) {
 			System.out.println("Invalid Reduction!!!");
 		}
-		
-		IntSparseFormalSum<Integer> u = new IntSparseFormalSum<Integer>();
 
-		while (true) {
-			Integer lowElement = ZigZagUtility.low(v, this.integerComparator);
-			if (lowElement == null) {
-				break;
-			}
-
-			Integer columnWithLow = ZigZagUtility.findColumnWithGivenLow(B, lowElement, this.integerComparator);
-			if (columnWithLow == null) {
-				break;
-			}
-
-			int a = B.get(columnWithLow).getCoefficient(lowElement);
-			int b = v.getCoefficient(lowElement);
-			int multiplier = this.field.negate(this.field.divide(b, a));
-			integerChainModule.accumulate(v, B.get(columnWithLow), multiplier);
-
-			u.put(field.negate(multiplier), columnWithLow);
-		}
-
-		IntSparseFormalSum<Integer> v_prime = v;
+		ObjectObjectPair<IntSparseFormalSum<Integer>, IntSparseFormalSum<Integer>> Bpair = reduce(B, v, this.integerComparator, integerChainModule);
+		IntSparseFormalSum<Integer> u = Bpair.getFirst();
+		IntSparseFormalSum<Integer> v_prime = Bpair.getSecond();
 
 		if (v_prime.isEmpty()) {
 			// Birth
@@ -220,6 +230,13 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 	}
 
 	public void remove(U sigma, int externalIndex) {
+		if (!this.basisElements.contains(sigma)) {
+			System.out.println("Invalid removal!");
+		}
+		
+		this.basisElements.remove(sigma);
+		this.objectIndexMap.remove(sigma);
+		
 		this.internalExternalIndexMap.put(internalIndex, externalIndex);
 
 		// try to set j to be the first cycle that contains sigma
@@ -247,6 +264,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 
 			BirthDescriptor descriptor = new BirthDescriptor(internalIndex, externalIndex, sigma.getDimension() - 1);
 			this.birthDescriptors.put(prependLocation, descriptor);
+			
 			System.out.println(internalIndex + ": Birth (" + externalIndex + ", _) @ " + (sigma.getDimension() - 1) +  " - removal of " + sigma);
 
 			// 2. Let c = C[j][sigma]. Let r_sigma be the row of sigma in matrix C. We 
@@ -296,7 +314,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 
 			// 6. Reduce Z_{i+1} initially set to Z_i
 			while (true) {
-				U s = ZigZagUtility.low(Z.get(j), this.basisComparator);
+				U s = ZigZagUtility.low(Z.get(j), this.comparator);
 
 				if (s == null) {
 					break;
@@ -305,16 +323,15 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 				//Integer k = this.findColumnWithGivenLow(Z, s, this.filteredComparator);
 				Integer k = null;
 
-				for (Integer k_candidate: Z.keySet()) {
-					if (k_candidate < j) {
-						U low_candidate = ZigZagUtility.low(Z.get(k_candidate), this.basisComparator);
-						if (low_candidate != null && low_candidate.equals(s)) {
-							k = k_candidate;
-							break;
-						}
+				List<Integer> k_candidates = ZigZagUtility.getAscendingIndicesWithGivenLow(Z, s, this.integerComparator, this.comparator);
+				
+				for (Integer k_candidate: k_candidates) {
+					if (k_candidate != j) {
+						k = k_candidate;
+						break;
 					}
 				}
-
+				
 				if (k == null) {
 					break;
 				}
@@ -329,6 +346,42 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 					integerChainModule.accumulate(column, k, field.multiply(column.getCoefficient(j), s_jk));
 				}
 			}
+			
+			
+			while (true) {
+				U s = ZigZagUtility.low(Z.get(prependLocation), this.comparator);
+
+				if (s == null) {
+					break;
+				}
+
+				//Integer k = this.findColumnWithGivenLow(Z, s, this.filteredComparator);
+				Integer k = null;
+
+				List<Integer> k_candidates = ZigZagUtility.getAscendingIndicesWithGivenLow(Z, s, this.integerComparator, this.comparator);
+				
+				for (Integer k_candidate: k_candidates) {
+					if (k_candidate != prependLocation) {
+						k = k_candidate;
+						break;
+					}
+				}
+				
+				if (k == null) {
+					break;
+				}
+
+				int s_jk = field.divide(Z.get(prependLocation).getCoefficient(s), Z.get(k).getCoefficient(s));
+				int negative_s_jk = field.negate(s_jk);
+				chainModule.accumulate(Z.get(prependLocation), Z.get(k), negative_s_jk);
+
+				// in B, add row j multiplied by s_jk to row k
+				for (Integer columnIndex: B.keySet()) {
+					IntSparseFormalSum<Integer> column = B.get(columnIndex);
+					integerChainModule.accumulate(column, k, field.multiply(column.getCoefficient(prependLocation), s_jk));
+				}
+			}
+			
 		} else {
 			// Death
 			// Z_j is the first cycle that contains simplex sigma
@@ -348,16 +401,20 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			
 			System.out.println(internalIndex + ": Death (" + this.internalExternalIndexMap.get(j) + ", " + externalIndex + ") @ " + (sigma.getDimension()) +  " - removal of " + sigma);
 
+			Map<Integer, IntSparseFormalSum<U>> Z_i1 = new THashMap<Integer, IntSparseFormalSum<U>>();
+			
 			// TODO: ************** CHECK
 			// 1. Change basis to remove sigma from matrix Z
 			for (int k_index = 1; k_index < indices.size(); k_index++) {
 				int k = indices.get(k_index);
-				if (k > j && Z.get(k).containsObject(sigma)) {
+				if (k != j && Z.get(k).containsObject(sigma)) {
 
-					U low_Zi_k = ZigZagUtility.low(Z.get(k), this.basisComparator);
+					U low_Zi_k = ZigZagUtility.low(Z.get(k), this.comparator);
 					int sigma_jk = field.divide(Z.get(k).getCoefficient(sigma), Z.get(j).getCoefficient(sigma));
 					int negative_sigma_jk = field.negate(sigma_jk);
-					chainModule.accumulate(Z.get(k), Z.get(j), negative_sigma_jk);
+					
+					Z_i1.put(k, chainModule.add(Z.get(k), chainModule.multiply(negative_sigma_jk, Z.get(j))));
+					//chainModule.accumulate(Z.get(k), Z.get(j), negative_sigma_jk);
 
 					// in B, add row k multiplied by sigma_jk to row j
 					for (Integer BIndex: B.keySet()) {
@@ -365,8 +422,8 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 						integerChainModule.accumulate(column, j, field.multiply(column.getCoefficient(k), sigma_jk));
 					}
 
-					U low_Zi1_k = ZigZagUtility.low(Z.get(k), this.basisComparator);
-					if (low_Zi1_k != null && low_Zi1_k != null && this.basisComparator.compare(low_Zi1_k, low_Zi_k) > 0) {
+					U low_Zi1_k = ZigZagUtility.low(Z_i1.get(k), this.comparator);
+					if (low_Zi1_k != null && low_Zi1_k != null && this.comparator.compare(low_Zi1_k, low_Zi_k) < 0) {
 						// TODO: Do we need this????????
 						//j = k;
 					}
@@ -380,11 +437,18 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 				chainModule.accumulate(Ck, Z.get(j), coefficient);
 			}
 
+			for (Integer k: Z_i1.keySet()) {
+				Z.put(k, Z_i1.get(k));
+			}
+			
+			Z_i1 = null;
+			
 			// 3. Drop Z_{i+1}[j], the corresponding entry in vectors b_i and idx_i, row j 
 			// from B_i, row sigma from C_i and Z (as well as row and column of sigma from D_i)
 			Z.remove(j);
 
 			if (!ZigZagUtility.getAscendingIndicesContainingElement(Z, sigma, this.integerComparator).isEmpty()) {
+				List<Integer> list = ZigZagUtility.getAscendingIndicesContainingElement(Z, sigma, this.integerComparator);
 				System.out.println("Invalid removal!");
 			}
 
@@ -409,6 +473,61 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 		internalIndex++;
 	}
 
+	public static <X, Y> ObjectObjectPair<IntSparseFormalSum<X>, IntSparseFormalSum<Y>> reduce(Map<X, IntSparseFormalSum<Y>> M, IntSparseFormalSum<Y> column, Comparator<Y> comparator, IntAlgebraicFreeModule<Y> chainModule) {
+		Map<Y, X> lowMap = new THashMap<Y, X>();
+		
+		for (X key: M.keySet()) {
+			IntSparseFormalSum<Y> chain = M.get(key);
+			Y low = ZigZagUtility.low(chain, comparator);
+			if (low != null) {
+				if (lowMap.containsKey(low)) {
+					System.out.println("Matrix is not reduced!");
+				}
+				
+				lowMap.put(low, key);
+			}
+		}
+		
+		IntSparseFormalSum<Y> reduction = new IntSparseFormalSum<Y>();
+		IntSparseFormalSum<X> coefficients = new IntSparseFormalSum<X>();
+	
+		IntAbstractField field = (IntAbstractField) chainModule.getRing();
+		
+		for (TObjectIntIterator<Y> iterator = column.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			reduction.put(iterator.value(), iterator.key());
+		}
+		
+		while (true) {
+			Y low = ZigZagUtility.low(reduction, comparator);
+			
+			if (low == null) {
+				break;
+			}
+			
+			X columnWithLow = lowMap.get(low);
+			if (columnWithLow == null) {
+				break;
+				
+				//List<Integer> columns = ZigZagUtility.getAscendingIndicesContainingElement(Z, lowElement, this.integerComparator);
+				//int randomIndex = RandomUtility.nextUniformInt(0, columns.size() - 1);
+				//columnWithLow = columns.get(randomIndex);
+				//columnWithLow = ZigZagUtility.findLastIndexContainingElement(Z, lowElement, this.integerComparator);
+				//IntSparseFormalSum<U> boundaryOfColumn = ZigZagUtility.computeBoundary(Z.get(columnWithLow), chainModule);
+				//break;
+			}
+
+			int a = M.get(columnWithLow).getCoefficient(low);
+			int b = reduction.getCoefficient(low);
+			int multiplier = field.negate(field.divide(b, a));
+			chainModule.accumulate(reduction, M.get(columnWithLow), multiplier);
+
+			coefficients.put(field.negate(multiplier), columnWithLow);
+		}
+		
+		return new ObjectObjectPair<IntSparseFormalSum<X>, IntSparseFormalSum<Y>>(coefficients, reduction);
+	}
+	
 	public void checkInvariant() {
 		// Check that DZ = 0
 		for (Integer ZIndex: Z.keySet()) {
@@ -431,7 +550,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			}
 		}
 		
-		checkReduced(Z, this.basisComparator);
+		checkReduced(Z, this.comparator);
 		checkReduced(B, this.integerComparator);
 	}
 	
@@ -442,6 +561,12 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			if (lowMap.containsKey(lowElement)) {
 				System.out.println("Matrix is not reduced!");
 			}
+			lowMap.put(lowElement, index);
 		}
+	}
+	
+	protected <X, Y> void reduce(Map<Integer, IntSparseFormalSum<Y>> Z, Map<Integer, IntSparseFormalSum<Integer>> B, Comparator<Y> comparator) {
+		Map<Y, X> lowMap = new THashMap<Y, X>();
+		
 	}
 }

@@ -63,6 +63,13 @@ public class VietorisRipsStream<T> extends FlagComplexStream {
 		this.maxDistance = maxDistance;
 	}
 
+	public VietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int[] indices) {
+		super(maxDimension, new IncreasingLinearConverter(20, maxDistance), indices);
+		ExceptionUtility.verifyNonNull(metricSpace);
+		this.metricSpace = metricSpace;
+		this.maxDistance = maxDistance;
+	}
+	
 	@Override
 	protected UndirectedWeightedListGraph constructEdges() {
 		int n = this.metricSpace.size();
@@ -90,5 +97,4 @@ public class VietorisRipsStream<T> extends FlagComplexStream {
 		
 		return graph;
 	}
-	
 }

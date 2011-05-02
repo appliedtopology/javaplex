@@ -32,6 +32,19 @@ public class IntBarcodeCollection {
 		return collection;
 	}
 	
+	public IntBarcodeCollection filterByMaxDimension(int maxDimension) {
+		IntBarcodeCollection collection = new IntBarcodeCollection();
+		
+		for (TIntObjectIterator<IntBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			if (iterator.key() <= maxDimension) {
+				collection.barcodeMap.put(iterator.key(), iterator.value());
+			}
+		}
+		
+		return collection;
+	}
+	
 	/**
 	 * This function adds an interval at the specified dimension.
 	 * 
@@ -147,4 +160,11 @@ public class IntBarcodeCollection {
 		return true;
 	}
 
+	public void draw() {
+		for (TIntObjectIterator<IntBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			System.out.println("Dimension: " + iterator.key());
+			iterator.value().draw();
+		}
+	}
 }

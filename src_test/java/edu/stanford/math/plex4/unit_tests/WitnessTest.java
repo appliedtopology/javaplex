@@ -1,5 +1,6 @@
 package edu.stanford.math.plex4.unit_tests;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,13 +9,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.stanford.math.plex4.api.Plex4;
 import edu.stanford.math.plex4.autogen.homology.IntAbsoluteHomology;
+import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
-import edu.stanford.math.plex4.homology.nonautogen.SubsetZigZag;
+import edu.stanford.math.plex4.homology.filtration.FiltrationUtility;
+import edu.stanford.math.plex4.homology.filtration.IdentityConverter;
 import edu.stanford.math.plex4.homology.zigzag.HomologyBasisTracker;
+import edu.stanford.math.plex4.homology.zigzag.WitnessBootstrapper;
 import edu.stanford.math.plex4.streams.derived.TensorStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitStream;
@@ -82,12 +88,20 @@ public class WitnessTest {
 	}
 	
 	@Test
-	public void testSubsetZigZag() {
+	public void testSubsetZigZag() throws IOException {
 		ExplicitSimplexStream X = this.getX();
 		ExplicitSimplexStream Y = this.getX();
 		ExplicitStream<SimplexPair> Z = this.getZ();
 		
-		SubsetZigZag.test1(X, Y, Z);
+		IntBarcodeCollection bc = WitnessBootstrapper.testSequence(X, Y, Z);
+		DoubleBarcodeCollection dbc = FiltrationUtility.transformBarcodeCollection(bc, IdentityConverter.getInstance());
+		
+		bc.draw();
+		
+		System.out.println(bc);
+		
+		Plex4.createBarcodePlot(dbc, "", 5);
+		
 	}
 	
 	//@Test

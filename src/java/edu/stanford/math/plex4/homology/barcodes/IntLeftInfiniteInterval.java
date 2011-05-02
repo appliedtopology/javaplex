@@ -113,4 +113,12 @@ public class IntLeftInfiniteInterval implements IntHalfOpenInterval {
 			return false;
 		return true;
 	}
+	
+	public void draw() {
+		for (int i = 0; i < this.end - 2; i++) {
+			System.out.print(' ');
+		}
+		
+		System.out.println("<-]");
+	}
 }

@@ -52,4 +52,6 @@ public interface IntHalfOpenInterval extends Comparable<IntHalfOpenInterval> {
 	 * @return the ending point of the interval
 	 */
 	public int getEnd();
+	
+	public void draw();
 }

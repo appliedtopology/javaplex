@@ -158,4 +158,10 @@ public class IntBarcode implements Iterable<IntHalfOpenInterval> {
 	public Iterator<IntHalfOpenInterval> iterator() {
 		return this.intervals.iterator();
 	}
+	
+	public void draw() {
+		for (IntHalfOpenInterval interval: this.intervals) {
+			interval.draw();
+		}
+	}
 }

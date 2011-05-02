@@ -52,6 +52,16 @@ public abstract class LandmarkSelector<T> implements AbstractObjectMetricSpace<T
 		
 		this.indexMapping = this.computeLandmarkSet();
 	}
+	
+	public LandmarkSelector(AbstractSearchableMetricSpace<T> metricSpace, int[] indices) {
+		ExceptionUtility.verifyNonNull(metricSpace);
+		ExceptionUtility.verifyLessThanOrEqual(indices.length, metricSpace.size());
+		
+		this.metricSpace = metricSpace;
+		this.landmarkSetSize = indices.length;
+		
+		this.indexMapping = indices;
+	}
 
 	/**
 	 * This function returns the index of the i-th landmark point.

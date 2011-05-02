@@ -59,7 +59,7 @@ public class SubsetZigZag {
 			i++;
 		}
 		
-		xyTracker.checkInvariant();
+		//xyTracker.checkInvariant();
 		
 		List<SimplexPair> difference = getDifference(createProductStream(X, Y), Z, SimplexPairComparator.getInstance());
 		
@@ -74,6 +74,8 @@ public class SubsetZigZag {
 		}
 
 		IntBarcodeCollection bc = xyTracker.getBarcodes();
+		
+		bc.draw();
 		
 		System.out.println(bc);
 	}
