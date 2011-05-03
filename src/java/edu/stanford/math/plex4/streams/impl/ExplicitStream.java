@@ -84,6 +84,16 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 		return false;
 	}
 	
+	/**
+	 * This function returns true if the stream contains the query element.
+	 * 
+	 * @param basisElement the element to find
+	 * @return true if the element is in the stream and false otherwise
+	 */
+	public boolean containsElement(T basisElement) {
+		return this.storageStructure.containsElement(basisElement);
+	}
+	
 	@Override
 	protected void constructComplex() {	}
 	

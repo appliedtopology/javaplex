@@ -20,7 +20,7 @@ import gnu.trove.THashSet;
 import gnu.trove.TIntObjectIterator;
 import gnu.trove.TObjectIntIterator;
 
-public class ZigZagUtility {
+public class BasisTrackingUtility {
 	public static IntBarcodeCollection union(IntBarcodeCollection a, IntBarcodeCollection b) {
 		IntBarcodeCollection c = new IntBarcodeCollection();
 		

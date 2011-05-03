@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.unit_tests;
+package edu.stanford.math.plex4.example_tests;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -93,7 +93,7 @@ public class WitnessTest {
 		ExplicitSimplexStream Y = this.getX();
 		ExplicitStream<SimplexPair> Z = this.getZ();
 		
-		IntBarcodeCollection bc = WitnessBootstrapper.testSequence(X, Y, Z);
+		IntBarcodeCollection bc = WitnessBootstrapper.testLongSequence(X, Y, Z);
 		DoubleBarcodeCollection dbc = FiltrationUtility.transformBarcodeCollection(bc, IdentityConverter.getInstance());
 		
 		bc.draw();

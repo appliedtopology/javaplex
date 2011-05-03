@@ -2,20 +2,17 @@ package edu.stanford.math.plex4.homology.zigzag;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
-import edu.stanford.math.plex4.homology.nonautogen.WitnessBicomplex;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.MaxMinLandmarkSelector;
-import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
-import edu.stanford.math.plex4.streams.impl.ExplicitStream;
-import edu.stanford.math.plex4.streams.impl.LazyWitnessStream;
+import edu.stanford.math.plex4.streams.impl.WitnessBicomplex;
+import edu.stanford.math.plex4.streams.impl.WitnessStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
@@ -58,10 +55,10 @@ public class WitnessBootstrapper<T> {
 		 * 0             1             2
 		 */
 
-		LazyWitnessStream<T> X_0 = new LazyWitnessStream<T>(this.metricSpace, indexSelections.get(0), maxDimension, maxDistance, indexSelections.get(0).getLandmarkPoints());
+		WitnessStream<T> X_0 = new WitnessStream<T>(this.metricSpace, indexSelections.get(0), maxDimension, maxDistance, indexSelections.get(0).getLandmarkPoints());
 		X_0.finalizeStream();
 
-		LazyWitnessStream<T> Y_0 = null;
+		WitnessStream<T> Y_0 = null;
 
 		boolean x_added = false;
 
@@ -69,17 +66,17 @@ public class WitnessBootstrapper<T> {
 		List<SimplexPair> Y = null;
 
 		for (int j = 1; j < this.indexSelections.size(); j++) {
-			Y_0 = new LazyWitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension, maxDistance, indexSelections.get(0).getLandmarkPoints());
+			Y_0 = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension, maxDistance, indexSelections.get(0).getLandmarkPoints());
 			Y_0.finalizeStream();
 
-			WitnessBicomplex<T> Z_0 = new WitnessBicomplex<T>(this.metricSpace, indexSelections.get(j-1), indexSelections.get(j), maxDimension, maxDistance, SimplexPairComparator.getInstance());
+			WitnessBicomplex<T> Z_0 = new WitnessBicomplex<T>(X_0, Y_0);
 			Z_0.finalizeStream();
 
-			Simplex x = getFirstVertex(X_0);
-			Simplex y = getFirstVertex(Y_0);
+			Simplex x = SimplexStreamUtility.getFirstVertex(X_0);
+			Simplex y = SimplexStreamUtility.getFirstVertex(Y_0);
 
 			if (!x_added) {
-				X = embedFirst(X_0, y);
+				X = SimplexStreamUtility.embedFirst(X_0, y);
 				Collections.sort(X, SimplexPairComparator.getInstance());
 
 				for (SimplexPair pair: X) {
@@ -90,14 +87,14 @@ public class WitnessBootstrapper<T> {
 				x_added = true;
 			}
 
-			Y = embedSecond(x, Y_0);
+			Y = SimplexStreamUtility.embedSecond(x, Y_0);
 
-			List<SimplexPair> XY = createProductList(X_0, Y_0);
-			List<SimplexPair> Z = getSortedList(Z_0, SimplexPairComparator.getInstance());
+			List<SimplexPair> XY = SimplexStreamUtility.createProductList(X_0, Y_0);
+			List<SimplexPair> Z = SimplexStreamUtility.getSortedList(Z_0, SimplexPairComparator.getInstance());
 
-			List<SimplexPair> XY_diff_X = getDifference(XY, X);
-			List<SimplexPair> XY_diff_Y = getDifference(XY, Y);
-			List<SimplexPair> XY_diff_Z = getDifference(XY, Y);
+			List<SimplexPair> XY_diff_X = SimplexStreamUtility.getDifference(XY, X);
+			List<SimplexPair> XY_diff_Y = SimplexStreamUtility.getDifference(XY, Y);
+			List<SimplexPair> XY_diff_Z = SimplexStreamUtility.getDifference(XY, Y);
 
 			Collections.sort(XY_diff_X, SimplexPairComparator.getInstance());
 			Collections.sort(XY_diff_Y, SimplexPairComparator.getInstance());
@@ -135,7 +132,7 @@ public class WitnessBootstrapper<T> {
 		return basisTracker.getBarcodes();
 	}
 
-	public static IntBarcodeCollection testSequence(AbstractFilteredStream<Simplex> X_0, AbstractFilteredStream<Simplex> Y_0, AbstractFilteredStream<SimplexPair> Z) {
+	public static IntBarcodeCollection testShortSequence(AbstractFilteredStream<Simplex> X, AbstractFilteredStream<Simplex> Y, AbstractFilteredStream<SimplexPair> Z) {
 		IntAbstractField intField = ModularIntField.getInstance(2);
 		HomologyBasisTracker<SimplexPair> basisTracker = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
 
@@ -145,22 +142,22 @@ public class WitnessBootstrapper<T> {
 		 * 0             1             2
 		 */
 
-		Simplex x = getFirstVertex(X_0);
-		Simplex y = getFirstVertex(Y_0);
+		Simplex x = SimplexStreamUtility.getFirstVertex(X);
+		Simplex y = SimplexStreamUtility.getFirstVertex(Y);
 
-		List<SimplexPair> X = embedFirst(X_0, y);
-		List<SimplexPair> Y = embedSecond(x, Y_0);
-		List<SimplexPair> XY = createProductList(X_0, Y_0);
+		List<SimplexPair> Xlist = SimplexStreamUtility.embedFirst(X, y);
+		List<SimplexPair> Ylist = SimplexStreamUtility.embedSecond(x, Y);
+		List<SimplexPair> XY = SimplexStreamUtility.createProductList(X, Y);
 
-		Collections.sort(X, SimplexPairComparator.getInstance());
+		Collections.sort(Xlist, SimplexPairComparator.getInstance());
 
-		for (SimplexPair pair: X) {
+		for (SimplexPair pair: Xlist) {
 			basisTracker.add(pair, 0);
 		}
 
-		List<SimplexPair> XY_diff_X = getDifference(XY, X);
-		List<SimplexPair> XY_diff_Y = getDifference(XY, Y);
-		List<SimplexPair> XY_diff_Z = getDifference(XY, Y);
+		List<SimplexPair> XY_diff_X = SimplexStreamUtility.getDifference(XY, Xlist);
+		List<SimplexPair> XY_diff_Y = SimplexStreamUtility.getDifference(XY, Ylist);
+		List<SimplexPair> XY_diff_Z = SimplexStreamUtility.getDifference(XY, Ylist);
 
 		Collections.sort(XY_diff_X, SimplexPairComparator.getInstance());
 		Collections.sort(XY_diff_Y, SimplexPairComparator.getInstance());
@@ -190,109 +187,79 @@ public class WitnessBootstrapper<T> {
 		return basisTracker.getBarcodes();
 	}
 
-	static <U> List<U> getDifference(Iterable<U> X, Iterable<U> A) {
-		List<U> list = new ArrayList<U>();
+	public static IntBarcodeCollection testLongSequence(AbstractFilteredStream<Simplex> X_stream, AbstractFilteredStream<Simplex> Y_stream, AbstractFilteredStream<SimplexPair> Z) {
+	
+		/*
+		 * 0    1      2            3    4             5      6
+		 * X <- X_0 <- X_0 x Y_0 <- Z -> X_0 x Y_0  -> Y_0 -> Y
+		 */
+		
+		IntAbstractField intField = ModularIntField.getInstance(2);
+		HomologyBasisTracker<SimplexPair> basisTracker = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
 
-		for (U x: X) {
-			list.add(x);
+		Simplex x = SimplexStreamUtility.getFirstVertex(X_stream);
+		Simplex y = SimplexStreamUtility.getFirstVertex(Y_stream);
+
+		List<SimplexPair> X = SimplexStreamUtility.embedFirst(X_stream, y);
+		List<SimplexPair> Y = SimplexStreamUtility.embedSecond(x, Y_stream);
+		
+		AbstractFilteredStream<Simplex> X_0_stream = SimplexStreamUtility.projectFirst(Z);
+		AbstractFilteredStream<Simplex> Y_0_stream = SimplexStreamUtility.projectSecond(Z);
+		
+		List<SimplexPair> X_0 = SimplexStreamUtility.embedFirst(X_0_stream, y);
+		List<SimplexPair> Y_0 = SimplexStreamUtility.embedSecond(x, Y_0_stream);
+		
+		List<SimplexPair> XY_0 = SimplexStreamUtility.createProductList(X_0_stream, Y_0_stream);
+
+		List<SimplexPair> X_diff_X_0 = SimplexStreamUtility.getDifference(X, X_0);
+		List<SimplexPair> Y_diff_Y_0 = SimplexStreamUtility.getDifference(Y, Y_0);
+		
+		List<SimplexPair> XY_diff_X_0 = SimplexStreamUtility.getDifference(XY_0, X_0);
+		List<SimplexPair> XY_diff_Z = SimplexStreamUtility.getDifference(XY_0, Z);
+		List<SimplexPair> XY_diff_Y_0 = SimplexStreamUtility.getDifference(XY_0, Y_0);
+		
+		SimplexStreamUtility.sortAscendingPairs(X);
+		
+		for (SimplexPair pair: X) {
+			basisTracker.add(pair, 0);
 		}
-
-		for (U a: A) {
-			list.remove(a);
+		
+		SimplexStreamUtility.sortDescendingPairs(X_diff_X_0);
+		
+		for (SimplexPair pair: X_diff_X_0) {
+			basisTracker.remove(pair, 1);
 		}
-
-		return list;
-	}
-
-	static <U> List<U> getSortedList(Iterable<U> X, Comparator<U> comparator) {
-		List<U> list = new ArrayList<U>();
-
-		for (U x: X) {
-			list.add(x);
+		
+		SimplexStreamUtility.sortAscendingPairs(XY_diff_X_0);
+		
+		for (SimplexPair pair: XY_diff_X_0) {
+			basisTracker.add(pair, 2);
 		}
-
-		Collections.sort(list, comparator);
-
-		return list;
-	}
-
-	static Simplex getFirstVertex(Iterable<Simplex> X) {
-		for (Simplex x: X) {
-			if (x.getDimension() == 0) {
-				return x;
-			}
+		
+		SimplexStreamUtility.sortDescendingPairs(XY_diff_Z);
+		
+		for (SimplexPair pair: XY_diff_Z) {
+			basisTracker.remove(pair, 3);
 		}
-
-		return null;
-	}
-
-	static List<SimplexPair> embedFirst(Iterable<Simplex> X, Simplex y) {
-		List<SimplexPair> list = new ArrayList<SimplexPair>();
-
-		for (Simplex x: X) {
-			list.add(SimplexPair.createPair(x, y));
+		
+		Collections.reverse(XY_diff_Z);
+		
+		for (SimplexPair pair: XY_diff_Z) {
+			basisTracker.add(pair, 4);
 		}
-
-		return list;
-	}
-
-	static List<SimplexPair> embedSecond(Simplex x, Iterable<Simplex> Y) {
-		List<SimplexPair> list = new ArrayList<SimplexPair>();
-
-		for (Simplex y: Y) {
-			list.add(SimplexPair.createPair(x, y));
+		
+		SimplexStreamUtility.sortDescendingPairs(XY_diff_Y_0);
+		
+		for (SimplexPair pair: XY_diff_Y_0) {
+			basisTracker.remove(pair, 5);
 		}
-
-		return list;
-	}
-
-	static List<SimplexPair> createProductList(Iterable<Simplex> X, Iterable<Simplex> Y) {
-		List<SimplexPair> list = new ArrayList<SimplexPair>();
-
-		for (Simplex x: X) {
-			for (Simplex y: Y) {
-				list.add(SimplexPair.createPair(x, y));
-			}
+		
+		SimplexStreamUtility.sortAscendingPairs(Y_diff_Y_0);
+		
+		for (SimplexPair pair: Y_diff_Y_0) {
+			basisTracker.add(pair, 6);
 		}
-
-		Collections.sort(list, SimplexPairComparator.getInstance());
-
-		return list;
-	}
-
-	static AbstractFilteredStream<SimplexPair> createProductStream(AbstractFilteredStream<Simplex> X, AbstractFilteredStream<Simplex> Y) {
-		ExplicitStream<SimplexPair> product = new ExplicitStream<SimplexPair>(SimplexPairComparator.getInstance());
-
-		for (Simplex x: X) {
-			for (Simplex y: Y) {
-				product.addElement(SimplexPair.createPair(x, y), Math.max(X.getFiltrationIndex(x), Y.getFiltrationIndex(y)));
-			}
-		}
-
-		return product;
-	}
-
-	static AbstractFilteredStream<Simplex> projectFirst(AbstractFilteredStream<SimplexPair> Z) {
-		ExplicitSimplexStream projection = new ExplicitSimplexStream();
-
-		for (SimplexPair pair: Z) {
-			projection.addElement(pair.getFirst(), Z.getFiltrationIndex(pair));
-		}
-
-		projection.ensureAllFaces();
-
-		return projection;
-	}
-
-	static AbstractFilteredStream<Simplex> projectSecond(AbstractFilteredStream<SimplexPair> Z) {
-		ExplicitSimplexStream projection = new ExplicitSimplexStream();
-
-		for (SimplexPair pair: Z) {
-			projection.addElement(pair.getSecond(), Z.getFiltrationIndex(pair));
-		}
-
-		projection.ensureAllFaces();
-
-		return projection;
+		
+		return basisTracker.getBarcodes();
 	}
 }

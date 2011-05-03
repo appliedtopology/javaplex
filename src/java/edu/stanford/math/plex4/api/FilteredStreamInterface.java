@@ -4,7 +4,6 @@ import edu.stanford.math.plex.EuclideanArrayData;
 import edu.stanford.math.plex.Plex;
 import edu.stanford.math.plex.RipsStream;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
-import edu.stanford.math.plex4.homology.nonautogen.WitnessStream;
 import edu.stanford.math.plex4.interop.Plex3Stream;
 import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
@@ -13,6 +12,7 @@ import edu.stanford.math.plex4.streams.impl.ExplicitCellStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.streams.impl.VietorisRipsStream;
+import edu.stanford.math.plex4.streams.impl.WitnessStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 
 public class FilteredStreamInterface {

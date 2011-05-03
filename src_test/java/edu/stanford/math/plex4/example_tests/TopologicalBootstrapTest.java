@@ -35,12 +35,10 @@ public class TopologicalBootstrapTest {
 	@Test
 	public void testRips() {
 		double[][] points = PointCloudExamples.getEquispacedCirclePoints(30);
-		double maxDistance = 0.5;
+		double maxDistance = 0.8;
 		
 		RandomUtility.initializeWithSeed(0);
-		
-		RipsBootstrapper bootstrapper = new RipsBootstrapper(points, maxDistance, 1, 2, 20);
-		
+		RipsBootstrapper bootstrapper = new RipsBootstrapper(points, maxDistance, 1, 3, 20);
 		IntBarcodeCollection barcodes = bootstrapper.performBootstrap();
 		
 		barcodes.draw();
@@ -60,14 +58,14 @@ public class TopologicalBootstrapTest {
 	//@Test
 	public void testWitness() throws IOException {
 		double[][] points = PointCloudExamples.getDisjointPatches(30);
-		double maxDistance = 0.5;
+		double maxDistance = 0.9;
 		
 		RandomUtility.initializeWithSeed(0);
 		
 		//AbstractPersistenceAlgorithm<Simplex> persistence = Plex4.getDefaultSimplicialAlgorithm(2);
 		//System.out.println(persistence.computeIntervals(Plex4.createVietorisRipsStream(points, 2, maxDistance)));
 		
-		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, 0, 2, 5);
+		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, 0, 2, 20);
 		
 		IntBarcodeCollection barcodes = bootstrapper.performBootstrap();
 		
@@ -82,7 +80,7 @@ public class TopologicalBootstrapTest {
 	//@Test
 	public void testExplicitWitness() throws IOException {
 		double[][] points = PointCloudExamples.getDisjointPatches(30);
-		double maxDistance = 0.6;
+		double maxDistance = 0.9;
 		
 		RandomUtility.initializeWithSeed(0);
 		
