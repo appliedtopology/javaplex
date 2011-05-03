@@ -87,6 +87,11 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 	
 	public int getWitnessIndex(int... indices) {
 		int h = hashIndices(indices);
+		
+		if (!this.witnesses.containsKey(h)) {
+			return -1;
+		}
+		
 		return this.witnesses.get(h);
 	}
 	

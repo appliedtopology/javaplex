@@ -161,6 +161,17 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 	}
 
 	public void add(U sigma, int externalIndex) {
+		if (this.basisElements.contains(sigma)) {
+			System.out.println("Invalid add!");
+		}
+		
+		U[] faces = (U[]) sigma.getBoundaryArray();
+		for (U face: faces) {
+			if (!this.basisElements.contains(face)) {
+				System.out.println("Invalid add!");
+			}
+		}
+		
 		this.objectIndexMap.put(sigma, internalIndex);
 		this.internalExternalIndexMap.put(internalIndex, externalIndex);
 		this.basisElements.add(sigma);
@@ -229,6 +240,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 		this.remove(sigma, this.internalIndex);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void remove(U sigma, int externalIndex) {
 		if (!this.basisElements.contains(sigma)) {
 			System.out.println("Invalid removal!");
@@ -347,8 +359,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 
 				// in B, add row j multiplied by s_jk to row k
 				for (Integer columnIndex: B.keySet()) {
-					IntSparseFormalSum<Integer> column = B.get(columnIndex);
-					integerChainModule.accumulate(column, k, field.multiply(column.getCoefficient(j), s_jk));
+					integerChainModule.accumulate(B.get(columnIndex), k, field.multiply(B.get(columnIndex).getCoefficient(j), s_jk));
 				}
 			}
 			
@@ -366,7 +377,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 				List<Integer> k_candidates = BasisTrackingUtility.getAscendingIndicesWithGivenLow(Z, s, this.integerComparator, this.comparator);
 				
 				for (Integer k_candidate: k_candidates) {
-					if (k_candidate != prependLocation) {
+					if (!k_candidate.equals(prependLocation)) {
 						k = k_candidate;
 						break;
 					}
@@ -382,12 +393,16 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 
 				// in B, add row j multiplied by s_jk to row k
 				for (Integer columnIndex: B.keySet()) {
-					IntSparseFormalSum<Integer> column = B.get(columnIndex);
-					integerChainModule.accumulate(column, k, field.multiply(column.getCoefficient(prependLocation), s_jk));
+					integerChainModule.accumulate(B.get(columnIndex), k, field.multiply(B.get(columnIndex).getCoefficient(prependLocation), s_jk));
 				}
 			}
 			
 		} else {
+			
+			if (internalIndex == 1051) {
+				System.out.println("stop");
+			}
+			
 			// Death
 			// Z_j is the first cycle that contains simplex sigma
 
@@ -410,7 +425,8 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			
 			// TODO: ************** CHECK
 			// 1. Change basis to remove sigma from matrix Z
-			for (int k_index = 1; k_index < indices.size(); k_index++) {
+			// In other words, we make sure that column j is the only one containing sigma
+			for (int k_index = 0; k_index < indices.size(); k_index++) {
 				int k = indices.get(k_index);
 				if (k != j && Z.get(k).containsObject(sigma)) {
 
@@ -418,8 +434,8 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 					int sigma_jk = field.divide(Z.get(k).getCoefficient(sigma), Z.get(j).getCoefficient(sigma));
 					int negative_sigma_jk = field.negate(sigma_jk);
 					
-					Z_i1.put(k, chainModule.add(Z.get(k), chainModule.multiply(negative_sigma_jk, Z.get(j))));
-					//chainModule.accumulate(Z.get(k), Z.get(j), negative_sigma_jk);
+					//Z_i1.put(k, chainModule.add(Z.get(k), chainModule.multiply(negative_sigma_jk, Z.get(j))));
+					chainModule.accumulate(Z.get(k), Z.get(j), negative_sigma_jk);
 
 					// in B, add row k multiplied by sigma_jk to row j
 					for (Integer BIndex: B.keySet()) {
@@ -427,10 +443,11 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 						integerChainModule.accumulate(column, j, field.multiply(column.getCoefficient(k), sigma_jk));
 					}
 
-					U low_Zi1_k = BasisTrackingUtility.low(Z_i1.get(k), this.comparator);
+					//U low_Zi1_k = BasisTrackingUtility.low(Z_i1.get(k), this.comparator);
+					U low_Zi1_k = BasisTrackingUtility.low(Z.get(k), this.comparator);
 					if (low_Zi1_k != null && low_Zi1_k != null && this.comparator.compare(low_Zi1_k, low_Zi_k) < 0) {
 						// TODO: Do we need this????????
-						j = k;
+						//j = k;
 					}
 				}
 			}
@@ -439,16 +456,17 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			for (Integer CIndex: C.keySet()) {
 				IntSparseFormalSum<U> Ck = C.get(CIndex);
 				int coefficient = field.negate(field.divide(Ck.getCoefficient(sigma), Z.get(j).getCoefficient(sigma)));
-				chainModule.accumulate(Ck, Z.get(j), coefficient);
+				chainModule.accumulate(C.get(CIndex), Z.get(j), coefficient);
 			}
 
+			/*
 			for (Integer k: Z_i1.keySet()) {
 				if (Z.containsKey(k)) {
 					Z.remove(k);
 				}
 				Z.put(k, Z_i1.get(k));
 			}
-			
+			*/
 			Z_i1 = null;
 			
 			// 3. Drop Z_{i+1}[j], the corresponding entry in vectors b_i and idx_i, row j 
@@ -462,16 +480,25 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 
 			// remove row j from B_i
 			for (Integer BIndex: B.keySet()) {
+				if (B.get(BIndex).containsObject(j)) {
+					System.out.println("B is not in correct form!");
+				}
 				B.get(BIndex).remove(j);
 			}
 
 			// remove row sigma from C_i
 			for (Integer CIndex: C.keySet()) {
+				if (C.get(CIndex).containsObject(sigma)) {
+					System.out.println("C is not in correct form!");
+				}
 				C.get(CIndex).remove(sigma);
 			}
 
 			// remove row sigma from Z_i
 			for (Integer ZIndex: Z.keySet()) {
+				if (Z.get(ZIndex).containsObject(sigma)) {
+					System.out.println("Z is not in correct form!");
+				}
 				Z.get(ZIndex).remove(sigma);
 			}
 		}
