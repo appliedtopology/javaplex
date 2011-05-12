@@ -55,7 +55,7 @@ public class FilteredStreamInterface {
 
 		EuclideanArrayData pData = Plex.EuclideanArrayData(selector.getUnderlyingMetricSpace().getPoints());
 		edu.stanford.math.plex.LazyWitnessStream plex3WitnessStream = Plex.LazyWitnessStream(maxFiltrationValue / numDivisions, maxDimension, maxFiltrationValue, 2, convertTo1Based(selector.getLandmarkPoints()), pData);
-		AbstractFilteredStream<Simplex> stream = new Plex3Stream(plex3WitnessStream);
+		AbstractFilteredStream<Simplex> stream = new Plex3Stream(plex3WitnessStream, selector.getLandmarkPoints());
 		stream.finalizeStream();
 		
 		return stream;
@@ -72,7 +72,7 @@ public class FilteredStreamInterface {
 
 		EuclideanArrayData pData = Plex.EuclideanArrayData(selector.getUnderlyingMetricSpace().getPoints());
 		edu.stanford.math.plex.WitnessStream plex3WitnessStream = Plex.WitnessStream(maxFiltrationValue / numDivisions, maxDimension, maxFiltrationValue, convertTo1Based(selector.getLandmarkPoints()), pData);
-		AbstractFilteredStream<Simplex> stream = new Plex3Stream(plex3WitnessStream);
+		AbstractFilteredStream<Simplex> stream = new Plex3Stream(plex3WitnessStream, selector.getLandmarkPoints());
 		stream.finalizeStream();
 		
 		return stream;

@@ -5,7 +5,6 @@ package edu.stanford.math.plex4.visualization;
 
 /**
  * @author Tim Harrington
- * @date Dec 19, 2009
  * 
  */
 public class ImageRegion {

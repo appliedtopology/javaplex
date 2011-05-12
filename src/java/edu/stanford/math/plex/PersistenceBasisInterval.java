@@ -45,7 +45,6 @@ implements Comparable<PersistenceBasisInterval> {
 	 * Conversion to PersistenceInterval
 	 *
 	 * <p>
-	 * @param pi PersistenceBasisInterval
 	 * @return PersistenceInterval
 	 */
 	public abstract PersistenceInterval toPersistenceInterval();

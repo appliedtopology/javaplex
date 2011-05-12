@@ -20,6 +20,7 @@ import java.util.Iterator;
 #set ($mapType = $utility.getMapType($objectType, $coefficientType) + $utility.getGenericAnnotation([$objectType, $coefficientType]))
 #set ($iteratorType = $utility.getMapIteratorType($objectType, $coefficientType) + $utility.getGenericAnnotation([$objectType, $coefficientType]))
 
+@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public class $className extends $superClassName {
 	#if ($coefficientType == "boolean")
 	/**

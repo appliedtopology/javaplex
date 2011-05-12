@@ -5,6 +5,8 @@
 	<property name="plex.bin" value="${build.dir}/bin" />
 	<property name="doc.dir" value="doc" />
 	<property name="dist.dir" value="dist" />
+	<property name="runnable_dist.dir" value="dist_runnable" />
+	<property name="matlab.lib.dir" value="src/matlab/lib" />
 	<property name="test.bin" value="${build.dir}/test" />
 	<property name="tmp.dir" value="tmp" />
 	<property name="plex.test" value="src_test" />
@@ -12,6 +14,7 @@
 	<property name="plex.src" value="${src.dir}/plex" />
 	<property name="lib.dir" value="lib" />
 	<property name="plex.jar" value="${dist.dir}/javaplex.jar" />
+	<property name="runnable_plex.jar" value="${runnable_dist.dir}/javaplex.jar" />
 	<property name="tests.jar" value="${tmp.dir}/tests.jar" />
 	<property name="bshcommands.dir" value="${src.dir}/commands" />
 	<property name="plex-source.tarball" value="${dist.dir}/plexsrc.tar.gz" />
@@ -39,8 +42,9 @@
 		</delete>
 	</target>
 
-	<target name="mrproper" depends="clean">
+	<target name="clean_all" depends="clean">
 		<delete dir="${dist.dir}" />
+		<delete dir="${runnable_dist.dir}" />
 	</target>
 
 	<target name="init">
@@ -101,7 +105,7 @@
 	</target>
 
 	<target name="javadoc">
-		<javadoc destdir="${doc.dir}" classpathref="classpath" Overview="overview.htm" sourcepath="${src.dir}">
+		<javadoc destdir="${doc.dir}" classpathref="classpath" Overview="doc/overview.htm" sourcepath="${src.dir}">
 			<package name="edu.stanford.math.plex4" />
 			<fileset dir="${src.dir}" />
 		</javadoc>
@@ -118,6 +122,25 @@
 	<target name="jar" depends="classes">
 		<jar destfile="${plex.jar}" basedir="${plex.bin}">
 		</jar>
+	</target>
+
+	<target name="runnable_jar">
+		<mkdir dir="${runnable_dist.dir}" />
+		<jar destfile="${runnable_plex.jar}" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="edu.stanford.math.plex4.api.Plex4" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+			<fileset dir="./bin" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/colt.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/jai_codec.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/trove-2.1.0.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/primitive-lib.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/velocity-1.6.4-dep.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/commons-math-2.1.jar" />
+		</jar>
+
+		<copy file="${runnable_plex.jar}" todir="${matlab.lib.dir}" />
 	</target>
 
 	<target name="plexclasses" depends="init">

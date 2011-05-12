@@ -1,7 +1,5 @@
 package edu.stanford.math.plex4.autogen.homology;
 
-import java.util.Comparator;
-
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -13,19 +11,26 @@ import gnu.trove.THashMap;
 import gnu.trove.THashSet;
 import gnu.trove.TObjectIntIterator;
 
+import java.util.Comparator;
+
+import javax.annotation.Generated;
+
 
 
 
 
 /**
- * This class performs the persistent homology algorithm as outlined in
- * the paper "Computing Persistent Homology" by Zomorodian and Carlsson.
+ * <p>This class performs the persistent homology algorithm as outlined in
+ * the paper "Computing Persistent Homology" by Zomorodian and Carlsson.</p>
  * 
+ * <p>int the underlying type of the coefficient field</p>
+ * <p>U> the underlying basis type</p>
+ *
  * @author autogen
  *
- * @param <int> the underlying type of the coefficient field
- * @param <U> the underlying basis type
+ * 
  */
+@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public class IntClassicalHomology<U> implements AbstractPersistenceAlgorithm<U> {
 		protected final IntAbstractField field;
 		private final IntAlgebraicFreeModule<U> chainModule;

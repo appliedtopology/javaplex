@@ -25,11 +25,13 @@ import java.util.Iterator;
  * It acts as an intermediate layer between the interface AbstractPersistenceBasisAlgorithm
  * and the actual implementations of the persistent homology/cohomology algorithms.
  * 
+ * <p>$coefficientType the underlying type of the coefficient field</p>
+ * <p>$objectType the underlying basis type</p>
+ * 
  * @author autogen
  *
- * @param <$coefficientType> the underlying type of the field
- * @param <$objectType> the type of the basis elements
  */
+@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public abstract class $className implements AbstractPersistenceBasisAlgorithm<$objectType, $sumClassName> {
 	#if (!($coefficientType == "boolean"))
 	/**
@@ -156,8 +158,8 @@ public abstract class $className implements AbstractPersistenceBasisAlgorithm<$o
 	 * the chain is empty (for example the column contains only zeros), then this function
 	 * returns null.
 	 * 
-	 * @param formalSum
-	 * @return
+	 * @param chain the chain to search
+	 * @return  the lowest element of the chain
 	 */
 	protected $objectType low($sumClassName chain) {
 	

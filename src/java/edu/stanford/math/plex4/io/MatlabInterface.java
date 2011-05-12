@@ -10,7 +10,6 @@ import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
  * This class has static methods for creating Matlab files to visualize data.
  * 
  * @author Andrew Tausz
- * @date February 7, 2009
  */
 
 public class MatlabInterface{

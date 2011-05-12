@@ -99,9 +99,6 @@ public class WitnessTest {
 		bc.draw();
 		
 		System.out.println(bc);
-		
-		Plex4.createBarcodePlot(dbc, "", 5);
-		
 	}
 	
 	//@Test

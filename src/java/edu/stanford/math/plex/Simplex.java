@@ -62,7 +62,7 @@ abstract public class Simplex implements Comparable<Simplex> {
 	 * instance. Also, doing it this way allows us to make it effectively
 	 * final without forcing the implementations to compute it during
 	 * instance creation. We also get rid of the table T[] in the algorithm
-	 * (see {@link Persistence.java} and references therein) by storing the
+	 * (see {@link edu.stanford.math.plex.Persistence} and references therein) by storing the
 	 * reduced boundary chain directly in the Simplex instance. This is
 	 * simpler, faster, and may even be smaller (it depends on what
 	 * percentage of slots in T[] actually got filled).

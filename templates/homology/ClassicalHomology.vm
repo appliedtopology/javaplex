@@ -21,14 +21,17 @@ import java.util.Iterator;
 #set ($iteratorType = $utility.getMapIteratorType($objectType, $coefficientType) + $utility.getGenericAnnotation([$objectType, $coefficientType]))
 
 /**
- * This class performs the persistent homology algorithm as outlined in
- * the paper "Computing Persistent Homology" by Zomorodian and Carlsson.
+ * <p>This class performs the persistent homology algorithm as outlined in
+ * the paper "Computing Persistent Homology" by Zomorodian and Carlsson.</p>
  * 
+ * <p>$coefficientType the underlying type of the coefficient field</p>
+ * <p>$objectType the underlying basis type</p>
+ *
  * @author autogen
  *
- * @param <$coefficientType> the underlying type of the coefficient field
- * @param <$objectType> the underlying basis type
+ * 
  */
+@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public class $className implements $superClassName {
 	#if (!($coefficientType == "boolean"))
 	protected final $fieldClassName field;

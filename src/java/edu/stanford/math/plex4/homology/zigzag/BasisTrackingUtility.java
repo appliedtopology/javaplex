@@ -49,6 +49,7 @@ public class BasisTrackingUtility {
 		return c;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <X extends PrimitiveBasisElement> IntSparseFormalSum<X> createNewSum(int[] coefficients, PrimitiveBasisElement[] objects) {
 		IntSparseFormalSum<X> result = new IntSparseFormalSum<X>();
 		
@@ -71,14 +72,16 @@ public class BasisTrackingUtility {
 
 		return null;
 	}
-
+	
 	/**
 	 * This function computes the operation low_A(j) as described in the paper. Note that if
 	 * the chain is empty (for example the column contains only zeros), then this function
 	 * returns null.
 	 * 
-	 * @param formalSum
-	 * @return
+	 * @param <X> the underlying type of the basis elements in the chain
+	 * @param chain the chain
+	 * @param comparator the comparator to use
+	 * @return the lowest element in the chain
 	 */
 	public static <X> X low(IntSparseFormalSum<X> chain, Comparator<X> comparator) {
 

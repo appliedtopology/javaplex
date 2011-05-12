@@ -21,14 +21,14 @@ import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
  * are of the form a* tensor b, for a in the first chain complex and b in the second chain
  * complex. Thus in practice, we represent these as elements of type ObjectObjectPair<T, U>.
  * 
- * @see TensorStream<T, U>
+ * @see edu.stanford.math.plex4.streams.derived.TensorStream
  * 
  * @author Andrew Tausz
  *
  * @param <T> the underlying basis type of the first complex
  * @param <U> the underlying basis type of the second complex
  */
-public class HomStream<T, U> extends TensorStream<T, U>{
+public class HomStream<T, U> extends TensorStream<T, U> {
 	
 	/**
 	 * This constructor initializes the hom-complexes from two existing chain complexes.

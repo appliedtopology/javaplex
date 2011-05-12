@@ -32,9 +32,9 @@ import bsh.PlexInterpreter;
 /**
 	Turn on/off input logging in the current interpreter, specify the
 	specific log file to use, or return the logging status string.
-	@method void log( [ String logfile_name ] )
-	@method void log( [ boolean on_flag ] )
-	@method String log()
+	void log( [ String logfile_name ] )
+	void log( [ boolean on_flag ] )
+	String log()
 */
 public class log 
 {

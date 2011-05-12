@@ -1,6 +1,6 @@
 package edu.stanford.math.plex4.homology.nonautogen;
 
-
+@Deprecated
 public class DisjointSetSystem {
 	int capacity = 16;
 	int size = 0;
@@ -57,7 +57,7 @@ public class DisjointSetSystem {
 	/**
 	 * Returns the index of the representative
 	 * @param index
-	 * @return
+	 * @return the index of the representative
 	 */
 	public int find(int index) {
 		if (parents[index] == index) {

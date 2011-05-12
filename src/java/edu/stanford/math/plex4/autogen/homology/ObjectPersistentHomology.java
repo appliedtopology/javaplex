@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.annotation.Generated;
+
 import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -22,12 +24,14 @@ import gnu.trove.THashSet;
  * field type being F and underlying basis element type being U.
  * It acts as an intermediate layer between the interface AbstractPersistenceBasisAlgorithm
  * and the actual implementations of the persistent homology/cohomology algorithms.
+ *  
+ * <p>F the underlying type of the coefficient field</p>
+ * <p>U> the underlying basis type</p>
  * 
  * @author autogen
  *
- * @param <F> the underlying type of the field
- * @param <U> the type of the basis elements
  */
+@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public abstract class ObjectPersistentHomology<F, U> extends ObjectPersistenceAlgorithm<F, U> {
 
 		/**

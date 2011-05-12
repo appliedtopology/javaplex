@@ -44,7 +44,7 @@ public class CellStreamExamples {
 	 * 1 n-cell with its boundary glued to a single point.
 	 * 
 	 * @param dimension the dimension of the sphere to produce
-	 * @return
+	 * @return a cellular sphere of the specified dimension
 	 */
 	public static ExplicitCellStream getCellularSphere(int dimension) {
 		ExplicitCellStream stream = new ExplicitCellStream();

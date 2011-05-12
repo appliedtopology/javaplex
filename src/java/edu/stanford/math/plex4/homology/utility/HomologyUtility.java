@@ -1,5 +1,6 @@
 package edu.stanford.math.plex4.homology.utility;
 
+import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIterator;
 
@@ -117,7 +118,7 @@ public class HomologyUtility {
 	 * 
 	 * @param array
 	 * @param index
-	 * @return
+	 * @return the array with the element at the specified index removed
 	 */
 	public static int[] removeIndex(final int[] array, int index) {
 		int[] result = new int[array.length - 1];
@@ -219,5 +220,34 @@ public class HomologyUtility {
 		}
 		
 		return intersection;
+	}
+
+	public static Simplex convertIndices(Simplex simplex, int[] conversionArray) {
+		return Simplex.makeSimplex(HomologyUtility.convertIndices(simplex.getVertices(), conversionArray));
+	}
+
+	public static int[] convertIndices(int[] vertices, int[] conversionArray) {
+		int[] newVertices = new int[vertices.length];
+		
+		for (int i = 0; i < vertices.length; i++) {
+			newVertices[i] = conversionArray[vertices[i]];
+		}
+		
+		return newVertices;
+	}
+
+	public static int[] deconvertIndices(int[] vertices, int[] conversionArray) {
+		int[] newVertices = new int[vertices.length];
+		
+		for (int i = 0; i < vertices.length; i++) {
+			for (int j = 0; j < conversionArray.length; j++) {
+				if (conversionArray[j] == vertices[i]) {
+					newVertices[i] = j;
+					continue;
+				}
+			}
+		}
+		
+		return newVertices;
 	}
 }

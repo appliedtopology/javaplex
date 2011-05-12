@@ -2,6 +2,8 @@ package edu.stanford.math.plex4.autogen.homology;
 
 import java.util.Comparator;
 
+import javax.annotation.Generated;
+
 import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -13,6 +15,7 @@ import gnu.trove.THashMap;
 
 
 
+@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public class BooleanAbsoluteHomology<U> extends BooleanPersistentHomology<U> {
 		/**
 	 * This constructor initializes the object with a comparator on the basis type.

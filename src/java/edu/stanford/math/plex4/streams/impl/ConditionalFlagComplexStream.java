@@ -195,7 +195,7 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 		
 		Simplex newSimplex = null;
 		if (this.indices != null) {
-			newSimplex = convertIndices(tau, this.indices);
+			newSimplex = HomologyUtility.convertIndices(tau, this.indices);
 		} else {
 			newSimplex = tau;
 		}
@@ -244,34 +244,5 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 			// recurse: add the cofaces of sigma
 			this.addCofaces(G, k, sigma, M, weight);
 		}
-	}
-	
-	protected static Simplex convertIndices(Simplex simplex, int[] conversionArray) {
-		return Simplex.makeSimplex(convertIndices(simplex.getVertices(), conversionArray));
-	}
-	
-	protected static int[] convertIndices(int[] vertices, int[] conversionArray) {
-		int[] newVertices = new int[vertices.length];
-		
-		for (int i = 0; i < vertices.length; i++) {
-			newVertices[i] = conversionArray[vertices[i]];
-		}
-		
-		return newVertices;
-	}
-	
-	protected static int[] deconvertIndices(int[] vertices, int[] conversionArray) {
-		int[] newVertices = new int[vertices.length];
-		
-		for (int i = 0; i < vertices.length; i++) {
-			for (int j = 0; j < conversionArray.length; j++) {
-				if (conversionArray[j] == vertices[i]) {
-					newVertices[i] = j;
-					continue;
-				}
-			}
-		}
-		
-		return newVertices;
 	}
 }

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="create_run_jar" name="Create Runnable Jar for Project javaplex">
-    <target name="create_run_jar">
-        <jar destfile="javaplex.jar" filesetmanifest="mergewithoutmain">
-            <manifest>
-                <attribute name="Main-Class" value="edu.stanford.math.plex4.api.Plex4"/>
-                <attribute name="Class-Path" value="."/>
-            </manifest>
-            <fileset dir="./bin"/>
-            <zipfileset excludes="META-INF/*.SF" src="./lib/colt.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="./lib/jai_codec.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="./lib/trove-2.1.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="./lib/primitive-lib.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="./lib/velocity-1.6.4-dep.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="./lib/commons-math-2.1.jar"/>
-        </jar>
-    </target>
+	<target name="create_run_jar">
+		<jar destfile="javaplex.jar" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="edu.stanford.math.plex4.api.Plex4" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+			<fileset dir="./bin" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/colt.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/jai_codec.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/trove-2.1.0.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/primitive-lib.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/velocity-1.6.4-dep.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/commons-math-2.1.jar" />
+		</jar>
+	</target>
 </project>

@@ -11,6 +11,7 @@ import gnu.trove.THashSet;
 import gnu.trove.TObjectIntHashMap;
 import gnu.trove.TObjectIntIterator;
 
+@Deprecated
 public class ZeroDimHomology implements AbstractPersistenceBasisAlgorithm<Simplex, Simplex> {
 
 	public IntAnnotatedBarcodeCollection<Simplex> computeAnnotatedIntervals(AbstractFilteredStream<Simplex> stream) {

@@ -23,7 +23,6 @@ public class Cone extends SimplexStream {
 	 * Creates a new cone from an existing SimplexStream. 
 	 *
 	 * @param sstr Simplex Stream to be coned.
-	 * @return A new Cone object
 	 */
 	public Cone(SimplexStream sstr) {
 		sstream = sstr;

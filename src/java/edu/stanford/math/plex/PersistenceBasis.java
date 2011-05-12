@@ -416,6 +416,14 @@ public class PersistenceBasis {
 		}
 	}	
 
+	
+
+	protected static class ListItem {
+		public Chain cocycle;
+		public Chain coboundary;
+		public int findex;
+	}
+
 	/** 
 	 * Computes persistent cohomology using a zig-zag based approach due to Dmitriy Morozov.
 	 * <p>
@@ -425,13 +433,6 @@ public class PersistenceBasis {
 	 * @param stream SimpleSimplexStream providing the simplices
 	 * @return PersistenceBasisInterval[] carrying the computed intervals and their basis elements.
 	 */
-
-	protected static class ListItem {
-		public Chain cocycle;
-		public Chain coboundary;
-		public int findex;
-	}
-
 	public static PersistenceBasisInterval[] computePersistentCohomologyZigZag(SimplexStream stream, int prime) {
 		boolean DEBUGGING = false;
 		if(prime != p)

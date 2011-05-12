@@ -21,7 +21,7 @@ import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
  */
 public class StreamsTest {
 	private final List<double[][]> pointClouds = new ArrayList<double[][]>();
-	private final int n = 100;
+	private final int n = 200;
 	private final int l = n/2;
 	private final int d = 4;
 	private final int maxDimension = 1;
@@ -39,13 +39,14 @@ public class StreamsTest {
 	@After
 	public void tearDown() {}
 	
-	//@Test
+	@Test
 	public void testVietorisRips() {
 		for (double[][] pointCloud: pointClouds) {
 			StreamTester.compareVietorisRipsStreams(pointCloud, maxDimension, maxFiltrationValue, numDivisions);
 		}
 	}
 	
+	@Test
 	public void testLazyWitness() {
 		for (double[][] pointCloud: pointClouds) {
 			LandmarkSelector<double[]> landmarkSet = new RandomLandmarkSelector<double[]>(new EuclideanMetricSpace(pointCloud), l);

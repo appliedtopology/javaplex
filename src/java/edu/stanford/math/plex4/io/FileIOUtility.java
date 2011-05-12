@@ -32,12 +32,8 @@ public class FileIOUtility {
 	/**
 	 * Saves a BufferedImage stream in PNG format.
 	 * 
-	 * @param image
-	 *            the buffered image to save to disk
-	 * @param folderPath
-	 *            the folder to save the image file in
-	 * @param imageName
-	 *            the name to give the image file (minus extension)
+	 * @param image  the buffered image to save to disk
+	 * @param filePath the file to save the image file in
 	 * @throws IOException
 	 */
 	public static void saveImage(BufferedImage image, String filePath) throws IOException {
@@ -59,12 +55,9 @@ public class FileIOUtility {
 	/**
 	 * This function saves a string to a text file.
 	 * 
-	 * @param filePath
-	 *            the path of the file to write to
-	 * @param contents
-	 *            a string holding the contents to write
-	 * @param append
-	 *            if true, then the file will be appended to
+	 * @param filePath the path of the file to write to
+	 * @param contents a string holding the contents to write
+	 * @param append if true, then the file will be appended to
 	 * @throws IOException
 	 */
 	public static void writeTextFile(String filePath, String contents, boolean append) throws IOException {

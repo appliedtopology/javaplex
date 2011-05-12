@@ -136,6 +136,7 @@ public class RipsBootstrapper {
 		return result;
 	}
 	
+	@SuppressWarnings("unused")
 	private static boolean isMonotoneIncreasing(int[] a) {
 		for (int i = 1; i < a.length; i++) {
 			if (a[i] <= a[i - 1]) {

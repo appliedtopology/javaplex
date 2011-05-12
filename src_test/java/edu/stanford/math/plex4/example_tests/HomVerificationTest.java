@@ -1,4 +1,4 @@
-package edu.stanford.math.plex4.unit_tests;
+package edu.stanford.math.plex4.example_tests;
 
 import org.junit.After;
 import org.junit.Before;

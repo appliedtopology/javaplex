@@ -5,6 +5,7 @@ import java.util.Arrays;
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.filtration.IncreasingLinearConverter;
+import edu.stanford.math.plex4.homology.utility.HomologyUtility;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
@@ -124,11 +125,11 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 			D = DoubleArrayUtility.createMatrix(L, N);
 			for (int l = 0; l < L; l++) {
 				for (int n = 0; n < N; n++) {
-					if (n == this.indices[l]) {
-						D[l][n] = Infinity.Double.getPositiveInfinity();
-					} else {
+					//if (n == this.indices[l]) {
+					//	D[l][n] = Infinity.Double.getPositiveInfinity();
+					//} else {
 						D[l][n] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(l), n);
-					}
+					//}
 				}
 			}
 		} catch (OutOfMemoryError error) {
@@ -166,8 +167,8 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 					n_star = witnessAndDistance.getFirst();
 					e_ij = witnessAndDistance.getSecond();
 					
-					if (e_ij <= this.maxDistance + epsilon) {
-						this.witnesses.put(convertIndices(Simplex.makeSimplex(i, j), this.indices), n_star);
+					if (e_ij <= this.maxDistance) {
+						this.witnesses.put(HomologyUtility.convertIndices(Simplex.makeSimplex(i, j), this.indices), n_star);
 						graph.addEdge(i, j, e_ij);
 						edge_count++;
 					}
@@ -198,20 +199,17 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		double e_ij;
 		double d[] = new double[externalIndices.length];
 		e_ij = Infinity.Double.getPositiveInfinity();
-		int n_star = -1;
-		
 		TIntHashSet witnesses = new TIntHashSet();
 		
-		int[] landmarkIndices = deconvertIndices(externalIndices, this.indices);
+		int[] landmarkIndices = HomologyUtility.deconvertIndices(externalIndices, this.indices);
 		//landmarkIndices = externalIndices;
 		
 		IntDoublePair witnessAndDistance = this.getWitnessAndDistance(landmarkIndices);
-		n_star = witnessAndDistance.getFirst();
 		e_ij = witnessAndDistance.getSecond();
 		
 		for (int n = 0; n < N; n++) {
 			if (contains(this.indices, n)) {
-				continue;
+				//continue;
 			}
 			
 			double d_max = Infinity.Double.getNegativeInfinity();
@@ -254,11 +252,11 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		e_ij = Infinity.Double.getPositiveInfinity();
 		int n_star = -1;
 		
-		int[] externalIndices = convertIndices(landmarkIndices, this.landmarkSelector.getLandmarkPoints());
+		int[] externalIndices = HomologyUtility.convertIndices(landmarkIndices, this.landmarkSelector.getLandmarkPoints());
 		
 		for (int n = 0; n < N; n++) {
 			if (contains(this.indices, n)) {
-				continue;
+				//continue;
 			}
 			
 			double d_max = Infinity.Double.getNegativeInfinity();

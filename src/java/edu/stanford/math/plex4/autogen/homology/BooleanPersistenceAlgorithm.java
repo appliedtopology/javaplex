@@ -3,6 +3,8 @@ package edu.stanford.math.plex4.autogen.homology;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import javax.annotation.Generated;
+
 import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
@@ -21,11 +23,13 @@ import edu.stanford.math.primitivelib.autogen.formal_sum.BooleanSparseFormalSum;
  * It acts as an intermediate layer between the interface AbstractPersistenceBasisAlgorithm
  * and the actual implementations of the persistent homology/cohomology algorithms.
  * 
+ * <p>boolean the underlying type of the coefficient field</p>
+ * <p>U> the underlying basis type</p>
+ * 
  * @author autogen
  *
- * @param <boolean> the underlying type of the field
- * @param <U> the type of the basis elements
  */
+@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public abstract class BooleanPersistenceAlgorithm<U> implements AbstractPersistenceBasisAlgorithm<U, BooleanSparseFormalSum<U>> {
 		
 	/**
@@ -118,8 +122,8 @@ public abstract class BooleanPersistenceAlgorithm<U> implements AbstractPersiste
 	 * the chain is empty (for example the column contains only zeros), then this function
 	 * returns null.
 	 * 
-	 * @param formalSum
-	 * @return
+	 * @param chain the chain to search
+	 * @return  the lowest element of the chain
 	 */
 	protected U low(BooleanSparseFormalSum<U> chain) {
 	

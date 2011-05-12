@@ -172,6 +172,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 		this.add(sigma, this.internalIndex);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void add(U sigma, int externalIndex) {
 		if (this.basisElements.contains(sigma)) {
 			log("Invalid add!");
@@ -252,7 +253,6 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 		this.remove(sigma, this.internalIndex);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void remove(U sigma, int externalIndex) {
 		if (!this.basisElements.contains(sigma)) {
 			log("Invalid removal!");
@@ -433,7 +433,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			
 			log(internalIndex + ": Death (" + this.internalExternalIndexMap.get(j) + ", " + externalIndex + ") @ " + (sigma.getDimension()) +  " - removal of " + sigma);
 
-			Map<Integer, IntSparseFormalSum<U>> Z_i1 = new THashMap<Integer, IntSparseFormalSum<U>>();
+			//Map<Integer, IntSparseFormalSum<U>> Z_i1 = new THashMap<Integer, IntSparseFormalSum<U>>();
 			
 			// TODO: ************** CHECK
 			// 1. Change basis to remove sigma from matrix Z
@@ -478,14 +478,16 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 				}
 				Z.put(k, Z_i1.get(k));
 			}
-			*/
+			
 			Z_i1 = null;
+			*/
 			
 			// 3. Drop Z_{i+1}[j], the corresponding entry in vectors b_i and idx_i, row j 
 			// from B_i, row sigma from C_i and Z (as well as row and column of sigma from D_i)
 			Z.remove(j);
 
 			if (!BasisTrackingUtility.getAscendingIndicesContainingElement(Z, sigma, this.integerComparator).isEmpty()) {
+				@SuppressWarnings("unused")
 				List<Integer> list = BasisTrackingUtility.getAscendingIndicesContainingElement(Z, sigma, this.integerComparator);
 				log("Invalid removal!");
 			}
@@ -610,10 +612,5 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			}
 			lowMap.put(lowElement, index);
 		}
-	}
-	
-	protected <X, Y> void reduce(Map<Integer, IntSparseFormalSum<Y>> Z, Map<Integer, IntSparseFormalSum<Integer>> B, Comparator<Y> comparator) {
-		Map<Y, X> lowMap = new THashMap<Y, X>();
-		
 	}
 }

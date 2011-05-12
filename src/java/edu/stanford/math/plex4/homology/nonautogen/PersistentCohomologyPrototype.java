@@ -213,6 +213,7 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 		return collection;
 	}
 
+	@SuppressWarnings("unused")
 	private IntBarcodeCollection pCoh(AbstractFilteredStream<U> stream) {
 		AbstractFilteredStream<U> dualStream = new DualStream<U>(stream);
 		dualStream.finalizeStream();
@@ -313,35 +314,4 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 			a.set(index, field.add(a.get(index), field.multiply(value, c)));
 		}
 	}
-
-	/**
-	 * Returns true iff a is contained in b
-	 * @param a
-	 * @param b
-	 * @return
-	 */
-	private boolean contains(IntSparseFormalSum<U> a, IntSparseFormalSum<U> b) {
-
-		for (TObjectIntIterator<U> iterator = a.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			int b_coefficient = b.getCoefficient(iterator.key());
-			if (iterator.value() != b_coefficient) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private IntSparseFormalSum<U> boundary(IntSparseFormalSum<U> chain, AbstractFilteredStream<U> stream) {
-		IntSparseFormalSum<U> result = new IntSparseFormalSum<U>();
-
-		for (TObjectIntIterator<U> iterator = chain.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			IntSparseFormalSum<U> boundary = chainModule.createNewSum(stream.getBoundaryCoefficients(iterator.key()), stream.getBoundary(iterator.key()));
-			chainModule.accumulate(result, boundary, iterator.value());
-		}
-
-		return result;
-	}
-
 }

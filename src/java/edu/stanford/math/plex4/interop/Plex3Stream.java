@@ -10,7 +10,7 @@ import edu.stanford.math.primitivelib.collections.utility.AdaptedIterator;
 import gnu.trove.TObjectIntHashMap;
 
 /**
- * This class is a wrapper around a plex 3 SimplexStrea that implements the AbstractFilteredStream interface
+ * This class is a wrapper around a plex 3 SimplexStream that implements the AbstractFilteredStream interface
  * of plex 4. 
  * 
  * @author Andrew Tausz
@@ -19,10 +19,25 @@ import gnu.trove.TObjectIntHashMap;
 public class Plex3Stream implements AbstractFilteredStream<edu.stanford.math.plex4.homology.chain_basis.Simplex> {
 	private final SimplexStream plex3Stream;
 	private final TObjectIntHashMap<Simplex> filtrationIndexMap = new TObjectIntHashMap<Simplex>();
-	private final Plex3ToPlex4SimplexAdapter simplexAdapter = Plex3ToPlex4SimplexAdapter.getInstance();
+	private final Plex3ToPlex4SimplexAdapter simplexAdapter;
 	private final int maxFiltrationIndex;
 	
 	public Plex3Stream(SimplexStream plex3Stream) {
+		this.simplexAdapter = Plex3ToPlex4SimplexAdapter.getInstance();
+		this.plex3Stream = plex3Stream;
+		int tempMaxFiltrationIndex = Integer.MIN_VALUE;
+		
+		for (Iterator<edu.stanford.math.plex.Simplex> iterator = plex3Stream.iterator(); iterator.hasNext(); ) {
+			edu.stanford.math.plex.Simplex plex3Simplex = iterator.next();
+			this.filtrationIndexMap.put(this.simplexAdapter.evaluate(plex3Simplex), plex3Simplex.findex());
+			tempMaxFiltrationIndex = Math.max(tempMaxFiltrationIndex, plex3Simplex.findex());
+		}
+		
+		this.maxFiltrationIndex = tempMaxFiltrationIndex;
+	}
+	
+	public Plex3Stream(SimplexStream plex3Stream, int[] vertexMapping) {
+		this.simplexAdapter = Plex3ToPlex4SimplexAdapter.getInstance(vertexMapping);
 		this.plex3Stream = plex3Stream;
 		int tempMaxFiltrationIndex = Integer.MIN_VALUE;
 		
