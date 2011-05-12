@@ -105,7 +105,7 @@
 	</target>
 
 	<target name="javadoc">
-		<javadoc destdir="${doc.dir}" classpathref="classpath" Overview="doc/doc_includes/overview.htm" sourcepath="${src.dir}">
+		<javadoc destdir="${doc.dir}" classpathref="classpath" Overview="doc_includes/overview.htm" sourcepath="${src.dir}">
 			<package name="edu.stanford.math.plex4" />
 			<fileset dir="${src.dir}" />
 		</javadoc>
