@@ -1,0 +1,580 @@
+<html>
+<head>
+<title>Plex in Java</title>
+</head>
+<body>
+
+<!--  
+$Id: overview.htm,v 1.5 2008/09/25 02:30:23 hsexton Exp $
+-->
+
+<!-- TOC BODY START -->
+<a href="#_1._">1. Introduction</a><br>
+<a href="#_2._">2. Installing Plex in Matlab</a><br>
+<a href="#_3._">3. Installing Plex in R</a><br>
+<a href="#_4._">4. Running Plex standalone</a><br>
+<a href="#_5._">5. Using Plex</a><br>
+<a href="#_6._">6. Extending Plex</a><br>
+<a href="#_7._">7. Plex Design considerations</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#_7.1_">7.1 Basic Data Types</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#_7.2_">7.2 Design Considerations</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#_7.3_">7.3 Design Choices</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#_7.4_">7.4 Algorithms</a><br>
+<!-- TOC BODY END -->
+
+<a name="_1._"></a>
+<h1>1. Introduction</h1>
+
+Plex is a set of library routines for computing persistent homology on
+finite simplicial complexes generated from metric space data. The original
+version of Plex was a collection of matlab scripts. The current version,
+version 3, is a rewrite in Java improve performance and portability. It is
+less than .5 M, is as portable as Java itself, includes a simple
+self-contained GUI (provided by
+adapting <a href="http://www.beanshell.org">Beanshell</a>), and can easily
+be "installed" to work with Matlab.
+
+<p>
+
+It is important to note that this Java code was written using features from
+Java 5.0 (also known as 1.5, I guess to confuse people), so you should have a
+Java runtime that is of sufficiently recent vintage.  You can find out if there
+is a Java launcher (or Java interpreter, if you prefer) readily available on a
+Linux box by invoking <pre>% which java</pre> at the command shell. And if you
+know where your Java launcher is, you can check on the version of Java that is
+available from the command line by invoking
+
+<pre>
+% java -version
+Java version "1.5.0_08"
+Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0_08-b03)
+Java HotSpot(TM) 64-Bit Server VM (build 1.5.0_08-b03, mixed mode)
+</pre>
+You can check the Java VM being used by matlab by executing, in the matlab
+command window,
+<pre>
+>> version -java
+
+ans =
+
+Java 1.5.0_04 with Sun Microsystems Inc. Java HotSpot(TM) 64-Bit Server VM mixed mode
+</pre>
+Anything with a version number greater than <code>1.5</code> should be fine.
+
+<p>
+
+At the moment most people use the library in matlab, but we are working on
+a port to the <a href="http://www.r-project.org">R environment</a>, and
+that will be documented here when done. It is also possible to execute Plex
+directly with the Java launcher (formerly known as the Java interpreter),
+and we will explain how to do that below, too. 
+
+<a name="_2._"></a>
+<h1>2. Installing Plex in Matlab</h1>
+
+<p>
+
+To install Plex in matlab, you make sure that the <code>plex.jar</code> you
+downloaded is in a convenient place, and then add it to the Java class path
+in matlab. You should also <code>import</code> the package to save yourself some
+typing. Specifically, suppose that the path to your home directory name is
+<code>/my/path/mydir</code> (if your login is <code>bob</code>, then your
+home directory path might be something like <code>/home/bob</code>). The
+precise installation steps are to download <code>plex.jar</code> to the 
+director <code>/my/path/mydir</code>, and add the following lines to your
+matlab <code>startup.m</code> file: 
+<pre>
+javaaddpath('/my/path/mydir/plex.jar');
+import edu.stanford.math.plex.*;
+</pre>
+
+<p>
+
+<b>NOTE:</b> 
+You may need to increase the maximum Java heap size at some point, and if you
+do, you should create a file named <code>java.opts</code> and in your MATLAB
+startup directory -- that is, the same directory that contains the
+<code>startup.m</code> file. In this file, include a line specifying a value
+for the <code>-Xmx</code> which sets the maximum heap size allowed for the Java
+VM. (It doesn't force the heap to grow this large, it simply sets the limit on
+how large the heap is allowed to grow.) For example, to increase the JVM memory
+allocation limit to 128 megabytes, put the line
+<pre>
+-Xmx128m
+</pre> 
+in your <code>java.opts</code> file.
+
+<p>
+
+The matlab documentation discourages you from setting the the <code>-Xmx</code>
+option to more than <code>66%</code> of the physical RAM on your machine, but
+if the reason that you are running matlab is to run plex, then you should set
+the max memory size as large as you need it to be. Using a <code>64-bit</code>
+Java 1.5 VM, I can grow the heap to at least 5 gigabytes, and what I have in my
+<code>java.opt</code> file in that case is <code>-Xmx16000m</code>, and on
+a version 1.6 Java VM with <code>-d64</code>, the heap size can be huge;
+for this VM I use the settings <code> -d64 -Xmx200000M -Xms4000M</code>,
+since I have 16G of memory on my machine. Setting the max heap size to be
+either absurdly large, or larger than it will actually grow on in practice,
+means that I know that it if I run out of memory, it's because I really
+can't get any more.
+
+<p>
+
+The, after restarting matlab, you should be able to do execute the following in
+the matlab command window:
+<pre>
+>> Simplex.makePoint(1, 2)
+ 
+ans =
+ 
+<(2) 1>
+
+</pre>
+
+At that point, you are ready to use the code. Until we get a more formal system
+in place, I will keep the latest stable version of <code>plex.jar</code> on my
+home directory.
+
+<p>
+
+NOTE: At the moment I'm not sure
+whether or not there is anything special that you need to do to get the Java VM
+in matlab to use the JIT (Just In Time compiler) on the Plex code. Having the
+bytecodes processed by the JIT will make a significant difference in the
+performance of the routines.
+
+<a name="_3._"></a>
+<h1>3. Installing Plex in R</h1>
+
+Not yet supported.
+
+<a name="_4._"></a>
+<h1>4. Running Plex standalone</h1>
+
+Naturally you must have a Java VM (aka JVM) installed in order to run
+it. However, since JVM's exist for most hardware platforms, and are commonly
+used by web browsers, it is very unlikely that you don't have one installed
+already. If you don't, though you can get the latest Sun release
+<a href="http://java.sun.com/javase/downloads/index.jsp">here</a>.
+
+<p>
+
+We provide a simple "top-level-loop" for standalone use. You can execute
+this by running <code>java -cp plex.jar JPlex</code> in a command window,
+shell, etc. (Your Java VM installation will have to include the Swing classes, but this
+is standard, so there should be no problem.) 
+There are a number keyword arguments to <code>Java</code> that you may want to
+employ, and if you are planning run larger examples you should read the
+<a href="http://java.sun.com/j2se/1.5.0/docs/tooldocs/index.html#basic">documentation</a>
+for the Java interpreter on <code>-Xmx</code>, <code>-Xms</code>,
+<code>-d64</code> and <code>-Xbatch</code>. Again, recall that Plex only
+works in <code>Java 5.0</code> or later.
+
+<p>
+
+You can put the <code>plex.jar</code> file anywhere, but making a copy in
+your home directory or in some subdirectory thereof, seems prudent, and the
+file is small enough that this should be no problem. At the same time, you
+should make a subdirectory of your home directory named <code>plex</code>,
+and create an empty file in your home directory named <code>.bshrc</code>.
+
+<p>
+
+The GUI window that comes up is a slightly modified version
+of <a href="http://www.beanshell.org">Beanshell</a>. The most visible difference
+between the Matlab and standalone interpreters is that Beanshell wraps "<>"
+around the results that it prints, so that the number <code>187</code>
+would print as <code><187></code> in standalone Plex.
+
+<p>
+
+When starting up, Beanshell loads the file <code>.bshrc</code> from your
+home directory, if there is such a file. You can put various
+initializations in that file, such as commands to change the default
+actions for input logging, which is the only non-trivial change we made to
+Beanshell. (The trivial changes, which the author, Pat Niemeyer, kindly
+allowed us to make, were to put the Beanshell jar contents in with the plex
+library, and to change some banners and menu options.)
+
+<p>
+
+The initial window contains a single "workspace", with an interpreter that you
+can type to; the prompt is <code>plex></code>. If you wish Plex to record the
+input you type to a given workspace, you can enable input logging for that
+workspace by left-clicking the <b>File</b> menu for the workspace and selecting
+<b>Enable logging</b>. You can also arrange for input logging to be on by
+default by adding the line <code>setLogging(true);</code> to your
+<code>.bshrc</code> file.
+
+<p>
+
+You can also turn logging on or off within a workspace by
+typing <code>log(true);</code> or <code>log(false);</code> to the
+window. The log files are, by default, written to the
+subdirectory <code>plex</code> of your home directory, but you can change
+that. However, logging will fail if you don't have a <code>plex</code>
+subdirectory in your home directory and you left the defaults as is.  You
+can arrange for input logging to go to a different directory,
+say <code>/Users/myhome/whereIwantlogfiles</code> by default by adding the
+line <code>setLogging("/Users/myhome/whereIwantlogfiles");</code> to
+your <code>.bshrc</code> file. Resetting the default log directory doesn't
+affect the default flag setting, so if you also want logging on by default,
+you have to set that, too. Finally, you can change the path of a logfile
+for a specific workspace by invoking the
+command <code>log("/my/current/log");</code> in the workspace window. 
+
+<p>
+
+The default name of a logfile is the first unused name of the
+form <code>log_xy.txt</code>, where <code>x</code> and <code>y</code> are
+decimal digits. In other words, the first logfile that gets created
+is <code>log_00.txt</code>. If you leave more than 100 logfiles in your log
+directory, the names get created using a Java library routine for making
+temporary files, and the names become more complicated, but still begin
+with <code>log</code> and end with <code>.txt</code>.
+
+<p>
+
+Finally, you can determine the current status of input logging by selecting the
+<b>Logging status</b> item in the <b>File</b> menu, or by by invoking the
+command <code>log();</code> in the workspace window. In either case a message
+is printed describing the status for both input logging in the current
+workspace and the default values for all workspaces. (Specifically,
+<code>log();</code> returns a status string, and since return values are
+printed by default, this String gets printed, unless you disable printing of
+return values. The <b>Logging status</b> menu item actually inserts the string
+in the Workspace window, so this works even when return value printing is
+disabled.)
+
+<p>
+
+<a name="_5._"></a>
+<h1>5. Using Plex</h1>
+
+Currently Plex supports building simplicial streams, which is the name given
+to simplicial complexes sorted by filtration index and dimension. All such
+streams are subclasses of the abstract class <code>SimplexStream</code>.  Plex
+also provides a class called <code>Persistence</code> which has methods for
+computing the persistence intervals for a <code>SimplexStream</code>. Because
+the matlab command window doesn't allow the use of the Java <code>new</code>
+operator, there are static methods in the <code>Plex</code> class for the
+creation of most of the higher level Plex classes.  Here is a the result of a
+toy session in matlab using the Plex code:
+
+<pre>
+>> p = Plex.Persistence()
+ 
+p = 
+
+edu.stanford.math.plex.Persistence@11eea7f0
+ 
+>> tor = Plex.Torus(20, 2)
+ 
+tor =
+ 
+edu.stanford.math.plex.Torus@1ae2b9e5
+ 
+>> rc = Plex.RipsStream(0.053096, 0.530956, 3, tor)
+ 
+rc =
+ 
+edu.stanford.math.plex.RipsStream@675ee9e3
+ 
+>> rc.size()
+
+ans =
+
+       4000
+
+>> res = Plex.FilterInfinite(p.computeIntervals(rc))
+ 
+res =
+ 
+BN{1, 2, 1}
+</pre>
+
+At least the results are correct, but more exposition here wouldn't hurt.
+
+
+<a name="_6._"></a>
+<h1>6. Extending Plex</h1>
+
+The obvious way to extend Plex is to write some more Java code and add that
+code to the classpath. You should look at the Matlab or Beanshell
+documentation to see how to do this.  It can be done either at startup or
+dynamically, and is quite easy in either case.
+
+<p>
+
+<a name="_7._"></a>
+<h1>7. Plex Design considerations</h1>
+
+Plex is a library designed to compute persistent homology over finite fields
+for finite metric spaces. The code centers around a clever, but fairly obscure,
+algorithm for computing what are called "persistence intervals". The algorithm
+(in this section an unspecified "algorithm" means this particular one) is
+intimately connected with the structure of finitely generated modules over a
+principal ideal domain (aka PID) and something called Smith normal form for
+matrices over PID's. The persistence algorithm (as it is called) is complex and
+subtle enough that it couldn't be readily replaced, and since it is
+surprisingly efficient both in space and time, it seems very unlikely to be
+supplanted. (The algorithm and the associated mathematics is described in some
+detail in: A. Zomorodian and G. Carlsson, "Computing persistent homology,"
+<i>Discrete and Computational Geometry</i>, 33 (2), pp. 247-274.
+
+<p>
+
+Rather than repeat the information in the paper above, the contents of the
+paper will be assumed, and the persistent algorithm will be presented as
+described. That is, no attempt will be made here to prove that the algorithm
+works, although we will give a few alternative descriptions of elements of the
+algorithm to provide some intuition. While it might not be obvious that this is
+the case, the computation of the persistent homology over a finite field is
+equivalent to reducing the various boundary matrices to Smith normal form, and
+in turn, because of the specific structure of the boundary matrices, it is
+enough to use column operations on these matrices to reduce them to column
+echelon form, provided we have properly ordered the rows and columns of the
+matrix before starting -- specifically, to have the rows and columns of the
+matrix be in increasing persistence order (e.g., to have all simplices of a
+given degree appear in an order so that the filtration indices are
+non-decreasing.
+
+<p>
+Another critical point in the matrix reduction, and one which allows for a very
+efficient representation of the columns of the matrix, is that the polynomials
+in the boundary matrix are, in fact, monomials, and the degree of the ij-th
+entry is the difference between filtration_index(simplex(j)) and
+filtration_index(simplex(i)), and this property is preserved by the row and
+column operations used in reducing to Smith normal form (and hence by the
+subset of operations used to reduce to column echelon form). This means that
+columns in the matrix may be stored as an array of field elements, and in fact,
+by an array of type <code>char</code> if we desired (as long as the base field
+is <code>Zp</code> for some <code>p</code> smaller than <code>256</code>. The
+last important "theoretical optimization" used in the algorithm is that it is
+possible to ignore all of the rows in the boundary matrix of dimension
+<code>d</code> that correspond to pivot columns in dimension
+<code>d-1</code>. (This last point is <code>Lemma 4.2</code> in the paper
+referred to above.
+<p> 
+It is critical in making a scalable version of this algorithm is the
+realization that the boundary matrix is quite sparse, which means that we
+certainly want to represent the columns of the boundary matrix from dimension
+<code>d</code> to <code>d-1</code> as something other than an array whose
+length is equal to number of simplices of dimension <code>d-1</code>.
+<a name="_7.1_"></a>
+<h2>7.1 Basic Data Types</h2>
+The most basic of the data types is the <code>Simplex</code>. In Plex these are
+a (smallish) subset of some set of points (aka <b>vertices</b>), and for
+convenience we always take these points to be integers in the range from
+<code>1</code> to <code>N</code>, inclusive (for <code>N</code> the cardinality
+of the finite set -- for small finite metric spaces, the indices can range over
+all the points, for larger sets, they range over a particular subset known as
+<b>landmarks</b>.). In addition to being able to get the vertices for a
+simplex, we must also be able to compute its boundary. This immediately leads
+us to a basic design question: Do we want to have simplices be unique, or will
+we allow multiple instances of Simplex with the same vertex set to be
+equivalent? There is an additional attribute for simplices, which is the <b>
+filtration index</b> or <code>findex</code>. Intuitively this index corresponds
+to an index into an array of increasing "times of creation", but the only
+essential point is that the <code>findex</code> of a simplex is at least as
+large as the <code>findex</code> of each of its faces. There is an obvious
+ordering on simplices, given by ordering first on the dimension, next on the
+<code>findex</code>, and finally lexicographically on the indices. This
+ordering is something that will be used fairly often, so it should be fast.
+<p>
+Another type we require in the <code>Chain</code>. As we mentioned above, all
+of the column operations on the boundary matrices can be computed in terms of
+simplicial chains, and the sparsity of the boundary matrix suggests that these
+chains should be implemented as an association between simplices and
+coefficients, rather than as an array where the <code>i</code>-th entry is the
+coefficient of the <code>i</code>-th simplex (for some enumeration of
+simplices). Since we expect to have lots of simplices and for most chains to
+have comparatively few non-zero entries, having a pair of arrays of equal
+length , one for coefficients and and one for simplices, seems to be about as
+simple as is possible. If we arrange the entries in the chain so that the
+simplex vector is sorted, then chain operations become linear in the size of
+the chains, which is as fast as they can be.
+<p>
+The final basic data structure we call a <code>SimplexStream</code>. There is
+some flexibility in the order in which the persistence algorithm needs to
+process the elements of a given simplicial complex. Any ordering must process
+all of the faces of a simplex before the simplex itself, and within a given
+dimension, the order must be non-decreasing for <code>findex</code> values. The
+order that we choose in our implementation is to sort simplices first by
+<code>findex</code>, and then by dimension. (It might seem odd that a matrix
+column reduction can process all of the dimensions at once, but the reason this
+is possible is that ONLY column operations are done, no simplex is ever
+processed until all of its faces have been processed, and the algorithm only
+does reductions using columns of a given dimension. In other words, we could
+sort the simplices lexicographically first by dimension and then by
+<code>findex</code> and the algorithm would do the same calculations in an
+equivalent order.)
+<p>
+Any instance of <code>SimplexStream</code> must return the simplices in some
+order compatible with this requirement. For each of the general mechanisms I
+came up with, I was able to prove that it was not possible to make a mechanism
+to generate the simplices in a suitable order without generating at least all
+of the elements of a given dimension. (The proofs were pretty simple, but I
+don't recall any details, since once I failed a few times I just expunged the
+entire idea.)  So any Plex implementation of <code>SimplexStream</code>
+generates all of the simplices of the complex and stores them. There also turn
+out to be other reasons why having all of the simplices present during the
+persistence calculation is necessary, so there is probably no real benefit to
+being able to generate them one at a time, even if it were possible.
+<a name="_3._"></a>
+<a name="_7.2_"></a>
+<h2>7.2 Design Considerations</h2>
+For the types of simplicial complexes that we study with Plex, the number of
+simplices grows geometrically with <code>N</code>. Therefore, even for large
+metric spaces, we can't construct simplicial complexes where the index set is
+large. This offers one opportunity for compression -- restrict <code>N</code>
+to a size that limits the number of bits required to represent it, and for
+large metric spaces, use a "landmark array" of size <code>N</code> of indices
+to make the smaller, contiguous "vertex indices" into points in the metric
+space. 
+<p>
+The <code>boundary</code> operation on simplices is the first set in the basic
+algorithm, and deciding how to handle this is probably the key design decision
+for the implementation. The options are whether the boundary value is
+<b>built-in</b> (or at least cached), or not. By built-in we mean that there is
+a slot in the simplex that points to a chain or array of faces (or something
+analogous). The advantage of this is that the boundary operation is fast, and
+the disadvantage is that construction of simplices is more complicated, and the
+simplices themselves are larger and more intertwined (the latter makes it much
+more difficult for the garbage collector to reclaim storage, and the former
+means that it is even more critical that this happen). The key question here
+seems to be whether or not it is better to have a unique simplex for a given
+vertex set (aka "interned" simplices), or whether simplices should be given "by
+value" (that is, two distinct instances of Simplex are interchangeable if they
+were created using the same vertex set). The best answer is matter of code
+simplicity and performance. Since it will surely be simpler to use by-value
+simplices, if it is much faster to construct the simplicial complex this way,
+and this doesn't hurt the performance of the persistence algorithm, then we
+should use them.
+<p>
+Affiliated issue are the matters of the <code>findex</code>, and what is called
+in the paper the "mark" and entries in <code>T[]</code>. If simplices are
+by-value, then having a slot holding the filtration index seems less
+problematic, at least if complex (i.e., SimplexStream) construction is very
+fast. The reason is that we can simply dispose of the entire stream and start
+over again (the GC will have little trouble reclaiming the space --
+accidentally holding on to a Simplex instance prevents reclaiming only a few
+bytes).
+<p>
+Since <code>T[]</code> is indexed by the simplices, what this really implies is
+a mapping between simplices and the chains that are their reduced columns in
+the boundary matrix. If the simplices in the chain returned by the "remove
+pivot rows" subroutine are actually the same instances as will be found in the
+non-empty boundary chains after the removal of unmarked terms in subsequent
+calls to removePivotRows(), then we can simply store the <code>T[]</code> chain
+for the simplex in the simplex itself. This means that having interned
+simplices, at least for the duration of the algorithm, can speed up access to
+the chains in <code>T[]</code>. However, since not all simplices have
+<code>T[]</code> entries, this can consume more space. For data sets that I've
+looked at, which may be far from representative, it appears that having
+<code>T[]</code> be separate from the simplices doesn't save large percentage
+of the space.
+<p> 
+Finally, if the simplices are by-value, it seems impossible to avoid having
+(for instance) a separate hashtable in which to store the values of marked
+simplices, since there are no "details" about the faces of a simplex stored
+with the simplex. If the simplices are interned, however, it seems most
+efficient to have a flag in the object to indicate whether or not it is marked.
+(If we have a separate <code>T[]</code>, the flag can be in the entries for
+that.)
+<p>
+<a name="_7.3_"></a>
+<h2>7.3 Design Choices</h2>
+In the end the choice was made to have simplices be by-value. Since we aren't
+interested in very large dimensional cases, we have specific implementations
+for Simplex for dimensions <code>0-7</code>. (If we need still higher
+dimensions implementing them in the same manner is trivial.) All concrete
+implementations of Simplex pack integer values in one or more long integer
+slots. At one time we used <code>16</code>-bit values, but we discovered enough
+cases where we needed on the order of a million points, and most of the large
+calculations use very low dimensional homology, so it seemed best and simplest
+to increase the size of spaces to the limit of positive <code>int</code> in
+Java, which is <code>16</code> bits. Since the values are stored in
+increasing order, the patterns are unique, so equality testing, comparison, and
+computing the dimension and vertex set are all very fast. (We make the base
+class, <code>Simplex</code>, be abstract, and the all of the implementation
+classes are <code>final</code> subclasses of this base class, which speeds up
+method invocations on code written against instances of the base class.) The
+base class includes slots for <code>findex</code> and the <code>T[]</code>
+chain values (we'll explain below why this works). Because the dimensions are
+small and have fixed limits, we also have open-coded versions of the
+<code>boundary()</code> method, where this method returns an array
+<code>[face0,face1,...]</code>, rather than the usual chain.
+<p>
+Also, the implementations that we provide for <code>SimplexStream</code> all
+store the simplices in an array of stacks indexed by dimension and filtration
+index, which means that the construction methods that are implemented take a
+the maximum dimension argument, and must somehow determine a bound on the
+possible values of <code>findex</code>. These choices allow things to scale
+enough that constructing Rips stream objects with tens of millions of simplices
+is quite fast (e.g, 36M simplices, took 13.17 seconds on my machine).
+<a name="_7.4_"></a>
+<h2>7.4 Algorithms</h2>
+The reason that we can have simplices by by-value when being constructed, but
+be unique during critical parts of the algorithm is that we use a specially
+designed hashtable, an instance of <code>SimplexTable</code>, to store
+simplices that are "marked" by the algorithm. The average number of probes to
+insert or find a simplex is less than <code>1.5</code> (reprobes just go to the
+next index in the array), and the hashing algorithm only uses the values of the
+<code>long</code> slots that encode the vertices, so this step is quite
+fast. Since we store a simplex in the table to mark it, and we have check every
+entry in the <code>boundary()</code> array and delete those that are unmarked,
+what we actually do is this:
+
+<code> 
+    Simplex[] b = sigma.boundary();
+
+    if (b == null)
+      return null;
+
+    for (int i = 0; i < b.length; i++)
+      // If the entry isn't marked, we clear it, and if the entry is
+      // marked, we replace it with the Simplex that came from the
+      // stream, which has the findex properly set. This means that
+      // we don't have to recompute or find the filtration indices
+      // for the faces, and all of the simplices created by the
+      // boundary() method die immediately.
+      b[i] = marked.get(b[i]);
+
+    Chain d = Chain.fromBoundaryChain.fromBoundary(b,p);
+</code>
+
+<p>
+As the comment points out, we get to have our cake and eat it, too.  The step
+of running the simplices through the <code>marked</code> table allows them to
+be interned for purposes of the algorithm, so we automatically get to retain
+any state that was stored in them earlier, and can use the simplices as
+repositories for any per-simplex state needed by the algorithm. Notice also
+that all of the new objects allocated during the <code>removePivotRows()</code>
+call are dead almost immediately, which allows for very efficient reclamation
+of that memory. In fact, the only objects that don't survive the call to
+<code>removePivotRows()</code> are the chains that "get stored in
+<code>T[]</code>", and which live for the duration of the algorithm.
+<p>
+
+
+<!--  
+ LocalWords:  Plex Plex plex hsexton PID PID's Zomorodian Carlsson simplices xy
+ LocalWords:  ij th Zp  vertices SimplexStream simplicial GC removePivotRows
+ LocalWords:  hashtable SimplexTable nbsp runtime login startup Makefile findex
+ LocalWords:  HotSpot VM plex matlab cp hsexton Javaaddpath makePoint JIT JVM
+ LocalWords:  bytecodes JVM's args classpath Xmx Xbatch TmpStream SortedSet CVS
+ LocalWords:  PersistenceInterval ComputeIntervals assertEquals javaaddpath src
+ LocalWords:  Plex LocalWords java cdt PLEXHOME JUnit edu stanford javadoc rc
+ LocalWords:  phom computeIntervals simplicial Microsystems mydir SimplexStream
+ LocalWords:  BN Makefiles subdirectory rJava Beanshell Xms JPlex bshrc myhome
+ LocalWords:   setLogging whereIwantlogfiles logfile txt logfiles Niemeyer
+ LocalWords:   workspaces
+ LocalWords:  
+ LocalWords:  
+ LocalWords:  
+ LocalWords:  
+-->
+
+</body></html>
