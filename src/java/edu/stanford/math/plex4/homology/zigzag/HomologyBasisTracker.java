@@ -120,6 +120,8 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 
 	protected boolean verify = true;
 	
+	public static boolean debug = false;
+	
 	/**
 	 * This constructor initializes the object with a field and a comparator on the basis type.
 	 * 
@@ -132,6 +134,16 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 		this.integerChainModule = new IntAlgebraicFreeModule<Integer>(this.field);
 		this.basisComparator = basisComparator;
 		//this.comparator = basisComparator;
+	}
+	
+	private static void log(String... args) {
+		if (!debug) {
+			return;
+		}
+		
+		for (String arg: args) {
+			System.out.println(arg);
+		}
 	}
 	
 	//public void setBasisComparator(Comparator<U> basisComparator) {
@@ -162,13 +174,13 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 
 	public void add(U sigma, int externalIndex) {
 		if (this.basisElements.contains(sigma)) {
-			System.out.println("Invalid add!");
+			log("Invalid add!");
 		}
 		
 		U[] faces = (U[]) sigma.getBoundaryArray();
 		for (U face: faces) {
 			if (!this.basisElements.contains(face)) {
-				System.out.println("Invalid add!");
+				log("Invalid add!");
 			}
 		}
 		
@@ -187,7 +199,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 		
 		// verification
 		if (!reduction.isEmpty()) {
-			System.out.println("Invalid Reduction!!!");
+			log("Invalid Reduction!!!");
 		}
 
 		ObjectObjectPair<IntSparseFormalSum<Integer>, IntSparseFormalSum<Integer>> Bpair = reduce(B, v, this.integerComparator, integerChainModule);
@@ -204,7 +216,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			BirthDescriptor descriptor = new BirthDescriptor(internalIndex, externalIndex, sigma.getDimension());
 			this.birthDescriptors.put(insertionPoint, descriptor);
 			
-			System.out.println(internalIndex + ": Birth (" + externalIndex + ", _) @ " + sigma.getDimension() +  " - addition of " + sigma);
+			log(internalIndex + ": Birth (" + externalIndex + ", _) @ " + sigma.getDimension() +  " - addition of " + sigma);
 		} else {
 			// Death
 
@@ -228,7 +240,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			}
 			
 			this.birthDescriptors.remove(j);
-			System.out.println(internalIndex + ": Death (" + this.internalExternalIndexMap.get(j) + ", " + externalIndex + ") @ " + (sigma.getDimension() - 1) +  " - addition of " + sigma);
+			log(internalIndex + ": Death (" + this.internalExternalIndexMap.get(j) + ", " + externalIndex + ") @ " + (sigma.getDimension() - 1) +  " - addition of " + sigma);
 		}
 
 		internalIndex++;
@@ -243,7 +255,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 	@SuppressWarnings("unchecked")
 	public void remove(U sigma, int externalIndex) {
 		if (!this.basisElements.contains(sigma)) {
-			System.out.println("Invalid removal!");
+			log("Invalid removal!");
 		}
 		
 		this.basisElements.remove(sigma);
@@ -277,7 +289,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			BirthDescriptor descriptor = new BirthDescriptor(internalIndex, externalIndex, sigma.getDimension() - 1);
 			this.birthDescriptors.put(prependLocation, descriptor);
 			
-			System.out.println(internalIndex + ": Birth (" + externalIndex + ", _) @ " + (sigma.getDimension() - 1) +  " - removal of " + sigma);
+			log(internalIndex + ": Birth (" + externalIndex + ", _) @ " + (sigma.getDimension() - 1) +  " - removal of " + sigma);
 
 			// 2. Let c = C[j][sigma]. Let r_sigma be the row of sigma in matrix C. We 
 			// prepend the row -r_sigma/c to the matrix B_i to get B_i'.
@@ -352,7 +364,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 				int negative_s_jk = field.negate(s_jk);
 				
 				if (k.equals(j)) {
-					System.out.println("Concurrent Modification!");
+					log("Concurrent Modification!");
 				}
 				
 				chainModule.accumulate(Z.get(j), Z.get(k), negative_s_jk);
@@ -400,7 +412,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 		} else {
 			
 			if (internalIndex == 1051) {
-				System.out.println("stop");
+				log("stop");
 			}
 			
 			// Death
@@ -419,7 +431,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			
 			this.birthDescriptors.remove(j);
 			
-			System.out.println(internalIndex + ": Death (" + this.internalExternalIndexMap.get(j) + ", " + externalIndex + ") @ " + (sigma.getDimension()) +  " - removal of " + sigma);
+			log(internalIndex + ": Death (" + this.internalExternalIndexMap.get(j) + ", " + externalIndex + ") @ " + (sigma.getDimension()) +  " - removal of " + sigma);
 
 			Map<Integer, IntSparseFormalSum<U>> Z_i1 = new THashMap<Integer, IntSparseFormalSum<U>>();
 			
@@ -475,13 +487,13 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 
 			if (!BasisTrackingUtility.getAscendingIndicesContainingElement(Z, sigma, this.integerComparator).isEmpty()) {
 				List<Integer> list = BasisTrackingUtility.getAscendingIndicesContainingElement(Z, sigma, this.integerComparator);
-				System.out.println("Invalid removal!");
+				log("Invalid removal!");
 			}
 
 			// remove row j from B_i
 			for (Integer BIndex: B.keySet()) {
 				if (B.get(BIndex).containsObject(j)) {
-					System.out.println("B is not in correct form!");
+					log("B is not in correct form!");
 				}
 				B.get(BIndex).remove(j);
 			}
@@ -489,7 +501,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			// remove row sigma from C_i
 			for (Integer CIndex: C.keySet()) {
 				if (C.get(CIndex).containsObject(sigma)) {
-					System.out.println("C is not in correct form!");
+					log("C is not in correct form!");
 				}
 				C.get(CIndex).remove(sigma);
 			}
@@ -497,7 +509,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			// remove row sigma from Z_i
 			for (Integer ZIndex: Z.keySet()) {
 				if (Z.get(ZIndex).containsObject(sigma)) {
-					System.out.println("Z is not in correct form!");
+					log("Z is not in correct form!");
 				}
 				Z.get(ZIndex).remove(sigma);
 			}
@@ -516,7 +528,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			Y low = BasisTrackingUtility.low(chain, comparator);
 			if (low != null) {
 				if (lowMap.containsKey(low)) {
-					System.out.println("Matrix is not reduced!");
+					log("Matrix is not reduced!");
 				}
 				
 				lowMap.put(low, key);
@@ -569,7 +581,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			IntSparseFormalSum<U> Zk = Z.get(ZIndex);
 			IntSparseFormalSum<U> DCk = BasisTrackingUtility.computeBoundary(Zk, chainModule);
 			if (!DCk.isEmpty()) {
-				System.out.println("Invariant Violated!");
+				log("Invariant Violated!");
 			}
 		}
 		
@@ -581,7 +593,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			IntSparseFormalSum<U> ZBk = BasisTrackingUtility.multiply(this.Z, this.B.get(CIndex), this.field);
 
 			if (!DCk.equals(ZBk)) {
-				System.out.println("Invariant Violated!");
+				log("Invariant Violated!");
 			}
 		}
 		
@@ -594,7 +606,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 		for (X index: map.keySet()) {
 			Y lowElement = BasisTrackingUtility.low(map.get(index), comparator);
 			if (lowMap.containsKey(lowElement)) {
-				System.out.println("Matrix is not reduced!");
+				log("Matrix is not reduced!");
 			}
 			lowMap.put(lowElement, index);
 		}

@@ -11,7 +11,8 @@ import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
 import edu.stanford.math.primitivelib.autogen.pair.IntDoublePair;
 import edu.stanford.math.primitivelib.utility.Infinity;
-import gnu.trove.TIntIntHashMap;
+import gnu.trove.TIntHashSet;
+import gnu.trove.TObjectIntHashMap;
 
 public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStream {
 
@@ -39,9 +40,11 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 	protected double[][] D = null;
 	protected double[] m = null;
 	
-	protected final TIntIntHashMap witnesses = new TIntIntHashMap();
+	protected final TObjectIntHashMap<Simplex> witnesses = new TObjectIntHashMap<Simplex>();
 	protected final int N;
 	protected final int L;
+	
+	protected final double epsilon = 1e-8;
 	
 	/**
 	 * Constructor which initializes the complex with a metric space.
@@ -82,42 +85,14 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 	}
 	
 	public int getWitnessIndex(Simplex simplex) {
-		return this.getWitnessIndex(simplex.getVertices());
-	}
-	
-	public int getWitnessIndex(int... indices) {
-		int h = hashIndices(indices);
-		
-		if (!this.witnesses.containsKey(h)) {
-			return -1;
-		}
-		
-		return this.witnesses.get(h);
-	}
-	
-	protected int hashIndices(int... indices) {
-		
-		int[] copy = Arrays.copyOf(indices, indices.length);
-		Arrays.sort(copy);
-		
-		return polyEvalReversed(copy, L);
-	}
-	
-	public static int polyEvalReversed(final int[] coefficients, final int x) {
-		int n = coefficients.length;
-		
-		int accumulator = coefficients[0];
-		
-		for (int i = 1; i < n; i++) {
-			accumulator = (accumulator * x) + coefficients[i];
-		}
-		
-		return accumulator;
+		return this.witnesses.get(simplex);
 	}
 	
 	@Override
 	protected UndirectedWeightedListGraph constructEdges() {
 
+		this.indices = this.landmarkSelector.getLandmarkPoints();
+		
 		UndirectedWeightedListGraph graph = new UndirectedWeightedListGraph(L);
 
 		/*
@@ -138,7 +113,9 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		 * Key difference between Plex3 and Plex4:
 		 * - if landmarks[l] == n, Plex3 sets the distance to infinity
 		 * - in Plex4, the distance is just set to 0
-		 */		
+		 * 
+		 * !not true anymore!
+		 */
 		
 		D = null;
 		m = DoubleArrayUtility.createArray(N);
@@ -147,7 +124,11 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 			D = DoubleArrayUtility.createMatrix(L, N);
 			for (int l = 0; l < L; l++) {
 				for (int n = 0; n < N; n++) {
-					D[l][n] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(l), n);
+					if (n == this.indices[l]) {
+						D[l][n] = Infinity.Double.getPositiveInfinity();
+					} else {
+						D[l][n] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(l), n);
+					}
 				}
 			}
 		} catch (OutOfMemoryError error) {
@@ -185,9 +166,8 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 					n_star = witnessAndDistance.getFirst();
 					e_ij = witnessAndDistance.getSecond();
 					
-					if (e_ij <= this.maxDistance) {
-						int h = hashIndices(i, j);
-						this.witnesses.put(h, n_star);
+					if (e_ij <= this.maxDistance + epsilon) {
+						this.witnesses.put(convertIndices(Simplex.makeSimplex(i, j), this.indices), n_star);
 						graph.addEdge(i, j, e_ij);
 						edge_count++;
 					}
@@ -198,24 +178,100 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		return graph;
 	}
 	
-	protected IntDoublePair getWitnessAndDistance(int... indices) {
+	protected static boolean contains(int[] array, int value) {
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == value) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	protected boolean isWitness(int x, int[] landmarkVertices) {
+		
+		TIntHashSet witnesses = this.getAllWitnesses(landmarkVertices);
+		return witnesses.contains(x);
+	}
+	
+	protected TIntHashSet getAllWitnesses(int... externalIndices) {
 		double e_ij;
-		double d[] = new double[indices.length];
+		double d[] = new double[externalIndices.length];
 		e_ij = Infinity.Double.getPositiveInfinity();
 		int n_star = -1;
 		
+		TIntHashSet witnesses = new TIntHashSet();
+		
+		int[] landmarkIndices = deconvertIndices(externalIndices, this.indices);
+		//landmarkIndices = externalIndices;
+		
+		IntDoublePair witnessAndDistance = this.getWitnessAndDistance(landmarkIndices);
+		n_star = witnessAndDistance.getFirst();
+		e_ij = witnessAndDistance.getSecond();
+		
 		for (int n = 0; n < N; n++) {
+			if (contains(this.indices, n)) {
+				continue;
+			}
+			
 			double d_max = Infinity.Double.getNegativeInfinity();
 			if (D == null) {
-				for (int k = 0; k < indices.length; k++) {
-					d[k] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(indices[k]), n);
+				for (int k = 0; k < landmarkIndices.length; k++) {
+					d[k] = this.metricSpace.distance(externalIndices[k], n);
 					if (k == 0 || d[k] > d_max) {
 						d_max = d[k];
 					}
 				}
 			} else {
-				for (int k = 0; k < indices.length; k++) {
-					d[k] = D[indices[k]][n];
+				for (int k = 0; k < landmarkIndices.length; k++) {
+					d[k] = D[landmarkIndices[k]][n];
+					if (k == 0 || d[k] > d_max) {
+						d_max = d[k];
+					}
+				}
+			}
+			if (d_max < m[n]) {
+				d_max = 0.0;
+			} else {
+				d_max -= m[n];
+			}
+			
+			if (Math.abs(d_max - e_ij) <= this.epsilon) {
+				witnesses.add(n);
+			}
+		}
+		
+		if (externalIndices.length == 1 && contains(this.indices, externalIndices[0])) {
+			witnesses.add(externalIndices[0]);
+		}
+		
+		return witnesses;
+	}
+	
+	protected IntDoublePair getWitnessAndDistance(int... landmarkIndices) {
+		double e_ij;
+		double d[] = new double[landmarkIndices.length];
+		e_ij = Infinity.Double.getPositiveInfinity();
+		int n_star = -1;
+		
+		int[] externalIndices = convertIndices(landmarkIndices, this.landmarkSelector.getLandmarkPoints());
+		
+		for (int n = 0; n < N; n++) {
+			if (contains(this.indices, n)) {
+				continue;
+			}
+			
+			double d_max = Infinity.Double.getNegativeInfinity();
+			if (D == null) {
+				for (int k = 0; k < landmarkIndices.length; k++) {
+					d[k] = this.metricSpace.distance(externalIndices[k], n);
+					if (k == 0 || d[k] > d_max) {
+						d_max = d[k];
+					}
+				}
+			} else {
+				for (int k = 0; k < landmarkIndices.length; k++) {
+					d[k] = D[landmarkIndices[k]][n];
 					if (k == 0 || d[k] > d_max) {
 						d_max = d[k];
 					}

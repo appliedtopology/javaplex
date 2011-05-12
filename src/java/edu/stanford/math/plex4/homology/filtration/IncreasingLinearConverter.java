@@ -83,6 +83,9 @@ public class IncreasingLinearConverter extends FiltrationConverter {
 	 * @see edu.stanford.math.plex4.homology.filtration.FiltrationConverter#getFiltrationIndex(double)
 	 */
 	public int getFiltrationIndex(double filtrationValue) {
+		if (this.delta == 0) {
+			return 0;
+		}
 		return (int) ((filtrationValue - this.minFiltrationValue) / this.delta);
 	}
 

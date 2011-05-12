@@ -15,6 +15,8 @@ import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.chain_basis.CellComparator;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
+import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
+import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.io.BarcodeWriter;
 import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
@@ -203,6 +205,11 @@ public class Plex4 {
 	 */
 	public static AbstractPersistenceAlgorithm<Simplex> getDefaultSimplicialAlgorithm(int maxDimension) {
 		return new BooleanClassicalHomology<Simplex>(SimplexComparator.getInstance(), 0, maxDimension);
+	}
+	
+	public static AbstractPersistenceAlgorithm<SimplexPair> getDefaultSimplicialPairAlgorithm(int maxDimension) {
+		//return new IntAbsoluteHomology<SimplexPair>(ModularIntField.getInstance(2), SimplexPairComparator.getInstance(), 0, maxDimension);
+		return new BooleanClassicalHomology<SimplexPair>(SimplexPairComparator.getInstance(), 0, maxDimension);
 	}
 	
 	/**

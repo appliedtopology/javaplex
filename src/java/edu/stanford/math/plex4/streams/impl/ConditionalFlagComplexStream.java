@@ -247,13 +247,31 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 	}
 	
 	protected static Simplex convertIndices(Simplex simplex, int[] conversionArray) {
-		int[] vertices = simplex.getVertices();
+		return Simplex.makeSimplex(convertIndices(simplex.getVertices(), conversionArray));
+	}
+	
+	protected static int[] convertIndices(int[] vertices, int[] conversionArray) {
 		int[] newVertices = new int[vertices.length];
 		
 		for (int i = 0; i < vertices.length; i++) {
 			newVertices[i] = conversionArray[vertices[i]];
 		}
 		
-		return Simplex.makeSimplex(newVertices);
+		return newVertices;
+	}
+	
+	protected static int[] deconvertIndices(int[] vertices, int[] conversionArray) {
+		int[] newVertices = new int[vertices.length];
+		
+		for (int i = 0; i < vertices.length; i++) {
+			for (int j = 0; j < conversionArray.length; j++) {
+				if (conversionArray[j] == vertices[i]) {
+					newVertices[i] = j;
+					continue;
+				}
+			}
+		}
+		
+		return newVertices;
 	}
 }

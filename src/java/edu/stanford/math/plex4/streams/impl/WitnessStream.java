@@ -29,10 +29,9 @@ public class WitnessStream<T> extends AbstractWitnessStream<T> {
 		int n_star = witnessAndDistance.getFirst();
 		double e_ij = witnessAndDistance.getSecond();
 		
-		if (e_ij <= this.maxDistance) {
+		if (e_ij <= this.maxDistance  + this.epsilon) {
 			isMember = true;
-			int h = hashIndices(vertices);
-			this.witnesses.put(h, n_star);
+			this.witnesses.put(convertIndices(simplex, indices), n_star);
 		}
 		
 		return isMember;

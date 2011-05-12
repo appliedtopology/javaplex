@@ -32,7 +32,7 @@ public class TopologicalBootstrapTest {
 	@After
 	public void tearDown() {}
 	
-	@Test
+	//@Test
 	public void testRips() {
 		double[][] points = PointCloudExamples.getEquispacedCirclePoints(30);
 		double maxDistance = 0.8;
@@ -65,7 +65,7 @@ public class TopologicalBootstrapTest {
 		//AbstractPersistenceAlgorithm<Simplex> persistence = Plex4.getDefaultSimplicialAlgorithm(2);
 		//System.out.println(persistence.computeIntervals(Plex4.createVietorisRipsStream(points, 2, maxDistance)));
 		
-		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, 0, 2, 20);
+		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, 0, 2, 5);
 		
 		IntBarcodeCollection barcodes = bootstrapper.performBootstrap();
 		
@@ -77,10 +77,10 @@ public class TopologicalBootstrapTest {
 		Plex4.createBarcodePlot(dbc, "", 5);
 	}
 	
-	//@Test
+	@Test
 	public void testExplicitWitness() throws IOException {
-		double[][] points = PointCloudExamples.getDisjointPatches(30);
-		double maxDistance = 0.9;
+		double[][] points = PointCloudExamples.getEquispacedCirclePoints(6);
+		double maxDistance = 0.0;
 		
 		RandomUtility.initializeWithSeed(0);
 		
@@ -91,12 +91,13 @@ public class TopologicalBootstrapTest {
 		
 		List<LandmarkSelector<double[]>> list = new ArrayList<LandmarkSelector<double[]>>();
 		
-		list.add(new ExplicitLandmarkSelector<double[]>(metricSpace, new int[]{0, 1, 2, 3, 4}));
-		list.add(new ExplicitLandmarkSelector<double[]>(metricSpace, new int[]{20, 21, 22, 23, 24}));
+		list.add(new ExplicitLandmarkSelector<double[]>(metricSpace, new int[]{0, 2, 4}));
+		list.add(new ExplicitLandmarkSelector<double[]>(metricSpace, new int[]{1, 3, 5}));
+		//list.add(new ExplicitLandmarkSelector<double[]>(metricSpace, new int[]{20, 21, 22, 23, 24}));
 		
-		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(metricSpace, list, 0, maxDistance);
+		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(metricSpace, list, 1, maxDistance);
 		
-		IntBarcodeCollection barcodes = bootstrapper.performBootstrap();
+		IntBarcodeCollection barcodes = bootstrapper.performBootstrapShort();
 		
 		barcodes.draw();
 		

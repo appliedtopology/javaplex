@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.stanford.math.plex4.api.Plex4;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
+import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.MaxMinLandmarkSelector;
@@ -51,7 +53,7 @@ public class WitnessBootstrapper<T> {
 
 		/*
 		 * 0    1      2            3    4             5      6
-		 * X <- X_0 <- X_0 x Y_0 <- Z -> X_0 x Y_0  -> Y_0 -> Y
+		 * X <- X_0 <- X_0 x Y_0 <- Z -> X_0 x Y_0 -> Y_0 -> Y
 		 * 0                        1                         2
 		 */
 
@@ -104,6 +106,7 @@ public class WitnessBootstrapper<T> {
 			List<SimplexPair> XY_diff_Z = SimplexStreamUtility.getDifference(XY_0, Z);
 			List<SimplexPair> XY_diff_Y_0 = SimplexStreamUtility.getDifference(XY_0, Y_0);
 
+			// X <- X_0
 			SimplexStreamUtility.sortDescendingPairs(X_diff_X_0);
 
 			for (SimplexPair pair: X_diff_X_0) {
@@ -111,6 +114,7 @@ public class WitnessBootstrapper<T> {
 					basisTracker.remove(pair, 2 * j - 1);
 			}
 
+			// X_0 <- X_0 x Y_0
 			SimplexStreamUtility.sortAscendingPairs(XY_diff_X_0);
 
 			for (SimplexPair pair: XY_diff_X_0) {
@@ -118,6 +122,7 @@ public class WitnessBootstrapper<T> {
 					basisTracker.add(pair, 2 * j - 1);
 			}
 
+			//  X_0 x Y_0 <- Z
 			SimplexStreamUtility.sortDescendingPairs(XY_diff_Z);
 
 			for (SimplexPair pair: XY_diff_Z) {
@@ -125,6 +130,7 @@ public class WitnessBootstrapper<T> {
 					basisTracker.remove(pair, 2 * j - 1);
 			}
 
+			// Z -> X_0 x Y_0
 			Collections.reverse(XY_diff_Z);
 
 			for (SimplexPair pair: XY_diff_Z) {
@@ -132,6 +138,7 @@ public class WitnessBootstrapper<T> {
 					basisTracker.add(pair, 2 * j);
 			}
 
+			// X_0 x Y_0  -> Y_0
 			SimplexStreamUtility.sortDescendingPairs(XY_diff_Y_0);
 
 			for (SimplexPair pair: XY_diff_Y_0) {
@@ -139,6 +146,7 @@ public class WitnessBootstrapper<T> {
 					basisTracker.remove(pair, 2 * j);
 			}
 
+			// Y_0 -> Y
 			SimplexStreamUtility.sortAscendingPairs(Y_diff_Y_0);
 
 			for (SimplexPair pair: Y_diff_Y_0) {
@@ -177,8 +185,13 @@ public class WitnessBootstrapper<T> {
 			Y_0 = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(0).getLandmarkPoints());
 			Y_0.finalizeStream();
 
-			WitnessBicomplex<T> Z_0 = new WitnessBicomplex<T>(X_0, Y_0, maxDimension + 1);
+			WitnessBicomplex<T> Z_0 = new WitnessBicomplex<T>(X_0, Y_0, maxDimension);
 			Z_0.finalizeStream();
+			Z_0.ensureAllFaces();
+			
+			AbstractPersistenceAlgorithm<SimplexPair> algo = Plex4.getDefaultSimplicialPairAlgorithm(maxDimension + 1);
+			IntBarcodeCollection bc = algo.computeIntervals(Z_0);
+			System.out.println(bc);
 
 			Simplex x = SimplexStreamUtility.getFirstVertex(X_0);
 			Simplex y = SimplexStreamUtility.getFirstVertex(Y_0);
@@ -189,7 +202,7 @@ public class WitnessBootstrapper<T> {
 
 				for (SimplexPair pair: X) {
 					if (pair.getDimension() <= maxDimension + 1)
-						basisTracker.add(pair, 2 * j - 2);
+						basisTracker.add(pair, 4 * j - 4);
 				}
 
 				x_added = true;
@@ -212,24 +225,24 @@ public class WitnessBootstrapper<T> {
 
 			for (SimplexPair pair: XY_diff_X) {
 				if (pair.getDimension() <= maxDimension + 1)
-					basisTracker.add(pair, 2 * j - 1);
+					basisTracker.add(pair, 4 * j - 3);
 			}
 
 			for (SimplexPair pair: XY_diff_Z) {
 				if (pair.getDimension() <= maxDimension + 1)
-					basisTracker.remove(pair, 2 * j - 1);
+					basisTracker.remove(pair, 4 * j - 2);
 			}
 
 			Collections.reverse(XY_diff_Z);
 
 			for (SimplexPair pair: XY_diff_Z) {
 				if (pair.getDimension() <= maxDimension + 1)
-					basisTracker.add(pair, 2 * j);
+					basisTracker.add(pair, 4 * j - 1);
 			}
 
 			for (SimplexPair pair: XY_diff_Y) {
 				if (pair.getDimension() <= maxDimension + 1)
-					basisTracker.remove(pair, 2 * j);
+					basisTracker.remove(pair, 4 * j);
 			}
 
 			X_0 = Y_0;
