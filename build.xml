@@ -56,7 +56,7 @@
 	</target>
 
 	<target name="test.jar" depends="jar">
-		<javac destdir="${test.bin}" srcdir="${plex.test}" debug="${debug.flag}">
+		<javac destdir="${test.bin}" srcdir="${plex.test}" debug="${debug.flag}" includeantruntime="false">
 			<classpath>
 				<fileset dir="${lib.dir}">
 					<include name="*.jar" />
