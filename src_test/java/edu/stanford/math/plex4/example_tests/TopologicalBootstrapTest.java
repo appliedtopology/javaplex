@@ -10,11 +10,8 @@ import org.junit.Test;
 
 import edu.stanford.math.plex4.api.Plex4;
 import edu.stanford.math.plex4.examples.PointCloudExamples;
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
-import edu.stanford.math.plex4.homology.filtration.FiltrationUtility;
-import edu.stanford.math.plex4.homology.filtration.IdentityConverter;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.homology.zigzag.RipsBootstrapper;
 import edu.stanford.math.plex4.homology.zigzag.WitnessBootstrapper;
@@ -72,9 +69,6 @@ public class TopologicalBootstrapTest {
 		barcodes.draw();
 		
 		System.out.println(barcodes);
-		
-		DoubleBarcodeCollection dbc = FiltrationUtility.transformBarcodeCollection(barcodes, IdentityConverter.getInstance());
-		Plex4.createBarcodePlot(dbc, "", 5);
 	}
 	
 	@Test
@@ -102,9 +96,6 @@ public class TopologicalBootstrapTest {
 		barcodes.draw();
 		
 		System.out.println(barcodes);
-		
-		DoubleBarcodeCollection dbc = FiltrationUtility.transformBarcodeCollection(barcodes, IdentityConverter.getInstance());
-		Plex4.createBarcodePlot(dbc, "", 5);
 	}
 }
 

@@ -1,5 +1,9 @@
 package edu.stanford.math.plex4.autogen.homology;
 
+import java.util.Comparator;
+
+import javax.annotation.Generated;
+
 import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
@@ -9,10 +13,6 @@ import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import gnu.trove.TObjectIntIterator;
-
-import java.util.Comparator;
-
-import javax.annotation.Generated;
 
 
 

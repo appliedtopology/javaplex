@@ -144,7 +144,7 @@
 	</target>
 
 	<target name="plexclasses" depends="init">
-		<javac destdir="${plex.bin}" classpathref="classpath" debug="${debug.flag}">
+		<javac destdir="${plex.bin}" classpathref="classpath" debug="${debug.flag}" includeAntRuntime="false">
 			<compilerarg value="-Xlint" />
 			<src>
 				<pathelement path="${src.dir}" />
