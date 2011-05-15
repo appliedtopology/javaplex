@@ -35,7 +35,7 @@ function [cycle_sum, homotopies] = hom_parameterization(domain_stream, codomain_
     index = 1;
     iterator = homotopies.iterator();
     while (iterator.hasNext())
-        homotopy = iterator.next();
+        homotopy = iterator.next()
         homotopy_matrices{index} = to_sparse_matlab_matrix(homotopy, matrix_converter);
         index = index + 1;
     end
