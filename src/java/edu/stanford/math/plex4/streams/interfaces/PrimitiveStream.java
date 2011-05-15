@@ -154,6 +154,10 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 			// current simplex
 			for (T face: boundary) {
 				
+				if (!this.storageStructure.containsElement(face)) {
+					return false;
+				}
+				
 				// if the face's filtration value is greater than that of the
 				// current simplex, the stream is also inconsistent
 				if (this.storageStructure.getFiltrationIndex(face) > filtrationIndex) {
@@ -164,5 +168,46 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 
 		// all simplices in the complex have been checked - good, return true
 		return true;
+	}
+	
+	/**
+	 * This function validates the stream to make sure that it
+	 * contains a valid filtered simplicial or cell complex. It checks the
+	 * two following conditions:
+	 * 1. For each element in the complex, all of the faces of the simplex
+	 * also belong to the complex.
+	 * 2. The faces of each simplex have filtration values that are
+	 * less than or equal to those of its cofaces.
+	 * 
+	 * @return true if the stream is consistent, false otherwise
+	 */
+	public boolean validateVerbose() {
+		boolean valid = true; 
+		for (T basisElement: this.storageStructure) {
+			int filtrationIndex = this.getFiltrationIndex(basisElement);
+
+			// get the boundary
+			T[] boundary = this.getBoundary(basisElement);
+
+			// make sure that each boundary element is also inside the
+			// complex with a filtration value less than or equal to the
+			// current simplex
+			for (T face: boundary) {
+				
+				if (!this.storageStructure.containsElement(face)) {
+					System.out.println("Stream does not contain face " + face + " of element " + basisElement);
+					valid = false;
+				}
+				
+				// if the face's filtration value is greater than that of the
+				// current simplex, the stream is also inconsistent
+				if (this.storageStructure.getFiltrationIndex(face) > filtrationIndex) {
+					System.out.println("Filtration index of face " + face + " exceeds that of element " + basisElement + " (" + this.storageStructure.getFiltrationIndex(face) + " > " + filtrationIndex + ")");
+					valid = false;
+				}
+			}
+		}
+		
+		return valid;
 	}
 }

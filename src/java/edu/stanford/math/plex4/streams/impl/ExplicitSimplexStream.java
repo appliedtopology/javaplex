@@ -49,7 +49,7 @@ public class ExplicitSimplexStream extends ExplicitStream<Simplex> {
 	 * @param filtrationIndex the filtration index
 	 */
 	public void addVertex(int index, int filtrationIndex) {
-		this.addElement(new Simplex(new int[]{index}), 0);
+		this.addElement(new Simplex(new int[]{index}), filtrationIndex);
 	}
 	
 	/**

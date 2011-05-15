@@ -31,6 +31,7 @@ import edu.stanford.math.plex4.streams.impl.ExplicitCellStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.LazyWitnessStream;
 import edu.stanford.math.plex4.streams.impl.VietorisRipsStream;
+import edu.stanford.math.plex4.streams.impl.WitnessStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
 import edu.stanford.math.primitivelib.algebraic.impl.RationalField;
@@ -136,6 +137,32 @@ public class Plex4 {
 	 */
 	public static LazyWitnessStream<double[]> createLazyWitnessStream(LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
 		return FilteredStreamInterface.createPlex4LazyWitnessStream(selector, maxDimension, maxFiltrationValue, numDivisions);
+	}
+	
+	/**
+	 * This function create a new witness stream given a point cloud. It uses 20
+	 * as the default number of divisions.
+	 * 
+	 * @param selector the landmark selection
+	 * @param maxDimension the maximum simplicial dimension in the complex 
+	 * @param maxFiltrationValue the maximum filtration value
+	 * @return a new LazyWitnessStream object
+	 */
+	public static WitnessStream<double[]> createWitnessStream(LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue) {
+		return FilteredStreamInterface.createPlex4WitnessStream(selector, maxDimension, maxFiltrationValue, DEFAULT_NUM_DIVISIONS);
+	}
+	
+	/**
+	 * This function create a new witness stream given a point cloud.
+	 * 
+	 * @param selector the landmark selection
+	 * @param maxDimension the maximum simplicial dimension in the complex 
+	 * @param maxFiltrationValue the maximum filtration value
+	 * @param numDivisions the number of divisions to use in the filtration
+	 * @return a new LazyWitnessStream object
+	 */
+	public static WitnessStream<double[]> createWitnessStream(LandmarkSelector<double[]> selector, int maxDimension, double maxFiltrationValue, int numDivisions) {
+		return FilteredStreamInterface.createPlex4WitnessStream(selector, maxDimension, maxFiltrationValue, numDivisions);
 	}
 	
 	/**
