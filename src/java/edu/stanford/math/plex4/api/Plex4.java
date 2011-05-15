@@ -261,6 +261,17 @@ public class Plex4 {
 	}
 	
 	/**
+	 * This function returns a simplicial persistence algorithm over the finite field Z/pZ.
+	 * 
+	 * @param maxDimension the maximum dimension the algorithm should compute homology for 
+	 * @param prime the order of the underlying finite field
+	 * @return a simpliciald homology algorithm over Z/pZ
+	 */
+	public static AbstractPersistenceAlgorithm<Simplex> getModularSimplicialAlgorithm(int maxDimension, int prime) {
+		return new IntAbsoluteHomology<Simplex>(ModularIntField.getInstance(prime), SimplexComparator.getInstance(), 0, maxDimension);
+	}
+	
+	/**
 	 * This function returns a simplicial persistence algorithm over the the rational numbers.
 	 * 
 	 * @param maxDimension the maximum dimension the algorithm should compute homology for 
