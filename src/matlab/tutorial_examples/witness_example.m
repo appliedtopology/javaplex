@@ -2,7 +2,7 @@
 
 clc; clear; close all;
 
-dimension = 3;
+dimension = 2;
 num_points = 10000;
 num_landmark_points = 50;
 
