@@ -1,28 +1,24 @@
 <?xml version="1.0" ?>
 
-<project name="javaplex" default="all" basedir=".">
+<project name="javaplex" default="default" basedir=".">
 	<property name="build.dir" value="build" />
-	<property name="plex.bin" value="${build.dir}/bin" />
+	<property name="bin.dir" value="${build.dir}/bin" />
+	<property name="temp.dir" value="temp" />
+	<property name="src_test.dir" value="src_test" />
+	<property name="src.dir" value="src" />
+	<property name="lib.dir" value="lib" />
 	<property name="doc.dir" value="doc" />
 	<property name="dist.dir" value="dist" />
-	<property name="runnable_dist.dir" value="dist_runnable" />
-	<property name="matlab.lib.dir" value="src/matlab/lib" />
-	<property name="test.bin" value="${build.dir}/test" />
-	<property name="tmp.dir" value="tmp" />
-	<property name="plex.test" value="src_test" />
-	<property name="src.dir" value="src" />
-	<property name="plex.src" value="${src.dir}/plex" />
-	<property name="lib.dir" value="lib" />
-	<property name="plex.jar" value="${dist.dir}/javaplex.jar" />
-	<property name="runnable_plex.jar" value="${runnable_dist.dir}/javaplex.jar" />
-	<property name="tests.jar" value="${tmp.dir}/tests.jar" />
-	<property name="bshcommands.dir" value="${src.dir}/commands" />
-	<property name="plex-source.tarball" value="${dist.dir}/plexsrc.tar.gz" />
-	<property name="plexdoc.tarball" value="${dist.dir}/plexdoc.tar.gz" />
+	<property name="matlab.lib.dir" value="src/matlab/for_distribution/lib" />
+	<property name="test.dir" value="${build.dir}/test" />
+	<property name="runnable_plex.jar" value="${dist.dir}/javaplex.jar" />
+	<property name="basicplex.jar" value="${temp.dir}/javaplex.jar" />
+	<property name="tests.jar" value="${temp.dir}/tests.jar" />
+	<property name="source.tarball" value="${dist.dir}/javaplex-src.tar.gz" />
+	<property name="doc.tarball" value="${dist.dir}/javaplex-doc.tar.gz" />
+	<property name="matlab.tarball" value="${dist.dir}/matlab-examples.tar.gz" />
 	<property name="ant.build.javac.source" value="1.5" />
 	<property name="ant.build.javac.target" value="1.5" />
-
-	<property name="unit_tests.bin" value="${test.bin}/edu/stanford/math/plex4/unit_tests" />
 
 	<path id="classpath">
 		<fileset dir="${lib.dir}">
@@ -32,77 +28,38 @@
 
 	<property name="debug.flag" value="on" />
 
+	<!--Default target-->
+	<target name="default" depends="clean,dist" />
+
+	<!--All targets-->
 	<target name="all" depends="clean,dist,test" />
 
+	<!--Clean targets-->
 	<target name="clean">
 		<delete dir="${build.dir}" />
-		<delete dir="${tmp.dir}" />
+		<delete dir="${temp.dir}" />
 		<delete>
 			<fileset dir="." includes="TEST*.txt" />
 		</delete>
 	</target>
 
-	<target name="clean_all" depends="clean">
+	<target name="clean_dist" depends="clean">
 		<delete dir="${dist.dir}" />
-		<delete dir="${runnable_dist.dir}" />
 	</target>
 
+	<target name="clean_all" depends="clean,clean_dist" />
+
+	<!--Initialization targets-->
 	<target name="init">
 		<mkdir dir="${build.dir}" />
-		<mkdir dir="${plex.bin}" />
+		<mkdir dir="${bin.dir}" />
 		<mkdir dir="${dist.dir}" />
-		<mkdir dir="${test.bin}" />
-		<mkdir dir="${tmp.dir}" />
+		<mkdir dir="${test.dir}" />
+		<mkdir dir="${temp.dir}" />
 	</target>
 
-	<target name="test.jar" depends="jar">
-		<javac destdir="${test.bin}" srcdir="${plex.test}" debug="${debug.flag}" includeantruntime="false">
-			<classpath>
-				<fileset dir="${lib.dir}">
-					<include name="*.jar" />
-				</fileset>
-				<pathelement location="${plex.jar}" />
-			</classpath>
-			<compilerarg value="-Xlint" />
-		</javac>
-		<jar destfile="${tests.jar}" basedir="${test.bin}" />
-	</target>
-
-	<target name="test" depends="test.jar">
-		<delete>
-			<fileset dir="." includes="TEST*.txt" />
-		</delete>
-		<junit fork="yes" timeout="1200000">
-			<classpath>
-				<fileset dir="${lib.dir}">
-					<include name="*.jar" />
-				</fileset>
-				<pathelement location="${tests.jar}" />
-				<pathelement location="${plex.jar}" />
-			</classpath>
-
-			<formatter type="brief" />
-
-			<batchtest>
-				<fileset dir="${test.bin}">
-					<include name="**/*Test.class" />
-				</fileset>
-			</batchtest>
-		</junit>
-	</target>
-
+	<!--Documentation targets-->
 	<target name="doc" depends="javadoc" />
-
-	<target name="plexdoc" depends="javadoc">
-		<tar destfile="${plexdoc.tarball}" compression="gzip">
-			<tarfileset dir="doc" prefix="doc">
-				<include name="bshmanual.pdf" />
-				<include name="stylesheet.css" />
-				<include name="*.html" />
-				<include name="**/*.html" />
-			</tarfileset>
-		</tar>
-	</target>
 
 	<target name="javadoc">
 		<javadoc destdir="${doc.dir}" classpathref="classpath" Overview="doc_includes/overview.htm" sourcepath="${src.dir}">
@@ -111,45 +68,110 @@
 		</javadoc>
 	</target>
 
-	<target name="dist" depends="jar,plexdoc,sourcedist" />
-
-	<target name="sourcedist">
-		<tar basedir="." destfile="${plex-source.tarball}" compression="gzip" excludes="${dist.dir}/**,.hg/**,tmp/**,build/**,TEST-*" />
-	</target>
-
-	<target name="classes" depends="plexclasses" />
-
-	<target name="jar" depends="classes">
-		<jar destfile="${plex.jar}" basedir="${plex.bin}">
-		</jar>
-	</target>
-
-	<target name="runnable_jar">
-		<mkdir dir="${runnable_dist.dir}" />
-		<jar destfile="${runnable_plex.jar}" filesetmanifest="mergewithoutmain">
-			<manifest>
-				<attribute name="Main-Class" value="edu.stanford.math.plex4.api.Plex4" />
-				<attribute name="Class-Path" value="." />
-			</manifest>
-			<fileset dir="./bin" />
-			<zipfileset excludes="META-INF/*.SF" src="./lib/colt.jar" />
-			<zipfileset excludes="META-INF/*.SF" src="./lib/jai_codec.jar" />
-			<zipfileset excludes="META-INF/*.SF" src="./lib/trove-2.1.0.jar" />
-			<zipfileset excludes="META-INF/*.SF" src="./lib/primitive-lib.jar" />
-			<zipfileset excludes="META-INF/*.SF" src="./lib/velocity-1.6.4-dep.jar" />
-			<zipfileset excludes="META-INF/*.SF" src="./lib/commons-math-2.1.jar" />
-		</jar>
-
-		<copy file="${runnable_plex.jar}" todir="${matlab.lib.dir}" />
-	</target>
-
-	<target name="plexclasses" depends="init">
-		<javac destdir="${plex.bin}" classpathref="classpath" debug="${debug.flag}" includeAntRuntime="false">
+	<!--Bin targets-->
+	<target name="classes" depends="init">
+		<javac destdir="${bin.dir}" classpathref="classpath" debug="${debug.flag}" includeAntRuntime="false">
 			<compilerarg value="-Xlint" />
 			<src>
 				<pathelement path="${src.dir}" />
 			</src>
 		</javac>
+	</target>
+
+	<!--Distribution targets-->
+	<target name="dist" depends="clean_dist,runnable_jar,doc_tar,source_dist,matlab_dist" />
+
+	<target name="doc_tar" depends="javadoc">
+		<tar destfile="${doc.tarball}" compression="gzip">
+			<tarfileset dir="doc" prefix="javadoc">
+				<include name="bshmanual.pdf" />
+				<include name="stylesheet.css" />
+				<include name="*.html" />
+				<include name="**/*.html" />
+			</tarfileset>
+		</tar>
+	</target>
+
+	<target name="source_dist">
+		<tar destfile="${source.tarball}" compression="gzip">
+			<tarfileset dir="${src.dir}" prefix="src">
+				<include name="**" />
+				<exclude name="**.svn/**" />
+			</tarfileset>
+		</tar>
+	</target>
+
+	<!--Runnable jar file-->
+	<target name="runnable_jar" depends="classes">
+
+		<jar destfile="${runnable_plex.jar}" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="edu.stanford.math.plex4.api.Plex4" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+			<fileset dir="${bin.dir}" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/bsh-2.0b4.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/colt.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jai_codec.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/trove-2.1.0.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/primitive-lib.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/velocity-1.6.4-dep.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-math-2.1.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/junit-4.9b1.jar" />
+		</jar>
+
+		<copy file="${runnable_plex.jar}" todir="${matlab.lib.dir}" />
+	</target>
+
+	<target name="matlab_dist">
+		<tar destfile="${matlab.tarball}" compression="gzip">
+			<tarfileset dir="src/matlab/for_distribution" prefix="matlab_examples" preserveLeadingSlashes="true">
+				<include name="**" />
+			</tarfileset>
+		</tar>
+	</target>
+
+	<!--Basic Jar file-->
+	<target name="basic_jar" depends="classes">
+		<jar destfile="${basicplex.jar}" basedir="${bin.dir}">
+		</jar>
+	</target>
+
+	<!--Test targets-->
+	<target name="test.jar" depends="basic_jar">
+		<javac destdir="${test.dir}" srcdir="${src_test.dir}" debug="${debug.flag}" includeantruntime="false">
+			<classpath>
+				<fileset dir="${lib.dir}">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement location="${basicplex.jar}" />
+			</classpath>
+			<compilerarg value="-Xlint" />
+		</javac>
+		<jar destfile="${tests.jar}" basedir="${test.dir}" />
+	</target>
+
+	<target name="test" depends="test.jar">
+		<delete>
+			<fileset dir="." includes="TEST*.txt" />
+		</delete>
+		<junit fork="yes" timeout="1200000" tempdir="${temp.dir}">
+			<classpath>
+				<fileset dir="${lib.dir}">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement location="${tests.jar}" />
+				<pathelement location="${basicplex.jar}" />
+			</classpath>
+
+			<formatter type="brief" />
+
+			<batchtest todir="${temp.dir}">
+				<fileset dir="${test.dir}">
+					<include name="**/*Test.class" />
+				</fileset>
+			</batchtest>
+		</junit>
 	</target>
 
 </project>
