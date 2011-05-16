@@ -76,7 +76,7 @@ public class PersistenceAlgorithmEqualityTest {
 		streams.add(CellStreamExamples.getCellularSphere(maxDimension - 1));
 		streams.add(CellStreamExamples.getCellularTorus());
 		
-		List<AbstractPersistenceAlgorithm<Cell>> algorithms = PersistenceAlgorithmInterface.getAllPlex4CellularAbsoluteHomologyAlgorithms(maxDimension);
+		List<AbstractPersistenceAlgorithm<Cell>> algorithms = PersistenceAlgorithmInterface.getAllCellularAbsoluteHomologyAlgorithms(maxDimension);
 		PersistenceAlgorithmTester.verifyEquality(algorithms, streams);
 	}
 	

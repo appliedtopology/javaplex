@@ -47,6 +47,8 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 	
 	protected final double epsilon = 1e-8;
 	
+	protected boolean plex3Compatible = true;
+	
 	/**
 	 * Constructor which initializes the complex with a metric space.
 	 * 
@@ -79,6 +81,10 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		this.maxDistance = maxDistance;
 		this.N = this.metricSpace.size();
 		this.L = this.landmarkSelector.size();
+	}
+	
+	public void setPlex3Compatbility(boolean value) {
+		this.plex3Compatible = value;
 	}
 
 	public static int getDefaultNuValue() {
@@ -208,8 +214,8 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		e_ij = witnessAndDistance.getSecond();
 		
 		for (int n = 0; n < N; n++) {
-			if (contains(this.indices, n)) {
-				//continue;
+			if (contains(this.indices, n) && !this.plex3Compatible) {
+				continue;
 			}
 			
 			double d_max = Infinity.Double.getNegativeInfinity();
@@ -255,8 +261,8 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		int[] externalIndices = HomologyUtility.convertIndices(landmarkIndices, this.landmarkSelector.getLandmarkPoints());
 		
 		for (int n = 0; n < N; n++) {
-			if (contains(this.indices, n)) {
-				//continue;
+			if (contains(this.indices, n) && !this.plex3Compatible) {
+				continue;
 			}
 			
 			double d_max = Infinity.Double.getNegativeInfinity();

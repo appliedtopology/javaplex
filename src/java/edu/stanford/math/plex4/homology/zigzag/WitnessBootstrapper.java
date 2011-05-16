@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.stanford.math.plex4.api.Plex4;
+import edu.stanford.math.plex4.api.PersistenceAlgorithmInterface;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
-import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
+import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.MaxMinLandmarkSelector;
@@ -18,6 +19,7 @@ import edu.stanford.math.plex4.streams.impl.WitnessStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 
 public class WitnessBootstrapper<T> {
 	protected final AbstractSearchableMetricSpace<T> metricSpace;
@@ -172,6 +174,7 @@ public class WitnessBootstrapper<T> {
 		 */
 
 		WitnessStream<T> X_0 = new WitnessStream<T>(this.metricSpace, indexSelections.get(0), maxDimension + 1, maxDistance, indexSelections.get(0).getLandmarkPoints());
+		X_0.setPlex3Compatbility(false);
 		X_0.finalizeStream();
 
 		WitnessStream<T> Y_0 = null;
@@ -183,14 +186,15 @@ public class WitnessBootstrapper<T> {
 
 		for (int j = 1; j < this.indexSelections.size(); j++) {
 			Y_0 = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(0).getLandmarkPoints());
+			Y_0.setPlex3Compatbility(false);
 			Y_0.finalizeStream();
 
 			WitnessBicomplex<T> Z_0 = new WitnessBicomplex<T>(X_0, Y_0, maxDimension);
 			Z_0.finalizeStream();
 			Z_0.ensureAllFaces();
 			
-			AbstractPersistenceAlgorithm<SimplexPair> algo = Plex4.getDefaultSimplicialPairAlgorithm(maxDimension + 1);
-			IntBarcodeCollection bc = algo.computeIntervals(Z_0);
+			AbstractPersistenceBasisAlgorithm<SimplexPair, IntSparseFormalSum<SimplexPair>> algo = PersistenceAlgorithmInterface.getIntSimplexPairAbsoluteHomology(maxDimension + 1);
+			IntAnnotatedBarcodeCollection<IntSparseFormalSum<SimplexPair>> bc = algo.computeAnnotatedIntervals(Z_0);
 			System.out.println(bc);
 
 			Simplex x = SimplexStreamUtility.getFirstVertex(X_0);

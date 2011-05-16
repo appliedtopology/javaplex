@@ -121,10 +121,10 @@
 			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/junit-4.9b1.jar" />
 		</jar>
 
-		<copy file="${runnable_plex.jar}" todir="${matlab.lib.dir}" />
 	</target>
 
 	<target name="matlab_dist">
+		<copy file="${runnable_plex.jar}" tofile="${matlab.lib.dir}/javaplex.jar" />
 		<tar destfile="${matlab.tarball}" compression="gzip">
 			<tarfileset dir="src/matlab/for_distribution" prefix="matlab_examples" preserveLeadingSlashes="true">
 				<include name="**" />
