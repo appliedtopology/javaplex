@@ -95,7 +95,7 @@
 
 	<target name="source_dist">
 		<tar destfile="${source.tarball}" compression="gzip">
-			<tarfileset dir="${src.dir}" prefix="src">
+			<tarfileset dir="${src.dir}/java" prefix="src/java">
 				<include name="**" />
 				<exclude name="**.svn/**" />
 			</tarfileset>
