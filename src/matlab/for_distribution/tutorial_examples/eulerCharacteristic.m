@@ -1,0 +1,51 @@
+function  eulerCharacteristic(stream, max_dimension)
+
+% INPUT:
+%   explicitStream - an instance of the class AbstractFilteredStream<Simplex>.
+%
+% OUTPUT:
+%   This function prints two Euler characteristic calculations: using the
+%   alternating sum of cells, and using the alternating sum of Betti
+%   numbers.
+%
+% henrya@math.stanford.edu modified by atausz@stanford.edu
+
+import edu.stanford.math.plex4.*;
+
+persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension + 1);
+
+filtration_index_intervals = persistence.computeIntervals(stream);
+transformer = homology.filtration.IdentityConverter.getInstance();
+filtration_value_intervals = transformer.transform(filtration_index_intervals)
+infinite_barcodes = filtration_value_intervals.getInfiniteIntervals();
+
+betti_sequence = infinite_barcodes.getBettiSequence();
+
+eulerCharCell = 0;
+eulerCharBetti = 0;
+cellStr = [];
+bettiStr = [];
+
+for i = 0:(length(betti_sequence) - 1)
+    eulerCharBetti = eulerCharBetti + (-1)^(i) * betti_sequence(i + 1);
+    
+    if mod(i,2)==0
+        bettiStr = [bettiStr, ' + ', int2str(betti_sequence(i + 1))];
+    else
+        bettiStr = [bettiStr, ' - ', int2str(betti_sequence(i + 1))];
+    end 
+end
+
+for i = 0:(max_dimension)
+    skeleton_size = streams.utility.StreamUtility.getSkeletonSize(stream, i);
+    eulerCharCell = eulerCharCell + (-1)^(i) * skeleton_size;
+    
+    if mod(i,2)==0
+        cellStr = [cellStr, ' + ', int2str(skeleton_size)];
+    else
+        cellStr = [cellStr, ' - ', int2str(skeleton_size)];
+    end 
+end
+
+disp(['The Euler characteristic is ', int2str(eulerCharCell), ' = ', cellStr(4:end), ', using the alternating sum of cells.'])
+disp(['The Euler characteristic is ', int2str(eulerCharBetti), ' = ', bettiStr(4:end), ', using the alternating sum of Betti numbers.'])
