@@ -15,7 +15,7 @@ import org.junit.Test;
 @SuppressWarnings("unused")
 public class WitnessStreamTest {
 
-  private java.util.List emptyList;
+  private java.util.List<Object> emptyList;
 
   /**
    * Sets up the test fixture. 
@@ -23,7 +23,7 @@ public class WitnessStreamTest {
    */
   @Before
     public void setUp() {
-    emptyList = new java.util.ArrayList();
+    emptyList = new java.util.ArrayList<Object>();
   }
 
   /**
@@ -89,6 +89,7 @@ public class WitnessStreamTest {
     // For N=2,000,000 and L=100, R_max/4
     //LZW stream has 26781 simplices, took 320.568000 seconds
 
+	  /*
     if (false) {
       // skip for now
       int N = 60000; // 00;
@@ -118,6 +119,7 @@ public class WitnessStreamTest {
       System.out.printf(" For N=%d Rips stream has %d simplices, took %f seconds\n",
                         N, rstr.size(), ((double)lazy_time)/1000);
     }
+    */
   }
 
   /**

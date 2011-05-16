@@ -25,7 +25,7 @@ import org.junit.Test;
 @SuppressWarnings("unused")
 public class RipsStreamTest {
 
-	private java.util.List emptyList;
+	private java.util.List<Object> emptyList;
 
 	/**
 	 * Sets up the test fixture. 
@@ -33,7 +33,7 @@ public class RipsStreamTest {
 	 */
 	@Before
 	public void setUp() {
-		emptyList = new java.util.ArrayList();
+		emptyList = new java.util.ArrayList<Object>();
 	}
 
 	/**
@@ -150,6 +150,7 @@ public class RipsStreamTest {
 			assertEquals("2-torus betti numbers", gen_rc, expected_rc);
 			assertEquals("rci/zci lengths", rci.length, zci.length);
 
+			/*
 			if (false) {
 				System.out.printf("\n\n rci/zci (granularity = %f): \n", granularity);
 				for (int idx = 0; idx < rci.length; idx++) {
@@ -157,8 +158,10 @@ public class RipsStreamTest {
 				}
 				System.out.printf("\n\n");
 			}
+			*/
 			assertTrue("0-granularity test", Plex.equalPersistenceIntervals(rci, zci, granularity));
 
+			/*
 			if (false) {
 				// example for the doc -- make sure it works
 				System.out.printf("\n\np = Plex.Persistence()\n");
@@ -169,6 +172,7 @@ public class RipsStreamTest {
 				System.out.printf("res = Plex.FilterInfinite(p.computeIntervals(rc))\n");
 				System.out.printf(" %s\n\n", gen_rc.toString());
 			}
+			*/
 		}
 
 		// test the homology calculation for a handmade torus

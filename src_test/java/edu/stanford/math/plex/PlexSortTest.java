@@ -17,7 +17,7 @@ import org.junit.Test;
 @SuppressWarnings("unused")
 public class PlexSortTest {
 
-	private java.util.List emptyList;
+	private java.util.List<Object> emptyList;
 
 	/**
 	 * Sets up the test fixture. 
@@ -25,7 +25,7 @@ public class PlexSortTest {
 	 */
 	@Before
 	public void setUp() {
-		emptyList = new java.util.ArrayList();
+		emptyList = new java.util.ArrayList<Object>();
 	}
 
 	/**
@@ -131,6 +131,7 @@ public class PlexSortTest {
 		}
 
 		// FIX THIS!
+		/*
 		if (false) {
 			int pts[] = new int[] { 1, 6, 7, 8, 22, 30, 41, 42, 49 };
 			double wts[] = new double[] { 1.0, 6.0, 7.0, 8.0, 22.0, 30.0, 41.0, 42.0, 49.0 };
@@ -138,6 +139,7 @@ public class PlexSortTest {
 			for (int i = 0; i < pts.length-1; i++)
 				assertTrue("sorting by decreasing weights", (pts[i] > pts[i+1]));
 		}
+		*/
 		// FIX THIS!
 
 	}

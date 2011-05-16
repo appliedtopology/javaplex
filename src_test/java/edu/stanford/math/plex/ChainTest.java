@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class ChainTest {
 
-	private java.util.List emptyList;
+	private java.util.List<Object> emptyList;
 
 	/**
 	 * Sets up the test fixture. 
@@ -24,7 +24,7 @@ public class ChainTest {
 	 */
 	@Before
 	public void setUp() {
-		emptyList = new java.util.ArrayList();
+		emptyList = new java.util.ArrayList<Object>();
 	}
 
 	/**

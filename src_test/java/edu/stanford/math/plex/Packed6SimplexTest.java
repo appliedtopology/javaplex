@@ -15,7 +15,7 @@ import org.junit.Test;
 @SuppressWarnings("unused")
 public class Packed6SimplexTest {
 
-	private java.util.List emptyList;
+	private java.util.List<Object> emptyList;
 
 	/**
 	 * Sets up the test fixture. 
@@ -23,7 +23,7 @@ public class Packed6SimplexTest {
 	 */
 	@Before
 	public void setUp() {
-		emptyList = new java.util.ArrayList();
+		emptyList = new java.util.ArrayList<Object>();
 	}
 
 	/**

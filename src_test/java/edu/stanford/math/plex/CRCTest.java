@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class CRCTest {
 
-	private java.util.List emptyList;
+	private java.util.List<Object> emptyList;
 
 	private static Random rand = new Random();
 
@@ -58,7 +58,7 @@ public class CRCTest {
 	 */
 	@Before
 	public void setUp() {
-		emptyList = new java.util.ArrayList();
+		emptyList = new java.util.ArrayList<Object>();
 	}
 
 	/**

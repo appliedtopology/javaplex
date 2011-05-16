@@ -374,7 +374,7 @@ public class ExplicitStream extends SimplexStream {
 		else {
 			ExplicitStream estr = new ExplicitStream();
 			estr.open();
-			if (str instanceof Iterable) {
+			if (str instanceof Iterable<?>) {
 				Iterator<Simplex> iter = str.iterator();
 				while(iter.hasNext()) {
 					Simplex s = iter.next();

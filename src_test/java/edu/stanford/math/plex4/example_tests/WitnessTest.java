@@ -10,14 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.stanford.math.plex4.autogen.homology.IntAbsoluteHomology;
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
-import edu.stanford.math.plex4.homology.filtration.FiltrationUtility;
-import edu.stanford.math.plex4.homology.filtration.IdentityConverter;
 import edu.stanford.math.plex4.homology.zigzag.HomologyBasisTracker;
 import edu.stanford.math.plex4.homology.zigzag.ProductSubsetZigzag;
 import edu.stanford.math.plex4.streams.derived.TensorStream;
@@ -93,8 +90,7 @@ public class WitnessTest {
 		ExplicitStream<SimplexPair> Z = this.getZ();
 		
 		IntBarcodeCollection bc = ProductSubsetZigzag.testLongSequence(X, Y, Z);
-		DoubleBarcodeCollection dbc = FiltrationUtility.transformBarcodeCollection(bc, IdentityConverter.getInstance());
-		
+
 		bc.draw();
 		
 		System.out.println(bc);
