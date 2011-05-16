@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 
 <project name="javaplex" default="default" basedir=".">
+	<property name="version.num" value="4.01" />
 	<property name="build.dir" value="build" />
 	<property name="bin.dir" value="${build.dir}/bin" />
 	<property name="temp.dir" value="temp" />
@@ -11,12 +12,12 @@
 	<property name="dist.dir" value="dist" />
 	<property name="matlab.lib.dir" value="src/matlab/for_distribution/lib" />
 	<property name="test.dir" value="${build.dir}/test" />
-	<property name="runnable_plex.jar" value="${dist.dir}/javaplex.jar" />
+	<property name="runnable_plex.jar" value="${dist.dir}/javaplex-${version.num}.jar" />
 	<property name="basicplex.jar" value="${temp.dir}/javaplex.jar" />
 	<property name="tests.jar" value="${temp.dir}/tests.jar" />
-	<property name="source.tarball" value="${dist.dir}/javaplex-src.tar.gz" />
-	<property name="doc.tarball" value="${dist.dir}/javaplex-doc.tar.gz" />
-	<property name="matlab.tarball" value="${dist.dir}/matlab-examples.tar.gz" />
+	<property name="source.tarball" value="${dist.dir}/javaplex-src-${version.num}.tar.gz" />
+	<property name="doc.tarball" value="${dist.dir}/javaplex-doc-${version.num}.tar.gz" />
+	<property name="matlab.tarball" value="${dist.dir}/matlab-examples-${version.num}.tar.gz" />
 	<property name="ant.build.javac.source" value="1.5" />
 	<property name="ant.build.javac.target" value="1.5" />
 
@@ -26,7 +27,7 @@
 		</fileset>
 	</path>
 
-	<property name="debug.flag" value="on" />
+	<property name="debug.flag" value="off" />
 
 	<!--Default target-->
 	<target name="default" depends="clean,dist" />
