@@ -1,0 +1,33 @@
+#!/usr/bin/env jython
+
+import sys
+
+libs = [
+    "../lib/javaplex.jar"
+    ]
+for s in libs:
+    sys.path.append(s)
+
+import edu.stanford.math.plex4
+import edu.stanford.math.plex4.api
+import edu.stanford.math.plex4.examples
+
+print("Starting")
+f8 = edu.stanford.math.plex4.examples.PointCloudExamples.getRandomFigure8Points(50)
+trefoil = edu.stanford.math.plex4.examples.PointCloudExamples.getRandomTrefoilKnotPoints(50)
+
+print("Created point sets")
+f8s = edu.stanford.math.plex4.api.Plex4.createVietorisRipsStream(f8, 2, 3.0)
+trefoils = edu.stanford.math.plex4.api.Plex4.createVietorisRipsStream(trefoil, 2, 3.0)
+
+print "Created simplex streams. Figure 8 has %d simplices and Trefoil has %d simplices" % (f8s.getSize(), trefoils.getSize())
+tf_f8 = edu.stanford.math.plex4.api.Plex4.createHomStream(trefoils, f8s)
+
+print "Created hom stream. Size %d" % tf_f8.getSize()
+pH = edu.stanford.math.plex4.api.PersistenceAlgorithmInterface.getBooleanSimplicialAbsoluteHomology(2)
+
+f8bc = pH.computeIntervals(f8s)
+print "Computed intervals for figure 8:\n%s" % repr(f8bc)
+
+tfbc = pH.computeIntervals(trefoils)
+print "Computed intervals for trefoil:\n%s" % repr(tfbc)
