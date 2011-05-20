@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
@@ -15,6 +16,10 @@ import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
 import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
+import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
+import gnu.trove.TObjectIntIterator;
 
 public class SimplexStreamUtility {
 	static <U> List<U> getDifference(Iterable<U> X, Iterable<U> A) {
@@ -72,14 +77,14 @@ public class SimplexStreamUtility {
 
 		return list;
 	}
-	
+
 	static Iterable<SimplexPair> embedFirstOnline(final Iterable<Simplex> X, final Simplex y) {
 		return new Iterable<SimplexPair>() {
 
 			public Iterator<SimplexPair> iterator() {
 				return new Iterator<SimplexPair>() {
 					private final Iterator<Simplex> internalIterator = X.iterator();
-					
+
 					public boolean hasNext() {
 						return internalIterator.hasNext();
 					}
@@ -96,14 +101,14 @@ public class SimplexStreamUtility {
 			}
 		};
 	}
-	
+
 	static Iterable<SimplexPair> embedSecondOnline(final Simplex x, final Iterable<Simplex> Y) {
 		return new Iterable<SimplexPair>() {
 
 			public Iterator<SimplexPair> iterator() {
 				return new Iterator<SimplexPair>() {
 					private final Iterator<Simplex> internalIterator = Y.iterator();
-					
+
 					public boolean hasNext() {
 						return internalIterator.hasNext();
 					}
@@ -178,7 +183,7 @@ public class SimplexStreamUtility {
 
 		return projection;
 	}
-	
+
 	/**
 	 * This function returns the simplicial complex induced by the given collection of simplices. In other
 	 * words, it produces the minimal simplicial complex containing the set of simplices.
@@ -187,34 +192,70 @@ public class SimplexStreamUtility {
 	 * @return
 	 */
 	static Iterable<Simplex> getInducedStream(Iterable<Simplex> simplices) {
-		
+
 		ExplicitSimplexStream stream = new ExplicitSimplexStream();
-		
+
 		for (Simplex simplex: simplices) {
 			stream.addElement(simplex, 0);
 		}
-		
+
 		stream.finalizeStream();
 		stream.ensureAllFaces();
-		
+
 		return stream;
 	}
-	
+
 	public static void sortAscending(List<Simplex> list) {
 		Collections.sort(list, SimplexComparator.getInstance());
 	}
-	
+
 	public static void sortDescending(List<Simplex> list) {
 		Collections.sort(list, SimplexComparator.getInstance());
 		Collections.reverse(list);
 	}
-	
+
 	public static void sortAscendingPairs(List<SimplexPair> list) {
 		Collections.sort(list, SimplexPairComparator.getInstance());
 	}
-	
+
 	public static void sortDescendingPairs(List<SimplexPair> list) {
 		Collections.sort(list, SimplexPairComparator.getInstance());
 		Collections.reverse(list);
+	}
+
+	public static <U> IntSparseFormalSum<U> projectFirst(IntSparseFormalSum<? extends ObjectObjectPair<U, U>> chain, IntAlgebraicFreeModule<U> chainModule) {
+		IntSparseFormalSum<U> result = new IntSparseFormalSum<U>();
+
+		for (TObjectIntIterator<? extends ObjectObjectPair<U, U>> iterator = chain.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			chainModule.accumulate(result, iterator.key().getFirst(), iterator.value());
+		}
+
+		return result;
+	}
+
+	public static <U> IntSparseFormalSum<U> projectSecond(IntSparseFormalSum<? extends ObjectObjectPair<U, U>> chain, IntAlgebraicFreeModule<U> chainModule) {
+		IntSparseFormalSum<U> result = new IntSparseFormalSum<U>();
+
+		for (TObjectIntIterator<? extends ObjectObjectPair<U, U>> iterator = chain.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			chainModule.accumulate(result, iterator.key().getSecond(), iterator.value());
+		}
+
+		return result;
+	}
+	
+	public static <U extends PrimitiveBasisElement> IntSparseFormalSum<U> filterByDimension(IntSparseFormalSum<U> chain, int dimension) {
+		IntSparseFormalSum<U> result = new IntSparseFormalSum<U>();
+		
+		for (TObjectIntIterator<U> iterator = chain.iterator(); iterator.hasNext(); ) {
+			iterator.advance();
+			
+			if (iterator.key().getDimension() == dimension) {
+				result.put(iterator.value(), iterator.key());
+			}
+		}
+		
+		return result;
 	}
 }

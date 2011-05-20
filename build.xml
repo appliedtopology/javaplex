@@ -12,11 +12,12 @@
 	<property name="dist.dir" value="dist" />
 	<property name="matlab.lib.dir" value="src/matlab/for_distribution/lib" />
 	<property name="test.dir" value="${build.dir}/test" />
-	<property name="runnable_plex.jar" value="${dist.dir}/javaplex-${version.num}.jar" />
-	<property name="basicplex.jar" value="${temp.dir}/javaplex.jar" />
+	<property name="project.name" value="javaplex" />
+	<property name="runnable.jar" value="${dist.dir}/${project.name}-${version.num}.jar" />
+	<property name="basic.jar" value="${temp.dir}/${project.name}.jar" />
 	<property name="tests.jar" value="${temp.dir}/tests.jar" />
-	<property name="source.tarball" value="${dist.dir}/javaplex-src-${version.num}.tar.gz" />
-	<property name="doc.tarball" value="${dist.dir}/javaplex-doc-${version.num}.tar.gz" />
+	<property name="source.tarball" value="${dist.dir}/${project.name}-src-${version.num}.tar.gz" />
+	<property name="doc.tarball" value="${dist.dir}/${project.name}-doc-${version.num}.tar.gz" />
 	<property name="matlab.tarball" value="${dist.dir}/matlab-examples-${version.num}.tar.gz" />
 	<property name="ant.build.javac.source" value="1.5" />
 	<property name="ant.build.javac.target" value="1.5" />
@@ -71,7 +72,7 @@
 
 	<!--Bin targets-->
 	<target name="classes" depends="init">
-		<javac destdir="${bin.dir}" classpathref="classpath" debug="${debug.flag}" includeAntRuntime="false">
+		<javac destdir="${bin.dir}" classpathref="classpath" debug="${debug.flag}" includeAntRuntime="false" source="1.5" target="1.5" >
 			<compilerarg value="-Xlint" />
 			<src>
 				<pathelement path="${src.dir}" />
@@ -105,7 +106,7 @@
 	<!--Runnable jar file-->
 	<target name="runnable_jar" depends="classes">
 
-		<jar destfile="${runnable_plex.jar}" filesetmanifest="mergewithoutmain">
+		<jar destfile="${runnable.jar}" filesetmanifest="mergewithoutmain">
 			<manifest>
 				<attribute name="Main-Class" value="edu.stanford.math.plex4.api.Plex4" />
 				<attribute name="Class-Path" value="." />
@@ -124,7 +125,7 @@
 	</target>
 
 	<target name="matlab_dist">
-		<copy file="${runnable_plex.jar}" tofile="${matlab.lib.dir}/javaplex.jar" />
+		<copy file="${runnable.jar}" tofile="${matlab.lib.dir}/javaplex.jar" />
 		<tar destfile="${matlab.tarball}" compression="gzip">
 			<tarfileset dir="src/matlab/for_distribution" prefix="matlab_examples" preserveLeadingSlashes="true">
 				<include name="**" />
@@ -134,7 +135,7 @@
 
 	<!--Basic Jar file-->
 	<target name="basic_jar" depends="classes">
-		<jar destfile="${basicplex.jar}" basedir="${bin.dir}">
+		<jar destfile="${basic.jar}" basedir="${bin.dir}">
 		</jar>
 	</target>
 
@@ -145,7 +146,7 @@
 				<fileset dir="${lib.dir}">
 					<include name="*.jar" />
 				</fileset>
-				<pathelement location="${basicplex.jar}" />
+				<pathelement location="${basic.jar}" />
 			</classpath>
 			<compilerarg value="-Xlint" />
 		</javac>
@@ -162,7 +163,7 @@
 					<include name="*.jar" />
 				</fileset>
 				<pathelement location="${tests.jar}" />
-				<pathelement location="${basicplex.jar}" />
+				<pathelement location="${basic.jar}" />
 			</classpath>
 
 			<formatter type="brief" />

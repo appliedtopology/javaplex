@@ -1,5 +1,7 @@
 package edu.stanford.math.plex4.homology.filtration;
 
+import java.util.Map.Entry;
+
 import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcode;
 import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
@@ -10,7 +12,6 @@ import edu.stanford.math.plex4.homology.barcodes.IntBarcode;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
-import gnu.trove.TIntObjectIterator;
 
 /**
  * This class contains various static functions that aid in the transformation between objects
@@ -49,11 +50,9 @@ public class FiltrationUtility {
 	public static DoubleBarcodeCollection transformBarcodeCollection(IntBarcodeCollection intBarcodeCollection, FiltrationConverter converter) {
 		DoubleBarcodeCollection barcodeCollection = new DoubleBarcodeCollection();
 		
-		for (TIntObjectIterator<IntBarcode> iterator = intBarcodeCollection.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			IntBarcode intBarcode = iterator.value();
-			for (IntHalfOpenInterval interval: intBarcode.getIntervals()) {
-				barcodeCollection.addInterval(iterator.key(), converter.transform(interval));
+		for (Entry<Integer, IntBarcode> entry: intBarcodeCollection) {
+			for (IntHalfOpenInterval interval: entry.getValue()) {
+				barcodeCollection.addInterval(entry.getKey(), converter.transform(interval));
 			}
 		}
 		
@@ -87,11 +86,9 @@ public class FiltrationUtility {
 	public static <T> DoubleAnnotatedBarcodeCollection<T> transformBarcodeCollection(IntAnnotatedBarcodeCollection<T> intBarcodeCollection, FiltrationConverter converter) {
 		DoubleAnnotatedBarcodeCollection<T> barcodeCollection = new DoubleAnnotatedBarcodeCollection<T>();
 		
-		for (TIntObjectIterator<IntAnnotatedBarcode<T>> iterator = intBarcodeCollection.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			IntAnnotatedBarcode<T> intBarcode = iterator.value();
-			for (ObjectObjectPair<IntHalfOpenInterval, T> pair: intBarcode.getIntervals()) {
-				barcodeCollection.addInterval(iterator.key(), converter.transform(pair.getFirst()), pair.getSecond());
+		for (Entry<Integer, IntAnnotatedBarcode<T>> entry: intBarcodeCollection) {
+			for (ObjectObjectPair<IntHalfOpenInterval, T> pair: entry.getValue()) {
+				barcodeCollection.addInterval(entry.getKey(), converter.transform(pair.getFirst()), pair.getSecond());
 			}
 		}
 		

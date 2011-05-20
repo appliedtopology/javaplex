@@ -1,6 +1,7 @@
 package edu.stanford.math.plex4.homology.barcodes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import edu.stanford.math.plex4.utility.ComparisonUtility;
@@ -16,7 +17,7 @@ import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
  * @author Andrew Tausz
  *
  */
-public class IntAnnotatedBarcode<T> {
+public class IntAnnotatedBarcode<T> implements Iterable<ObjectObjectPair<IntHalfOpenInterval, T>> {
 	private final int dimension;
 	private final List<ObjectObjectPair<IntHalfOpenInterval, T>> intervals = new ArrayList<ObjectObjectPair<IntHalfOpenInterval, T>>();
 	/**
@@ -100,7 +101,6 @@ public class IntAnnotatedBarcode<T> {
 	 */
 	public void addInterval(IntHalfOpenInterval interval, T representative) {
 		ExceptionUtility.verifyNonNull(interval);
-		ExceptionUtility.verifyNonNull(representative);
 		this.intervals.add(new ObjectObjectPair<IntHalfOpenInterval, T>(interval, representative));
 	}
 	
@@ -164,5 +164,9 @@ public class IntAnnotatedBarcode<T> {
 		} else if (!ComparisonUtility.setEquals(intervals, other.intervals))
 			return false;
 		return true;
+	}
+
+	public Iterator<ObjectObjectPair<IntHalfOpenInterval, T>> iterator() {
+		return this.intervals.iterator();
 	}
 }

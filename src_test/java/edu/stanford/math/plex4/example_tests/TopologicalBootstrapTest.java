@@ -54,17 +54,19 @@ public class TopologicalBootstrapTest {
 	
 	//@Test
 	public void testWitness() throws IOException {
-		double[][] points = PointCloudExamples.getDisjointPatches(30);
-		double maxDistance = 0.9;
+		double[][] points = PointCloudExamples.getEquispacedCirclePoints(200);
+		double maxDistance = 0.1;
 		
 		RandomUtility.initializeWithSeed(0);
 		
 		//AbstractPersistenceAlgorithm<Simplex> persistence = Plex4.getDefaultSimplicialAlgorithm(2);
 		//System.out.println(persistence.computeIntervals(Plex4.createVietorisRipsStream(points, 2, maxDistance)));
 		
-		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, 0, 2, 5);
+		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, 1, 2, 50);
 		
-		IntBarcodeCollection barcodes = bootstrapper.performBootstrap();
+		IntBarcodeCollection barcodes = bootstrapper.performProjectionBootstrap();
+		
+		System.out.println("Zigzag barcodes");
 		
 		barcodes.draw();
 		
@@ -72,6 +74,28 @@ public class TopologicalBootstrapTest {
 	}
 	
 	@Test
+	public void test2Sphere() throws IOException {
+		double[][] points = PointCloudExamples.getRandomSpherePoints(50, 2);
+		double maxDistance = 0.4;
+		int maxDimension = 2;
+		
+		RandomUtility.initializeWithSeed(0);
+		
+		//AbstractPersistenceAlgorithm<Simplex> persistence = Plex4.getDefaultSimplicialAlgorithm(2);
+		//System.out.println(persistence.computeIntervals(Plex4.createVietorisRipsStream(points, 2, maxDistance)));
+		
+		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, maxDimension, 5, 8);
+		
+		IntBarcodeCollection barcodes = bootstrapper.performProjectionBootstrap();
+		
+		System.out.println("Zigzag barcodes");
+		
+		barcodes.draw();
+		
+		System.out.println(barcodes);
+	}
+	
+	//@Test
 	public void testExplicitWitness() throws IOException {
 		double[][] points = PointCloudExamples.getEquispacedCirclePoints(6);
 		double maxDistance = 0.0;
@@ -86,16 +110,23 @@ public class TopologicalBootstrapTest {
 		List<LandmarkSelector<double[]>> list = new ArrayList<LandmarkSelector<double[]>>();
 		
 		list.add(new ExplicitLandmarkSelector<double[]>(metricSpace, new int[]{0, 2, 4}));
-		list.add(new ExplicitLandmarkSelector<double[]>(metricSpace, new int[]{1, 3, 5}));
+		list.add(new ExplicitLandmarkSelector<double[]>(metricSpace, new int[]{0, 2, 4}));
 		//list.add(new ExplicitLandmarkSelector<double[]>(metricSpace, new int[]{20, 21, 22, 23, 24}));
 		
 		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(metricSpace, list, 1, maxDistance);
 		
-		IntBarcodeCollection barcodes = bootstrapper.performBootstrapShort();
+		IntBarcodeCollection barcodes = bootstrapper.performProjectionBootstrap();
+		
+		
+		System.out.println("Zigzag barcodes");
 		
 		barcodes.draw();
 		
 		System.out.println(barcodes);
+	}
+	
+	public void test2() {
+		
 	}
 }
 

@@ -1,9 +1,12 @@
 package edu.stanford.math.plex4.homology.barcodes;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import gnu.trove.TIntIntHashMap;
-import gnu.trove.TIntObjectHashMap;
-import gnu.trove.TIntObjectIterator;
 
 /**
  * This class implements functionality for storing a collection of barcodes with 
@@ -13,8 +16,8 @@ import gnu.trove.TIntObjectIterator;
  * @author Andrew Tausz
  *
  */
-public class IntAnnotatedBarcodeCollection<T> {
-	private final TIntObjectHashMap<IntAnnotatedBarcode<T>> barcodeMap = new TIntObjectHashMap<IntAnnotatedBarcode<T>>();
+public class IntAnnotatedBarcodeCollection<T> implements Iterable<Entry<Integer, IntAnnotatedBarcode<T>>> {
+	private final Map<Integer, IntAnnotatedBarcode<T>> barcodeMap = new HashMap<Integer, IntAnnotatedBarcode<T>>();
 	
 	/**
 	 * This function adds an interval at the specified dimension.
@@ -76,9 +79,8 @@ public class IntAnnotatedBarcodeCollection<T> {
 	public IntAnnotatedBarcodeCollection<T> getInfiniteIntervals() {
 		IntAnnotatedBarcodeCollection<T> collection = new IntAnnotatedBarcodeCollection<T>();
 		
-		for (TIntObjectIterator<IntAnnotatedBarcode<T>> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			collection.barcodeMap.put(iterator.key(), iterator.value().getInfiniteIntervals());
+		for (Integer dimension: this.barcodeMap.keySet()) {
+			collection.barcodeMap.put(dimension, this.barcodeMap.get(dimension).getInfiniteIntervals());
 		}
 		
 		return collection;
@@ -105,36 +107,25 @@ public class IntAnnotatedBarcodeCollection<T> {
 	public TIntIntHashMap getBettiNumbers(int filtrationValue) {
 		TIntIntHashMap map = new TIntIntHashMap();
 		
-		for (TIntObjectIterator<IntAnnotatedBarcode<T>> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			map.put(iterator.key(), iterator.value().getSliceCardinality(filtrationValue));
+		for (Integer dimension: this.barcodeMap.keySet()) {
+			map.put(dimension, this.barcodeMap.get(dimension).getSliceCardinality(filtrationValue));
 		}
 		
 		return map;
-	}
-	
-	/**
-	 * Returns an iterator.
-	 * 
-	 * @return an iterator
-	 */
-	public TIntObjectIterator<IntAnnotatedBarcode<T>> iterator() {
-		return this.barcodeMap.iterator();
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		
-		for (TIntObjectIterator<IntAnnotatedBarcode<T>> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			builder.append(iterator.value().toString());
+		for (Integer dimension: this.barcodeMap.keySet()) {
+			builder.append(this.barcodeMap.get(dimension).toString());
 			builder.append("\n");
 		}
-		
+
 		return builder.toString();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -158,5 +149,9 @@ public class IntAnnotatedBarcodeCollection<T> {
 		} else if (!barcodeMap.equals(other.barcodeMap))
 			return false;
 		return true;
+	}
+
+	public Iterator<Entry<Integer, IntAnnotatedBarcode<T>>> iterator() {
+		return this.barcodeMap.entrySet().iterator();
 	}
 }

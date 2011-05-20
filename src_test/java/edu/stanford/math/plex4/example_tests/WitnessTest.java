@@ -1,29 +1,18 @@
 package edu.stanford.math.plex4.example_tests;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.stanford.math.plex4.autogen.homology.IntAbsoluteHomology;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
-import edu.stanford.math.plex4.homology.chain_basis.Simplex;
-import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
-import edu.stanford.math.plex4.homology.zigzag.HomologyBasisTracker;
 import edu.stanford.math.plex4.homology.zigzag.ProductSubsetZigzag;
-import edu.stanford.math.plex4.streams.derived.TensorStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.utility.RandomUtility;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
-import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 
 public class WitnessTest {
 	IntAbstractField intField = ModularIntField.getInstance(2);
@@ -39,36 +28,56 @@ public class WitnessTest {
 	public ExplicitSimplexStream getX() {
 		ExplicitSimplexStream stream = new ExplicitSimplexStream();
 		stream.addElement(new int[]{0});
-		stream.addElement(new int[]{1});
 		stream.addElement(new int[]{2});
-		stream.addElement(new int[]{0, 1});
+		stream.addElement(new int[]{4});
 		stream.addElement(new int[]{0, 2});
-		stream.addElement(new int[]{1, 2});
+		stream.addElement(new int[]{0, 4});
+		stream.addElement(new int[]{2, 4});
+		return stream;
+	}
+	
+	public ExplicitSimplexStream getY() {
+		ExplicitSimplexStream stream = new ExplicitSimplexStream();
+		stream.addElement(new int[]{1});
+		stream.addElement(new int[]{3});
+		stream.addElement(new int[]{5});
+		stream.addElement(new int[]{1, 3});
+		stream.addElement(new int[]{1, 5});
+		stream.addElement(new int[]{3, 5});
 		return stream;
 	}
 	
 	public ExplicitStream<SimplexPair> getZ() {
 		ExplicitStream<SimplexPair> subsetStream = new ExplicitStream<SimplexPair>(SimplexPairComparator.getInstance());
 		
-		subsetStream.addElement(new SimplexPair(new int[]{0}, new int[]{0}), 0);
 		subsetStream.addElement(new SimplexPair(new int[]{0}, new int[]{1}), 0);
-		subsetStream.addElement(new SimplexPair(new int[]{0}, new int[]{2}), 0);
-		subsetStream.addElement(new SimplexPair(new int[]{1}, new int[]{0}), 0);
-		subsetStream.addElement(new SimplexPair(new int[]{1}, new int[]{1}), 0);
-		subsetStream.addElement(new SimplexPair(new int[]{1}, new int[]{2}), 0);
-		subsetStream.addElement(new SimplexPair(new int[]{2}, new int[]{0}), 0);
+		subsetStream.addElement(new SimplexPair(new int[]{0}, new int[]{5}), 0);
 		subsetStream.addElement(new SimplexPair(new int[]{2}, new int[]{1}), 0);
-		subsetStream.addElement(new SimplexPair(new int[]{2}, new int[]{2}), 0);
+		subsetStream.addElement(new SimplexPair(new int[]{2}, new int[]{3}), 0);
+		subsetStream.addElement(new SimplexPair(new int[]{4}, new int[]{3}), 0);
+		subsetStream.addElement(new SimplexPair(new int[]{4}, new int[]{5}), 0);
 		
-		subsetStream.addElement(new SimplexPair(new int[]{0}, new int[]{1, 2}), 0);
+		subsetStream.addElement(new SimplexPair(new int[]{0}, new int[]{1, 5}), 0);
 		subsetStream.addElement(new SimplexPair(new int[]{0, 2}, new int[]{1}), 0);
-		subsetStream.addElement(new SimplexPair(new int[]{2}, new int[]{0, 1}), 0);
-		subsetStream.addElement(new SimplexPair(new int[]{1, 2}, new int[]{0}), 0);
-		subsetStream.addElement(new SimplexPair(new int[]{1}, new int[]{0, 2}), 0);
-		subsetStream.addElement(new SimplexPair(new int[]{0, 1}, new int[]{2}), 0);
+		subsetStream.addElement(new SimplexPair(new int[]{2}, new int[]{1, 3}), 0);
+		subsetStream.addElement(new SimplexPair(new int[]{0, 4}, new int[]{5}), 0);
+		subsetStream.addElement(new SimplexPair(new int[]{4}, new int[]{3, 5}), 0);
+		subsetStream.addElement(new SimplexPair(new int[]{2, 4}, new int[]{3}), 0);
 		return subsetStream;
 	}
 	
+	@Test
+	public void test() {
+		ExplicitSimplexStream X = this.getX();
+		ExplicitSimplexStream Y = this.getY();
+		ExplicitStream<SimplexPair> Z = this.getZ();
+		
+		IntBarcodeCollection result = ProductSubsetZigzag.testProjection(X, Y, Z);
+		
+		System.out.println(result);
+	}
+	
+	/*
 	public ExplicitStream<SimplexPair> getXY() {
 		ExplicitStream<SimplexPair> stream = new ExplicitStream<SimplexPair>(SimplexPairComparator.getInstance());
 		ExplicitSimplexStream X = this.getX();
@@ -150,4 +159,5 @@ public class WitnessTest {
 		
 		System.out.println(algorithm2.computeAnnotatedIntervals(subsetStream));
 	}
+	*/
 }

@@ -1,12 +1,18 @@
 package edu.stanford.math.plex4.homology.zigzag;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
+import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
+import edu.stanford.math.plex4.homology.zigzag.IntervalTracker.Descriptor;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
@@ -30,10 +36,12 @@ import gnu.trove.TObjectIntIterator;
  * @param <U>
  */
 public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements AbstractBasisTracker<U> {
-	private class BirthDescriptor {
+	
+	private class BirthDescriptor<V> {
 		public int internalIndex;
 		public int externalIndex;
 		public int dimension;
+		public V generator;
 		
 		public BirthDescriptor(int internalIndex, int externalIndex, int dimension) {
 			super();
@@ -41,10 +49,11 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			this.externalIndex = externalIndex;
 			this.dimension = dimension;
 		}
-
+		
 		@Override
 		public String toString() {
-			return "BirthDescriptor [dimension=" + dimension + ", externalIndex=" + externalIndex + ", internalIndex=" + internalIndex + "]";
+			return "BirthDescriptor [dimension=" + dimension + ", externalIndex=" + externalIndex + ", generator=" + generator + ", internalIndex="
+					+ internalIndex + "]";
 		}
 	}
 	
@@ -106,7 +115,7 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 	protected Map<Integer, IntSparseFormalSum<Integer>> B = new THashMap<Integer, IntSparseFormalSum<Integer>>();
 	protected Map<Integer, IntSparseFormalSum<U>> C = new THashMap<Integer, IntSparseFormalSum<U>>();
 
-	protected Map<Integer, BirthDescriptor> birthDescriptors = new THashMap<Integer, BirthDescriptor>();
+	//protected Map<Integer, BirthDescriptor<IntSparseFormalSum<U>>> birthDescriptors = new THashMap<Integer, BirthDescriptor<IntSparseFormalSum<U>>>();
 	
 	protected TIntIntHashMap internalExternalIndexMap = new TIntIntHashMap();
 
@@ -116,8 +125,8 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 
 	protected int internalIndex = 0;
 
-	protected IntBarcodeCollection barcodes = new IntBarcodeCollection();
-
+	protected AnnotatedIntervalTracker<Integer, IntSparseFormalSum<U>> intervalTracker = new AnnotatedIntervalTracker<Integer, IntSparseFormalSum<U>>();
+	
 	protected boolean verify = true;
 	
 	public static boolean debug = false;
@@ -151,21 +160,32 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 	//	this.comparator = basisComparator;
 	//}
 	
+	public AnnotatedIntervalTracker<Integer, IntSparseFormalSum<U>> getIntervalTracker() {
+		return this.intervalTracker;
+	}
+	
 	public IntBarcodeCollection getFiniteBarcodes() {
-		return this.barcodes;
+		return this.intervalTracker.getFiniteBarcodes();
 	}
 	
 	public IntBarcodeCollection getInfiniteBarcodes() {
-		IntBarcodeCollection collection = new IntBarcodeCollection();
-		for (Integer key: this.birthDescriptors.keySet()) {
-			collection.addRightInfiniteInterval(this.birthDescriptors.get(key).dimension, this.birthDescriptors.get(key).externalIndex);
-		}
-		
-		return collection;
+		return this.intervalTracker.getInfiniteBarcodes();
 	}
 
 	public IntBarcodeCollection getBarcodes() {
-		return BasisTrackingUtility.union(this.getFiniteBarcodes(), this.getInfiniteBarcodes());
+		return this.intervalTracker.getBarcodes();
+	}
+	
+	public IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>> getFiniteAnnotatedBarcodes() {
+		return this.intervalTracker.getFiniteAnnotatedBarcodes();
+	}
+	
+	public IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>> getInfiniteAnnotatedBarcodes() {
+		return this.intervalTracker.getInfiniteAnnotatedBarcodes();
+	}
+
+	public IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>> getAnnotatedBarcodes() {
+		return this.intervalTracker.getAnnotatedBarcodes();
 	}
 
 	public void add(U sigma) {
@@ -214,8 +234,10 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 
 			int insertionPoint = BasisTrackingUtility.appendColumn(Z, newCycle);
 
-			BirthDescriptor descriptor = new BirthDescriptor(internalIndex, externalIndex, sigma.getDimension());
-			this.birthDescriptors.put(insertionPoint, descriptor);
+			BirthDescriptor<IntSparseFormalSum<U>> descriptor = new BirthDescriptor<IntSparseFormalSum<U>>(internalIndex, externalIndex, sigma.getDimension());
+			descriptor.generator = newCycle;
+			
+			this.intervalTracker.startInterval(insertionPoint, externalIndex, sigma.getDimension(), newCycle);
 			
 			log(internalIndex + ": Birth (" + externalIndex + ", _) @ " + sigma.getDimension() +  " - addition of " + sigma);
 		} else {
@@ -230,17 +252,8 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			// update birth vector
 			Integer j = BasisTrackingUtility.low(v_prime, this.integerComparator);
 			
-			BirthDescriptor descriptor = this.birthDescriptors.get(j);
+			this.intervalTracker.endInterval(j, externalIndex);
 			
-			assert (descriptor != null);
-			
-			if (descriptor != null) {
-				if (descriptor.externalIndex != externalIndex) {
-					this.barcodes.addInterval(descriptor.dimension, descriptor.externalIndex, externalIndex);
-				}
-			}
-			
-			this.birthDescriptors.remove(j);
 			log(internalIndex + ": Death (" + this.internalExternalIndexMap.get(j) + ", " + externalIndex + ") @ " + (sigma.getDimension() - 1) +  " - addition of " + sigma);
 		}
 
@@ -285,9 +298,8 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			IntSparseFormalSum<U> DC_j = BasisTrackingUtility.computeBoundary(C.get(j), chainModule);
 			int prependLocation = BasisTrackingUtility.prependColumn(Z, DC_j);
 
-
-			BirthDescriptor descriptor = new BirthDescriptor(internalIndex, externalIndex, sigma.getDimension() - 1);
-			this.birthDescriptors.put(prependLocation, descriptor);
+			this.intervalTracker.startInterval(prependLocation, externalIndex, sigma.getDimension() - 1, DC_j);
+			
 			
 			log(internalIndex + ": Birth (" + externalIndex + ", _) @ " + (sigma.getDimension() - 1) +  " - removal of " + sigma);
 
@@ -418,18 +430,8 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			// Death
 			// Z_j is the first cycle that contains simplex sigma
 
-			// update birth vector
-			BirthDescriptor descriptor = this.birthDescriptors.get(j);
-			
-			assert (descriptor != null);
-			
-			if (descriptor != null) {
-				if (descriptor.externalIndex != externalIndex) {
-					this.barcodes.addInterval(descriptor.dimension, descriptor.externalIndex, externalIndex);
-				}
-			}
-			
-			this.birthDescriptors.remove(j);
+			// update birth vector	
+			this.intervalTracker.endInterval(j, externalIndex);
 			
 			log(internalIndex + ": Death (" + this.internalExternalIndexMap.get(j) + ", " + externalIndex + ") @ " + (sigma.getDimension()) +  " - removal of " + sigma);
 
@@ -612,5 +614,97 @@ public class HomologyBasisTracker<U extends PrimitiveBasisElement> implements Ab
 			}
 			lowMap.put(lowElement, index);
 		}
+	}
+	
+	protected boolean isCycle(IntSparseFormalSum<U> chain) {
+		ObjectObjectPair<IntSparseFormalSum<Integer>, IntSparseFormalSum<U>> Zpair = reduce(Z, chain, this.comparator, chainModule);
+		IntSparseFormalSum<U> reduction = Zpair.getSecond();
+		
+		return reduction.isEmpty();
+	}
+	
+	protected boolean isBoundary(IntSparseFormalSum<U> cycle) {
+
+		ObjectObjectPair<IntSparseFormalSum<Integer>, IntSparseFormalSum<U>> Zpair = reduce(Z, cycle, this.comparator, chainModule);
+		IntSparseFormalSum<Integer> v = Zpair.getFirst();
+		IntSparseFormalSum<U> reduction = Zpair.getSecond();
+		
+		// if it is not a cycle, it can't be a boundary
+		if (!reduction.isEmpty()) {
+			return false;
+		}
+
+		ObjectObjectPair<IntSparseFormalSum<Integer>, IntSparseFormalSum<Integer>> Bpair = reduce(B, v, this.integerComparator, integerChainModule);
+		IntSparseFormalSum<Integer> v_prime = Bpair.getSecond();
+		
+		return v_prime.isEmpty();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static AnnotatedIntervalTracker<Integer, IntSparseFormalSum<SimplexPair>> doSomething(AnnotatedIntervalTracker<Integer, IntSparseFormalSum<Simplex>> accumulator, HomologyBasisTracker<SimplexPair> Z, int Z_Index, HomologyBasisTracker<Simplex> X) {
+		IntSparseFormalSum<Simplex> projection = null;
+		
+		Map<Integer, Integer> joinMap = new HashMap<Integer, Integer>();
+		
+		for (Entry<Integer, Descriptor<?>> Z_entry: Z.intervalTracker.openIntervals.entrySet()) {
+			Integer Z_key = Z_entry.getKey();
+			Descriptor<IntSparseFormalSum<SimplexPair>> Z_descriptor = (Descriptor<IntSparseFormalSum<SimplexPair>>) Z_entry.getValue();
+			int Z_dimension = Z_descriptor.dimension;
+			IntSparseFormalSum<SimplexPair> Z_chain = Z_descriptor.generator;
+			projection = SimplexStreamUtility.projectFirst(Z_chain, X.chainModule);
+			projection = SimplexStreamUtility.filterByDimension(projection, Z_dimension);
+			
+			for (Entry<Integer, Descriptor<?>> X_entry: accumulator.openIntervals.entrySet()) {
+				Integer X_key = X_entry.getKey();
+				Descriptor<IntSparseFormalSum<Simplex>> X_descriptor = (Descriptor<IntSparseFormalSum<Simplex>>) X_entry.getValue();
+				int X_dimension = X_descriptor.dimension;
+				IntSparseFormalSum<Simplex> X_chain = X_descriptor.generator;
+				
+				if (X_dimension == Z_dimension) {
+					IntSparseFormalSum<Simplex> difference = X.chainModule.subtract(X_chain, projection);
+					
+					if (X.isBoundary(difference)) {
+						joinMap.put(X_key, Z_key);
+					}
+				}
+			}
+		}
+		
+		AnnotatedIntervalTracker<Integer, IntSparseFormalSum<SimplexPair>> result = AnnotatedIntervalTracker.join(accumulator, Z.intervalTracker, joinMap, Z_Index);
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static AnnotatedIntervalTracker<Integer, IntSparseFormalSum<Simplex>> doSomethingSecond(AnnotatedIntervalTracker<Integer, IntSparseFormalSum<SimplexPair>> Z_tracker, HomologyBasisTracker<Simplex> Y, int Y_index) {
+		IntSparseFormalSum<Simplex> projection = null;
+		
+		Map<Integer, Integer> joinMap = new HashMap<Integer, Integer>();
+		
+		for (Entry<Integer, Descriptor<?>> Z_entry: Z_tracker.openIntervals.entrySet()) {
+			Integer Z_key = Z_entry.getKey();
+			Descriptor<IntSparseFormalSum<SimplexPair>> Z_descriptor = (Descriptor<IntSparseFormalSum<SimplexPair>>) Z_entry.getValue();
+			int Z_dimension = Z_descriptor.dimension;
+			IntSparseFormalSum<SimplexPair> Z_chain = Z_descriptor.generator;
+			projection = SimplexStreamUtility.projectSecond(Z_chain, Y.chainModule);
+			projection = SimplexStreamUtility.filterByDimension(projection, Z_dimension);
+			
+			for (Entry<Integer, Descriptor<?>> Y_entry: Y.intervalTracker.openIntervals.entrySet()) {
+				Integer Y_key = Y_entry.getKey();
+				Descriptor<IntSparseFormalSum<Simplex>> Y_descriptor = (Descriptor<IntSparseFormalSum<Simplex>>) Y_entry.getValue();
+				int Y_dimension = Y_descriptor.dimension;
+				IntSparseFormalSum<Simplex> Y_chain = Y_descriptor.generator;
+				
+				if (Y_dimension == Z_dimension) {
+					IntSparseFormalSum<Simplex> difference = Y.chainModule.subtract(Y_chain, projection);
+					
+					if (Y.isBoundary(difference)) {
+						joinMap.put(Z_key, Y_key);
+					}
+				}
+			}
+		}
+		
+		AnnotatedIntervalTracker<Integer, IntSparseFormalSum<Simplex>> result = AnnotatedIntervalTracker.join(Z_tracker, Y.intervalTracker, joinMap, Y_index);
+		return result;
 	}
 }

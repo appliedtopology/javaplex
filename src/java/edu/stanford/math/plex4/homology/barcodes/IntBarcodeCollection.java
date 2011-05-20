@@ -1,9 +1,12 @@
 package edu.stanford.math.plex4.homology.barcodes;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import gnu.trove.TIntIntHashMap;
-import gnu.trove.TIntObjectHashMap;
-import gnu.trove.TIntObjectIterator;
 
 /**
  * This class implements functionality for storing a collection of barcodes. 
@@ -13,8 +16,8 @@ import gnu.trove.TIntObjectIterator;
  * @author Andrew Tausz
  *
  */
-public class IntBarcodeCollection {
-	private final TIntObjectHashMap<IntBarcode> barcodeMap = new TIntObjectHashMap<IntBarcode>();
+public class IntBarcodeCollection implements Iterable<Entry<Integer, IntBarcode>> {
+	private final Map<Integer, IntBarcode> barcodeMap = new HashMap<Integer, IntBarcode>();
 	
 	/**
 	 * This function returns a barcode collection containing only the infinite intervals.
@@ -24,9 +27,8 @@ public class IntBarcodeCollection {
 	public IntBarcodeCollection getInfiniteIntervals() {
 		IntBarcodeCollection collection = new IntBarcodeCollection();
 		
-		for (TIntObjectIterator<IntBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			collection.barcodeMap.put(iterator.key(), iterator.value().getInfiniteIntervals());
+		for (Integer dimension: this.barcodeMap.keySet()) {
+			collection.barcodeMap.put(dimension, this.barcodeMap.get(dimension).getInfiniteIntervals());
 		}
 		
 		return collection;
@@ -35,10 +37,9 @@ public class IntBarcodeCollection {
 	public IntBarcodeCollection filterByMaxDimension(int maxDimension) {
 		IntBarcodeCollection collection = new IntBarcodeCollection();
 		
-		for (TIntObjectIterator<IntBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			if (iterator.key() <= maxDimension) {
-				collection.barcodeMap.put(iterator.key(), iterator.value());
+		for (Integer dimension: this.barcodeMap.keySet()) {
+			if (dimension <= maxDimension) {
+				collection.barcodeMap.put(dimension, this.barcodeMap.get(dimension));
 			}
 		}
 		
@@ -97,9 +98,8 @@ public class IntBarcodeCollection {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		
-		for (TIntObjectIterator<IntBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			builder.append(iterator.value().toString());
+		for (Integer dimension: this.barcodeMap.keySet()) {
+			builder.append(this.barcodeMap.get(dimension).toString());
 			builder.append("\n");
 		}
 		
@@ -117,24 +117,24 @@ public class IntBarcodeCollection {
 	public TIntIntHashMap getBettiNumbersMap(int filtrationValue) {
 		TIntIntHashMap map = new TIntIntHashMap();
 		
-		for (TIntObjectIterator<IntBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			map.put(iterator.key(), iterator.value().getSliceCardinality(filtrationValue));
+		for (Integer dimension: this.barcodeMap.keySet()) {
+			map.put(dimension, this.barcodeMap.get(dimension).getSliceCardinality(filtrationValue));
 		}
 		
 		return map;
 	}
-	
-	/**
-	 * Returns an iterator.
-	 * 
-	 * @return an iterator
-	 */
-	public TIntObjectIterator<IntBarcode> iterator() {
-		return this.barcodeMap.iterator();
+
+	public void draw() {
+		for (Integer dimension: this.barcodeMap.keySet()) {
+			System.out.println("Dimension: " + dimension);
+			this.barcodeMap.get(dimension).draw();
+		}
 	}
-	
-	
+
+	public Iterator<Entry<Integer, IntBarcode>> iterator() {
+		return this.barcodeMap.entrySet().iterator();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -158,13 +158,5 @@ public class IntBarcodeCollection {
 		} else if (!barcodeMap.equals(other.barcodeMap))
 			return false;
 		return true;
-	}
-
-	public void draw() {
-		for (TIntObjectIterator<IntBarcode> iterator = this.barcodeMap.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			System.out.println("Dimension: " + iterator.key());
-			iterator.value().draw();
-		}
 	}
 }

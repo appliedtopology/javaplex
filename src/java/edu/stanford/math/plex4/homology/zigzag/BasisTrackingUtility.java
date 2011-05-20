@@ -6,7 +6,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcode;
+import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcode;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
@@ -17,32 +20,47 @@ import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
-import gnu.trove.TIntObjectIterator;
 import gnu.trove.TObjectIntIterator;
 
 public class BasisTrackingUtility {
 	public static IntBarcodeCollection union(IntBarcodeCollection a, IntBarcodeCollection b) {
 		IntBarcodeCollection c = new IntBarcodeCollection();
 		
-		for (TIntObjectIterator<IntBarcode> iterator = a.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			
-			int dimension = iterator.key();
-			IntBarcode barcode = iterator.value();
-			
+		for (Entry<Integer, IntBarcode> entry: a) {
+			int dimension = entry.getKey();
+			IntBarcode barcode = entry.getValue();
 			for (IntHalfOpenInterval interval: barcode) {
 				c.addInterval(dimension, interval);
 			}
 		}
 		
-		for (TIntObjectIterator<IntBarcode> iterator = b.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			
-			int dimension = iterator.key();
-			IntBarcode barcode = iterator.value();
-			
+		for (Entry<Integer, IntBarcode> entry: b) {
+			int dimension = entry.getKey();
+			IntBarcode barcode = entry.getValue();
 			for (IntHalfOpenInterval interval: barcode) {
 				c.addInterval(dimension, interval);
+			}
+		}
+		
+		return c;
+	}
+	
+	public static <V> IntAnnotatedBarcodeCollection<V> union(IntAnnotatedBarcodeCollection<V> a, IntAnnotatedBarcodeCollection<V> b) {
+		IntAnnotatedBarcodeCollection<V> c = new IntAnnotatedBarcodeCollection<V>();
+		
+		for (Entry<Integer, IntAnnotatedBarcode<V>> entry: a) {
+			int dimension = entry.getKey();
+			IntAnnotatedBarcode<V> barcode = entry.getValue();
+			for (ObjectObjectPair<IntHalfOpenInterval, V> intervalPair: barcode) {
+				c.addInterval(dimension, intervalPair.getFirst(), intervalPair.getSecond());
+			}
+		}
+		
+		for (Entry<Integer, IntAnnotatedBarcode<V>> entry: b) {
+			int dimension = entry.getKey();
+			IntAnnotatedBarcode<V> barcode = entry.getValue();
+			for (ObjectObjectPair<IntHalfOpenInterval, V> intervalPair: barcode) {
+				c.addInterval(dimension, intervalPair.getFirst(), intervalPair.getSecond());
 			}
 		}
 		

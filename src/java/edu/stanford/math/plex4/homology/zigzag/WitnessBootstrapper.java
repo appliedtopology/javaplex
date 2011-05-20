@@ -8,12 +8,13 @@ import edu.stanford.math.plex4.api.PersistenceAlgorithmInterface;
 import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
-import edu.stanford.math.plex4.metric.landmark.MaxMinLandmarkSelector;
+import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
 import edu.stanford.math.plex4.streams.impl.WitnessBicomplex;
 import edu.stanford.math.plex4.streams.impl.WitnessStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -45,7 +46,7 @@ public class WitnessBootstrapper<T> {
 		selectionSize = Math.min(metricSpace.size(), selectionSize);
 
 		for (int selection = 0; selection < numSelections; selection++) {
-			LandmarkSelector<T> selector = new MaxMinLandmarkSelector<T>(metricSpace, selectionSize);
+			LandmarkSelector<T> selector = new RandomLandmarkSelector<T>(metricSpace, selectionSize);
 			this.indexSelections.add(selector);
 		}
 	}
@@ -73,7 +74,7 @@ public class WitnessBootstrapper<T> {
 		boolean x_added = false;
 
 		for (int j = 1; j < this.indexSelections.size(); j++) {
-			Y_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(0).getLandmarkPoints());
+			Y_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(j).getLandmarkPoints());
 			Y_stream.finalizeStream();
 			y = SimplexStreamUtility.getFirstVertex(Y_stream);
 			Y = SimplexStreamUtility.embedSecond(x, Y_stream);
@@ -185,14 +186,14 @@ public class WitnessBootstrapper<T> {
 		List<SimplexPair> Y = null;
 
 		for (int j = 1; j < this.indexSelections.size(); j++) {
-			Y_0 = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(0).getLandmarkPoints());
+			Y_0 = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(j).getLandmarkPoints());
 			Y_0.setPlex3Compatbility(false);
 			Y_0.finalizeStream();
 
 			WitnessBicomplex<T> Z_0 = new WitnessBicomplex<T>(X_0, Y_0, maxDimension);
 			Z_0.finalizeStream();
 			Z_0.ensureAllFaces();
-			
+
 			AbstractPersistenceBasisAlgorithm<SimplexPair, IntSparseFormalSum<SimplexPair>> algo = PersistenceAlgorithmInterface.getIntSimplexPairAbsoluteHomology(maxDimension + 1);
 			IntAnnotatedBarcodeCollection<IntSparseFormalSum<SimplexPair>> bc = algo.computeAnnotatedIntervals(Z_0);
 			System.out.println(bc);
@@ -254,5 +255,83 @@ public class WitnessBootstrapper<T> {
 		}
 
 		return basisTracker.getBarcodes().filterByMaxDimension(maxDimension);
+	}
+
+	public IntBarcodeCollection performProjectionBootstrap() {
+		WitnessStream<T> X_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(0), maxDimension + 1, maxDistance, indexSelections.get(0).getLandmarkPoints());
+		X_stream.setPlex3Compatbility(false);
+		X_stream.finalizeStream();
+		
+		{
+			System.out.println("Barcodes for X_" + 0);
+			AbstractPersistenceBasisAlgorithm<Simplex, IntSparseFormalSum<Simplex>> algo = PersistenceAlgorithmInterface.getIntSimplicialAbsoluteHomology(maxDimension + 1);
+			IntAnnotatedBarcodeCollection<IntSparseFormalSum<Simplex>> bc = algo.computeAnnotatedIntervals(X_stream);
+			System.out.println(bc);
+		}
+
+		WitnessStream<T> Y_stream = null;
+
+		AnnotatedIntervalTracker<Integer, IntSparseFormalSum<Simplex>> result = null;
+
+		HomologyBasisTracker<SimplexPair> ZTracker = null;
+		HomologyBasisTracker<Simplex> XTracker = null;
+		HomologyBasisTracker<Simplex> YTracker = null;
+
+		AnnotatedIntervalTracker<Integer, IntSparseFormalSum<SimplexPair>> intermediate = null;
+		
+		for (int j = 1; j < this.indexSelections.size(); j++) {
+			Y_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(j).getLandmarkPoints());
+			Y_stream.setPlex3Compatbility(false);
+			Y_stream.finalizeStream();
+
+			{
+				System.out.println("Barcodes for X_" + j);
+				AbstractPersistenceBasisAlgorithm<Simplex, IntSparseFormalSum<Simplex>> algo = PersistenceAlgorithmInterface.getIntSimplicialAbsoluteHomology(maxDimension + 1);
+				IntAnnotatedBarcodeCollection<IntSparseFormalSum<Simplex>> bc = algo.computeAnnotatedIntervals(Y_stream);
+				System.out.println(bc);
+			}
+			
+			WitnessBicomplex<T> Z_stream = new WitnessBicomplex<T>(X_stream, Y_stream, maxDimension);
+			Z_stream.finalizeStream();
+			Z_stream.ensureAllFaces();
+
+			/*
+			AbstractPersistenceBasisAlgorithm<SimplexPair, IntSparseFormalSum<SimplexPair>> algo = PersistenceAlgorithmInterface.getIntSimplexPairAbsoluteHomology(maxDimension + 1);
+			IntAnnotatedBarcodeCollection<IntSparseFormalSum<SimplexPair>> bc = algo.computeAnnotatedIntervals(Z_stream);
+			System.out.println(bc);
+			*/
+
+			if (XTracker == null) {
+				XTracker = new HomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance());
+				
+				for (Simplex x: X_stream) {
+					XTracker.add(x, j - 1);
+				}
+			}
+
+			ZTracker = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
+			for (SimplexPair z: Z_stream) {
+				ZTracker.add(z, j);
+			}
+
+			YTracker = new HomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance());
+			for (Simplex y: Y_stream) {
+				YTracker.add(y, j);
+			}
+			
+			if (result == null) {
+				intermediate = HomologyBasisTracker.doSomething(XTracker.intervalTracker, ZTracker, j, XTracker);
+			} else {
+				intermediate = HomologyBasisTracker.doSomething(result, ZTracker, j, XTracker);
+			}
+			result = HomologyBasisTracker.doSomethingSecond(intermediate, YTracker, j);
+
+			X_stream = Y_stream;
+			XTracker = YTracker;
+		}
+		
+		result.endAllIntervals(this.indexSelections.size());
+
+		return result.getBarcodes().filterByMaxDimension(maxDimension);
 	}
 }
