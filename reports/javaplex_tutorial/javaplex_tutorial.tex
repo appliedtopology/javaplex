@@ -25,90 +25,68 @@
 \begin{document}
 
 \title{J\lc{ava}P\lc{lex} T\lc{utorial}}
-\author{H\lc{enry} A\lc{dams and} A\lc{ndrew} T\lc{ausz} \\ \lc{henrya@math.stanford.edu and atausz@stanford.edu} \\ M\lc{arch 20, 2011}}
+\author{H\lc{enry} A\lc{dams and} A\lc{ndrew} T\lc{ausz} \\ \lc{henrya@math.stanford.edu and atausz@stanford.edu} \\ M\lc{ay 22, 2011}}
 
 
 \maketitle
 
-% for [plex.jar 6-10-09 8:25 AM]
+% for javaplex.jar 5/20/11 7:14 PM
 
-
-
-% add house with no roof vs house with no walls discussion: persistence is stronger than knowing betti numbers at all time!
-
-% change stream to filtered simplicial complex
-
-% 7-dimensional simplices (IE 8 vertices) is the max that ExplicitStream supports.
-
-% check kDensitySlow works on other computers. Do you need to compile mex files etc?
-
-% Steve Ferry flat torus example. Can I get correct betti_2 using witness?
-
-% commands from the tutorial:
-%EDU>> ripsHouse = Plex.RipsStream(0.001, 1000, 4, pdataHouse);
-%EDU>> ripsHouse = Plex.RipsStream(0.001, 10000, 4, pdataHouse);
-% #1 works fine
-% #2 gives java.lang.OutOfMemoryError: Java heap space
-% This is less than desirable-- If I can only build simplices of dimenson <=7, why am I allocating structure to handle simplices of size d_max if d_max>7? Should warn the user if d_max > 7
-
-% add dicussion of granularity = 0 ?
-
-% expand use of Rmax in landmark section?
-
-%add figure for house POINT CLOUD data (that is, the witness stream built on top of it)
-
-%add figure or color showing filtration times for house
-
-% add a figure OR comments to the tutorial showing that a filtered simplicial complex is the same as taking the level set of a "Morse" function defined on the simplicial complex
-
-% expand BeanShell tutorial, with beanshell functions
+% remove \index{}
 
 \tableofcontents
+
+
+
 
 \section{Introduction}
 
 %\subsection{JPlex}\label{jplexIntro}
 %JPlex is a Java software package for computing the persistent homology of filtered simplicial complexes, often generated from point cloud data. The authors are Harlan Sexton and Mikael Vejdemo Johansson. This is a tutorial for using JPlex with Matlab. There is a similar document for using JPlex with BeanShell. Please email me (\texttt{henrya@math.stanford.edu}) with questions about this tutorial. Some of the exercises are borrowed from Vin de Silva's {\em Plexercises} (\url{http://comptop.stanford.edu/u/programs/Plexercises2.pdf}). Other sources of information about JPlex are the javadoc tree for the JPlex library (\url{http://comptop.stanford.edu/programs/jplex/files/javadoc/index.html}) and the TMSCSCS website (\url{http://comptop.stanford.edu/programs/}). \\
 
-%If you are interested in JPlex, then you may also be interested in two other software packages that compute persistent homology. The first is Dionysus (\url{http://www.mrzv.org/software/dionysus}) by Dmitriy Morozov, and the second is JavaPlex (\url{http://code.google.com/p/javaplex}) by Tim Harrington, Andrew Tausz, and Mikael Vejdemo Johansson. \\
+\subsection{JavaPlex}\label{javaplexIntro}
 
-\subsection{JPlex}\label{jplexIntro}
+JavaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. JavaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo Johansson. The main motivation for the development of JavaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for JavaPlex is \url{http://code.google.com/p/javaplex/} and the javadoc tree for the library can be found at \url{http://javaplex.googlecode.com/svn/trunk/doc/index.html}. \\
 
-JavaPlex is a Java software package for computing the persistent homology of filtered chain complex, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. JavaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo Johansson. The main motivation for the development of JavaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. Other sources of information about JPlex are the javadoc tree for the JPlex library (\url{http://javaplex.googlecode.com/svn/trunk/doc/index.html}) and the TMSCSCS website (\url{http://comptop.stanford.edu/programs/}).
+If you are interested in JavaPlex, then you may also be interested in the software package Dionysus by Dmitriy Morozov, available at \url{http://www.mrzv.org/software/dionysus}. \\
 
 \subsection{License}\label{license}
 
-JavaPlex is an open source software package under the Open BSD License. The source code can be found at \url{http://code.google.com/p/javaplex/}. If you are interested in contributing to the project, we invite you to contact either of the authors.
-
-\subsection{Accompanying files}\label{accompany}
-
-
+JavaPlex is an open source software package under the Open BSD License. The source code can be found at \url{http://code.google.com/p/javaplex/}. If you are interested in contributing to the project, we invite you to contact either of the authors. \\
 
 \subsection{Installation for Matlab}\label{install}
 Open Matlab and check which version of Java is being used. In this tutorial, the symbol \texttt{>>} precedes commands to enter into your Matlab window.
 \begin{quote} \texttt{>> version -java \\
 ans = Java 1.5.0\_13 with Apple Inc.   Java Hotspot(TM) Client VM mixed mode, sharing
 } \end{quote}
-JPlex requires version number \texttt{1.5} or higher. \\
+JavaPlex requires version number \texttt{1.5} or higher. \\ % CONFIRM
 
-**** Explain how to download and extract
+**** Explain how to download and extract % TODO
 
 Extract the contents of the zip file containing the examples. It should be called something like \texttt{javaplex-examples-4.00.tar.gz}. 
 
-Copy \texttt{plex.jar} into a directory of your choice. If you choose the current Matlab directory, then you do not need to edit m-file \texttt{startJPlex.m} and can skip the rest of this paragraph. Suppose instead you have chosen the directory \texttt{/Users/myName/}. Open the m-file \texttt{startJPlex.m}, which contains the following lines.
-\begin{quote} \texttt{javaaddpath('plex.jar') \\
-import edu.stanford.math.plex.*;} \end{quote}
-Replace \texttt{'plex.jar'} above with \texttt{'/Users/myName/plex.jar'} (substitute the path of your chosen directory). Save \texttt{startJPlex.m}. \\
+%Copy \texttt{plex.jar} into a directory of your choice. If you choose the current Matlab directory, then you do not need to edit m-file \texttt{load\_javaplex.m} and can skip the rest of this paragraph. Suppose instead you have chosen the directory \texttt{/Users/myName/}. Open the m-file \texttt{load\_javaplex.m}, which contains the following lines.
+%\begin{quote} \texttt{javaaddpath('plex.jar') \\
+%import edu.stanford.math.plex.*;} \end{quote}
+%Replace \texttt{'plex.jar'} above with \texttt{'/Users/myName/plex.jar'} (substitute the path of your chosen directory). Save \texttt{load\_javaplex.m}. \\
 
-Run the \texttt{startJPlex.m} file. 
-\begin{quote} \texttt{>> startJPlex \index{1}{startJPlex.m}
+Run the \texttt{load\_javaplex.m} file. 
+\begin{quote} \texttt{>> load\_javaplex
 } \end{quote}
-Installation is complete. Confirm that JPlex is working properly with the following command.
-\begin{quote} \texttt{ >> homology.chain\_basis.Simplex.makeSimplex(4)\\
-ans =[4]
-} \end{quote}
+%Installation is complete. Confirm that JavaPlex is working properly with the following command.
+%\begin{quote} \texttt{ >> homology.chain\_basis.Simplex.makeSimplex(4)\\
+%ans =[4]
+%} \end{quote}
+Each time upon starting a new Matlab session, you will need to run \texttt{load\_javaplex.m}. \\
 
-Each time upon starting a new Matlab session, you will need to run \texttt{startJPlex.m}.   \\
+\subsection{Accompanying files}\label{accompany}
+
+Matlab scripts containing the commands in this tutorial are available in the folder \texttt{javaplex/src/matlab/for\_distribution/tutorial\_examples}. \\
+
+%TODO
+
+
+
 
 \section{Math review}
 
@@ -127,7 +105,9 @@ We think of 0-simplices as vertices, 1-simplices as edges, 2-simplices as triang
 Betti numbers help describe the homology of a simplicial complex $X$. The value $Betti_k$, where $k\in \mathbb{N}$, is equal to the rank of the $k$-th homology group of $X$. Roughly speaking, $Betti_k$ gives the number of $k$-dimensional holes. In particular, $Betti_0$ is the number of connected components. For instance, a $k$-dimensional sphere has all Betti numbers equal to zero except for $Betti_0 = Betti_k = 1$. \\
 
 \subsection{Filtered simplicial complexes}
-A filtration on a simplicial complex $X$ is a collection of subcomplexes $\{X(t) \ |\ t\in \mathbb{R}\}$ of $X$ such that $X(t) \subset X(s)$ whenever $t\leq s$. The filtration time of a simplex $\sigma \in X$ is the smallest $t$ such that $\sigma \in X(t)$. In JPlex, filtered simplicial complexes are called streams. \\
+A filtration on a simplicial complex $X$ is a collection of subcomplexes $\{X(t) \ |\ t\in \mathbb{R}\}$ of $X$ such that $X(t) \subset X(s)$ whenever $t\leq s$. The filtration time of a simplex $\sigma \in X$ is the smallest $t$ such that $\sigma \in X(t)$. In JavaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. \\
+
+% Introduce filtered chain complexes?
 
 \subsection{Persistent homology}
 Betti intervals help describe how the homology of $X(t)$ changes with $t$. A $k$-dimensional Betti interval, with endpoints [$t_{start}$, $t_{end}$), corresponds roughly to a $k$-dimensional hole that appears at filtration time $t_{start}$, remains open for $t_{start} \leq t < t_{end}$, and closes at time $t_{end}$. We are often interested in Betti intervals that persist for a long filtration range. \\
@@ -137,96 +117,85 @@ Persistent homology depends heavily on functoriality: for $t\leq s$, the inclusi
 
 
 
-\section{Streams}\label{streams}
+\section{Explicit simplex streams}\label{streams}
 
-\subsection{Class SimplexStream}
-In JavaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. The class ExplicitSimplexStream allows one to build a simplicial complex from scratch. In \S \ref{sfpc} we will learn about other automated methods of generating simplicial complexes; namely the Rips, Witness and LazyWitness constructions. 
+In JavaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. The class ExplicitSimplexStream allows one to build a simplicial complex from scratch. In \S \ref{sfpc} we will learn about other automated methods of generating simplicial complexes; namely the Vietoris--Rips, witness, and lazy witness constructions. 
+
+\subsection{Explicit simplex streams and homology}
+
+The Matlab script corresponding to this section is \texttt{explicit\_simplex\_example.m}, which is in the folder \texttt{tutorial\_examples}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
+\begin{quote} \texttt{>> explicit\_simplex\_example\\
+} \end{quote}
+
+
+
+{\em Circle example.} Let's build a simplicial complex homeomorphic to a circle. We have three 0-simplices: [0], [1], and [2], and three 1-simplices: [0,1], [0,2], [1,2].
 
 \hspace{2.5in}\includegraphics[height=1in]{s1.pdf}
 
-\subsection{Using the ExplicitSimplexStream class}\label{SS:explicit}
-
-{\em Circle example.} 
-Let's build a simplicial complex homeomorphic to a circle. We have three 0-simplices: [0], [1], and [2], and three 1-simplices: [0,1], [0,2], [1,2]. To build a simplicial complex in JavaPlex we simply build a stream in which all filtration times are zero. First we get an empty ExplicitSimplexStream instance. Many command lines in this tutorial will end with a semicolon to supress unwanted output as below.
+To build a simplicial complex in JavaPlex we simply build a stream in which all filtration times are zero. First we get an empty ExplicitSimplexStream instance. Many command lines in this tutorial will end with a semicolon to supress unwanted output as below.
 \begin{quote} \texttt{>> stream = api.Plex4.createExplicitSimplexStream();
 } \end{quote}
 
-Next we will add simplicies using the methods \texttt{addVertex} and \texttt{addElement}. The first creates a vertex with a specified index, and the second creates a simplex with the given array of vertices. By default, these will all have filtration indices of zero.
+Next we add simplicies using the methods \texttt{addVertex} and \texttt{addElement}. The first creates a vertex with a specified index, and the second creates a simplex with the given array of vertices. By default, these will all have filtration times of zero.
 
 \begin{quote}\texttt{>> stream.addVertex(0);\\
->> stream.addVertex(1);\\
->> stream.addVertex(2);\\
->> stream.addElement([0, 1]);\\
->> stream.addElement([0, 2]);\\
->> stream.addElement([1, 2]);\\
+>> stream.addVertex(1); \\
+>> stream.addVertex(2); \\
+>> stream.addElement([0, 1]); \\
+>> stream.addElement([0, 2]); \\
+>> stream.addElement([1, 2]);
 } \end{quote}
 
-To inspect the size of the stream, we can do the following.
-
-\begin{quote}\texttt{>> size = stream.getSize()\\
-\\
-size =\\
-\\
-     6\\
+We print the total number of simplices in the complex.
+\begin{quote}\texttt{>> size = stream.getSize() \\
+size = 6\\
 } \end{quote}
 
-In order to compute the homology of our complex, we first create an object that will perform the computation. The following line obtains the default algorithm for performing simplicial homology. There are many others, since there are different variant on the algorithm and one can also change the ground field. This one will perform the homology computation over $\mathbb{Z}/(2)$. The parameter 3 indicates that the maximum dimension to compute homology to is 3. 
-
-\begin{quote}\texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);\\
+In order to compute the homology of our complex, we first create an object that will perform the computation. The following line obtains the default algorithm for performing simplicial homology. There are other variants on the persistence algorithm, and one can also change the ground field. This default object will perform the homology computation over $\mathbb{Z}/(2)$. The parameter 3 indicates that the maximum dimension to compute homology to is 3. 
+\begin{quote}\texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 } \end{quote}
-
-We then perform the computation as follows:
-
-\begin{quote} \texttt{>> triangle\_intervals = persistence.computeIntervals(stream)\\
+We compute and print the intervals.
+\begin{quote} \texttt{>> triangle\_intervals = persistence.computeIntervals(stream) \\
+triangle\_intervals = \\
 \\
-triangle\_intervals =\\
+Dimension: 1 \newline
+[0, infinity) \\
 \\
-Dimension: 1\\
-(0, infinity)\\
-\\
-Dimension: 0\\
-(0, infinity)\\
+Dimension: 0 \newline
+[0, infinity)
 } \end{quote}
+This gives us the expected Betti numbers $Betti_0=1$ and $Betti_1=1$. \\
 
-This gives us the result that we expect - the Betti numbers $\{1, 1\}$. 
+{\em 9-sphere example.} Let's build a 9-sphere, which is homeomorphic to the boundary of a 10-simplex. First we create a complex containing only a single 10-simplex. This is not a simplicial complex because it does not contain the faces of the 10-simplex. We add all faces using the method \texttt{ensureAllFaces}. Then, we remove the 10-simplex using the method \texttt{removeElementIfPresent}. What remains is the boundary of a 10-simplex, that is, a 9-sphere.
 
-{\em 9-sphere example.} Let's build a 9-sphere, which is homeomorphic to the boundary of a 10-simplex. In the following example, we show how to use the ExplicitSimplexStream class to do it. The key difference between this and the previous example is that we are using the methods \texttt{ensureAllFaces} and \texttt{removeElementIfPresent}. In this case, it adds a 10-simplex to the complex. However, this is not a legal simplicial complex since it does not satisfy the requirements that it is closed under taking boundaries. Hence we ensure that all of the faces (boundaries) are present. We then hollow out the sphere by removing the 10-simplex. Note that we wrote this in script form. This script is available in the tutorial examples folder. 
+\begin{quote} \texttt{>> stream = api.Plex4.createExplicitSimplexStream();\\
+>> dimension = 9;\\
+>> stream.addElement(0:(dimension + 1));\\
+>> stream.ensureAllFaces();\\
+>> stream.removeElementIfPresent(0:(dimension + 1));\\
+>> stream.finalizeStream();
+}\end{quote}
 
-\begin{quote} \texttt{\% get a new ExplicitSimplexStream\\
-stream = api.Plex4.createExplicitSimplexStream();\\
-\\
-dimension = 9;\\
-\\
-\% construct simplicial sphere\\
-stream.addElement(0:(dimension + 1));\\
-stream.ensureAllFaces();\\
-stream.removeElementIfPresent(0:(dimension + 1));\\
-stream.finalizeStream();\\
-\\
-\% print out the total number of simplices in the complex\\
-size = stream.getSize()\\
-\\
-\% get the default persistence computation\\
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);\\
-\\
-\% compute and print the intervals\\
-n\_sphere\_intervals = persistence.computeIntervals(stream)\\
-} \end{quote}
+We print the total number of simplices in the complex.
+\begin{quote} \texttt{>> size = stream.getSize()\\
+size = 2046
+}\end{quote}
 
-If we run this example, we get the following result as expected:
-
-\begin{quote}\texttt{size =\\
-\\
-2046\\
-\\
+We get the default persistence computation
+\begin{quote} \texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);
+}\end{quote}
+and compute and print the intervals.
+\begin{quote} \texttt{>> n\_sphere\_intervals = persistence.computeIntervals(stream)\\
 n\_sphere\_intervals =\\
 \\
-Dimension: 9\\
-(0, infinity)\\
+Dimension: 9\newline
+[0, infinity)\\
 \\
-Dimension: 0\\
-(0, infinity)\\
+Dimension: 0\newline
+[0, infinity)
 } \end{quote}
+This gives us the expected Betti numbers $Betti_0=1$ and $Betti_9=1$. \\
 
 \begin{exercise}
 Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint:} You will need at least 7 vertices \cite[page 107]{h02}. We recommend using a $3\times 3$ grid of 9 vertices. \\
@@ -241,7 +210,9 @@ Build a simplicial complex homeomorphic to the projective plane. Find its Betti 
 \end{exercise}
 
 
-\subsection{Subclass ExplicitStream and persistent homology}\label{explicitStream}
+\subsection{Explicit simplex streams and persistent homology}
+
+The Matlab script corresponding to this example is \texttt{house\_example.m}.\\
 
 \begin{wrapfigure}{r}{1in}
 	\begin{center}
@@ -250,88 +221,100 @@ Build a simplicial complex homeomorphic to the projective plane. Find its Betti 
 \end{wrapfigure}
 
 Let's build a stream with nontrivial filtration times. We build a house, with the square appearing at time 0, the top vertex at time 1, the roof edges at times 2 and 3, and the roof 2-simplex at time 7.
-\begin{quote} \texttt{>> house = ExplicitStream; \index{1}{ExplicitStream}\\
->> house.add([1;2;3;4;5], [0;0;0;0;1]) \index{1}{add}\\
->> house.add([1,2;2,3;3,4;4,1;3,5;4,5], [0;0;0;0;2;3]) \\
->> house.add([3,4,5], 7)
+\begin{quote} \texttt{>> stream = api.Plex4.createExplicitSimplexStream(); \\
+>> stream.addVertex(1, 0); \\
+>> stream.addVertex(2, 0); \\
+>> stream.addVertex(3, 0); \\
+>> stream.addVertex(4, 0); \\
+>> stream.addVertex(5, 1); \\
+>> stream.addElement([1, 2], 0); \\
+>> stream.addElement([2, 3], 0); \\
+>> stream.addElement([3, 4], 0); \\
+>> stream.addElement([4, 1], 0); \\
+>> stream.addElement([3, 5], 2); \\
+>> stream.addElement([4, 5], 3); \\
+>> stream.addElement([3, 4, 5], 7);
+} \end{quote} % can you add more than 1 simplex at a time?
+We get the default persistence computation,
+\begin{quote} \texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 } \end{quote}
-We compute the Betti intervals.
-\begin{quote} \texttt{>> house.close \index{1}{close}\\
->> intervals = Plex.Persistence.computeIntervals(house); \index{1}{Plex.Persistence.computeIntervals}
+compute the intervals,
+\begin{quote} \texttt{>> filtration\_index\_intervals = persistence.computeIntervals(stream);
 } \end{quote}
-There are four intervals.
-\begin{quote} \texttt{>> length(intervals) \index{1}{length}\\
-ans = 4
+and transform the integral intervals to floating point intervals.
+\begin{quote} \texttt{>> transformer = homology.filtration.IdentityConverter.getInstance(); \\
+>> filtration\_value\_intervals = transformer.transform(filtration\_index\_intervals) \\
+filtration\_value\_intervals =\\
+\\
+Dimension: 1\newline
+[3.000000, 7.000000)\newline
+[0.000000, infinity)\\
+\\
+Dimension: 0\newline
+[1.000000, 2.000000)\newline
+[0.000000, infinity)\\
 } \end{quote}
-The fourth interval is a $Betti_1$ interval, starting at filtration time 3 and ending at 7.
-\begin{quote} \texttt{>> intervals(4).dimension \index{1}{dimension}\\
-ans = 1 \\
->> intervals(4).start \index{1}{start}\\
-ans = 3 \\
->> intervals(4).end \index{1}{end}\\
-ans = 7
-} \end{quote}
-We can display the fourth interval all at once.
-\begin{quote} \texttt{>> intervals(4)\\
-ans = [1: (3.000000, 7.000000)]
-} \end{quote}
-This 1-dimensional hole is formed by the three edges of the roof. It forms when edge $[4,5]$ appears at filtration time 3 and closes when 2-simplex $[3,4,5]$ appears at filtration time 7.\\
+There are four intervals. The first is a $Betti_1$ interval, starting at filtration time 3 and ending at 7. This 1-dimensional hole is formed by the three edges of the roof. It forms when edge $[4,5]$ appears at filtration time 3 and closes when 2-simplex $[3,4,5]$ appears at filtration time 7.\\
 
-Or, using the m-file \texttt{interval2mat.m}, we can display all of the intervals at once.
-\begin{quote} \texttt{>> interval2mat(intervals) \index{1}{interval2mat.m}\\
-ans =
+One $Betti_0$ interval and one $Betti_1$ interval are semi-infinite. 
+\begin{quote} \texttt{>> infinite\_barcodes = filtration\_value\_intervals.getInfiniteIntervals();
+} \end{quote}
+We can print the Betti numbers (at time 7 or infinity) as an array
+\begin{quote} \texttt{>> betti\_numbers\_array = infinite\_barcodes.getBettiSequence()
+} \end{quote}
+\hspace{12mm}\texttt{betti\_numbers\_array =}
+
+\hspace{19mm}$\begin{matrix}
+\texttt{1}\\
+\texttt{1}
+\end{matrix}$
+\vspace{3mm}
+
+or as a list with entries of the form $k: Betti_k$.
+\begin{quote} \texttt{>> betti\_numbers\_string = infinite\_barcodes.getBettiNumbers()\\
+betti\_numbers\_string = \{0: 1, 1: 1\} \\
 } \end{quote}
 
-\hspace{15mm} \texttt{0\ \ \ 0\ \ \ Inf}
-
-\hspace{15mm} \texttt{0\ \ \ 1\ \ \ 2}
-
-\hspace{15mm} \texttt{1\ \ \ 0\ \ \ Inf}
-
-\hspace{15mm} \texttt{1\ \ \ 3\ \ \ 7}\\
-
-One $Betti_0$ interval and one $Betti_1$ interval are semi-infinite.
-\begin{quote} \texttt{>> Plex.FilterInfinite(intervals) \index{1}{FilterInfinite}\\
-ans = BN\{1, 1\} \\
+The method \texttt{createBarcodePlot} lets us display the intervals as a Betti barcode. The three inputs are \texttt{filtration\_value\_intervals}, a string for the filename, and the maximum filtration time (which may be adjusted $\pm 10\%$) for the plot. 
+\begin{quote} \texttt{>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'house', 8)
 } \end{quote}
-
-The method \texttt{Plex.plot} lets us display the intervals as a Betti barcode. The three inputs are \texttt{intervals}, a string to appear as a label, and the maximum filtration time (which may be adjusted $\pm 10\%$) for the plot. 
-\begin{quote} \texttt{>> Plex.plot(intervals, 'house', 8) \index{1}{Plex.plot}
-} \end{quote}
+The files \texttt{house\_0.PNG} and \texttt{house\_1.PNG} are saved to your current directory.
 
 \begin{figure}[htp]
   \begin{center}
-    \subfigure{\includegraphics[width=6in]{house0}}
-    \subfigure{\includegraphics[width=6in]{house1}}
+    \subfigure{\includegraphics[width=6in]{house_0}}
+    \subfigure{\includegraphics[width=6in]{house_1}}
    \end{center}
 \end{figure}
 \FloatBarrier
 
 The filtration times are on the horizontal axis. The $Betti_k$ number of the stream at filtration time $t$ is the number of intervals in the dimension $k$ plot that intersect a vertical line through $t$. Check that the displayed intervals agree with the filtration times we built into the stream \texttt{house}. At time 0, a connected component and a 1-dimensional hole form. At time 1, a second connected component appears, which joins to the first at time 2. A second 1-dimensional hole forms at time 3, and closes at time 7. \\
 
-The method \texttt{Plex.scatter} displays the same information as \texttt{Plex.plot} but in a different format: an interval starting at $start$ and ending at $end$ is plotted as the point $(start,end)$ in $\mathbb{R}^2$, which is necessarily above the diagonal.
-\begin{quote} \texttt{>> Plex.scatter(intervals, 'house', 8)} \end{quote}  \index{1}{Plex.scatter}
-The produced figure is fairly large and so it is not included in this tutorial. For more information on scatter plots, see \cite{elz02}, especially Figure 7. \\
+%The method \texttt{Plex.scatter} displays the same information as \texttt{Plex.plot} but in a different format: an interval starting at $start$ and ending at $end$ is plotted as the point $(start,end)$ in $\mathbb{R}^2$, which is necessarily above the diagonal.
+%\begin{quote} \texttt{>> Plex.scatter(intervals, 'house', 8)} \end{quote}  \index{1}{Plex.scatter}
+%The produced figure is fairly large and so it is not included in this tutorial. For more information on scatter plots, see \cite{elz02}, especially Figure 7. \\
 
 
 
 
-\subsection{ExplicitStream details}
-We mention two remaining details about subclass ExplicitStream.\\
+\subsection{Explicit simplex stream details}
+We mention two remaining details about class ExplicitSimplexStream.\\
 
-The methods \texttt{add} and \texttt{remove} do not necessarily enforce the definition of a stream. They allow us to build inconsistent streams in which some simplex $\sigma \in X(t)$ contains a subsimplex $\sigma' \notin X(t)$, meaning that $X(t)$ is not a simplicial complex. The method \texttt{verify(1)} returns \texttt{1} if our stream is consistent and returns \texttt{0} with explanation if not. 
-\begin{quote} \texttt{>> house.verify(1) \index{1}{verify}\\
+The methods \texttt{addElement} and \texttt{removeElementIfPresent} do not necessarily enforce the definition of a stream. They allow us to build inconsistent streams in which some simplex $\sigma \in X(t)$ contains a subsimplex $\sigma' \notin X(t)$, meaning that $X(t)$ is not a simplicial complex. The method \texttt{validateVerbose} returns \texttt{1} if our stream is consistent and returns \texttt{0} with explanation if not. 
+\begin{quote} \texttt{>> stream.validateVerbose() \\
 ans = 1 \\
->> house.add([1,4,5], 0) \index{1}{add}\\
->> house.verify(1) \\
-Simplex <1, 4, 5> is present, but its face <1, 5> is not. \\
-Simplex <1, 4, 5> has value 0.0000, but face <4, 5> has value 3.0000.\\
-ans = 0 \\
+>> stream.addElement([1, 4, 5], 0); \\
+>> stream.validateVerbose() \\
+Filtration index of face [4,5] exceeds that of element [1,4,5] (3 > 0) \\
+Stream does not contain face [1,5] of element [1,4,5] \\
+ans = 0
 } \end{quote}
 
 % Method \texttt{prune} is also sometimes useful. Command \texttt{prune($\sigma$)} removes not only simplex $\sigma$ but also any higher dimensional simplices $\tau$ containing $\sigma$. \\
 
-In \S \ref{sfpc} we will create SimplexStream instances that, unlike \texttt{house}, are not also ExplicitStream instances. To display or edit such streams, we will first need to use the method \texttt{makeExplicit}. See Exercise \ref{ripsExpl}. \\
+%In \S \ref{sfpc} we will create SimplexStream instances that %, unlike \texttt{house}, 
+%are not also ExplicitStream instances. To display or edit such streams, we will first need to use the method \texttt{makeExplicit}. See Exercise \ref{ripsExpl}. \\
+% TODO
 
 %\begin{quote} \texttt{>> house.size \\
 %ans = 12 \\ 
@@ -343,44 +326,72 @@ In \S \ref{sfpc} we will create SimplexStream instances that, unlike \texttt{hou
 
 \section{Point cloud data}
 
-\subsection{Class PointData}
-A point cloud is a finite metric space, that is, a finite set of points equipped with a notion of distance. In JPlex, point cloud data is implemented by the class PointData. We detail two subclasses, EuclideanArrayData and DistanceData, that build PointData instances from different representations of a point cloud. In \S \ref{sfpc} we will learn how to build streams from a PointData instance. \\
+A point cloud is a finite metric space, that is, a finite set of points equipped with a notion of distance. One can create a Euclidean metric space by specifying the coordinates of the points in Euclidean space, or one can create an explicit metric space by specifying all pairwise distances between points. In \S \ref{sfpc} we will learn how to build streams from point cloud data. \\
 
-\subsection{Subclass EuclideanArrayData}\label{euc}
-This subclass is for a point cloud in a Euclidean space. \\
+\subsection{Euclidean metric spaces}\label{euc} The Matlab script corresponding to this section is \texttt{pointcloud\_examples.m}. \\
 
-Let's give coordinates to the points of our house.
+Let's give Euclidean coordinates to the points of our house.
 
 \vspace{-3mm}
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=1.55in]{houseCoord}
 	\vspace{-3mm}
-	\caption{The house point cloud, stored in PointData instance \texttt{pdataHouse}}
+	\caption{The house point cloud}
 	\label{fig:pdataHouse}
 \end{figure}
 \FloatBarrier
 
-We create a PointData instance using these coordinates. The input to the EuclideanArrayData constructor is a matrix whose $i$-th row lists the coordinates of the $i$-th point.
-\begin{quote} \texttt{>> pdataHouse = EuclideanArrayData([-1,0;1,0;1,2;-1,2;0,3]); \index{1}{EuclideanArrayData}\\
-} \end{quote}
+You can enter these coordinates manually.
+\begin{quote} \texttt{>> point\_cloud = [-1,0; 1,0; 1,2; -1,2; 0,3]} \end{quote}
+\hspace{12mm}\texttt{point\_cloud =}
 
-Any PointData instance can display the number of data points and the distance between, say, points 1 and 3.
-\begin{quote} \texttt{>> pdataHouse.count \index{1}{count}\\
-ans = 5 \\
->> pdataHouse.distance(1, 3) \index{1}{distance}\\
-ans = 2.8284
+\hspace{19mm}$\begin{matrix}
+\texttt{-1} && \texttt{0}\\
+\texttt{ 1} && \texttt{0}\\
+\texttt{ 1} && \texttt{2}\\
+\texttt{-1} && \texttt{2}\\
+\texttt{ 0} && \texttt{3}\\
+\end{matrix}$
+\vspace{3mm}
+
+Or, these coordinates are stored as a JavaPlex example.
+\begin{quote} \texttt{>> point\_cloud = examples.PointCloudExamples.getHouseExample();\\} \end{quote}
+% TODO: Need to change the ordering of these points in the source code to be consistent with the ordering in the house figure and in the previous tutorial
+
+We create a metric space using these coordinates. The input to the EuclideanMetricSpace method is a matrix whose $i$-th row lists the coordinates of the $i$-th point.
+\begin{quote} \texttt{>> m\_space = metric.impl.EuclideanMetricSpace(point\_cloud);} \end{quote}
+We can return the coordinates of a specific point. Note the points are indexed starting at 0.
+\begin{quote} \texttt{>> m\_space.getPoint(0)} \end{quote}
+\hspace{12mm}\texttt{ans =}
+
+\hspace{19mm}$\begin{matrix}
+\texttt{-1}\\
+\texttt{ 0}
+\end{matrix}$
+
+\begin{quote} \texttt{>> m\_space.getPoint(2)} \end{quote}
+\hspace{12mm}\texttt{ans =}
+
+\hspace{19mm}$\begin{matrix}
+\texttt{ 1}\\
+\texttt{ 2}
+\end{matrix}$
+
+A metric space can return the distance between any two points.
+\begin{quote} \texttt{>> m\_space.distance(m\_space.getPoint(0), m\_space.getPoint(2))\\
+ans = 2.8284\\
 } \end{quote}
-The method \texttt{dimension} returns the dimension of the Euclidean space containing our points.
-\begin{quote} \texttt{>> pdataHouse.dimension \index{1}{dimension}\\
-ans = 2
-} \end{quote}
-The method \texttt{coordinate($i$,$j$)} returns the $j$-th coordinate of point $i$. Points are indexed starting at one but coordinates are indexed starting at zero. We display the coordinates of point 5.
-\begin{quote} \texttt{>> pdataHouse.coordinate(5, 0) \index{1}{coordinate}\\
-ans = 0 \\
->> pdataHouse.coordinate(5, 1) \\
-ans = 3 \\
-} \end{quote}
+%The method \texttt{dimension} returns the dimension of the Euclidean space containing our points.
+%\begin{quote} \texttt{>> pdataHouse.dimension \index{1}{dimension}\\
+%ans = 2
+%} \end{quote}
+%The method \texttt{coordinate($i$,$j$)} returns the $j$-th coordinate of point $i$. Points are indexed starting at one but coordinates are indexed starting at zero. We display the coordinates of point 5.
+%\begin{quote} \texttt{>> pdataHouse.coordinate(5, 0) \index{1}{coordinate}\\
+%ans = 0 \\
+%>> pdataHouse.coordinate(5, 1) \\
+%ans = 3 \\
+%} \end{quote}
 %We can display all of point 5 at once. The first command creates a vector \texttt{vec} of length \texttt{dimension}, and the second command writes point 5 to \texttt{vec}.
 %\begin{quote} \texttt{>> vec = zeros(2, 1); \\
 %>> pdataHouse.get\_pt(5, vec) \\
@@ -391,27 +402,43 @@ ans = 3 \\
 
 %\hspace{15mm} \texttt{3}
 
-The m-files \texttt{pointsFigure8.m} and \texttt{pointsTorus.m} each create a matrix of points which can be input into subclass EuclideanArrayData. \\
-
-{\em Figure 8 example.} The first command below selects 100 points randomly from a figure eight (the union of unit circles centered at (0,1) and (0,-1)), and then adds noise to each point. The second command plots these points. The third command creates a PointData instance.
-\begin{quote} \texttt{>> pointsF100 = pointsFigure8(100); \index{1}{pointsFigure8.m}\\
->> plot(pointsF100(:,1), pointsF100(:,2), '.'), axis equal \index{1}{plot}\\
->> pdataF100 = EuclideanArrayData(pointsF100); \index{1}{EuclideanArrayData}\\
+{\em Figure 8 example.} We select 100 points randomly from a figure eight, that is, the union of unit circles centered at (0,1) and (0,-1).
+\begin{quote} \texttt{>> point\_cloud = examples.PointCloudExamples.getRandomFigure8Points(100);
+} \end{quote}
+We plot the points.
+\begin{quote} \texttt{>> figure\\
+>> plot(point\_cloud(:,1), point\_cloud(:,2), '.')\\
+>> axis equal\\
 } \end{quote}
 
-{\em Torus example.} The first command below selects $20^2$ points from a $20 \times 20$ grid on the 2-dimensional unit torus in $\mathbb{R}^4$, and then adds noise to each point. The second command plots the third and fourth coordinates of these points; the plot should be a circle. The third command creates a PointData instance.
-\begin{quote} \texttt{>> pointsT20 = pointsTorus(20); \index{1}{pointsTorus.m}\\
->> plot(pointsT20(:,3), pointsT20(:,4), '.'), axis equal \index{1}{plot}\\
->> pdataT20 = EuclideanArrayData(pointsT20); \index{1}{EuclideanArrayData}\\
+{\em Torus example.} We select 2000 points randomly from a torus in $\mathbb{R}^3$ with inner radius 1 and outer radius 2. The first input is the number of points, the second input is the inner radius, and the third input is the outer radius
+\begin{quote} \texttt{>> point\_cloud = examples.PointCloudExamples.getRandomTorusPoints(2000, 1, 2);
+} \end{quote}
+We plot the points.
+\begin{quote} \texttt{>> figure\\
+>> plot3(point\_cloud(:,1), point\_cloud(:,2), point\_cloud(:,3), '.')\\
+>> axis equal\\
+} \end{quote}
+
+{\em Sphere product example.} We select 1000 points randomly from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$. The first input is the number of points, the second input is the dimension of each sphere, and the third input is the number of sphere factors.
+\begin{quote} \texttt{>> point\_cloud = examples.PointCloudExamples.getRandomTorusPoints(1000, 1, 2);
+} \end{quote}
+Plotting the third and fourth coordinates of each point gives a circle $S^1$.
+\begin{quote} \texttt{>> figure\\
+>> plot(point\_cloud(:,3), point\_cloud(:,4), '.')\\
+>> axis equal\\
 } \end{quote}
 
 
 
 
-\subsection{Subclass DistanceData}
-This subclass creates a PointData instance using a distance matrix. For a point cloud in Euclidean space, subclass DistanceData is generally less convenient than subclass EuclideanArrayData. However, subclass DistanceData can be used for a point cloud in an arbitrary metric space. \\
+\subsection{Explicit metric spaces}
+We can also create a metric space from a distance matrix using the command \texttt{ExplicitMetricSpace}. For a point cloud in Euclidean space, this method is generally less convenient than the command \texttt{EuclideanMetricSpace}. However, command \texttt{ExplicitMetricSpace} can be used for a point cloud in an arbitrary (perhaps non-Euclidean) metric space. \\
 
-The matrix \texttt{distances} summarizes the metric for our house points in Figure \ref{fig:pdataHouse}: entry $(i,j)$ is the distance from point $i$ to point $j$. Don't forget you can copy and paste commands from \texttt{commandListMatlab.rtf} into the Matlab window, or enter them using a script! 
+The Matlab script corresponding to this section is \texttt{explicit\_metric\_space.m}. \\
+
+The matrix \texttt{distances} summarizes the metric for our house points in Figure \ref{fig:pdataHouse}: entry $(i,j)$ is the distance from point $i$ to point $j$.
+%Don't forget you can copy and paste commands from \texttt{commandListMatlab.rtf} into the Matlab window, or enter them using a script! 
 
 \hspace{8mm}\texttt{>> distances = [0,2,sqrt(8),2,sqrt(10);}
 
@@ -435,11 +462,13 @@ The matrix \texttt{distances} summarizes the metric for our house points in Figu
 \end{matrix}$
 \vspace{3mm}
 
-We create a PointData instance from this matrix. 
-\begin{quote} \texttt{>> pdataHouseDD = DistanceData(distances); \index{1}{DistanceData}\\
+We create a metric space from this matrix. 
+\begin{quote} \texttt{>> m\_space = metric.impl.ExplicitMetricSpace(distances);
 } \end{quote}
-
-Check that the methods \texttt{count} and \texttt{distance} return the same output with \texttt{pdataHouseDD} as with \texttt{pdataHouse}. The methods \texttt{dimension} and \texttt{coordinate} are not functional with the DistanceData subclass. \\
+We return the distance between points 0 and 2.
+\begin{quote} \texttt{>> m\_space.distance(m\_space.getPoint(0), m\_space.getPoint(2))\\
+ans = 2.8284\\
+} \end{quote}
 
 % Be careful: the constructor \texttt{DistanceData()} will accept matrices that fail to be symmetric, square, or nonnegative, creating ``metrics'' that do not satisfy the mathematical definiton. The triangle inequality is similarly easy to ignore. However, asking for the distance between a point and itself will always return zero, even if you input a distance matrix with non-zero diagonal entries. \\
 
@@ -543,7 +572,7 @@ The second method for selecting landmark points, called sequential maxmin, is a 
 
 Landmarks chosen using sequential maxmin tend to cover the dataset and to be spread apart from each other. A disadvantage is that outlier points tend to be selected. Sequential maxmin landmarks are used in \cite{ac09} and \cite{cidsz08}. \\
 
-JPlex does not yet have a command for sequential maxmin landmark selection, so we use the m-file \texttt{maxminLandmarks.m}. The first input is a matrix and the second input is the number of landmarks to be selected. The third input is either the character \texttt{'e'} or \texttt{'d'}. Use \texttt{'e'} in the EuclideanArrayData case where the first input should be interpreted as an $N \times n$ matrix of $N$ points in $\mathbb{R}^n$. Use \texttt{'d'} in the DistanceData case where the first input should be interpreted as an $N \times N$ distance matrix for $N$ points in an arbitrary metric space. \\
+JavaPlex does not yet have a command for sequential maxmin landmark selection, so we use the m-file \texttt{maxminLandmarks.m}. The first input is a matrix and the second input is the number of landmarks to be selected. The third input is either the character \texttt{'e'} or \texttt{'d'}. Use \texttt{'e'} in the EuclideanArrayData case where the first input should be interpreted as an $N \times n$ matrix of $N$ points in $\mathbb{R}^n$. Use \texttt{'d'} in the DistanceData case where the first input should be interpreted as an $N \times N$ distance matrix for $N$ points in an arbitrary metric space. \\
 
 {\em Case EuclideanArrayData.} Recall the figure eight example.
 \begin{quote} \texttt{>> pdataF100 = EuclideanArrayData(pointsF100); \index{1}{EuclideanArrayData}
@@ -755,8 +784,8 @@ The projection of $X^5(300,30)$ in Figure (a) shows a circle. It is called the r
 
 \section{Remarks} 
 
-\subsection{Scripts and functions with JPlex commands}
-In order to include JPlex commands in an m-file script or function, include the command \texttt{import edu.stanford.math.plex.*;} as the first command of the script. For m-file functions, include this command as the second line -  that is, as the line underneath the function header.
+\subsection{Scripts and functions with JavaPlex commands}
+In order to include JavaPlex commands in an m-file script or function, include the command \texttt{import edu.stanford.math.plex.*;} as the first command of the script. For m-file functions, include this command as the second line -  that is, as the line underneath the function header.
 
 Writing scripts and functions is very useful. One example is the m-file \texttt{eulerCharacteristic.m}, which accepts an ExplicitStream as input and demonstrates two different methods for computing the Euler characteristic.
 \begin{quote} \texttt{>> eulerCharacteristic(s6) \index{1}{eulerCharacteristic.m}\\
@@ -767,13 +796,13 @@ The Euler characteristic is 2 = 1 - 0 + 0 - 0 + 0 - 0 + 1, using the alternating
 
 
 \subsection{Representative cycles}
-The persistence algorithm that computes barcodes can also find a representative cycle for each homology class. The current version of JPlex does not return representative cycles, though development versions of JPlex can. There is no guarantee that the produced representative will be geometrically nice. 
+The persistence algorithm that computes barcodes can also find a representative cycle for each homology class. The current version of JavaPlex does not return representative cycles, though development versions of JavaPlex can. There is no guarantee that the produced representative will be geometrically nice. 
 
 
 
 
 \subsection{Java heap size}
-Depending on the size of your JPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial. \\
+Depending on the size of your JavaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial. \\
 
 The following command returns your maximum heap size in bytes.
 \begin{quote} \texttt{>> java.lang.Runtime.getRuntime.maxMemory \index{1}{java.lang.Runtime.getRuntime.maxMemory}\\
@@ -785,7 +814,7 @@ My computer has a heap limit of approximately 128 megabytes. To increase your li
 
 
 \subsection{From Java variables to Matlab variables}
-Some JPlex commands return Java variables, when instead one might want output in the form of a Matlab variable, such as a matrix of numbers. One way to transform Java variables into Matlab variables is by using an m-file. For instance, in \S \ref{explicitStream} we used the m-file \texttt{interval2mat.m} to take an array of type PersistenceInterval into a Matlab matrix. Similarly, the m-file \texttt{betti2mat.m} accepts input of type \texttt{Plex.BettiNumbers} and returns a Matlab vector of integers. These commands are typically used as shown below, where \texttt{intervals} is an array of type PersistenceInterval.
+Some JavaPlex commands return Java variables, when instead one might want output in the form of a Matlab variable, such as a matrix of numbers. One way to transform Java variables into Matlab variables is by using an m-file. For instance, in \S \ref{explicitStream} we used the m-file \texttt{interval2mat.m} to take an array of type PersistenceInterval into a Matlab matrix. Similarly, the m-file \texttt{betti2mat.m} accepts input of type \texttt{Plex.BettiNumbers} and returns a Matlab vector of integers. These commands are typically used as shown below, where \texttt{intervals} is an array of type PersistenceInterval.
 
 \begin{quote} \texttt{>> intervalMatrix = interval2mat(intervals); \index{1}{interval2mat.m}\\
 >> bettiVect = betti2vect(Plex.FilterInfinite(intervals)); \index{1}{betti2vect.m}\index{1}{FilterInfinite}\\
@@ -886,7 +915,7 @@ With $k = 50$, we expect the densest points to be slightly larger than the 25-th
 
 
 
-\printindex{1}{Index of JPlex and Matlab commands}
+%\printindex{1}{Index of JavaPlex and Matlab commands}
 % terminal command to compile index: 
 % cd Desktop/JPlexTutorials/PlexMatlabTutorial
 % makeindex 1
