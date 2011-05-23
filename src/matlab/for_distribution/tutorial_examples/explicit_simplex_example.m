@@ -1,4 +1,5 @@
-% This script demonstrates an example of the ExplicitSimplexStream class - Section 3.2
+% This script demonstrates an example of the ExplicitSimplexStream class -
+% Section 3.1
 
 %% Manual construction
 
