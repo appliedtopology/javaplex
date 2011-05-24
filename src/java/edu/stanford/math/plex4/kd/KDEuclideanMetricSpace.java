@@ -1,7 +1,6 @@
 package edu.stanford.math.plex4.kd;
 
-import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
-import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.plex4.metric.impl.ObjectSearchableFiniteMetricSpace;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
 import edu.stanford.math.primitivelib.utility.Infinity;
 import gnu.trove.TIntHashSet;
@@ -13,26 +12,18 @@ import gnu.trove.TIntHashSet;
  * @author Andrew Tausz
  *
  */
-public class KDEuclideanMetricSpace implements AbstractSearchableMetricSpace<double[]> {
-	private final double[][] dataPoints;
+public class KDEuclideanMetricSpace extends ObjectSearchableFiniteMetricSpace<double[]> {
 	private final KDTree tree;
 	private final int dimension;
 	
 	public KDEuclideanMetricSpace(double[][] dataPoints) {
-		ExceptionUtility.verifyNonNull(dataPoints);
-		ExceptionUtility.verifyPositive(dataPoints.length);
-		this.dataPoints = dataPoints;
+		super(dataPoints);
 		this.tree = new KDTree(dataPoints);
 		this.dimension = dataPoints[0].length;
 	}
 	
 	public double[][] getPoints() {
-		return this.dataPoints;
-	}
-	
-	public TIntHashSet getKNearestNeighbors(double[] queryPoint, int k) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.elements;
 	}
 
 	public int getNearestPointIndex(double[] queryPoint) {
@@ -48,7 +39,7 @@ public class KDEuclideanMetricSpace implements AbstractSearchableMetricSpace<dou
 	}
 
 	public int size() {
-		return dataPoints.length;
+		return elements.length;
 	}
 
 	public double distance(double[] a, double[] b) {
@@ -56,7 +47,7 @@ public class KDEuclideanMetricSpace implements AbstractSearchableMetricSpace<dou
 	}
 
 	public double[] getPoint(int index) {
-		return this.dataPoints[index];
+		return this.elements[index];
 	}
 
 	public double distance(int i, int j) {
@@ -68,9 +59,9 @@ public class KDEuclideanMetricSpace implements AbstractSearchableMetricSpace<dou
 		for (int j = 0; j < this.dimension; j++) {
 			maxima[j] = Infinity.Double.getNegativeInfinity();
 		}
-		for (int i = 0; i < this.dataPoints.length; i++) {
+		for (int i = 0; i < this.elements.length; i++) {
 			for (int j = 0; j < this.dimension; j++) {
-				maxima[j] = Math.max(maxima[j], this.dataPoints[i][j]);
+				maxima[j] = Math.max(maxima[j], this.elements[i][j]);
 			}
 		}
 		
@@ -82,9 +73,9 @@ public class KDEuclideanMetricSpace implements AbstractSearchableMetricSpace<dou
 		for (int j = 0; j < this.dimension; j++) {
 			minima[j] = Infinity.Double.getPositiveInfinity();
 		}
-		for (int i = 0; i < this.dataPoints.length; i++) {
+		for (int i = 0; i < this.elements.length; i++) {
 			for (int j = 0; j < this.dimension; j++) {
-				minima[j] = Math.min(minima[j], this.dataPoints[i][j]);
+				minima[j] = Math.min(minima[j], this.elements[i][j]);
 			}
 		}
 		

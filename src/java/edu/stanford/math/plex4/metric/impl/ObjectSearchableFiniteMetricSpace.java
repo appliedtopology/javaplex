@@ -1,5 +1,7 @@
 package edu.stanford.math.plex4.metric.impl;
 
+import java.util.List;
+
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import gnu.trove.TIntHashSet;
 
@@ -23,13 +25,31 @@ public abstract class ObjectSearchableFiniteMetricSpace<T> implements AbstractSe
 	 * 
 	 * @param array the array of elements that will be the points in the metric space
 	 */
-	ObjectSearchableFiniteMetricSpace(T[] array) {
+	public ObjectSearchableFiniteMetricSpace(T[] array) {
 		this.elements = array;
 	}
 	
 	public TIntHashSet getKNearestNeighbors(T queryPoint, int k) {
-		// TODO: complete
-		return null;
+		TruncatedPriorityQueue<Integer> tpq = new TruncatedPriorityQueue<Integer>(k);
+		
+		for (int i = 0; i < elements.length; i++) {
+			T element = elements[i];
+			if (element.equals(queryPoint)) {
+				continue;
+			}
+			
+			double distance = this.distance(queryPoint, element);
+			tpq.insert(i, distance);
+		}
+		
+		TIntHashSet result = new TIntHashSet();
+		
+		List<Integer> indices = tpq.getIndices();
+		for (Integer index: indices) {
+			result.add(index);
+		}
+		
+		return result;
 	}
 
 	public int getNearestPointIndex(T queryPoint) {
@@ -68,9 +88,6 @@ public abstract class ObjectSearchableFiniteMetricSpace<T> implements AbstractSe
 
 	public TIntHashSet getClosedNeighborhood(T queryPoint, double epsilon) {
 		TIntHashSet neighborhood = new TIntHashSet();
-		if (epsilon == 0) {
-			return neighborhood;
-		}
 		
 		int n = this.elements.length;
 		

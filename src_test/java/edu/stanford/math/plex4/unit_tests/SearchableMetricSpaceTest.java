@@ -56,6 +56,7 @@ public class SearchableMetricSpaceTest {
 			double epsilon = MetricUtility.estimateDiameter(metricSpace) / 5.0;
 			
 			SearchableMetricSpaceTester.verifyNearestPoints(metricSpace, queryPointSet);
+			SearchableMetricSpaceTester.verifyKNearestPoints(metricSpace, queryPointSet);
 			SearchableMetricSpaceTester.verifyNeighborhoods(metricSpace, epsilon);
 		}
 		Timing.stopAndDisplay("Non KD");
@@ -70,6 +71,7 @@ public class SearchableMetricSpaceTest {
 			double epsilon = MetricUtility.estimateDiameter(metricSpace) / 5.0;
 			
 			SearchableMetricSpaceTester.verifyNearestPoints(metricSpace, queryPointSet);
+			SearchableMetricSpaceTester.verifyKNearestPoints(metricSpace, queryPointSet);
 			SearchableMetricSpaceTester.verifyNeighborhoods(metricSpace, epsilon);
 		}
 		Timing.stopAndDisplay("KD");
