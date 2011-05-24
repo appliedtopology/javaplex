@@ -17,15 +17,15 @@ public class PointCloudExamples {
 	 * @return the requested point cloud
 	 */
 	public static double[][] getHouseExample() {
-		double[][] points = new double[][]{new double[]{0, 3}, 
-				new double[]{1, 2},
+		double[][] points = new double[][]{new double[]{-1, 0}, 
 				new double[]{1, 0},
-				new double[]{-1, 0},
-				new double[]{-1, 2}};
+				new double[]{1, 2},
+				new double[]{-1, 2},
+				new double[]{0, 3}};
 
 		return points;
 	}
-
+	
 	/**
 	 * This function produces a square in the plane.
 	 * 
