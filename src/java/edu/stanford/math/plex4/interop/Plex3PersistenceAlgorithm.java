@@ -3,7 +3,7 @@ package edu.stanford.math.plex4.interop;
 import edu.stanford.math.plex.Persistence;
 import edu.stanford.math.plex.PersistenceInterval;
 import edu.stanford.math.plex.SimplexStream;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
@@ -31,7 +31,7 @@ public class Plex3PersistenceAlgorithm implements AbstractPersistenceAlgorithm<e
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.homology.new_version.AbstractPersistenceAlgorithm#computeIntervals(edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream)
 	 */
-	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<edu.stanford.math.plex4.homology.chain_basis.Simplex> plex4Stream) {
+	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<edu.stanford.math.plex4.homology.chain_basis.Simplex> plex4Stream) {
 		
 		SimplexStream.Stack stack = new SimplexStream.Stack(plex4Stream.getMaximumFiltrationIndex() + 1, this.maxDimension);
 		

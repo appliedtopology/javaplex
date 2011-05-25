@@ -9,7 +9,7 @@ import org.junit.Test;
 import edu.stanford.math.plex4.autogen.homology.ObjectAbsoluteHomology;
 import edu.stanford.math.plex4.autogen.homology.ObjectRelativeHomology;
 import edu.stanford.math.plex4.examples.DeSilvaMorozovJohanssonExample;
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.chain_basis.CellComparator;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
@@ -32,14 +32,14 @@ public class DeSilvaMorozovJohanssonTest {
 	@Test
 	public void testAbsoluteHomology() {
 		AbstractPersistenceBasisAlgorithm<Cell, ObjectSparseFormalSum<Integer, Cell>> persistenceAlgorithm = new ObjectAbsoluteHomology<Integer, Cell>(field, CellComparator.getInstance(), 0, 3);
-		IntAnnotatedBarcodeCollection<?> collection = persistenceAlgorithm.computeAnnotatedIntervals(example.getCellComplex());
+		AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<Integer, Cell>> collection = persistenceAlgorithm.computeAnnotatedIntervals(example.getCellComplex());
 		assertTrue(collection.equals(example.getAbsoluteHomologyBarcodes()));
 	}
 	
 	@Test
 	public void testRelativeHomology() {
 		AbstractPersistenceBasisAlgorithm<Cell, ObjectSparseFormalSum<Integer, Cell>> persistenceAlgorithm = new ObjectRelativeHomology<Integer, Cell>(field, CellComparator.getInstance(), 0, 3);
-		IntAnnotatedBarcodeCollection<?> collection = persistenceAlgorithm.computeAnnotatedIntervals(example.getCellComplex());
+		AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<Integer, Cell>> collection = persistenceAlgorithm.computeAnnotatedIntervals(example.getCellComplex());
 		assertTrue(collection.equals(example.getRelativeHomologyBarcodes()));
 	}
 }

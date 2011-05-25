@@ -2,6 +2,7 @@ package edu.stanford.math.plex4.utility;
 
 
 import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIterator;
 
 import java.util.Collection;
 
@@ -42,6 +43,28 @@ public class ComparisonUtility {
 	 */
 	public static boolean setEquals(TIntHashSet a, TIntHashSet b) {
 		return a.containsAll(b.toArray()) && b.containsAll(a.toArray());
+	}
+	
+	
+	/**
+	 * This function computes the intersection of two sets.
+	 * 
+	 * @param a
+	 * @param b
+	 * @return the set of elements contained in both sets
+	 */
+	public static TIntHashSet intersect(TIntHashSet a, TIntHashSet b) {
+		TIntHashSet result = new TIntHashSet();
+		
+		for (TIntIterator iterator = a.iterator(); iterator.hasNext(); ) {
+			int x = iterator.next();
+			
+			if (b.contains(x)) {
+				result.add(x);
+			}
+		}
+		
+		return result;
 	}
 	
 	/**

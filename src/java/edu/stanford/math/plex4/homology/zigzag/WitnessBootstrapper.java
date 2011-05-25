@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.stanford.math.plex4.api.PersistenceAlgorithmInterface;
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
@@ -51,7 +51,7 @@ public class WitnessBootstrapper<T> {
 		}
 	}
 
-	public IntBarcodeCollection performBootstrap() {
+	public AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<SimplexPair>> performBootstrap() {
 		HomologyBasisTracker<SimplexPair> basisTracker = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
 
 		/*
@@ -162,10 +162,10 @@ public class WitnessBootstrapper<T> {
 			x = y;
 		}
 
-		return basisTracker.getBarcodes().filterByMaxDimension(1);
+		return basisTracker.getAnnotatedBarcodes().filterByMaxDimension(1);
 	}
 
-	public IntBarcodeCollection performBootstrapShort() {
+	public AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<SimplexPair>> performBootstrapShort() {
 		HomologyBasisTracker<SimplexPair> basisTracker = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
 
 		/*
@@ -195,7 +195,7 @@ public class WitnessBootstrapper<T> {
 			Z_0.ensureAllFaces();
 
 			AbstractPersistenceBasisAlgorithm<SimplexPair, IntSparseFormalSum<SimplexPair>> algo = PersistenceAlgorithmInterface.getIntSimplexPairAbsoluteHomology(maxDimension + 1);
-			IntAnnotatedBarcodeCollection<IntSparseFormalSum<SimplexPair>> bc = algo.computeAnnotatedIntervals(Z_0);
+			AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<SimplexPair>> bc = algo.computeAnnotatedIntervals(Z_0);
 			System.out.println(bc);
 
 			Simplex x = SimplexStreamUtility.getFirstVertex(X_0);
@@ -254,10 +254,10 @@ public class WitnessBootstrapper<T> {
 			X = Y;
 		}
 
-		return basisTracker.getBarcodes().filterByMaxDimension(maxDimension);
+		return basisTracker.getAnnotatedBarcodes().filterByMaxDimension(maxDimension);
 	}
 
-	public IntBarcodeCollection performProjectionBootstrap() {
+	public BarcodeCollection<Integer> performProjectionBootstrap() {
 		WitnessStream<T> X_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(0), maxDimension + 1, maxDistance, indexSelections.get(0).getLandmarkPoints());
 		X_stream.setPlex3Compatbility(false);
 		X_stream.finalizeStream();
@@ -265,7 +265,7 @@ public class WitnessBootstrapper<T> {
 		{
 			System.out.println("Barcodes for X_" + 0);
 			AbstractPersistenceBasisAlgorithm<Simplex, IntSparseFormalSum<Simplex>> algo = PersistenceAlgorithmInterface.getIntSimplicialAbsoluteHomology(maxDimension + 1);
-			IntAnnotatedBarcodeCollection<IntSparseFormalSum<Simplex>> bc = algo.computeAnnotatedIntervals(X_stream);
+			AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<Simplex>> bc = algo.computeAnnotatedIntervals(X_stream);
 			System.out.println(bc);
 		}
 
@@ -287,7 +287,7 @@ public class WitnessBootstrapper<T> {
 			{
 				System.out.println("Barcodes for X_" + j);
 				AbstractPersistenceBasisAlgorithm<Simplex, IntSparseFormalSum<Simplex>> algo = PersistenceAlgorithmInterface.getIntSimplicialAbsoluteHomology(maxDimension + 1);
-				IntAnnotatedBarcodeCollection<IntSparseFormalSum<Simplex>> bc = algo.computeAnnotatedIntervals(Y_stream);
+				AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<Simplex>> bc = algo.computeAnnotatedIntervals(Y_stream);
 				System.out.println(bc);
 			}
 			
@@ -332,6 +332,6 @@ public class WitnessBootstrapper<T> {
 		
 		result.endAllIntervals(this.indexSelections.size());
 
-		return result.getBarcodes().filterByMaxDimension(maxDimension);
+		return BarcodeCollection.forgetGeneratorType(result.getAnnotatedBarcodes().filterByMaxDimension(maxDimension));
 	}
 }

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.derived.DualStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -100,18 +100,20 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 		return this.field;
 	}
 
-	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<U> stream) {
+	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.pCohMatrix(stream);
 	}
 
-	private IntBarcodeCollection pCohMatrix(AbstractFilteredStream<U> stream) {
+	private BarcodeCollection<Integer> pCohMatrix(AbstractFilteredStream<U> stream) {
 		AbstractFilteredStream<U> dualStream = new DualStream<U>(stream);
 		IntVectorConverter<U> vectorConverter = new IntVectorConverter<U>(stream);
 		dualStream.finalizeStream();
 
-		IntBarcodeCollection collection = new IntBarcodeCollection();
-
+		BarcodeCollection<Integer> collection = new BarcodeCollection<Integer>();
+		collection.setLeftClosedDefault(true);
+		collection.setRightClosedDefault(false);
+		
 		//List<IntSparseFormalSum<U>> Z = new ArrayList<IntSparseFormalSum<U>>();
 		//List<U> birth = new ArrayList<U>();
 
@@ -214,13 +216,15 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 	}
 
 	@SuppressWarnings("unused")
-	private IntBarcodeCollection pCoh(AbstractFilteredStream<U> stream) {
+	private BarcodeCollection<Integer> pCoh(AbstractFilteredStream<U> stream) {
 		AbstractFilteredStream<U> dualStream = new DualStream<U>(stream);
 		dualStream.finalizeStream();
 		//Timing.stopAndDisplay("Constructed dual stream");
 		//Timing.restart();
-		IntBarcodeCollection collection = new IntBarcodeCollection();
-
+		BarcodeCollection<Integer> collection = new BarcodeCollection<Integer>();
+		collection.setLeftClosedDefault(true);
+		collection.setRightClosedDefault(false);
+		
 		//List<IntSparseFormalSum<U>> Z = new ArrayList<IntSparseFormalSum<U>>();
 		//List<U> birth = new ArrayList<U>();
 

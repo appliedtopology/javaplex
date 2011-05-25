@@ -25,7 +25,7 @@ size = stream.getSize()
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);
 
 % compute the intervals and transform them to filtration values
-filtration_index_intervals = persistence.computeIntervals(stream);
+filtration_index_intervals = persistence.computeIntervals(stream)
 filtration_value_intervals = stream.transform(filtration_index_intervals)
 
 % create the barcode plots

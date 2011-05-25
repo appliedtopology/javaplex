@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import edu.stanford.math.plex4.api.PersistenceAlgorithmInterface;
 import edu.stanford.math.plex4.examples.SimplexStreamExamples;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -42,12 +42,12 @@ public class SimplicialSphereTest {
 		final int sphereDimension = 16;
 		final int maxHomologyDimension = sphereDimension + 5;
 		List<AbstractPersistenceAlgorithm<Simplex>> algorithms = PersistenceAlgorithmInterface.getAllPlex4SimplicialAbsoluteHomologyAlgorithms(maxHomologyDimension);
-		IntBarcodeCollection correctAnswer = getSphereBarcodes(sphereDimension, maxHomologyDimension);
+		BarcodeCollection<Integer> correctAnswer = getSphereBarcodes(sphereDimension, maxHomologyDimension);
 		AbstractFilteredStream<Simplex> stream = getSimplicialSphere(sphereDimension);
 		System.out.println(String.format("Number of simplices in %d-sphere: %s", sphereDimension, stream.getSize()));
 		for (AbstractPersistenceAlgorithm<Simplex> algorithm : algorithms) {
 			Timing.restart();
-			IntBarcodeCollection collection = algorithm.computeIntervals(stream);
+			BarcodeCollection<Integer> collection = algorithm.computeIntervals(stream);
 			Timing.stopAndDisplay(algorithm.toString());
 			assertTrue(correctAnswer.equals(collection));
 		}
@@ -57,8 +57,8 @@ public class SimplicialSphereTest {
 		return SimplexStreamExamples.getSimplicialSphere(dimension);
 	}
 	
-	public static IntBarcodeCollection getSphereBarcodes(int sphereDimension, int maxBarcodeDimension) {
-		IntBarcodeCollection collection = new IntBarcodeCollection();
+	public static BarcodeCollection<Integer> getSphereBarcodes(int sphereDimension, int maxBarcodeDimension) {
+		BarcodeCollection<Integer> collection = new BarcodeCollection<Integer>();
 		
 		if (maxBarcodeDimension >= 0) {
 			collection.addRightInfiniteInterval(0, 0);

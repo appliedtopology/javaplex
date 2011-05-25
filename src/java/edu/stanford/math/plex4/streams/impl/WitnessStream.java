@@ -1,7 +1,6 @@
 package edu.stanford.math.plex4.streams.impl;
 
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
-import edu.stanford.math.plex4.homology.utility.HomologyUtility;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.primitivelib.autogen.pair.IntDoublePair;
@@ -32,7 +31,9 @@ public class WitnessStream<T> extends AbstractWitnessStream<T> {
 		
 		if (e_ij <= this.maxDistance  + this.epsilon) {
 			isMember = true;
-			this.witnesses.put(HomologyUtility.convertIndices(simplex, indices), n_star);
+			//if (!this.isWitness(n_star, simplex)) {
+				this.updateWitnessInformationInternalIndices(n_star, e_ij, simplex.getVertices());
+			//}
 		}
 		
 		return isMember;

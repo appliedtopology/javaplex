@@ -2,7 +2,7 @@ package edu.stanford.math.plex4.homology.zigzag;
 
 import java.util.Comparator;
 
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -67,10 +67,12 @@ public class ZigZagHomology<U extends PrimitiveBasisElement> implements Abstract
 		this.filteredComparator = new FilteredComparator<U>(stream, this.basisComparator);
 	}
 
-	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<U> stream) {
+	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
-		AbstractBasisTracker<U> basisTracker = new HomologyBasisTracker<U>(this.field, this.basisComparator);
+		HomologyBasisTracker<U> basisTracker = new HomologyBasisTracker<U>(this.field, this.basisComparator);
 
+		basisTracker.getIntervalTracker().setUseRightClosedIntervals(false);
+		
 		for (U sigma : stream) {
 			/*
 			 * Do not process simplices of higher dimension than maxDimension.

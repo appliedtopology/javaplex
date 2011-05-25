@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -30,7 +30,7 @@ public class PersistenceAlgorithmTester {
 	 */
 	public static <T> void verifyEquality(List<AbstractPersistenceAlgorithm<T>> algorithms, AbstractFilteredStream<T> stream) {
 		System.out.println("Stream size: " + stream.getSize());
-		List<IntBarcodeCollection> barcodes = new ArrayList<IntBarcodeCollection>();
+		List<BarcodeCollection<Integer>> barcodes = new ArrayList<BarcodeCollection<Integer>>();
 		for (AbstractPersistenceAlgorithm<T> algorithm: algorithms) {
 			Timing.restart();
 			barcodes.add(algorithm.computeIntervals(stream));
@@ -63,7 +63,7 @@ public class PersistenceAlgorithmTester {
 	 */
 	public static <T, B> void verifyEqualityWithGenerators(List<AbstractPersistenceBasisAlgorithm<T, B>> algorithms, AbstractFilteredStream<T> stream) {
 		System.out.println("Stream size: " + stream.getSize());
-		List<IntAnnotatedBarcodeCollection<B>> barcodes = new ArrayList<IntAnnotatedBarcodeCollection<B>>();
+		List<AnnotatedBarcodeCollection<Integer, B>> barcodes = new ArrayList<AnnotatedBarcodeCollection<Integer, B>>();
 		for (AbstractPersistenceBasisAlgorithm<T, B> algorithm: algorithms) {
 			Timing.restart();
 			barcodes.add(algorithm.computeAnnotatedIntervals(stream));

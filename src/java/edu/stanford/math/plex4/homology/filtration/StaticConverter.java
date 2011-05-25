@@ -3,14 +3,6 @@
  */
 package edu.stanford.math.plex4.homology.filtration;
 
-import edu.stanford.math.plex4.homology.barcodes.DoubleFiniteInterval;
-import edu.stanford.math.plex4.homology.barcodes.DoubleHalfOpenInterval;
-import edu.stanford.math.plex4.homology.barcodes.DoubleLeftInfiniteInterval;
-import edu.stanford.math.plex4.homology.barcodes.DoubleRightInfiniteInterval;
-import edu.stanford.math.plex4.homology.barcodes.IntFiniteInterval;
-import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
-import edu.stanford.math.plex4.homology.barcodes.IntLeftInfiniteInterval;
-import edu.stanford.math.plex4.homology.barcodes.IntRightInfiniteInterval;
 
 /**
  * This class implements the FiltrationConverter interface for static complexes. 
@@ -65,22 +57,5 @@ public class StaticConverter extends FiltrationConverter {
 	 */
 	public double getInitialFiltrationValue() {
 		return 0;
-	}
-	
-	/* (non-Javadoc)
-	 * @see edu.stanford.math.plex4.homology.filtration.FiltrationConverter#transformInterval(edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval)
-	 */
-	public DoubleHalfOpenInterval transform(IntHalfOpenInterval interval) {
-		if (interval instanceof IntLeftInfiniteInterval) {
-			IntLeftInfiniteInterval castedInterval = (IntLeftInfiniteInterval) interval;
-			return new DoubleLeftInfiniteInterval(this.getFiltrationValue(castedInterval.getEnd()));
-		} else if (interval instanceof IntRightInfiniteInterval) {
-			IntRightInfiniteInterval castedInterval = (IntRightInfiniteInterval) interval;
-			return new DoubleRightInfiniteInterval(this.getFiltrationValue(castedInterval.getStart()));
-		} else if (interval instanceof IntFiniteInterval) {
-			IntFiniteInterval castedInterval = (IntFiniteInterval) interval;
-			return new DoubleFiniteInterval(this.getFiltrationValue(castedInterval.getStart()), this.getFiltrationValue(castedInterval.getEnd()));
-		}
-		return null;
 	}
 }

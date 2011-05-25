@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
@@ -45,7 +45,7 @@ public class RipsBootstrapper {
 		}
 	}
 	
-	public IntBarcodeCollection performBootstrap() {
+	public BarcodeCollection<Integer> performBootstrap() {
 		HomologyBasisTracker<Simplex> basisTracker = new HomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance());
 		int increment = 1;
 		
@@ -99,7 +99,7 @@ public class RipsBootstrapper {
 			i_indices = j_indices;
 		}
 		
-		return basisTracker.getBarcodes().filterByMaxDimension(maxDimension);
+		return (BarcodeCollection<Integer>) basisTracker.getBarcodes().filterByMaxDimension(maxDimension);
 	}
 	
 	private static <U> List<U> dump(AbstractFilteredStream<U> X) {

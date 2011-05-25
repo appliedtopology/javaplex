@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
 import edu.stanford.math.plex4.homology.zigzag.ProductSubsetZigzag;
@@ -72,7 +72,7 @@ public class WitnessTest {
 		ExplicitSimplexStream Y = this.getY();
 		ExplicitStream<SimplexPair> Z = this.getZ();
 		
-		IntBarcodeCollection result = ProductSubsetZigzag.testProjection(X, Y, Z);
+		BarcodeCollection<Integer> result = ProductSubsetZigzag.testProjection(X, Y, Z);
 		
 		System.out.println(result);
 	}

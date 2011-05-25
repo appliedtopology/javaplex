@@ -3,16 +3,13 @@ package edu.stanford.math.plex4.homology.zigzag;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcode;
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcode;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
@@ -23,44 +20,35 @@ import gnu.trove.THashSet;
 import gnu.trove.TObjectIntIterator;
 
 public class BasisTrackingUtility {
-	public static IntBarcodeCollection union(IntBarcodeCollection a, IntBarcodeCollection b) {
-		IntBarcodeCollection c = new IntBarcodeCollection();
-		
-		for (Entry<Integer, IntBarcode> entry: a) {
-			int dimension = entry.getKey();
-			IntBarcode barcode = entry.getValue();
-			for (IntHalfOpenInterval interval: barcode) {
-				c.addInterval(dimension, interval);
-			}
-		}
-		
-		for (Entry<Integer, IntBarcode> entry: b) {
-			int dimension = entry.getKey();
-			IntBarcode barcode = entry.getValue();
-			for (IntHalfOpenInterval interval: barcode) {
-				c.addInterval(dimension, interval);
-			}
-		}
-		
-		return c;
-	}
 	
-	public static <V> IntAnnotatedBarcodeCollection<V> union(IntAnnotatedBarcodeCollection<V> a, IntAnnotatedBarcodeCollection<V> b) {
-		IntAnnotatedBarcodeCollection<V> c = new IntAnnotatedBarcodeCollection<V>();
+	@SuppressWarnings("unchecked")
+	public static <I, V> PersistenceInvariantDescriptor<I, V> union(PersistenceInvariantDescriptor<I, V> a, PersistenceInvariantDescriptor<I, V> b) {
+		PersistenceInvariantDescriptor<I, V> c = null;
+		try {
+			c = a.getClass().newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			return null;
+		}
 		
-		for (Entry<Integer, IntAnnotatedBarcode<V>> entry: a) {
-			int dimension = entry.getKey();
-			IntAnnotatedBarcode<V> barcode = entry.getValue();
-			for (ObjectObjectPair<IntHalfOpenInterval, V> intervalPair: barcode) {
-				c.addInterval(dimension, intervalPair.getFirst(), intervalPair.getSecond());
+		for (Iterator<Entry<Integer, List<ObjectObjectPair<I, V>>>> iterator = a.getIntervalGeneratorPairIterator(); iterator.hasNext(); ) {
+			Entry<Integer, List<ObjectObjectPair<I, V>>> entry = iterator.next();
+			Integer dimension = entry.getKey();
+			List<ObjectObjectPair<I, V>> values = entry.getValue();
+			for (ObjectObjectPair<I, V> pair: values) {
+				c.addInterval(dimension, pair.getFirst(), pair.getSecond());
 			}
 		}
 		
-		for (Entry<Integer, IntAnnotatedBarcode<V>> entry: b) {
-			int dimension = entry.getKey();
-			IntAnnotatedBarcode<V> barcode = entry.getValue();
-			for (ObjectObjectPair<IntHalfOpenInterval, V> intervalPair: barcode) {
-				c.addInterval(dimension, intervalPair.getFirst(), intervalPair.getSecond());
+		for (Iterator<Entry<Integer, List<ObjectObjectPair<I, V>>>> iterator = b.getIntervalGeneratorPairIterator(); iterator.hasNext(); ) {
+			Entry<Integer, List<ObjectObjectPair<I, V>>> entry = iterator.next();
+			Integer dimension = entry.getKey();
+			List<ObjectObjectPair<I, V>> values = entry.getValue();
+			for (ObjectObjectPair<I, V> pair: values) {
+				c.addInterval(dimension, pair.getFirst(), pair.getSecond());
 			}
 		}
 		

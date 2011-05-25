@@ -4,8 +4,8 @@ import java.util.Comparator;
 
 import javax.annotation.Generated;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.utility.FilteredComparator;
@@ -25,7 +25,7 @@ import gnu.trove.TObjectIntIterator;
  * and the actual implementations of the persistent homology/cohomology algorithms.
  * 
  * <p>int the underlying type of the coefficient field</p>
- * <p>U> the underlying basis type</p>
+ * <p>U the underlying basis type</p>
  * 
  * @author autogen
  *
@@ -106,12 +106,12 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 		return this.field;
 	}
 		
-	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<U> stream) {
+	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
 	}
 
-	public IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>> computeAnnotatedIntervals(AbstractFilteredStream<U> stream) {
+	public AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<U>> computeAnnotatedIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeAnnotatedIntervalsImpl(stream);
 	}
@@ -122,7 +122,7 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 	 * @param stream the filtered chain complex 
 	 * @return the persistence intervals of the given complex
 	 */
-	protected abstract IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<U> stream);
+	protected abstract BarcodeCollection<Integer> computeIntervalsImpl(AbstractFilteredStream<U> stream);
 	
 	/**
 	 * This function provides the implementation of computeAnnotatedIntervals.
@@ -130,7 +130,7 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 	 * @param stream the filtered chain complex
 	 * @return the augmented persistence intervals
 	 */
-	protected abstract IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>> computeAnnotatedIntervalsImpl(AbstractFilteredStream<U> stream);
+	protected abstract AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<U>> computeAnnotatedIntervalsImpl(AbstractFilteredStream<U> stream);
 	
 	/**
 	 * This function computes the operation low_A(j) as described in the paper. Note that if

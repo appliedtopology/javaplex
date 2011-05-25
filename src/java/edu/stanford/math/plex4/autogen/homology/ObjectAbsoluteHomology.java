@@ -4,8 +4,8 @@ import java.util.Comparator;
 
 import javax.annotation.Generated;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
@@ -31,7 +31,7 @@ public class ObjectAbsoluteHomology<F, U> extends ObjectPersistentHomology<F, U>
 	}
 		
 	@Override
-	protected IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>> getAnnotatedIntervals(
+	protected AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<F, U>> getAnnotatedIntervals(
 			ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
 			THashMap<U, ObjectSparseFormalSum<F, U>>> RV_pair, 
 			AbstractFilteredStream<U> stream) {
@@ -40,7 +40,7 @@ public class ObjectAbsoluteHomology<F, U> extends ObjectPersistentHomology<F, U>
 	}
 
 	@Override
-	protected IntBarcodeCollection getIntervals(ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
+	protected BarcodeCollection<Integer> getIntervals(ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
 			THashMap<U, ObjectSparseFormalSum<F, U>>> RV_pair,
 			AbstractFilteredStream<U> stream) {
 			

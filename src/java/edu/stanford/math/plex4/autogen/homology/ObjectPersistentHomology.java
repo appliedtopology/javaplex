@@ -6,8 +6,8 @@ import java.util.Set;
 
 import javax.annotation.Generated;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
@@ -26,7 +26,7 @@ import gnu.trove.THashSet;
  * and the actual implementations of the persistent homology/cohomology algorithms.
  *  
  * <p>F the underlying type of the coefficient field</p>
- * <p>U> the underlying basis type</p>
+ * <p>U the underlying basis type</p>
  * 
  * @author autogen
  *
@@ -47,12 +47,12 @@ public abstract class ObjectPersistentHomology<F, U> extends ObjectPersistenceAl
 	}
 	
 	@Override
-	protected IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>> computeAnnotatedIntervalsImpl(AbstractFilteredStream<U> stream) {
+	protected AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<F, U>> computeAnnotatedIntervalsImpl(AbstractFilteredStream<U> stream) {
 		return this.getAnnotatedIntervals(this.pHcol(stream), stream);
 	}
 
 	@Override
-	protected IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<U> stream) {
+	protected BarcodeCollection<Integer> computeIntervalsImpl(AbstractFilteredStream<U> stream) {
 		return this.getIntervals(this.pHcol(stream), stream);
 	}
 	
@@ -145,21 +145,21 @@ public abstract class ObjectPersistentHomology<F, U> extends ObjectPersistenceAl
 		return new ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, THashMap<U, ObjectSparseFormalSum<F, U>>>(R, V);
 	}
 	
-	protected abstract IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>> getAnnotatedIntervals(ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
+	protected abstract AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<F, U>> getAnnotatedIntervals(ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
 			THashMap<U, ObjectSparseFormalSum<F, U>>> RV_pair, 
 			AbstractFilteredStream<U> stream);
 
-	protected abstract IntBarcodeCollection getIntervals(ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
+	protected abstract BarcodeCollection<Integer> getIntervals(ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
 			THashMap<U, ObjectSparseFormalSum<F, U>>> RV_pair, 
 			AbstractFilteredStream<U> stream);
 
-	protected IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>> getAnnotatedIntervals(
+	protected AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<F, U>> getAnnotatedIntervals(
 			ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
 			THashMap<U, ObjectSparseFormalSum<F, U>>> RV_pair, 
 			AbstractFilteredStream<U> stream, 
 			boolean absolute) {
 			
-		IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>> barcodeCollection = new IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<F, U>>();
+		AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<F, U>> barcodeCollection = new AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<F, U>>();
 
 		THashMap<U, ObjectSparseFormalSum<F, U>> R = RV_pair.getFirst();
 		THashMap<U, ObjectSparseFormalSum<F, U>> V = RV_pair.getSecond();
@@ -212,13 +212,13 @@ public abstract class ObjectPersistentHomology<F, U> extends ObjectPersistenceAl
 		return barcodeCollection;
 	}
 
-	protected IntBarcodeCollection getIntervals(
+	protected BarcodeCollection<Integer> getIntervals(
 			ObjectObjectPair<THashMap<U, ObjectSparseFormalSum<F, U>>, 
 			THashMap<U, ObjectSparseFormalSum<F, U>>> RV_pair, 
 			AbstractFilteredStream<U> stream, 
 			boolean absolute) {
 			
-		IntBarcodeCollection barcodeCollection = new IntBarcodeCollection();
+		BarcodeCollection<Integer> barcodeCollection = new BarcodeCollection<Integer>();
 
 		THashMap<U, ObjectSparseFormalSum<F, U>> R = RV_pair.getFirst();
 

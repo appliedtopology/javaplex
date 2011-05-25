@@ -127,12 +127,12 @@ public abstract class $className implements AbstractPersistenceBasisAlgorithm<$o
 	}
 	#end
 	
-	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<$objectType> stream) {
+	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<$objectType> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
 	}
 
-	public IntAnnotatedBarcodeCollection<$sumClassName> computeAnnotatedIntervals(AbstractFilteredStream<$objectType> stream) {
+	public AnnotatedBarcodeCollection<Integer, $sumClassName> computeAnnotatedIntervals(AbstractFilteredStream<$objectType> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeAnnotatedIntervalsImpl(stream);
 	}
@@ -143,7 +143,7 @@ public abstract class $className implements AbstractPersistenceBasisAlgorithm<$o
 	 * @param stream the filtered chain complex 
 	 * @return the persistence intervals of the given complex
 	 */
-	protected abstract IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<$objectType> stream);
+	protected abstract BarcodeCollection<Integer> computeIntervalsImpl(AbstractFilteredStream<$objectType> stream);
 	
 	/**
 	 * This function provides the implementation of computeAnnotatedIntervals.
@@ -151,7 +151,7 @@ public abstract class $className implements AbstractPersistenceBasisAlgorithm<$o
 	 * @param stream the filtered chain complex
 	 * @return the augmented persistence intervals
 	 */
-	protected abstract IntAnnotatedBarcodeCollection<$sumClassName> computeAnnotatedIntervalsImpl(AbstractFilteredStream<$objectType> stream);
+	protected abstract AnnotatedBarcodeCollection<Integer, $sumClassName> computeAnnotatedIntervalsImpl(AbstractFilteredStream<$objectType> stream);
 	
 	/**
 	 * This function computes the operation low_A(j) as described in the paper. Note that if

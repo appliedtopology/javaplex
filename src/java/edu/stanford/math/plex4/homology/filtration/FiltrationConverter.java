@@ -1,15 +1,9 @@
 package edu.stanford.math.plex4.homology.filtration;
 
-import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcode;
-import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.DoubleHalfOpenInterval;
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcode;
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcode;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
+import edu.stanford.math.plex4.homology.barcodes.Interval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
+import edu.stanford.math.primitivelib.autogen.functional.ObjectObjectFunction;
+
 
 
 /**
@@ -18,7 +12,7 @@ import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
  * @author Andrew Tausz
  *
  */
-public abstract class FiltrationConverter {
+public abstract class FiltrationConverter implements ObjectObjectFunction<Interval<Integer>, Interval<Double>> {
 	
 	/**
 	 * This function computes the index based on a filtration value.
@@ -54,51 +48,26 @@ public abstract class FiltrationConverter {
 	 */
 	public abstract double getInitialFiltrationValue();
 	
-	/**
-	 * This function converts a filtration index interval to a filtration value interval.
-	 * 
-	 * @param interval the integer interval to convert
-	 * @return the filtration value function applied to the interval
-	 */
-	public abstract DoubleHalfOpenInterval transform(IntHalfOpenInterval interval);
-	
-	/**
-	 * This function converts a filtration index barcode to a filtration value barcode.
-	 * 
-	 * @param intBarcode the integer barcode to convert
-	 * @return the filtration value function applied to the barcode
-	 */
-	public DoubleBarcode transform(IntBarcode intBarcode) {
-		return FiltrationUtility.transformBarcode(intBarcode, this);
+	public <G> PersistenceInvariantDescriptor<Interval<Double>, G> transform(PersistenceInvariantDescriptor<Interval<Integer>, G> invariantDescriptor) {
+		return FiltrationUtility.transform(invariantDescriptor, this);
 	}
 	
-	/**
-	 * This function converts a filtration index barcode collection to a filtration value barcode collection.
-	 * 
-	 * @param intBarcodeCollection the integer barcode collection to convert
-	 * @return the filtration value function applied to the barcode collection
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.filtration.FiltrationConverter#transformInterval(edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval)
 	 */
-	public DoubleBarcodeCollection transform(IntBarcodeCollection intBarcodeCollection) {
-		return FiltrationUtility.transformBarcodeCollection(intBarcodeCollection, this);
-	}
-	
-	/**
-	 * This function converts a filtration index barcode to a filtration value barcode.
-	 * 
-	 * @param intBarcode the integer barcode to convert
-	 * @return the filtration value function applied to the barcode
-	 */
-	public <T> DoubleAnnotatedBarcode<T> transform(IntAnnotatedBarcode<T> intBarcode) {
-		return FiltrationUtility.transformBarcode(intBarcode, this);
-	}
-	
-	/**
-	 * This function converts a filtration index barcode collection to a filtration value barcode collection.
-	 * 
-	 * @param intBarcodeCollection the integer barcode collection to convert
-	 * @return the filtration value function applied to the barcode collection
-	 */
-	public <T> DoubleAnnotatedBarcodeCollection<T> transform(IntAnnotatedBarcodeCollection<T> intBarcodeCollection) {
-		return FiltrationUtility.transformBarcodeCollection(intBarcodeCollection, this);
+	public Interval<Double> evaluate(Interval<Integer> interval) {
+		if (interval.isLeftInfinite() && interval.isRightInfinite()) {
+			return Interval.makeInterval(null, null, interval.isLeftClosed(), interval.isRightClosed(), interval.isLeftInfinite(), interval.isRightInfinite());
+		}
+		
+		if (interval.isLeftInfinite()) {
+			return Interval.makeInterval(null, this.getFiltrationValue(interval.getEnd()), interval.isLeftClosed(), interval.isRightClosed(), interval.isLeftInfinite(), interval.isRightInfinite());
+		}
+		
+		if (interval.isRightInfinite()) {
+			return Interval.makeInterval(this.getFiltrationValue(interval.getStart()), null, interval.isLeftClosed(), interval.isRightClosed(), interval.isLeftInfinite(), interval.isRightInfinite());
+		}
+		
+		return Interval.makeInterval(this.getFiltrationValue(interval.getStart()), this.getFiltrationValue(interval.getEnd()), interval.isLeftClosed(), interval.isRightClosed(), interval.isLeftInfinite(), interval.isRightInfinite());
 	}
 }

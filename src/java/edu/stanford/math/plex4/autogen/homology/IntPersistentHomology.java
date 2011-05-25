@@ -6,8 +6,8 @@ import java.util.Set;
 
 import javax.annotation.Generated;
 
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
@@ -26,7 +26,7 @@ import gnu.trove.THashSet;
  * and the actual implementations of the persistent homology/cohomology algorithms.
  *  
  * <p>int the underlying type of the coefficient field</p>
- * <p>U> the underlying basis type</p>
+ * <p>U the underlying basis type</p>
  * 
  * @author autogen
  *
@@ -47,12 +47,12 @@ public abstract class IntPersistentHomology<U> extends IntPersistenceAlgorithm<U
 	}
 	
 	@Override
-	protected IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>> computeAnnotatedIntervalsImpl(AbstractFilteredStream<U> stream) {
+	protected AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<U>> computeAnnotatedIntervalsImpl(AbstractFilteredStream<U> stream) {
 		return this.getAnnotatedIntervals(this.pHcol(stream), stream);
 	}
 
 	@Override
-	protected IntBarcodeCollection computeIntervalsImpl(AbstractFilteredStream<U> stream) {
+	protected BarcodeCollection<Integer> computeIntervalsImpl(AbstractFilteredStream<U> stream) {
 		return this.getIntervals(this.pHcol(stream), stream);
 	}
 	
@@ -145,21 +145,21 @@ public abstract class IntPersistentHomology<U> extends IntPersistenceAlgorithm<U
 		return new ObjectObjectPair<THashMap<U, IntSparseFormalSum<U>>, THashMap<U, IntSparseFormalSum<U>>>(R, V);
 	}
 	
-	protected abstract IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>> getAnnotatedIntervals(ObjectObjectPair<THashMap<U, IntSparseFormalSum<U>>, 
+	protected abstract AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<U>> getAnnotatedIntervals(ObjectObjectPair<THashMap<U, IntSparseFormalSum<U>>, 
 			THashMap<U, IntSparseFormalSum<U>>> RV_pair, 
 			AbstractFilteredStream<U> stream);
 
-	protected abstract IntBarcodeCollection getIntervals(ObjectObjectPair<THashMap<U, IntSparseFormalSum<U>>, 
+	protected abstract BarcodeCollection<Integer> getIntervals(ObjectObjectPair<THashMap<U, IntSparseFormalSum<U>>, 
 			THashMap<U, IntSparseFormalSum<U>>> RV_pair, 
 			AbstractFilteredStream<U> stream);
 
-	protected IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>> getAnnotatedIntervals(
+	protected AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<U>> getAnnotatedIntervals(
 			ObjectObjectPair<THashMap<U, IntSparseFormalSum<U>>, 
 			THashMap<U, IntSparseFormalSum<U>>> RV_pair, 
 			AbstractFilteredStream<U> stream, 
 			boolean absolute) {
 			
-		IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>> barcodeCollection = new IntAnnotatedBarcodeCollection<IntSparseFormalSum<U>>();
+		AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<U>> barcodeCollection = new AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<U>>();
 
 		THashMap<U, IntSparseFormalSum<U>> R = RV_pair.getFirst();
 		THashMap<U, IntSparseFormalSum<U>> V = RV_pair.getSecond();
@@ -212,13 +212,13 @@ public abstract class IntPersistentHomology<U> extends IntPersistenceAlgorithm<U
 		return barcodeCollection;
 	}
 
-	protected IntBarcodeCollection getIntervals(
+	protected BarcodeCollection<Integer> getIntervals(
 			ObjectObjectPair<THashMap<U, IntSparseFormalSum<U>>, 
 			THashMap<U, IntSparseFormalSum<U>>> RV_pair, 
 			AbstractFilteredStream<U> stream, 
 			boolean absolute) {
 			
-		IntBarcodeCollection barcodeCollection = new IntBarcodeCollection();
+		BarcodeCollection<Integer> barcodeCollection = new BarcodeCollection<Integer>();
 
 		THashMap<U, IntSparseFormalSum<U>> R = RV_pair.getFirst();
 

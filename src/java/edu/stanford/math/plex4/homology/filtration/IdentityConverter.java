@@ -1,13 +1,6 @@
 package edu.stanford.math.plex4.homology.filtration;
 
-import edu.stanford.math.plex4.homology.barcodes.DoubleFiniteInterval;
-import edu.stanford.math.plex4.homology.barcodes.DoubleHalfOpenInterval;
-import edu.stanford.math.plex4.homology.barcodes.DoubleLeftInfiniteInterval;
-import edu.stanford.math.plex4.homology.barcodes.DoubleRightInfiniteInterval;
-import edu.stanford.math.plex4.homology.barcodes.IntFiniteInterval;
-import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
-import edu.stanford.math.plex4.homology.barcodes.IntLeftInfiniteInterval;
-import edu.stanford.math.plex4.homology.barcodes.IntRightInfiniteInterval;
+
 
 /**
  * This class defines a filtration value conversion which simply defines the filtration
@@ -17,6 +10,7 @@ import edu.stanford.math.plex4.homology.barcodes.IntRightInfiniteInterval;
  *
  */
 public class IdentityConverter extends FiltrationConverter {
+
 	/**
 	 * This is the single instance of the class
 	 */
@@ -55,20 +49,4 @@ public class IdentityConverter extends FiltrationConverter {
 	public double getInitialFiltrationValue() {
 		return 0;
 	}
-
-	@Override
-	public DoubleHalfOpenInterval transform(IntHalfOpenInterval interval) {
-		if (interval instanceof IntLeftInfiniteInterval) {
-			IntLeftInfiniteInterval castedInterval = (IntLeftInfiniteInterval) interval;
-			return new DoubleLeftInfiniteInterval(this.getFiltrationValue(castedInterval.getEnd()));
-		} else if (interval instanceof IntRightInfiniteInterval) {
-			IntRightInfiniteInterval castedInterval = (IntRightInfiniteInterval) interval;
-			return new DoubleRightInfiniteInterval(this.getFiltrationValue(castedInterval.getStart()));
-		} else if (interval instanceof IntFiniteInterval) {
-			IntFiniteInterval castedInterval = (IntFiniteInterval) interval;
-			return new DoubleFiniteInterval(this.getFiltrationValue(castedInterval.getStart()), this.getFiltrationValue(castedInterval.getEnd()));
-		}
-		return null;
-	}
-
 }

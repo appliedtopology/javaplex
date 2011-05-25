@@ -1,10 +1,10 @@
 package edu.stanford.math.plex4.streams.impl;
 
+import java.util.List;
+
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
-import gnu.trove.TIntHashSet;
-import gnu.trove.TIntIterator;
 
 public class WitnessBicomplex<T> extends ExplicitStream<SimplexPair> {
 	protected final WitnessStream<T> L1;
@@ -20,46 +20,33 @@ public class WitnessBicomplex<T> extends ExplicitStream<SimplexPair> {
 
 	@Override
 	protected void constructComplex() {
-		boolean add = false;
+		// L1 and L2 should have the same vertex set
+		
+		if (L1.N != L2.N){
+			return;
+		}
+		
 		SimplexPair pair = null;
-		for (Simplex sigma: L1) {
-			int sigma_witness = L1.getWitnessIndex(sigma);
-			int sigma_index = L1.getFiltrationIndex(sigma);
-			TIntHashSet sigma_witnesses = L1.getAllWitnesses(sigma.getVertices());
-			for (Simplex tau: L2) {
-				add = false;
-
-				int tau_witness = L2.getWitnessIndex(tau);
-				int tau_index = L2.getFiltrationIndex(tau);
-
-				TIntHashSet tau_witnesses = L2.getAllWitnesses(tau.getVertices());
-				
-				TIntHashSet intersection = this.intersect(sigma_witnesses, tau_witnesses);
-				
-				if (sigma_witness >= 0 && tau_witness >= 0 && (!intersection.isEmpty())) {
-					add = true;
-				}
-
-				if (add) {
-					pair = SimplexPair.createPair(sigma, tau);
-					if (pair.getDimension() <= maxDimension)
-						this.storageStructure.addElement(pair, Math.max(sigma_index, tau_index));
-				}
-			}
-		}
-	}
-	
-	private TIntHashSet intersect(TIntHashSet a, TIntHashSet b) {
-		TIntHashSet result = new TIntHashSet();
 		
-		for (TIntIterator iterator = a.iterator(); iterator.hasNext(); ) {
-			int x = iterator.next();
+		for (int n = 0; n < L1.N; n++) {
+			List<Simplex> L1Simplices = L1.getAssociatedSimplices(n);
+			List<Simplex> L2Simplices = L2.getAssociatedSimplices(n);
 			
-			if (b.contains(x)) {
-				result.add(x);
+			if (L1Simplices == null || L2Simplices == null || L1Simplices.isEmpty() || L2Simplices.isEmpty()) {
+				continue;
+			}
+			
+			for (Simplex sigma: L1Simplices) {
+				int sigma_index = L1.getFiltrationIndex(sigma);
+				for (Simplex tau: L2Simplices) {
+					int tau_index = L2.getFiltrationIndex(tau);
+					
+					pair = SimplexPair.createPair(sigma, tau);
+					if (pair.getDimension() <= maxDimension && (!this.storageStructure.containsElement(pair))) {
+						this.storageStructure.addElement(pair, Math.max(sigma_index, tau_index));
+					}
+				}
 			}
 		}
-		
-		return result;
 	}
 }

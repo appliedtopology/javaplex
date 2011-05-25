@@ -1,6 +1,8 @@
 package edu.stanford.math.plex4.streams.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
@@ -13,7 +15,8 @@ import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
 import edu.stanford.math.primitivelib.autogen.pair.IntDoublePair;
 import edu.stanford.math.primitivelib.utility.Infinity;
 import gnu.trove.TIntHashSet;
-import gnu.trove.TObjectIntHashMap;
+import gnu.trove.TIntIterator;
+import gnu.trove.TIntObjectHashMap;
 
 public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStream {
 
@@ -41,7 +44,11 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 	protected double[][] D = null;
 	protected double[] m = null;
 	
-	protected final TObjectIntHashMap<Simplex> witnesses = new TObjectIntHashMap<Simplex>();
+	/**
+	 * If (i, sigma) is in witnessSimplexMap, then it means that point i is a a witness for sigma
+	 */
+	private final TIntObjectHashMap<List<Simplex>> witnessSimplexMap = new TIntObjectHashMap<List<Simplex>>();
+	
 	protected final int N;
 	protected final int L;
 	
@@ -91,8 +98,24 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		return 2;
 	}
 	
-	public int getWitnessIndex(Simplex simplex) {
-		return this.witnesses.get(simplex);
+	/**
+	 * This function returns the list of simplices such that they have the
+	 * given point as their witness. If there are no such points, this function
+	 * returns null;
+	 * 
+	 * @param witness the witness point 
+	 * @return a list of simplices with the given point as their witness
+	 */
+	public List<Simplex> getAssociatedSimplices(int witness) {
+		List<Simplex> temp = this.witnessSimplexMap.get(witness);
+		
+		if (temp == null) {
+			return null;
+		}
+		
+		List<Simplex> result = new ArrayList<Simplex>();
+		result.addAll(temp);
+		return result;
 	}
 	
 	@Override
@@ -174,7 +197,7 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 					e_ij = witnessAndDistance.getSecond();
 					
 					if (e_ij <= this.maxDistance) {
-						this.witnesses.put(HomologyUtility.convertIndices(Simplex.makeSimplex(i, j), this.indices), n_star);
+						this.updateWitnessInformationInternalIndices(n_star, e_ij, i, j);
 						graph.addEdge(i, j, e_ij);
 						edge_count++;
 					}
@@ -183,73 +206,6 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		}
 		
 		return graph;
-	}
-	
-	protected static boolean contains(int[] array, int value) {
-		for (int i = 0; i < array.length; i++) {
-			if (array[i] == value) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	protected boolean isWitness(int x, int[] landmarkVertices) {
-		
-		TIntHashSet witnesses = this.getAllWitnesses(landmarkVertices);
-		return witnesses.contains(x);
-	}
-	
-	protected TIntHashSet getAllWitnesses(int... externalIndices) {
-		double e_ij;
-		double d[] = new double[externalIndices.length];
-		e_ij = Infinity.Double.getPositiveInfinity();
-		TIntHashSet witnesses = new TIntHashSet();
-		
-		int[] landmarkIndices = HomologyUtility.deconvertIndices(externalIndices, this.indices);
-		//landmarkIndices = externalIndices;
-		
-		IntDoublePair witnessAndDistance = this.getWitnessAndDistance(landmarkIndices);
-		e_ij = witnessAndDistance.getSecond();
-		
-		for (int n = 0; n < N; n++) {
-			if (contains(this.indices, n) && !this.plex3Compatible) {
-				continue;
-			}
-			
-			double d_max = Infinity.Double.getNegativeInfinity();
-			if (D == null) {
-				for (int k = 0; k < landmarkIndices.length; k++) {
-					d[k] = this.metricSpace.distance(externalIndices[k], n);
-					if (k == 0 || d[k] > d_max) {
-						d_max = d[k];
-					}
-				}
-			} else {
-				for (int k = 0; k < landmarkIndices.length; k++) {
-					d[k] = D[landmarkIndices[k]][n];
-					if (k == 0 || d[k] > d_max) {
-						d_max = d[k];
-					}
-				}
-			}
-			if (d_max < m[n]) {
-				d_max = 0.0;
-			} else {
-				d_max -= m[n];
-			}
-			
-			if (Math.abs(d_max - e_ij) <= this.epsilon) {
-				witnesses.add(n);
-			}
-		}
-		
-		if (externalIndices.length == 1 && contains(this.indices, externalIndices[0])) {
-			witnesses.add(externalIndices[0]);
-		}
-		
-		return witnesses;
 	}
 	
 	protected IntDoublePair getWitnessAndDistance(int... landmarkIndices) {
@@ -294,5 +250,90 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		}
 		
 		return new IntDoublePair(n_star, e_ij);
+	}
+	
+	protected static boolean contains(int[] array, int value) {
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == value) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	protected void updateWitnessInformationInternalIndices(int n_star, double e_ij, int... internalIndices) {
+		updateWitnessInformation(n_star, e_ij, HomologyUtility.convertIndices(internalIndices, this.indices));
+	}
+	
+	protected void updateWitnessInformation(int n_star, double e_ij, int... externalIndices) {
+		
+		TIntHashSet witnesses = this.getAllWitnesses(e_ij, externalIndices);
+		
+		for (TIntIterator iterator = witnesses.iterator(); iterator.hasNext(); ) {
+			int witnessIndex = iterator.next();
+			if (!this.witnessSimplexMap.contains(witnessIndex)) {
+				this.witnessSimplexMap.put(witnessIndex, new ArrayList<Simplex>());
+			}
+			this.witnessSimplexMap.get(witnessIndex).add(Simplex.makeSimplex(externalIndices));
+		}
+	}
+	
+	protected boolean isWitness(int x, Simplex simplex) {
+		return this.isWitness(x, simplex.getVertices());
+	}
+	
+	protected boolean isWitness(int x, int[] externalIndices) {
+		if (!this.witnessSimplexMap.contains(x)) {
+			return false;
+		}
+		
+		return this.witnessSimplexMap.get(x).contains(Simplex.makeSimplex(externalIndices));
+	}
+	
+	protected TIntHashSet getAllWitnesses(final double e_ij, final int... externalIndices) {
+		double d[] = new double[externalIndices.length];
+		TIntHashSet witnesses = new TIntHashSet();
+		
+		int[] landmarkIndices = HomologyUtility.deconvertIndices(externalIndices, this.indices);
+		//landmarkIndices = externalIndices;
+		
+		for (int n = 0; n < N; n++) {
+			if (contains(this.indices, n) && !this.plex3Compatible) {
+				continue;
+			}
+			
+			double d_max = Infinity.Double.getNegativeInfinity();
+			if (D == null) {
+				for (int k = 0; k < landmarkIndices.length; k++) {
+					d[k] = this.metricSpace.distance(externalIndices[k], n);
+					if (k == 0 || d[k] > d_max) {
+						d_max = d[k];
+					}
+				}
+			} else {
+				for (int k = 0; k < landmarkIndices.length; k++) {
+					d[k] = D[landmarkIndices[k]][n];
+					if (k == 0 || d[k] > d_max) {
+						d_max = d[k];
+					}
+				}
+			}
+			if (d_max < m[n]) {
+				d_max = 0.0;
+			} else {
+				d_max -= m[n];
+			}
+			
+			if (Math.abs(d_max - e_ij) <= this.epsilon) {
+				witnesses.add(n);
+			}
+		}
+		
+		if (externalIndices.length == 1 && contains(this.indices, externalIndices[0])) {
+			witnesses.add(externalIndices[0]);
+		}
+		
+		return witnesses;
 	}
 }

@@ -4,14 +4,8 @@
 package edu.stanford.math.plex4.streams.impl;
 
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
-import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcode;
-import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcode;
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcode;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.Interval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.filtration.FiltrationConverter;
@@ -116,43 +110,14 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 	}
 	
 	/**
-	 * This function converts a filtration index barcode to a filtration value barcode.
+	 * This function transforms the given collection of filtration index barcodes into filtration value barcodes.
 	 * 
-	 * @param intBarcode the integer barcode to convert
-	 * @return the filtration value function applied to the barcode
+	 * @param <G>
+	 * @param barcodeCollection the set of filtration index barcodes
+	 * @return the barcodes transformed into filtration value form
 	 */
-	public DoubleBarcode transform(IntBarcode intBarcode) {
-		return FiltrationUtility.transformBarcode(intBarcode, this.converter);
-	}
-	
-	/**
-	 * This function converts a filtration index barcode collection to a filtration value barcode collection.
-	 * 
-	 * @param intBarcodeCollection the integer barcode collection to convert
-	 * @return the filtration value function applied to the barcode collection
-	 */
-	public DoubleBarcodeCollection transform(IntBarcodeCollection intBarcodeCollection) {
-		return FiltrationUtility.transformBarcodeCollection(intBarcodeCollection, this.converter);
-	}
-	
-	/**
-	 * This function converts a filtration index barcode to a filtration value barcode.
-	 * 
-	 * @param intBarcode the integer barcode to convert
-	 * @return the filtration value function applied to the barcode
-	 */
-	public <T> DoubleAnnotatedBarcode<T> transform(IntAnnotatedBarcode<T> intBarcode) {
-		return FiltrationUtility.transformBarcode(intBarcode, this.converter);
-	}
-	
-	/**
-	 * This function converts a filtration index barcode collection to a filtration value barcode collection.
-	 * 
-	 * @param intBarcodeCollection the integer barcode collection to convert
-	 * @return the filtration value function applied to the barcode collection
-	 */
-	public <T> DoubleAnnotatedBarcodeCollection<T> transform(IntAnnotatedBarcodeCollection<T> intBarcodeCollection) {
-		return FiltrationUtility.transformBarcodeCollection(intBarcodeCollection, this.converter);
+	public <G> PersistenceInvariantDescriptor<Interval<Double>, G> transform(PersistenceInvariantDescriptor<Interval<Integer>, G> barcodeCollection) {
+		return FiltrationUtility.transform(barcodeCollection, this.converter);
 	}
 	
 	@Override
@@ -163,7 +128,6 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 		// expand higher order simplices
 		this.incrementalExpansion(neighborhoodGraph, this.maxAllowableDimension);
 	}
-	
 	
 	/**
 	 * This function performs the incremental expansion of the complex.

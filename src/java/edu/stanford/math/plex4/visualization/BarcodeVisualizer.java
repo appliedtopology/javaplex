@@ -12,8 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
-import edu.stanford.math.plex4.homology.barcodes.DoubleHalfOpenInterval;
+import edu.stanford.math.plex4.homology.barcodes.Interval;
 
 /**
  * This class contains functions for visualizing barcodes.
@@ -39,16 +38,10 @@ public class BarcodeVisualizer {
 
 	public static final int DEFAULT_WIDTH = 600;
 
-	public static BufferedImage drawBarcode(DoubleBarcode barcode, double endPoint) throws IOException {
-		return drawBarcode(barcode, barcode.getLabel(), endPoint);
-	}
-
-	public static BufferedImage drawBarcode(DoubleBarcode barcode, String title, double endPoint) throws IOException {
-		if (barcode == null) {
+	public static BufferedImage drawBarcode(List<Interval<Double>> intervals, String title, double endPoint) throws IOException {
+		if (intervals == null) {
 			throw new IllegalArgumentException();
 		}
-
-		List<DoubleHalfOpenInterval> intervals = barcode.getIntervals();
 
 		// Set the image generation parameters
 		int barHeight = 3;
@@ -189,7 +182,7 @@ public class BarcodeVisualizer {
 		graphics.drawLine(region.xoffset, region.yoffset + region.height, region.xoffset + region.width, region.yoffset + region.height);
 	}
 
-	protected static void drawBarsInPlace(Graphics2D graphics, List<DoubleHalfOpenInterval> intervals, ImageRegion.Int region, int barHeight, int spacing, double scale) {
+	protected static void drawBarsInPlace(Graphics2D graphics, List<Interval<Double>> intervals, ImageRegion.Int region, int barHeight, int spacing, double scale) {
 		graphics.setColor(Color.BLACK);
 
 		// Set the amount of overlap for infinite extents
@@ -211,7 +204,7 @@ public class BarcodeVisualizer {
 		}
 	}
 
-	protected static double getMaxBarWidth(List<DoubleHalfOpenInterval> intervals) {
+	protected static double getMaxBarWidth(List<Interval<Double>> intervals) {
 		// Compute a multiplier to scale the barcodes to the image width
 		double max_x = 0;
 		for (int j = 0; j < intervals.size(); j++) {

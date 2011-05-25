@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.stanford.math.plex4.examples.SimplexStreamExamples;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.zigzag.HomologyBasisTracker;
@@ -66,7 +66,7 @@ public class ZigZagTest {
 			zz.remove(simplex);
 		}
 
-		IntBarcodeCollection collection = zz.getBarcodes();
-		collection.draw();
+		BarcodeCollection<Integer> collection = zz.getBarcodes();
+		System.out.println(collection);
 	}
 }

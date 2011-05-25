@@ -48,7 +48,7 @@ public class $className extends $superClassName {
 	#end
 	
 	@Override
-	protected IntAnnotatedBarcodeCollection<$sumClassName> getAnnotatedIntervals(
+	protected AnnotatedBarcodeCollection<Integer, $sumClassName> getAnnotatedIntervals(
 			ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
 			THashMap<$objectType, $sumClassName>> RV_pair, 
 			AbstractFilteredStream<$objectType> stream) {
@@ -57,7 +57,7 @@ public class $className extends $superClassName {
 	}
 
 	@Override
-	protected IntBarcodeCollection getIntervals(ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
+	protected BarcodeCollection<Integer> getIntervals(ObjectObjectPair<THashMap<$objectType, $sumClassName>, 
 			THashMap<$objectType, $sumClassName>> RV_pair,
 			AbstractFilteredStream<$objectType> stream) {
 			

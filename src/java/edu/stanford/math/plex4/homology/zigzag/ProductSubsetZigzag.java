@@ -3,7 +3,7 @@ package edu.stanford.math.plex4.homology.zigzag;
 import java.util.Collections;
 import java.util.List;
 
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
@@ -14,7 +14,7 @@ import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 
 public class ProductSubsetZigzag {
-	public static IntBarcodeCollection testShortSequence(AbstractFilteredStream<Simplex> X, AbstractFilteredStream<Simplex> Y, AbstractFilteredStream<SimplexPair> Z) {
+	public static BarcodeCollection<Integer> testShortSequence(AbstractFilteredStream<Simplex> X, AbstractFilteredStream<Simplex> Y, AbstractFilteredStream<SimplexPair> Z) {
 		IntAbstractField intField = ModularIntField.getInstance(2);
 		HomologyBasisTracker<SimplexPair> basisTracker = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
 
@@ -68,7 +68,7 @@ public class ProductSubsetZigzag {
 		return basisTracker.getBarcodes();
 	}
 
-	public static IntBarcodeCollection testLongSequence(AbstractFilteredStream<Simplex> X_stream, AbstractFilteredStream<Simplex> Y_stream, AbstractFilteredStream<SimplexPair> Z) {
+	public static BarcodeCollection<Integer> testLongSequence(AbstractFilteredStream<Simplex> X_stream, AbstractFilteredStream<Simplex> Y_stream, AbstractFilteredStream<SimplexPair> Z) {
 	
 		/*
 		 * 0    1      2            3    4             5      6
@@ -144,7 +144,7 @@ public class ProductSubsetZigzag {
 		return basisTracker.getBarcodes();
 	}
 	
-	public static IntBarcodeCollection testProjection(AbstractFilteredStream<Simplex> X_stream, AbstractFilteredStream<Simplex> Y_stream, AbstractFilteredStream<SimplexPair> Z_stream) {
+	public static BarcodeCollection<Integer> testProjection(AbstractFilteredStream<Simplex> X_stream, AbstractFilteredStream<Simplex> Y_stream, AbstractFilteredStream<SimplexPair> Z_stream) {
 		IntAbstractField intField = ModularIntField.getInstance(2);
 		HomologyBasisTracker<SimplexPair> ZTracker = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
 		HomologyBasisTracker<Simplex> XTracker = new HomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance());

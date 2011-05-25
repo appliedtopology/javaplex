@@ -1,7 +1,7 @@
 package edu.stanford.math.plex4.examples;
 
 
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.streams.impl.ExplicitCellStream;
 import edu.stanford.math.primitivelib.autogen.algebraic.ObjectAbstractField;
@@ -23,10 +23,10 @@ public class DeSilvaMorozovJohanssonExample<R> {
 	private final ObjectAlgebraicFreeModule<R, Cell> module;
 	private final ExplicitCellStream cellComplex;
 	
-	private final IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> absoluteHomologyBarcodes = new IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
-	private final IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> relativeHomologyBarcodes = new IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
-	private final IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> absoluteCohomologyBarcodes = new IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
-	private final IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> relativeCohomologyBarcodes = new IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>>();
+	private final AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>> absoluteHomologyBarcodes = new AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>>();
+	private final AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>> relativeHomologyBarcodes = new AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>>();
+	private final AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>> absoluteCohomologyBarcodes = new AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>>();
+	private final AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>> relativeCohomologyBarcodes = new AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>>();
 	
 	/**
 	 * This constructor initializes the class with the specified field.
@@ -95,7 +95,7 @@ public class DeSilvaMorozovJohanssonExample<R> {
 	 * 
 	 * @return the barcodes and generators for absolute homology
 	 */
-	public IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getAbsoluteHomologyBarcodes() {
+	public AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>> getAbsoluteHomologyBarcodes() {
 		return this.absoluteHomologyBarcodes;
 	}
 	
@@ -104,7 +104,7 @@ public class DeSilvaMorozovJohanssonExample<R> {
 	 * 
 	 * @return the barcodes and generators for relative homology
 	 */
-	public IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getRelativeHomologyBarcodes() {
+	public AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>> getRelativeHomologyBarcodes() {
 		return this.relativeHomologyBarcodes;
 	}
 	
@@ -113,7 +113,7 @@ public class DeSilvaMorozovJohanssonExample<R> {
 	 * 
 	 * @return the barcodes and generators for absolute cohomology
 	 */
-	public IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getAbsoluteCohomologyBarcodes() {
+	public AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>> getAbsoluteCohomologyBarcodes() {
 		return this.absoluteCohomologyBarcodes;
 	}
 	
@@ -122,7 +122,7 @@ public class DeSilvaMorozovJohanssonExample<R> {
 	 * 
 	 * @return the barcodes and generators for relative cohomology
 	 */
-	public IntAnnotatedBarcodeCollection<ObjectSparseFormalSum<R, Cell>> getRelativeCohomologyBarcodes() {
+	public AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<R, Cell>> getRelativeCohomologyBarcodes() {
 		return this.relativeCohomologyBarcodes;
 	}
 }

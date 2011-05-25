@@ -77,8 +77,8 @@ public class $className implements $superClassName {
 	}
 	#end
 	
-	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<$objectType> stream) {
-		IntBarcodeCollection barcodeCollection = new IntBarcodeCollection();
+	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<$objectType> stream) {
+		BarcodeCollection<Integer> barcodeCollection = new BarcodeCollection<Integer>();
 		
 		this.filteredComparator = new FilteredComparator<$objectType>(stream, this.basisComparator);
 		this.markedSimplices = new THashSet<$objectType>();

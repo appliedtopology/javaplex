@@ -9,8 +9,8 @@ import edu.stanford.math.plex4.autogen.homology.BooleanClassicalHomology;
 import edu.stanford.math.plex4.autogen.homology.IntAbsoluteHomology;
 import edu.stanford.math.plex4.autogen.homology.ObjectAbsoluteHomology;
 import edu.stanford.math.plex4.autogen.homology.ObjectPersistenceAlgorithm;
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.Interval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.plex4.homology.chain_basis.Cell;
 import edu.stanford.math.plex4.homology.chain_basis.CellComparator;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
@@ -40,7 +40,6 @@ import edu.stanford.math.primitivelib.autogen.formal_sum.DoubleVectorConverter;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPairComparator;
 import edu.stanford.math.primitivelib.collections.utility.ReversedComparator;
-import gnu.trove.TIntObjectIterator;
 
 /**
  * This class contains static functions that are designed to be callable
@@ -299,14 +298,13 @@ public class Plex4 {
 	 * @param endPoint the maximum endpoint
 	 * @throws IOException 
 	 */
-	public static void createBarcodePlot(DoubleBarcodeCollection collection, String caption, double endPoint) throws IOException {
-		for (TIntObjectIterator<DoubleBarcode> iterator = collection.iterator(); iterator.hasNext(); ) {
-			iterator.advance();
-			int dimension = iterator.key();
-			DoubleBarcode barcode = iterator.value();
+	public static <G> void createBarcodePlot(PersistenceInvariantDescriptor<Interval<Double>, G> collection, String caption, double endPoint) throws IOException {
+		BarcodeWriter writer = BarcodeWriter.getInstance();
+		
+		for (int dimension: collection.getDimensions()) {
 			String imageFilename = caption + "_" + dimension;
-			BarcodeWriter writer = BarcodeWriter.getInstance();
-			writer.writeToFile(barcode, imageFilename + "." + writer.getExtension(), endPoint);
+			String path = imageFilename + "." + writer.getExtension();
+			writer.writeToFile(collection, dimension, endPoint, caption, path);
 		}
 	}
 	

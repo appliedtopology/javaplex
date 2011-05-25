@@ -1,16 +1,11 @@
 package edu.stanford.math.plex4.homology.filtration;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
-import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcode;
-import edu.stanford.math.plex4.homology.barcodes.DoubleAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcode;
-import edu.stanford.math.plex4.homology.barcodes.DoubleBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcode;
-import edu.stanford.math.plex4.homology.barcodes.IntAnnotatedBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcode;
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
-import edu.stanford.math.plex4.homology.barcodes.IntHalfOpenInterval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
+import edu.stanford.math.primitivelib.autogen.functional.ObjectObjectFunction;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 
 /**
@@ -22,76 +17,30 @@ import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
  */
 public class FiltrationUtility {
 	
-	/**
-	 * This function converts a filtration index barcode to a filtration value barcode.
-	 * 
-	 * @param intBarcode the integer barcode to convert
-	 * @param converter the FiltrationConverter object that computes the index to value mapping
-	 * @return the filtration value function applied to the barcode
-	 */
-	public static DoubleBarcode transformBarcode(IntBarcode intBarcode, FiltrationConverter converter) {
-		DoubleBarcode barcode = new DoubleBarcode(intBarcode.getDimension());
+	@SuppressWarnings("unchecked")
+	public static <G, X, Y> PersistenceInvariantDescriptor<Y, G> transform(PersistenceInvariantDescriptor<X, G> invariantDescriptor, ObjectObjectFunction<X, Y> converter) {
+		PersistenceInvariantDescriptor<Y, G> result = null;
 		
-		for (IntHalfOpenInterval interval: intBarcode.getIntervals()) {
-			barcode.addInterval(converter.transform(interval));
+		try {
+			result = invariantDescriptor.getClass().newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			return null;
 		}
 		
-		return barcode;
-	}
-	
-	/**
-	 * This function converts a filtration index barcode collection to a filtration 
-	 * value barcode collection.
-	 * 
-	 * @param intBarcodeCollection the integer barcode collection to convert
-	 * @param converter the FiltrationConverter object that computes the index to value mapping
-	 * @return the filtration value function applied to the barcode collection
-	 */
-	public static DoubleBarcodeCollection transformBarcodeCollection(IntBarcodeCollection intBarcodeCollection, FiltrationConverter converter) {
-		DoubleBarcodeCollection barcodeCollection = new DoubleBarcodeCollection();
-		
-		for (Entry<Integer, IntBarcode> entry: intBarcodeCollection) {
-			for (IntHalfOpenInterval interval: entry.getValue()) {
-				barcodeCollection.addInterval(entry.getKey(), converter.transform(interval));
+		for (Iterator<Entry<Integer, List<ObjectObjectPair<X, G>>>> iterator = invariantDescriptor.getIntervalGeneratorPairIterator(); iterator.hasNext(); ) {
+			Entry<Integer, List<ObjectObjectPair<X, G>>> entry = iterator.next();
+			Integer dimension = entry.getKey();
+			for (ObjectObjectPair<X, G> pair: entry.getValue()) {
+				Y transformedObject = converter.evaluate(pair.getFirst());
+				G generator = pair.getSecond();
+				result.addInterval(dimension, transformedObject, generator);
 			}
 		}
 		
-		return barcodeCollection;
-	}
-	
-	/**
-	 * This function converts a filtration index barcode to a filtration value barcode.
-	 * 
-	 * @param intBarcode the integer barcode to convert
-	 * @param converter the FiltrationConverter object that computes the index to value mapping
-	 * @return the filtration value function applied to the barcode
-	 */
-	public static <T> DoubleAnnotatedBarcode<T> transformBarcode(IntAnnotatedBarcode<T> intBarcode, FiltrationConverter converter) {
-		DoubleAnnotatedBarcode<T> barcode = new DoubleAnnotatedBarcode<T>(intBarcode.getDimension());
-		
-		for (ObjectObjectPair<IntHalfOpenInterval, T> pair: intBarcode.getIntervals()) {
-			barcode.addInterval(converter.transform(pair.getFirst()), pair.getSecond());
-		}
-		
-		return barcode;
-	}
-	
-	/**
-	 * This function converts a filtration index barcode collection to a filtration value barcode collection.
-	 * 
-	 * @param intBarcodeCollection the integer barcode collection to convert
-	 * @param converter the FiltrationConverter object that computes the index to value mapping
-	 * @return the filtration value function applied to the barcode collection
-	 */
-	public static <T> DoubleAnnotatedBarcodeCollection<T> transformBarcodeCollection(IntAnnotatedBarcodeCollection<T> intBarcodeCollection, FiltrationConverter converter) {
-		DoubleAnnotatedBarcodeCollection<T> barcodeCollection = new DoubleAnnotatedBarcodeCollection<T>();
-		
-		for (Entry<Integer, IntAnnotatedBarcode<T>> entry: intBarcodeCollection) {
-			for (ObjectObjectPair<IntHalfOpenInterval, T> pair: entry.getValue()) {
-				barcodeCollection.addInterval(entry.getKey(), converter.transform(pair.getFirst()), pair.getSecond());
-			}
-		}
-		
-		return barcodeCollection;
+		return result;
 	}
 }

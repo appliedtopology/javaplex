@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import javax.annotation.Generated;
 
-import edu.stanford.math.plex4.homology.barcodes.IntBarcodeCollection;
+import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.utility.FilteredComparator;
@@ -23,7 +23,7 @@ import gnu.trove.THashSet;
  * the paper "Computing Persistent Homology" by Zomorodian and Carlsson.</p>
  * 
  * <p>boolean the underlying type of the coefficient field</p>
- * <p>U> the underlying basis type</p>
+ * <p>U the underlying basis type</p>
  *
  * @author autogen
  *
@@ -54,8 +54,8 @@ public class BooleanClassicalHomology<U> implements AbstractPersistenceAlgorithm
 		this.maxDimension = maxDimension;
 	}
 		
-	public IntBarcodeCollection computeIntervals(AbstractFilteredStream<U> stream) {
-		IntBarcodeCollection barcodeCollection = new IntBarcodeCollection();
+	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
+		BarcodeCollection<Integer> barcodeCollection = new BarcodeCollection<Integer>();
 		
 		this.filteredComparator = new FilteredComparator<U>(stream, this.basisComparator);
 		this.markedSimplices = new THashSet<U>();
