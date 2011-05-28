@@ -18,7 +18,7 @@ m_space.distance(m_space.getPoint(0), m_space.getPoint(2))
 %% Figure 8 Example
 
 % create the set of points
-point_cloud = examples.PointCloudExamples.getRandomFigure8Points(100);
+point_cloud = examples.PointCloudExamples.getRandomFigure8Points(1000);
 
 figure
 plot(point_cloud(:,1), point_cloud(:,2), '.')

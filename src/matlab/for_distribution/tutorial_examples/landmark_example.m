@@ -4,13 +4,11 @@
 
 clc; clear; close all;
 
-num_points = 1000;
-num_landmark_points = 100;
-
 % initialize the point cloud
-point_cloud = examples.PointCloudExamples.getRandomFigure8Points(num_points);
+point_cloud = examples.PointCloudExamples.getRandomFigure8Points(1000);
 
 % create the landmark selectors
+num_landmark_points = 100;
 random_selector = api.Plex4.createRandomSelector(point_cloud, num_landmark_points);
 maxmin_selector = api.Plex4.createMaxMinSelector(point_cloud, num_landmark_points);
 

@@ -2,27 +2,26 @@
 
 clc; clear; close all;
 
-dimension = 2;
 num_points = 10000;
 num_landmark_points = 50;
+max_dimension = 3;
+max_filtration_value = 0.15;
+num_divisions = 100;
 
 % create the set of points
 point_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(num_points, 1, 2);
-m_space = metric.impl.EuclideanMetricSpace(point_cloud)
-r_max = metric.utility.MetricUtility.estimateDiameter(m_space) / 2
-max_filtration_value = r_max / 8
+m_space = metric.impl.EuclideanMetricSpace(point_cloud);
 
 % create a randomized landmark selector
 landmark_selector = api.Plex4.createRandomSelector(point_cloud, num_landmark_points);
-% create a Lazy-Witness Stream - note that this sets the number of
-% divisions to the default value of 20
-stream = api.Plex4.createWitnessStream(landmark_selector, dimension + 1, max_filtration_value);
+% create a Lazy-Witness Stream
+stream = api.Plex4.createWitnessStream(landmark_selector, max_dimension, max_filtration_value, num_divisions);
 
 % print out the size of the stream
 size = stream.getSize()
 
 % get the default persistence algorithm
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);
+persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 
 % compute the intervals and transform them to filtration values
 filtration_index_intervals = persistence.computeIntervals(stream);
