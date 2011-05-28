@@ -13,8 +13,8 @@ import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
-import edu.stanford.math.plex4.homology.zigzag.RipsBootstrapper;
-import edu.stanford.math.plex4.homology.zigzag.WitnessBootstrapper;
+import edu.stanford.math.plex4.homology.zigzag.bootstrap.WitnessBootstrapper;
+import edu.stanford.math.plex4.homology.zigzag.deprecated.RipsBootstrapper;
 import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.ExplicitLandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
@@ -52,15 +52,17 @@ public class TopologicalBootstrapTest {
 	
 	@Test
 	public void testWitness() throws IOException {
-		double[][] points = PointCloudExamples.getEquispacedCirclePoints(100);
+		RandomUtility.initializeWithSeed(0);
+		
+		double[][] points = PointCloudExamples.getRandomFigure8Points(100);
 		double maxDistance = 0.1;
 		
-		RandomUtility.initializeWithSeed(0);
+		
 		
 		//AbstractPersistenceAlgorithm<Simplex> persistence = Plex4.getDefaultSimplicialAlgorithm(2);
 		//System.out.println(persistence.computeIntervals(Plex4.createVietorisRipsStream(points, 2, maxDistance)));
 		
-		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, 1, 10, 20);
+		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, 1, 20, 7);
 		
 		BarcodeCollection<Integer> barcodes = bootstrapper.performProjectionBootstrap();
 		
@@ -80,7 +82,7 @@ public class TopologicalBootstrapTest {
 		//AbstractPersistenceAlgorithm<Simplex> persistence = Plex4.getDefaultSimplicialAlgorithm(2);
 		//System.out.println(persistence.computeIntervals(Plex4.createVietorisRipsStream(points, 2, maxDistance)));
 		
-		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, maxDimension, 5, 8);
+		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(new EuclideanMetricSpace(points), maxDistance, maxDimension, 2, 8);
 		
 		BarcodeCollection<Integer> barcodes = bootstrapper.performProjectionBootstrap();
 		
@@ -110,7 +112,6 @@ public class TopologicalBootstrapTest {
 		WitnessBootstrapper<double[]> bootstrapper = new WitnessBootstrapper<double[]>(metricSpace, list, 1, maxDistance);
 		
 		BarcodeCollection<Integer> barcodes = bootstrapper.performProjectionBootstrap();
-		
 		
 		System.out.println("Zigzag barcodes");
 		

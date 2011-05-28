@@ -2,7 +2,6 @@ package edu.stanford.math.plex4.homology.barcodes;
 
 import java.util.List;
 
-
 public class BarcodeCollection<T extends Comparable<T>> extends AnnotatedBarcodeCollection<T, Object> {
 
 	/**
