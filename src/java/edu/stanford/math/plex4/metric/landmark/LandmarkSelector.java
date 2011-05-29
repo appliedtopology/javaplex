@@ -119,23 +119,31 @@ public abstract class LandmarkSelector<T> implements AbstractObjectMetricSpace<T
 	 * 
 	 * @return the maximum distance between points in the landmark selection and points not in it
 	 */
-	public double getMaxDistanceFromLandmarksToPoints() {
+	public double getMaxDistanceFromPointsToLandmarks() {
 		int[] landmarkArray = this.getLandmarkPoints();
 		TIntHashSet landmarkSet = toSet(this.getLandmarkPoints());
+			
+		double maxMinDistance = 0;
 		
-		double maxValue = Infinity.Double.getNegativeInfinity();
-		
-		for (int l: landmarkArray) {
-			for (int x = 0; x < this.getUnderlyingMetricSpace().size(); x++) {
-				if (landmarkSet.contains(x)) {
-					continue;
+		for (int x = 0; x < this.getUnderlyingMetricSpace().size(); x++) {
+			if (landmarkSet.contains(x)) {
+				continue;
+			}
+			
+			double minDistance = Infinity.Double.getPositiveInfinity();
+			for (int l: landmarkArray) {
+				double distance = this.getUnderlyingMetricSpace().distance(x, l);
+				if (distance < minDistance) {
+					minDistance = distance;
 				}
-				
-				maxValue = Math.max(maxValue, this.getUnderlyingMetricSpace().distance(l, x));
+			}
+			
+			if (minDistance > maxMinDistance) {
+				maxMinDistance = minDistance;
 			}
 		}
 		
-		return maxValue;
+		return maxMinDistance;
 	}
 	
 	private static TIntHashSet toSet(int[] values) {
