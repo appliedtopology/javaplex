@@ -19,13 +19,13 @@
 \contentsline {subsection}{\tocsubsection {}{5.1}{Vietoris--Rips streams}}{9}
 \contentsline {subsection}{\tocsubsection {}{5.2}{Landmark selection}}{11}
 \contentsline {subsection}{\tocsubsection {}{5.3}{Witness streams}}{12}
-\contentsline {subsection}{\tocsubsection {}{5.4}{Subclass LazyWitnessStream}}{13}
-\contentsline {section}{\tocsection {}{6}{Example with real data}}{14}
-\contentsline {section}{\tocsection {}{7}{Remarks}}{16}
-\contentsline {subsection}{\tocsubsection {}{7.1}{Scripts and functions with JavaPlex commands}}{16}
-\contentsline {subsection}{\tocsubsection {}{7.2}{Representative cycles}}{16}
-\contentsline {subsection}{\tocsubsection {}{7.3}{Java heap size}}{16}
+\contentsline {subsection}{\tocsubsection {}{5.4}{Lazy Witness Streams}}{14}
+\contentsline {section}{\tocsection {}{6}{Example with real data}}{15}
+\contentsline {section}{\tocsection {}{7}{Remarks}}{17}
+\contentsline {subsection}{\tocsubsection {}{7.1}{Scripts and functions with JavaPlex commands}}{17}
+\contentsline {subsection}{\tocsubsection {}{7.2}{Representative cycles}}{17}
+\contentsline {subsection}{\tocsubsection {}{7.3}{Java heap size}}{17}
 \contentsline {subsection}{\tocsubsection {}{7.4}{From Java variables to Matlab variables}}{17}
 \contentsline {section}{Appendices}{17}
 \contentsline {section}{\tocsection {Appendix}{A}{Dense core subsets}}{17}
-\contentsline {section}{\tocsection {Appendix}{}{References}}{18}
+\contentsline {section}{\tocsection {Appendix}{}{References}}{19}

@@ -530,6 +530,10 @@ The files \texttt{ripsHouse\_0.PNG} and \texttt{ripsHouse\_1.PNG} are saved to y
 
 The second dimensional Betti plot does not appear because there are no $Betti_2$ intervals. Check that these plots are consistent with the Rips definition: edges $[3,5]$ and $[4,5]$ appear at filtration time $t = \sqrt{2}$; the square appears at $t = 2$; the square closes at $t = \sqrt{8}$. \\
 
+{\em Remark.} We can build Vietoris--Rips streams not only on top of Euclidean point clouds, but also on top of explicit metric spaces. For example, if \texttt{m\_space} is an explicit metric space, then we may call a command such as
+\begin{quote} \texttt{>> stream = api.Plex4.createVietorisRipsStream(m\_space, max\_dimension, max\_filtration\_value, num\_divisions); \\% overflow
+} \end{quote}
+
 %\begin{exercise}
 %Change \texttt{ripsHouse} into an explicit stream
 %\begin{quote} \texttt{>> ripsExpl = Plex.makeExplicit(ripsHouse);} \end{quote} \index{1}{Plex.makeExplicit}
@@ -577,6 +581,8 @@ There are two common methods for selecting landmark points. The first is to choo
 
 Landmarks chosen using sequential maxmin tend to cover the dataset and to be spread apart from each other. A disadvantage is that outlier points tend to be selected. Sequential maxmin landmarks are used in \cite{ac09} and \cite{cidsz08}. \\
 
+The Matlab script corresponding to this section is \texttt{landmark\_example.m}.\\
+
 We create a point cloud of 1000 points from a figure eight.
 \begin{quote} \texttt{>> point\_cloud = examples.PointCloudExamples.getRandomFigure8Points(1000);
 } \end{quote}
@@ -612,9 +618,11 @@ We plot the two sets of landmark points to see the difference between random and
 
 Sequential maxmin seems to do a better job of choosing landmarks that cover the figure eight and that are spread apart. \\
 
-%%%%%%%%%%
-% Is it possible to select landmarks (randomly or via sequential maxmin) from explict metric spaces?
-%%%%%%%%%%
+{\em Remark.} We can select landmark pionts not only from Euclidean point clouds, but also from explicit metric spaces. For example, if \texttt{m\_space} is an explicit metric space, then we may call a command such as
+\begin{quote} \texttt{>> maxmin\_selector = api.Plex4.createMaxMinSelector(m\_space, num\_landmark\_points); \\
+} \end{quote}
+
+% Do an example such as the one below?
 
 %{\em Case DistanceData.} Recall the house example.
 %\begin{quote} \texttt{>> pdataHouseDD = DistanceData(distances); \index{1}{DistanceData}
@@ -654,7 +662,9 @@ Note that $W(Z,L,t) \subset W(Z,L,s)$ whenever $t\leq s$. Note that a landmark p
 Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from \S \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? \\
 \end{exercise}
 
-{\em Torus example.} Let's build a WitnessStream instance for $100,000$ random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 random landmarks. %The order of inputs is \texttt{createWitnessStream(landmark\_selector}, $d_{max},\ t_{max},\ N$\texttt{)}.
+{\em Torus example.} The Matlab script corresponding to this example is \texttt{witness\_example.m}.\\
+
+Let's build a WitnessStream instance for $100,000$ random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 random landmarks. %The order of inputs is \texttt{createWitnessStream(landmark\_selector}, $d_{max},\ t_{max},\ N$\texttt{)}.
 
 % The fourth command returns the landmark covering measure \texttt{R} from \S \ref{lands}.  Often the value for $t_{max}$ is chosen in proportion to \texttt{R}.
 % Can R no longer be computed?
@@ -695,7 +705,7 @@ The idea of persistent homology is that long intervals should correspond to real
 
 %The WitnessStream \texttt{witT100} contains approximately 3,000 simplices, fewer than the approximately 80,000 simplices in RipsStream \texttt{ripsT20}. This is despite the fact that we started with $100^2$ points in the witness case, but only $20^2$ points in the Rips case. This supports our belief that the witness stream returns good results at lower computational expense. \\
 
-\subsection{Subclass LazyWitnessStream}
+\subsection{Lazy Witness Streams}
 A lazy witness stream is similar to a witness stream. However, there is an extra parameter $\nu$, typically chosen to be 0, 1, or 2, which helps determine how the lazy witness complexes $LW_\nu(Z,L,t)$ are constructed. See \cite{dsc04} for more information. \\
 
 Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\in\mathbb{N}$. If $\nu = 0$, let $m(z) = 0$ for all $z\in Z$. If $\nu >0$, let $m(z)$ be the distance from $z$ to the $\nu$-th closest landmark point. The lazy witness complex $LW_\nu(Z,L,t)$ is defined as follows.
@@ -707,7 +717,7 @@ Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\
 Note that $LW_\nu(Z,L,t) \subset LW_\nu(Z,L,s)$ whenever $t\leq s$. The adjective {\em lazy} refers to the fact that the lazy witness complex is a flag complex: since the 1-skeleton determines all higher dimensional simplices, less computation is involved. \\
 
 \begin{exercise}
-Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from \S \ref{euc}, corresponding to PointData instance \texttt{pdataHouse}. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? \\
+Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from \S \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? \\
 \end{exercise}
 
 \begin{exercise}
@@ -718,23 +728,60 @@ Repeat the above exercise with $\nu = 0$ and with $\nu = 2$. \\
 Check that the 1-skeleton of a witness complex $W(Z,L,t)$ is the same as the 1-skeleton of a lazy witness complex $LW_2(Z,L,t)$. As a consequence, $LW_2(Z,L,t)$ is the flag complex of $W(Z,L,t)$. \\
 \end{exercise}
 
-The following sequence of commands is typical.
-\begin{quote} \texttt{>> L = WitnessStream.makeRandomLandmarks(pdata, $numLands$); \index{1}{WitnessStream.makeRandomLandmarks}
+{\em Sphere example.} The Matlab script corresponding to this example is \texttt{lazy\_witness\_example.m}.\\
+
+We use parameter $\nu = 1$.
+\begin{quote} \texttt{>> max\_dimension = 3; \\
+>> num\_points = 1000; \\
+>> num\_landmark\_points = 100; \\
+>> max\_filtration\_value = 0.4; \\
+>> nu = 1; \\
+% error - int nu is being interpreted as num_divisions!! Having trouble
+% using both nu and num_divisions as inputs. 
+\\
+>> point\_cloud = examples.PointCloudExamples.getRandomSpherePoints(num\_points, max\_dimension - 1); \\
+>> landmark\_selector = api.Plex4.createRandomSelector(point\_cloud, num\_landmark\_points);
 } \end{quote}
-\hspace{55mm} \texttt{\% Or, sequential maxmin landmarks}
-\begin{quote} \texttt{>> R = WitnessStream.estimateRmax(pdata, L); \index{1}{WitnessStream.estimateRmax}\\
->> laz = Plex.LazyWitnessStream($\delta$, $d_{max}$, $t_{max}$, $\nu$, L, pdata); \index{1}{Plex.LazyWitnessStream}\\
->> intervals = Plex.Persistence.computeIntervals(laz); \index{1}{Plex.Persistence.computeIntervals}\\
->> Plex.plot(intervals, 'laz', $t_{max}$) \index{1}{Plex.plot}
+By default, we set the number of division $N$ to be 20.
+\begin{quote} \texttt{>> stream = api.Plex4.createLazyWitnessStream(landmark\_selector, max\_dimension, max\_filtration\_value, nu); \\
+>> size = stream.getSize() \\
+ans = 124055 \\
+>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
+>> filtration\_index\_intervals = persistence.computeIntervals(stream); \\
+>> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals); \\
+>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'lazySphere', max\_filtration\_value) \\
 } \end{quote}
-Again, $t_{max}$ is often chosen in proportion to \texttt{R}. In the next section we build a lazy witness stream on a dataset of range image patches. \\
+The files \texttt{lazySphere\_0.PNG}, \texttt{lazySphere\_1.PNG}, and \texttt{lazySphere\_2.PNG} are saved to your current directory.
+
+\begin{figure}[htp]
+  \begin{center}
+    \subfigure{\includegraphics[width=6in]{lazySphere_0}}
+    \subfigure{\includegraphics[width=6in]{lazySphere_1}}
+    \subfigure{\includegraphics[width=6in]{lazySphere_2}}
+   \end{center}
+\end{figure}
+\FloatBarrier
+
+%The following sequence of commands is typical.
+%\begin{quote} \texttt{>> L = WitnessStream.makeRandomLandmarks(pdata, $numLands$); \index{1}{WitnessStream.makeRandomLandmarks}
+%} \end{quote}
+%\hspace{55mm} \texttt{\% Or, sequential maxmin landmarks}
+%\begin{quote} \texttt{>> R = WitnessStream.estimateRmax(pdata, L); \index{1}{WitnessStream.estimateRmax}\\
+%>> laz = Plex.LazyWitnessStream($\delta$, $d_{max}$, $t_{max}$, $\nu$, L, pdata); \index{1}{Plex.LazyWitnessStream}\\
+%>> intervals = Plex.Persistence.computeIntervals(laz); \index{1}{Plex.Persistence.computeIntervals}\\
+%>> Plex.plot(intervals, 'laz', $t_{max}$) \index{1}{Plex.plot}
+%} \end{quote}
+
+
+%Again, $t_{max}$ is often chosen in proportion to \texttt{R}. In the next section we build a lazy witness stream on a dataset of range image patches. \\
+% Do the above!
 
 
 
 
 \section{Example with real data}\label{real}
 
-We now do an example with real data. Double check that the files \texttt{pointsRange.mat} and \texttt{dct.m}, which accompany this tutorial, are in your Matlab directory. \\
+We now do an example with real data. The corresponding Matlab script is \texttt{image\_patch\_examples.m}, and it relies on the files \texttt{pointsRange.mat} and \texttt{dct.m}. \\
 
 In {\em On the nonlinear statistics of range image patches} \cite{ac09}, we study a space of range image patches drawn from the Brown database \cite{lpm03}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a length 25 vector and think of our patches as point cloud data in $\mathbb{R}^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix \ref{A:core}). In \cite{ac09} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from \cite{ac09}: $X^5(300,30)$ has the topology of a circle. \\
 
@@ -745,7 +792,7 @@ ans = 15000\ \ \ 25 \hspace{19mm} \% 15000 points in dimension 25
 } \end{quote}
 Matrix \texttt{pointsRange} is in fact $X^5(300,30)$: each of its rows is a vector in $\mathbb{R}^{25}$. Display some of the coordinates of \texttt{pointsRange}. It is not easy to visualize a circle by looking at these coordinates! \\
 
-We create a PointData instance using subclass EuclideanArrayData. We pick 50 sequential maxmin landmark points, find the value of \texttt{R}, and build the lazy witness stream with parameter $\nu = 1$. 
+We create a  instance using subclass EuclideanArrayData. We pick 50 sequential maxmin landmark points, find the value of \texttt{R}, and build the lazy witness stream with parameter $\nu = 1$. 
 \begin{quote} \texttt{>> pdataRange = EuclideanArrayData(pointsRange); \index{1}{EuclideanArrayData}\\
 >> L = maxminLandmarks(pointsRange, 50, 'e'); \index{1}{maxminLandmarks.m}\\
 >> R = WitnessStream.estimateRmax(pdataRange, L) \index{1}{WitnessStream.estimateRmax}\\
