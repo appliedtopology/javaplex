@@ -3,6 +3,8 @@ package edu.stanford.math.plex4.metric.landmark;
 import edu.stanford.math.plex4.metric.interfaces.AbstractObjectMetricSpace;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.utility.Infinity;
+import gnu.trove.TIntHashSet;
 
 /**
  * <p>This abstract class defines the functionality of a landmark set within an arbitrary
@@ -97,6 +99,10 @@ public abstract class LandmarkSelector<T> implements AbstractObjectMetricSpace<T
 		return this.metricSpace;
 	}
 	
+	public T[] getPoints() {
+		throw new UnsupportedOperationException();
+	}
+	
 	/**
 	 * This function constructs the set of landmark points. It must return an array of
 	 * size landmarkSetSize, which contains the indices of the landmark points within
@@ -106,7 +112,39 @@ public abstract class LandmarkSelector<T> implements AbstractObjectMetricSpace<T
 	 */
 	protected abstract int[] computeLandmarkSet();
 	
-	public T[] getPoints() {
-		throw new UnsupportedOperationException();
+	/**
+	 * This function returns the maximum distance between points in the landmark selection
+	 * and points not in the selection. In other words, it returns
+	 * R = max_{a in L, b in X \\ L} d(a, b)
+	 * 
+	 * @return the maximum distance between points in the landmark selection and points not in it
+	 */
+	public double getMaxDistanceFromLandmarksToPoints() {
+		int[] landmarkArray = this.getLandmarkPoints();
+		TIntHashSet landmarkSet = toSet(this.getLandmarkPoints());
+		
+		double maxValue = Infinity.Double.getNegativeInfinity();
+		
+		for (int l: landmarkArray) {
+			for (int x = 0; x < this.getUnderlyingMetricSpace().size(); x++) {
+				if (landmarkSet.contains(x)) {
+					continue;
+				}
+				
+				maxValue = Math.max(maxValue, this.getUnderlyingMetricSpace().distance(l, x));
+			}
+		}
+		
+		return maxValue;
+	}
+	
+	private static TIntHashSet toSet(int[] values) {
+		TIntHashSet result = new TIntHashSet();
+		
+		for (int value: values) {
+			result.add(value);
+		}
+		
+		return result;
 	}
 }

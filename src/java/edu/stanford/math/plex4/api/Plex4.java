@@ -126,6 +126,33 @@ public class Plex4 {
 	}
 	
 	/**
+	 * This function creates a Vietoris-Rips complex from a metric space.
+	 * 
+	 * @param <T>
+	 * @param metricSpace the metric space
+	 * @param maxDimension the maximum simplicial dimension in the complex
+	 * @param maxFiltrationValue the maximum filtration value
+	 * @param numDivisions the number of divisions to use in the filtration
+	 * @return a new VietorisRipsStream object
+	 */
+	public static <T> VietorisRipsStream<T> createVietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, int maxDimension, double maxFiltrationValue, int numDivisions) {
+		return FilteredStreamInterface.createPlex4VietorisRipsStream(metricSpace, maxDimension, maxFiltrationValue, numDivisions);
+	}
+	
+	/**
+	 * This function creates a Vietoris-Rips complex given a metric space. It uses 20
+	 * as the default number of divisions.
+	 * 
+	 * @param metricSpace the metric space
+	 * @param maxDimension the maximum simplicial dimension in the complex
+	 * @param maxFiltrationValue the maximum filtration value
+	 * @return a new VietorisRipsStream object
+	 */
+	public static <T> VietorisRipsStream<T> createVietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, int maxDimension, double maxFiltrationValue) {
+		return FilteredStreamInterface.createPlex4VietorisRipsStream(metricSpace, maxDimension, maxFiltrationValue, DEFAULT_NUM_DIVISIONS);
+	}
+	
+	/**
 	 * This function create a new lazy-witness stream given a point cloud.
 	 * 
 	 * @param selector the landmark selection
