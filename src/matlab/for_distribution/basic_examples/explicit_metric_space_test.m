@@ -20,5 +20,5 @@ maxmin_selector = api.Plex4.createMaxMinSelector(m_space, num_landmark_points);
 
 maxmin_selector.getLandmarkPoints()
 
-% Computes R = max distance from landmark to non-landmark points
+% Computes R = max distance from a point to the set of landmarks
 maxmin_selector.getMaxDistanceFromPointsToLandmarks()
