@@ -1,12 +1,5 @@
-%% This script demonstrates the use of plex on a simple "house" example - Section 5.1
-
-% Important Note: Instead of adjusting the delta value as in JPlex, one
-% adjusts the number of divisions in JavaPlex. In other words, we have the
-% relation N x delta = t_max. The reason why this choice was made was
-% because if t_max changes (e.g. if the scale of the problem changes) then
-% one must also adjust delta. However, one can set N to be some reasonable
-% number (for example 10 or 100), and forget about it since it does not
-% have to be rescaled.
+%% This script demonstrates the use of plex on a simple "house" example - 
+%% Section 5.1
 
 clc; clear; close all;
 
@@ -28,11 +21,10 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 filtration_index_intervals = persistence.computeIntervals(stream);
 % this converts the filtration index intervals to the actual filtration
 % value intervals
-filtration_value_intervals = stream.transform(filtration_index_intervals)
+filtration_value_intervals = stream.transform(filtration_index_intervals);
 
 % create the barcode plots
 api.Plex4.createBarcodePlot(filtration_value_intervals, 'ripsHouse', max_filtration_value)
-
 
 %% Torus Example
 

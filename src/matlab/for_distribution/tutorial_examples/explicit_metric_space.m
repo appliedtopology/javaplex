@@ -1,5 +1,6 @@
 % This script demonstrates the use of the explicit metric space - Section
 % 4.2
+
 clc; clear; close all;
 
 % create distance matrix

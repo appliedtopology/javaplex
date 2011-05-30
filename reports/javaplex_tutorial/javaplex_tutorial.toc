@@ -5,20 +5,19 @@
 \contentsline {subsection}{\tocsubsection {}{1.4}{Accompanying files}}{2}
 \contentsline {section}{\tocsection {}{2}{Math review}}{2}
 \contentsline {subsection}{\tocsubsection {}{2.1}{Simplicial complexes}}{2}
-\contentsline {subsection}{\tocsubsection {}{2.2}{Homology}}{2}
+\contentsline {subsection}{\tocsubsection {}{2.2}{Homology}}{3}
 \contentsline {subsection}{\tocsubsection {}{2.3}{Filtered simplicial complexes}}{3}
 \contentsline {subsection}{\tocsubsection {}{2.4}{Persistent homology}}{3}
 \contentsline {section}{\tocsection {}{3}{Explicit simplex streams}}{3}
 \contentsline {subsection}{\tocsubsection {}{3.1}{Explicit simplex streams and homology}}{3}
 \contentsline {subsection}{\tocsubsection {}{3.2}{Explicit simplex streams and persistent homology}}{5}
-\contentsline {subsection}{\tocsubsection {}{3.3}{Explicit simplex stream details}}{6}
 \contentsline {section}{\tocsection {}{4}{Point cloud data}}{6}
 \contentsline {subsection}{\tocsubsection {}{4.1}{Euclidean metric spaces}}{6}
 \contentsline {subsection}{\tocsubsection {}{4.2}{Explicit metric spaces}}{8}
 \contentsline {section}{\tocsection {}{5}{Streams from point cloud data}}{8}
 \contentsline {subsection}{\tocsubsection {}{5.1}{Vietoris--Rips streams}}{9}
 \contentsline {subsection}{\tocsubsection {}{5.2}{Landmark selection}}{11}
-\contentsline {subsection}{\tocsubsection {}{5.3}{Witness streams}}{12}
+\contentsline {subsection}{\tocsubsection {}{5.3}{Witness streams}}{13}
 \contentsline {subsection}{\tocsubsection {}{5.4}{Lazy witness streams}}{14}
 \contentsline {section}{\tocsection {}{6}{Example with real data}}{15}
 \contentsline {section}{\tocsection {}{7}{Remarks}}{17}

@@ -1,6 +1,5 @@
-% This script shows the difference between randomized and maxmin landmark -
-% Section 5.2
-% selection.
+% This script shows the difference between randomized and maxmin landmark
+% selection - Section 5.2
 
 clc; clear; close all;
 

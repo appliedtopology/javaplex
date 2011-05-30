@@ -1,4 +1,5 @@
 % This script demonstrates the use of various point clouds - Section 4.1
+
 clc; clear; close all;
 
 %% House Example
@@ -13,7 +14,6 @@ m_space = metric.impl.EuclideanMetricSpace(point_cloud);
 m_space.getPoint(0)
 m_space.getPoint(2)
 m_space.distance(m_space.getPoint(0), m_space.getPoint(2))
-
 
 %% Figure 8 Example
 

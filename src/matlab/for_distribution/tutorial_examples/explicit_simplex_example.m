@@ -1,7 +1,7 @@
-% This script demonstrates an example of the ExplicitSimplexStream class -
+% This script demonstrates the use of the explicit simplex streams -
 % Section 3.1
 
-%% Manual construction
+%% Circle Example
 
 clc; clear; close all;
 
@@ -27,10 +27,10 @@ triangle_intervals = persistence.computeIntervals(stream)
 
 %% Example of n-sphere
 
+dimension = 9;
+
 % get a new ExplicitSimplexStream
 stream = api.Plex4.createExplicitSimplexStream();
-
-dimension = 9;
 
 % construct simplicial sphere
 stream.addElement(0:(dimension + 1));
