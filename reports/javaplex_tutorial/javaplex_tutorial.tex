@@ -12,7 +12,6 @@
 \usepackage{url}
 \usepackage{appendix}
 \usepackage{multind}
-\makeindex{1}
 
 \theoremstyle{remark}
 \newtheorem{exercise}{Exercise}[subsection]
@@ -25,20 +24,12 @@
 \begin{document}
 
 \title{J\lc{ava}P\lc{lex} T\lc{utorial}}
-\author{H\lc{enry} A\lc{dams and} A\lc{ndrew} T\lc{ausz} \\ \lc{henrya@math.stanford.edu and atausz@stanford.edu} \\ M\lc{ay 22, 2011}}
+\author{H\lc{enry} A\lc{dams and} A\lc{ndrew} T\lc{ausz} \\ \lc{henrya@math.stanford.edu and atausz@stanford.edu} \\ M\lc{ay 30, 2011}}
 
 
 \maketitle
 
-% for javaplex.jar 5/20/11 7:14 PM
-
-% remove \index{}
-
-% replace all Rips with Vietoris--Rips
-
 % fix section and exercise numbers in accompanying files
-
-% I am confused about max_dimension and max_dimension - 1
 
 \tableofcontents
 
@@ -67,22 +58,18 @@ ans = Java 1.5.0\_13 with Apple Inc.   Java Hotspot(TM) Client VM mixed mode, sh
 } \end{quote}
 JavaPlex requires version number \texttt{1.5} or higher. \\ % CONFIRM
 
-**** Explain how to download and extract % TODO
+To install JavaPlex for Matlab, go the the website \url{http://code.google.com/p/javaplex/downloads/list}. Download the zip file containing the Matlab examples. It should be called something like \texttt{matlab-examples-4.01.tar.gz}. %overflow
+Extract the zip file. The resulting folder should be called \texttt{matlab-examples}. \\
 
-Extract the contents of the zip file containing the examples. It should be called something like \texttt{javaplex-examples-4.00.tar.gz}. 
-
-%Copy \texttt{plex.jar} into a directory of your choice. If you choose the current Matlab directory, then you do not need to edit m-file \texttt{load\_javaplex.m} and can skip the rest of this paragraph. Suppose instead you have chosen the directory \texttt{/Users/myName/}. Open the m-file \texttt{load\_javaplex.m}, which contains the following lines.
-%\begin{quote} \texttt{javaaddpath('plex.jar') \\
-%import edu.stanford.math.plex.*;} \end{quote}
-%Replace \texttt{'plex.jar'} above with \texttt{'/Users/myName/plex.jar'} (substitute the path of your chosen directory). Save \texttt{load\_javaplex.m}. \\
-
-Run the \texttt{load\_javaplex.m} file. 
+In Matlab, change directories to folder \texttt{matlab-examples}. Run the \texttt{load\_javaplex.m} file. 
 \begin{quote} \texttt{>> load\_javaplex
 } \end{quote}
-%Installation is complete. Confirm that JavaPlex is working properly with the following command.
-%\begin{quote} \texttt{ >> homology.chain\_basis.Simplex.makeSimplex(4)\\
-%ans =[4]
-%} \end{quote}
+Installation is complete. Confirm that JavaPlex is working properly with the following command.
+\begin{quote} \texttt{ >> api.Plex4.createExplicitSimplexStream() \\
+ans = edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream@513fd4
+} \end{quote}
+Your output should be the same except for the last few characters. \\% Andrew, is there a better command users can use to test their installation is correct?
+ 
 Each time upon starting a new Matlab session, you will need to run \texttt{load\_javaplex.m}. \\
 
 \subsection{Accompanying files}
@@ -158,7 +145,7 @@ We print the total number of simplices in the complex.
 size = 6\\
 } \end{quote}
 
-In order to compute the homology of our complex, we first create an object that will perform the computation. The following line obtains the default algorithm for performing simplicial homology. There are other variants on the persistence algorithm, and one can also change the ground field. This default object will perform the homology computation over $\mathbb{Z}/(2)$. The input parameter 3 indicates that homology will be computed in all dimensions strictly below 3. % check
+In order to compute the homology of our complex, we first create an object that will perform the computation. The following line obtains the default algorithm for performing simplicial homology. There are other variants on the persistence algorithm, and one can also change the ground field. This default object will perform the homology computation over $\mathbb{Z}/(2)$. The input parameter 3 indicates that homology will be computed in all dimensions strictly below 3.
 \begin{quote}\texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 } \end{quote}
 We compute and print the intervals.
@@ -239,7 +226,7 @@ Let's build a stream with nontrivial filtration times. We build a house, with th
 >> stream.addElement([3, 5], 2); \\
 >> stream.addElement([4, 5], 3); \\
 >> stream.addElement([3, 4, 5], 7);
-} \end{quote} % can you add more than 1 simplex at a time?
+} \end{quote}
 We get the default persistence computation,
 \begin{quote} \texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 } \end{quote}
@@ -295,10 +282,6 @@ The files \texttt{house\_0.PNG} and \texttt{house\_1.PNG} are saved to your curr
 
 The filtration times are on the horizontal axis. The $Betti_k$ number of the stream at filtration time $t$ is the number of intervals in the dimension $k$ plot that intersect a vertical line through $t$. Check that the displayed intervals agree with the filtration times we built into the stream \texttt{house}. At time 0, a connected component and a 1-dimensional hole form. At time 1, a second connected component appears, which joins to the first at time 2. A second 1-dimensional hole forms at time 3, and closes at time 7. \\
 
-%The method \texttt{Plex.scatter} displays the same information as \texttt{Plex.plot} but in a different format: an interval starting at $start$ and ending at $end$ is plotted as the point $(start,end)$ in $\mathbb{R}^2$, which is necessarily above the diagonal.
-%\begin{quote} \texttt{>> Plex.scatter(intervals, 'house', 8)} \end{quote}  \index{1}{Plex.scatter}
-%The produced figure is fairly large and so it is not included in this tutorial. For more information on scatter plots, see \cite{elz02}, especially Figure 7. \\
-
 \subsection{Explicit simplex stream details}
 We mention two remaining details about class ExplicitSimplexStream.\\
 
@@ -311,8 +294,6 @@ Filtration index of face [4,5] exceeds that of element [1,4,5] (3 > 0) \\
 Stream does not contain face [1,5] of element [1,4,5] \\
 ans = 0
 } \end{quote}
-
-% Method \texttt{prune} is also sometimes useful. Command \texttt{prune($\sigma$)} removes not only simplex $\sigma$ but also any higher dimensional simplices $\tau$ containing $\sigma$. \\
 
 %In \S \ref{sfpc} we will create SimplexStream instances that %, unlike \texttt{house}, 
 %are not also ExplicitStream instances. To display or edit such streams, we will first need to use the method \texttt{makeExplicit}. See Exercise \ref{ripsExpl}. \\
@@ -384,11 +365,11 @@ A metric space can return the distance between any two points.
 ans = 2.8284\\
 } \end{quote}
 %The method \texttt{dimension} returns the dimension of the Euclidean space containing our points.
-%\begin{quote} \texttt{>> pdataHouse.dimension \index{1}{dimension}\\
+%\begin{quote} \texttt{>> pdataHouse.dimension\\
 %ans = 2
 %} \end{quote}
 %The method \texttt{coordinate($i$,$j$)} returns the $j$-th coordinate of point $i$. Points are indexed starting at one but coordinates are indexed starting at zero. We display the coordinates of point 5.
-%\begin{quote} \texttt{>> pdataHouse.coordinate(5, 0) \index{1}{coordinate}\\
+%\begin{quote} \texttt{>> pdataHouse.coordinate(5, 0)\\
 %ans = 0 \\
 %>> pdataHouse.coordinate(5, 1) \\
 %ans = 3 \\
@@ -436,7 +417,6 @@ We can also create a metric space from a distance matrix using the command \text
 The Matlab script corresponding to this section is \texttt{explicit\_metric\_space.m}. \\
 
 The matrix \texttt{distances} summarizes the metric for our house points in Figure \ref{fig:housePointCloud}: entry $(i,j)$ is the distance from point $i$ to point $j$.
-%Don't forget you can copy and paste commands from \texttt{commandListMatlab.rtf} into the Matlab window, or enter them using a script! 
 
 \hspace{8mm}\texttt{>> distances = [0,2,sqrt(8),2,sqrt(10);}
 
@@ -470,11 +450,6 @@ ans = 2.8284\\
 
 % Be careful: the constructor \texttt{DistanceData()} will accept matrices that fail to be symmetric, square, or nonnegative, creating ``metrics'' that do not satisfy the mathematical definiton. The triangle inequality is similarly easy to ignore. However, asking for the distance between a point and itself will always return zero, even if you input a distance matrix with non-zero diagonal entries. \\
 
-%\subsection{Subclass Torus}
-%The following command constructs a $20 \times 20$ grid of points on the 2 dimensional unit torus.
-%\begin{quote} \texttt{>> tor20 = Plex.Torus(20, 2);} \end{quote}
-%The methods of \S \ref{euc}, except for \texttt{coordinate} and \texttt{get\_pt}, work as well with \texttt{tor20}. Method \texttt{dimension} now returns the dimension of the torus manifold. We will use \texttt{tor20} shortly. \\
-
 
 
 
@@ -482,16 +457,15 @@ ans = 2.8284\\
 
 In \S \ref{explicitStream} we built streams explicitly, or by hand. In this section we construct streams from a point cloud $Z$. We build Vietoris--Rips, witness, and lazy witness streams. See \cite{dsc04} for additional information. \\
 
-The Vietoris--Rips, witness, and lazy witness streams all take three of the same inputs: the maximum dimension $d_{max}$, the maximum filtration time $t_{max}$, and the number of divisions $N$. These inputs allow the user to limit the size of the constructed stream, for computational efficiency. No simplices above dimension $d_{max}$ are included. The persistent homology of the resulting stream can be calculated only up to dimension $d_{max} - 1$ (do you see why?). Also, instead of computing complex $X(t)$ for all $t \geq 0$, we only compute $X(t)$ for 
-%$$t = 0,\ \frac{1}{N-1}t_{max},\ \frac{2}{N-1}t_{max},\ \frac{3}{N-1}t_{max}, \dots, \frac{N-2}{N-1}t_{max},\ t_{max}.$$
+The Vietoris--Rips, witness, and lazy witness streams all take three of the same inputs: the maximum dimension $d_{max}$, the maximum filtration time $t_{max}$, and the number of divisions $N$. These inputs allow the user to limit the size of the constructed stream, for computational efficiency. No simplices above dimension $d_{max}$ are included. The persistent homology of the resulting stream can be calculated only up to dimension $d_{max} - 1$ (do you see why?). Also, instead of computing complex $X(t)$ for all $t \geq 0$, we only compute $X(t)$ for
 $$t = 0,\ \frac{t_{max}}{N-1},\ \frac{2t_{max}}{N-1},\ \frac{3t_{max}}{N-1},\ \dots,\ \frac{(N-2)t_{max}}{N-1},\ t_{max}.$$
-The number of divisions $N$ is an optional input. If this input parameter is not specified, then the default value $N = 20$ is used. \\ % confirm
+The number of divisions $N$ is an optional input. If this input parameter is not specified, then the default value $N = 20$ is used. \\
 
 When working with a new dataset, don't choose $d_{max}$ and $t_{max}$ too large initially. First get a feel for how fast the complexes are growing, and then raise $d_{max}$ and $t_{max}$ nearer to the computational limits. If you ever choose $d_{max}$ or $t_{max}$ too large and Matlab seems to be running forever, pressing the ``control'' and ``c'' buttons simultaneously sometimes halts the computation. \\
 
-%The first author is currently working with Jan Segert on interactive visualizations of the Rips and Witness filtrations for the Wolfram Demonstrations Project. We have preliminary drafts of the demonstrations. Please email Henry if you'd like to check them out; in particular, the witness filtrations can be hard to visualize. \\
+%The first author is currently working with Jan Segert on interactive visualizations of the Vietoris--Rips and Witness filtrations for the Wolfram Demonstrations Project. We have preliminary drafts of the demonstrations. Please email Henry if you'd like to check them out; in particular, the witness filtrations can be hard to visualize. \\
 
-\subsection{Vietoris--Rips streams}
+\subsection{Vietoris--Rips streams}\label{Vietoris--Rips}
 Let  $d(\ \cdot\ ,\ \cdot \ )$ denote the distance between two points in metric space $Z$. A natural stream to build is the Vietoris--Rips stream. The complex VR$(Z,t)$ is defined as follows: 
 \begin{itemize}
 \item{the vertex set is $Z$.}
@@ -509,7 +483,7 @@ Let's build a Vietoris--Rips stream from the house point cloud in \S \ref{euc}. 
 >> point\_cloud = examples.PointCloudExamples.getHouseExample(); \\
 >> stream = api.Plex4.createVietorisRipsStream(point\_cloud, max\_dimension, max\_filtration\_value, num\_divisions); % overflow
 } \end{quote}
-The order of the inputs is \texttt{createVietorisRipsStream(}$Z,\ d_{max},\ t_{max},\ N$\texttt{)}. For a Rips stream, the parameter $t_{max}$ is the maximum possible edge length. Since $t_{max} = 4$ is greater than the diameter ($\sqrt{10}$) of our point cloud, all edges will eventually form. \\
+The order of the inputs is \texttt{createVietorisRipsStream(}$Z,\ d_{max},\ t_{max},\ N$\texttt{)}. For a Vietoris--Rips stream, the parameter $t_{max}$ is the maximum possible edge length. Since $t_{max} = 4$ is greater than the diameter ($\sqrt{10}$) of our point cloud, all edges will eventually form. \\
 
 Since $d_{max} = 3$ we can compute up to second dimensional persistent homology. 
 \begin{quote} \texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension - 1); \\
@@ -528,7 +502,7 @@ The files \texttt{ripsHouse\_0.PNG} and \texttt{ripsHouse\_1.PNG} are saved to y
 \end{figure}
 \FloatBarrier
 
-The second dimensional Betti plot does not appear because there are no $Betti_2$ intervals. Check that these plots are consistent with the Rips definition: edges $[3,5]$ and $[4,5]$ appear at filtration time $t = \sqrt{2}$; the square appears at $t = 2$; the square closes at $t = \sqrt{8}$. \\
+The second dimensional Betti plot does not appear because there are no $Betti_2$ intervals. Check that these plots are consistent with the Vietoris--Rips definition: edges $[3,5]$ and $[4,5]$ appear at filtration time $t = \sqrt{2}$; the square appears at $t = 2$; the square closes at $t = \sqrt{8}$. \\
 
 {\em Remark.} We can build Vietoris--Rips streams not only on top of Euclidean point clouds, but also on top of explicit metric spaces. For example, if \texttt{m\_space} is an explicit metric space, then we may call a command such as
 \begin{quote} \texttt{>> stream = api.Plex4.createVietorisRipsStream(m\_space, max\_dimension, max\_filtration\_value, num\_divisions); \\% overflow
@@ -536,34 +510,52 @@ The second dimensional Betti plot does not appear because there are no $Betti_2$
 
 %\begin{exercise}
 %Change \texttt{ripsHouse} into an explicit stream
-%\begin{quote} \texttt{>> ripsExpl = Plex.makeExplicit(ripsHouse);} \end{quote} \index{1}{Plex.makeExplicit}
+%\begin{quote} \texttt{>> ripsExpl = Plex.makeExplicit(ripsHouse);} \end{quote} 
 %Check that you can display and edit stream \texttt{ripsExpl} using the methods of \S \ref{explicitStream}. \\
 %\end{exercise}
 
 % Is the above exercise no longer necessary, or no longer possible?
 
-%%%%%%%
-THE BELOW EXAMPLE NO LONGER WORKS - points are selected randomly from torus instead of from a grid.
-%%%%%
-
-{\em Torus example.} Try the following sequence of commands. We select a $20 \times 20$ grid of noisy points from a torus and build the RipsStream \texttt{ripsT20}. The fourth command returns the total number of simplices in \texttt{ripsT20}.
-\begin{quote} \texttt{>> pointsT20 = pointsTorus(20); \index{1}{pointsTorus.m}\\
->> pdataT20 = EuclideanArrayData(pointsT20); \index{1}{EuclideanArrayData}\\
->> ripsT20 = Plex.RipsStream(0.001, 3, 0.9, pdataT20); \index{1}{Plex.RipsStream}\\
->> ripsT20.size \index{1}{size}\\
-ans = 82831\hspace{30mm} \% Generally close to 80000 \\
->> intervals = Plex.Persistence.computeIntervals(ripsT20); \index{1}{Plex.Persistence.computeIntervals}\\
->> Plex.FilterInfinite(intervals) \index{1}{FilterInfinite}\\
-ans = BN\{1, 2, 1\} \\
->> Plex.plot(intervals, 'ripsT20', 0.9) \index{1}{Plex.plot}\\
+{\em Torus example.} Try the following sequence of commands. We select 400 points from a $20 \times 20$ grid on the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$. % If I select points randomly from the torus instead from the regular grid, then the Vietoris--Rips stream does not seem to be able to recover the correct Betti numbers.
+A small amount of noise is added to each point. We build the Vietoris--Rips stream.
+\begin{quote} \texttt{>> max\_dimension = 3; \\
+>> max\_filtration\_value = 0.9; \\
+>> num\_divisions = 100; \\
+\\
+>> load pointsTorusGrid.mat \\
+>> point\_cloud = pointsTorusGrid; \\
+>> size(point\_cloud) \\
+ans = 400\ \ \ 4 \hspace{30mm} \% 400 points in dimension 4 \\
+\\
+>> stream = api.Plex4.createVietorisRipsStream(point\_cloud, max\_dimension, max\_filtration\_value, num\_divisions); \\ % overflow
+>> stream.getSize() \\
+ans = 82479 \\
+\\
+>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
+>> filtration\_index\_intervals = persistence.computeIntervals(stream); \\
+>> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals); \\
+>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'ripsTorus', max\_filtration\_value)
 } \end{quote}
+The files \texttt{ripsTorus\_0.PNG}, \texttt{ripsTorus\_1.PNG} and \texttt{ripsTorus\_2.PNG} are saved to your current directory. We do not show these figures because the plots are very tall. \\
 
-We do not include the Betti intrervals because the plots are very tall. The diameter of this torus (before adding noise) is $\sqrt{8}$, so choosing $t_{max} = 0.9$ likely will not show all homological activity. However, the torus will be reasonably connected by this time. Note the semi-infinite intervals match the correct numbers $Betti_0 = 1$, $Betti_1 = 2$, $Betti_2 = 1$ for a torus. \\
+The diameter of this torus (before adding noise) is $\sqrt{8}$, so choosing $t_{max} = 0.9$ likely will not show all homological activity. However, the torus will be reasonably connected by this time. Note the semi-infinite intervals match the correct numbers $Betti_0 = 1$, $Betti_1 = 2$, $Betti_2 = 1$ for a torus.
 
-This example makes it clear that the computed ``semi-infinite'' intervals do not necessarily persist until $t = \infty$: in a Rips stream, once $t$ is greater than the diameter of the point cloud, the Betti numbers for VR$(Z,t)$ will be $ Betti_0 = 1$, $Betti_1 = Betti_2 = ... = 0$. The computed semi-infinite intervals are merely those that persist until $t = t_{max}$. \\ %(or, to be precise, until $t = N\delta$ where $N$ is the largest integer such that $N\delta \leq t_{max}$).\\
+\begin{quote} \texttt{>> infinite\_barcodes = filtration\_value\_intervals.getInfiniteIntervals(); \\
+>> betti\_numbers\_array = infinite\_barcodes.getBettiSequence()
+} \end{quote}
+\hspace{12mm}\texttt{betti\_numbers\_array =}
+
+\hspace{19mm}$\begin{matrix}
+\texttt{1}\\
+\texttt{2}\\
+\texttt{1}
+\end{matrix}$
+\vspace{3mm}
+
+This example makes it clear that the computed ``semi-infinite'' intervals do not necessarily persist until $t = \infty$: in a Vietoris--Rips stream, once $t$ is greater than the diameter of the point cloud, the Betti numbers for VR$(Z,t)$ will be $ Betti_0 = 1$, $Betti_1 = Betti_2 = ... = 0$. The computed semi-infinite intervals are merely those that persist until $t = t_{max}$. \\
 
 \begin{exercise}
-Slowly increase the values for $t_{max}$, $d_{max}$, or the grid length (20 above) and note how quickly \texttt{ripsT20.size} and the computation time grows. Separately increasing $t_{max}$ from 0.9 to 1, $d_{max}$ from 3 to 4, or the grid length from 20 to 22 each roughly doubles \texttt{ripsT20.size}. \\
+Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grows. Separately increasing $t_{max}$ from 0.9 to 1, $d_{max}$ from 3 to 4 each roughly doubles the size of the Vietoris--Rips stream. \\
 \end{exercise}
 
 \begin{exercise}
@@ -625,10 +617,10 @@ Sequential maxmin seems to do a better job of choosing landmarks that cover the 
 % Do an example such as the one below?
 
 %{\em Case DistanceData.} Recall the house example.
-%\begin{quote} \texttt{>> pdataHouseDD = DistanceData(distances); \index{1}{DistanceData}
+%\begin{quote} \texttt{>> pdataHouseDD = DistanceData(distances);
 %} \end{quote}
 %We select 3 sequential maxmin landmarks.
-%\begin{quote} \texttt{>> L = maxminLandmarks(distances, 3, 'd') \index{1}{maxminLandmarks.m}\\
+%\begin{quote} \texttt{>> L = maxminLandmarks(distances, 3, 'd') \\
 %L =
 %} \end{quote}
 
@@ -664,24 +656,28 @@ Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from \S \ref{euc}
 
 {\em Torus example.} The Matlab script corresponding to this example is \texttt{witness\_example.m}.\\
 
-Let's build a WitnessStream instance for $100,000$ random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 random landmarks. %The order of inputs is \texttt{createWitnessStream(landmark\_selector}, $d_{max},\ t_{max},\ N$\texttt{)}.
-
-% The fourth command returns the landmark covering measure \texttt{R} from \S \ref{lands}.  Often the value for $t_{max}$ is chosen in proportion to \texttt{R}.
-% Can R no longer be computed?
+Let's build a witness stream instance for $100,000$ random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 random landmarks.
 \begin{quote} \texttt{>> num\_points = 10000; \\
 >> num\_landmark\_points = 50; \\
 >> max\_dimension = 3; \\
->> max\_filtration\_value = 0.15; \\
 >> num\_divisions = 100; \\
 \\
 >> point\_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(num\_points, 1, 2); \\ % overflow
 >> m\_space = metric.impl.EuclideanMetricSpace(point\_cloud); \\
->> landmark\_selector = api.Plex4.createRandomSelector(point\_cloud, num\_landmark\_points); \\
->> stream = api.Plex4.createWitnessStream(landmark\_selector, max\_dimension, max\_filtration\_value, num\_divisions); \\ % overflow
+>> landmark\_selector = api.Plex4.createRandomSelector(point\_cloud, num\_landmark\_points);
+} \end{quote}
+The next command returns the landmark covering measure \texttt{R} from \S \ref{lands}.  Often the value for $t_{max}$ is chosen in proportion to \texttt{R}.
+\begin{quote} \texttt{>> R = landmark\_selector.getMaxDistanceFromPointsToLandmarks() \\
+R = 1.2344 \hspace{40mm} \% Generally close to 1.2 \\
+>> max\_filtration\_value = R / 8; \\
+} \end{quote}
+% The documentation for getMaxDistanceFromPointsToLandmarks() currently looks incorrect.
+
+We create the witness stream.
+\begin{quote} \texttt{>> stream = api.Plex4.createWitnessStream(landmark\_selector, max\_dimension, max\_filtration\_value, num\_divisions); \\ % overflow
 >> size = stream.getSize() \\
 ans = 2442\hspace{40mm} \% Generally close to 2300
 } \end{quote}
-
 We plot the Betti intervals.
 \begin{quote} \texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
 >> filtration\_index\_intervals = persistence.computeIntervals(stream); \\
@@ -701,11 +697,9 @@ The files \texttt{witnessTorus\_0.PNG}, \texttt{witnessTorus\_1.PNG}, and \textt
 
 The idea of persistent homology is that long intervals should correspond to real topological features, whereas short intervals are considered to be noise. The plot above shows that for a long range, the torus numbers $Betti_0 = 1$, $Betti_1 = 2$, $Betti_2 = 1$ are obtained. Your plot should contain a similar range. \\
 
-% Need to do Rips torus example to make the remark below.
+The witness stream above contains approximately 2,300 simplices, fewer than the approximately 80,000 simplices in the Vietoris--Rips stream from the torus example in \S \ref{Vietoris--Rips}. This is despite the fact that we started with 100,000 points in the witness case, but only 400 points in the Vietoris--Rips case. This supports our belief that the witness stream returns good results at lower computational expense. \\
 
-%The WitnessStream \texttt{witT100} contains approximately 3,000 simplices, fewer than the approximately 80,000 simplices in RipsStream \texttt{ripsT20}. This is despite the fact that we started with $100^2$ points in the witness case, but only $20^2$ points in the Rips case. This supports our belief that the witness stream returns good results at lower computational expense. \\
-
-\subsection{Lazy Witness Streams}
+\subsection{Lazy witness streams}
 A lazy witness stream is similar to a witness stream. However, there is an extra parameter $\nu$, typically chosen to be 0, 1, or 2, which helps determine how the lazy witness complexes $LW_\nu(Z,L,t)$ are constructed. See \cite{dsc04} for more information. \\
 
 Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\in\mathbb{N}$. If $\nu = 0$, let $m(z) = 0$ for all $z\in Z$. If $\nu >0$, let $m(z)$ be the distance from $z$ to the $\nu$-th closest landmark point. The lazy witness complex $LW_\nu(Z,L,t)$ is defined as follows.
@@ -763,15 +757,14 @@ The files \texttt{lazySphere\_0.PNG}, \texttt{lazySphere\_1.PNG}, and \texttt{la
 \FloatBarrier
 
 %The following sequence of commands is typical.
-%\begin{quote} \texttt{>> L = WitnessStream.makeRandomLandmarks(pdata, $numLands$); \index{1}{WitnessStream.makeRandomLandmarks}
+%\begin{quote} \texttt{>> L = WitnessStream.makeRandomLandmarks(pdata, $numLands$); 
 %} \end{quote}
 %\hspace{55mm} \texttt{\% Or, sequential maxmin landmarks}
-%\begin{quote} \texttt{>> R = WitnessStream.estimateRmax(pdata, L); \index{1}{WitnessStream.estimateRmax}\\
-%>> laz = Plex.LazyWitnessStream($\delta$, $d_{max}$, $t_{max}$, $\nu$, L, pdata); \index{1}{Plex.LazyWitnessStream}\\
-%>> intervals = Plex.Persistence.computeIntervals(laz); \index{1}{Plex.Persistence.computeIntervals}\\
-%>> Plex.plot(intervals, 'laz', $t_{max}$) \index{1}{Plex.plot}
+%\begin{quote} \texttt{>> R = WitnessStream.estimateRmax(pdata, L); \\
+%>> laz = Plex.LazyWitnessStream($\delta$, $d_{max}$, $t_{max}$, $\nu$, L, pdata); \\
+%>> intervals = Plex.Persistence.computeIntervals(laz); \\
+%>> Plex.plot(intervals, 'laz', $t_{max}$) 
 %} \end{quote}
-
 
 %Again, $t_{max}$ is often chosen in proportion to \texttt{R}. In the next section we build a lazy witness stream on a dataset of range image patches. \\
 % Do the above!
@@ -787,21 +780,21 @@ In {\em On the nonlinear statistics of range image patches} \cite{ac09}, we stud
 
 Load the file \texttt{pointsRange.mat}. The matrix \texttt{pointsRange} appears in your Matlab workspace.
 \begin{quote} \texttt{>> load pointsRange.mat \\
->> size(pointsRange) \index{1}{size}\\ 
+>> size(pointsRange) \\ 
 ans = 15000\ \ \ 25 \hspace{19mm} \% 15000 points in dimension 25
 } \end{quote}
 Matrix \texttt{pointsRange} is in fact $X^5(300,30)$: each of its rows is a vector in $\mathbb{R}^{25}$. Display some of the coordinates of \texttt{pointsRange}. It is not easy to visualize a circle by looking at these coordinates! \\
 
 We create a  instance using subclass EuclideanArrayData. We pick 50 sequential maxmin landmark points, find the value of \texttt{R}, and build the lazy witness stream with parameter $\nu = 1$. 
-\begin{quote} \texttt{>> pdataRange = EuclideanArrayData(pointsRange); \index{1}{EuclideanArrayData}\\
->> L = maxminLandmarks(pointsRange, 50, 'e'); \index{1}{maxminLandmarks.m}\\
->> R = WitnessStream.estimateRmax(pdataRange, L) \index{1}{WitnessStream.estimateRmax}\\
+\begin{quote} \texttt{>> pdataRange = EuclideanArrayData(pointsRange); \\
+>> L = maxminLandmarks(pointsRange, 50, 'e'); \\
+>> R = WitnessStream.estimateRmax(pdataRange, L) \\
 R = 0.7757\hspace{28mm} \% Generally close to 0.75 \\
->> lazRange = Plex.LazyWitnessStream(0.001, 3, R/3, 1, L, pdataRange); \index{1}{Plex.LazyWitnessStream}\\
->> lazRange.size \index{1}{size}\\
+>> lazRange = Plex.LazyWitnessStream(0.001, 3, R/3, 1, L, pdataRange); \\
+>> lazRange.size \\
 ans = 20937\hspace{26mm} \% Generally between 10000 and 25000 \\
->> intervals = Plex.Persistence.computeIntervals(lazRange);\index{1}{Plex.Persistence.computeIntervals}\\
->> Plex.plot(intervals, 'lazRange', R/3) \index{1}{Plex.plot}
+>> intervals = Plex.Persistence.computeIntervals(lazRange);\\
+>> Plex.plot(intervals, 'lazRange', R/3) 
 } \end{quote}
 
 \begin{figure}[htp]
@@ -817,7 +810,7 @@ ans = 20937\hspace{26mm} \% Generally between 10000 and 25000 \\
 The plots above show that for a long range, the circle Betti numbers $Betti_0 = Betti_1 = 1$ are obtained. Your plot should contain a similar range. This is good evidence that the core subset $X^5(300,30)$ is well-approximated by a circle. \\
 
 Our $5\times 5$ normalized patches are currently in the pixel basis: every coordinate corresponds to the range value at one of the 25 pixels. The Discrete Cosine Transform (DCT) basis is a useful basis for our patches \cite{ac09, lpm03}. We change to this basis in order to plot a projection of the loop evidenced by Figure \ref{fig:rangeBetti}. The method \texttt{dct.m} returns the DCT change-of-basis matrix for square patches of size specified by the input parameter.
-\begin{quote} \texttt{>> pointsRangeDct = pointsRange$^*$dct(5); \index{1}{dct.m}
+\begin{quote} \texttt{>> pointsRangeDct = pointsRange$^*$dct(5);
 %>> size(pointsRangeDct)\\
 %ans = 15000\quad 24 \hspace{30mm} \% 15000 points in DCT basis (representation)
 } \end{quote}
@@ -833,7 +826,7 @@ Two of the DCT basis vectors are horizontal and linear gradients.
 \FloatBarrier
 
 We plot the projection of \texttt{pointsRangeDct} onto the linear gradient DCT basis vectors.
-\begin{quote} \texttt{>> plot(pointsRangeDct(:,1), pointsRangeDct(:,5), '.'), axis square \index{1}{plot}
+\begin{quote} \texttt{>> plot(pointsRangeDct(:,1), pointsRangeDct(:,5), '.'), axis square
 } \end{quote}
 
 \begin{figure}[htp]
@@ -856,7 +849,7 @@ The projection of $X^5(300,30)$ in Figure (a) shows a circle. It is called the r
 In order to include JavaPlex commands in an m-file script or function, include the command \texttt{import edu.stanford.math.plex.*;} as the first command of the script. For m-file functions, include this command as the second line -  that is, as the line underneath the function header.
 
 Writing scripts and functions is very useful. One example is the m-file \texttt{eulerCharacteristic.m}, which accepts an ExplicitStream as input and demonstrates two different methods for computing the Euler characteristic.
-\begin{quote} \texttt{>> eulerCharacteristic(s6) \index{1}{eulerCharacteristic.m}\\
+\begin{quote} \texttt{>> eulerCharacteristic(s6) \\
 The Euler characteristic is 2 = 8 - 28 + 56 - 70 + 56 - 28 + 8, using the alternating sum of cells.\\
 The Euler characteristic is 2 = 1 - 0 + 0 - 0 + 0 - 0 + 1, using the alternating sum of Betti numbers.} \end{quote}
 
@@ -867,7 +860,7 @@ The persistence algorithm that computes barcodes can also find a representative 
 Depending on the size of your JavaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial. \\
 
 The following command returns your maximum heap size in bytes.
-\begin{quote} \texttt{>> java.lang.Runtime.getRuntime.maxMemory \index{1}{java.lang.Runtime.getRuntime.maxMemory}\\
+\begin{quote} \texttt{>> java.lang.Runtime.getRuntime.maxMemory \\
 ans = 130875392
 } \end{quote}
 My computer has a heap limit of approximately 128 megabytes. To increase your limit to, say, 256 megabytes, create a file named \texttt{java.opts} in your Matlab directory which contains the text \texttt{-Xmx256m} and then restart Matlab.
@@ -877,8 +870,8 @@ Some JavaPlex commands return Java variables, when instead one might want output
 % no
 we used the m-file \texttt{interval2mat.m} to take an array of type PersistenceInterval into a Matlab matrix. Similarly, the m-file \texttt{betti2mat.m} accepts input of type \texttt{Plex.BettiNumbers} and returns a Matlab vector of integers. These commands are typically used as shown below, where \texttt{intervals} is an array of type PersistenceInterval.
 
-\begin{quote} \texttt{>> intervalMatrix = interval2mat(intervals); \index{1}{interval2mat.m}\\
->> bettiVect = betti2vect(Plex.FilterInfinite(intervals)); \index{1}{betti2vect.m}\index{1}{FilterInfinite}\\
+\begin{quote} \texttt{>> intervalMatrix = interval2mat(intervals); \\
+>> bettiVect = betti2vect(Plex.FilterInfinite(intervals)); \\
 } \end{quote}
 
 
@@ -902,21 +895,21 @@ See \cite{cidsz08, dsc04} for an example using multiple core subsets. The datase
 One way to estimate the density of a point $z$ in a point cloud $Z$ is as follows. Let $\rho_k(z)$ be the distance from $z$ to its $k$-th closest neighbor. Let the density estimate at $z$ be $\frac{1}{\rho_k(z)}$. Varying parameter $k$ gives a family of density estimates. Using a small value for $k$ gives a local density estimate, and using a larger value for $k$ gives a more global estimate. \\
 
 For Euclidean datasets, one can use the m-file \texttt{kDensitySlow.m} to produce density estimates $\frac{1}{\rho_k}$. The following command is typical.
-\begin{quote} \texttt{>> densities = kDensitySlow(points, $k$); \index{1}{kDensitySlow.m}
+\begin{quote} \texttt{>> densities = kDensitySlow(points, $k$); 
 } \end{quote}
 Input \texttt{points} is an $N\times n$ matrix of $N$ points in $\mathbb{R}^n$. Input $k$ is the density estimate parameter. Output \texttt{densities} is a vertical vertex of length $N$ containing the density estimate at each point. \\
 
 M-file \texttt{coreSubset.m} builds a core subset. The following command is typical.
-\begin{quote} \texttt{>> core = coreSubset(points, densities, numPoints); \index{1}{coreSubset.m}
+\begin{quote} \texttt{>> core = coreSubset(points, densities, numPoints); 
 } \end{quote}
 Inputs \texttt{points} and \texttt{densities} are as above. Output \texttt{core} is a $\texttt{numPoints}\times n$ matrix representing the \texttt{numPoints} densest points. \\
 
 {\em Prime numbers example.} The command \texttt{primes(3571)} returns a vector listing all prime numbers less than or equal to 3571, which is the 500-th prime. We think of these primes as points in $\mathbb{R}$ and build the core subset of the 10 densest points with density parameter $k = 1$.
-\begin{quote} \texttt{>> p = primes(3571)'; \index{1}{primes}\\
->> length(p) \index{1}{length}\\
+\begin{quote} \texttt{>> p = primes(3571)'; \\
+>> length(p) \\
 ans = 500 \\
->> densities1 = kDensitySlow(p, 1); \index{1}{kDensitySlow.m}\\
->> core1 = coreSubset(p, densities1, 10) \index{1}{coreSubset.m}\\
+>> densities1 = kDensitySlow(p, 1); \\
+>> core1 = coreSubset(p, densities1, 10) \\
 core1 =
 } \end{quote}
 
@@ -940,8 +933,8 @@ core1 =
 
 \hspace{15mm} \texttt{31} \\
 We get a bunch of twin primes, which makes sense since $k = 1$. Let's repeat with $k = 50$.
-\begin{quote} \texttt{>> densities50 = kDensitySlow(p, 50); \index{1}{kDensitySlow.m}\\
->> core50 = coreSubset(p, densities50, 10) \index{1}{coreSubset.m}\\
+\begin{quote} \texttt{>> densities50 = kDensitySlow(p, 50); \\
+>> core50 = coreSubset(p, densities50, 10) \\
 core50 =
 } \end{quote}
 
@@ -975,11 +968,6 @@ With $k = 50$, we expect the densest points to be slightly larger than the 25-th
 
 
 
-
-%\printindex{1}{Index of JavaPlex and Matlab commands}
-% terminal command to compile index: 
-% cd Desktop/JPlexTutorials/PlexMatlabTutorial
-% makeindex 1
 
 \begin{thebibliography}{9}
 
