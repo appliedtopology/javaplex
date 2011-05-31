@@ -60,9 +60,9 @@ Open Matlab and check which version of Java is being used. In this tutorial, the
 \begin{quote} \texttt{>> version -java \\
 ans = Java 1.5.0\_13 with Apple Inc.   Java Hotspot(TM) Client VM mixed mode, sharing
 } \end{quote}
-JavaPlex requires version number \texttt{1.5} or higher. \\ % CONFIRM
+JavaPlex requires version number \texttt{1.5} or higher. \\ % CONFIRM, Answer: Confirmed
 
-To install JavaPlex for Matlab, go the the website \url{http://code.google.com/p/javaplex/downloads/list}. Download the zip file containing the Matlab examples. It should be called something like \texttt{matlab-examples-4.01.tar.gz}. % overflow
+To install JavaPlex for Matlab, go the the website \url{http://code.google.com/p/javaplex/downloads/list}. Download the zip file containing the Matlab examples. It should be called something like \texttt{matlab-\-examples\-4.01.tar.gz}. % overflow
 Extract the zip file. The resulting folder should be called \texttt{matlab-examples}. \\
 
 Change directories in Matlab  to \texttt{matlab-examples}. Run the \texttt{load\_javaplex.m} file. 
@@ -72,7 +72,7 @@ Installation is complete. Confirm that JavaPlex is working properly with the fol
 \begin{quote} \texttt{ >> api.Plex4.createExplicitSimplexStream() \\
 ans = edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream@513fd4
 } \end{quote}
-Your output should be the same except for the last several characters. \\% Andrew, is there a better command for users to test that their installation is working?
+Your output should be the same except for the last several characters. \\% Andrew, is there a better command for users to test that their installation is working? Answer: It doesn't really matter since either it succeeds or it fails.
  
 Each time upon starting a new Matlab session, you will need to run \texttt{load\_javaplex.m}. \\
 
@@ -126,7 +126,7 @@ In JavaPlex, filtered simplicial complexes (or more generally filtered chain com
 
 \subsection{Explicit simplex streams and homology}\label{explicitStreamPers}
 
-The Matlab script corresponding to this section is \texttt{explicit\_simplex\_example.m}, which is in the folder \texttt{tutorial\_examples}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
+The Matlab script corresponding to this section is \texttt{explicit\_\-simplex\_\-example.m}, which is in the folder \texttt{tutorial\_examples}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
 \begin{quote} \texttt{>> explicit\_simplex\_example\\
 } \end{quote}
 
@@ -176,8 +176,10 @@ This gives us the expected Betti numbers $Betti_0=1$ and $Betti_1=1$. \\
 >> stream.addElement(0:(dimension + 1)); \\
 >> stream.ensureAllFaces(); \\
 >> stream.removeElementIfPresent(0:(dimension + 1)); \\
->> stream.finalizeStream(); % explain this command better
+>> stream.finalizeStream(); % explain this command better, Answer: see below
 }\end{quote}
+
+In the above, the \texttt{finalizeStream} function is used to ensure that the stream has been fully constructed and is ready for consumption by a persistence algorithm. Note that it can be omitted in the case where the additions are done in increasing order. However, it should be used in general.
 
 We print the total number of simplices in the complex.
 \begin{quote} \texttt{>> size = stream.getSize()\\
@@ -290,7 +292,7 @@ The files \texttt{house\_0.PNG} and \texttt{house\_1.PNG} are saved to your curr
 
 The filtration times are on the horizontal axis. The $Betti_k$ number of the stream at filtration time $t$ is the number of intervals in the dimension $k$ plot that intersect a vertical line through $t$. Check that the displayed intervals agree with the filtration times we built into the house stream. At time 0, a connected component and a 1-dimensional hole form. At time 1, a second connected component appears, which joins to the first at time 2. A second 1-dimensional hole forms at time 3, and closes at time 7. \\
 
-An important remark is that the methods \texttt{addElement} and \texttt{removeElementIfPresent} % perhaps removeElementIfPresent also removes any coface simplices? I haven't checked.
+An important remark is that the methods \texttt{addElement} and \texttt{removeElementIfPresent} % perhaps removeElementIfPresent also removes any coface simplices? I haven't checked. Answer: No it doesn't. I like the remark on the next line.
 do not necessarily enforce the definition of a stream. They allow us to build inconsistent complexes in which some simplex $\sigma \in X(t)$ contains a subsimplex $\sigma' \notin X(t)$, meaning that $X(t)$ is not a simplicial complex. The method \texttt{validateVerbose} returns \texttt{1} if our stream is consistent and returns \texttt{0} with explanation if not. 
 \begin{quote} \texttt{>> stream.validateVerbose() \\
 ans = 1 \\
@@ -304,7 +306,7 @@ ans = 0\\
 %In \S \ref{sfpc} we will create simplex streams that are not also explicit simplex streams. To display or edit such streams, we will first need to use the method \texttt{makeExplicit}. See Exercise \ref{ripsExpl}. \\
 % TODO
 
-
+% Henry: At the moment there is no ``make Explicit'' function. 
 
 
 \section{Point cloud data}
@@ -466,7 +468,7 @@ Let's build a Vietoris--Rips stream from the house point cloud in \S \ref{euc}. 
 >> num\_divisions = 100; \\
 \\
 >> point\_cloud = examples.PointCloudExamples.getHouseExample(); \\
->> stream = api.Plex4.createVietorisRipsStream(point\_cloud, max\_dimension, max\_filtration\_value, num\_divisions); % overflow
+>> stream = api.Plex4.createVietorisRipsStream(point\_cloud, \-max\_dimension, \-max\_\-filtration\_\-value, \-num\_divisions); % overflow
 } \end{quote}
 The order of the inputs is \texttt{createVietorisRipsStream(}$Z,\ d_{max},\ t_{max},\ N$\texttt{)}. For a Vietoris--Rips stream, the parameter $t_{max}$ is the maximum possible edge length. Since $t_{max} = 4$ is greater than the diameter ($\sqrt{10}$) of our point cloud, all edges will eventually form. \\
 
@@ -476,7 +478,7 @@ Since $d_{max} = 3$ we can compute up to second dimensional persistent homology.
 >> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals);
 } \end{quote}
 We display the Betti intervals. Typically the last input for the method \texttt{createBarcodePlot} will be $t_{max}$, since there is no reason to display filtration times that we haven't computed.
-\begin{quote} \texttt{>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'ripsHouse', max\_filtration\_value)} \end{quote}
+\begin{quote} \texttt{>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'ripsHouse', max\_\-filtration\_\-value)} \end{quote}
 The files \texttt{ripsHouse\_0.PNG} and \texttt{ripsHouse\_1.PNG} are saved to your current directory.
 
 \begin{figure}[htp]
@@ -490,7 +492,7 @@ The files \texttt{ripsHouse\_0.PNG} and \texttt{ripsHouse\_1.PNG} are saved to y
 The second dimensional Betti plot does not appear because there are no $Betti_2$ intervals. Check that these plots are consistent with the Vietoris--Rips definition: edges $[3,5]$ and $[4,5]$ appear at filtration time $t = \sqrt{2}$; the square appears at $t = 2$; the square closes at $t = \sqrt{8}$. \\
 
 {\em Remark.} We can build Vietoris--Rips streams not only on top of Euclidean point clouds, but also on top of explicit metric spaces. For example, if \texttt{m\_space} is an explicit metric space, then we may call a command such as
-\begin{quote} \texttt{>> stream = api.Plex4.createVietorisRipsStream(m\_space, max\_dimension, max\_filtration\_value, num\_divisions); \\ % overflow
+\begin{quote} \texttt{>> stream = api.Plex4.createVietorisRipsStream(m\_space, max\_dimension, max\_\-filtration\_\-value, num\_\-divisions); \\ % overflow
 } \end{quote}
 
 %\begin{exercise}
@@ -499,7 +501,7 @@ The second dimensional Betti plot does not appear because there are no $Betti_2$
 %Check that you can display and edit stream \texttt{ripsExpl} using the methods of \S \ref{explicitStream}. \\
 %\end{exercise}
 
-% Is the above exercise no longer necessary, or no longer possible?
+% Is the above exercise no longer necessary, or no longer possible? Answer: At the moment it isn't possible. Do you think it is meaningful?
 
 {\em Torus example.} Try the following sequence of commands. We start with 400 points from a $20 \times 20$ grid on the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, and add a small amount of noise to each point.
 % If I select points randomly from the torus instead from the regular grid, then the Vietoris--Rips stream does not seem to be able to recover the correct Betti numbers.
@@ -513,14 +515,14 @@ We build the Vietoris--Rips stream.
 >> size(point\_cloud) \\
 ans = 400\ \ \ 4 \hspace{30mm} \% 400 points in dimension 4 \\
 \\
->> stream = api.Plex4.createVietorisRipsStream(point\_cloud, max\_dimension, max\_filtration\_value, num\_divisions); \\ % overflow
+>> stream = api.Plex4.createVietorisRipsStream(point\_cloud, max\_dimension, max\_\-filtration\_\-value, num\_\-divisions); \\ % overflow
 >> stream.getSize() \\
 ans = 82479 \\
 \\
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
 >> filtration\_index\_intervals = persistence.computeIntervals(stream); \\
 >> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals); \\
->> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'ripsTorus', max\_filtration\_value)
+>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'ripsTorus', max\_\-filtration\_\-value)
 } \end{quote}
 The files \texttt{ripsTorus\_0.PNG}, \texttt{ripsTorus\_1.PNG} and \texttt{ripsTorus\_2.PNG} are saved to your current directory. We do not show these figures because the plots are very tall. \\
 
@@ -644,7 +646,7 @@ R = 1.2344 \hspace{40mm} \% Generally close to 1.2 \\
 % The documentation for getMaxDistanceFromPointsToLandmarks() currently looks incorrect.
 
 We create the witness stream.
-\begin{quote} \texttt{>> stream = api.Plex4.createWitnessStream(landmark\_selector, max\_dimension, max\_filtration\_value, num\_divisions); \\ % overflow
+\begin{quote} \texttt{>> stream = api.Plex4.createWitnessStream(landmark\_selector, max\_dimension, max\_\-filtration\_\-value, num\_\-divisions); \\ % overflow
 >> size = stream.getSize() \\
 ans = 2442\hspace{40mm} \% Generally close to 2300
 } \end{quote}
@@ -652,7 +654,7 @@ We plot the Betti intervals.
 \begin{quote} \texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
 >> filtration\_index\_intervals = persistence.computeIntervals(stream); \\
 >> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals); \\
->> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'witnessTorus', max\_filtration\_value)
+>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'witnessTorus', max\_\-filtration\_\-value)
 } \end{quote}
 The files \texttt{witnessTorus\_0.PNG}, \texttt{witnessTorus\_1.PNG}, and \texttt{witnessTorus\_2.PNG} are saved to your current directory.
 
@@ -676,7 +678,7 @@ A lazy witness stream is similar to a witness stream. However, there is an extra
 Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\in\mathbb{N}$. If $\nu = 0$, let $m(z) = 0$ for all $z\in Z$. If $\nu >0$, let $m(z)$ be the distance from $z$ to the $\nu$-th closest landmark point. The lazy witness complex $LW_\nu(Z,L,t)$ is defined as follows.
 \begin{itemize}
 \item{the vertex set is $L$.}
-\item{for vertices $a$ and $b$, edge $[ab]$ is in $LW_\nu(Z,L,t)$ if there exists a witness $z \in Z$ such that $\max\bigl\{d(a,z), d(b,z)\bigr\} \leq t+m(z)$.}
+\item{edge $[ab]$ is in $LW_\nu(Z,L,t)$ if there is a witness $z \in Z$ such that $\max\bigl\{d(a,z), \ d(b,z)\bigr\} \leq t+m(z)$.}
 \item{a higher dimensional simplex is in $LW_\nu(Z,L,t)$ if all of its edges are.} 
 \end{itemize}
 Note that $LW_\nu(Z,L,t) \subset LW_\nu(Z,L,s)$ whenever $t\leq s$. The adjective {\em lazy} refers to the fact that the lazy witness complex is a flag complex: since the 1-skeleton determines all higher dimensional simplices, less computation is involved. \\
@@ -705,16 +707,16 @@ We use parameter $\nu = 1$.
 % using both nu and num_divisions as inputs. 
 \\
 >> point\_cloud = examples.PointCloudExamples.getRandomSpherePoints(num\_points, max\_dimension - 1); \\
->> landmark\_selector = api.Plex4.createRandomSelector(point\_cloud, num\_landmark\_points);
+>> landmark\_selector = api.Plex4.createRandomSelector(point\_cloud, num\_\-landmark\_\-points);
 } \end{quote}
 By default, we set the number of division $N$ to be 20.
-\begin{quote} \texttt{>> stream = api.Plex4.createLazyWitnessStream(landmark\_selector, max\_dimension, max\_filtration\_value, nu); \\
+\begin{quote} \texttt{>> stream = api.Plex4.createLazyWitnessStream(landmark\_selector, max\_dimension, max\_\-filtration\_\-value, nu); \\
 >> size = stream.getSize() \\
 ans = 124055 \\
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
 >> filtration\_index\_intervals = persistence.computeIntervals(stream); \\
 >> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals); \\
->> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'lazySphere', max\_filtration\_value) \\
+>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'lazySphere', max\_\-filtration\_\-value) \\
 } \end{quote}
 The files \texttt{lazySphere\_0.PNG}, \texttt{lazySphere\_1.PNG}, and \texttt{lazySphere\_2.PNG} are saved to your current directory.
 
