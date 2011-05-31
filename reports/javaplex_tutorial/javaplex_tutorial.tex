@@ -210,7 +210,7 @@ This gives us the expected Betti numbers $Betti_0=1$ and $Betti_1=1$. \\
 >> stream.addElement(0:(dimension + 1)); \\
 >> stream.ensureAllFaces(); \\
 >> stream.removeElementIfPresent(0:(dimension + 1)); \\
->> stream.finalizeStream(); % explain this command better
+>> stream.finalizeStream(); % explain this command better, Answer: see below
 }\end{quote}
 
 In the above, the \texttt{finalizeStream} function is used to ensure that the stream has been fully constructed and is ready for consumption by a persistence algorithm. Note that it can be omitted in the case where the additions are done in increasing order. However, it should be used in general. \\
@@ -541,6 +541,8 @@ max\_filtration\_value, num\_divisions); \\
 % Is the above exercise no longer necessary, or no longer possible?
 % Answer: At the moment it isn't possible. Do you think it is meaningful?
 
+% Is there a way to print the simplices in a stream (and perhaps their filtration times?
+
 {\em Torus example.} Try the following sequence of commands. We start with 400 points from a $20 \times 20$ grid on the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, and add a small amount of noise to each point.
 % If I select points randomly from the torus instead from the regular grid, then the Vietoris--Rips stream does not seem to be able to recover the correct Betti numbers.
 We build the Vietoris--Rips stream.
@@ -694,7 +696,8 @@ We plot the Betti intervals.
 \begin{quote} \texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
 >> filtration\_index\_intervals = persistence.computeIntervals(stream); \\
 >> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals); \\
->> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'witnessTorus', max\_filtration\_value)
+>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'witnessTorus', \\ % overflow
+max\_filtration\_value)
 } \end{quote}
 The files \texttt{witnessTorus\_0.PNG}, \texttt{witnessTorus\_1.PNG}, and \texttt{witnessTorus\_2.PNG} are saved to your current directory.
 

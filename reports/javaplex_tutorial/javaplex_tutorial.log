@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.1415926-1.40.9 (Web2C 7.5.7) (format=pdflatex 2008.8.22)  31 MAY 2011 00:10
+This is pdfTeXk, Version 3.1415926-1.40.9 (Web2C 7.5.7) (format=pdflatex 2008.8.22)  31 MAY 2011 01:00
 entering extended mode
 \write18 enabled.
  %&-line parsing enabled.
@@ -644,48 +644,43 @@ Underfull \hbox (badness 10000) in paragraph at lines 533--533
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 566--566
+Underfull \hbox (badness 10000) in paragraph at lines 568--568
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 566--566
+Underfull \hbox (badness 10000) in paragraph at lines 568--568
 
  []
 
 
-Overfull \hbox (82.16638pt too wide) in paragraph at lines 566--566
+Overfull \hbox (82.16638pt too wide) in paragraph at lines 568--568
 \OT1/cmtt/m/n/10 >> api.Plex4.createBarcodePlot(filtration[]value[]intervals, '
 ripsTorus', max[]filtration[]value) 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 567--568
+Underfull \hbox (badness 10000) in paragraph at lines 569--570
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 583--584
+Underfull \hbox (badness 10000) in paragraph at lines 585--586
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 586--587
+Underfull \hbox (badness 10000) in paragraph at lines 588--589
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 590--591
+Underfull \hbox (badness 10000) in paragraph at lines 592--593
 
  []
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 594--595
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 599--600
+Underfull \hbox (badness 10000) in paragraph at lines 596--597
 
  []
 
@@ -705,13 +700,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 605--606
  []
 
 
-Overfull \hbox (45.4167pt too wide) in paragraph at lines 615--615
+Underfull \hbox (badness 10000) in paragraph at lines 607--608
+
+ []
+
+
+Overfull \hbox (45.4167pt too wide) in paragraph at lines 617--617
 \OT1/cmtt/m/n/10 >> random[]selector = api.Plex4.createRandomSelector(point[]cl
 oud, num[]landmark[]points); 
  []
 
 
-Overfull \hbox (45.4167pt too wide) in paragraph at lines 615--615
+Overfull \hbox (45.4167pt too wide) in paragraph at lines 617--617
 \OT1/cmtt/m/n/10 >> maxmin[]selector = api.Plex4.createMaxMinSelector(point[]cl
 oud, num[]landmark[]points); 
  []
@@ -719,77 +719,71 @@ oud, num[]landmark[]points);
 <fig8lands.png, id=139, 449.68pt x 337.26pt>
 File: fig8lands.png Graphic file (type png)
  <use fig8lands.png> [12]
-Underfull \hbox (badness 10000) in paragraph at lines 640--641
+Underfull \hbox (badness 10000) in paragraph at lines 642--643
 
  []
 
 
-Overfull \hbox (24.41689pt too wide) in paragraph at lines 644--644
+Overfull \hbox (24.41689pt too wide) in paragraph at lines 646--646
 []\OT1/cmtt/m/n/10 >> maxmin[]selector = api.Plex4.createMaxMinSelector(m[]spac
 e, num[]landmark[]points); 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 644--644
+Underfull \hbox (badness 10000) in paragraph at lines 646--646
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 646--647
+Underfull \hbox (badness 10000) in paragraph at lines 648--649
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 649--650
+Underfull \hbox (badness 10000) in paragraph at lines 651--652
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 653--654
+Underfull \hbox (badness 10000) in paragraph at lines 655--656
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 663--664
+Underfull \hbox (badness 10000) in paragraph at lines 665--666
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 666--667
+Underfull \hbox (badness 10000) in paragraph at lines 668--669
 
  []
 
 [13 <./fig8lands.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 669--670
+Underfull \hbox (badness 10000) in paragraph at lines 671--672
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 679--679
+Underfull \hbox (badness 10000) in paragraph at lines 681--681
 
  []
 
 
-Overfull \hbox (43.10675pt too wide) in paragraph at lines 679--679
+Overfull \hbox (43.10675pt too wide) in paragraph at lines 681--681
 \OT1/cmtt/m/n/10 >> point[]cloud = examples.PointCloudExamples.getRandomSphereP
 roductPoints(num[]points,
  []
 
 
-Overfull \hbox (55.91661pt too wide) in paragraph at lines 679--679
+Overfull \hbox (55.91661pt too wide) in paragraph at lines 681--681
 \OT1/cmtt/m/n/10 >> landmark[]selector = api.Plex4.createRandomSelector(point[]
 cloud, num[]landmark[]points); 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 684--684
+Underfull \hbox (badness 10000) in paragraph at lines 686--686
 
- []
-
-
-Overfull \hbox (97.91624pt too wide) in paragraph at lines 698--698
-\OT1/cmtt/m/n/10 >> api.Plex4.createBarcodePlot(filtration[]value[]intervals, '
-witnessTorus', max[]filtration[]value) 
  []
 
 <witnessTorus_0.png, id=147, 602.25pt x 64.24pt>
@@ -802,22 +796,22 @@ File: witnessTorus_1.png Graphic file (type png)
 File: witnessTorus_2.png Graphic file (type png)
  <use witnessTorus_2.png>
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 710--711
+Underfull \hbox (badness 10000) in paragraph at lines 713--714
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 712--713
+Underfull \hbox (badness 10000) in paragraph at lines 715--716
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 716--717
+Underfull \hbox (badness 10000) in paragraph at lines 719--720
 
  []
 
 
-Overfull \hbox (34.912pt too wide) in paragraph at lines 721--722
+Overfull \hbox (34.912pt too wide) in paragraph at lines 724--725
 []\OT1/cmr/m/n/10 for ver-tices $\OML/cmm/m/it/10 a$ \OT1/cmr/m/n/10 and $\OML/
 cmm/m/it/10 b$\OT1/cmr/m/n/10 , edge $[\OML/cmm/m/it/10 ab\OT1/cmr/m/n/10 ]$ is
  in $\OML/cmm/m/it/10 LW[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Z; L; t\OT1/cmr/m/n
@@ -828,22 +822,17 @@ ML/cmm/m/it/10 b; z\OT1/cmr/m/n/10 )[] \OMS/cmtt/m/n/10 ^^T
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 724--725
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 727--728
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 731--732
+Underfull \hbox (badness 10000) in paragraph at lines 730--731
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 735--736
+Underfull \hbox (badness 10000) in paragraph at lines 734--735
 
  []
 
@@ -852,43 +841,48 @@ Underfull \hbox (badness 10000) in paragraph at lines 738--739
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 741--742
+
+ []
+
 [15 <./witnessTorus_0.png (PNG copy)> <./witnessTorus_1.png (PNG copy)> <./witn
 essTorus_2.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 749--749
+Underfull \hbox (badness 10000) in paragraph at lines 752--752
 
  []
 
 
-Overfull \hbox (6.35707pt too wide) in paragraph at lines 749--749
+Overfull \hbox (6.35707pt too wide) in paragraph at lines 752--752
 \OT1/cmtt/m/n/10 >> point[]cloud = examples.PointCloudExamples.getRandomSphereP
 oints(num[]points,
  []
 
 
-Overfull \hbox (55.91661pt too wide) in paragraph at lines 749--749
+Overfull \hbox (55.91661pt too wide) in paragraph at lines 752--752
 \OT1/cmtt/m/n/10 >> landmark[]selector = api.Plex4.createRandomSelector(point[]
 cloud, num[]landmark[]points); 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 749--749
+Underfull \hbox (badness 10000) in paragraph at lines 752--752
 
  []
 
 
-Overfull \hbox (60.32661pt too wide) in paragraph at lines 763--763
+Overfull \hbox (60.32661pt too wide) in paragraph at lines 766--766
 \OT1/cmtt/m/n/10 >> stream = streams.impl.LazyWitnessStream(landmark[]selector.
 getUnderlyingMetricSpace(),
  []
 
 
-Overfull \hbox (21.88896pt too wide) in paragraph at lines 763--763
+Overfull \hbox (21.88896pt too wide) in paragraph at lines 766--766
 \OT1/cmtt/m/n/10 num[]simplices = 79842   % Generally between 30000 and 180000 
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 763--763
+Underfull \hbox (badness 10000) in paragraph at lines 766--766
 
  []
 
@@ -901,44 +895,44 @@ File: lazySphere_1.png Graphic file (type png)
 <lazySphere_2.png, id=158, 602.25pt x 64.24pt>
 File: lazySphere_2.png Graphic file (type png)
  <use lazySphere_2.png> [16]
-Underfull \hbox (badness 10000) in paragraph at lines 775--776
+Underfull \hbox (badness 10000) in paragraph at lines 778--779
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 782--783
+Underfull \hbox (badness 10000) in paragraph at lines 785--786
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 784--785
+Underfull \hbox (badness 10000) in paragraph at lines 787--788
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 791--792
+Underfull \hbox (badness 10000) in paragraph at lines 794--795
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 814--814
+Underfull \hbox (badness 10000) in paragraph at lines 817--817
 
  []
 
 
-Overfull \hbox (57.38661pt too wide) in paragraph at lines 814--814
+Overfull \hbox (57.38661pt too wide) in paragraph at lines 817--817
 \OT1/cmtt/m/n/10 >> landmark[]selector = api.Plex4.createMaxMinSelector(pointsR
 ange, num[]landmark[]points); 
  []
 
 
-Overfull \hbox (60.32661pt too wide) in paragraph at lines 814--814
+Overfull \hbox (60.32661pt too wide) in paragraph at lines 817--817
 \OT1/cmtt/m/n/10 >> stream = streams.impl.LazyWitnessStream(landmark[]selector.
 getUnderlyingMetricSpace(),
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 814--814
+Underfull \hbox (badness 10000) in paragraph at lines 817--817
 
  []
 
@@ -950,7 +944,7 @@ File: lazyRange_0.png Graphic file (type png)
 File: lazyRange_1.png Graphic file (type png)
 
 <use lazyRange_1.png>
-Underfull \hbox (badness 10000) in paragraph at lines 827--828
+Underfull \hbox (badness 10000) in paragraph at lines 830--831
 
  []
 
@@ -964,66 +958,66 @@ File: r5k300c30.pdf Graphic file (type pdf)
 <primaryCircle.pdf, id=172, 354.32375pt x 333.245pt>
 File: primaryCircle.pdf Graphic file (type pdf)
  <use primaryCircle.pdf>
-Overfull \hbox (11.27187pt too wide) in paragraph at lines 868--869
+Overfull \hbox (11.27187pt too wide) in paragraph at lines 871--872
 \OT1/cmr/m/n/10 in-clude JavaPlex com-mands in an m-file func-tion, in-clude th
 e com-mand \OT1/cmtt/m/n/10 import edu.stanford.math.plex4.*;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 868--869
+Underfull \hbox (badness 10000) in paragraph at lines 871--872
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 870--872
+Underfull \hbox (badness 10000) in paragraph at lines 873--875
 
  []
 
 [19 <./linearGrad.pdf> <./r5k300c30.pdf> <./primaryCircle.pdf>]
-Overfull \hbox (46.04675pt too wide) in paragraph at lines 885--885
+Overfull \hbox (46.04675pt too wide) in paragraph at lines 888--888
 \OT1/cmtt/m/n/10 The Euler characteristic is 2 = 8 - 28 + 56 - 70 + 56 - 28 + 8
 , using the alternating
  []
 
 
-Overfull \hbox (19.79698pt too wide) in paragraph at lines 885--885
+Overfull \hbox (19.79698pt too wide) in paragraph at lines 888--888
 \OT1/cmtt/m/n/10 The Euler characteristic is 2 = 1 - 0 + 0 - 0 + 0 - 0 + 1, usi
 ng the alternating
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 926--927
+Underfull \hbox (badness 10000) in paragraph at lines 929--930
 
  []
 
 Missing character: There is no Þ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 928--929
+Underfull \hbox (badness 10000) in paragraph at lines 931--932
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 930--931
+Underfull \hbox (badness 10000) in paragraph at lines 933--934
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 932--933
+Underfull \hbox (badness 10000) in paragraph at lines 935--936
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 937--938
+Underfull \hbox (badness 10000) in paragraph at lines 940--941
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 942--943
+Underfull \hbox (badness 10000) in paragraph at lines 945--946
 
  []
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 996--998
+Underfull \hbox (badness 10000) in paragraph at lines 999--1001
 
  []
 
