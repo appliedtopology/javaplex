@@ -17,7 +17,7 @@ stream.addElement([0, 2]);
 stream.addElement([1, 2]);
 
 % print out the total number of simplices in the complex
-size = stream.getSize()
+num_simplices = stream.getSize()
 
 % get the default persistence computation
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
@@ -25,7 +25,7 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 % compute and print the intervals
 triangle_intervals = persistence.computeIntervals(stream)
 
-%% Example of n-sphere
+%% 9-sphere Example
 
 dimension = 9;
 
@@ -39,7 +39,7 @@ stream.removeElementIfPresent(0:(dimension + 1));
 stream.finalizeStream();
 
 % print out the total number of simplices in the complex
-size = stream.getSize()
+num_simplices = stream.getSize()
 
 % get the default persistence computation
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);

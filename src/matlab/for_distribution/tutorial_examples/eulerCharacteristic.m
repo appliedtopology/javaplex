@@ -1,14 +1,15 @@
 function  eulerCharacteristic(stream, max_dimension)
 
 % INPUT:
-%   explicitStream - an instance of the class AbstractFilteredStream<Simplex>.
+%   stream - an instance of the class AbstractFilteredStream<Simplex>.
+%   max_dimension - the maximal dimension of a simplex in stream.
 %
 % OUTPUT:
-%   This function prints two Euler characteristic calculations: using the
-%   alternating sum of cells, and using the alternating sum of Betti
-%   numbers.
+%   This function prints two Euler characteristic calculations: the first
+%   using the alternating sum of cells, and the second using the 
+%   alternating sum of Betti numbers.
 %
-% henrya@math.stanford.edu modified by atausz@stanford.edu
+% henrya@math.stanford.edu and atausz@stanford.edu
 
 import edu.stanford.math.plex4.*;
 
@@ -16,7 +17,7 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension + 1);
 
 filtration_index_intervals = persistence.computeIntervals(stream);
 transformer = homology.filtration.IdentityConverter.getInstance();
-filtration_value_intervals = transformer.transform(filtration_index_intervals)
+filtration_value_intervals = transformer.transform(filtration_index_intervals);
 infinite_barcodes = filtration_value_intervals.getInfiniteIntervals();
 
 betti_sequence = infinite_barcodes.getBettiSequence();

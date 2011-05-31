@@ -1,6 +1,6 @@
 % This script shows the house example - Section 3.2
 
-%% Manual construction
+%% House Example
 
 clc; clear; close all;
 

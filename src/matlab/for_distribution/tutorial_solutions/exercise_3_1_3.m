@@ -1,4 +1,4 @@
-% Exercise 3.2.3
+% Exercise 3.1.3
 
 clc; clear; close all;
 
@@ -26,7 +26,6 @@ stream.addElement([4, 5]);
 stream.addElement([4, 6]);
 stream.addElement([5, 6]);
 
-
 stream.addElement([1, 2, 5]);
 stream.addElement([1, 2, 6]);
 stream.addElement([1, 3, 4]);
@@ -37,8 +36,6 @@ stream.addElement([2, 3, 5]);
 stream.addElement([2, 4, 6]);
 stream.addElement([3, 5, 6]);
 stream.addElement([4, 5, 6]);
-
-
 
 stream.finalizeStream();
 

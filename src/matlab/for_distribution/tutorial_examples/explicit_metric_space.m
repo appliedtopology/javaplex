@@ -3,6 +3,8 @@
 
 clc; clear; close all;
 
+%% House example
+
 % create distance matrix
 distances = [0,2,sqrt(8),2,sqrt(10); 2,0,2,sqrt(8),sqrt(10); sqrt(8),2,0,2,sqrt(2); 2,sqrt(8),2,0,sqrt(2); sqrt(10),sqrt(10),sqrt(2),sqrt(2),0]
 

@@ -1,4 +1,5 @@
 % This script shows an Euler characteristic example - Section 7.1
+
 clc; clear; close all;
 
 % get a new ExplicitSimplexStream
@@ -12,4 +13,4 @@ stream.ensureAllFaces();
 stream.removeElementIfPresent(0:(dimension + 1));
 stream.finalizeStream();
 
-eulerCharacteristic(stream, dimension);
+eulerCharacteristic(stream, dimension)

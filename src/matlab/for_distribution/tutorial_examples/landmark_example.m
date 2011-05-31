@@ -3,6 +3,8 @@
 
 clc; clear; close all;
 
+%% Figure 8 Example
+
 % initialize the point cloud
 point_cloud = examples.PointCloudExamples.getRandomFigure8Points(1000);
 

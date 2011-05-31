@@ -3,6 +3,8 @@
 
 clc; clear; close all;
 
+%% House Example
+
 max_dimension = 3;
 max_filtration_value = 4;
 num_divisions = 100;
@@ -39,7 +41,7 @@ size(point_cloud)
 
 % create a Vietoris-Rips stream 
 stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension, max_filtration_value, num_divisions);
-stream.getSize()
+num_simplices = stream.getSize()
 
 % get the default persistence algorithm
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);

@@ -2,13 +2,13 @@
 
 clc; clear; close all;
 
-n = 6;
+n = 14;
 
 angles = 2 * pi/n * (1:n)';
 pointsS1 = [cos(angles), sin(angles)];
 plot(pointsS1(:,1), pointsS1(:,2), '.')
 
-max_dimension = 2;
+max_dimension = 7;
 max_filtration_value = 2;
 num_divisions = 100;
 
