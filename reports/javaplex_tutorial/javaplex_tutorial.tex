@@ -94,17 +94,18 @@ The following Matlab scripts containing the commands in this tutorial are availa
 \item \texttt{rips\_example.m}
 \item \texttt{witness\_example.m}
 \end{itemize}
-This tutorial also uses the following Matlab functions
+The folder \texttt{matlab\_examples/tutorial\_examples} also contains the following Matlab functions
 \begin{itemize}
 \item \texttt{coreSubset.m}
 \item \texttt{dct.m}
 \item \texttt{eulerCharacteristic.m}
 \end{itemize}
-and following Matlab data files, also available in the folder \texttt{matlab\_examples/tutorial\_examples}.
+and the following Matlab data files
 \begin{itemize}
 \item \texttt{pointsRange.mat}
-\item \texttt{pointsTorusGrid.mat}\\
+\item \texttt{pointsTorusGrid.mat}
 \end{itemize}
+which are used in this tutorial. \\
 
 The folder \texttt{matlab\_examples/tutorial\_solutions} contains the following solution scripts to tutorial exercises.
 \begin{itemize}
@@ -114,7 +115,6 @@ The folder \texttt{matlab\_examples/tutorial\_solutions} contains the following 
 \item \texttt{exercise\_5\_1\_2.m}
 \item \texttt{exercise\_5\_1\_3.m}
 \end{itemize}
-
 % TODO: add solutions pdf when it gets made.
 
 
@@ -141,7 +141,6 @@ Betti numbers help describe the homology of a simplicial complex $X$. The value 
 
 \subsection{Filtered simplicial complexes}
 A filtration on a simplicial complex $X$ is a collection of subcomplexes $\{X(t) \ |\ t\in \mathbb{R}\}$ of $X$ such that $X(t) \subset X(s)$ whenever $t\leq s$. The filtration time of a simplex $\sigma \in X$ is the smallest $t$ such that $\sigma \in X(t)$. In javaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. \\
-
 % Introduce filtered chain complexes?
 
 
@@ -160,13 +159,14 @@ In javaPlex, filtered simplicial complexes (or more generally filtered chain com
 
 \subsection{Explicit simplex streams and homology}\label{explicitStreamPers}
 
-The Matlab script corresponding to this section is \texttt{explicit\_simplex\_example.m}, which is in the folder \texttt{tutorial\_examples}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
+The Matlab script corresponding to this section is \\ %overflow
+\texttt{explicit\_simplex\_example.m}, which is in the folder \texttt{tutorial\_examples}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
 \begin{quote} \texttt{>> explicit\_simplex\_example\\
 } \end{quote}
 
 
 
-{\em Circle example.} Let's build a simplicial complex homeomorphic to a circle. We have three 0-simplices: [0], [1], and [2], and three 1-simplices: [0,1], [0,2], [1,2].
+{\em Circle example.} Let's build a simplicial complex homeomorphic to a circle. We have three 0-simplices: [0], [1], [2], and three 1-simplices: [0,1], [0,2], [1,2].
 
 \hspace{2.5in}\includegraphics[height=1in]{s1.pdf}
 
@@ -189,7 +189,7 @@ We print the total number of simplices in the complex.
 num\_simplices = 6\\
 } \end{quote}
 
-In order to compute the homology of our complex, we first create an object that will perform the computation. The following line obtains the default algorithm for performing simplicial homology. There are other variants on the persistence algorithm, and one can also change the ground field. This default object will perform the homology computation over $\mathbb{Z}/2\mathbb{Z}$. The input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3.
+In order to compute the homology of our complex, we first create an object that will perform the computation. The following line obtains the default algorithm for performing simplicial homology. There are other variants on the persistence algorithm, and one can also change the ground field. This default object will perform the homology computation with $\mathbb{Z}/2\mathbb{Z}$ coefficients. The input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3.
 \begin{quote}\texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 } \end{quote}
 We compute and print the intervals.

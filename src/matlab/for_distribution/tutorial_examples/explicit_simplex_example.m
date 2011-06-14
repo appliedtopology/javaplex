@@ -23,7 +23,7 @@ num_simplices = stream.getSize()
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 
 % compute and print the intervals
-triangle_intervals = persistence.computeIntervals(stream)
+circle_intervals = persistence.computeIntervals(stream)
 
 %% 9-sphere Example
 
