@@ -24,12 +24,12 @@
 \begin{document}
 
 \title{\lc{java}P\lc{lex} T\lc{utorial}}
-\author{H\lc{enry} A\lc{dams and} A\lc{ndrew} T\lc{ausz} \\ \lc{henrya@math.stanford.edu and atausz@stanford.edu} \\ M\lc{ay 30, 2011}}
+\author{H\lc{enry} A\lc{dams and} A\lc{ndrew} T\lc{ausz} \\ \lc{henrya@math.stanford.edu and atausz@stanford.edu} \\ J\lc{une 16, 2011}}
 
 
 \maketitle
 
-% pdf for exercise solutions
+% TODO: make pdf file for exercise solutions
 
 % how do you display the simplices in a stream?
 
@@ -62,7 +62,7 @@ ans = Java 1.5.0\_13 with Apple Inc.   Java Hotspot(TM) Client VM mixed mode, sh
 } \end{quote}
 javaPlex requires version number \texttt{1.5} or higher. \\
 
-To install javaPlex for Matlab, go the the website \url{http://code.google.com/p/javaplex/downloads/list}. Download the zip file containing the Matlab examples. It should be called something like \texttt{matlab-examples\-4.01.tar.gz}. % overflow
+To install javaPlex for Matlab, go the the website \url{http://code.google.com/p/javaplex/downloads/list}. Download the zip file containing the Matlab examples. It should be called something like \texttt{matlab-examples\-4.01.tar.gz}. % TODO: this file is out of date
 Extract the zip file. The resulting folder should be called \texttt{matlab-examples}. \\
 % Or, go to folder javaplex/src/matlab/for_distribution
 
@@ -80,17 +80,17 @@ Each time upon starting a new Matlab session, you will need to run \texttt{load\
 
 \subsection{Accompanying files}
 
-Matlab scripts containing the commands in this tutorial are available in the folder \texttt{matlab\_examples/tutorial\_examples}. This means you don't need to type in each command individually. The command scripts are the following.
+The following Matlab scripts containing the commands in this tutorial are available in the folder \texttt{matlab\_examples/tutorial\_examples}. This means that you don't need to type in each command individually.
 \begin{itemize}
 \item \texttt{core\_subsets\_example.m}
 \item \texttt{euler\_characteristic\_example.m}
-\item \texttt{explicit\_metric\_space.m}
+\item \texttt{explicit\_metric\_space\_example.m}
 \item \texttt{explicit\_simplex\_example.m}
 \item \texttt{house\_example.m}
-\item \texttt{image\_patch\_examples.m}
+\item \texttt{image\_patch\_example.m}
 \item \texttt{landmark\_example.m}
 \item \texttt{lazy\_witness\_example.m}
-\item \texttt{pointcloud\_examples.m}
+\item \texttt{pointcloud\_example.m}
 \item \texttt{rips\_example.m}
 \item \texttt{witness\_example.m}
 \end{itemize}
@@ -115,7 +115,7 @@ The folder \texttt{matlab\_examples/tutorial\_solutions} contains the following 
 \item \texttt{exercise\_5\_1\_3.m}
 \end{itemize}
 
-% add solutions pdf when it gets made.
+% TODO: add solutions pdf when it gets made.
 
 
 
@@ -349,7 +349,7 @@ ans = 0\\
 A point cloud is a finite metric space, that is, a finite set of points equipped with a notion of distance. One can create a Euclidean metric space by specifying the coordinates of points in Euclidean space, or one can create an explicit metric space by specifying all pairwise distances between points. In \S \ref{sfpc} we will learn how to build streams from point cloud data. \\
 
 
-\subsection{Euclidean metric spaces}\label{euc} The Matlab script corresponding to this section is \texttt{pointcloud\_examples.m}. \\
+\subsection{Euclidean metric spaces}\label{euc} The Matlab script corresponding to this section is \texttt{pointcloud\_example.m}. \\
 
 {\em House example.} Let's give Euclidean coordinates to the points of our house.
 
@@ -434,7 +434,7 @@ Plotting the third and fourth coordinates of each point shows a circle $S^1$.
 \subsection{Explicit metric spaces}
 We can also create a metric space from a distance matrix using the method \texttt{ExplicitMetricSpace}. For a point cloud in Euclidean space, this method is generally less convenient than the command \texttt{EuclideanMetricSpace}. However, method \texttt{ExplicitMetricSpace} can be used for a point cloud in an arbitrary (perhaps non-Euclidean) metric space. \\
 
-The Matlab script corresponding to this section is \texttt{explicit\_metric\_space.m}. \\
+The Matlab script corresponding to this section is \texttt{explicit\_metric\_space\_example.m}. \\
 
 {\em House example.} The matrix \texttt{distances} summarizes the metric for our house points in Figure \ref{fig:housePointCloud}: entry $(i,j)$ is the distance from point $i$ to point $j$. \\
 
@@ -782,7 +782,7 @@ In the next section we build a lazy witness stream on a dataset of range image p
 
 \section{Example with real data}\label{real}
 
-We now do an example with real data. The corresponding Matlab script is \texttt{image\_patch\_examples.m}, and it relies on the files \texttt{pointsRange.mat} and \texttt{dct.m}. \\
+We now do an example with real data. The corresponding Matlab script is \texttt{image\_patch\_example.m}, and it relies on the files \texttt{pointsRange.mat} and \texttt{dct.m}. \\
 
 In {\em On the nonlinear statistics of range image patches} \cite{ac09}, we study a space of range image patches drawn from the Brown database \cite{lpm03}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a length 25 vector and think of our patches as point cloud data in $\mathbb{R}^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix \ref{A:core}). In \cite{ac09} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from \cite{ac09}: $X^5(300,30)$ has the topology of a circle. \\
 

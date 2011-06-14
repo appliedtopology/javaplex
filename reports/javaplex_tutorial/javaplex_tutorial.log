@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.1415926-1.40.9 (Web2C 7.5.7) (format=pdflatex 2008.8.22)  1 JUN 2011 03:02
+This is pdfTeXk, Version 3.1415926-1.40.9 (Web2C 7.5.7) (format=pdflatex 2008.8.22)  14 JUN 2011 12:45
 entering extended mode
 \write18 enabled.
  %&-line parsing enabled.
@@ -508,13 +508,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 337--337
 
 Underfull \hbox (badness 10000) in paragraph at lines 349--350
 
- []
-
-
-Overfull \hbox (2.24178pt too wide) in paragraph at lines 352--353
- \OT1/cmr/m/n/10 4.1.\OT1/cmr/bx/n/10 Euclidean met-ric spaces.[] \OT1/cmr/m/n/
-10 The Mat-lab script cor-re-spond-ing to this sec-tion is \OT1/cmtt/m/n/10 poi
-ntcloud[]examples.m\OT1/cmr/m/n/10 . 
  []
 
 
@@ -1051,7 +1044,7 @@ e1/bluesky/cm/cmsy7.pfb></usr/local/texlive/2008/texmf-dist/fonts/type1/bluesky
 .pfb></usr/local/texlive/2008/texmf-dist/fonts/type1/bluesky/cm/cmtt10.pfb></us
 r/local/texlive/2008/texmf-dist/fonts/type1/bluesky/cm/cmtt8.pfb></usr/local/te
 xlive/2008/texmf-dist/fonts/type1/bluesky/ams/msbm10.pfb>
-Output written on javaplex_tutorial.pdf (21 pages, 355254 bytes).
+Output written on javaplex_tutorial.pdf (21 pages, 355274 bytes).
 PDF statistics:
  174 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
