@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <project name="javaplex" default="default" basedir=".">
-	<property name="version.num" value="4.01" />
+	<property name="version.num" value="4.02" />
 	<property name="build.dir" value="build" />
 	<property name="bin.dir" value="${build.dir}/bin" />
 	<property name="temp.dir" value="temp" />
