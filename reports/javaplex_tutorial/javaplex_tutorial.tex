@@ -29,9 +29,15 @@
 
 \maketitle
 
+% TODO: figure out where to put Snowbird datasets
+
+% TODO: add flat torus and flat klein examples to tutorial.
+
 % TODO: make pdf file for exercise solutions
 
 % how do you display the simplices in a stream?
+
+% Change VR$(Z,t)$ to $\VR(Z,t)$ (and same for witness complexes) by defining new math operators.
 
 \tableofcontents
 
@@ -157,7 +163,7 @@ Persistent homology depends heavily on functoriality: for $t\leq s$, the inclusi
 In javaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. The class ExplicitSimplexStream allows one to build a simplicial complex from scratch. In \S \ref{sfpc} we will learn about other automated methods of generating simplicial complexes; namely the Vietoris--Rips, witness, and lazy witness constructions. 
 
 
-\subsection{Explicit simplex streams and homology}\label{explicitStreamPers}
+\subsection{Explicit simplex streams and homology}
 
 The Matlab script corresponding to this section is \\ %overflow
 \texttt{explicit\_simplex\_example.m}, which is in the folder \texttt{tutorial\_examples}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
@@ -189,12 +195,12 @@ We print the total number of simplices in the complex.
 num\_simplices = 6\\
 } \end{quote}
 
-In order to compute the homology of our complex, we first create an object that will perform the computation. The following line obtains the default algorithm for performing simplicial homology. There are other variants on the persistence algorithm, and one can also change the ground field. This default object will perform the homology computation with $\mathbb{Z}/2\mathbb{Z}$ coefficients. The input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3.
+In order to compute the homology of our complex, we first create an object that will perform the computation. The following line obtains the default algorithm for performing simplicial homology. There are other variants on the persistence algorithm, and one can also change the ground field. This default object will perform the homology computation with $\mathbb{Z}_2$ coefficients. The input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3.
 \begin{quote}\texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 } \end{quote}
 We compute and print the intervals.
-\begin{quote} \texttt{>> triangle\_intervals = persistence.computeIntervals(stream) \\
-triangle\_intervals = \\
+\begin{quote} \texttt{>> circle\_intervals = persistence.computeIntervals(stream) \\
+circle\_intervals = \\
 \\
 Dimension: 1 \newline
 [0, infinity) \\
@@ -210,10 +216,10 @@ This gives us the expected Betti numbers $Betti_0=1$ and $Betti_1=1$. \\
 >> stream.addElement(0:(dimension + 1)); \\
 >> stream.ensureAllFaces(); \\
 >> stream.removeElementIfPresent(0:(dimension + 1)); \\
->> stream.finalizeStream(); % explain this command better, Answer: see below
+>> stream.finalizeStream();
 }\end{quote}
 
-In the above, the \texttt{finalizeStream} function is used to ensure that the stream has been fully constructed and is ready for consumption by a persistence algorithm. Note that it can be omitted in the case where the additions are done in increasing order. However, it should be used in general. \\
+In the above, the \texttt{finalizeStream} function is used to ensure that the stream has been fully constructed and is ready for consumption by a persistence algorithm. Note that it can be omitted in the case where the simplex additions are done in increasing order. However, it should be used in general. \\
 
 We print the total number of simplices in the complex.
 \begin{quote} \texttt{>> num\_simplices = stream.getSize()\\
@@ -247,7 +253,9 @@ Build a simplicial complex homeomorphic to the projective plane. Find its Betti 
 \end{exercise}
 
 
-\subsection{Explicit simplex streams and persistent homology} Let's build a stream with nontrivial filtration times. \\
+\subsection{Explicit simplex streams and persistent homology}\label{explicitStreamPers}
+
+Let's build a stream with nontrivial filtration times. \\
 
 {\em House example.} The Matlab script corresponding to this section is \texttt{house\_example.m}.\\
 
@@ -256,6 +264,7 @@ Build a simplicial complex homeomorphic to the projective plane. Find its Betti 
    	\includegraphics[width=1in]{house}
   	\end{center}
 \end{wrapfigure}
+% figure is very pixelated
 
 We build a house, with the vertices and edges on the square appearing at time 0, with the top vertex appearing at time 1, with the roof edges appearing at times 2 and 3, and with the roof 2-simplex appearing at time 7.
 \begin{quote} \texttt{>> stream = api.Plex4.createExplicitSimplexStream(); \\
@@ -311,7 +320,7 @@ or as a list with entries of the form $k: Betti_k$.
 betti\_numbers\_string = \{0: 1, 1: 1\} \\
 } \end{quote}
 
-The method \texttt{createBarcodePlot} lets us display the intervals as a Betti barcode. The three inputs are \texttt{filtration\_value\_intervals}, a string for the filename, and the maximum filtration time (which may be adjusted $\pm 10\%$) for the plot. 
+The method \texttt{createBarcodePlot} lets us display the intervals as a Betti barcode. The three inputs are \texttt{filtration\_value\_intervals}, a string for the filename, and the maximum filtration time for the plot. 
 \begin{quote} \texttt{>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'house', 8)
 } \end{quote}
 The files \texttt{house\_0.PNG} and \texttt{house\_1.PNG} are saved to your current directory.
@@ -362,6 +371,7 @@ A point cloud is a finite metric space, that is, a finite set of points equipped
 	\label{fig:housePointCloud}
 \end{figure}
 \FloatBarrier
+% figure is pixelated
 
 You can enter these coordinates manually.
 \begin{quote} \texttt{>> point\_cloud = [-1,0; 1,0; 1,2; -1,2; 0,3]} \end{quote}
@@ -481,7 +491,7 @@ The Vietoris--Rips, witness, and lazy witness streams all take three of the same
 $$t \in \Biggl\{ 0,\ \frac{t_{max}}{N-1},\ \frac{2t_{max}}{N-1},\ \frac{3t_{max}}{N-1},\ \dots,\ \frac{(N-2)t_{max}}{N-1},\ t_{max} \Biggr\}.$$
 The number of divisions $N$ is an optional input. If this input parameter is not specified, then the default value $N = 20$ is used. \\
 
-When working with a new dataset, don't choose $d_{max}$ and $t_{max}$ too large initially. First get a feel for how fast the complexes are growing, and then raise $d_{max}$ and $t_{max}$ nearer to the computational limits. If you ever choose $d_{max}$ or $t_{max}$ too large and Matlab seems to be running forever, pressing the ``control'' and ``c'' buttons simultaneously may halt the computation. \\
+When working with a new dataset, don't choose $d_{max}$ and $t_{max}$ too large initially. First get a feel for how fast the simplicial complexes are growing, and then raise $d_{max}$ and $t_{max}$ nearer to the computational limits. If you ever choose $d_{max}$ or $t_{max}$ too large and Matlab seems to be running forever, pressing the \texttt{control} and \texttt{c} buttons simultaneously may halt the computation. \\
 
 %The first author is currently working with Jan Segert on interactive visualizations of the Vietoris--Rips and Witness filtrations for the Wolfram Demonstrations Project. We have preliminary drafts of the demonstrations. Please email Henry if you'd like to check them out; in particular, the witness filtrations can be hard to visualize. \\
 
@@ -497,7 +507,7 @@ Note that $\mbox{VR}(Z,t) \subset \mbox{VR}(Z,s)$ whenever $t\leq s$, so the Vie
 
 The Matlab script corresponding to this section is \texttt{rips\_example.m}. \\
 
-{\em House example.} Let's build a Vietoris--Rips stream from the house point cloud in \S \ref{euc}. Note this stream is different than the explicit stream we built in \S \ref{explicitStreamPers}.
+{\em House example.} Let's build a Vietoris--Rips stream from the house point cloud in \S \ref{euc}. Note this stream is different than the explicit house stream we built in \S \ref{explicitStreamPers}.
 \begin{quote} \texttt{>> max\_dimension = 3; \\
 >> max\_filtration\_value = 4; \\
 >> num\_divisions = 100; \\
@@ -514,7 +524,8 @@ Since $d_{max} = 3$ we can compute up to second dimensional persistent homology.
 >> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals);
 } \end{quote}
 We display the Betti intervals. Typically the last input for the method \texttt{createBarcodePlot} will be $t_{max}$, since there is no reason to display filtration times that we haven't computed.
-\begin{quote} \texttt{>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'ripsHouse', max\_filtration\_value)} \end{quote}
+\begin{quote} \texttt{>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'ripsHouse', \\ % overflow
+max\_filtration\_value)} \end{quote}
 The files \texttt{ripsHouse\_0.PNG} and \texttt{ripsHouse\_1.PNG} are saved to your current directory.
 
 \begin{figure}[htp]
@@ -559,12 +570,13 @@ ans = 400\ \ \ 4 \hspace{30mm} \% 400 points in dimension 4 \\
 >> stream = api.Plex4.createVietorisRipsStream(point\_cloud, max\_dimension, \\ % overflow
 max\_filtration\_value, num\_divisions); \\ 
 >> num\_simplices = stream.getSize() \\
-num\_simplices = 82479 \\
+num\_simplices = 82479 \hspace{40mm} \% Generally close to 80000\\
 \\
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
 >> filtration\_index\_intervals = persistence.computeIntervals(stream); \\
 >> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals); \\
->> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'ripsTorus', max\_filtration\_value)
+>> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'ripsTorus', \\ % overflow
+max\_filtration\_value)
 } \end{quote}
 The files \texttt{ripsTorus\_0.PNG}, \texttt{ripsTorus\_1.PNG} and \texttt{ripsTorus\_2.PNG} are saved to your current directory. We do not show these figures because the plots are very tall. \\
 
@@ -585,22 +597,22 @@ The diameter of this torus (before adding noise) is $\sqrt{8}$, so choosing $t_{
 This example makes it clear that the computed ``semi-infinite'' intervals do not necessarily persist until $t = \infty$: in a Vietoris--Rips stream, once $t$ is greater than the diameter of the point cloud, the Betti numbers for VR$(Z,t)$ will be $ Betti_0 = 1$, $Betti_1 = Betti_2 = ... = 0$. The computed semi-infinite intervals are merely those that persist until $t = t_{max}$. \\
 
 \begin{exercise}
-Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or $d_{max}$ from 3 to 4 each roughly doubles the size of the Vietoris--Rips stream. \\
+Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or increasing $d_{max}$ from 3 to 4 roughly doubles the size of the Vietoris--Rips stream. \\
 \end{exercise}
 
 \begin{exercise}
-Find a planar dataset $Z$ and a filtration value $t$ such that $Betti_2(\mbox{VR}(Z,t))\neq0$. Build a Vietoris--Rips stream to confirm your answer. \\
+Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that VR$(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer. \\
 \end{exercise}
 
 \begin{exercise}
-Find a planar dataset $Z$ and a filtration value $t$ such that $Betti_{6}(\mbox{VR}(Z,t))\neq0$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$. \\
+Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that VR$(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$. \\
 \end{exercise}
 
 
 \subsection{Landmark selection}\label{lands}
 For larger datasets, if we include every data point as a vertex, as in the Vietoris--Rips construction, our streams will quickly contain too many simplices for efficient computation. The witness stream and the lazy witness stream address this problem. In building these streams, we select a subset $L \subset Z$, called landmark points, as the only vertices. All data points in $Z$ help serve as witnesses for the inclusion of higher dimensional simplices. \\
 
-There are two common methods for selecting landmark points. The first is to choose the landmarks $L$ randomly from point cloud $Z$. The second is a greedy inductive selection process called sequential maxmin. In sequential maxmin, the first landmark is picked randomly from $Z$. Inductively, if $L_{i-1}$ is the set of the first $i-1$ landmarks, then let the $i$-th landmark be the point of $Z$ which maximizes the function $z \mapsto d(z, L_{i-1})$, where $d(z, L_{i-1})$ is the distance between point $z$ and set $L_{i-1}$. \\
+There are two common methods for selecting landmark points. The first is to choose the landmarks $L$ randomly from point cloud $Z$. The second is a greedy inductive selection process called sequential maxmin. In sequential maxmin, the first landmark is picked randomly from $Z$. Inductively, if $L_{i-1}$ is the set of the first $i-1$ landmarks, then let the $i$-th landmark be the point of $Z$ which maximizes the function $z \mapsto d(z, L_{i-1})$, where $d(z, L_{i-1})$ is the distance between the point $z$ and the set $L_{i-1}$. \\
 
 Landmarks chosen using sequential maxmin tend to cover the dataset and to be spread apart from each other. A disadvantage is that outlier points tend to be selected. Sequential maxmin landmarks are used in \cite{ac09} and \cite{cidsz08}. \\
 
@@ -610,15 +622,14 @@ The Matlab script corresponding to this section is \texttt{landmark\_example.m}.
 \begin{quote} \texttt{>> point\_cloud = examples.PointCloudExamples.getRandomFigure8Points(1000);
 } \end{quote}
 
-We create both a random landmark selector and a sequential maxmin landmark selector. These selectors will pick 100 landmarks.
+We create both a random landmark selector and a sequential maxmin landmark selector. These selectors will pick 100 landmarks each.
 \begin{quote} \texttt{>> num\_landmark\_points = 100; \\
 >> random\_selector = api.Plex4.createRandomSelector(point\_cloud, num\_landmark\_points); \\
 >> maxmin\_selector = api.Plex4.createMaxMinSelector(point\_cloud, num\_landmark\_points);
 } \end{quote}
 
 We select 100 random landmarks and 100 landmarks via sequential maxmin. Note we need to increment the indices by 1 since Java uses 0-based arrays.
-\begin{quote} \texttt{>> num\_landmark\_points = 100; \\
->> random\_points = point\_cloud(random\_selector.getLandmarkPoints() + 1, :); \\
+\begin{quote} \texttt{>> random\_points = point\_cloud(random\_selector.getLandmarkPoints() + 1, :); \\
 >> maxmin\_points = point\_cloud(maxmin\_selector.getLandmarkPoints() + 1, :);
 } \end{quote}
 
@@ -660,7 +671,7 @@ Let $Z$ be a point cloud and $L$ a landmark subset. Show that if $L$ is chosen v
 Suppose we are given a point cloud $Z$ and landmark subset $L$. Let $m_k(z)$ be the distance from a point $z \in Z$ to its $(k+1)$-th closest landmark point. The witness stream complex $W(Z,L,t)$ is defined as follows.
 \begin{itemize}
 \item{the vertex set is $L$.}
-\item{for $k>0$ and vertices $l_i$, the $k$-simplex $[l_0 l_1 ... l_k]$ is in $W(Z,L,t)$ if all of its faces are, and if there exists a witness point $z \in Z$ such that $\max\bigl\{d(l_0,z), d(l_1,z), ..., d(l_k,z)\bigr\} \leq t+m_k(z)$. }
+\item{for $k>0$ and vertices $l_i$, the $k$-simplex $[l_0 l_1 ... l_k]$ is in $W(Z,L,t)$ if all of its faces are, and if there exists a witness point $z \in Z$ such that $$\max\bigl\{d(l_0,z), d(l_1,z), ..., d(l_k,z)\bigr\} \leq t+m_k(z).$$ }
 \end{itemize}
 Note that $W(Z,L,t) \subset W(Z,L,s)$ whenever $t\leq s$. Note that a landmark point can serve as a witness point. \\
 
@@ -670,7 +681,7 @@ Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from \S \ref{euc}
 
 The Matlab script corresponding to this section is \texttt{witness\_example.m}.\\
 
-{\em Torus example.} Let's build a witness stream instance for $100,000$ random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 random landmarks.
+{\em Torus example.} Let's build a witness stream instance for 10,000 random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 random landmarks.
 \begin{quote} \texttt{>> num\_points = 10000; \\
 >> num\_landmark\_points = 50; \\
 >> max\_dimension = 3; \\
@@ -684,13 +695,13 @@ The next command returns the landmark covering measure \texttt{R} from \S \ref{l
 R = 1.1067 \hspace{40mm} \% Generally close to 1.1 \\
 >> max\_filtration\_value = R / 8; \\
 } \end{quote}
-% The documentation for getMaxDistanceFromPointsToLandmarks() currently looks incorrect.
+% TODO: The documentation for getMaxDistanceFromPointsToLandmarks() currently is incorrect.
 
 We create the witness stream.
 \begin{quote} \texttt{>> stream = api.Plex4.createWitnessStream(landmark\_selector, max\_dimension, \\ % overflow
 max\_filtration\_value, num\_divisions); \\ 
 >> num\_simplices = stream.getSize() \\
-num\_simplices = 1858\hspace{40mm} \% Generally close to 2000
+num\_simplices = 1858 \hspace{40mm} \% Generally close to 2000
 } \end{quote}
 We plot the Betti intervals.
 \begin{quote} \texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
@@ -721,7 +732,7 @@ A lazy witness stream is similar to a witness stream. However, there is an extra
 Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\in\mathbb{N}$. If $\nu = 0$, let $m(z) = 0$ for all $z\in Z$. If $\nu >0$, let $m(z)$ be the distance from $z$ to the $\nu$-th closest landmark point. The lazy witness complex $LW_\nu(Z,L,t)$ is defined as follows.
 \begin{itemize}
 \item{the vertex set is $L$.}
-\item{for vertices $a$ and $b$, edge $[ab]$ is in $LW_\nu(Z,L,t)$ if there exists a witness $z \in Z$ such that $\max\bigl\{d(a,z), d(b,z)\bigr\} \leq t+m(z)$.}
+\item{for vertices $a$ and $b$, edge $[ab]$ is in $LW_\nu(Z,L,t)$ if there exists a witness $z \in Z$ such that $$\max\bigl\{d(a,z), d(b,z)\bigr\} \leq t+m(z).$$}
 \item{a higher dimensional simplex is in $LW_\nu(Z,L,t)$ if all of its edges are.} 
 \end{itemize}
 Note that $LW_\nu(Z,L,t) \subset LW_\nu(Z,L,s)$ whenever $t\leq s$. The adjective {\em lazy} refers to the fact that the lazy witness complex is a flag complex: since the 1-skeleton determines all higher dimensional simplices, less computation is involved. \\
