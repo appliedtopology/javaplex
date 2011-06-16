@@ -250,7 +250,7 @@ Dimension: 0\newline
 This gives us the expected Betti numbers $Betti_0=1$ and $Betti_9=1$. \\
 
 \begin{exercise}\label{Ex:torus}
-Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint:} You will need at least 7 vertices \cite[page 107]{h02}. We recommend using a $3\times 3$ grid of 9 vertices. \\
+Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices \cite[page 107]{h02}. We recommend using a $3\times 3$ grid of 9 vertices.} \\
 \end{exercise}
 
 \begin{exercise}\label{Ex:klein}
@@ -270,10 +270,9 @@ Let's build a stream with nontrivial filtration times. \\
 
 \begin{wrapfigure}{r}{1in}
 	\begin{center}
-   	\includegraphics[width=1in]{house}
+   	\includegraphics[width=1in]{house.pdf}
   	\end{center}
 \end{wrapfigure}
-% figure is very pixelated
 
 We build a house, with the vertices and edges on the square appearing at time 0, with the top vertex appearing at time 1, with the roof edges appearing at times 2 and 3, and with the roof 2-simplex appearing at time 7.
 \begin{quote} \texttt{>> stream = api.Plex4.createExplicitSimplexStream(); \\
@@ -374,13 +373,12 @@ A point cloud is a finite metric space, that is, a finite set of points equipped
 \vspace{-3mm}
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=1.55in]{houseCoord}
+	\includegraphics[width=1.55in]{houseCoord.pdf}
 	\vspace{-3mm}
 	\caption{The house point cloud}
 	\label{fig:housePointCloud}
 \end{figure}
 \FloatBarrier
-% figure is pixelated
 
 You can enter these coordinates manually.
 \begin{quote} \texttt{>> point\_cloud = [-1,0; 1,0; 1,2; -1,2; 0,3]} \end{quote}
