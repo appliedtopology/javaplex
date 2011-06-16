@@ -24,7 +24,7 @@
 \begin{document}
 
 \title{\lc{java}P\lc{lex} T\lc{utorial}}
-\author{H\lc{enry} A\lc{dams and} A\lc{ndrew} T\lc{ausz} \\ \lc{henrya@math.stanford.edu and atausz@stanford.edu} \\ J\lc{une 16, 2011}}
+\author{H\lc{enry} A\lc{dams and} A\lc{ndrew} T\lc{ausz} \\ \lc{henrya@math.stanford.edu and atausz@stanford.edu} \\ J\lc{une 17, 2011}}
 
 
 \maketitle
@@ -474,7 +474,7 @@ We create a metric space from this distance matrix.
 \begin{quote} \texttt{>> m\_space = metric.impl.ExplicitMetricSpace(distances);
 } \end{quote}
 We return the distance between points 0 and 2.
-\begin{quote} \texttt{>> m\_space.distance(m\_space.getPoint(0), m\_space.getPoint(2)) \\
+\begin{quote} \texttt{>> m\_space.distance(0, 2) \\
 ans = 2.8284 \\
 } \end{quote}
 
@@ -538,11 +538,6 @@ The files \texttt{ripsHouse\_0.PNG} and \texttt{ripsHouse\_1.PNG} are saved to y
 
 The second dimensional Betti plot does not appear because there are no $Betti_2$ intervals. Check that these plots are consistent with the Vietoris--Rips definition: edges $[3,5]$ and $[4,5]$ appear at filtration time $t = \sqrt{2}$; the square appears at $t = 2$; the square closes at $t = \sqrt{8}$. \\
 
-{\em Remark.} We can build Vietoris--Rips streams not only on top of Euclidean point clouds, but also on top of explicit metric spaces. For example, if \texttt{m\_space} is an explicit metric space, then we may call a command such as
-\begin{quote} \texttt{>> stream = api.Plex4.createVietorisRipsStream(m\_space, max\_dimension, \\ % overflow
-max\_filtration\_value, num\_divisions); \\ 
-} \end{quote}
-
 %\begin{exercise}
 %Change \texttt{ripsHouse} into an explicit stream
 %\begin{quote} \texttt{>> ripsExpl = Plex.makeExplicit(ripsHouse);} \end{quote} 
@@ -570,7 +565,7 @@ ans = 400\ \ \ 4 \hspace{30mm} \% 400 points in dimension 4 \\
 >> stream = api.Plex4.createVietorisRipsStream(point\_cloud, max\_dimension, \\ % overflow
 max\_filtration\_value, num\_divisions); \\ 
 >> num\_simplices = stream.getSize() \\
-num\_simplices = 82479 \hspace{40mm} \% Generally close to 80000\\
+num\_simplices = 82479\\
 \\
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
 >> filtration\_index\_intervals = persistence.computeIntervals(stream); \\
@@ -595,6 +590,11 @@ The diameter of this torus (before adding noise) is $\sqrt{8}$, so choosing $t_{
 \vspace{3mm}
 
 This example makes it clear that the computed ``semi-infinite'' intervals do not necessarily persist until $t = \infty$: in a Vietoris--Rips stream, once $t$ is greater than the diameter of the point cloud, the Betti numbers for VR$(Z,t)$ will be $ Betti_0 = 1$, $Betti_1 = Betti_2 = ... = 0$. The computed semi-infinite intervals are merely those that persist until $t = t_{max}$. \\
+
+{\em Remark.} We can build Vietoris--Rips streams not only on top of Euclidean point clouds, but also on top of explicit metric spaces. For example, if \texttt{m\_space} were an explicit metric space, then we could call a command such as
+\begin{quote} \texttt{>> stream = api.Plex4.createVietorisRipsStream(m\_space, max\_dimension, \\ % overflow
+max\_filtration\_value, num\_divisions); \\ 
+} \end{quote}
 
 \begin{exercise}
 Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or increasing $d_{max}$ from 3 to 4 roughly doubles the size of the Vietoris--Rips stream. \\
@@ -765,7 +765,7 @@ Often $t_{max}$ is chosen in proportion to \texttt{R}.
 \begin{quote} \texttt{>> R = landmark\_selector.getMaxDistanceFromPointsToLandmarks() \\
 R = 0.6877 \hspace{40mm} \% Generally close to 0.7 \\
 >> max\_filtration\_value = R; \\
->> stream = streams.impl.LazyWitnessStream(landmark\_selector.getUnderlyingMetricSpace(), landmark\_selector, max\_dimension, max\_filtration\_value, nu, num\_divisions); \\
+>> stream = streams.impl.LazyWitnessStream(landmark\_selector.getUnderlyingMetricSpace(), landmark\_selector, max\_dimension, max\_filtration\_value, nu, num\_divisions); \\ % Is this method being added to class api?
 >> stream.finalizeStream() \\
 >> num\_simplices = stream.getSize() \\
 num\_simplices = 79842 \hspace{40mm} \% Generally between 30000 and 180000\\
@@ -885,8 +885,8 @@ Writing Matlab functions is very useful. In order to include javaPlex commands i
 The corresponding Matlab script is \texttt{euler\_characteristic\_example.m}, and it relies on the file \texttt{eulerCharacteristic.m}. \\
 
 First we create a 6-dimensional sphere. 
-\begin{quote} \texttt{>> stream = api.Plex4.createExplicitSimplexStream(); \\
->> dimension = 6; \\
+\begin{quote} \texttt{>> dimension = 6; \\
+>> stream = api.Plex4.createExplicitSimplexStream(); \\
 >> stream.addElement(0:(dimension + 1)); \\
 >> stream.ensureAllFaces(); \\
 >> stream.removeElementIfPresent(0:(dimension + 1)); \\
@@ -955,7 +955,9 @@ M-file \texttt{coreSubset.m} builds a core subset. The following command is typi
 } \end{quote}
 Inputs \texttt{points} and \texttt{densities} are as above. Output \texttt{core} is a $\texttt{numPoints}\times n$ matrix representing the \texttt{numPoints} densest points. \\
 
-{\em Prime numbers example.} The command \texttt{primes(3571)} returns a vector listing all prime numbers less than or equal to 3571, which is the 500-th prime. We think of these primes as points in $\mathbb{R}$ and build the core subset of the 10 densest points with density parameter $k = 1$.
+{\em Prime numbers example.} The Matlab script corresponding to this example is \texttt{core\_subsets\_example.m}.\\
+
+The command \texttt{primes(3571)} returns a vector listing all prime numbers less than or equal to 3571, which is the 500-th prime. We think of these primes as points in $\mathbb{R}$ and build the core subset of the 10 densest points with density parameter $k = 1$.
 \begin{quote} \texttt{>> p = primes(3571)'; \\
 >> length(p) \\
 ans = 500 \\

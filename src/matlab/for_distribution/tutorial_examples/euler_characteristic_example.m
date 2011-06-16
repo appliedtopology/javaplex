@@ -2,10 +2,10 @@
 
 clc; clear; close all;
 
+dimension = 6;
+
 % get a new ExplicitSimplexStream
 stream = api.Plex4.createExplicitSimplexStream();
-
-dimension = 6;
 
 % construct simplicial sphere
 stream.addElement(0:(dimension + 1));
