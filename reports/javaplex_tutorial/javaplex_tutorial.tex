@@ -160,7 +160,7 @@ Persistent homology depends heavily on functoriality: for $t\leq s$, the inclusi
 
 \section{Explicit simplex streams}\label{explicitStream}
 
-In javaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. The class ExplicitSimplexStream allows one to build a simplicial complex from scratch. In \S \ref{sfpc} we will learn about other automated methods of generating simplicial complexes; namely the Vietoris--Rips, witness, and lazy witness constructions. 
+In javaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. The class ExplicitSimplexStream allows one to build a simplicial complex from scratch. In Section \ref{sfpc} we will learn about other automated methods of generating simplicial complexes; namely the Vietoris--Rips, witness, and lazy witness constructions. 
 
 
 \subsection{Explicit simplex streams and homology}
@@ -345,7 +345,7 @@ Stream does not contain face [1,5] of element [1,4,5] \\
 ans = 0\\
 } \end{quote}
 
-%In \S \ref{sfpc} we will create simplex streams that are not also explicit simplex streams. To display or edit such streams, we will first need to use the method \texttt{makeExplicit}. See Exercise \ref{ripsExpl}. \\
+%In Section \ref{sfpc} we will create simplex streams that are not also explicit simplex streams. To display or edit such streams, we will first need to use the method \texttt{makeExplicit}. See Exercise \ref{ripsExpl}. \\
 % TODO
 
 % Henry: At the moment there is no ``make Explicit'' function. 
@@ -355,7 +355,7 @@ ans = 0\\
 
 \section{Point cloud data}
 
-A point cloud is a finite metric space, that is, a finite set of points equipped with a notion of distance. One can create a Euclidean metric space by specifying the coordinates of points in Euclidean space, or one can create an explicit metric space by specifying all pairwise distances between points. In \S \ref{sfpc} we will learn how to build streams from point cloud data. \\
+A point cloud is a finite metric space, that is, a finite set of points equipped with a notion of distance. One can create a Euclidean metric space by specifying the coordinates of points in Euclidean space, or one can create an explicit metric space by specifying all pairwise distances between points. In Section \ref{sfpc} we will learn how to build streams from point cloud data. \\
 
 
 \subsection{Euclidean metric spaces}\label{euc} The Matlab script corresponding to this section is \texttt{pointcloud\_example.m}. \\
@@ -485,7 +485,7 @@ ans = 2.8284 \\
 
 \section{Streams from point cloud data}\label{sfpc}
 
-In \S \ref{explicitStream} we built streams explicitly, or by hand. In this section we construct streams from a point cloud $Z$. We build Vietoris--Rips, witness, and lazy witness streams. See \cite{dsc04} for additional information. \\
+In Section \ref{explicitStream} we built streams explicitly, or by hand. In this section we construct streams from a point cloud $Z$. We build Vietoris--Rips, witness, and lazy witness streams. See \cite{dsc04} for additional information. \\
 
 The Vietoris--Rips, witness, and lazy witness streams all take three of the same inputs: the maximum dimension $d_{max}$, the maximum filtration time $t_{max}$, and the number of divisions $N$. These inputs allow the user to limit the size of the constructed stream, for computational efficiency. No simplices above dimension $d_{max}$ are included. The persistent homology of the resulting stream can be calculated only up to dimension $d_{max} - 1$ (do you see why?). Also, instead of computing complex $X(t)$ for all $t \geq 0$, we only compute $X(t)$ for
 $$t \in \Biggl\{ 0,\ \frac{t_{max}}{N-1},\ \frac{2t_{max}}{N-1},\ \frac{3t_{max}}{N-1},\ \dots,\ \frac{(N-2)t_{max}}{N-1},\ t_{max} \Biggr\}.$$
@@ -507,7 +507,7 @@ Note that $\mbox{VR}(Z,t) \subset \mbox{VR}(Z,s)$ whenever $t\leq s$, so the Vie
 
 The Matlab script corresponding to this section is \texttt{rips\_example.m}. \\
 
-{\em House example.} Let's build a Vietoris--Rips stream from the house point cloud in \S \ref{euc}. Note this stream is different than the explicit house stream we built in \S \ref{explicitStreamPers}.
+{\em House example.} Let's build a Vietoris--Rips stream from the house point cloud in Section \ref{euc}. Note this stream is different than the explicit house stream we built in Section \ref{explicitStreamPers}.
 \begin{quote} \texttt{>> max\_dimension = 3; \\
 >> max\_filtration\_value = 4; \\
 >> num\_divisions = 100; \\
@@ -546,7 +546,7 @@ max\_filtration\_value, num\_divisions); \\
 %\begin{exercise}
 %Change \texttt{ripsHouse} into an explicit stream
 %\begin{quote} \texttt{>> ripsExpl = Plex.makeExplicit(ripsHouse);} \end{quote} 
-%Check that you can display and edit stream \texttt{ripsExpl} using the methods of \S \ref{explicitStream}. \\
+%Check that you can display and edit stream \texttt{ripsExpl} using the methods of Section \ref{explicitStream}. \\
 %\end{exercise}
 
 % Is the above exercise no longer necessary, or no longer possible?
@@ -659,7 +659,7 @@ Sequential maxmin seems to do a better job of choosing landmarks that cover the 
 Given point cloud $Z$ and landmark subset $L$, we define $\texttt{R} = \max_{z\in Z}\bigl\{d(z,L)\bigr\}$. Number \texttt{R} reflects how finely the landmarks cover the dataset. We often use it as a guide for selecting the maximum filtration value $t_{max}$ for a witness or lazy witness stream. \\
 
 \begin{exercise}
-Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from \S \ref{euc}, corresponding to the house point cloud. Suppose we are using sequential maxmin to select a set $L$ of 3 landmarks, and the first (randomly selected) landmark is $(1,0)$. Find by hand the other two landmarks in $L$. \\
+Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Suppose we are using sequential maxmin to select a set $L$ of 3 landmarks, and the first (randomly selected) landmark is $(1,0)$. Find by hand the other two landmarks in $L$. \\
 \end{exercise}
 
 \begin{exercise}
@@ -676,7 +676,7 @@ Suppose we are given a point cloud $Z$ and landmark subset $L$. Let $m_k(z)$ be 
 Note that $W(Z,L,t) \subset W(Z,L,s)$ whenever $t\leq s$. Note that a landmark point can serve as a witness point. \\
 
 \begin{exercise}
-Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from \S \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? \\
+Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? \\
 \end{exercise}
 
 The Matlab script corresponding to this section is \texttt{witness\_example.m}.\\
@@ -690,7 +690,7 @@ The Matlab script corresponding to this section is \texttt{witness\_example.m}.\
 >> point\_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(num\_points, 1, 2); \\ % overflow
 >> landmark\_selector = api.Plex4.createRandomSelector(point\_cloud, num\_landmark\_points);
 } \end{quote}
-The next command returns the landmark covering measure \texttt{R} from \S \ref{lands}.  Often the value for $t_{max}$ is chosen in proportion to \texttt{R}.
+The next command returns the landmark covering measure \texttt{R} from Section \ref{lands}.  Often the value for $t_{max}$ is chosen in proportion to \texttt{R}.
 \begin{quote} \texttt{>> R = landmark\_selector.getMaxDistanceFromPointsToLandmarks() \\
 R = 1.1067 \hspace{40mm} \% Generally close to 1.1 \\
 >> max\_filtration\_value = R / 8; \\
@@ -723,7 +723,7 @@ The files \texttt{witnessTorus\_0.PNG}, \texttt{witnessTorus\_1.PNG}, and \textt
 
 The idea of persistent homology is that long intervals should correspond to real topological features, whereas short intervals are considered to be noise. The plot above shows that for a long range, the torus numbers $Betti_0 = 1$, $Betti_1 = 2$, $Betti_2 = 1$ are obtained. Your plot should contain a similar range. \\
 
-The witness stream above contains approximately 2,000 simplices, fewer than the approximately 80,000 simplices in the Vietoris--Rips stream from the torus example in \S \ref{Vietoris--Rips}. This is despite the fact that we started with a point cloud of 100,000 points in the witness case, but of only 400 points in the Vietoris--Rips case. This supports our belief that the witness stream returns good results at lower computational expense. \\
+The witness stream above contains approximately 2,000 simplices, fewer than the approximately 80,000 simplices in the Vietoris--Rips stream from the torus example in Section \ref{Vietoris--Rips}. This is despite the fact that we started with a point cloud of 100,000 points in the witness case, but of only 400 points in the Vietoris--Rips case. This supports our belief that the witness stream returns good results at lower computational expense. \\
 
 
 \subsection{Lazy witness streams}
@@ -738,7 +738,7 @@ Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\
 Note that $LW_\nu(Z,L,t) \subset LW_\nu(Z,L,s)$ whenever $t\leq s$. The adjective {\em lazy} refers to the fact that the lazy witness complex is a flag complex: since the 1-skeleton determines all higher dimensional simplices, less computation is involved. \\
 
 \begin{exercise}
-Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from \S \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? \\
+Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? \\
 \end{exercise}
 
 \begin{exercise}
@@ -795,7 +795,7 @@ In the next section we build a lazy witness stream on a dataset of range image p
 
 We now do an example with real data. The corresponding Matlab script is \texttt{image\_patch\_example.m}, and it relies on the files \texttt{pointsRange.mat} and \texttt{dct.m}. \\
 
-In {\em On the nonlinear statistics of range image patches} \cite{ac09}, we study a space of range image patches drawn from the Brown database \cite{lpm03}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a length 25 vector and think of our patches as point cloud data in $\mathbb{R}^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix \ref{A:core}). In \cite{ac09} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from \cite{ac09}: $X^5(300,30)$ has the topology of a circle. \\
+In {\em On the nonlinear statistics of range image patches} \cite{ac09}, we study a space of range image patches drawn from the Brown database \cite{lpm03}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a vector with 25 coordinates and think of our patches as point cloud data in $\mathbb{R}^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix \ref{A:core}). In \cite{ac09} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from \cite{ac09}: $X^5(300,30)$ has the topology of a circle. \\
 
 Load the file \texttt{pointsRange.mat}. The matrix \texttt{pointsRange} appears in your Matlab workspace.
 \begin{quote} \texttt{>> load pointsRange.mat \\
@@ -917,7 +917,7 @@ However, there is no guarantee that the produced representative will be geometri
 
 
 %\subsection{From Java variables to Matlab variables}
-%Some javaPlex commands return Java variables, when instead one might want output in the form of a Matlab variable, such as a matrix of numbers. One way to transform Java variables into Matlab variables is by using an m-file. For instance, in \S ?? %\ref{explicitStream} 
+%Some javaPlex commands return Java variables, when instead one might want output in the form of a Matlab variable, such as a matrix of numbers. One way to transform Java variables into Matlab variables is by using an m-file. For instance, in Section ?? %\ref{explicitStream} 
 % no
 %we used the m-file \texttt{interval2mat.m} to take an array of type PersistenceInterval into a Matlab matrix. Similarly, the m-file \texttt{betti2mat.m} accepts input of type \texttt{Plex.BettiNumbers} and returns a Matlab vector of integers. These commands are typically used as shown below, where \texttt{intervals} is an array of type PersistenceInterval.
 
@@ -937,11 +937,11 @@ However, there is no guarantee that the produced representative will be geometri
 
 \section{Dense core subsets}\label{A:core}
 
-A core subset of a dataset is a collection of the densest points, such as $X^5(300,30)$ in \S \ref{real}. Since there are many density estimators, and since we can choose any number of the densest points, a dataset has a variety of core subsets. In this appendix we discuss how to create core subsets. \\
+A core subset of a dataset is a collection of the densest points, such as $X^5(300,30)$ in Section \ref{real}. Since there are many density estimators, and since we can choose any number of the densest points, a dataset has a variety of core subsets. In this appendix we discuss how to create core subsets. \\
 
 Real datasets can be very noisy, and outlier points can signiﬁcantly alter the computed topology. Therefore, instead of trying to approximate the topology of an entire dataset, we often proceed as follows. We create a family of core subsets and identify their topologies. Looking at a variety of core subsets can give a good picture of the entire dataset. \\
 
-See \cite{cidsz08, dsc04} for an example using multiple core subsets. The dataset is high-contrast patches from natural images. The authors use three density estimators. As they change from the most global to the most local density estimate, the topologies of the core subsets change from a circle, to three intersecting circles, to a Klein bottle. \\
+See \cite{cidsz08, dsc04} for an example using multiple core subsets. The dataset contains high-contrast patches from natural images. The authors use three density estimators. As they change from the most global to the most local density estimate, the topologies of the core subsets change from a circle, to three intersecting circles, to a Klein bottle. \\
 
 One way to estimate the density of a point $z$ in a point cloud $Z$ is as follows. Let $\rho_k(z)$ be the distance from $z$ to its $k$-th closest neighbor. Let the density estimate at $z$ be $\frac{1}{\rho_k(z)}$. Varying parameter $k$ gives a family of density estimates. Using a small value for $k$ gives a local density estimate, and using a larger value for $k$ gives a more global estimate. \\
 
@@ -1010,12 +1010,12 @@ core50 =
 \hspace{15mm} \texttt{151} \\
 With $k = 50$, we expect the densest points to be slightly larger than the 25-th prime, which is 97. \\
 
-{\em Note:} As its name suggests, the m-file \texttt{kDensitySlow.m} is not the most efficient way to calculate $\rho_k$ for large datasets. There is a faster file \texttt{kDensity.m} for this purpose, which uses the kd-tree data structure. I have not included it in the tutorial because it requires one to download a kd-tree package for Matlab, available at \url{http://www.mathworks.com/matlabcentral/fileexchange/21512-kd-tree-for-matlab}. Please email \texttt{henrya@math.stanford.edu} if you're interested in using \texttt{kDensity.m}.
+{\em Note:} As its name suggests, the m-file \texttt{kDensitySlow.m} is not the most efficient way to calculate $\rho_k$ for large datasets. There is a faster file \texttt{kDensity.m} for this purpose, which uses the kd-tree data structure. It is not included in the tutorial because it requires one to download a kd-tree package for Matlab, available at \url{http://www.mathworks.com/matlabcentral/fileexchange/21512-kd-tree-for-matlab}. Please email \texttt{henrya@math.stanford.edu} if you're interested in using \texttt{kDensity.m}.
 
 % What are the differences in timings between fast and slow versions?
 % It seems that k=300 is surprisingly slow with kDensity.m: 1108 seconds. Slower than kDensitySlow.m. Double check?
 
-%I typically use the m-file \texttt{kDensitySlow.m} on datasets of around 50,000 points (for instance, $X^5(300,30)$ in \S \ref{real} is the 30\% densest points from a set of size 50,000, using the density estimate $\rho_{300}$). This computation takes about 10 minutes on my MacBook, which is much longer than any of the computations I do using the JPlex software. \\ % Elapsed time is 432.024880 seconds, 7-17-09. This was effectively kDensitySlow.m, I think
+%I typically use the m-file \texttt{kDensitySlow.m} on datasets of around 50,000 points (for instance, $X^5(300,30)$ in Section \ref{real} is the 30\% densest points from a set of size 50,000, using the density estimate $\rho_{300}$). This computation takes about 10 minutes on my MacBook, which is much longer than any of the computations I do using the JPlex software. \\ % Elapsed time is 432.024880 seconds, 7-17-09. This was effectively kDensitySlow.m, I think
 
 
 
