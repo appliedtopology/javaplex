@@ -1,5 +1,10 @@
 % Exercise 3.1.2
 
+% We use 9 vertices, which we think of as a 3x3 grid numbered as a 
+% telephone keypad. We identify opposite sides, with left and right sides 
+% identified with a twist. For a picture, see 
+% "javaplex_tutorial_solutions.pdf".
+
 clc; clear; close all;
 
 % get a new ExplicitSimplexStream
