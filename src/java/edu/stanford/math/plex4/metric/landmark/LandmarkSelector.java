@@ -115,7 +115,7 @@ public abstract class LandmarkSelector<T> implements AbstractObjectMetricSpace<T
 	/**
 	 * This function returns the maximum distance between points in the landmark selection
 	 * and points not in the selection. In other words, it returns
-	 * R = max_{a in L, b in X \\ L} d(a, b)
+	 * R = max_{x in X} d(x, L), where d(x, L) = min_{l in L} d(x, l).
 	 * 
 	 * @return the maximum distance between points in the landmark selection and points not in it
 	 */

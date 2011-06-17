@@ -68,7 +68,7 @@
 			<package name="edu.stanford.math.plex4" />
 			<fileset dir="${src.dir}" />
 		</javadoc>
-		<copy file="doc_includes/update_mime_types.sh" tofile="$(doc.dir}/update_mime_types.sh" />
+		<copy file="doc_includes/update_mime_types.sh" tofile="${doc.dir}/update_mime_types.sh" />
 	</target>
 
 	<!--Bin targets-->
