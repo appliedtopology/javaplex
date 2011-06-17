@@ -19,9 +19,9 @@
 \theoremstyle{remark}
 \newtheorem{exercise}{Exercise}[subsection]
 \theoremstyle{remark}
-\newtheorem*{exerciseSol}{Exercise}[subsection]
+\newtheorem*{exerciseSol}{Exercise}
 \theoremstyle{remark}
-\newtheorem*{solution}{Solution}[subsection]
+\newtheorem*{solution}{Solution}
 \newcommand{\lc}{\lowercase}
 \errorcontextlines=0
 \newcommand{\comment}[1]{}
@@ -489,6 +489,28 @@ ans = 2.8284 \\
 
 % Be careful: the constructor \texttt{DistanceData()} will accept matrices that fail to be symmetric, square, or nonnegative, creating ``metrics'' that do not satisfy the mathematical definiton. The triangle inequality is similarly easy to ignore. However, asking for the distance between a point and itself will always return zero, even if you input a distance matrix with non-zero diagonal entries. \\
 
+\begin{exercise}\label{Ex:flatTorus}
+One way to produce a torus is to take a square $[0, 1] \times [0, 1]$ and then identify opposite sides. This is called a flat torus. More explicitly, the quotient space
+$$([0, 1] \times [0, 1]) / \sim,$$
+where $(0, y) \sim (1, y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat torus. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat torus. For example, in the induced metric on the flat torus, the distance between $(0, \frac{1}{2})$ and $(1, \frac{1}{2})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{1}{2})$ and $(\frac{9}{10}, \frac{1}{2})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{1}{2}) \sim (1, \frac{1}{2})$. \\
+% TODO add figure
+
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix. \\
+
+This exercise is continued by Exercise \ref{Ex:flatTorusLazy}. \\
+\end{exercise}
+
+\begin{exercise}\label{Ex:flatKlein}
+One way to produce a Klein bottle is to take a square $[0, 1] \times [0, 1]$ and then identify opposite edges, with the left and right sides identified with a twist. This is called a flat Klein bottle. More explicitly, the quotient space 
+$$([0, 1] \times [0, 1]) / \sim,$$
+where $(0, y) \sim (1, 1 - y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat Klein bottle. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat Klein bottle. For example, in the induced metric on the flat Klein bottle, the distance between $(0, \frac{4}{10})$ and $(1, \frac{6}{10})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{4}{10})$ and $(\frac{9}{10}, \frac{6}{10})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{4}{10}) \sim (1, \frac{6}{10})$. \\
+% TODO add figure
+
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix. \\
+
+This exercise is continued by Exercise \ref{Ex:flatKleinLazy}. \\
+\end{exercise}
+
 
 
 
@@ -704,7 +726,6 @@ The next command returns the landmark covering measure \texttt{R} from Section \
 R = 1.1067 \hspace{40mm} \% Generally close to 1.1 \\
 >> max\_filtration\_value = R / 8; \\
 } \end{quote}
-% TODO: The documentation for getMaxDistanceFromPointsToLandmarks() currently is incorrect.
 
 We create the witness stream.
 \begin{quote} \texttt{>> stream = api.Plex4.createWitnessStream(landmark\_selector, max\_dimension, \\ % overflow
@@ -795,7 +816,31 @@ The files \texttt{lazySphere\_0.PNG}, \texttt{lazySphere\_1.PNG}, and \texttt{la
 \end{figure}
 \FloatBarrier
 
-In the next section we build a lazy witness stream on a dataset of range image patches. \\
+\begin{exercise}\label{Ex:flatTorusLazy}
+The first part of this exercise is the same as Exercise \ref{Ex:flatTorus}. \\
+
+One way to produce a torus is to take a square $[0, 1] \times [0, 1]$ and then identify opposite sides. This is called a flat torus. More explicitly, the quotient space
+$$([0, 1] \times [0, 1]) / \sim,$$
+where $(0, y) \sim (1, y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat torus. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat torus. For example, in the induced metric on the flat torus, the distance between $(0, \frac{1}{2})$ and $(1, \frac{1}{2})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{1}{2})$ and $(\frac{9}{10}, \frac{1}{2})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{1}{2}) \sim (1, \frac{1}{2})$. \\
+% TODO add figure
+
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix. \\
+
+Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a torus. \\
+\end{exercise}
+
+\begin{exercise}\label{Ex:flatKleinLazy}
+The first part of this exercise is the same as Exercise \ref{Ex:flatTorus}. \\
+
+One way to produce a Klein bottle is to take a square $[0, 1] \times [0, 1]$ and then identify opposite edges, with the left and right sides identified with a twist. This is called a flat Klein bottle. More explicitly, the quotient space 
+$$([0, 1] \times [0, 1]) / \sim,$$
+where $(0, y) \sim (1, 1 - y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat Klein bottle. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat Klein bottle. For example, in the induced metric on the flat Klein bottle, the distance between $(0, \frac{4}{10})$ and $(1, \frac{6}{10})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{4}{10})$ and $(\frac{9}{10}, \frac{6}{10})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{4}{10}) \sim (1, \frac{6}{10})$. \\
+% TODO add figure
+
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix. \\
+
+Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. \\
+\end{exercise}
 
 
 
@@ -887,7 +932,7 @@ The projection of $X^5(300,30)$ in Figure (a) shows a circle. It is called the r
 \section{Remarks} 
 
 
-\subsection{Matlab functions with javaPlex commands}
+\subsection{Matlab functions with javaPlex commands}\label{matlabFunctions}
 Writing Matlab functions is very useful. In order to include javaPlex commands in an m-file function, include the command \texttt{import edu.stanford.math.plex4.*;} as the second line of the function ---  that is, as the first line underneath the function header. We include the m-file \texttt{eulerCharacteristic.m} as an example Matlab function.\\
 
 {\em Euler characteristic example.}
@@ -1078,6 +1123,22 @@ See the Matlab script \texttt{exercise\_3\_1\_3.m} for a solution. We use the mi
 \end{figure}
 \FloatBarrier
 
+\begin{exerciseSol}[\ref{Ex:flatTorus}]
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix.
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \texttt{exercise\_4\_2\_1.m} and the Matlab function \texttt{flatTorusDistanceMatrix.m} for a solution.
+\end{solution}
+
+\begin{exerciseSol}[\ref{Ex:flatKlein}]
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix.
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \texttt{exercise\_4\_2\_2.m} and the Matlab function \texttt{flatKleinDistanceMatrix.m} for a solution.
+\end{solution}
+
 \begin{exerciseSol}[\ref{Ex:ripsSize}]
 Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or increasing $d_{max}$ from 3 to 4 roughly doubles the size of the Vietoris--Rips stream.
 \end{exerciseSol}
@@ -1154,6 +1215,26 @@ Check that the 1-skeleton of a witness complex $W(Z,L,t)$ is the same as the 1-s
 
 \begin{solution}
 This follows from the definition of the witness stream and the definition of the lazy witness stream for $\nu = 2$. \\
+\end{solution}
+
+\begin{exerciseSol}[\ref{Ex:flatTorusLazy}]
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix. \\
+
+Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a torus.
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \texttt{exercise\_5\_4\_4.m} and the Matlab function \texttt{flatTorusDistanceMatrix.m} for a solution.
+\end{solution}
+
+\begin{exerciseSol}[\ref{Ex:flatKleinLazy}]
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix. \\
+
+Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients.
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \texttt{exercise\_5\_4\_5.m} and the Matlab function \texttt{flatKleinDistanceMatrix.m} for a solution.
 \end{solution}
 
 
