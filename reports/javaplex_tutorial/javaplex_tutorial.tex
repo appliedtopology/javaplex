@@ -36,9 +36,7 @@
 
 \maketitle
 
-% TODO: figure out where to put Snowbird datasets
-
-% TODO: latest build (update downloads files)
+% TODO: check latest build (update downloads files)
 
 % standardize citations in tutorial wiki
 
@@ -179,8 +177,10 @@ In javaPlex, filtered simplicial complexes (or more generally filtered chain com
 
 \subsection{Explicit simplex streams and homology}
 
-The Matlab script corresponding to this section is \\ %overflow
-\texttt{explicit\_simplex\_example.m}, which is in the folder \texttt{tutorial\_examples}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
+You should change your current Matlab directory to \texttt{tutorial\_examples}, perhaps using the following command.
+\begin{quote} \texttt{>> cd tutorial\_examples
+} \end{quote}
+The Matlab script corresponding to this section is \texttt{explicit\_simplex\_example.m}, which is in the folder \texttt{tutorial\_examples}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
 \begin{quote} \texttt{>> explicit\_simplex\_example\\
 } \end{quote}
 
@@ -1083,12 +1083,14 @@ With $k = 50$, we expect the densest points to be slightly larger than the 25-th
 
 \section{Exercise solutions}\label{A:solutions} %TODO: reference this label
 
+Several exercise solutions are accompanied by Matlab scripts, which are available in the folder \texttt{tutorial\_solutions}.
+
 \begin{exerciseSol}[\ref{Ex:torus}]
 Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint:} You will need at least 7 vertices \cite[page 107]{h02}. We recommend using a $3\times 3$ grid of 9 vertices.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_3\_1\_1.m} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides.
+See the Matlab script \texttt{exercise\_3\_1\_1.m} in folder \texttt{tutorial\_solutions} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides.
 \end{solution}
 
 \begin{figure}[htp]
