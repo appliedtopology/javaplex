@@ -36,8 +36,6 @@
 
 \maketitle
 
-% TODO: check latest build (update downloads files)
-
 % standardize citations in tutorial wiki
 
 % TODO: fix LaTeX style, as per meeting with Mikael
@@ -741,7 +739,7 @@ num\_simplices = 1858 \hspace{40mm} \% Generally close to 2000
 We plot the Betti intervals.
 \begin{quote} \texttt{>> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max\_dimension); \\
 >> filtration\_index\_intervals = persistence.computeIntervals(stream); \\
->> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals); \\
+>> filtration\_value\_intervals = stream.transform(filtration\_index\_intervals); \\ % TODO: missing semicolon in matlab script
 >> api.Plex4.createBarcodePlot(filtration\_value\_intervals, 'witnessTorus', \\ % overflow
 max\_filtration\_value)
 } \end{quote}
