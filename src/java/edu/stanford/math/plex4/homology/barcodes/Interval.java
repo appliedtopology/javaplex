@@ -267,11 +267,11 @@ public class Interval<T extends Comparable<T>> {
 		}
 		
 		if (!this.isRightInfinite) {
-			if (this.isRightClosed && (point.compareTo(this.start) > 0)) {
+			if (this.isRightClosed && (point.compareTo(this.end) > 0)) {
 				return false;
 			}
 			
-			if (!this.isRightClosed && (point.compareTo(this.start) >= 0)) {
+			if (!this.isRightClosed && (point.compareTo(this.end) >= 0)) {
 				return false;
 			}
 		}
