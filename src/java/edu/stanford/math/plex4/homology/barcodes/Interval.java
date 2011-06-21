@@ -113,7 +113,7 @@ public class Interval<T extends Comparable<T>> {
 	 * @return a left-infinite closed interval
 	 */
 	public static <T extends Comparable<T>> Interval<T> makeLeftInfiniteClosedInterval(T end) {
-		return new Interval<T>(null, end, true, true, false, false);
+		return new Interval<T>(null, end, true, true, true, false);
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class Interval<T extends Comparable<T>> {
 	 * @return a left-infinite right-open interval
 	 */
 	public static <T extends Comparable<T>> Interval<T> makeLeftInfiniteRightOpenInterval(T end) {
-		return new Interval<T>(null, end, true, false, false, false);
+		return new Interval<T>(null, end, true, false, true, false);
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class Interval<T extends Comparable<T>> {
 	 * @return a left-infinite left-open interval
 	 */
 	public static <T extends Comparable<T>> Interval<T> makeLeftInfiniteLeftOpenInterval(T end) {
-		return new Interval<T>(null, end, false, true, false, false);
+		return new Interval<T>(null, end, false, true, true, false);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class Interval<T extends Comparable<T>> {
 	 * @return a left-infinite open interval
 	 */
 	public static <T extends Comparable<T>> Interval<T> makeLeftInfiniteOpenInterval(T end) {
-		return new Interval<T>(null, end, false, false, false, false);
+		return new Interval<T>(null, end, false, false, true, false);
 	}
 		
 	/**
