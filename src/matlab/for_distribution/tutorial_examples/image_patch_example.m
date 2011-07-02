@@ -37,5 +37,5 @@ api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazyRange', max_filtrat
 
 pointsRangeDct = pointsRange * dct(5);
 
-plot(pointsRangeDct(:,1), pointsRangeDct(:,5), '.')
+scatter(pointsRangeDct(:,1), pointsRangeDct(:,5), '.')
 axis square

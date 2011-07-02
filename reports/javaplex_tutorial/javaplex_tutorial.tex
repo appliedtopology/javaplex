@@ -40,6 +40,18 @@
 
 % TODO: fix LaTeX style, as per meeting with Mikael
 
+% TODO: add representative cycles example which Andrew has made to tutorial
+
+% TODO: add endpoint extraction example (as Matlab matrix) which Andrew has made to tutorial.
+
+% TODO: put note in JPlex tutorial pointing to this new tutorial.
+
+% Ulrich Bauer at Snowbird wrote instructions for how to use javaPlex in mathematica. Figure this out, and add it to the tutorial? See Ulrich's MRC wiki page for instructions?
+
+% TODO: explain API class and how most commands for users are in this class (API does not contain under-the-hood implementation, but instead shows what the user can do w/ the library.) Check if Lazy Witness is in API; if not, perhaps it should be added.
+
+% TODO: add example which is FLAT double torus. That is, select points at random from an octagon. Then, create explicit metric by identifying sides.
+
 % how do you display the simplices in a stream?
 
 % Change VR$(Z,t)$ to $\VR(Z,t)$ (and same for witness complexes) by defining new math operators.
@@ -90,7 +102,7 @@ Each time upon starting a new Matlab session, you will need to run \texttt{load\
 
 \subsection{Accompanying files}
 
-The following Matlab scripts containing the commands in this tutorial are available in the folder \texttt{matlab\_examples/tutorial\_examples}. This means that you don't need to type in each command individually.
+The following Matlab scripts containing the commands in this tutorial are available in the folder \texttt{matlab\_examples/tutorial\_examples}. This means that you don't need to type in each command individually. % Add note? DONT coy and paste commands from pdf
 \begin{itemize}
 \item \texttt{core\_subsets\_example.m}
 \item \texttt{euler\_characteristic\_example.m}
@@ -430,7 +442,7 @@ ans = 2.8284\\
 } \end{quote}
 We plot the points.
 \begin{quote} \texttt{>> figure\\
->> plot(point\_cloud(:,1), point\_cloud(:,2), '.')\\
+>> scatter(point\_cloud(:,1), point\_cloud(:,2), '.')\\
 >> axis equal\\
 } \end{quote}
 
@@ -439,7 +451,7 @@ We plot the points.
 } \end{quote}
 We plot the points.
 \begin{quote} \texttt{>> figure\\
->> plot3(point\_cloud(:,1), point\_cloud(:,2), point\_cloud(:,3), '.')\\
+>> scatter3(point\_cloud(:,1), point\_cloud(:,2), point\_cloud(:,3), '.')\\
 >> axis equal\\
 } \end{quote}
 
@@ -448,7 +460,7 @@ We plot the points.
 } \end{quote}
 Plotting the third and fourth coordinates of each point shows a circle $S^1$.
 \begin{quote} \texttt{>> figure\\
->> plot(point\_cloud(:,3), point\_cloud(:,4), '.')\\
+>> scatter(point\_cloud(:,3), point\_cloud(:,4), '.')\\
 >> axis equal\\
 } \end{quote}
 
@@ -832,6 +844,8 @@ Write a Matlab script (or function---see Section \ref{matlabFunctions}) that fir
 Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a torus. \\
 \end{exercise}
 
+% TODO: Gard Spreeman at MRC gave me a good idea for the Matlab function FlatTorusDistanceMatrix.m: just move one point to the center of the square, and then find the distance in the square to the other point.
+
 \begin{exercise}\label{Ex:flatKleinLazy}
 The first part of this exercise is the same as Exercise \ref{Ex:flatTorus}. \\
 
@@ -844,6 +858,8 @@ Write a Matlab script (or function---see Section \ref{matlabFunctions}) that fir
 
 Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. \\
 \end{exercise}
+
+% Add an exercise in which you sample points from HALF of a sphere in R^3. Then, build the metric space for RP^2 (proj plane) by taking the distance from x and y to be the min distance of x to y and -y. This was done by David Eisenbud and Agnes Beadry at MRC.
 
 
 
@@ -914,7 +930,7 @@ Two of the DCT basis vectors are horizontal and linear gradients.
 \FloatBarrier
 
 We plot the projection of \texttt{pointsRangeDct} onto the linear gradient DCT basis vectors.
-\begin{quote} \texttt{>> plot(pointsRangeDct(:,1), pointsRangeDct(:,5), '.') \\
+\begin{quote} \texttt{>> scatter(pointsRangeDct(:,1), pointsRangeDct(:,5), '.') \\
 axis square
 } \end{quote}
 

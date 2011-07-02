@@ -21,7 +21,7 @@ m_space.distance(m_space.getPoint(0), m_space.getPoint(2))
 point_cloud = examples.PointCloudExamples.getRandomFigure8Points(1000);
 
 figure
-plot(point_cloud(:,1), point_cloud(:,2), '.')
+scatter(point_cloud(:,1), point_cloud(:,2), '.')
 axis equal
 
 %% Torus Example
@@ -30,7 +30,7 @@ axis equal
 point_cloud = examples.PointCloudExamples.getRandomTorusPoints(2000, 1, 2);
 
 figure
-plot3(point_cloud(:,1), point_cloud(:,2), point_cloud(:,3), '.')
+scatter3(point_cloud(:,1), point_cloud(:,2), point_cloud(:,3), '.')
 axis equal
 
 %% Sphere Product Example
@@ -42,5 +42,5 @@ axis equal
 point_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(1000, 1, 2);
 
 figure
-plot(point_cloud(:,3), point_cloud(:,4), '.')
+scatter(point_cloud(:,3), point_cloud(:,4), '.')
 axis equal
