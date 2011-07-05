@@ -241,7 +241,7 @@ num_simplices = 6
 
 In order to compute the homology of our complex, we first create an object that will perform the computation. The following line obtains the default algorithm for performing simplicial homology. There are other variants on the persistence algorithm, and one can also change the ground field. This default object will perform the homology computation with $\mathbb{Z}_2$ coefficients. The input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3.
 
-\begin{quote}\begin{verbatim}
+\begin{quote} \begin{verbatim}
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 \end{verbatim} \end{quote}
 
@@ -497,7 +497,8 @@ ans = 2.8284
 
 {\em Figure 8 example.} We select 1,000 points randomly from a figure eight, that is, the union of unit circles centered at $(0,1)$ and $(0,-1)$.
 
-\begin{quote} \begin{verbatim}>> point_cloud = examples.PointCloudExamples.getRandomFigure8Points(1000);
+\begin{quote} \begin{verbatim}
+>> point_cloud = examples.PointCloudExamples.getRandomFigure8Points(1000);
 \end{verbatim} \end{quote}
 
 We plot the points.
