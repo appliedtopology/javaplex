@@ -6,7 +6,7 @@ clc; clear; close all;
 dimension = 2;
 num_points = 1000;
 num_landmark_points = 100;
-max_filtration_value = 0.4;
+max_filtration_value = 0.01;
 
 % create the set of points
 point_cloud = examples.PointCloudExamples.getRandomSpherePoints(num_points, dimension);
@@ -27,5 +27,7 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);
 % compute the intervals and transform them to filtration values
 filtration_value_intervals = persistence.computeIntervals(stream);
 
+%% Output
+
 % create the barcode plots
-plot_barcodes(filtration_value_intervals, 0, dimension, 'sphere');
+plot_barcodes(filtration_value_intervals, 0, dimension, 'sphere-barcodes');

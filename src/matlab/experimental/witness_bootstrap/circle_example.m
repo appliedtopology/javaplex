@@ -1,10 +1,10 @@
 clc; clear; close all;
 
-num_samples = 1000;
-sample_size = 8;
+num_samples = 41;
+sample_size = 20;
 
 max_dimension = 1;
-num_points = 1000;
+num_points = 10000;
 max_filtration_value = 0.1;
 
 n = num_points;
@@ -16,12 +16,12 @@ metricSpace = metric.impl.EuclideanMetricSpace(points);
 
 utility.RandomUtility.initializeWithSeed(0);
 bootstrapper = homology.zigzag.bootstrap.WitnessBootstrapper(metric.impl.EuclideanMetricSpace(points), maxDistance, max_dimension, num_samples, sample_size);
-barcodes = bootstrapper.performProjectionBootstrap()
+barcodes = bootstrapper.performProjectionBootstrap([1, 1])
 
 %%
 
 transformer = homology.filtration.IdentityConverter.getInstance();
 filtration_value_intervals = transformer.transform(barcodes);
 
-plot_barcodes(filtration_value_intervals, 0, 1, 'Landmark samples from random points on circle', false, 2);
+plot_barcodes(filtration_value_intervals, 1, 1, 'circle', 'Landmark samples from random points on a circle', 'eps', false, 2);
 

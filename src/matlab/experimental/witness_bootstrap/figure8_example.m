@@ -24,7 +24,7 @@ barcodes = bootstrapper.performProjectionBootstrap([1, 2])
 transformer = homology.filtration.IdentityConverter.getInstance();
 filtration_value_intervals = transformer.transform(barcodes);
 
-plot_barcodes(filtration_value_intervals, 0, 1, 'Landmark samples from random points on a figure-8');
+plot_barcodes(filtration_value_intervals, 1, 1, 'figure-8-barcodes', 'Landmark samples from random points on a figure-8', 'eps', false, 2);
 
 
 %%
@@ -49,7 +49,7 @@ barcodes = new_bootstrapper.performProjectionBootstrap()
 transformer = homology.filtration.IdentityConverter.getInstance();
 filtration_value_intervals = transformer.transform(barcodes);
 
-plot_barcodes(filtration_value_intervals, 0, 1, 'Reselected landmark samples from random points on a figure-8');
+plot_barcodes(filtration_value_intervals, 1, 1, 'reselected-figure-8-barcodes', 'Reselected landmark samples from random points on a figure-8', 'eps', false, 2);
 
 %%
 
@@ -91,3 +91,5 @@ end
 
 set(gca,'XTickLabel',{''})
 set(gca,'YTickLabel',{''})
+
+saveas(g_handle, 'reselected-connectivity-figure-8', 'eps');

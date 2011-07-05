@@ -1,10 +1,13 @@
-function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_by_side, line_width)
+function [handle] = plot_barcodes(intervals, min_dimension, max_dimension, filename, caption, file_format, side_by_side, line_width)
 % INPUT:
 %   intervals - the barcode collection to draw
 %   min_dimension - the minimum dimension to draw intervals for (inclusive)
 %   max_dimension - the maximum dimension to draw intervals for (inclusive)
-%   filename - the png filename to save to (optional)
+%   filename - the filename to save to without the extension (optional)
+%   caption - the caption for the image (optional - equal to filename by default)
+%   file_format - the file type - png, eps, jpg, etc.
 %   side_by_side - whether to stack the plots side-by-side or not (optional)
+%   line_width - the thickness of the barcodes
 % OUTPUT:
 %   This function produces a plot of the barcodes for dimensions 0, ...,
 %   max_dimension, and displays it on screen. If a filename is specified,
@@ -14,12 +17,18 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
 
     import edu.stanford.math.plex4.*;
 
-    if (~exist('side_by_side'))
+    if (~exist('side_by_side', 'var'))
         side_by_side = 0;
     end
     
-    if (~exist('line_width'))
+    if (~exist('line_width', 'var'))
         line_width = 0.5;
+    end
+    
+    if (~exist('caption', 'var'))
+        if (exist('filename', 'var'))
+            caption = filename;
+        end
     end
     
     threshold = 1e20;
@@ -68,7 +77,7 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
         
     end
     
-    h = figure;
+    handle = figure;
     hold on;
 
     if (right_infinite_interval_found)
@@ -90,9 +99,9 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
         num_intervals = size(endpoints, 1);
         
         if (side_by_side)
-            subhandle = subplot(1, max_dimension + 1, dimension + 1);
+            subhandle = subplot(1, max_dimension + 1 - min_dimension, dimension + 1 - min_dimension);
         else
-            subhandle = subplot(max_dimension + 1, 1, dimension + 1);
+            subhandle = subplot(max_dimension + 1 - min_dimension, 1, dimension + 1 - min_dimension);
         end
         
         for i = 1:num_intervals
@@ -129,8 +138,8 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
         set(subhandle,'YTick',[]);
         set(subhandle,'XGrid','on','YGrid','on');
         
-        if (exist('filename'))
-            title(sprintf('%s (dimension %d)', filename, dimension));
+        if (exist('caption', 'var'))
+            title(sprintf('%s (dimension %d)', caption, dimension));
         else
             ylabel(sprintf('Dim %d', dimension));
         end
@@ -138,7 +147,10 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
     
     hold off;
     
-    if (exist('filename'))
-        saveas(h, filename, 'png');
+    if (exist('filename', 'var'))
+        if (~exist('file_format', 'var'))
+            file_format = 'png';
+        end
+        saveas(handle, filename, file_format);
     end
 end

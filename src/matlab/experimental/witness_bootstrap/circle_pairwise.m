@@ -50,6 +50,7 @@ n = num_samples;
 
 points = [cos(2 * pi * (1:n) / n)' sin(2 * pi * (1:n) / n)'];
 
+g_handle = figure;
 gplot(graph, points, 'g-o');
 axis equal;
 title('Connectivity graph for points in figure-8');
@@ -60,3 +61,5 @@ end
 
 set(gca,'XTickLabel',{''})
 set(gca,'YTickLabel',{''})
+
+saveas(g_handle, 'connectivity-figure-8', 'pdf');
