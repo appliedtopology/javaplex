@@ -23,4 +23,4 @@ filtration_index_intervals = persistence.computeIntervals(stream)
 filtration_value_intervals = stream.transform(filtration_index_intervals)
 
 % create the barcode plots
-api.Plex4.createBarcodePlot(filtration_value_intervals, 'house_example', 4)
+plot_barcodes(filtration_value_intervals, 0, max_dimension, 'house_example')

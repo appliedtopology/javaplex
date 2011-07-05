@@ -41,7 +41,8 @@ betti_numbers_array = infinite_barcodes.getBettiSequence()
 betti_numbers_string = infinite_barcodes.getBettiNumbers()
 
 % create the barcode plots
-api.Plex4.createBarcodePlot(filtration_value_intervals, 'house', 8)
+%api.Plex4.createBarcodePlot(filtration_value_intervals, 'house', 8)
+plot_barcodes(filtration_value_intervals, 0, 1, 'house');
 
 % validate
 stream.validateVerbose()

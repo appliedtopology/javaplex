@@ -26,7 +26,8 @@ filtration_index_intervals = persistence.computeIntervals(stream);
 filtration_value_intervals = stream.transform(filtration_index_intervals);
 
 % create the barcode plots
-api.Plex4.createBarcodePlot(filtration_value_intervals, 'ripsHouse', max_filtration_value)
+%api.Plex4.createBarcodePlot(filtration_value_intervals, 'ripsHouse', max_filtration_value)
+plot_barcodes(filtration_value_intervals, 0, max_dimension - 1, 'ripsHouse');
 
 %% Torus Example
 
@@ -54,7 +55,8 @@ filtration_index_intervals = persistence.computeIntervals(stream);
 filtration_value_intervals = stream.transform(filtration_index_intervals);
 
 % create the barcode plots
-api.Plex4.createBarcodePlot(filtration_value_intervals, 'ripsTorus', max_filtration_value)
+%api.Plex4.createBarcodePlot(filtration_value_intervals, 'ripsTorus', max_filtration_value)
+plot_barcodes(filtration_value_intervals, 0, max_dimension - 1, 'ripsTorus', true);
 
 % get the infinite barcodes
 infinite_barcodes = filtration_value_intervals.getInfiniteIntervals();

@@ -30,4 +30,5 @@ filtration_index_intervals = persistence.computeIntervals(stream);
 filtration_value_intervals = stream.transform(filtration_index_intervals)
 
 % create the barcode plots
-api.Plex4.createBarcodePlot(filtration_value_intervals, 'witnessTorus', max_filtration_value)
+%api.Plex4.createBarcodePlot(filtration_value_intervals, 'witnessTorus', max_filtration_value)
+plot_barcodes(filtration_value_intervals, 0, max_dimension - 1, 'witnessTorus');

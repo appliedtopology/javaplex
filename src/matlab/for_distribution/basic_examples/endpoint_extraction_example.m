@@ -24,8 +24,11 @@ intervals = stream.transform(filtration_index_intervals)
 
 % The next line extracts the interval endpoints for thhe dimension 0
 % barcode. Note that it ignores infinite intervals
-endpoints_dim_0 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 0, true)
+endpoints_dim_0 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 0, false)
 
 % The next line extracts the interval endpoints for thhe dimension 1
 % barcode. Note that it ignores infinite intervals
 endpoints_dim_1 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 1, true)
+
+plot_barcodes(intervals, 0, 1);
+

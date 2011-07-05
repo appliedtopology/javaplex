@@ -15,7 +15,7 @@ point_cloud = examples.PointCloudExamples.getRandomSpherePoints(num_points, dime
 landmark_selector = api.Plex4.createRandomSelector(point_cloud, num_landmark_points);
 % create a Lazy-Witness Stream - note that this sets the number of
 % divisions to the default value of 20
-stream = api.Plex4.createLazyWitnessStream(landmark_selector, dimension + 1, max_filtration_value);
+stream = api.Plex4.createLazyWitnessStream(landmark_selector, dimension + 1, max_filtration_value, 1000);
 
 % print out the size of the stream - will be quite large since the complex
 % construction is very sensitive to the maximum filtration value
@@ -25,8 +25,8 @@ size = stream.getSize()
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);
 
 % compute the intervals and transform them to filtration values
-filtration_index_intervals = persistence.computeIntervals(stream)
+filtration_index_intervals = persistence.computeIntervals(stream);
 filtration_value_intervals = stream.transform(filtration_index_intervals)
 
 % create the barcode plots
-api.Plex4.createBarcodePlot(filtration_value_intervals, 'sphere', max_filtration_value)
+plot_barcodes(filtration_value_intervals, 0, dimension, 'sphere_intervals');
