@@ -31,11 +31,13 @@ filtration_index_intervals = persistence.computeIntervals(stream);
 filtration_value_intervals = stream.transform(filtration_index_intervals);
 
 % create the barcode plots
-api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazyRange', max_filtration_value)
+%api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazyRange', max_filtration_value)
+plot_barcodes(filtration_value_intervals, 0, 1, 'lazyRange');
 
 %% DCT
 
 pointsRangeDct = pointsRange * dct(5);
 
+figure;
 scatter(pointsRangeDct(:,1), pointsRangeDct(:,5), '.')
 axis square
