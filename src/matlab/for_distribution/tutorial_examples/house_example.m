@@ -25,10 +25,10 @@ stream.addElement([3, 4, 5], 7);
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 
 % compute intervals
-filtration_value_intervals = persistence.computeIntervals(stream);
+intervals = persistence.computeIntervals(stream)
 
 % get the infinite barcodes
-infinite_barcodes = filtration_value_intervals.getInfiniteIntervals();
+infinite_barcodes = intervals.getInfiniteIntervals();
 
 % print out betti numbers array
 betti_numbers_array = infinite_barcodes.getBettiSequence()
@@ -37,8 +37,7 @@ betti_numbers_array = infinite_barcodes.getBettiSequence()
 betti_numbers_string = infinite_barcodes.getBettiNumbers()
 
 % create the barcode plots
-%api.Plex4.createBarcodePlot(filtration_value_intervals, 'house', 8)
-plot_barcodes(filtration_value_intervals, 0, 1, 'house');
+plot_barcodes(intervals, 0, 1, 'house')
 
 % validate
 stream.validateVerbose()

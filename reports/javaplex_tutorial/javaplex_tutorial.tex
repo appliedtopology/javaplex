@@ -213,7 +213,12 @@ The Matlab script corresponding to this section is \texttt{explicit\_simplex\_ex
 
 {\em Circle example.} Let's build a simplicial complex homeomorphic to a circle. We have three 0-simplices: [0], [1], [2], and three 1-simplices: [0,1], [0,2], [1,2].
 
-\hspace{2.5in}\includegraphics[height=1in]{s1.pdf}
+\begin{figure}[htp]
+  \begin{center}
+    \includegraphics[width=1in]{s1.pdf}
+   \end{center}
+\end{figure}
+\FloatBarrier
 
 To build a simplicial complex in javaPlex we simply build a stream in which all filtration times are zero. First we create an empty explicit simplex stream. Many command lines in this tutorial will end with a semicolon to supress unwanted output.
 
@@ -344,23 +349,17 @@ We build a house, with the vertices and edges on the square appearing at time 0,
 >> stream.addElement([3, 4, 5], 7);
 \end{verbatim} \end{quote}
 
-We get the default persistence computation,
+We get the default persistence computation
 \begin{quote} \begin{verbatim}
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 \end{verbatim} \end{quote}
 
-compute the intervals,
+and compute the intervals.
 
 \begin{quote} \begin{verbatim}
->> filtration_index_intervals = persistence.computeIntervals(stream);
-\end{verbatim} \end{quote}
+>> intervals = persistence.computeIntervals(stream);
 
-and transform the integral intervals to floating point intervals.
-
-\begin{quote} \begin{verbatim}
->> transformer = homology.filtration.IdentityConverter.getInstance();
->> filtration_value_intervals = transformer.transform(filtration_index_intervals)
-filtration_value_intervals =
+intervals =
 
 Dimension: 1
 [3.0, 7.0)
@@ -374,7 +373,7 @@ There are four intervals. The first is a $Betti_1$ interval, starting at filtrat
 
 One $Betti_0$ interval and one $Betti_1$ interval are semi-infinite. 
 \begin{quote} \begin{verbatim}
->> infinite_barcodes = filtration_value_intervals.getInfiniteIntervals();
+>> infinite_barcodes = intervals.getInfiniteIntervals();
 \end{verbatim} \end{quote}
 
 We can print the Betti numbers (at the largest filtration time 7) as an array
@@ -393,20 +392,27 @@ or as a list with entries of the form $k: Betti_k$.
 betti_numbers_string = {0: 1, 1: 1} 
 \end{verbatim} \end{quote}
 
-The method \texttt{createBarcodePlot} lets us display the intervals as a Betti barcode. The three inputs are \texttt{filtration\_value\_intervals}, a string for the filename, and the maximum filtration time for the plot. 
+The Matlab function \texttt{plot\_barcodes.m} lets us display the intervals as Betti barcodes. The four inputs are \texttt{intervals}, the minimum dimension barcode to plot, the maximum dimension barcode to plot, and a string for the filename. 
 \begin{quote} \begin{verbatim}
->> api.Plex4.createBarcodePlot(filtration_value_intervals, 'house', 8)
+>> plot_barcodes(intervals, 0, 1, 'house')
 \end{verbatim} \end{quote}
 
-The files \texttt{house\_0.PNG} and \texttt{house\_1.PNG} are saved to your current directory.
+The file \texttt{house.png} is saved to your current directory.
 
 \begin{figure}[htp]
   \begin{center}
-    \subfigure{\includegraphics[width=6in]{house_0}}
-    \subfigure{\includegraphics[width=6in]{house_1}}
+    \includegraphics[width=6in]{house.png}
    \end{center}
 \end{figure}
 \FloatBarrier
+
+%\begin{figure}[htp]
+%  \begin{center}
+%    \subfigure{\includegraphics[width=6in]{house_0}}
+%    \subfigure{\includegraphics[width=6in]{house_1}}
+%   \end{center}
+%\end{figure}
+%\FloatBarrier
 
 The filtration times are on the horizontal axis. The $Betti_k$ number of the stream at filtration time $t$ is the number of intervals in the dimension $k$ plot that intersect a vertical line through $t$. Check that the displayed intervals agree with the filtration times we built into the house stream. At time 0, a connected component and a 1-dimensional hole form. At time 1, a second connected component appears, which joins to the first at time 2. A second 1-dimensional hole forms at time 3, and closes at time 7. 
 

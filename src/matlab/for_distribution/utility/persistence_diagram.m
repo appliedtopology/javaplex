@@ -1,8 +1,8 @@
 function persistence_diagram(intervals, min_dimension, max_dimension, filename)
 % INPUT:
 %   intervals - the barcode collection to draw
-%   min_dimension - the minimum dimension to draw intervals for (inclusive)
-%   max_dimension - the maximum dimension to draw intervals for (inclusive)
+%   min_dimension - the minimum dimension to draw persistence diagram for (inclusive)
+%   max_dimension - the maximum dimension to draw persistence diagram for (inclusive)
 %   filename - the png filename to save to (optional)
 % OUTPUT:
 %   This function produces a persistence diagram for dimensions 0, ...,
