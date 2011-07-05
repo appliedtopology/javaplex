@@ -19,7 +19,7 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
     end
     
     if (~exist('line_width'))
-        line_width = 1;
+        line_width = 0.5;
     end
     
     threshold = 1e20;
@@ -107,12 +107,12 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
             end
             
             if (finish >= threshold && start > -threshold)
-                line([start, x_max], [y, y]);
+                line([start, x_max], [y, y], 'LineWidth', line_width);
                 line([x_max, x_max], [y, y], 'Marker', '>', 'LineWidth', line_width);
             end
             
             if (finish < threshold && start <= -threshold)
-                line([x_min, finish], [y, y]);
+                line([x_min, finish], [y, y], 'LineWidth', line_width);
                 line([x_min, x_min], [y, y], 'Marker', '<', 'LineWidth', line_width);
             end
             

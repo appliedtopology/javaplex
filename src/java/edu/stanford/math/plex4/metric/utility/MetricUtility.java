@@ -1,7 +1,12 @@
 package edu.stanford.math.plex4.metric.utility;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import edu.stanford.math.plex4.metric.interfaces.AbstractIntMetricSpace;
 import edu.stanford.math.plex4.metric.interfaces.AbstractObjectMetricSpace;
+import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.utility.RandomUtility;
 import edu.stanford.math.primitivelib.utility.Infinity;
 
@@ -112,4 +117,67 @@ public class MetricUtility {
 		return means;
 	}
 
+	public static double[] getAllDistances(AbstractIntMetricSpace metricSpace, int index) {
+		int n = metricSpace.size();
+		double[] distances = new double[n];
+		
+		for (int i = 0; i < n; i++) {
+			distances[i] = metricSpace.distance(i, index);
+		}
+		
+		return distances;
+	}
+	
+	public static <T> double[] getKthNearestNeighborDistances(AbstractSearchableMetricSpace<T> metricSpace, int k) {
+		int n = metricSpace.size();
+		
+		double[] neighborDistances = new double[n];
+		
+		for (int i = 0; i < n; i++) {
+			double[] distances = getAllDistances(metricSpace, i);
+			Arrays.sort(distances);
+			neighborDistances[i] = distances[k];
+		}
+		
+		return neighborDistances;
+	}
+	
+	public static <T> int[] filterByNeighborDistance(AbstractSearchableMetricSpace<T> metricSpace, int k, double proportion) {
+		int n = metricSpace.size();
+		
+		double[] neighborDistances = getKthNearestNeighborDistances(metricSpace, k);
+		
+		double[] sortedDistances = Arrays.copyOf(neighborDistances, neighborDistances.length);
+		Arrays.sort(sortedDistances);
+		
+		int cutoffIndex = (int) proportion * neighborDistances.length;
+		
+		if (cutoffIndex >= neighborDistances.length) {
+			cutoffIndex = neighborDistances.length - 1;
+		}
+		
+		if (cutoffIndex < 0) {
+			cutoffIndex = 0;
+		}
+		
+		double cutoffDistance = sortedDistances[cutoffIndex];
+		
+		List<Integer> filteredList = new ArrayList<Integer>();
+		
+		for (int i = 0; i < n; i++) {
+			if (neighborDistances[i] <= cutoffDistance) {
+				filteredList.add(i);
+			}
+		}
+		
+		int[] indices = new int[filteredList.size()];
+		
+		int j = 0;
+		for (Integer index: filteredList) {
+			indices[j] = index;
+			j++;
+		}
+		
+		return indices;
+	}
 }

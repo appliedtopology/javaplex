@@ -54,18 +54,6 @@ public class ZigZagTest {
 			zz.remove(simplex);
 		}
 		
-		Collections.reverse(elements);
-
-		for (Simplex simplex: elements) {
-			zz.add(simplex);
-		}
-		
-		Collections.reverse(elements);
-
-		for (Simplex simplex: elements) {
-			zz.remove(simplex);
-		}
-
 		BarcodeCollection<Integer> collection = zz.getBarcodes();
 		System.out.println(collection);
 	}
