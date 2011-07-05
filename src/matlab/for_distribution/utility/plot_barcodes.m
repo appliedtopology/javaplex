@@ -1,4 +1,4 @@
-function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_by_side)
+function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_by_side, line_width)
 % INPUT:
 %   intervals - the barcode collection to draw
 %   min_dimension - the minimum dimension to draw intervals for (inclusive)
@@ -18,7 +18,12 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
         side_by_side = 0;
     end
     
+    if (~exist('line_width'))
+        line_width = 1;
+    end
+    
     threshold = 1e20;
+    epsilon = 1e-6;
     
     max_finite_endpoint = -threshold;
     min_finite_endpoint = threshold;
@@ -27,7 +32,6 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
     right_infinite_interval_found = 0;
         
     for dimension = min_dimension:max_dimension
-    
         endpoints = homology.barcodes.BarcodeUtility.getEndpoints(intervals, dimension, false);
 
         num_intervals = size(endpoints, 1);
@@ -70,7 +74,7 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
     if (right_infinite_interval_found)
         x_max = max_finite_endpoint + 0.2 * (max_finite_endpoint - min_finite_endpoint);
     else
-        x_max = max_finite_endpoint + 0.2 * (max_finite_endpoint - min_finite_endpoint);
+        x_max = max_finite_endpoint;
     end
     
     if (left_infinite_interval_found)
@@ -78,6 +82,8 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
     else
         x_min = min_finite_endpoint;
     end
+    
+    point_width = 0.002 * (x_max - x_min);
     
     for dimension = min_dimension:max_dimension
         endpoints = homology.barcodes.BarcodeUtility.getEndpoints(intervals, dimension, false);
@@ -95,23 +101,27 @@ function plot_barcodes(intervals, min_dimension, max_dimension, filename, side_b
             y = num_intervals - i + 1;
             
             if (finish >= threshold && start <= -threshold)
-                line([x_min, x_max], [y, y]);
-                line([x_min, x_min], [y, y], 'Marker', '<');
-                line([x_max, x_max], [y, y], 'Marker', '>');
+                line([x_min, x_max], [y, y], 'LineWidth', line_width);
+                line([x_min, x_min], [y, y], 'Marker', '<', 'LineWidth', line_width);
+                line([x_max, x_max], [y, y], 'Marker', '>', 'LineWidth', line_width);
             end
             
             if (finish >= threshold && start > -threshold)
                 line([start, x_max], [y, y]);
-                line([x_max, x_max], [y, y], 'Marker', '>');
+                line([x_max, x_max], [y, y], 'Marker', '>', 'LineWidth', line_width);
             end
             
             if (finish < threshold && start <= -threshold)
                 line([x_min, finish], [y, y]);
-                line([x_min, x_min], [y, y], 'Marker', '<');
+                line([x_min, x_min], [y, y], 'Marker', '<', 'LineWidth', line_width);
             end
             
             if (finish < threshold && start > -threshold)
-                line([start, finish], [y, y]);
+                if (abs(finish - start) < epsilon)
+                    line([start - 0.5 * point_width, finish + 0.5 * point_width], [y, y], 'LineWidth', line_width);
+                else
+                    line([start, finish], [y, y], 'LineWidth', line_width);
+                end
             end
         end
         
