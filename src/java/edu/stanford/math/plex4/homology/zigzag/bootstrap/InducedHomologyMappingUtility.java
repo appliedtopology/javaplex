@@ -89,40 +89,6 @@ public class InducedHomologyMappingUtility {
 		
 		return result;
 	}
-	
-	/*
-	public static <K, I extends Comparable<I>, U extends PrimitiveBasisElement, V extends ObjectObjectPair<U, U>> IntervalTracker<K, I, IntSparseFormalSum<V>> 
-	computeFirstProjection(AbstractPersistenceTracker<K, I, IntSparseFormalSum<V>> Z_state, 
-			AbstractHomologyTracker<K, I, ?, IntSparseFormalSum<U>> X, 
-					AbstractPersistenceTracker<K, I, IntSparseFormalSum<U>> accumulator,
-					IntAlgebraicFreeModule<U> chainModule,
-					I joinIndex) {
-
-		ObjectObjectFunction<IntSparseFormalSum<V>, IntSparseFormalSum<U>> chainMap = InducedHomologyMappingUtility.getFirstGradedProjectionMap(chainModule);
-
-		Map<K, K> joinMap = computeInducedMap(Z_state, X, chainModule, chainMap);
-
-		IntervalTracker<K, I, IntSparseFormalSum<V>> result = join(accumulator, Z_state, joinMap, joinIndex, true);
-
-		return result;
-	}
-
-	public static <K, I extends Comparable<I>, U extends PrimitiveBasisElement, V extends ObjectObjectPair<U, U>> 
-	IntervalTracker<K, I, IntSparseFormalSum<U>> computeSecondProjection(AbstractPersistenceTracker<K, I, IntSparseFormalSum<V>> Z_state, 
-			AbstractHomologyTracker<K, I, ?, IntSparseFormalSum<U>> Y, 
-					AbstractPersistenceTracker<K, I, IntSparseFormalSum<V>> accumulator,
-					IntAlgebraicFreeModule<U> chainModule, 
-					I joinIndex) {
-
-		ObjectObjectFunction<IntSparseFormalSum<V>, IntSparseFormalSum<U>> chainMap = InducedHomologyMappingUtility.getSecondGradedProjectionMap(chainModule);
-
-		Map<K, K> joinMap = computeInducedMap(Z_state, Y, chainModule, chainMap);
-
-		IntervalTracker<K, I, IntSparseFormalSum<U>> result = join(accumulator, Y.getState(), joinMap, joinIndex, false);
-
-		return result;
-	}
-*/
 
 	public static <K1, K2, I1 extends Comparable<I1>, I2 extends Comparable<I2>, G1, G2> Map<K1, K2> computeInducedMap(AbstractPersistenceTracker<K1, I1, G1> A_state, 
 			AbstractHomologyTracker<K2, I2, ?, G2> B, 

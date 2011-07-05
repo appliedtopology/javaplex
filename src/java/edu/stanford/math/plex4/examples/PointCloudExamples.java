@@ -1,5 +1,7 @@
 package edu.stanford.math.plex4.examples;
 
+import java.util.Arrays;
+
 import edu.stanford.math.plex4.utility.RandomUtility;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
 
@@ -53,6 +55,28 @@ public class PointCloudExamples {
 		for (int i = 0; i < n; i++) {
 			points[i][0] = Math.cos(2 * Math.PI * ((double) i / (double) n));
 			points[i][1] = Math.sin(2 * Math.PI * ((double) i / (double) n));
+		}
+
+		return points;
+	}
+	
+	/**
+	 * This function returns a point set containing n randomly selected points,
+	 * ordered clockwise on a circle.
+	 * 
+	 * @param n
+	 * @return the requested point cloud
+	 */
+	public static double[][] getRandomCirclePoints(int n) {
+		double[][] points = new double[n][2];
+
+		double[] random = RandomUtility.uniformArray(n);
+		Arrays.sort(random);
+		
+		for (int i = 0; i < n; i++) {
+			double phi = 2 * Math.PI * random[i];
+			points[i][0] = Math.cos(phi);
+			points[i][1] = Math.sin(phi);
 		}
 
 		return points;

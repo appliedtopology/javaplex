@@ -1,8 +1,10 @@
 package edu.stanford.math.plex4.homology.zigzag.bootstrap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
@@ -56,6 +58,9 @@ public class WitnessBootstrapper<T> {
 	}
 
 	public BarcodeCollection<Integer> performProjectionBootstrap() {
+		return performProjectionBootstrap(null);
+	}
+	public BarcodeCollection<Integer> performProjectionBootstrap(int[] expectedBettiNumbers) {
 		WitnessStream<T> X_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(0), maxDimension + 1, maxDistance, indexSelections.get(0).getLandmarkPoints());
 		X_stream.setPlex3Compatbility(false);
 		X_stream.finalizeStream();
@@ -69,43 +74,66 @@ public class WitnessBootstrapper<T> {
 		HomologyBasisTracker<Simplex> YTracker = null;
 		
 		for (int j = 1; j < this.indexSelections.size(); j++) {
-			Y_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(j).getLandmarkPoints());
-			Y_stream.setPlex3Compatbility(false);
-			Y_stream.finalizeStream();
-
-			WitnessBicomplex<T> Z_stream = new WitnessBicomplex<T>(X_stream, Y_stream, maxDimension);
-			Z_stream.finalizeStream();
-			Z_stream.ensureAllFaces();
-
 			if (XTracker == null) {
 				XTracker = new HomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance());
 				XTracker.getIntervalTracker().setUseRightClosedIntervals(false);
+				XTracker.getIntervalTracker().setMaxDimension(maxDimension);
 				for (Simplex x: X_stream) {
 					XTracker.add(x, j - 1);
 				}
 				
-				{
-					System.out.println("Barcodes for X_" + (j - 1));
-					System.out.println(XTracker.getAnnotatedBarcodes().filterByMaxDimension(maxDimension).toString());
+				System.out.println("Barcodes for X_" + (j - 1));
+				AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<Simplex>> XBarcodes = XTracker.getAnnotatedBarcodes();
+				
+				if (expectedBettiNumbers != null && !Arrays.equals(XBarcodes.getBettiSequence(), expectedBettiNumbers)) {
+					this.indexSelections.set(0, new RandomLandmarkSelector<T>(metricSpace, this.indexSelections.get(0).getLandmarkPoints().length));
+					X_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(0), maxDimension + 1, maxDistance, indexSelections.get(0).getLandmarkPoints());
+					j--;
+					continue;
 				}
+				System.out.println(XBarcodes.toString());
 			}
-
-			ZTracker = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
-			ZTracker.getIntervalTracker().setUseRightClosedIntervals(false);
-			for (SimplexPair z: Z_stream) {
-				ZTracker.add(z, j);
-			}
+			
+			Y_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(j).getLandmarkPoints());
+			Y_stream.setPlex3Compatbility(false);
+			Y_stream.finalizeStream();
 
 			YTracker = new HomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance());
 			YTracker.getIntervalTracker().setUseRightClosedIntervals(false);
+			YTracker.getIntervalTracker().setMaxDimension(maxDimension);
 			for (Simplex y: Y_stream) {
 				YTracker.add(y, j);
 			}
 			
-			{
-				System.out.println("Barcodes for X_" + (j));
-				System.out.println(YTracker.getAnnotatedBarcodes().filterByMaxDimension(maxDimension).toString());
+			//{
+			System.out.println("Barcodes for X_" + (j));
+			AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<Simplex>> YBarcodes = YTracker.getAnnotatedBarcodes();
+			
+			if (expectedBettiNumbers != null && !Arrays.equals(YBarcodes.getBettiSequence(), expectedBettiNumbers)) {
+				this.indexSelections.set(j, new RandomLandmarkSelector<T>(metricSpace, this.indexSelections.get(j).getLandmarkPoints().length));
+				j--;
+				continue;
 			}
+			
+			System.out.println(YBarcodes.toString());
+			
+			WitnessBicomplex<T> Z_stream = new WitnessBicomplex<T>(X_stream, Y_stream, maxDimension);
+			Z_stream.finalizeStream();
+			Z_stream.ensureAllFaces();
+
+			ZTracker = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
+			ZTracker.getIntervalTracker().setUseRightClosedIntervals(false);
+			ZTracker.getIntervalTracker().setMaxDimension(maxDimension);
+			for (SimplexPair z: Z_stream) {
+				ZTracker.add(z, j);
+			}
+
+			{
+				//System.out.println("Barcodes for X_" + (j - 1) + "" + j);
+				//System.out.println(ZTracker.getAnnotatedBarcodes().filterByMaxDimension(maxDimension).toString());
+			}
+			
+			
 			
 			if (result == null) {
 				result = InducedHomologyMappingUtility.project(XTracker, ZTracker, YTracker, XTracker.getStateWithoutFiniteBarcodes(), chainModule, Z_chainModule, (j - 1), j);
@@ -123,6 +151,7 @@ public class WitnessBootstrapper<T> {
 		
 		//result.endAllIntervals(2 * this.indexSelections.size() - 2);
 		//return BarcodeCollection.forgetGeneratorType(AnnotatedBarcodeCollection.filterEvenIntervals(result.getAnnotatedBarcodes()).filterByMaxDimension(maxDimension));
-		
 	}
+	
+	
 }

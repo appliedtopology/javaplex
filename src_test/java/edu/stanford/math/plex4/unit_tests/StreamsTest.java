@@ -12,6 +12,7 @@ import edu.stanford.math.plex4.homology.StreamTester;
 import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
+import edu.stanford.math.plex4.utility.RandomUtility;
 
 /**
  * This class tests the equality of streams produced by plex 3 and plex 4.
@@ -21,15 +22,17 @@ import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
  */
 public class StreamsTest {
 	private final List<double[][]> pointClouds = new ArrayList<double[][]>();
-	private final int n = 200;
+	private final int n = 50;
 	private final int l = n/2;
 	private final int d = 4;
-	private final int maxDimension = 1;
+	private final int maxDimension = 4;
 	private final double maxFiltrationValue = 0.3;
 	private final int numDivisions = 20;
 	
 	@Before
 	public void setUp() {
+		RandomUtility.initializeWithSeed(4);
+		
 		pointClouds.add(PointCloudExamples.getEquispacedCirclePoints(n));
 		pointClouds.add(PointCloudExamples.getGaussianPoints(n, d));
 		pointClouds.add(PointCloudExamples.getRandomFigure8Points(n));

@@ -8,7 +8,7 @@ package edu.stanford.math.plex4.homology.barcodes;
  *
  * @param <T> the underlying type - e.g. most likely Integer, Double, or Float
  */
-public class Interval<T extends Comparable<T>> {
+public class Interval<T extends Comparable<T>> implements Comparable<Interval<T>> {
 	private final T start, end;
 	private final boolean isLeftClosed, isRightClosed;
 	private final boolean isLeftInfinite, isRightInfinite;
@@ -71,7 +71,7 @@ public class Interval<T extends Comparable<T>> {
 	public static <T extends Comparable<T>> Interval<T> makeRightInfiniteClosedInterval(T start) {
 		return new Interval<T>(start, null, true, true, false, true);
 	}
-	
+
 	/**
 	 * This function returns a right-infinite right-open interval.
 	 * 
@@ -82,7 +82,7 @@ public class Interval<T extends Comparable<T>> {
 	public static <T extends Comparable<T>> Interval<T> makeRightInfiniteRightOpenInterval(T start) {
 		return new Interval<T>(start, null, true, false, false, true);
 	}
-	
+
 	/**
 	 * This function returns a right-infinite left-open interval.
 	 * 
@@ -93,7 +93,7 @@ public class Interval<T extends Comparable<T>> {
 	public static <T extends Comparable<T>> Interval<T> makeRightInfiniteLeftOpenInterval(T start) {
 		return new Interval<T>(start, null, false, true, false, true);
 	}
-	
+
 	/**
 	 * This function returns a right-infinite open interval.
 	 * 
@@ -104,7 +104,7 @@ public class Interval<T extends Comparable<T>> {
 	public static <T extends Comparable<T>> Interval<T> makeRightInfiniteOpenInterval(T start) {
 		return new Interval<T>(start, null, false, false, false, true);
 	}
-	
+
 	/**
 	 * This function returns a left-infinite closed interval.
 	 * 
@@ -148,7 +148,7 @@ public class Interval<T extends Comparable<T>> {
 	public static <T extends Comparable<T>> Interval<T> makeLeftInfiniteOpenInterval(T end) {
 		return new Interval<T>(null, end, false, false, true, false);
 	}
-		
+
 	/**
 	 * This function returns an interval with the desired parameters.
 	 * 
@@ -183,7 +183,7 @@ public class Interval<T extends Comparable<T>> {
 		this.isLeftInfinite = isLeftInfinite;
 		this.isRightInfinite = isRightInfinite;
 	}
-	
+
 	/**
 	 * This function returns the start of the interval.
 	 * 
@@ -237,7 +237,7 @@ public class Interval<T extends Comparable<T>> {
 	public boolean isRightInfinite() {
 		return isRightInfinite;
 	}
-	
+
 	/**
 	 * This function indicates whether the interval is infinite (either left or
 	 * right infinite, or both).
@@ -247,7 +247,7 @@ public class Interval<T extends Comparable<T>> {
 	public boolean isInfinite() {
 		return isLeftInfinite || isRightInfinite;
 	}
-	
+
 	/**
 	 * This function determines whether the given point is a member of 
 	 * the interval.
@@ -260,25 +260,25 @@ public class Interval<T extends Comparable<T>> {
 			if (this.isLeftClosed && (point.compareTo(this.start) < 0)) {
 				return false;
 			}
-			
+
 			if (!this.isLeftClosed && (point.compareTo(this.start) <= 0)) {
 				return false;
 			}
 		}
-		
+
 		if (!this.isRightInfinite) {
 			if (this.isRightClosed && (point.compareTo(this.end) > 0)) {
 				return false;
 			}
-			
+
 			if (!this.isRightClosed && (point.compareTo(this.end) >= 0)) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -353,5 +353,51 @@ public class Interval<T extends Comparable<T>> {
 		} else if (!start.equals(other.start))
 			return false;
 		return true;
+	}
+
+	public int compareTo(Interval<T> arg0) {
+		int type = getTypeCode(this);
+		int otherType = getTypeCode(arg0);
+
+		if (type > otherType) {
+			return 1;
+		} else if (type < otherType) {
+			return -1;
+		}
+
+		if (type == 4) {
+			return 0;
+		}
+
+		if (type == 3) {
+			return this.end.compareTo(arg0.end);
+		}
+
+		if (type == 2) {
+			return this.start.compareTo(arg0.start);
+		}
+
+		int comparison = this.start.compareTo(arg0.start);
+		if (comparison != 0) {
+			return comparison;
+		}
+
+		return this.end.compareTo(arg0.end);
+	}
+
+	private static <T extends Comparable<T>> int getTypeCode(Interval<T> interval) {
+		if (interval.isLeftInfinite && interval.isRightInfinite) {
+			return 4;
+		}
+
+		if (interval.isLeftInfinite) {
+			return 3;
+		}
+
+		if (interval.isRightInfinite) {
+			return 2;
+		}
+
+		return 1;
 	}
 }
