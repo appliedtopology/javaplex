@@ -4,17 +4,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
-import edu.stanford.math.plex4.homology.zigzag.deprecated.ProductSubsetZigzag;
 import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
 import edu.stanford.math.plex4.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.utility.RandomUtility;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 
-public class WitnessTest {
+public class VdsWitnessExample {
 	IntAbstractField intField = ModularIntField.getInstance(2);
 	@Before
 	public void setUp() {
@@ -68,12 +66,6 @@ public class WitnessTest {
 	
 	@Test
 	public void test() {
-		ExplicitSimplexStream X = this.getX();
-		ExplicitSimplexStream Y = this.getY();
-		ExplicitStream<SimplexPair> Z = this.getZ();
 		
-		BarcodeCollection<Integer> result = ProductSubsetZigzag.testProjection(X, Y, Z);
-		
-		System.out.println(result);
 	}
 }

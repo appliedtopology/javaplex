@@ -60,6 +60,7 @@ public class WitnessBootstrapper<T> {
 	public BarcodeCollection<Integer> performProjectionBootstrap() {
 		return performProjectionBootstrap(null);
 	}
+	
 	public BarcodeCollection<Integer> performProjectionBootstrap(int[] expectedBettiNumbers) {
 		WitnessStream<T> X_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(0), maxDimension + 1, maxDistance, indexSelections.get(0).getLandmarkPoints());
 		X_stream.setPlex3Compatbility(false);
@@ -104,8 +105,7 @@ public class WitnessBootstrapper<T> {
 			for (Simplex y: Y_stream) {
 				YTracker.add(y, j);
 			}
-			
-			//{
+
 			System.out.println("Barcodes for X_" + (j));
 			AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<Simplex>> YBarcodes = YTracker.getAnnotatedBarcodes();
 			
@@ -127,13 +127,6 @@ public class WitnessBootstrapper<T> {
 			for (SimplexPair z: Z_stream) {
 				ZTracker.add(z, j);
 			}
-
-			{
-				//System.out.println("Barcodes for X_" + (j - 1) + "" + j);
-				//System.out.println(ZTracker.getAnnotatedBarcodes().filterByMaxDimension(maxDimension).toString());
-			}
-			
-			
 			
 			if (result == null) {
 				result = InducedHomologyMappingUtility.project(XTracker, ZTracker, YTracker, XTracker.getStateWithoutFiniteBarcodes(), chainModule, Z_chainModule, (j - 1), j);
@@ -148,9 +141,6 @@ public class WitnessBootstrapper<T> {
 		result.endAllIntervals(this.indexSelections.size() - 1);
 		
 		return BarcodeCollection.forgetGeneratorType(result.getAnnotatedBarcodes().filterByMaxDimension(maxDimension));
-		
-		//result.endAllIntervals(2 * this.indexSelections.size() - 2);
-		//return BarcodeCollection.forgetGeneratorType(AnnotatedBarcodeCollection.filterEvenIntervals(result.getAnnotatedBarcodes()).filterByMaxDimension(maxDimension));
 	}
 	
 	
