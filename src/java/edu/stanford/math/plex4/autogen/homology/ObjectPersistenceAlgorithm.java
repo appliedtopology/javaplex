@@ -32,7 +32,7 @@ import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
  *
  */
 @Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
-public abstract class ObjectPersistenceAlgorithm<F, U> implements AbstractPersistenceBasisAlgorithm<U, ObjectSparseFormalSum<F, U>> {
+public abstract class ObjectPersistenceAlgorithm<F, U> extends AbstractPersistenceBasisAlgorithm<U, ObjectSparseFormalSum<F, U>> {
 		/**
 	 * This is the field over which we perform the arithmetic computations.
 	 */
@@ -107,12 +107,12 @@ public abstract class ObjectPersistenceAlgorithm<F, U> implements AbstractPersis
 		return this.field;
 	}
 		
-	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
+	public BarcodeCollection<Integer> computeIndexIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
 	}
 
-	public AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<F, U>> computeAnnotatedIntervals(AbstractFilteredStream<U> stream) {
+	public AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<F, U>> computeAnnotatedIndexIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeAnnotatedIntervalsImpl(stream);
 	}

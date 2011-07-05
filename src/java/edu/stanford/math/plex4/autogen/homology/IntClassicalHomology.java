@@ -31,7 +31,7 @@ import gnu.trove.TObjectIntIterator;
  * 
  */
 @Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
-public class IntClassicalHomology<U> implements AbstractPersistenceAlgorithm<U> {
+public class IntClassicalHomology<U> extends AbstractPersistenceAlgorithm<U> {
 		protected final IntAbstractField field;
 		private final IntAlgebraicFreeModule<U> chainModule;
 	private final Comparator<U> basisComparator;
@@ -58,7 +58,7 @@ public class IntClassicalHomology<U> implements AbstractPersistenceAlgorithm<U> 
 		this.maxDimension = maxDimension;
 	}
 		
-	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
+	public BarcodeCollection<Integer> computeIndexIntervals(AbstractFilteredStream<U> stream) {
 		BarcodeCollection<Integer> barcodeCollection = new BarcodeCollection<Integer>();
 		
 		this.filteredComparator = new FilteredComparator<U>(stream, this.basisComparator);

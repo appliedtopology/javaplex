@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import edu.stanford.math.plex4.homology.barcodes.Interval;
 import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.primitivelib.autogen.functional.ObjectObjectFunction;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
@@ -42,5 +43,10 @@ public class FiltrationUtility {
 		}
 		
 		return result;
+	}
+	
+	public static <G> PersistenceInvariantDescriptor<Interval<Double>, G> transformByIdentity(PersistenceInvariantDescriptor<Interval<Integer>, G> invariantDescriptor) {
+		IdentityConverter converter = IdentityConverter.getInstance();
+		return transform(invariantDescriptor, converter);
 	}
 }

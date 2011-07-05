@@ -47,7 +47,7 @@ public class SimplicialSphereTest {
 		System.out.println(String.format("Number of simplices in %d-sphere: %s", sphereDimension, stream.getSize()));
 		for (AbstractPersistenceAlgorithm<Simplex> algorithm : algorithms) {
 			Timing.restart();
-			BarcodeCollection<Integer> collection = algorithm.computeIntervals(stream);
+			BarcodeCollection<Integer> collection = algorithm.computeIndexIntervals(stream);
 			Timing.stopAndDisplay(algorithm.toString());
 			assertTrue(correctAnswer.equals(collection));
 		}

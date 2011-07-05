@@ -32,7 +32,7 @@ import java.util.Iterator;
  *
  */
 @Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
-public abstract class $className implements AbstractPersistenceBasisAlgorithm<$objectType, $sumClassName> {
+public abstract class $className extends AbstractPersistenceBasisAlgorithm<$objectType, $sumClassName> {
 	#if (!($coefficientType == "boolean"))
 	/**
 	 * This is the field over which we perform the arithmetic computations.
@@ -127,12 +127,12 @@ public abstract class $className implements AbstractPersistenceBasisAlgorithm<$o
 	}
 	#end
 	
-	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<$objectType> stream) {
+	public BarcodeCollection<Integer> computeIndexIntervals(AbstractFilteredStream<$objectType> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
 	}
 
-	public AnnotatedBarcodeCollection<Integer, $sumClassName> computeAnnotatedIntervals(AbstractFilteredStream<$objectType> stream) {
+	public AnnotatedBarcodeCollection<Integer, $sumClassName> computeAnnotatedIndexIntervals(AbstractFilteredStream<$objectType> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeAnnotatedIntervalsImpl(stream);
 	}

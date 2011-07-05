@@ -25,7 +25,7 @@ import gnu.trove.TIntObjectIterator;
 import gnu.trove.TObjectIntHashMap;
 import gnu.trove.TObjectIntIterator;
 
-public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgorithm<U> {
+public class PersistentCohomologyPrototype<U> extends AbstractPersistenceAlgorithm<U> {
 	/**
 	 * This is the field over which we perform the arithmetic computations.
 	 */
@@ -100,7 +100,7 @@ public class PersistentCohomologyPrototype<U> implements AbstractPersistenceAlgo
 		return this.field;
 	}
 
-	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
+	public BarcodeCollection<Integer> computeIndexIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.pCohMatrix(stream);
 	}

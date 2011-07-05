@@ -32,14 +32,14 @@ public class DeSilvaMorozovJohanssonTest {
 	@Test
 	public void testAbsoluteHomology() {
 		AbstractPersistenceBasisAlgorithm<Cell, ObjectSparseFormalSum<Integer, Cell>> persistenceAlgorithm = new ObjectAbsoluteHomology<Integer, Cell>(field, CellComparator.getInstance(), 0, 3);
-		AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<Integer, Cell>> collection = persistenceAlgorithm.computeAnnotatedIntervals(example.getCellComplex());
+		AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<Integer, Cell>> collection = persistenceAlgorithm.computeAnnotatedIndexIntervals(example.getCellComplex());
 		assertTrue(collection.equals(example.getAbsoluteHomologyBarcodes()));
 	}
 	
 	@Test
 	public void testRelativeHomology() {
 		AbstractPersistenceBasisAlgorithm<Cell, ObjectSparseFormalSum<Integer, Cell>> persistenceAlgorithm = new ObjectRelativeHomology<Integer, Cell>(field, CellComparator.getInstance(), 0, 3);
-		AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<Integer, Cell>> collection = persistenceAlgorithm.computeAnnotatedIntervals(example.getCellComplex());
+		AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<Integer, Cell>> collection = persistenceAlgorithm.computeAnnotatedIndexIntervals(example.getCellComplex());
 		assertTrue(collection.equals(example.getRelativeHomologyBarcodes()));
 	}
 }

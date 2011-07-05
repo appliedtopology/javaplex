@@ -17,10 +17,7 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 
 % this initially creates a set of intervals which contains the filtration
 % indices (which are integers).
-filtration_index_intervals = persistence.computeIntervals(stream);
-% this converts the filtration index intervals to the actual filtration
-% value intervals
-intervals = stream.transform(filtration_index_intervals)
+intervals = persistence.computeIntervals(stream);
 
 % The next line extracts the interval endpoints for thhe dimension 0
 % barcode. Note that it ignores infinite intervals

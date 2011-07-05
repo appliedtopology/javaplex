@@ -30,7 +30,7 @@ import edu.stanford.math.primitivelib.autogen.formal_sum.BooleanSparseFormalSum;
  *
  */
 @Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
-public abstract class BooleanPersistenceAlgorithm<U> implements AbstractPersistenceBasisAlgorithm<U, BooleanSparseFormalSum<U>> {
+public abstract class BooleanPersistenceAlgorithm<U> extends AbstractPersistenceBasisAlgorithm<U, BooleanSparseFormalSum<U>> {
 		
 	/**
 	 * This objects performs the chain computations.
@@ -91,12 +91,12 @@ public abstract class BooleanPersistenceAlgorithm<U> implements AbstractPersiste
 	}
 	
 		
-	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
+	public BarcodeCollection<Integer> computeIndexIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
 	}
 
-	public AnnotatedBarcodeCollection<Integer, BooleanSparseFormalSum<U>> computeAnnotatedIntervals(AbstractFilteredStream<U> stream) {
+	public AnnotatedBarcodeCollection<Integer, BooleanSparseFormalSum<U>> computeAnnotatedIndexIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeAnnotatedIntervalsImpl(stream);
 	}

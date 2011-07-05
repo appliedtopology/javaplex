@@ -17,10 +17,7 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 
 % this initially creates a set of intervals which contains the filtration
 % indices (which are integers).
-filtration_index_intervals = persistence.computeIntervals(stream)
-% this converts the filtration index intervals to the actual filtration
-% value intervals
-filtration_value_intervals = stream.transform(filtration_index_intervals)
+filtration_value_intervals = persistence.computeIntervals(stream)
 
 % create the barcode plots
-plot_barcodes(filtration_value_intervals, 0, max_dimension, 'house_example')
+plot_barcodes(filtration_value_intervals, 0, max_dimension, 'house')

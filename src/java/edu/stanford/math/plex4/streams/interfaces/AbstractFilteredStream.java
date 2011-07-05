@@ -2,6 +2,9 @@ package edu.stanford.math.plex4.streams.interfaces;
 
 import java.util.Comparator;
 
+import edu.stanford.math.plex4.homology.barcodes.Interval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
+
 
 /**
  * <p>This interface defines the functionality of a streamed filtered
@@ -146,4 +149,13 @@ public interface AbstractFilteredStream<T> extends Iterable<T> {
 	 * @return a comparator on the underlying basis type
 	 */
 	public Comparator<T> getBasisComparator();
+	
+	/**
+	 * This function transforms the given collection of filtration index barcodes into filtration value barcodes.
+	 * 
+	 * @param <G>
+	 * @param barcodeCollection the set of filtration index barcodes
+	 * @return the barcodes transformed into filtration value form
+	 */
+	public <G> PersistenceInvariantDescriptor<Interval<Double>, G> transform(PersistenceInvariantDescriptor<Interval<Integer>, G> barcodeCollection);
 }

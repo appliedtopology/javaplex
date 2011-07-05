@@ -33,7 +33,7 @@ public class HomTester {
 		ObjectPersistenceAlgorithm<Fraction, ObjectObjectPair<Simplex, Simplex>> persistence = Plex4.getRationalHomAlgorithm();
 		ObjectAlgebraicFreeModule<Fraction, ObjectObjectPair<Simplex, Simplex>> chain_module = persistence.getChainModule();
 		
-		AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<Fraction, ObjectObjectPair<Simplex, Simplex>>> barcode_collection = persistence.computeAnnotatedIntervals(homStream);
+		AnnotatedBarcodeCollection<Integer, ObjectSparseFormalSum<Fraction, ObjectObjectPair<Simplex, Simplex>>> barcode_collection = persistence.computeAnnotatedIndexIntervals(homStream);
 
 		List<ObjectObjectPair<Interval<Integer>, ObjectSparseFormalSum<Fraction, ObjectObjectPair<Simplex, Simplex>>>> intervals = barcode_collection.getIntervalGeneratorPairsAtDimension(0);
 		
@@ -59,7 +59,7 @@ public class HomTester {
 	    
 	    ObjectAbsoluteHomology<Fraction, Simplex> basic_persistence = Plex4.getRationalSimplicialAlgorithm(2);
 	    
-	    System.out.println(basic_persistence.computeAnnotatedIntervals(domainStream));
-	    System.out.println(basic_persistence.computeAnnotatedIntervals(codomainStream));
+	    System.out.println(basic_persistence.computeAnnotatedIndexIntervals(domainStream));
+	    System.out.println(basic_persistence.computeAnnotatedIndexIntervals(codomainStream));
 	}
 }

@@ -10,8 +10,7 @@ stream = api.Plex4.createVietorisRipsStream(m_space, max_dimension, max_filtrati
 stream.finalizeStream();
 
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
-filtration_index_intervals = persistence.computeIntervals(stream);
-filtration_value_intervals = stream.transform(filtration_index_intervals)
+filtration_value_intervals = persistence.computeIntervals(stream);
 
 %%
 

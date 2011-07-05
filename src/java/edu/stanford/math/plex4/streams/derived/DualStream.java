@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import edu.stanford.math.plex4.homology.barcodes.Interval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.array.ObjectArrayUtility;
 import edu.stanford.math.primitivelib.autogen.pair.IntObjectPair;
@@ -171,5 +173,9 @@ public class DualStream<T> implements AbstractFilteredStream<T> {
 	 */
 	public Comparator<T> getBasisComparator() {
 		return new ReversedComparator<T>(this.forwardStream.getBasisComparator());
+	}
+
+	public <G> PersistenceInvariantDescriptor<Interval<Double>, G> transform(PersistenceInvariantDescriptor<Interval<Integer>, G> barcodeCollection) {
+		return this.forwardStream.transform(barcodeCollection);
 	}
 }

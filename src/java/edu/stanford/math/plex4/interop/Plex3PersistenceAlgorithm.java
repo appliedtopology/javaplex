@@ -16,7 +16,7 @@ import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
  * @author Andrew Tausz
  *
  */
-public class Plex3PersistenceAlgorithm implements AbstractPersistenceAlgorithm<edu.stanford.math.plex4.homology.chain_basis.Simplex> {
+public class Plex3PersistenceAlgorithm extends AbstractPersistenceAlgorithm<edu.stanford.math.plex4.homology.chain_basis.Simplex> {
 	private final int maxDimension;
 	
 	/**
@@ -31,7 +31,7 @@ public class Plex3PersistenceAlgorithm implements AbstractPersistenceAlgorithm<e
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.homology.new_version.AbstractPersistenceAlgorithm#computeIntervals(edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream)
 	 */
-	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<edu.stanford.math.plex4.homology.chain_basis.Simplex> plex4Stream) {
+	public BarcodeCollection<Integer> computeIndexIntervals(AbstractFilteredStream<edu.stanford.math.plex4.homology.chain_basis.Simplex> plex4Stream) {
 		
 		SimplexStream.Stack stack = new SimplexStream.Stack(plex4Stream.getMaximumFiltrationIndex() + 1, this.maxDimension);
 		

@@ -1,5 +1,7 @@
 % Exercise 5.4.4
 
+clc; clear; close all;
+
 max_dimension = 3;
 num_points = 1000;
 num_landmark_points = 50;
@@ -29,8 +31,8 @@ num_simplices = stream.getSize()
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 
 % compute the intervals and transform them to filtration values
-filtration_index_intervals = persistence.computeIntervals(stream);
-filtration_value_intervals = stream.transform(filtration_index_intervals);
+filtration_value_intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazyWitnessFlatTorus', max_filtration_value)
+%api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazyWitnessFlatTorus', max_filtration_value)
+plot_barcodes(filtration_value_intervals, 0, 2, 'lazyWitnessFlatTorus');

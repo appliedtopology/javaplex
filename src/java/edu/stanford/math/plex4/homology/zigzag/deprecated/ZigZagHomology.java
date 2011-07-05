@@ -11,7 +11,7 @@ import edu.stanford.math.plex4.streams.utility.FilteredComparator;
 import edu.stanford.math.primitivelib.autogen.algebraic.IntAbstractField;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntAlgebraicFreeModule;
 
-public class ZigZagHomology<U extends PrimitiveBasisElement> implements AbstractPersistenceAlgorithm<U> {
+public class ZigZagHomology<U extends PrimitiveBasisElement> extends AbstractPersistenceAlgorithm<U> {
 	/**
 	 * This is the field over which we perform the arithmetic computations.
 	 */
@@ -68,7 +68,7 @@ public class ZigZagHomology<U extends PrimitiveBasisElement> implements Abstract
 		this.filteredComparator = new FilteredComparator<U>(stream, this.basisComparator);
 	}
 
-	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
+	public BarcodeCollection<Integer> computeIndexIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		HomologyBasisTracker<U> basisTracker = new HomologyBasisTracker<U>(this.field, this.basisComparator);
 

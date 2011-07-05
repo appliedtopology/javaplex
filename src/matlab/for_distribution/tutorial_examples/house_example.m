@@ -25,11 +25,7 @@ stream.addElement([3, 4, 5], 7);
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 
 % compute intervals
-filtration_index_intervals = persistence.computeIntervals(stream);
-
-% transform integral intervals to floating point intervals
-transformer = homology.filtration.IdentityConverter.getInstance();
-filtration_value_intervals = transformer.transform(filtration_index_intervals)
+filtration_value_intervals = persistence.computeIntervals(stream);
 
 % get the infinite barcodes
 infinite_barcodes = filtration_value_intervals.getInfiniteIntervals();

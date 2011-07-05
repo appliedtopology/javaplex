@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import edu.stanford.math.plex4.homology.barcodes.Interval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
+import edu.stanford.math.plex4.homology.filtration.FiltrationUtility;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.interfaces.PrimitiveStream;
 import gnu.trove.TObjectIntHashMap;
@@ -137,5 +140,9 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 			iterator.advance();
 			this.addElement(iterator.key(), iterator.value());
 		}
+	}
+
+	public <G> PersistenceInvariantDescriptor<Interval<Double>, G> transform(PersistenceInvariantDescriptor<Interval<Integer>, G> barcodeCollection) {
+		return FiltrationUtility.transformByIdentity(barcodeCollection); 
 	}
 }

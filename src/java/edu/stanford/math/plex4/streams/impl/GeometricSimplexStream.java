@@ -6,6 +6,8 @@ package edu.stanford.math.plex4.streams.impl;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import edu.stanford.math.plex4.homology.barcodes.Interval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.metric.interfaces.AbstractObjectMetricSpace;
@@ -164,5 +166,9 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 	 */
 	public Comparator<Simplex> getBasisComparator() {
 		return this.stream.getBasisComparator();
+	}
+
+	public <G> PersistenceInvariantDescriptor<Interval<Double>, G> transform(PersistenceInvariantDescriptor<Interval<Integer>, G> barcodeCollection) {
+		return this.stream.transform(barcodeCollection);
 	}
 }

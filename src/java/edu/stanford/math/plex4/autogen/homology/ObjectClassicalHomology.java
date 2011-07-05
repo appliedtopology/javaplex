@@ -32,7 +32,7 @@ import gnu.trove.THashSet;
  * 
  */
 @Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
-public class ObjectClassicalHomology<F, U> implements AbstractPersistenceAlgorithm<U> {
+public class ObjectClassicalHomology<F, U> extends AbstractPersistenceAlgorithm<U> {
 		protected final ObjectAbstractField<F> field;
 		private final ObjectAlgebraicFreeModule<F, U> chainModule;
 	private final Comparator<U> basisComparator;
@@ -59,7 +59,7 @@ public class ObjectClassicalHomology<F, U> implements AbstractPersistenceAlgorit
 		this.maxDimension = maxDimension;
 	}
 		
-	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
+	public BarcodeCollection<Integer> computeIndexIntervals(AbstractFilteredStream<U> stream) {
 		BarcodeCollection<Integer> barcodeCollection = new BarcodeCollection<Integer>();
 		
 		this.filteredComparator = new FilteredComparator<U>(stream, this.basisComparator);

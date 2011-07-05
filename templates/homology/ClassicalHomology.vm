@@ -32,7 +32,7 @@ import java.util.Iterator;
  * 
  */
 @Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
-public class $className implements $superClassName {
+public class $className extends $superClassName {
 	#if (!($coefficientType == "boolean"))
 	protected final $fieldClassName field;
 	#end
@@ -77,7 +77,7 @@ public class $className implements $superClassName {
 	}
 	#end
 	
-	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<$objectType> stream) {
+	public BarcodeCollection<Integer> computeIndexIntervals(AbstractFilteredStream<$objectType> stream) {
 		BarcodeCollection<Integer> barcodeCollection = new BarcodeCollection<Integer>();
 		
 		this.filteredComparator = new FilteredComparator<$objectType>(stream, this.basisComparator);

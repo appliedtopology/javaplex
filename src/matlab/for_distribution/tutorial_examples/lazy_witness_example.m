@@ -29,8 +29,7 @@ num_simplices = stream.getSize()
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 
 % compute the intervals and transform them to filtration values
-filtration_index_intervals = persistence.computeIntervals(stream);
-filtration_value_intervals = stream.transform(filtration_index_intervals);
+filtration_value_intervals = persistence.computeIntervals(stream);
 
 %% create the barcode plots
 %api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazySphere', max_filtration_value)

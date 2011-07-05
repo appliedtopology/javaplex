@@ -1,5 +1,7 @@
 % Exercise 5.4.5
 
+clc; clear; close all;
+
 max_dimension = 3;
 num_points = 1000;
 num_landmark_points = 50;
@@ -29,18 +31,18 @@ num_simplices = stream.getSize()
 Z2_persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 
 % compute the intervals and transform them to filtration values
-Z2_filtration_index_intervals = Z2_persistence.computeIntervals(stream);
-Z2_filtration_value_intervals = stream.transform(Z2_filtration_index_intervals);
+Z2_filtration_value_intervals = Z2_persistence.computeIntervals(stream);
 
 % create the barcode plots
-api.Plex4.createBarcodePlot(Z2_filtration_value_intervals, 'lazyWitnessFlatKlein_Z2', max_filtration_value)
+%api.Plex4.createBarcodePlot(Z2_filtration_value_intervals, 'lazyWitnessFlatKlein_Z2', max_filtration_value)
+plot_barcodes(Z2_filtration_value_intervals, 0, 2, 'lazyWitnessFlatKlein Z2');
 
 % get homology algorithm over Z/2Z
 Z3_persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 3);
 
 % compute the intervals and transform them to filtration values
-Z3_filtration_index_intervals = Z3_persistence.computeIntervals(stream);
-Z3_filtration_value_intervals = stream.transform(Z3_filtration_index_intervals);
-
+Z3_filtration_value_intervals = Z3_persistence.computeIntervals(stream);
 % create the barcode plots
-api.Plex4.createBarcodePlot(Z3_filtration_value_intervals, 'lazyWitnessFlatKlein_Z3', max_filtration_value)
+%api.Plex4.createBarcodePlot(Z3_filtration_value_intervals, 'lazyWitnessFlatKlein_Z3', max_filtration_value);
+
+plot_barcodes(Z3_filtration_value_intervals, 0, 2, 'lazyWitnessFlatKlein Z3');

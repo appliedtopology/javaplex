@@ -4,7 +4,11 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import edu.stanford.math.plex.SimplexStream;
+import edu.stanford.math.plex4.homology.barcodes.Interval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.homology.filtration.FiltrationConverter;
+import edu.stanford.math.plex4.homology.filtration.FiltrationUtility;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.collections.utility.AdaptedIterator;
 import gnu.trove.TObjectIntHashMap;
@@ -86,5 +90,33 @@ public class Plex3Stream implements AbstractFilteredStream<edu.stanford.math.ple
 
 	public Comparator<Simplex> getBasisComparator() {
 		throw new UnsupportedOperationException();
+	}
+
+	public <G> PersistenceInvariantDescriptor<Interval<Double>, G> transform(PersistenceInvariantDescriptor<Interval<Integer>, G> barcodeCollection) {
+		FiltrationConverter converter = new FiltrationConverter() {
+
+			@Override
+			public double computeInducedFiltrationValue(double filtrationValue1, double filtrationValue2) {
+				return Math.max(filtrationValue1, filtrationValue2);
+			}
+
+			@Override
+			public int getFiltrationIndex(double filtrationValue) {
+				return 0;
+			}
+
+			@Override
+			public double getFiltrationValue(int filtrationIndex) {
+				return plex3Stream.convert_filtration_index(filtrationIndex);
+			}
+
+			@Override
+			public double getInitialFiltrationValue() {
+				return 0;
+			}
+			
+		};
+		
+		return FiltrationUtility.transform(barcodeCollection, converter);
 	}
 }

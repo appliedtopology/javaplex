@@ -6,6 +6,8 @@ package edu.stanford.math.plex4.streams.derived;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import edu.stanford.math.plex4.homology.barcodes.Interval;
+import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.array.ObjectArrayUtility;
 import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
@@ -163,5 +165,9 @@ public class TensorStream<T, U> implements AbstractFilteredStream<ObjectObjectPa
 
 	public Comparator<ObjectObjectPair<T, U>> getBasisComparator() {
 		return new ObjectObjectPairComparator<T, U>(this.stream1.getBasisComparator(), this.stream2.getBasisComparator());
+	}
+
+	public <G> PersistenceInvariantDescriptor<Interval<Double>, G> transform(PersistenceInvariantDescriptor<Interval<Integer>, G> barcodeCollection) {
+		return this.stream1.transform(barcodeCollection);
 	}
 }

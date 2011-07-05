@@ -33,7 +33,7 @@ public class PersistenceAlgorithmTester {
 		List<BarcodeCollection<Integer>> barcodes = new ArrayList<BarcodeCollection<Integer>>();
 		for (AbstractPersistenceAlgorithm<T> algorithm: algorithms) {
 			Timing.restart();
-			barcodes.add(algorithm.computeIntervals(stream));
+			barcodes.add(algorithm.computeIndexIntervals(stream));
 			//System.out.println(barcodes.get(barcodes.size() - 1));
 			Timing.stopAndDisplay(algorithm.toString());
 		}
@@ -66,7 +66,7 @@ public class PersistenceAlgorithmTester {
 		List<AnnotatedBarcodeCollection<Integer, B>> barcodes = new ArrayList<AnnotatedBarcodeCollection<Integer, B>>();
 		for (AbstractPersistenceBasisAlgorithm<T, B> algorithm: algorithms) {
 			Timing.restart();
-			barcodes.add(algorithm.computeAnnotatedIntervals(stream));
+			barcodes.add(algorithm.computeAnnotatedIndexIntervals(stream));
 			Timing.stopAndDisplay(algorithm.toString());
 		}
 		

@@ -47,7 +47,7 @@ public class TopologicalBootstrapTest {
 		double maxDistance = 0.2;
 		
 		AbstractPersistenceAlgorithm<Simplex> persistence = Plex4.getDefaultSimplicialAlgorithm(2);
-		System.out.println(persistence.computeIntervals(Plex4.createVietorisRipsStream(points, 2, maxDistance)));
+		System.out.println(persistence.computeIndexIntervals(Plex4.createVietorisRipsStream(points, 2, maxDistance)));
 	}
 	
 	@Test

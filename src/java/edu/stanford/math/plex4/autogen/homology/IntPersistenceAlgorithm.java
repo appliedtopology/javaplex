@@ -31,7 +31,7 @@ import gnu.trove.TObjectIntIterator;
  *
  */
 @Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
-public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceBasisAlgorithm<U, IntSparseFormalSum<U>> {
+public abstract class IntPersistenceAlgorithm<U> extends AbstractPersistenceBasisAlgorithm<U, IntSparseFormalSum<U>> {
 		/**
 	 * This is the field over which we perform the arithmetic computations.
 	 */
@@ -106,12 +106,12 @@ public abstract class IntPersistenceAlgorithm<U> implements AbstractPersistenceB
 		return this.field;
 	}
 		
-	public BarcodeCollection<Integer> computeIntervals(AbstractFilteredStream<U> stream) {
+	public BarcodeCollection<Integer> computeIndexIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeIntervalsImpl(stream);
 	}
 
-	public AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<U>> computeAnnotatedIntervals(AbstractFilteredStream<U> stream) {
+	public AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<U>> computeAnnotatedIndexIntervals(AbstractFilteredStream<U> stream) {
 		this.initializeFilteredComparator(stream);
 		return this.computeAnnotatedIntervalsImpl(stream);
 	}
