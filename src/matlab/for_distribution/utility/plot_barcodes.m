@@ -2,17 +2,19 @@ function [handle] = plot_barcodes(intervals, options)
 % INPUT:
 %   intervals - the barcode collection to draw
 % OPTIONS:
+%   min_filtration_value - the minimum filtration value (default value is 0)
+%   max_filtration_value - the maximum filtration value (default value inferred from intervals)
 %   min_dimension - the minimum dimension to draw intervals for (inclusive)
 %   max_dimension - the maximum dimension to draw intervals for (inclusive)
-%   filename - the filename to save to without the extension (optional)
-%   caption - the caption for the image (optional - equal to filename by default)
+%   filename - the filename to save to without the extension (equal to caption if not specified)
+%   caption - the caption for the image (equal to filename if not specified)
 %   file_format - the file type - png, eps, jpg, etc.
-%   side_by_side - whether to stack the plots side-by-side or not (optional)
-%   line_width - the thickness of the barcodes
+%   side_by_side - whether to stack the plots side-by-side or not (default is false)
+%   line_width - the thickness of the barcodes (default value 0.5)
 % OUTPUT:
 %   This function produces a plot of the barcodes for dimensions 0, ...,
 %   max_dimension, and displays it on screen. If a filename is specified,
-%   it also saves it to a file.
+%   it also saves it to a file. It also returns a handle to the figure drawn.
 %
 % henrya@math.stanford.edu and atausz@stanford.edu
     
