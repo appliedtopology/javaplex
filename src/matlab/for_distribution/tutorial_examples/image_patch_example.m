@@ -26,12 +26,14 @@ num_simplices = stream.getSize()
 % get the default persistence algorithm
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 
-% compute the intervals and transform them to filtration values
-filtration_value_intervals = persistence.computeIntervals(stream);
+% compute the intervals
+intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-%api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazyRange', max_filtration_value)
-plot_barcodes(filtration_value_intervals, struct('filename', 'lazyRange'));
+options.filename = 'lazyRange';
+options.max_filtration_value = max_filtration_value;
+options.max_dimension = max_dimension - 1;
+plot_barcodes(intervals, options);
 
 %% DCT
 

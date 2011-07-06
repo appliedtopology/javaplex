@@ -23,7 +23,7 @@ intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
 options.filename = 'ripsHouse';
-options.format = 'png';
+options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
 plot_barcodes(intervals, options)
 
@@ -50,11 +50,10 @@ intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
 options.filename = 'ripsTorus';
-options.format = 'png';
-options.side_by_side = true;
-options.max_dimension = max_dimension - 1;
 options.max_filtration_value = max_filtration_value;
-plot_barcodes(intervals, options)
+options.max_dimension = max_dimension - 1;
+options.side_by_side = true;
+plot_barcodes(intervals, options);
 
 % get the infinite barcodes
 infinite_barcodes = intervals.getInfiniteIntervals();

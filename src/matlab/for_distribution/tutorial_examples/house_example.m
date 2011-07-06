@@ -37,7 +37,9 @@ betti_numbers_array = infinite_barcodes.getBettiSequence()
 betti_numbers_string = infinite_barcodes.getBettiNumbers()
 
 % create the barcode plots
-plot_barcodes(intervals, struct('filename', 'house'))
+options.filename = 'house';
+options.max_filtration_value = 8;
+plot_barcodes(intervals, options);
 
 % validate
 stream.validateVerbose()

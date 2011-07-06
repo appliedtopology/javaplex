@@ -30,4 +30,6 @@ intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
 options.filename = 'witnessTorus';
+options.max_filtration_value = max_filtration_value;
+options.max_dimension = max_dimension - 1;
 plot_barcodes(intervals, options);
