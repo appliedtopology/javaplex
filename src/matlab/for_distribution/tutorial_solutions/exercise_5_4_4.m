@@ -35,4 +35,5 @@ filtration_value_intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
 %api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazyWitnessFlatTorus', max_filtration_value)
-plot_barcodes(filtration_value_intervals, 0, 2, 'lazyWitnessFlatTorus');
+options.filename = 'lazyWitnessFlatTorus';
+plot_barcodes(filtration_value_intervals, options);

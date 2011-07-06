@@ -37,7 +37,7 @@ betti_numbers_array = infinite_barcodes.getBettiSequence()
 betti_numbers_string = infinite_barcodes.getBettiNumbers()
 
 % create the barcode plots
-plot_barcodes(intervals, 0, 1, 'house')
+plot_barcodes(intervals, struct('filename', 'house'))
 
 % validate
 stream.validateVerbose()

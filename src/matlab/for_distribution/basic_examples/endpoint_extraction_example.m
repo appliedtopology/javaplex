@@ -27,5 +27,5 @@ endpoints_dim_0 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 0, fa
 % barcode. Note that it ignores infinite intervals
 endpoints_dim_1 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 1, true)
 
-plot_barcodes(intervals, 0, 1);
+plot_barcodes(intervals);
 

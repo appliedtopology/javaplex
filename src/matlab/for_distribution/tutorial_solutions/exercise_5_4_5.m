@@ -35,7 +35,8 @@ Z2_filtration_value_intervals = Z2_persistence.computeIntervals(stream);
 
 % create the barcode plots
 %api.Plex4.createBarcodePlot(Z2_filtration_value_intervals, 'lazyWitnessFlatKlein_Z2', max_filtration_value)
-plot_barcodes(Z2_filtration_value_intervals, 0, 2, 'lazyWitnessFlatKlein Z2');
+options.filename = 'lazyWitnessFlatKlein Z2';
+plot_barcodes(Z2_filtration_value_intervals, options);
 
 % get homology algorithm over Z/2Z
 Z3_persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 3);
@@ -44,5 +45,5 @@ Z3_persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 3);
 Z3_filtration_value_intervals = Z3_persistence.computeIntervals(stream);
 % create the barcode plots
 %api.Plex4.createBarcodePlot(Z3_filtration_value_intervals, 'lazyWitnessFlatKlein_Z3', max_filtration_value);
-
-plot_barcodes(Z3_filtration_value_intervals, 0, 2, 'lazyWitnessFlatKlein Z3');
+options.filename = 'lazyWitnessFlatKlein Z3';
+plot_barcodes(Z3_filtration_value_intervals, options);

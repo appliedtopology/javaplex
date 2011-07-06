@@ -33,4 +33,4 @@ filtration_value_intervals = persistence.computeIntervals(stream);
 
 %% create the barcode plots
 %api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazySphere', max_filtration_value)
-plot_barcodes(filtration_value_intervals, 0, max_dimension, 'lazySphere');
+plot_barcodes(filtration_value_intervals, struct('filename', 'lazySphere'));

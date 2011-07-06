@@ -29,4 +29,5 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-plot_barcodes(intervals, 0, max_dimension - 1, 'witnessTorus')
+options.filename = 'witnessTorus';
+plot_barcodes(intervals, options);

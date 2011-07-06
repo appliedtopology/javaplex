@@ -22,7 +22,10 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-plot_barcodes(intervals, 0, max_dimension - 1, 'ripsHouse')
+options.filename = 'ripsHouse';
+options.format = 'png';
+options.max_dimension = max_dimension - 1;
+plot_barcodes(intervals, options)
 
 %% Torus Example
 
@@ -46,7 +49,12 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-plot_barcodes(intervals, 0, max_dimension - 1, 'ripsTorus', 'ripsTorus', 'png', true)
+options.filename = 'ripsTorus';
+options.format = 'png';
+options.side_by_side = true;
+options.max_dimension = max_dimension - 1;
+options.max_filtration_value = max_filtration_value;
+plot_barcodes(intervals, options)
 
 % get the infinite barcodes
 infinite_barcodes = intervals.getInfiniteIntervals();

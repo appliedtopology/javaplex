@@ -1,6 +1,7 @@
-function [handle] = plot_barcodes(intervals, min_dimension, max_dimension, filename, caption, file_format, side_by_side, line_width)
+function [handle] = plot_barcodes(intervals, options)
 % INPUT:
 %   intervals - the barcode collection to draw
+% OPTIONS:
 %   min_dimension - the minimum dimension to draw intervals for (inclusive)
 %   max_dimension - the maximum dimension to draw intervals for (inclusive)
 %   filename - the filename to save to without the extension (optional)
@@ -14,22 +15,66 @@ function [handle] = plot_barcodes(intervals, min_dimension, max_dimension, filen
 %   it also saves it to a file.
 %
 % henrya@math.stanford.edu and atausz@stanford.edu
+    
+    if (~exist('options', 'var'))
+        options = struct;
+    end
 
-    import edu.stanford.math.plex4.*;
-
-    if (~exist('side_by_side', 'var'))
-        side_by_side = 0;
+    if (isfield(options, 'min_filtration_value'))
+        min_filtration_value = options.min_filtration_value;
     end
     
-    if (~exist('line_width', 'var'))
-        line_width = 0.5;
+    if (isfield(options, 'max_filtration_value'))
+        max_filtration_value = options.max_filtration_value;
     end
     
-    if (~exist('caption', 'var'))
-        if (exist('filename', 'var'))
-            caption = filename;
+    if (isfield(options, 'min_dimension'))
+        min_dimension = options.min_dimension;
+    else
+        min_dimension = 0;
+    end
+    
+    if (isfield(options, 'max_dimension'))
+        max_dimension = options.max_dimension;
+    else
+        max_dimension = length(intervals.getBettiSequence()) - 1;
+    end
+    
+    if (isfield(options, 'filename'))
+        filename = options.filename;
+    else
+        if (isfield(options, 'caption'))
+            filename = options.caption;
         end
     end
+    
+    if (isfield(options, 'caption'))
+        caption = options.caption;
+    else
+        if (isfield(options, 'filename'))
+            caption = options.filename;
+        end
+    end
+    
+    if (isfield(options, 'file_format'))
+        file_format = options.file_format;
+    else
+        file_format = 'png';
+    end
+    
+    if (isfield(options, 'side_by_side'))
+        side_by_side = options.side_by_side;
+    else
+        side_by_side = false;
+    end
+    
+    if (isfield(options, 'line_width'))
+        line_width = options.line_width;
+    else
+        line_width = 0.5;
+    end
+
+    import edu.stanford.math.plex4.*;
     
     threshold = 1e20;
     epsilon = 1e-6;
@@ -134,6 +179,14 @@ function [handle] = plot_barcodes(intervals, min_dimension, max_dimension, filen
             end
         end
         
+        if (exist('min_filtration_value', 'var'))
+            x_min = min_filtration_value;
+        end
+        
+        if (exist('max_filtration_value', 'var'))
+            x_max = max_filtration_value;
+        end
+        
         axis([x_min, x_max, 0, num_intervals + 1]);
         set(subhandle,'YTick',[]);
         set(subhandle,'XGrid','on','YGrid','on');
@@ -148,9 +201,6 @@ function [handle] = plot_barcodes(intervals, min_dimension, max_dimension, filen
     hold off;
     
     if (exist('filename', 'var'))
-        if (~exist('file_format', 'var'))
-            file_format = 'png';
-        end
         saveas(handle, filename, file_format);
     end
 end
