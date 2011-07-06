@@ -667,7 +667,8 @@ The file \texttt{ripsHouse.png} is saved to your current directory.
 \end{figure}
 \FloatBarrier
 
-The second dimensional Betti plot does not appear because there are no $Betti_2$ intervals. Check that these plots are consistent with the Vietoris--Rips definition: edges $[3,5]$ and $[4,5]$ appear at filtration time $t = \sqrt{2}$; the square appears at $t = 2$; the square closes at $t = \sqrt{8}$. 
+%The second dimensional Betti plot does not appear because there are no $Betti_2$ intervals.
+Check that these plots are consistent with the Vietoris--Rips definition: edges $[3,5]$ and $[4,5]$ appear at filtration time $t = \sqrt{2}$; the square appears at $t = 2$; the square closes at $t = \sqrt{8}$. 
 
 %\begin{exercise}
 %Change \texttt{ripsHouse} into an explicit stream
@@ -727,7 +728,7 @@ The file \texttt{ripsTorus.png} is saved to your current directory. %We do not s
 The diameter of this torus (before adding noise) is $\sqrt{8}$, so choosing $t_{max} = 0.9$ likely will not show all homological activity. However, the torus will be reasonably connected by this time. Note the semi-infinite intervals match the correct numbers $Betti_0 = 1$, $Betti_1 = 2$, $Betti_2 = 1$ for a torus.
 
 \begin{quote} \begin{verbatim}
->> infinite_barcodes = filtration_value_intervals.getInfiniteIntervals();
+>> infinite_barcodes = intervals.getInfiniteIntervals();
 >> betti_numbers_array = infinite_barcodes.getBettiSequence()
 betti_numbers_array =
     1
@@ -800,9 +801,9 @@ We plot the two sets of landmark points to see the difference between random and
 \end{verbatim} \end{quote}
 
 \begin{figure}[htp]
-  \begin{center}
-    \includegraphics[width=5in]{fig8lands}
-   \end{center}
+  	\begin{center}
+    	\includegraphics[width=5in]{fig8lands}
+   	\end{center}
 \end{figure}
 \FloatBarrier
 
@@ -875,28 +876,23 @@ num_simplices = 1858                % Generally close to 2000
 
 We plot the Betti intervals.
 
-% TODO: missing semicolon in matlab script
-% overflow
 \begin{quote} \begin{verbatim}
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
->> filtration_index_intervals = persistence.computeIntervals(stream);
->> filtration_value_intervals = stream.transform(filtration_index_intervals); 
->> api.Plex4.createBarcodePlot(filtration_value_intervals, 'witnessTorus',
-max_filtration_value)
+>> intervals = persistence.computeIntervals(stream);
+>> plot_barcodes(intervals, 0, max_dimension - 1, 'witnessTorus')
 \end{verbatim} \end{quote}
 
-The files \texttt{witnessTorus\_0.png}, \texttt{witnessTorus\_1.png}, and \texttt{witnessTorus\_2.png} are saved to your current directory.
+The file \texttt{witnessTorus.png} is saved to your current directory.
 
 \begin{figure}[htp]
-  \begin{center}
-    \subfigure{\includegraphics[width=6in]{witnessTorus_0}}
-    \subfigure{\includegraphics[width=6in]{witnessTorus_1}}
-    \subfigure{\includegraphics[width=6in]{witnessTorus_2}}
-   \end{center}
+	\begin{center}
+    	\includegraphics[width=6in]{witnessTorus.png}
+   	\end{center}
 \end{figure}
 \FloatBarrier
 
-The idea of persistent homology is that long intervals should correspond to real topological features, whereas short intervals are considered to be noise. The plot above shows that for a long range, the torus numbers $Betti_0 = 1$, $Betti_1 = 2$, $Betti_2 = 1$ are obtained. Your plot should contain a similar range. 
+The idea of persistent homology is that long intervals should correspond to real topological features, whereas short intervals are considered to be noise. The plot above shows that for a long range, the torus numbers $Betti_0 = 1$, $Betti_1 = 2$, $Betti_2 = 1$ are obtained. Your plot should contain a similar range.
+%TODO - these comments are not obvious with the new plot system plot_barcodes.m
 
 The witness stream above contains approximately 2,000 simplices, fewer than the approximately 80,000 simplices in the Vietoris--Rips stream from the torus example in Section \ref{Vietoris--Rips}. This is despite the fact that we started with a point cloud of 100,000 points in the witness case, but of only 400 points in the Vietoris--Rips case. This supports our belief that the witness stream returns good results at lower computational expense. 
 

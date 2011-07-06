@@ -42,7 +42,7 @@ num_simplices = stream.getSize()
 % get the default persistence algorithm
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 
-% compute intervals
+% compute the intervals
 intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots

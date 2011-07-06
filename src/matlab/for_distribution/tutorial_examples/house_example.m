@@ -24,7 +24,7 @@ stream.addElement([3, 4, 5], 7);
 % get the default persistence computation
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
 
-% compute intervals
+% compute the intervals
 intervals = persistence.computeIntervals(stream)
 
 % get the infinite barcodes
