@@ -126,14 +126,18 @@ function [handle] = plot_barcodes(intervals, options)
     
     handle = figure;
     hold on;
-
-    if (right_infinite_interval_found)
+    
+    if (exist('max_filtration_value', 'var'))
+        x_max = max_filtration_value;
+    elseif (right_infinite_interval_found)
         x_max = max_finite_endpoint + 0.2 * (max_finite_endpoint - min_finite_endpoint);
     else
         x_max = max_finite_endpoint;
     end
     
-    if (left_infinite_interval_found)
+    if (exist('min_filtration_value', 'var'))
+        x_min = min_filtration_value;
+    elseif (left_infinite_interval_found)
         x_min = min_finite_endpoint - 0.2 * (max_finite_endpoint - min_finite_endpoint);
     else
         x_min = min_finite_endpoint;
@@ -179,14 +183,6 @@ function [handle] = plot_barcodes(intervals, options)
                     line([start, finish], [y, y], 'LineWidth', line_width);
                 end
             end
-        end
-        
-        if (exist('min_filtration_value', 'var'))
-            x_min = min_filtration_value;
-        end
-        
-        if (exist('max_filtration_value', 'var'))
-            x_max = max_filtration_value;
         end
         
         axis([x_min, x_max, 0, num_intervals + 1]);
