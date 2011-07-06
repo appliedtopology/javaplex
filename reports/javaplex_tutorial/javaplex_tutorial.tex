@@ -327,7 +327,7 @@ Let's build a stream with nontrivial filtration times.
 
 \begin{wrapfigure}{r}{1in}
 	\begin{center}
-   	\includegraphics[width=1in]{house.pdf}
+   	\includegraphics[width=1in]{houseFig.pdf}
   	\end{center}
 \end{wrapfigure}
 
@@ -392,9 +392,11 @@ or as a list with entries of the form $k: Betti_k$.
 betti_numbers_string = {0: 1, 1: 1} 
 \end{verbatim} \end{quote}
 
-The Matlab function \texttt{plot\_barcodes.m} lets us display the intervals as Betti barcodes. The four inputs are \texttt{intervals}, the minimum dimension barcode to plot, the maximum dimension barcode to plot, and a string for the filename. 
+The Matlab function \texttt{plot\_barcodes.m} lets us display the intervals as Betti barcodes. The Matlab structure array \texttt{options} contains different options for the plot. We choose the filename \texttt{house} and we choose the maximum filtration time for the plot to be eight.
 \begin{quote} \begin{verbatim}
->> plot_barcodes(intervals, 0, 1, 'house')
+>> options.filename = 'house';
+>> options.max_filtration_value = 8;
+>> plot_barcodes(intervals, options);
 \end{verbatim} \end{quote}
 
 The file \texttt{house.png} is saved to your current directory.
