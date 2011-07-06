@@ -654,10 +654,13 @@ Since $d_{max} = 3$ we can compute up to second dimensional persistent homology.
 >> intervals = persistence.computeIntervals(stream);
 \end{verbatim} \end{quote}
 
-We display the Betti intervals.% Typically the last input for the method \texttt{createBarcodePlot} will be $t_{max}$, since there is no reason to display filtration times that we haven't computed.
+We display the Betti intervals. Parameter \texttt{options.max\_filtration\_value} is the largest filtration time to be displayed. Typically \texttt{options.max\_filtration\_value} is chosen to be \texttt{max\_filtration\_value}. Parameter \texttt{options.max\_dimension} is the largest persistent homology dimension to be displayed. Typically \texttt{options.max\_dimension} is chosen to be \texttt{max\_dimension - 1} because in a stream with simplices computed up to dimension $d_{max}$ we can only compute persistent homology up to dimension $d_{max} - 1$. % Typically the last input for the method \texttt{createBarcodePlot} will be $t_{max}$, since there is no reason to display filtration times that we haven't computed.
 
 \begin{quote} \begin{verbatim}
->> plot_barcodes(intervals, 0, max_dimension - 1, 'ripsHouse')
+>> options.filename = 'ripsHouse';
+>> options.max_filtration_value = max_filtration_value;
+>> options.max_dimension = max_dimension - 1;
+>> plot_barcodes(intervals, options);
 \end{verbatim} \end{quote}
 
 The file \texttt{ripsHouse.png} is saved to your current directory.
@@ -714,11 +717,16 @@ num_simplices = 82479
 
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 >> intervals = persistence.computeIntervals(stream);
->> plot_barcodes(intervals, 0, max_dimension - 1, 'ripsTorus', 'ripsTorus', 'png', true)
+
+>> options.filename = 'ripsTorus';
+>> options.max_filtration_value = max_filtration_value;
+>> options.max_dimension = max_dimension - 1;
+>> options.side_by_side = true;
+>> plot_barcodes(intervals, options);
 \end{verbatim} \end{quote}
 
 % TODO: explain crazy plot_barcodes optional inputs above
-The file \texttt{ripsTorus.png} is saved to your current directory. %We do not show these figures because the plots are very tall.
+The file \texttt{ripsTorus.png} is saved to your current directory.
 
 \begin{figure}[htp]
 	\begin{center}
@@ -881,7 +889,11 @@ We plot the Betti intervals.
 \begin{quote} \begin{verbatim}
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 >> intervals = persistence.computeIntervals(stream);
->> plot_barcodes(intervals, 0, max_dimension - 1, 'witnessTorus')
+
+>> options.filename = 'witnessTorus';
+>> options.max_filtration_value = max_filtration_value;
+>> options.max_dimension = max_dimension - 1;
+>> plot_barcodes(intervals, options);
 \end{verbatim} \end{quote}
 
 The file \texttt{witnessTorus.png} is saved to your current directory.
@@ -894,7 +906,6 @@ The file \texttt{witnessTorus.png} is saved to your current directory.
 \FloatBarrier
 
 The idea of persistent homology is that long intervals should correspond to real topological features, whereas short intervals are considered to be noise. The plot above shows that for a long range, the torus numbers $Betti_0 = 1$, $Betti_1 = 2$, $Betti_2 = 1$ are obtained. Your plot should contain a similar range.
-%TODO - these comments are not obvious with the new plot system plot_barcodes.m
 
 The witness stream above contains approximately 2,000 simplices, fewer than the approximately 80,000 simplices in the Vietoris--Rips stream from the torus example in Section \ref{Vietoris--Rips}. This is despite the fact that we started with a point cloud of 100,000 points in the witness case, but of only 400 points in the Vietoris--Rips case. This supports our belief that the witness stream returns good results at lower computational expense. 
 
@@ -943,7 +954,7 @@ Often $t_{max}$ is chosen in proportion to \texttt{R}.
 
 % Is LazyWitnessStream constructer being added to class api?
 % comment (2)
-% overflow (2)
+% overflow
 \begin{quote} \begin{verbatim} 
 >> R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
 R = 0.6877                               % Generally close to 0.7
@@ -954,20 +965,20 @@ landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
 >> num_simplices = stream.getSize()
 num_simplices = 79842                       % Generally between 30000 and 180000
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
->> filtration_index_intervals = persistence.computeIntervals(stream);
->> filtration_value_intervals = stream.transform(filtration_index_intervals);
->> api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazySphere',
-max_filtration_value) 
+>> intervals = persistence.computeIntervals(stream);
+
+>> options.filename = 'lazySphere';
+>> options.max_filtration_value = max_filtration_value;
+>> options.max_dimension = max_dimension - 1;
+>> plot_barcodes(intervals, options);
 \end{verbatim} \end{quote}
 
-The files \texttt{lazySphere\_0.png}, \texttt{lazySphere\_1.png}, and \texttt{lazySphere\_2.png} are saved to your current directory.
+The file \texttt{lazySphere.png} is saved to your current directory.
 
 \begin{figure}[htp]
-  \begin{center}
-    \subfigure{\includegraphics[width=6in]{lazySphere_0}}
-    \subfigure{\includegraphics[width=6in]{lazySphere_1}}
-    \subfigure{\includegraphics[width=6in]{lazySphere_2}}
-   \end{center}
+	\begin{center}
+    	\includegraphics[width=6in]{lazySphere.png}
+   	\end{center}
 \end{figure}
 \FloatBarrier
 
@@ -1024,7 +1035,7 @@ Matrix \texttt{pointsRange} is in fact $X^5(300,30)$: each of its rows is a vect
 We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, and we build the lazy witness stream with parameter $\nu = 1$. 
 
 % comment (2)
-% overflow (2)
+% overflow
 \begin{quote} \begin{verbatim}
 >> max_dimension = 3;
 >> num_landmark_points = 50;
@@ -1042,21 +1053,22 @@ landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
 num_simplices = 12036                        % Generally between 10000 and 25000
 
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
->> filtration_index_intervals = persistence.computeIntervals(stream);
->> filtration_value_intervals = stream.transform(filtration_index_intervals);
->> api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazyRange',
-max_filtration_value)
+>> intervals = persistence.computeIntervals(stream);
+
+>> options.filename = 'lazyRange';
+>> options.max_filtration_value = max_filtration_value;
+>> options.max_dimension = max_dimension - 1;
+>> plot_barcodes(intervals, options);
 \end{verbatim} \end{quote}
 
-The files \texttt{lazyRange\_0.png} and \texttt{lazyRange\_1.png} (and maybe \texttt{lazyRange\_2.png}) are saved to your current directory.
+The file \texttt{lazyRange.png} is saved to your current directory.
 
 \begin{figure}[htp]
-  \begin{center}
-    \subfigure{\includegraphics[width=6in]{lazyRange_0}}
-    \subfigure{\includegraphics[width=6in]{lazyRange_1}}
-   \end{center}
-  \caption{Betti intervals for the lazy witness complex built from $X^5(300,30)$}
-  \label{fig:rangeBetti}
+	\begin{center}
+    	\includegraphics[width=6in]{lazyRange.png}
+   	\end{center}
+	\caption{Betti intervals for the lazy witness complex built from $X^5(300,30)$}
+  	\label{fig:rangeBetti}
 \end{figure}
 \FloatBarrier
 

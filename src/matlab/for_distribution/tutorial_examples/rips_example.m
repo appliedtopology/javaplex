@@ -25,7 +25,7 @@ intervals = persistence.computeIntervals(stream);
 options.filename = 'ripsHouse';
 options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
-plot_barcodes(intervals, options)
+plot_barcodes(intervals, options);
 
 %% Torus Example
 
