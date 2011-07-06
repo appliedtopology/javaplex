@@ -214,9 +214,9 @@ The Matlab script corresponding to this section is \texttt{explicit\_simplex\_ex
 {\em Circle example.} Let's build a simplicial complex homeomorphic to a circle. We have three 0-simplices: [0], [1], [2], and three 1-simplices: [0,1], [0,2], [1,2].
 
 \begin{figure}[htp]
-  \begin{center}
-    \includegraphics[width=1in]{s1.pdf}
-   \end{center}
+  	\begin{center}
+    	\includegraphics[width=1in]{s1.pdf}
+   	\end{center}
 \end{figure}
 \FloatBarrier
 
@@ -400,9 +400,9 @@ The Matlab function \texttt{plot\_barcodes.m} lets us display the intervals as B
 The file \texttt{house.png} is saved to your current directory.
 
 \begin{figure}[htp]
-  \begin{center}
-    \includegraphics[width=6in]{house.png}
-   \end{center}
+	\begin{center}
+    	\includegraphics[width=6in]{house.png}
+   	\end{center}
 \end{figure}
 \FloatBarrier
 
@@ -649,25 +649,21 @@ Since $d_{max} = 3$ we can compute up to second dimensional persistent homology.
 
 \begin{quote} \begin{verbatim}
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
->> filtration_index_intervals = persistence.computeIntervals(stream);
->> filtration_value_intervals = stream.transform(filtration_index_intervals);
+>> intervals = persistence.computeIntervals(stream);
 \end{verbatim} \end{quote}
 
-We display the Betti intervals. Typically the last input for the method \texttt{createBarcodePlot} will be $t_{max}$, since there is no reason to display filtration times that we haven't computed.
+We display the Betti intervals.% Typically the last input for the method \texttt{createBarcodePlot} will be $t_{max}$, since there is no reason to display filtration times that we haven't computed.
 
-% overflow
 \begin{quote} \begin{verbatim}
->> api.Plex4.createBarcodePlot(filtration_value_intervals, 'ripsHouse',
-max_filtration_value)
+>> plot_barcodes(intervals, 0, max_dimension - 1, 'ripsHouse')
 \end{verbatim} \end{quote}
 
-The files \texttt{ripsHouse\_0.PNG} and \texttt{ripsHouse\_1.PNG} are saved to your current directory.
+The file \texttt{ripsHouse.png} is saved to your current directory.
 
 \begin{figure}[htp]
-  \begin{center}
-    \subfigure{\includegraphics[width=6in]{ripsHouse_0}}
-    \subfigure{\includegraphics[width=6in]{ripsHouse_1}}
-   \end{center}
+	\begin{center}
+    	\includegraphics[width=6in]{ripsHouse.png}
+   	\end{center}
 \end{figure}
 \FloatBarrier
 
@@ -701,7 +697,7 @@ We build the Vietoris--Rips stream.
 Load the file \texttt{pointsTorusGrid.mat}. The matrix \texttt{pointsTorusGrid} appears in your Matlab workspace.
 
 % verbatim comment
-% overflow (2)
+% overflow
 \begin{quote} \begin{verbatim}
 >> load pointsTorusGrid.mat
 >> point_cloud = pointsTorusGrid;
@@ -714,13 +710,19 @@ max_filtration_value, num_divisions);
 num_simplices = 82479
 
 >> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
->> filtration_index_intervals = persistence.computeIntervals(stream);
->> filtration_value_intervals = stream.transform(filtration_index_intervals);
->> api.Plex4.createBarcodePlot(filtration_value_intervals, 'ripsTorus',
-max_filtration_value)
+>> intervals = persistence.computeIntervals(stream);
+>> plot_barcodes(intervals, 0, max_dimension - 1, 'ripsTorus', 'ripsTorus', 'png', true)
 \end{verbatim} \end{quote}
 
-The files \texttt{ripsTorus\_0.PNG}, \texttt{ripsTorus\_1.PNG} and \texttt{ripsTorus\_2.PNG} are saved to your current directory. We do not show these figures because the plots are very tall. 
+% TODO: explain crazy plot_barcodes optional inputs above
+The file \texttt{ripsTorus.png} is saved to your current directory. %We do not show these figures because the plots are very tall.
+
+\begin{figure}[htp]
+	\begin{center}
+    	\includegraphics[width=6in]{ripsTorus.png}
+   	\end{center}
+\end{figure}
+\FloatBarrier
 
 The diameter of this torus (before adding noise) is $\sqrt{8}$, so choosing $t_{max} = 0.9$ likely will not show all homological activity. However, the torus will be reasonably connected by this time. Note the semi-infinite intervals match the correct numbers $Betti_0 = 1$, $Betti_1 = 2$, $Betti_2 = 1$ for a torus.
 
@@ -883,7 +885,7 @@ We plot the Betti intervals.
 max_filtration_value)
 \end{verbatim} \end{quote}
 
-The files \texttt{witnessTorus\_0.PNG}, \texttt{witnessTorus\_1.PNG}, and \texttt{witnessTorus\_2.PNG} are saved to your current directory.
+The files \texttt{witnessTorus\_0.png}, \texttt{witnessTorus\_1.png}, and \texttt{witnessTorus\_2.png} are saved to your current directory.
 
 \begin{figure}[htp]
   \begin{center}
@@ -960,7 +962,7 @@ num_simplices = 79842                       % Generally between 30000 and 180000
 max_filtration_value) 
 \end{verbatim} \end{quote}
 
-The files \texttt{lazySphere\_0.PNG}, \texttt{lazySphere\_1.PNG}, and \texttt{lazySphere\_2.PNG} are saved to your current directory.
+The files \texttt{lazySphere\_0.png}, \texttt{lazySphere\_1.png}, and \texttt{lazySphere\_2.png} are saved to your current directory.
 
 \begin{figure}[htp]
   \begin{center}
@@ -1048,7 +1050,7 @@ num_simplices = 12036                        % Generally between 10000 and 25000
 max_filtration_value)
 \end{verbatim} \end{quote}
 
-The files \texttt{lazyRange\_0.PNG} and \texttt{lazyRange\_1.PNG} (and maybe \texttt{lazyRange\_2.PNG}) are saved to your current directory.
+The files \texttt{lazyRange\_0.png} and \texttt{lazyRange\_1.png} (and maybe \texttt{lazyRange\_2.png}) are saved to your current directory.
 
 \begin{figure}[htp]
   \begin{center}

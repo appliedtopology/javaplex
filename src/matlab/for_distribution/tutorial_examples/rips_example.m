@@ -18,13 +18,11 @@ stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension, max_filt
 % get the default persistence algorithm
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 
-% this initially creates a set of intervals which contains the filtration
-% indices (which are integers).
-filtration_value_intervals = persistence.computeIntervals(stream);
+% compute intervals
+intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-%api.Plex4.createBarcodePlot(filtration_value_intervals, 'ripsHouse', max_filtration_value)
-plot_barcodes(filtration_value_intervals, 0, max_dimension - 1, 'ripsHouse');
+plot_barcodes(intervals, 0, max_dimension - 1, 'ripsHouse')
 
 %% Torus Example
 
@@ -44,16 +42,14 @@ num_simplices = stream.getSize()
 % get the default persistence algorithm
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 
-% this initially creates a set of intervals which contains the filtration
-% indices (which are integers).
-filtration_value_intervals = persistence.computeIntervals(stream);
+% compute intervals
+intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-%api.Plex4.createBarcodePlot(filtration_value_intervals, 'ripsTorus', max_filtration_value)
-plot_barcodes(filtration_value_intervals, 0, max_dimension - 1, 'ripsTorus', 'ripsTorus', 'pdf', true);
+plot_barcodes(intervals, 0, max_dimension - 1, 'ripsTorus', 'ripsTorus', 'png', true)
 
 % get the infinite barcodes
-infinite_barcodes = filtration_value_intervals.getInfiniteIntervals();
+infinite_barcodes = intervals.getInfiniteIntervals();
 
 % print out betti numbers array
 betti_numbers_array = infinite_barcodes.getBettiSequence()
