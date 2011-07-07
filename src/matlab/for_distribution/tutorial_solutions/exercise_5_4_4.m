@@ -34,7 +34,6 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-%api.Plex4.createBarcodePlot(filtration_value_intervals, 'lazyWitnessFlatTorus', max_filtration_value)
 options.filename = 'lazyWitnessFlatTorus';
 options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
