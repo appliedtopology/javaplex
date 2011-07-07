@@ -20,6 +20,10 @@
 \theoremstyle{remark}
 \newtheorem*{solution}{Solution}
 
+\DeclareMathOperator{\VR}{VR}
+\DeclareMathOperator{\W}{W}
+\DeclareMathOperator{\LW}{LW}
+
 \begin{document}
 
 \title{javaPlex Tutorial}
@@ -34,17 +38,20 @@
 
 \maketitle
 
+% The first line below must precede the second and third lines, because otherwise the spacing in the table of contents is increased by too much.
 \tableofcontents
-
-% These lines should be after "\tableofcontents" so that the spacing in the table of contents is not increased.
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{8pt}
 
-% standardize citations in tutorial wiki
+% TODO: standardize spacing for Matlab output
+
+% TODO: standardize spacing for "%" comments in verbatim sections
+
+% TODO: standardize line breaks (overflow) in verbatim sections. MVJ suggests using ...
+
+% TODO: standardize citations in tutorial wiki
 
 % TODO: The links to the tutorial from my webpage and from the MRC website are to the pre-Snowbird 4.0.0 version. The link from the tutorial wiki is to the latest version.
-
-% TODO: fix LaTeX style, as per meeting with Mikael
 
 % TODO: add representative cycles example which Andrew has made to tutorial
 
@@ -59,8 +66,6 @@
 % TODO: add example which is FLAT double torus. That is, select points at random from an octagon. Then, create explicit metric by identifying sides.
 
 % how do you display the simplices in a stream?
-
-% Change VR$(Z,t)$ to $\VR(Z,t)$ (and same for witness complexes) by defining new math operators.
 
 
 
@@ -114,7 +119,7 @@ Your output should be the same except for the last several characters. Each time
 
 \subsection{Accompanying files}
 
-The following Matlab scripts containing the commands in this tutorial are available in the folder \texttt{matlab\_examples/tutorial\_examples}. This means that you don't need to type in each command individually. % Add note? DONT coy and paste commands from pdf
+The following Matlab scripts containing the commands in this tutorial are available in the folder \texttt{matlab\_examples/tutorial\_examples}. This means that you don't need to type in each command individually. % Add note? DONT copy and paste commands from pdf
 \begin{itemize}
 \item \texttt{core\_subsets\_example.m}
 \item \texttt{euler\_characteristic\_example.m}
@@ -408,14 +413,6 @@ The file \texttt{house.png} is saved to your current directory.
 \end{figure}
 \FloatBarrier
 
-%\begin{figure}[htp]
-%  \begin{center}
-%    \subfigure{\includegraphics[width=6in]{house_0}}
-%    \subfigure{\includegraphics[width=6in]{house_1}}
-%   \end{center}
-%\end{figure}
-%\FloatBarrier
-
 The filtration times are on the horizontal axis. The $Betti_k$ number of the stream at filtration time $t$ is the number of intervals in the dimension $k$ plot that intersect a vertical line through $t$. Check that the displayed intervals agree with the filtration times we built into the house stream. At time 0, a connected component and a 1-dimensional hole form. At time 1, a second connected component appears, which joins to the first at time 2. A second 1-dimensional hole forms at time 3, and closes at time 7. 
 
 An important remark is that the methods \texttt{addElement} and \texttt{removeElementIfPresent} do not necessarily enforce the definition of a stream. They allow us to build inconsistent complexes in which some simplex $\sigma \in X(t)$ contains a subsimplex $\sigma' \notin X(t)$, meaning that $X(t)$ is not a simplicial complex. The method \texttt{validateVerbose} returns \texttt{1} if our stream is consistent and returns \texttt{0} with explanation if not. 
@@ -431,7 +428,6 @@ ans = 0
 \end{verbatim} \end{quote}
 
 %In Section \ref{sfpc} we will create simplex streams that are not also explicit simplex streams. To display or edit such streams, we will first need to use the method \texttt{makeExplicit}. See Exercise \ref{ripsExpl}. 
-% TODO
 
 % Henry: At the moment there is no ``make Explicit'' function. 
 
@@ -622,13 +618,13 @@ When working with a new dataset, don't choose $d_{max}$ and $t_{max}$ too large 
 
 
 \subsection{Vietoris--Rips streams}\label{Vietoris--Rips}
-Let  $d(\ \cdot\ ,\ \cdot \ )$ denote the distance between two points in metric space $Z$. A natural stream to build is the Vietoris--Rips stream. The complex VR$(Z,t)$ is defined as follows: 
+Let  $d(\ \cdot\ ,\ \cdot \ )$ denote the distance between two points in metric space $Z$. A natural stream to build is the Vietoris--Rips stream. The complex $\VR(Z,t)$ is defined as follows: 
 \begin{itemize}
 \item{the vertex set is $Z$.}
-\item{for vertices $a$ and $b$, edge $[ab]$ is in VR$(Z,t)$ if $d(a,b) \leq t$.}
-\item{a higher dimensional simplex is in VR$(Z,t)$ if all of its edges are.}
+\item{for vertices $a$ and $b$, edge $[ab]$ is in $\VR(Z,t)$ if $d(a,b) \leq t$.}
+\item{a higher dimensional simplex is in $\VR(Z,t)$ if all of its edges are.}
 \end{itemize}
-Note that $\mbox{VR}(Z,t) \subset \mbox{VR}(Z,s)$ whenever $t\leq s$, so the Vietoris--Rips stream is a filtered simplicial complex. Since a Vietoris--Rips complex is the maximal simplicial complex that can be built on top of its 1-skeleton, it is a {\em flag complex}. 
+Note that $\VR(Z,t) \subset \VR(Z,s)$ whenever $t\leq s$, so the Vietoris--Rips stream is a filtered simplicial complex. Since a Vietoris--Rips complex is the maximal simplicial complex that can be built on top of its 1-skeleton, it is a {\em flag complex}. 
 
 The Matlab script corresponding to this section is \texttt{rips\_example.m}. 
 
@@ -672,7 +668,6 @@ The file \texttt{ripsHouse.png} is saved to your current directory.
 \end{figure}
 \FloatBarrier
 
-%The second dimensional Betti plot does not appear because there are no $Betti_2$ intervals.
 Check that these plots are consistent with the Vietoris--Rips definition: edges $[3,5]$ and $[4,5]$ appear at filtration time $t = \sqrt{2}$; the square appears at $t = 2$; the square closes at $t = \sqrt{8}$. 
 
 %\begin{exercise}
@@ -702,7 +697,7 @@ We build the Vietoris--Rips stream.
 
 Load the file \texttt{pointsTorusGrid.mat}. The matrix \texttt{pointsTorusGrid} appears in your Matlab workspace.
 
-% verbatim comment
+% comment
 % overflow
 \begin{quote} \begin{verbatim}
 >> load pointsTorusGrid.mat
@@ -725,8 +720,7 @@ num_simplices = 82479
 >> plot_barcodes(intervals, options);
 \end{verbatim} \end{quote}
 
-% TODO: explain crazy plot_barcodes optional inputs above
-The file \texttt{ripsTorus.png} is saved to your current directory.
+Setting the parameter \texttt{options.side\_by\_side} equal to \texttt{true} makes it such that the Betti barcodes of different dimensions are plotted side by side instead of above and below each other. The file \texttt{ripsTorus.png} is saved to your current directory.
 
 \begin{figure}[htp]
 	\begin{center}
@@ -746,7 +740,7 @@ betti_numbers_array =
     1
 \end{verbatim} \end{quote}
 
-This example makes it clear that the computed ``semi-infinite'' intervals do not necessarily persist until $t = \infty$: in a Vietoris--Rips stream, once $t$ is greater than the diameter of the point cloud, the Betti numbers for VR$(Z,t)$ will be $ Betti_0 = 1$, $Betti_1 = Betti_2 = ... = 0$. The computed semi-infinite intervals are merely those that persist until $t = t_{max}$. 
+This example makes it clear that the computed ``semi-infinite'' intervals do not necessarily persist until $t = \infty$: in a Vietoris--Rips stream, once $t$ is greater than the diameter of the point cloud, the Betti numbers for $\VR(Z,t)$ will be $ Betti_0 = 1$, $Betti_1 = Betti_2 = ... = 0$. The computed semi-infinite intervals are merely those that persist until $t = t_{max}$. 
 
 {\em Remark.} We can build Vietoris--Rips streams not only on top of Euclidean point clouds, but also on top of explicit metric spaces. For example, if \texttt{m\_space} were an explicit metric space, then we could call a command such as
 
@@ -761,11 +755,11 @@ Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the siz
 \end{exercise}
 
 \begin{exercise}\label{Ex:ripsPlanarBetti2}
-Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that VR$(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer. 
+Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer. 
 \end{exercise}
 
 \begin{exercise}\label{Ex:ripsPlanarBetti6}
-Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that VR$(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$. 
+Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$. 
 \end{exercise}
 
 
@@ -837,12 +831,12 @@ Let $Z$ be a point cloud and $L$ a landmark subset. Show that if $L$ is chosen v
 
 
 \subsection{Witness streams}
-Suppose we are given a point cloud $Z$ and landmark subset $L$. Let $m_k(z)$ be the distance from a point $z \in Z$ to its $(k+1)$-th closest landmark point. The witness stream complex $W(Z,L,t)$ is defined as follows.
+Suppose we are given a point cloud $Z$ and landmark subset $L$. Let $m_k(z)$ be the distance from a point $z \in Z$ to its $(k+1)$-th closest landmark point. The witness stream complex $\W(Z,L,t)$ is defined as follows.
 \begin{itemize}
 \item{the vertex set is $L$.}
-\item{for $k>0$ and vertices $l_i$, the $k$-simplex $[l_0 l_1 ... l_k]$ is in $W(Z,L,t)$ if all of its faces are, and if there exists a witness point $z \in Z$ such that $$\max\bigl\{d(l_0,z), d(l_1,z), ..., d(l_k,z)\bigr\} \leq t+m_k(z).$$ }
+\item{for $k>0$ and vertices $l_i$, the $k$-simplex $[l_0 l_1 ... l_k]$ is in $\W(Z,L,t)$ if all of its faces are, and if there exists a witness point $z \in Z$ such that $$\max\bigl\{d(l_0,z), d(l_1,z), ..., d(l_k,z)\bigr\} \leq t+m_k(z).$$ }
 \end{itemize}
-Note that $W(Z,L,t) \subset W(Z,L,s)$ whenever $t\leq s$. Note that a landmark point can serve as a witness point. 
+Note that $\W(Z,L,t) \subset \W(Z,L,s)$ whenever $t\leq s$. Note that a landmark point can serve as a witness point. 
 
 \begin{exercise}\label{Ex:witnessHouse}
 Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? 
@@ -853,6 +847,10 @@ The Matlab script corresponding to this section is \texttt{witness\_example.m}.
 {\em Torus example.} Let's build a witness stream instance for 10,000 random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 random landmarks.
 
 % overflow
+
+% point_cloud = ...
+% examples.PointCloudExamples.getRandomSphereProductPoints(num_points, 1, 2);
+
 \begin{quote} \begin{verbatim}
 >> num_points = 10000;
 >> num_landmark_points = 50;
@@ -875,8 +873,13 @@ R = 1.1067 \hspace{40mm}                    % Generally close to 1.1
 
 We create the witness stream.
 
-%overflow
+% overflow
 % comment
+
+%stream = api.Plex4.createWitnessStream(landmark_selector, ...
+%                                           max_dimension, ...
+%                                           max_filtration_value, ...
+%                                           num_divisions); 
 \begin{quote} \begin{verbatim}
 >> stream = api.Plex4.createWitnessStream(landmark_selector, max_dimension,
 max_filtration_value, num_divisions); 
@@ -911,15 +914,15 @@ The witness stream above contains approximately 2,000 simplices, fewer than the 
 
 
 \subsection{Lazy witness streams}
-A lazy witness stream is similar to a witness stream. However, there is an extra parameter $\nu$, typically chosen to be 0, 1, or 2, which helps determine how the lazy witness complexes $LW_\nu(Z,L,t)$ are constructed. See \cite{dsc04} for more information. 
+A lazy witness stream is similar to a witness stream. However, there is an extra parameter $\nu$, typically chosen to be 0, 1, or 2, which helps determine how the lazy witness complexes $\LW_\nu(Z,L,t)$ are constructed. See \cite{dsc04} for more information. 
 
-Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\in\mathbb{N}$. If $\nu = 0$, let $m(z) = 0$ for all $z\in Z$. If $\nu >0$, let $m(z)$ be the distance from $z$ to the $\nu$-th closest landmark point. The lazy witness complex $LW_\nu(Z,L,t)$ is defined as follows.
+Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\in\mathbb{N}$. If $\nu = 0$, let $m(z) = 0$ for all $z\in Z$. If $\nu >0$, let $m(z)$ be the distance from $z$ to the $\nu$-th closest landmark point. The lazy witness complex $\LW_\nu(Z,L,t)$ is defined as follows.
 \begin{itemize}
 \item{the vertex set is $L$.}
-\item{for vertices $a$ and $b$, edge $[ab]$ is in $LW_\nu(Z,L,t)$ if there exists a witness $z \in Z$ such that $$\max\bigl\{d(a,z), d(b,z)\bigr\} \leq t+m(z).$$}
-\item{a higher dimensional simplex is in $LW_\nu(Z,L,t)$ if all of its edges are.} 
+\item{for vertices $a$ and $b$, edge $[ab]$ is in $\LW_\nu(Z,L,t)$ if there exists a witness $z \in Z$ such that $$\max\bigl\{d(a,z), d(b,z)\bigr\} \leq t+m(z).$$}
+\item{a higher dimensional simplex is in $\LW_\nu(Z,L,t)$ if all of its edges are.} 
 \end{itemize}
-Note that $LW_\nu(Z,L,t) \subset LW_\nu(Z,L,s)$ whenever $t\leq s$. The adjective {\em lazy} refers to the fact that the lazy witness complex is a flag complex: since the 1-skeleton determines all higher dimensional simplices, less computation is involved. 
+Note that $\LW_\nu(Z,L,t) \subset \LW_\nu(Z,L,s)$ whenever $t\leq s$. The adjective {\em lazy} refers to the fact that the lazy witness complex is a flag complex: since the 1-skeleton determines all higher dimensional simplices, less computation is involved. 
 
 \begin{exercise}\label{Ex:lazyHouseNu1}
 Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? 
@@ -930,7 +933,7 @@ Repeat the above exercise with $\nu = 0$ and with $\nu = 2$.
 \end{exercise}
 
 \begin{exercise}\label{Ex:lazyFlag}
-Check that the 1-skeleton of a witness complex $W(Z,L,t)$ is the same as the 1-skeleton of a lazy witness complex $LW_2(Z,L,t)$. As a consequence, $LW_2(Z,L,t)$ is the flag complex of $W(Z,L,t)$. 
+Check that the 1-skeleton of a witness complex $\W(Z,L,t)$ is the same as the 1-skeleton of a lazy witness complex $\LW_2(Z,L,t)$. As a consequence, $\LW_2(Z,L,t)$ is the flag complex of $\W(Z,L,t)$. 
 \end{exercise}
 
 {\em 2-sphere example.} The Matlab script corresponding to this example is \texttt{lazy\_witness\_example.m}.
@@ -1260,7 +1263,7 @@ With $k = 50$, we expect the densest points to be slightly larger than the 25-th
 
 
 
-\section{Exercise solutions}\label{A:solutions} %TODO: reference this label
+\section{Exercise solutions}\label{A:solutions}
 
 Several exercise solutions are accompanied by Matlab scripts, which are available in the folder \texttt{tutorial\_solutions}.
 
@@ -1334,7 +1337,7 @@ No solution included.
 \end{solution}
 
 \begin{exerciseSol}[\ref{Ex:ripsPlanarBetti2}]
-Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that VR$(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer.
+Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1342,7 +1345,7 @@ See the Matlab script \texttt{exercise\_5\_1\_2.m} for a solution. Our planar da
 \end{solution}
 
 \begin{exerciseSol}[\ref{Ex:ripsPlanarBetti6}]
-Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that VR$(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$.
+Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1396,7 +1399,7 @@ Next we do the case when $\nu = 2$. The edge between $(1, 0)$ and $(0, 3)$ has f
 \end{solution}
 
 \begin{exerciseSol}[\ref{Ex:lazyFlag}]
-Check that the 1-skeleton of a witness complex $W(Z,L,t)$ is the same as the 1-skeleton of a lazy witness complex $LW_2(Z,L,t)$. As a consequence, $LW_2(Z,L,t)$ is the flag complex of $W(Z,L,t)$.
+Check that the 1-skeleton of a witness complex $\W(Z,L,t)$ is the same as the 1-skeleton of a lazy witness complex $\LW_2(Z,L,t)$. As a consequence, $\LW_2(Z,L,t)$ is the flag complex of $\W(Z,L,t)$.
 \end{exerciseSol}
 
 \begin{solution}
