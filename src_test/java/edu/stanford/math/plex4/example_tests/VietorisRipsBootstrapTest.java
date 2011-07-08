@@ -19,14 +19,15 @@ public class VietorisRipsBootstrapTest {
 	public void tearDown() {}
 	
 	@Test
-	public void testVdSExample() throws IOException {
-		double[][] points = PointCloudExamples.getEquispacedCirclePoints(1000);
-		double maxDistance = 0.2;
-		int maxDimension = 1;
-		int numSelections = 4;
-		int selectionSize = 10;
+	public void testCircle() throws IOException {
+		RandomUtility.initializeWithSeed(0);
 		
-		RandomUtility.initializeWithSeed(0);	
+		double[][] points = PointCloudExamples.getEquispacedCirclePoints(10000);
+		double maxDistance = 1.3;
+		int maxDimension = 1;
+		int numSelections = 10;
+		int selectionSize = 20;
+		
 	
 		VietorisRipsBootstrapper bootstrapper = new VietorisRipsBootstrapper(points, maxDistance, maxDimension, numSelections, selectionSize);
 		BarcodeCollection<Integer> barcodes = bootstrapper.performBootstrap();

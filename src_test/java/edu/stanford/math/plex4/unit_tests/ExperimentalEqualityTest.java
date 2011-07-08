@@ -15,7 +15,7 @@ import edu.stanford.math.plex4.homology.PersistenceAlgorithmTester;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
-import edu.stanford.math.plex4.homology.zigzag.deprecated.ZigZagHomology;
+import edu.stanford.math.plex4.homology.zigzag.ZigZagHomology;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.utility.RandomUtility;
 import edu.stanford.math.primitivelib.algebraic.impl.ModularIntField;
@@ -68,7 +68,7 @@ public class ExperimentalEqualityTest {
 	 */
 	@Test
 	public void testVietorisRipsPointClouds() {
-		final int n = 80;
+		final int n = 120;
 		final int maxDimension = 4;
 		final double maxFiltrationValue = 0.5;
 		final int numDivisions = 10;

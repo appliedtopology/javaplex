@@ -40,6 +40,10 @@ public class IntervalTracker<K, I extends Comparable<I>, G> implements AbstractP
 		this.useRightClosedIntervals = value;
 	}
 	
+	public boolean containsActiveInterval(K key) {
+		return this.openIntervals.containsKey(key);
+	}
+	
 	public void startInterval(K key, I startIndex, int dimension, G generator) {
 		
 		if (dimension > this.maxDimension) {
