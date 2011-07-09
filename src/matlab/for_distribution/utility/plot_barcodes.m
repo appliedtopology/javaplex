@@ -143,7 +143,7 @@ function [handle] = plot_barcodes(intervals, options)
         x_min = min_finite_endpoint;
     end
     
-    point_width = 0.002 * (x_max - x_min);
+    point_width = 0.02 * (x_max - x_min);
     
     for dimension = min_dimension:max_dimension
         endpoints = homology.barcodes.BarcodeUtility.getEndpoints(intervals, dimension, false);

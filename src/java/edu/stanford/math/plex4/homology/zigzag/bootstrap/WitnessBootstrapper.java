@@ -10,8 +10,8 @@ import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexComparator;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPair;
 import edu.stanford.math.plex4.homology.chain_basis.SimplexPairComparator;
-import edu.stanford.math.plex4.homology.zigzag.HomologyBasisTracker;
 import edu.stanford.math.plex4.homology.zigzag.IntervalTracker;
+import edu.stanford.math.plex4.homology.zigzag.SimpleHomologyBasisTracker;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
@@ -70,17 +70,17 @@ public class WitnessBootstrapper<T> {
 
 		IntervalTracker<Integer, Integer, IntSparseFormalSum<Simplex>> result = null;
 
-		HomologyBasisTracker<SimplexPair> ZTracker = null;
-		HomologyBasisTracker<Simplex> XTracker = null;
-		HomologyBasisTracker<Simplex> YTracker = null;
+		SimpleHomologyBasisTracker<SimplexPair> ZTracker = null;
+		SimpleHomologyBasisTracker<Simplex> XTracker = null;
+		SimpleHomologyBasisTracker<Simplex> YTracker = null;
 		
 		for (int j = 1; j < this.indexSelections.size(); j++) {
 			if (XTracker == null) {
-				XTracker = new HomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance());
+				XTracker = new SimpleHomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance(), 0, maxDimension);
 				XTracker.getIntervalTracker().setUseRightClosedIntervals(false);
 				XTracker.getIntervalTracker().setMaxDimension(maxDimension);
 				for (Simplex x: X_stream) {
-					XTracker.add(x, j - 1);
+					XTracker.add(x, X_stream.getFiltrationIndex(x));
 				}
 				
 				System.out.println("Barcodes for X_" + (j - 1));
@@ -99,14 +99,16 @@ public class WitnessBootstrapper<T> {
 			Y_stream.setPlex3Compatbility(false);
 			Y_stream.finalizeStream();
 
-			YTracker = new HomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance());
+			YTracker = new SimpleHomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance(), 0, maxDimension);
 			YTracker.getIntervalTracker().setUseRightClosedIntervals(false);
 			YTracker.getIntervalTracker().setMaxDimension(maxDimension);
 			for (Simplex y: Y_stream) {
-				YTracker.add(y, j);
+				YTracker.add(y, Y_stream.getFiltrationIndex(y));
 			}
 
-			System.out.println("Barcodes for X_" + (j));
+			
+			
+			
 			AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<Simplex>> YBarcodes = YTracker.getAnnotatedBarcodes();
 			
 			if (expectedBettiNumbers != null && !Arrays.equals(YBarcodes.getBettiSequence(), expectedBettiNumbers)) {
@@ -115,24 +117,34 @@ public class WitnessBootstrapper<T> {
 				continue;
 			}
 			
-			System.out.println(YBarcodes.toString());
 			
 			WitnessBicomplex<T> Z_stream = new WitnessBicomplex<T>(X_stream, Y_stream, maxDimension);
 			Z_stream.finalizeStream();
 			Z_stream.ensureAllFaces();
 
-			ZTracker = new HomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance());
+			ZTracker = new SimpleHomologyBasisTracker<SimplexPair>(intField, SimplexPairComparator.getInstance(), 0, maxDimension);
 			ZTracker.getIntervalTracker().setUseRightClosedIntervals(false);
 			ZTracker.getIntervalTracker().setMaxDimension(maxDimension);
 			for (SimplexPair z: Z_stream) {
-				ZTracker.add(z, j);
+				ZTracker.add(z, Z_stream.getFiltrationIndex(z));
 			}
 			
+			//System.out.println("Barcodes for X_" + (j-1) + "," + (j));
+			//AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<SimplexPair>> ZBarcodes = ZTracker.getAnnotatedBarcodes();
+			//System.out.println(ZBarcodes.toString());
+			
+			
+			System.out.println("Barcodes for X_" + (j));
+			System.out.println(YBarcodes.toString());
+			
+			
 			if (result == null) {
-				result = InducedHomologyMappingUtility.project(XTracker, ZTracker, YTracker, XTracker.getStateWithoutFiniteBarcodes(), chainModule, Z_chainModule, (j - 1), j);
-			} else {
-				result = InducedHomologyMappingUtility.project(XTracker, ZTracker, YTracker, result, chainModule, Z_chainModule, (j - 1), j);
+				result = XTracker.getStateWithoutFiniteBarcodes(j - 1);
+				result.setUseLeftClosedIntervals(true);
+				result.setUseRightClosedIntervals(true);
 			}
+			
+			result = InducedHomologyMappingUtility.project(XTracker, ZTracker, YTracker, result, chainModule, Z_chainModule, (j - 1), j);
 
 			X_stream = Y_stream;
 			XTracker = YTracker;

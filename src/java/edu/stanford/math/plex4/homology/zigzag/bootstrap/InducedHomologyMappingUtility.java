@@ -123,60 +123,66 @@ public class InducedHomologyMappingUtility {
 	}
 	
 	
-	public static <K extends Comparable<K>, I extends Comparable<I>, U extends PrimitiveBasisElement, V extends ObjectObjectPair<U, U>> IntervalTracker<K, I, IntSparseFormalSum<U>> 
-	project(AbstractHomologyTracker<K, I, ?, IntSparseFormalSum<U>> X,
-			AbstractHomologyTracker<K, I, ?, IntSparseFormalSum<V>> Z,
-			AbstractHomologyTracker<K, I, ?, IntSparseFormalSum<U>> Y,
-			AbstractPersistenceTracker<K, I, IntSparseFormalSum<U>> accumulator,
+	public static <I extends Comparable<I>, U extends PrimitiveBasisElement, V extends ObjectObjectPair<U, U>> IntervalTracker<Integer, I, IntSparseFormalSum<U>> 
+	project(AbstractHomologyTracker<Integer, I, ?, IntSparseFormalSum<U>> X,
+			AbstractHomologyTracker<Integer, I, ?, IntSparseFormalSum<V>> Z,
+			AbstractHomologyTracker<Integer, I, ?, IntSparseFormalSum<U>> Y,
+			AbstractPersistenceTracker<Integer, I, IntSparseFormalSum<U>> accumulator,
 			IntAlgebraicFreeModule<U> chainModule,
 			IntAlgebraicFreeModule<V> Z_chainModule,
 			I X_index, I Y_index) {
 		
-		IntervalTracker<K, I, IntSparseFormalSum<U>> result = new IntervalTracker<K, I, IntSparseFormalSum<U>>();
+		IntervalTracker<Integer, I, IntSparseFormalSum<U>> result = new IntervalTracker<Integer, I, IntSparseFormalSum<U>>();
 		
 		ObjectObjectFunction<IntSparseFormalSum<V>, IntSparseFormalSum<U>> firstProjection = InducedHomologyMappingUtility.getFirstGradedProjectionMap(chainModule, Z_chainModule);
 		ObjectObjectFunction<IntSparseFormalSum<V>, IntSparseFormalSum<U>> secondProjection = InducedHomologyMappingUtility.getSecondGradedProjectionMap(chainModule, Z_chainModule);
 		
-		Map<K, K> ZX_map = computeInducedMap(Z.getState(), X, chainModule, firstProjection);
-		Map<K, K> ZY_map = computeInducedMap(Z.getState(), Y, chainModule, secondProjection);
-		Map<K, List<K>> XZ_map = reverse(ZX_map);
-		Map<K, K> XY_map = new HashMap<K, K>();
+		Map<Integer, Integer> ZX_map = computeInducedMap(Z.getState(), X, chainModule, firstProjection);
+		Map<Integer, Integer> ZY_map = computeInducedMap(Z.getState(), Y, chainModule, secondProjection);
+		Map<Integer, List<Integer>> XZ_map = reverse(ZX_map);
+		Map<Integer, Integer> XY_map = new HashMap<Integer, Integer>();
 		
-		for (K X_key: XZ_map.keySet()) {
-			for (K Z_key: XZ_map.get(X_key)) {
+		for (Integer X_key: XZ_map.keySet()) {
+			for (Integer Z_key: XZ_map.get(X_key)) {
 				if (ZY_map.containsKey(Z_key)) {
 					XY_map.put(X_key, ZY_map.get(Z_key));
 				}
 			}
 		}
 		
-		Set<K> X_processedIndices = new HashSet<K>();
-		Set<K> Y_processedIndices = new HashSet<K>();
+		Set<Integer> X_processedIndices = new HashSet<Integer>();
+		Set<Integer> Y_processedIndices = new HashSet<Integer>();
 
-		for (K X_key: accumulator.getActiveGenerators().keySet()) {
+		for (Integer X_key: accumulator.getActiveGenerators().keySet()) {
 			IntervalDescriptor<I, IntSparseFormalSum<U>> X_descriptor = accumulator.getActiveGenerators().get(X_key);
 			
 			if (XY_map.containsKey(X_key)) {
-				K Y_key = XY_map.get(X_key);
+				Integer Y_key = XY_map.get(X_key);
 				
 				result.startInterval(Y_key, X_descriptor.getStart(), X_descriptor.getDimension(), X_descriptor.getGenerator());
 				
 				X_processedIndices.add(X_key);
 				Y_processedIndices.add(Y_key);
 			} else {
+				Integer tempKey = 0;
+				
+				while (result.containsActiveInterval(tempKey)) {
+					tempKey++;
+				}
+				
 				result.startInterval(X_key, X_descriptor.getStart(), X_descriptor.getDimension(), X_descriptor.getGenerator());
 				result.endInterval(X_key, X_index);
 			}
 		}
 		
-		for (K Y_key: Y.getState().getActiveGenerators().keySet()) {
+		for (Integer Y_key: Y.getState().getActiveGenerators().keySet()) {
 			if (Y_processedIndices.contains(Y_key)) {
 				continue;
 			}
 			
 			IntervalDescriptor<I, IntSparseFormalSum<U>> Y_descriptor = Y.getState().getActiveGenerators().get(Y_key);
 			
-			result.startInterval(Y_key, Y_descriptor.getStart(), Y_descriptor.getDimension(), Y_descriptor.getGenerator());
+			result.startInterval(Y_key, Y_index, Y_descriptor.getDimension(), Y_descriptor.getGenerator());
 		}
 		
 		for (Entry<Integer, List<ObjectObjectPair<Interval<I>, IntSparseFormalSum<U>>>> entry: accumulator.getInactiveGenerators()) {
