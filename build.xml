@@ -84,7 +84,7 @@
 	<!--Distribution targets-->
 	<target name="dist" depends="clean_dist,runnable_jar,doc_tar,source_dist,matlab_dist" />
 
-	<target name="doc_tar" depends="javadoc">
+	<target name="doc_tar">
 		<tar destfile="${doc.tarball}" compression="gzip">
 			<tarfileset dir="doc" prefix="javadoc">
 				<include name="bshmanual.pdf" />
