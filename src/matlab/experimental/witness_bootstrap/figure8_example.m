@@ -24,8 +24,13 @@ barcodes = bootstrapper.performProjectionBootstrap([1, 2])
 transformer = homology.filtration.IdentityConverter.getInstance();
 filtration_value_intervals = transformer.transform(barcodes);
 
-plot_barcodes(filtration_value_intervals, 1, 1, 'figure-8-barcodes', 'Landmark samples from random points on a figure-8', 'eps', false, 2);
+options.caption = 'Landmark samples from random points on a figure-8';
+options.filename = 'figure-8-barcodes';
+options.file_format = 'eps';
+options.min_dimension = 1;
+options.max_dimension = 1
 
+plot_barcodes(filtration_value_intervals, options);
 
 %%
 selections = [];
@@ -49,8 +54,13 @@ barcodes = new_bootstrapper.performProjectionBootstrap()
 transformer = homology.filtration.IdentityConverter.getInstance();
 filtration_value_intervals = transformer.transform(barcodes);
 
-plot_barcodes(filtration_value_intervals, 1, 1, 'reselected-figure-8-barcodes', 'Reselected landmark samples from random points on a figure-8', 'eps', false, 2);
+options.caption = 'Reselected landmark samples from random points on a figure-8';
+options.filename = 'reselected-figure-8-barcodes';
+options.file_format = 'eps';
+options.min_dimension = 1;
+options.max_dimension = 1
 
+plot_barcodes(filtration_value_intervals, options);
 %%
 
 n = length(selections);

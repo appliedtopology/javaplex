@@ -1,27 +1,33 @@
 clc; clear; close all;
 
-num_samples = 41;
-sample_size = 20;
+num_samples = 11;
+sample_size = 40;
 
 max_dimension = 1;
-num_points = 10000;
-max_filtration_value = 0.1;
+num_points = 1000;
+max_filtration_value = 0.3;
 
 n = num_points;
 maxDistance = max_filtration_value;
 
-points = examples.PointCloudExamples.getEquispacedCirclePoints(n);
+points = examples.PointCloudExamples.getRandomSpherePoints(n, max_dimension);
 
 metricSpace = metric.impl.EuclideanMetricSpace(points);
 
 utility.RandomUtility.initializeWithSeed(0);
 bootstrapper = homology.zigzag.bootstrap.WitnessBootstrapper(metric.impl.EuclideanMetricSpace(points), maxDistance, max_dimension, num_samples, sample_size);
-barcodes = bootstrapper.performProjectionBootstrap([1, 1])
+barcodes = bootstrapper.performProjectionBootstrap()
 
 %%
 
 transformer = homology.filtration.IdentityConverter.getInstance();
 filtration_value_intervals = transformer.transform(barcodes);
 
-plot_barcodes(filtration_value_intervals, 1, 1, 'circle', 'Landmark samples from random points on a circle', 'eps', false, 2);
+options.caption = 'Landmark samples from random points on a circle'
+options.filename = 'circle';
+options.file_format = 'eps';
+options.min_dimension = 0;
+options.max_dimension = 1;
+
+plot_barcodes(filtration_value_intervals, options);
 

@@ -2,7 +2,7 @@ clc; clear; close all;
 
 utility.RandomUtility.initializeWithSeed(5);
 
-n = 4000;
+n = 300;
 max_sample_size = 82;
 increment_size = 1;
 initial_sample_size = 2;
@@ -38,7 +38,13 @@ barcodes = bootstrapper.performProjectionBootstrap()
 transformer = homology.filtration.IdentityConverter.getInstance();
 filtration_value_intervals = transformer.transform(barcodes);
 
-plot_barcodes(filtration_value_intervals, 1, 1, 'incremental-circle-barcodes', 'Incremental samples from random points on a circle', 'eps', false, 2);
+options.caption = 'Incremental samples from random points on a circle';
+options.filename = 'incremental-circle-barcodes';
+options.file_format = 'eps';
+options.min_dimension = 1;
+options.max_dimension = 1
+
+plot_barcodes(filtration_value_intervals, options);
 
 
 

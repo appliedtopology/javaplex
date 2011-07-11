@@ -95,26 +95,46 @@ public class WitnessBootstrapper<T> {
 				System.out.println(XBarcodes.toString());
 			}
 			
-			Y_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(j).getLandmarkPoints());
-			Y_stream.setPlex3Compatbility(false);
-			Y_stream.finalizeStream();
+			AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<Simplex>> YBarcodes = null;
+			
+			if (expectedBettiNumbers != null) {
+				boolean found = false;
+				
+				while (!found) {
+					Y_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(j).getLandmarkPoints());
+					Y_stream.setPlex3Compatbility(false);
+					Y_stream.finalizeStream();
 
-			YTracker = new SimpleHomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance(), 0, maxDimension);
-			YTracker.getIntervalTracker().setUseRightClosedIntervals(false);
-			YTracker.getIntervalTracker().setMaxDimension(maxDimension);
-			for (Simplex y: Y_stream) {
-				YTracker.add(y, Y_stream.getFiltrationIndex(y));
-			}
+					YTracker = new SimpleHomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance(), 0, maxDimension);
+					YTracker.getIntervalTracker().setUseRightClosedIntervals(false);
+					YTracker.getIntervalTracker().setMaxDimension(maxDimension);
+					for (Simplex y: Y_stream) {
+						YTracker.add(y, Y_stream.getFiltrationIndex(y));
+					}
 
-			
-			
-			
-			AnnotatedBarcodeCollection<Integer, IntSparseFormalSum<Simplex>> YBarcodes = YTracker.getAnnotatedBarcodes();
-			
-			if (expectedBettiNumbers != null && !Arrays.equals(YBarcodes.getBettiSequence(), expectedBettiNumbers)) {
-				this.indexSelections.set(j, new RandomLandmarkSelector<T>(metricSpace, this.indexSelections.get(j).getLandmarkPoints().length));
-				j--;
-				continue;
+					YBarcodes = YTracker.getAnnotatedBarcodes();
+					
+					if (Arrays.equals(YBarcodes.getInfiniteIntervals().getBettiSequence(), expectedBettiNumbers)) {
+						found = true;
+					} else {
+						System.out.println("Barcodes " + Arrays.toString(YBarcodes.getInfiniteIntervals().getBettiSequence()) + " do not match the expected ones: " + Arrays.toString(expectedBettiNumbers));
+						LandmarkSelector<T> selector = new RandomLandmarkSelector<T>(metricSpace, this.indexSelections.get(j).size());
+						this.indexSelections.set(j, selector);
+					}
+				}
+			} else {
+				Y_stream = new WitnessStream<T>(this.metricSpace, indexSelections.get(j), maxDimension + 1, maxDistance, indexSelections.get(j).getLandmarkPoints());
+				Y_stream.setPlex3Compatbility(false);
+				Y_stream.finalizeStream();
+
+				YTracker = new SimpleHomologyBasisTracker<Simplex>(intField, SimplexComparator.getInstance(), 0, maxDimension);
+				YTracker.getIntervalTracker().setUseRightClosedIntervals(false);
+				YTracker.getIntervalTracker().setMaxDimension(maxDimension);
+				for (Simplex y: Y_stream) {
+					YTracker.add(y, Y_stream.getFiltrationIndex(y));
+				}
+
+				YBarcodes = YTracker.getAnnotatedBarcodes();
 			}
 			
 			
