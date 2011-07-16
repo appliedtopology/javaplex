@@ -2,11 +2,11 @@ function [barcodes] = image_patch_experiment(T, k_min, k_max, k_step, max_filtra
 
 import edu.stanford.math.plex4.*;
 
-label = 'r3_50000';
+label = 'n50000Dct';
 datafile = sprintf('%s.mat', label);
 
-load(datafile, 'r3_50000');
-pointsRange = r3_50000;
+load(datafile, 'n50000Dct');
+pointsRange = n50000Dct;
 size(pointsRange);
 
 max_dimension = 1;

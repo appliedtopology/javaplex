@@ -24,4 +24,5 @@ filtration_value_intervals = transformer.transform(barcodes);
 options.filename = sprintf('%s-barcodes', label);
 options.file_format = 'eps';
 options.caption = sprintf('Circle samples, maximum filtration = %f', max_distance);
+options.line_width = 2;
 plot_barcodes(filtration_value_intervals, options);
