@@ -3,8 +3,6 @@ package edu.stanford.math.plex4.autogen.homology;
 import java.util.Comparator;
 import java.util.Iterator;
 
-import javax.annotation.Generated;
-
 import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
@@ -29,7 +27,6 @@ import edu.stanford.math.primitivelib.autogen.formal_sum.BooleanSparseFormalSum;
  * @author autogen
  *
  */
-@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public abstract class BooleanPersistenceAlgorithm<U> extends AbstractPersistenceBasisAlgorithm<U, BooleanSparseFormalSum<U>> {
 		
 	/**

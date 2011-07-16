@@ -2,8 +2,6 @@ package edu.stanford.math.plex4.autogen.homology;
 
 import java.util.Comparator;
 
-import javax.annotation.Generated;
-
 import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
@@ -30,7 +28,6 @@ import gnu.trove.TObjectIntIterator;
  * @author autogen
  *
  */
-@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public abstract class IntPersistenceAlgorithm<U> extends AbstractPersistenceBasisAlgorithm<U, IntSparseFormalSum<U>> {
 		/**
 	 * This is the field over which we perform the arithmetic computations.

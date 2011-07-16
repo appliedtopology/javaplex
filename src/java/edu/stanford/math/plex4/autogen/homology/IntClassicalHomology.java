@@ -2,8 +2,6 @@ package edu.stanford.math.plex4.autogen.homology;
 
 import java.util.Comparator;
 
-import javax.annotation.Generated;
-
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -30,7 +28,6 @@ import gnu.trove.TObjectIntIterator;
  *
  * 
  */
-@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public class IntClassicalHomology<U> extends AbstractPersistenceAlgorithm<U> {
 		protected final IntAbstractField field;
 		private final IntAlgebraicFreeModule<U> chainModule;

@@ -4,8 +4,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.annotation.Generated;
-
 import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceBasisAlgorithm;
@@ -31,7 +29,6 @@ import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
  * @author autogen
  *
  */
-@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public abstract class ObjectPersistenceAlgorithm<F, U> extends AbstractPersistenceBasisAlgorithm<U, ObjectSparseFormalSum<F, U>> {
 		/**
 	 * This is the field over which we perform the arithmetic computations.

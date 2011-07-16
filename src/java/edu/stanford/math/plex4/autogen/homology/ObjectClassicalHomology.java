@@ -4,8 +4,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.annotation.Generated;
-
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -31,7 +29,6 @@ import gnu.trove.THashSet;
  *
  * 
  */
-@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public class ObjectClassicalHomology<F, U> extends AbstractPersistenceAlgorithm<U> {
 		protected final ObjectAbstractField<F> field;
 		private final ObjectAlgebraicFreeModule<F, U> chainModule;

@@ -23,7 +23,7 @@ public class ArrayUtility {
 	}
 	
 	public static int[] makeMonotone(int[] a) {
-		int[] temp = Arrays.copyOf(a, a.length);
+		int[] temp = ArrayUtility.copyOf(a, a.length);
 		Arrays.sort(temp);
 		int k = 0, i = 0;
 		int[] result = new int[temp.length];
@@ -36,7 +36,7 @@ public class ArrayUtility {
 			i++;
 			k++;
 		}
-		return Arrays.copyOf(result, k);
+		return ArrayUtility.copyOf(result, k);
 	}
 	
 	public static int[] union(int[] a, int[] b) {
@@ -73,6 +73,114 @@ public class ArrayUtility {
 			k++;
 		}
 		
-		return Arrays.copyOf(temp, k);
+		return ArrayUtility.copyOf(temp, k);
+	}
+	
+	public static double[] copyOf(double[] array, int length) {
+		double[] result = new double[length];
+		
+		int n = Math.min(length, array.length);
+		
+		for (int i = 0; i < n; i++) {
+			result[i] = array[i];
+		}
+		
+		return result;
+	}
+	
+	public static int[] copyOf(int[] array, int length) {
+		int[] result = new int[length];
+		
+		int n = Math.min(length, array.length);
+		
+		for (int i = 0; i < n; i++) {
+			result[i] = array[i];
+		}
+		
+		return result;
+	}
+	
+	public static float[] copyOf(float[] array, int length) {
+		float[] result = new float[length];
+		
+		int n = Math.min(length, array.length);
+		
+		for (int i = 0; i < n; i++) {
+			result[i] = array[i];
+		}
+		
+		return result;
+	}
+	
+	public static short[] copyOf(short[] array, int length) {
+		short[] result = new short[length];
+		
+		int n = Math.min(length, array.length);
+		
+		for (int i = 0; i < n; i++) {
+			result[i] = array[i];
+		}
+		
+		return result;
+	}
+	
+	public static long[] copyOf(long[] array, int length) {
+		long[] result = new long[length];
+		
+		int n = Math.min(length, array.length);
+		
+		for (int i = 0; i < n; i++) {
+			result[i] = array[i];
+		}
+		
+		return result;
+	}
+	
+	public static boolean[] copyOf(boolean[] array, int length) {
+		boolean[] result = new boolean[length];
+		
+		int n = Math.min(length, array.length);
+		
+		for (int i = 0; i < n; i++) {
+			result[i] = array[i];
+		}
+		
+		return result;
+	}
+	
+	public static byte[] copyOf(byte[] array, int length) {
+		byte[] result = new byte[length];
+		
+		int n = Math.min(length, array.length);
+		
+		for (int i = 0; i < n; i++) {
+			result[i] = array[i];
+		}
+		
+		return result;
+	}
+	
+	public static char[] copyOf(char[] array, int length) {
+		char[] result = new char[length];
+		
+		int n = Math.min(length, array.length);
+		
+		for (int i = 0; i < n; i++) {
+			result[i] = array[i];
+		}
+		
+		return result;
+	}
+	
+	public static Object[] copyOf(Object[] array, int length) {
+		Object[] result = new Object[length];
+		
+		int n = Math.min(length, array.length);
+		
+		for (int i = 0; i < n; i++) {
+			result[i] = array[i];
+		}
+		
+		return result;
 	}
 }

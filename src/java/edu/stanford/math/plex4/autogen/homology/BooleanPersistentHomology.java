@@ -4,8 +4,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.annotation.Generated;
-
 import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
@@ -30,7 +28,6 @@ import gnu.trove.THashSet;
  * @author autogen
  *
  */
-@Generated(value = { "edu.stanford.math.plex4.generation.GeneratorDriver" })
 public abstract class BooleanPersistentHomology<U> extends BooleanPersistenceAlgorithm<U> {
 
 		/**

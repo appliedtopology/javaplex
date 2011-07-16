@@ -7,6 +7,7 @@ import java.util.List;
 import edu.stanford.math.plex4.metric.interfaces.AbstractIntMetricSpace;
 import edu.stanford.math.plex4.metric.interfaces.AbstractObjectMetricSpace;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
+import edu.stanford.math.plex4.utility.ArrayUtility;
 import edu.stanford.math.plex4.utility.RandomUtility;
 import edu.stanford.math.primitivelib.utility.Infinity;
 
@@ -147,7 +148,7 @@ public class MetricUtility {
 		
 		double[] neighborDistances = getKthNearestNeighborDistances(metricSpace, k);
 		
-		double[] sortedDistances = Arrays.copyOf(neighborDistances, neighborDistances.length);
+		double[] sortedDistances = ArrayUtility.copyOf(neighborDistances, neighborDistances.length);
 		Arrays.sort(sortedDistances);
 		
 		int cutoffIndex = (int) proportion * neighborDistances.length;
