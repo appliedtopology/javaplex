@@ -1,29 +1,40 @@
 clc; clear; close all;
 
+T = 50000;
+
 k_min = 25;
 k_max = 1000;
 k_step = 25;
-T = 15000;
 
-label = 'n50000Dct';
-datafile = sprintf('%s.mat', label);
+ensure_density_indices(T, k_min, k_max, k_step);
 
-load(datafile, label);
-pointsRange = n50000Dct;
-size(pointsRange);
+k_min = 5;
+k_max = 500;
+k_step = 5;
 
-max_dimension = 1;
+ensure_density_indices(T, k_min, k_max, k_step);
 
-i_min = 0;
-i_max = (k_max - k_min) / k_step;
+k_min = 1;
+k_max = 50;
+k_step = 1;
 
-indices_cell_array = cell(i_max + 1, 0);
+ensure_density_indices(T, k_min, k_max, k_step);
 
-cache_file_prefix = sprintf('cached_density_ranks/%s', label);
+k_min = 500;
+k_max = 1000;
+k_step = 5;
 
+ensure_density_indices(T, k_min, k_max, k_step);
 
-parfor i = i_min:i_max
-    k = k_min + i * k_step;
-    indices = get_core_subset_cached(pointsRange, k, T, cache_file_prefix);
-    indices_cell_array{i + 1} = indices;
-end
+k_min = 50;
+k_max = 100;
+k_step = 1;
+
+ensure_density_indices(T, k_min, k_max, k_step);
+
+k_min = 100;
+k_max = 400;
+k_step = 1;
+
+ensure_density_indices(T, k_min, k_max, k_step);
+
