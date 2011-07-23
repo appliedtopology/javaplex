@@ -1,10 +1,11 @@
 clc; clear; close all;
 
 %% 
-k_min = 25;
-k_max = 1000;
-k_step = 25;
-T = 300;
-max_filtration_value = 0.014;
+k_min = 5;
+k_max = 400;
+k_step = 5;
+T = 15000;
+S = 100;
+max_filtration_value = 1.1;
 
-image_patch_experiment(T, k_min, k_max, k_step, max_filtration_value);
+image_patch_experiment(T, k_min, k_max, k_step, S, max_filtration_value);

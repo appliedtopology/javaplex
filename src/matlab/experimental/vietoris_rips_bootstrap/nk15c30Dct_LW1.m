@@ -18,6 +18,7 @@ landmarks = point_cloud(landmark_selector.getLandmarkPoints() + 1, :);
 
 R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
 max_filtration_value = R / 4;
+max_filtration_value = 1;
 
 % create a lazy witness stream
 stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);

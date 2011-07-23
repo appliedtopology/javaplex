@@ -1,30 +1,44 @@
-function [barcodes, stream_size] = image_patch_vr(T, k, S, max_filtration_value, display_plot)
+function [barcodes, stream_size] = image_patch_vr(T, k, S, max_filtration_value, display_plot, use_sequential_maxmin)
 
     import edu.stanford.math.plex4.*;
 
     if (~exist('display_plot', 'var'))
         display_plot = true;
     end
+    
+    if (~exist('use_sequential_maxmin', 'var'))
+        use_sequential_maxmin = true;
+    end
 
     path = '../../../../data/natural_images';
     label = 'n50000Dct';
     datafile = sprintf('%s/%s.mat', path, label);
 
+    load(datafile, label);
+    point_cloud = n50000Dct;
+    size(point_cloud);
+    
     dimension = 1;
     num_divisions = 1000;
 
-    load(datafile, label);
-    pointsRange = n50000Dct;
-    size(pointsRange);
-
     cache_file_prefix = sprintf('%s/cached_density_ranks/%s', path, label);
-    indices = get_core_subset_cached(pointsRange, k, T, cache_file_prefix);
+    core_indices = get_core_subset_cached(point_cloud, k, T, cache_file_prefix);
 
-    rp = randperm(T);
-    indices = indices(rp(1:S), :);
-
+    core_subset = point_cloud(core_indices, :);
+    
+    if (use_sequential_maxmin)
+        landmark_selector = api.Plex4.createMaxMinSelector(core_subset, S);
+    else
+        landmark_selector = api.Plex4.createRandomSelector(core_subset, S);
+    end
+    
+    sample_indices = landmark_selector.getLandmarkPoints() + 1;
+    subsampled_core = core_subset(sample_indices, :);
+    subsampled_core2 = point_cloud(core_indices(sample_indices), :);
+    
+    
     % create a Vietoris-Rips stream 
-    stream = api.Plex4.createVietorisRipsStream(pointsRange(indices, :), dimension + 1, max_filtration_value, num_divisions);
+    stream = api.Plex4.createVietorisRipsStream(subsampled_core, dimension + 1, max_filtration_value, num_divisions);
     stream_size = stream.getSize();
 
     % get the default persistence algorithm
@@ -33,9 +47,9 @@ function [barcodes, stream_size] = image_patch_vr(T, k, S, max_filtration_value,
     % compute intervals
     barcodes = persistence.computeIntervals(stream);
 
-    options.file_format = 'eps';
+    options.file_format = 'png';
     options.filename = sprintf('outputs/%s-%d-%d-%1.3f.%s', label, k, T, max_filtration_value, options.file_format);
-    options.caption = sprintf('Dataset %s with Density Filtration: k = %d, T = %d, f_{max} = %2.3f', label, k, T, max_filtration_value);
+    options.caption = sprintf('Barcodes for VR(%s[k=%d, T=%d], %2.3f) (S=%d)', label, k, T, max_filtration_value, S);
 
     options.max_filtration_value = max_filtration_value;
     h = plot_barcodes(barcodes, options);

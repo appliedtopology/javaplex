@@ -8,7 +8,7 @@ load(datafile, label);
 point_cloud = nk15c30Dct;
 
 max_dimension = 3;
-num_landmark_points = 50;
+num_landmark_points = 150;
 nu = 0;
 num_divisions = 500;
 
@@ -36,7 +36,7 @@ options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
 plot_barcodes(intervals, options);
 
-% plot a projection of the dataset onto the first two DCT basis vectors
+%% plot a projection of the dataset onto the first two DCT basis vectors
 figure
 hold on
 plot(point_cloud(:,1), point_cloud(:,2), '.'), axis equal
