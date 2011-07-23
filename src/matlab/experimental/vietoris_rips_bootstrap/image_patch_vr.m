@@ -1,41 +1,47 @@
-function [barcodes, stream_size] = image_patch_vr(T, k, max_filtration_value, display_plot)
+function [barcodes, stream_size] = image_patch_vr(T, k, S, max_filtration_value, display_plot)
 
-import edu.stanford.math.plex4.*;
+    import edu.stanford.math.plex4.*;
 
-if (~exist('display_plot', 'var'))
-    display_plot = true;
-end
+    if (~exist('display_plot', 'var'))
+        display_plot = true;
+    end
 
-label = 'r3_50000';
-dimension = 1;
-num_divisions = 1000;
+    path = '../../../../data/natural_images';
+    label = 'n50000Dct';
+    datafile = sprintf('%s/%s.mat', path, label);
 
-load r3_50000.mat;
-pointsRange = r3_50000;
-size(pointsRange);
+    dimension = 1;
+    num_divisions = 1000;
 
-cache_file_prefix = sprintf('cached_density_ranks/%s', label);
-indices = get_core_subset_cached(pointsRange, k, T, cache_file_prefix);
+    load(datafile, label);
+    pointsRange = n50000Dct;
+    size(pointsRange);
 
-% create a Vietoris-Rips stream 
-stream = api.Plex4.createVietorisRipsStream(pointsRange(indices, :), dimension + 1, max_filtration_value, num_divisions);
-stream_size = stream.getSize();
+    cache_file_prefix = sprintf('%s/cached_density_ranks/%s', path, label);
+    indices = get_core_subset_cached(pointsRange, k, T, cache_file_prefix);
 
-% get the default persistence algorithm
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);
+    rp = randperm(T);
+    indices = indices(rp(1:S), :);
 
-% compute intervals
-barcodes = persistence.computeIntervals(stream);
+    % create a Vietoris-Rips stream 
+    stream = api.Plex4.createVietorisRipsStream(pointsRange(indices, :), dimension + 1, max_filtration_value, num_divisions);
+    stream_size = stream.getSize();
 
-options.file_format = 'eps';
-options.filename = sprintf('outputs/%s-%d-%d-%1.3f.%s', label, k, T, max_filtration_value, options.file_format);
-options.caption = sprintf('Image Patch Data with Density Filtration: k = %d, T = %d, f_{max} = %2.3f', k, T, max_filtration_value);
+    % get the default persistence algorithm
+    persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);
 
-options.max_filtration_value = max_filtration_value;
-h = plot_barcodes(barcodes, options);
+    % compute intervals
+    barcodes = persistence.computeIntervals(stream);
 
-if (~display_plot)
-    close;
-end
+    options.file_format = 'eps';
+    options.filename = sprintf('outputs/%s-%d-%d-%1.3f.%s', label, k, T, max_filtration_value, options.file_format);
+    options.caption = sprintf('Dataset %s with Density Filtration: k = %d, T = %d, f_{max} = %2.3f', label, k, T, max_filtration_value);
+
+    options.max_filtration_value = max_filtration_value;
+    h = plot_barcodes(barcodes, options);
+
+    if (~display_plot)
+        close;
+    end
 
 end

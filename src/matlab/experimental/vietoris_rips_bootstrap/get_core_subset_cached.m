@@ -5,7 +5,7 @@ function indices = get_core_subset_cached(points, k, T, label, T_cache)
     if (~exist('T_cache'))
         T_cache = min(num_points, T * 3);
     end
-
+    
     filename = sprintf('%s-indices-%d.mat', label, k);
 
     if (exist(filename, 'file'))

@@ -1,6 +1,10 @@
 clc; clear; close all;
 
-load nk300c30Dct
+path = '../../../../data/natural_images';
+label = 'nk300c30Dct';
+datafile = sprintf('%s/%s.mat', path, label);
+load(datafile, label);
+
 
 % Select 100 random points
 rp = randperm(15000);
