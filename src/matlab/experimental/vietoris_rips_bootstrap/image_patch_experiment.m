@@ -56,8 +56,8 @@ function [barcodes] = image_patch_experiment(T, k_min, k_max, k_step, S, max_fil
     filtration_value_intervals = transformer.transform(barcodes);
 
     options.file_format = 'eps';
-    options.filename = sprintf('%s-samples-%d-%d-%d-%d-%1.3f.%s', label, k_min, k_max, k_step, T, max_filtration_value, options.file_format);
-    options.caption = sprintf('Image Patch Data with Density Filtration: k_{min} = %d, k_{max} = %d, k_{step} = %d, T = %d', k_min, k_max, k_step, T);
+    options.filename = sprintf('outputs/%s-samples-%d-%d-%d-%d-%1.3f.%s', label, k_min, k_max, k_step, T, max_filtration_value, options.file_format);
+    options.caption = sprintf('VR Bootstrap for %s: k_{min} = %d, k_{max} = %d, k_{step} = %d, T = %d, S = %d', label, k_min, k_max, k_step, T, S);
 
 
     plot_barcodes(filtration_value_intervals, options);
