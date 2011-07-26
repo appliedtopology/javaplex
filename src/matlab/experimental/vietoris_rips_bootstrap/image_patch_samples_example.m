@@ -1,8 +1,8 @@
 clc; clear; close all;
 
 %% 
-k_min = 2;
-k_max = 400;
+k_min = 13;
+k_max = 17;
 k_step = 1;
 T = 15000;
 S = 100;
