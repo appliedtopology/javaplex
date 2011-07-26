@@ -1,14 +1,14 @@
 clc; clear; close all;
 
 num_samples = 101;
-sample_size = 50;
+sample_size = 5;
 
 max_dimension = 1;
 num_points = 10000;
 max_distance = 1.1;
 
-%points = examples.PointCloudExamples.getRandomSpherePoints(num_points, max_dimension);
-points = examples.PointCloudExamples.getRandomFigure8Points(num_points);
+points = examples.PointCloudExamples.getRandomSpherePoints(num_points, max_dimension);
+%points = examples.PointCloudExamples.getRandomFigure8Points(num_points);
 
 
 bootstrapper = homology.zigzag.bootstrap.VietorisRipsBootstrapper(points, max_distance, max_dimension, num_samples, sample_size);
