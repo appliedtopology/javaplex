@@ -1,4 +1,4 @@
-function indices = get_core_subset_cached(points, k, T, label, T_cache)
+function indices = get_core_subset_cached(points, k, T, label, T_cache, density_estimator)
     
     num_points = size(points, 1);
 
@@ -6,7 +6,7 @@ function indices = get_core_subset_cached(points, k, T, label, T_cache)
         T_cache = min(num_points, T * 3);
     end
     
-    filename = sprintf('%s-indices-%d.mat', label, k);
+    filename = sprintf('%s-indices-%f.mat', label, k);
 
     if (exist(filename, 'file'))
         load (filename, 'indices');
@@ -18,7 +18,7 @@ function indices = get_core_subset_cached(points, k, T, label, T_cache)
         end
     end
        
-    density = kDensitySlow(points, k);
+    density = density_estimator(points, k);
     indices = coreSubset(density, T_cache);
     save(filename, 'indices');
     

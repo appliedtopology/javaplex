@@ -1,4 +1,4 @@
-function ensure_density_indices(T, k_min, k_max, k_step)
+function ensure_kernel_density_indices(T, sigma_min, sigma_max, sigma_step)
 
 import edu.stanford.math.plex4.*;
 
@@ -13,14 +13,14 @@ size(pointsRange);
 T_cache = T;
 
 i_min = 0;
-i_max = (k_max - k_min) / k_step;
+i_max = (sigma_max - sigma_min) / sigma_step;
+i_max = (floor(i_max));
+cache_file_prefix = sprintf('%s/cached_density_ranks/%s-kernel', path, label);
 
-cache_file_prefix = sprintf('%s/cached_density_ranks/%s', path, label);
-
-density_estimator = @(points, k) kDensitySlow(points, k);
+density_estimator = @(points, sigma) gaussian_kernel_densities(points, points, sigma);
 
 parfor i = i_min:i_max
-    k = k_min + i * k_step;
+    k = sigma_min + i * sigma_step;
     indices = get_core_subset_cached(pointsRange, k, T, cache_file_prefix, T_cache, density_estimator);
 end
 
