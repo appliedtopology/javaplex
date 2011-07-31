@@ -1,23 +1,13 @@
 clc; clear; close all;
 
-T = 50000;
+sigma_step = 0.001;
+sigma_max = 0.2;
+sigma_min = sigma_step;
 
-%{
-k_min = 400;
-k_max = 1000;
-k_step = 1;
+theta_values = [sigma_min:sigma_step:sigma_max];
 
-ensure_density_indices(T, k_min, k_max, k_step);
-%}
+dataset = 'n50000Dct';
+filter_label = 'kernel';
+filter_function = @(points, sigma) gaussian_kernel_densities(points, points, sigma);
 
-sigma_min = 0.1;
-sigma_max = 1;
-sigma_step = 0.1;
-
-ensure_kernel_density_indices(T, sigma_min, sigma_max, sigma_step);
-
-sigma_min = 0.01;
-sigma_max = 1;
-sigma_step = 0.01;
-
-ensure_kernel_density_indices(T, sigma_min, sigma_max, sigma_step);
+ensure_density_indices(theta_values, dataset, filter_label, filter_function)

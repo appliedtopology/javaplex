@@ -1,28 +1,28 @@
-function indices = get_core_subset_cached(points, k, T, label, T_cache, density_estimator)
+function indices = get_core_subset_cached(points, theta, T, filter_function, dataset, filter_label, T_cache)
     
     num_points = size(points, 1);
 
-    if (~exist('T_cache'))
-        T_cache = min(num_points, T * 3);
-    end
+    filename = get_cache_file_path(dataset, filter_label, theta);
     
-    filename = sprintf('%s-indices-%f.mat', label, k);
-
     if (exist(filename, 'file'))
         load (filename, 'indices');
         
         if (length(indices) >= T)
             indices = indices(1:T);
-            display(sprintf('get_core_subset_cached: Retrieved %d indices for k=%d from file %s', T, k, filename));
+            display(sprintf('get_core_subset_cached: Retrieved %d indices for k=%f from file %s', T, theta, filename));
             return;
         end
     end
-       
-    density = density_estimator(points, k);
-    indices = coreSubset(density, T_cache);
+    
+    if (~exist('T_cache'))
+        T_cache = min(num_points, T * 3);
+    end
+    
+    filtration_values = filter_function(points, theta);
+    indices = coreSubset(filtration_values, T_cache);
     save(filename, 'indices');
     
-    display(sprintf('get_core_subset_cached: Cached %d indices for k=%d in file %s', T_cache, k, filename));
+    display(sprintf('get_core_subset_cached: Cached %d indices for k=%f in file %s', T_cache, theta, filename));
     
     indices = indices(1:T);
 end

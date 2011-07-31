@@ -1,26 +1,16 @@
-function ensure_density_indices(T, k_min, k_max, k_step)
+function ensure_density_indices(theta_values, dataset, filter_label, filter_function)
 
-import edu.stanford.math.plex4.*;
+    import edu.stanford.math.plex4.*;
 
-path = '../../../../data/natural_images';
-label = 'n50000Dct';
-datafile = sprintf('%s/%s.mat', path, label);
+    datafile_path = get_data_file_path(dataset);
+    load(datafile_path, dataset);
+    point_cloud = eval(dataset);
 
-load(datafile, label);
-pointsRange = n50000Dct;
-size(pointsRange);
+    T = size(point_cloud, 1);
+    T_cache = T;
+    
+    for theta = theta_values
+        get_core_subset_cached(point_cloud, theta, T, filter_function, dataset, filter_label, T_cache);
+    end
 
-T_cache = T;
-
-i_min = 0;
-i_max = (k_max - k_min) / k_step;
-
-cache_file_prefix = sprintf('%s/cached_density_ranks/%s', path, label);
-
-density_estimator = @(points, k) kDensitySlow(points, k);
-
-parfor i = i_min:i_max
-    k = k_min + i * k_step;
-    indices = get_core_subset_cached(pointsRange, k, T, cache_file_prefix, T_cache, density_estimator);
 end
-
