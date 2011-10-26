@@ -1,4 +1,4 @@
-% This script shows an Euler characteristic example - Section 7.1
+% This script shows an example of computing a representative cycle for each barcode
 clc; clear; close all;
 
 % get a new ExplicitSimplexStream
