@@ -100,6 +100,10 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 		return this.neighborhoodGraph;
 	}
 	
+	public double getFiltrationValue(Simplex simplex) {
+		return this.converter.getFiltrationValue(this.getFiltrationIndex(simplex));
+	}
+	
 	/**
 	 * This function returns the FiltrationConverter object used by the complex.
 	 * 
