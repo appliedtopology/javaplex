@@ -21,5 +21,6 @@ while (iterator.hasNext())
   % the next line will print the current simplex
   simplex = iterator.next()
   % here you can do whatever is needed with the simplex
+  filtration_value = stream.getFiltrationValue(simplex);
 end
 
