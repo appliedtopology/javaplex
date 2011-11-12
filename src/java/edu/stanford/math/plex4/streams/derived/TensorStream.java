@@ -129,6 +129,10 @@ public class TensorStream<T, U> implements AbstractFilteredStream<ObjectObjectPa
 		return Math.max(this.stream1.getFiltrationIndex(basisElement.getFirst()), this.stream2.getFiltrationIndex(basisElement.getSecond()));
 	}
 	
+	public double getFiltrationValue(ObjectObjectPair<T, U> basisElement) {
+		return Math.max(this.stream1.getFiltrationValue(basisElement.getFirst()), this.stream2.getFiltrationValue(basisElement.getSecond()));
+	}
+	
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#finalizeStream()
 	 */

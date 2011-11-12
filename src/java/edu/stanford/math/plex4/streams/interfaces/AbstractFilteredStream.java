@@ -80,6 +80,8 @@ public interface AbstractFilteredStream<T> extends Iterable<T> {
 	 */
 	public int getFiltrationIndex(T basisElement);
 	
+	public double getFiltrationValue(T basisElement);
+	
 	/**
 	 * This function returns the elements in the boundary of the supplied
 	 * basisElement, without the coefficients. We do not integrate the

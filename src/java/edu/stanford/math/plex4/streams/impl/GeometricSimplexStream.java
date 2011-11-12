@@ -171,4 +171,8 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 	public <G> PersistenceInvariantDescriptor<Interval<Double>, G> transform(PersistenceInvariantDescriptor<Interval<Integer>, G> barcodeCollection) {
 		return this.stream.transform(barcodeCollection);
 	}
+
+	public double getFiltrationValue(Simplex basisElement) {
+		return this.stream.getFiltrationValue(basisElement);
+	}
 }

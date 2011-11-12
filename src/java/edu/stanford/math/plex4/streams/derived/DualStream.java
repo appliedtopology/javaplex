@@ -72,6 +72,10 @@ public class DualStream<T> implements AbstractFilteredStream<T> {
 	public int getFiltrationIndex(T basisElement) {
 		return this.forwardStream.getFiltrationIndex(basisElement);
 	}
+	
+	public double getFiltrationValue(T basisElement) {
+		return this.forwardStream.getFiltrationValue(basisElement);
+	}
 
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getBoundary(java.lang.Object)

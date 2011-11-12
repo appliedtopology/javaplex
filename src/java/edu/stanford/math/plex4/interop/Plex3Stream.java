@@ -71,6 +71,10 @@ public class Plex3Stream implements AbstractFilteredStream<edu.stanford.math.ple
 	public int getFiltrationIndex(Simplex basisElement) {
 		return this.filtrationIndexMap.get(basisElement);
 	}
+	
+	public double getFiltrationValue(Simplex basisElement) {
+		return this.plex3Stream.convert_filtration_index(this.getFiltrationIndex(basisElement));
+	}
 
 	public int getMaximumFiltrationIndex() {
 		return this.maxFiltrationIndex;

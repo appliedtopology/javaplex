@@ -145,4 +145,8 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	public <G> PersistenceInvariantDescriptor<Interval<Double>, G> transform(PersistenceInvariantDescriptor<Interval<Integer>, G> barcodeCollection) {
 		return FiltrationUtility.transformByIdentity(barcodeCollection); 
 	}
+
+	public double getFiltrationValue(T basisElement) {
+		return this.getFiltrationIndex(basisElement);
+	}
 }
