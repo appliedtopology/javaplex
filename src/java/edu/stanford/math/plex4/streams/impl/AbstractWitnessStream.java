@@ -183,7 +183,7 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 			}
 		}
 		
-		int edge_count = 0;
+		//int edge_count = 0;
 		
 		{
 			double e_ij;
@@ -199,7 +199,7 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 					if (e_ij <= this.maxDistance) {
 						this.updateWitnessInformationInternalIndices(n_star, e_ij, i, j);
 						graph.addEdge(i, j, e_ij);
-						edge_count++;
+						//edge_count++;
 					}
 				}
 			}

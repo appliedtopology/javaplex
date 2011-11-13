@@ -7,10 +7,10 @@ import edu.stanford.math.primitivelib.utility.Infinity;
 
 public class IncreasingRectangularFlattener<T extends PrimitiveBasisElement> implements AbstractStreamFlattener<T> {
 
-	private final double[] direction;
+	private final double[] principalDirection;
 
-	public IncreasingRectangularFlattener(double[] direction) {
-		this.direction = direction;
+	public IncreasingRectangularFlattener(double[] prinicpalDirection) {
+		this.principalDirection = prinicpalDirection;
 	}
 
 	public AbstractFilteredStream<T> collapse(AbstractMultifilteredStream<T> multifilteredStream) {
@@ -31,10 +31,10 @@ public class IncreasingRectangularFlattener<T extends PrimitiveBasisElement> imp
 		int maxMultiple = Infinity.Int.getNegativeInfinity();
 
 		for (int i = 0; i < filtrationValue.length; i++) {
-			if (this.direction[i] == 0) {
+			if (this.principalDirection[i] == 0) {
 				continue;
 			}
-			int multiple = (int) Math.ceil(filtrationValue[i] / this.direction[i]);
+			int multiple = (int) Math.ceil(filtrationValue[i] / this.principalDirection[i]);
 			if (multiple > maxMultiple) {
 				maxMultiple = multiple;
 			}
