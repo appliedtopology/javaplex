@@ -15,7 +15,7 @@ import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.multi.AbstractMultifilteredStream;
 import edu.stanford.math.plex4.streams.multi.BifilteredMetricStream;
 import edu.stanford.math.plex4.streams.multi.FilterFunction;
-import edu.stanford.math.plex4.streams.multi.IncreasingRectangularFlattener;
+import edu.stanford.math.plex4.streams.multi.IncreasingOrthantFlattener;
 import edu.stanford.math.plex4.streams.multi.InducedSimplicialFilterFunction;
 import edu.stanford.math.plex4.streams.multi.IntFilterFunction;
 import edu.stanford.math.plex4.streams.multi.KernelDensityFilterFunction;
@@ -58,7 +58,7 @@ public class MultifilteredFlatteningTest {
 
 		// create a "flattened" version of the stream by considering increasing
 		// subsets
-		IncreasingRectangularFlattener<Simplex> flattener = new IncreasingRectangularFlattener<Simplex>(principalDirection);
+		IncreasingOrthantFlattener<Simplex> flattener = new IncreasingOrthantFlattener<Simplex>(principalDirection);
 		AbstractFilteredStream<Simplex> flattenedStream = flattener.collapse(multifilteredStream);
 
 		// compute the persistent homology of the flattened complex, and print

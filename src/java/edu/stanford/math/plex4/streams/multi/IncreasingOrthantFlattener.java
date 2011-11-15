@@ -5,11 +5,11 @@ import edu.stanford.math.plex4.streams.impl.ExplicitStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.primitivelib.utility.Infinity;
 
-public class IncreasingRectangularFlattener<T extends PrimitiveBasisElement> implements AbstractStreamFlattener<T> {
+public class IncreasingOrthantFlattener<T extends PrimitiveBasisElement> implements AbstractStreamFlattener<T> {
 
 	private final double[] principalDirection;
 
-	public IncreasingRectangularFlattener(double[] prinicpalDirection) {
+	public IncreasingOrthantFlattener(double[] prinicpalDirection) {
 		this.principalDirection = prinicpalDirection;
 	}
 
