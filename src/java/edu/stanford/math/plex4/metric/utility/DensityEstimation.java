@@ -13,7 +13,7 @@ public class DensityEstimation {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				distance = metricSpace.distance(i, j);
-				densities[i] += Math.exp(distance * distance / sigmaSquared);
+				densities[i] += Math.exp(- (distance * distance / sigmaSquared));
 			}
 			densities[i] *= factor;
 		}

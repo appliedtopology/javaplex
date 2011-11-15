@@ -5,7 +5,8 @@ import edu.stanford.math.plex4.metric.utility.DensityEstimation;
 
 public class KernelDensityFilterFunction implements IntFilterFunction {
 	private final double[] densities;
-	KernelDensityFilterFunction(AbstractIntMetricSpace metricSpace, double sigma) {
+	
+	public KernelDensityFilterFunction(AbstractIntMetricSpace metricSpace, double sigma) {
 		this.densities = DensityEstimation.performGaussianKernelDensityEstimation(metricSpace, sigma);
 	}
 	

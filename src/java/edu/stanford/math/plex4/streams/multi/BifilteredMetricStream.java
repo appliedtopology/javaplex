@@ -12,9 +12,10 @@ public class BifilteredMetricStream<T extends PrimitiveBasisElement> extends Pri
 	public BifilteredMetricStream(PrimitiveStream<T> stream, FilterFunction<T> filterFunction) {
 		this.stream = stream;
 		this.filterFunction = filterFunction;
+		this.construct();
 	}
 
-	public void construct() {
+	private void construct() {
 		for (T element: stream) {
 			double filtrationValue = stream.getFiltrationValue(element);
 			double filterFunctionValue = this.filterFunction.evaluate(element);
