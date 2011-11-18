@@ -15,6 +15,7 @@ stream.addVertex(2);
 stream.addElement([0, 1]);
 stream.addElement([0, 2]);
 stream.addElement([1, 2]);
+stream.finalizeStream();
 
 % print out the total number of simplices in the complex
 num_simplices = stream.getSize()

@@ -20,6 +20,7 @@ stream.addElement([4, 1], 0);
 stream.addElement([3, 5], 2);
 stream.addElement([4, 5], 3);
 stream.addElement([3, 4, 5], 7);
+stream.finalizeStream();
 
 % get the default persistence computation
 persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
