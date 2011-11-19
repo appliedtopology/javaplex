@@ -22,8 +22,8 @@ stream = api.Plex4.createWitnessStream(landmark_selector, max_dimension, max_fil
 % print out the size of the stream
 num_simplices = stream.getSize()
 
-% get the default persistence algorithm
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
+% get persistence algorithm over Z/2Z
+persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 
 % compute the intervals
 intervals = persistence.computeIntervals(stream);

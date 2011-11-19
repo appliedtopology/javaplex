@@ -23,8 +23,8 @@ stream.finalizeStream()
 % construction is very sensitive to the maximum filtration value
 num_simplices = stream.getSize()
 
-% get the default persistence algorithm
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
+% get persistence algorithm over Z/2Z
+persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 
 % compute the intervals
 intervals = persistence.computeIntervals(stream);

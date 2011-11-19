@@ -13,7 +13,7 @@ function  eulerCharacteristic(stream, max_dimension)
 
 import edu.stanford.math.plex4.*;
 
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension + 1);
+persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension + 1, 2);
 
 filtration_value_intervals = persistence.computeIntervals(stream);
 transformer = homology.filtration.IdentityConverter.getInstance();

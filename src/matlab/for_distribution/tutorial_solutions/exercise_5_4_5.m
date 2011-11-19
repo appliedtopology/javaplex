@@ -22,12 +22,12 @@ max_filtration_value = R;
 
 % create a lazy witness stream
 stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
-stream.finalizeStream()
+stream.finalizeStream();
 
 % print out the size of the stream
 num_simplices = stream.getSize()
 
-% get homology algorithm over Z/2Z
+% get persistence algorithm over Z/2Z
 Z2_persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 
 % compute the intervals
@@ -40,7 +40,7 @@ options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
 plot_barcodes(Z2_intervals, options);
 
-% get homology algorithm over Z/2Z
+% get persistence algorithm over Z/3Z
 Z3_persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 3);
 
 % compute the intervals

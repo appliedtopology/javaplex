@@ -20,11 +20,14 @@ stream.finalizeStream();
 % print out the total number of simplices in the complex
 num_simplices = stream.getSize()
 
-% get the default persistence computation
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
+% get persistence algorithm over Z/2Z
+persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
 
 % compute and print the intervals
 circle_intervals = persistence.computeIntervals(stream)
+
+% compute and print the intervals annotated with a representative cycle
+circle_intervals = persistence.computeAnnotatedIntervals(stream)
 
 %% 9-sphere Example
 
@@ -42,8 +45,11 @@ stream.finalizeStream();
 % print out the total number of simplices in the complex
 num_simplices = stream.getSize()
 
-% get the default persistence computation
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);
+% get persistence algorithm over Z/2Z
+persistence = api.Plex4.getModularSimplicialAlgorithm(dimension + 1, 2);
 
 % compute and print the intervals
 n_sphere_intervals = persistence.computeIntervals(stream)
+
+% compute and print the intervals annotated with a representative cycle
+n_sphere_intervals = persistence.computeAnnotatedIntervals(stream)

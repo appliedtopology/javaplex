@@ -15,10 +15,10 @@ point_cloud = examples.PointCloudExamples.getHouseExample();
 % create a Vietoris-Rips stream 
 stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension, max_filtration_value, num_divisions);
 
-% get the default persistence algorithm
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
+% get persistence algorithm over Z/2Z
+persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 
-% compute intervals
+% compute the intervals
 intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
@@ -42,8 +42,8 @@ size(point_cloud)
 stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension, max_filtration_value, num_divisions);
 num_simplices = stream.getSize()
 
-% get the default persistence algorithm
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
+% get persistence algorithm over Z/2Z
+persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 
 % compute the intervals
 intervals = persistence.computeIntervals(stream);

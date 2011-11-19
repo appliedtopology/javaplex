@@ -66,8 +66,8 @@ stream.addElement([1, 3, 4]);
 
 stream.finalizeStream();
 
-% get the default persistence computation
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
+% get persistence algorithm over Z/2Z
+persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
 
 % compute and print the intervals
 intervals = persistence.computeIntervals(stream)

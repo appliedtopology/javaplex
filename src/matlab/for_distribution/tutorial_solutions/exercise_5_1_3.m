@@ -21,9 +21,8 @@ num_divisions = 100;
 % create a Vietoris-Rips stream 
 stream = api.Plex4.createVietorisRipsStream(pointsS1, max_dimension + 1, max_filtration_value, num_divisions);
 
-% get the default persistence algorithm
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension + 1);
+% get persistence algorithm over Z/2Z
+persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension + 1, 2);
 
-% this initially creates a set of intervals which contains the filtration
-% indices (which are integers).
-filtration_value_intervals = persistence.computeIntervals(stream)
+% compute and print the intervals
+intervals = persistence.computeIntervals(stream)

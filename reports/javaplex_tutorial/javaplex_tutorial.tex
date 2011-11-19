@@ -46,8 +46,6 @@
 % TODO: add example computing a representative cycle for each barcode
 % TODO: add representative cycles example which Andrew has made to tutorial
 
-% TODO: To encourage good habits, use finalizeStream() on all ExplicitStreams (not just the ones created out of order, where it is necessary).
-
 % TODO: add comment about javaPlex in Java (without Matlab)
 
 % TODO: is "ensureAllFaces" working as I expect? See representatives_example_HA and try changing dimensions
@@ -214,7 +212,7 @@ Persistent homology depends heavily on functoriality: for $t\leq s$, the inclusi
 In javaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. The class ExplicitSimplexStream allows one to build a simplicial complex from scratch. In Section \ref{sfpc} we will learn about other automated methods of generating simplicial complexes; namely the Vietoris--Rips, witness, and lazy witness constructions. 
 
 
-\subsection{Explicit simplex streams and homology}
+\subsection{Computing homology}
 
 You should change your current Matlab directory to \texttt{tutorial\_examples}, perhaps using the following command.
 
@@ -252,6 +250,7 @@ Next we add simplicies using the methods \texttt{addVertex} and \texttt{addEleme
 >> stream.addElement([0, 1]);
 >> stream.addElement([0, 2]);
 >> stream.addElement([1, 2]);
+>> stream.finalizeStream();
 \end{verbatim} \end{quote}
 
 We print the total number of simplices in the complex.
@@ -261,10 +260,10 @@ We print the total number of simplices in the complex.
 num_simplices = 6
 \end{verbatim} \end{quote}
 
-In order to compute the homology of our complex, we first create an object that will perform the computation. The following line obtains the default algorithm for performing simplicial homology. There are other variants on the persistence algorithm, and one can also change the ground field. This default object will perform the homology computation with $\mathbb{Z}_2$ coefficients. The input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3.
+We create an object that will compute the homology of our complex. The first input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3. The second input 2 means that we will compute homology with $\mathbb{Z}_2$ coefficients, and this input can be any prime number.
 
 \begin{quote} \begin{verbatim}
->> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
+>> persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
 \end{verbatim} \end{quote}
 
 We compute and print the intervals.
@@ -274,12 +273,26 @@ We compute and print the intervals.
 circle_intervals =
 
 Dimension: 1
-[0, infinity)
+[0.0, infinity)
 Dimension: 0
-[0, infinity)
+[0.0, infinity)
 \end{verbatim} \end{quote}
 
 This gives us the expected Betti numbers $Betti_0=1$ and $Betti_1=1$.
+
+We can also compute a representative cycle for each barcode.
+
+\begin{quote} \begin{verbatim}
+>> circle_intervals = persistence.computeAnnotatedIntervals(stream)
+circle_intervals =
+
+Dimension: 1
+[0.0, infinity): [1,2] + [0,2] + [0,1]
+Dimension: 0
+[0.0, infinity): [0]
+\end{verbatim} \end{quote}
+
+A representative cycle generating the single 0-dimensional homology class is [0], and a representative cycle generating the single 1-dimensional homology class is [1,2] + [0,2] + [0,1].
 
 {\em 9-sphere example.} Let's build a 9-sphere, which is homeomorphic to the boundary of a 10-simplex. First we add a single 10-simplex to an empty explicit simplex stream. The result is not a simplicial complex because it does not contain the faces of the 10-simplex. We add all faces using the method \texttt{ensureAllFaces}. Then, we remove the 10-simplex using the method \texttt{removeElementIfPresent}. What remains is the boundary of a 10-simplex, that is, a 9-sphere.
 
@@ -301,10 +314,10 @@ We print the total number of simplices in the complex.
 num_simplices = 2046
 \end{verbatim} \end{quote}
 
-We get the default persistence computation
+We get the persistence algorithm
 
 \begin{quote} \begin{verbatim}
->> persistence = api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1);
+persistence = api.Plex4.getModularSimplicialAlgorithm(dimension + 1, 2);
 \end{verbatim} \end{quote}
 
 and compute and print the intervals.
@@ -314,12 +327,20 @@ and compute and print the intervals.
 n_sphere_intervals =
 
 Dimension: 9
-[0, infinity)
+[0.0, infinity)
 Dimension: 0
-[0, infinity)
+[0.0, infinity)
 \end{verbatim} \end{quote}
 
-This gives us the expected Betti numbers $Betti_0=1$ and $Betti_9=1$. 
+This gives us the expected Betti numbers $Betti_0=1$ and $Betti_9=1$.
+
+Try computing a representative cycle for each barcode.
+
+\begin{quote} \begin{verbatim}
+>> n_sphere_intervals = persistence.computeAnnotatedIntervals(stream)
+\end{verbatim} \end{quote}
+
+We don't display the output from this command in the tutorial, because the representative 9-cycle is very long and contains all eleven 9-simplices.
 
 See Appendix \ref{A:solutions} for exercise solutions. 
 
@@ -336,7 +357,7 @@ Build a simplicial complex homeomorphic to the projective plane. Find its Betti 
 \end{exercise}
 
 
-\subsection{Explicit simplex streams and persistent homology}\label{explicitStreamPers}
+\subsection{Computing persistent homology}\label{computingPersistentHomology}
 
 Let's build a stream with nontrivial filtration times. 
 
@@ -364,18 +385,18 @@ We build a house, with the vertices and edges on the square appearing at time 0,
 >> stream.addElement([3, 5], 2);
 >> stream.addElement([4, 5], 3);
 >> stream.addElement([3, 4, 5], 7);
+>> stream.finalizeStream();
 \end{verbatim} \end{quote}
 
-We get the default persistence computation
+We get the persistence algorithm with $\mathbb{Z}_2$ coefficients
 \begin{quote} \begin{verbatim}
->> persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
+>> persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
 \end{verbatim} \end{quote}
 
 and compute the intervals.
 
 \begin{quote} \begin{verbatim}
->> intervals = persistence.computeIntervals(stream);
-
+>> intervals = persistence.computeIntervals(stream)
 intervals =
 
 Dimension: 1
@@ -387,6 +408,20 @@ Dimension: 0
 \end{verbatim} \end{quote}
 
 There are four intervals. The first is a $Betti_1$ interval, starting at filtration time 3 and ending at 7. This 1-dimensional hole is formed by the three edges of the roof. It forms when edge $[4,5]$ appears at filtration time 3 and closes when 2-simplex $[3,4,5]$ appears at filtration time 7.
+
+We compute a representative cycle for each barcode.
+
+\begin{quote} \begin{verbatim}
+>> intervals = persistence.computeAnnotatedIntervals(stream)
+intervals =
+
+Dimension: 1
+[3.0, 7.0): [4,5] + [3,4] + -[3,5]
+[0.0, infinity): [1,4] + [2,3] + [1,2] + [3,4]
+Dimension: 0
+[1.0, 2.0): -[3] + [5]
+[0.0, infinity): [1]
+\end{verbatim} \end{quote}
 
 One $Betti_0$ interval and one $Betti_1$ interval are semi-infinite. 
 \begin{quote} \begin{verbatim}
@@ -640,7 +675,7 @@ Note that $\VR(Z,t) \subset \VR(Z,s)$ whenever $t\leq s$, so the Vietoris--Rips 
 
 The Matlab script corresponding to this section is \texttt{rips\_example.m}. 
 
-{\em House example.} Let's build a Vietoris--Rips stream from the house point cloud in Section \ref{euc}. Note this stream is different than the explicit house stream we built in Section \ref{explicitStreamPers}.
+{\em House example.} Let's build a Vietoris--Rips stream from the house point cloud in Section \ref{euc}. Note this stream is different than the explicit house stream we built in Section \ref{computingPersistentHomology}.
 
 % overflow
 \begin{quote} \begin{verbatim}
@@ -658,7 +693,7 @@ The order of the inputs is \texttt{createVietorisRipsStream(}$Z,\ d_{max},\ t_{m
 Since $d_{max} = 3$ we can compute up to second dimensional persistent homology.
 
 \begin{quote} \begin{verbatim}
->> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
+>> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 >> intervals = persistence.computeIntervals(stream);
 \end{verbatim} \end{quote}
 
@@ -722,7 +757,7 @@ max_filtration_value, num_divisions);
 >> num_simplices = stream.getSize()
 num_simplices = 82479
 
->> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
+>> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 >> intervals = persistence.computeIntervals(stream);
 
 >> options.filename = 'ripsTorus';
@@ -902,7 +937,7 @@ num_simplices = 1858                % Generally close to 2000
 We plot the Betti intervals.
 
 \begin{quote} \begin{verbatim}
->> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
+>> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 >> intervals = persistence.computeIntervals(stream);
 
 >> options.filename = 'witnessTorus';
@@ -979,7 +1014,7 @@ landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
 >> stream.finalizeStream()
 >> num_simplices = stream.getSize()
 num_simplices = 79842                       % Generally between 30000 and 180000
->> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
+>> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 >> intervals = persistence.computeIntervals(stream);
 
 >> options.filename = 'lazySphere';
@@ -1067,7 +1102,7 @@ landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
 >> num_simplices = stream.getSize()
 num_simplices = 12036                        % Generally between 10000 and 25000
 
->> persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
+>> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 >> intervals = persistence.computeIntervals(stream);
 
 >> options.filename = 'lazyRange';
@@ -1161,10 +1196,7 @@ of Betti numbers.
 
 
 \subsection{Representative cycles}
-The persistence algorithm that computes barcodes can also find a representative cycle for each homology class. 
-%The current version of JPlex does not return representative cycles, though development versions of JPlex can. 
-% Andrew, what's the status for representative cycles in javaPlex? I saw you had a file "representatives_example.m" but without any relevant code inside it.
-However, there is no guarantee that the produced representative will be geometrically nice. 
+The persistence algorithm that computes barcodes can also find a representative cycle for each barcode. We do several examples of this in Section \ref{explicitStream}. However, there is no guarantee that the produced representative will be geometrically nice. 
 
 
 %\subsection{Java heap size}

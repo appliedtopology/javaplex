@@ -67,13 +67,13 @@ stream.addElement([1, 3, 7]);
 
 stream.finalizeStream();
 
-% get homology algorithm over Z/2Z
+% get persistence algorithm over Z/2Z
 Z2_persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
 
 % compute and print the intervals
 Z2_intervals = Z2_persistence.computeIntervals(stream)
 
-% get homology algorithm over Z/3Z
+% get persistence  algorithm over Z/3Z
 Z3_persistence = api.Plex4.getModularSimplicialAlgorithm(3, 3);
 
 % compute and print the intervals

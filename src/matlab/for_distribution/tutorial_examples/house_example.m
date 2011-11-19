@@ -22,11 +22,14 @@ stream.addElement([4, 5], 3);
 stream.addElement([3, 4, 5], 7);
 stream.finalizeStream();
 
-% get the default persistence computation
-persistence = api.Plex4.getDefaultSimplicialAlgorithm(3);
+% get persistence algorithm over Z/2Z
+persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
 
-% compute the intervals
+% compute and print the intervals
 intervals = persistence.computeIntervals(stream)
+
+% compute and print the intervals annotated with a representative cycle
+intervals = persistence.computeAnnotatedIntervals(stream)
 
 % get the infinite barcodes
 infinite_barcodes = intervals.getInfiniteIntervals();
