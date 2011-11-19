@@ -43,10 +43,7 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{8pt}
 
-% TODO: add example computing a representative cycle for each barcode
-% TODO: add representative cycles example which Andrew has made to tutorial
-
-% TODO: add comment about javaPlex in Java (without Matlab)
+% TODO: test tutorial after making changes to include examples finding representative cycles (For example, getDefaultSimplicialAlgorithm changed everywhere to getModularSimplicialAlgorithm).
 
 % TODO: is "ensureAllFaces" working as I expect? See representatives_example_HA and try changing dimensions
 
@@ -82,15 +79,18 @@
 
 \section{Introduction}
 
+
 \subsection{javaPlex}
 
 javaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. javaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo Johansson. The main motivation for the development of javaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for javaPlex is \url{http://code.google.com/p/javaplex/} and the javadoc tree for the library is at \url{http://javaplex.googlecode.com/svn/trunk/doc/index.html}.
 
-Please email Henry at \texttt{henrya@math.stanford.edu} or Andrew at \texttt{atausz@stanford.edu} if you have questions about this tutorial.
+This tutorial is written for those using javaPlex with Matlab. However, one can run javaPlex without Matlab; see \url{http://code.google.com/p/javaplex/wiki/Interop}.
 
 If you are interested in javaPlex, then you may also be interested in the software package Dionysus by Dmitriy Morozov, available at \url{http://www.mrzv.org/software/dionysus}. 
 
-Some of the exercises in this tutorial are borrowed from Vin de Silva's {\em Plexercises}, available at \url{http://comptop.stanford.edu/u/programs/Plexercises2.pdf}. 
+Some of the exercises in this tutorial are borrowed from Vin de Silva's {\em Plexercises}, available at \url{http://comptop.stanford.edu/u/programs/Plexercises2.pdf}.
+
+Please email Henry at \texttt{henrya@math.stanford.edu} or Andrew at \texttt{atausz@stanford.edu} if you have questions about this tutorial.
 
 
 \subsection{License}
