@@ -71,4 +71,8 @@ public interface AbstractUndirectedGraph extends Iterable<IntIntPair> {
 	 * @return an Iterator<IntIntPair>
 	 */
 	public Iterator<IntIntPair> iterator();
+	
+	public int getDegree(int v);
+	public int[] getNeighbors(int v);
+	public int[] getDegreeSequence();
 }

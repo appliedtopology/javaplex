@@ -3,13 +3,14 @@
  */
 package edu.stanford.math.plex4.graph;
 
-import java.util.Iterator;
-
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.primitivelib.autogen.pair.IntIntPair;
 import gnu.trove.TIntDoubleHashMap;
 import gnu.trove.TIntHashSet;
+import gnu.trove.TIntIntHashMap;
 import gnu.trove.TIntObjectHashMap;
+
+import java.util.Iterator;
 
 /**
  * This class implements the functionality of an undirected weighted graph.
@@ -22,6 +23,7 @@ import gnu.trove.TIntObjectHashMap;
 public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGraph {
 	private final TIntObjectHashMap<TIntDoubleHashMap> adjacencySets = new TIntObjectHashMap<TIntDoubleHashMap>();
 	private final int numVertices;
+	private final TIntIntHashMap degrees = new TIntIntHashMap();
 	
 	/**
 	 * Constructor which initializes the graph to consist of disconnected
@@ -45,6 +47,15 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 			this.adjacencySets.put(y, new TIntDoubleHashMap());
 		}
 		this.adjacencySets.get(y).put(x, weight);
+		
+		if (!this.degrees.containsKey(x)) {
+			this.degrees.put(x, 0);
+		}
+		if (!this.degrees.containsKey(y)) {
+			this.degrees.put(y, 0);
+		}
+		this.degrees.put(x, this.degrees.get(x) + 1);
+		this.degrees.put(y, this.degrees.get(y) + 1);
 	}
 
 	/* (non-Javadoc)
@@ -124,5 +135,34 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 	public Iterator<IntIntPair> iterator() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public int getDegree(int v) {
+		return this.degrees.get(v);
+	}
+	
+	public int[] getDegreeSequence() {
+		int[] sequence = new int[this.numVertices];
+		
+		for (int i = 0; i < this.numVertices; i++) {
+			sequence[i] = this.degrees.get(i);
+		}
+		
+		return sequence;
+	}
+
+	public int[] getNeighbors(int v) {
+		TIntHashSet set = new TIntHashSet();
+		set.addAll(this.getLowerNeighbors(v).toArray());
+		
+		for (int i = v + 1; i < this.numVertices; i++) {
+			if (this.adjacencySets.containsKey(i)) {
+				if (this.adjacencySets.get(i).containsKey(v)) {
+					set.add(i);
+				}
+			}
+		}
+		
+		return set.toArray();
 	}
 }
