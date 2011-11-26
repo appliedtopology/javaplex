@@ -151,7 +151,7 @@ public class BAGraph extends GraphInstanceGenerator {
 	 */
 	@Override
 	public String toString() {
-		return "BAGraph(" + this.nParam + "," + this.mParam + ")";
+		return "BarabasiAlbert(" + this.nParam + "," + this.mParam + ")";
 	}
 
 }

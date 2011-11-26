@@ -36,4 +36,8 @@ public class TorusGraph extends ManifoldGraph {
 		this.generateUniformPoints();
 	}
 
+	@Override
+	public String toString() {
+		return "TorusKNN(" + this.size + "," + this.dimension + "," + this.k + ")";
+	}
 }

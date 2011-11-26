@@ -219,7 +219,7 @@ public class BinaryHierarchicalGraph extends GraphInstanceGenerator {
 	 */
 	@Override
 	public String toString() {
-		return "HierarchicalGraph(" + this.numNodes + ")";
+		return "Hierarchical(" + this.numNodes + ")";
 	}
 
 	protected void debug(String msg) {

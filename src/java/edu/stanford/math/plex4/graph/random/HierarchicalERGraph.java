@@ -94,7 +94,7 @@ public class HierarchicalERGraph extends BinaryHierarchicalGraph {
 	 */
 	@Override
 	public String toString() {
-		return "HierarchicalERGraph(" + this.hgLeafCount + ","
+		return "HierarchicalER(" + this.hgLeafCount + ","
 				+ this.rootedGraphSize + "," + this.maxProbability + ","
 				+ this.erParameter + ")";
 	}

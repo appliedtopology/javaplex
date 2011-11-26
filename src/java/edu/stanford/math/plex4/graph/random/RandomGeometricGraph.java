@@ -77,7 +77,6 @@ public class RandomGeometricGraph extends GraphInstanceGenerator {
 	 */
 	@Override
 	public String toString() {
-		return "RandomGeometricGraph(" + this.numNodes + "," + this.dimension
-				+ "," + this.radius + ")";
+		return "RandomGeometric(" + this.numNodes + "," + this.dimension + "," + this.radius + ")";
 	}
 }

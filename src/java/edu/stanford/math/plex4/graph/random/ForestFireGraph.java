@@ -98,7 +98,7 @@ public class ForestFireGraph extends GraphInstanceGenerator {
 	 */
 	@Override
 	public String toString() {
-		return "ForestFireGraph(" + this.nodeCount + ","
+		return "ForestFire(" + this.nodeCount + ","
 				+ this.forwardBurningProbability + ","
 				+ this.backwardBurningProbability + ")";
 	}

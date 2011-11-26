@@ -1,5 +1,7 @@
 package edu.stanford.math.plex4.graph.random;
 
+import java.text.DecimalFormat;
+
 import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex4.utility.RandomUtility;
 
@@ -54,7 +56,8 @@ public class ErdosRenyiGraph extends GraphInstanceGenerator {
 	 */
 	@Override
 	public String toString() {
-		return "ErdosRenyiGraph(" + n + "," + p + ")";
+		DecimalFormat df = new DecimalFormat("#.###");
+		return "ErdosRenyi(" + n + "," + df.format(p) + ")";
 	}
 
 }

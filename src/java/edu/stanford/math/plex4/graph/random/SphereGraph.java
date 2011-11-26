@@ -22,4 +22,9 @@ public class SphereGraph extends ManifoldGraph {
 	protected void generatePoints() {
 		this.points = PointCloudExamples.getRandomSpherePoints(this.size, 2);
 	}
+	
+	@Override
+	public String toString() {
+		return "SphereKNN(" + this.size + "," + this.dimension + "," + this.k + ")";
+	}
 }

@@ -2,6 +2,8 @@ package edu.stanford.math.plex4.graph.utility;
 
 import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex4.graph.AbstractWeightedUndirectedGraph;
+import edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream;
+import edu.stanford.math.plex4.streams.impl.GeometricSimplexStream;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
 import edu.stanford.math.primitivelib.autogen.matrix.DoubleSparseMatrix;
 import edu.stanford.math.primitivelib.autogen.matrix.IntSparseMatrix;
@@ -15,6 +17,41 @@ import edu.stanford.math.primitivelib.utility.Infinity;
  *
  */
 public class GraphUtility {
+	
+	public static GeometricSimplexStream toGeometricSimplexStream(AbstractUndirectedGraph graph, double[][] points) {
+		ExplicitSimplexStream stream = new ExplicitSimplexStream();
+		int n = graph.getNumVertices();
+		
+		for (int i = 0; i < n; i++) {
+			stream.addVertex(i);
+		}
+		
+		for (IntIntPair edge: graph) {
+			int i = edge.getFirst();
+			int j = edge.getSecond();
+			stream.addElement(new int[]{i, j}, 0);
+		}
+		
+		return new GeometricSimplexStream(stream, points);
+	}
+	
+	public static ExplicitSimplexStream toSimplexStream(AbstractUndirectedGraph graph) {
+		ExplicitSimplexStream stream = new ExplicitSimplexStream();
+		int n = graph.getNumVertices();
+		
+		for (int i = 0; i < n; i++) {
+			stream.addVertex(i);
+		}
+		
+		for (IntIntPair edge: graph) {
+			int i = edge.getFirst();
+			int j = edge.getSecond();
+			stream.addElement(new int[]{i, j}, 0);
+		}
+		
+		return stream;
+	}
+	
 	
 	/**
 	 * This function computes all of the distances between pairs of vertices using
