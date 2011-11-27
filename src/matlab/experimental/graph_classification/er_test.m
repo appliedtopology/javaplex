@@ -4,8 +4,6 @@ clc; clear; close all;
 n = 64;
 K = 4;
 
-
-
 probabilities = linspace(0.1, 0.80, 11);
 
 l = length(probabilities);

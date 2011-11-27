@@ -1,12 +1,13 @@
 function bottleneck_distances = pairwise_barcode_analysis(distance_matrices)
     
+    matlabpool
+
     K = size(distance_matrices, 1);
+    pctRunOnAll javaaddpath('../../for_distribution/lib/javaplex.jar');
     
     intervals = cell(K, 1);
     
-    N = 30;
-    
-    for k = 1:K
+    parfor k = 1:K
         mds_distances = distance_matrices{k};
         m_space = edu.stanford.math.plex4.metric.impl.ExplicitMetricSpace(mds_distances);
         max_dimension = 0;
@@ -26,14 +27,21 @@ function bottleneck_distances = pairwise_barcode_analysis(distance_matrices)
     bottleneck_distances = zeros(K, K);
     
     for i = 1:K
-        for j = (i+1):K
-            
-            collection_1 = intervals{i};
+        collection_1 = intervals{i};
+        parfor j = (i+1):K
             collection_2 = intervals{j};
             bottleneck_distance = edu.stanford.math.plex4.bottleneck.BottleneckDistance.computeBottleneckDistance(collection_1, collection_2);
             bottleneck_distances(i, j) = bottleneck_distance;
-            bottleneck_distances(j, i) = bottleneck_distance;
             display(sprintf('pairwise_barcode_analysis: d(%d, %d) = %f', i, j, bottleneck_distance));
         end
     end
+    
+    
+    for i = 1:K
+        for j = (i+1):K
+            bottleneck_distances(j, i) = bottleneck_distances(i, j);
+        end
+    end
+    
+    matlabpool close
 end

@@ -2,7 +2,7 @@ clc; clear; close all;
 
 n = 64;
 m = 10;
-K = 10;
+K = 1;
 
 generators = cell(4, 1);
 

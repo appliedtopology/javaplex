@@ -74,59 +74,42 @@ public class BinaryHierarchicalGraph extends GraphInstanceGenerator {
 		return this.construct(this.maxProbability);
 	}
 
-    /**
-     * Construct the Hierarchical graph.
-     * 
-     * As an approximation, this algorithm considers a binary tree with 
-     * n nodes, labeled 1,2,..,n in a BFS. For example,
-     *  
-     *         1         
-     *       /   \
-     *      3     2      
-     *     / \   / \
-     *    7  6  5   4
-     *    ... 
-     * 
-     * Only the leaves of the tree are associated with nodes. To build a 
-     * binary tree with n leaves it takes 2^m nodes, where 
-     *    m=floor(ln(n)/ln(2)).
-     *    
-     * The probability of edge (a,b) existing is a function of the depth of 
-     * the first common ancestor in the tree. For example, if D = maxDepth
-     * then
-     * 
-     *    i,j-depth    probability of (i,j) in E 
-     *     1           p=[1/D]^q
-     *     2           p=[2/D]^q
-     *     3           p=[3/D]^q
-     *     ...
-     *     D-1         p=[(D-1)/D]^q
-     *     D           p=[D/D]^q
-     * 
-     */
+	/**
+	 * Construct the Hierarchical graph.
+	 * 
+	 * As an approximation, this algorithm considers a binary tree with n nodes,
+	 * labeled 1,2,..,n in a BFS. For example,
+	 * 
+	 * 1 / \ 3 2 / \ / \ 7 6 5 4 ...
+	 * 
+	 * Only the leaves of the tree are associated with nodes. To build a binary
+	 * tree with n leaves it takes 2^m nodes, where m=floor(ln(n)/ln(2)).
+	 * 
+	 * The probability of edge (a,b) existing is a function of the depth of the
+	 * first common ancestor in the tree. For example, if D = maxDepth then
+	 * 
+	 * i,j-depth probability of (i,j) in E 1 p=[1/D]^q 2 p=[2/D]^q 3 p=[3/D]^q
+	 * ... D-1 p=[(D-1)/D]^q D p=[D/D]^q
+	 * 
+	 */
 	protected AbstractUndirectedGraph construct(double maxProbability) {
 
 		int n = this.numNodes;
 
-		/*      We want to construct the smallest binary tree of size 2^d-1 such 
-         *  that there are at least n leaves. That is, we need to find the k 
-         *  that satisfies [2^k <= n < 2^{k+1}]. For example,
-         *  
-         *         1         k=0 if n=1
-         *       /   \      
-         *      3     2      k=1 if n=2
-         *     / \   / \
-         *    7  6  5   4    k=2 if n=3,..,4
-         *   ..............  k=3 if n=5,..,8  
-         *  ................ k=4 if n=9,..,16  
-         *  
-         */
+		/*
+		 * We want to construct the smallest binary tree of size 2^d-1 such that
+		 * there are at least n leaves. That is, we need to find the k that
+		 * satisfies [2^k <= n < 2^{k+1}]. For example,
+		 * 
+		 * 1 k=0 if n=1 / \ 3 2 k=1 if n=2 / \ / \ 7 6 5 4 k=2 if n=3,..,4
+		 * .............. k=3 if n=5,..,8 ................ k=4 if n=9,..,16
+		 */
 
 		int k = getTreeDepth(n);
 		double[] probabilities;
 		// Construct one probability for each common ancestor depth d=1..k-1.
 		probabilities = getProbabilities(k, maxProbability);
-		//debug(DoubleArrayReaderWriter.toMatlabString(probabilities));
+		// debug(DoubleArrayReaderWriter.toMatlabString(probabilities));
 		// Get the index range i=n0,n0+1,...,n1-1,n1 of the leaves of the
 		// binary tree that correspond to the nodes we are interested in.
 		int n0 = (int) Math.pow(2d, k);
@@ -173,7 +156,7 @@ public class BinaryHierarchicalGraph extends GraphInstanceGenerator {
 	 */
 	protected AbstractUndirectedGraph constructEdges(int n0, int n1, int k, double[] probs) {
 		AbstractUndirectedGraph graph = this.initializeGraph(numNodes);
-			
+
 		// Construct a binary tree to compute common ancestors.
 		int size = ((int) Math.pow(2, k + 1)) - 1;
 		BinaryTree bt = new BinaryTree(size);

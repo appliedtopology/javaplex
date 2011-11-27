@@ -1,5 +1,7 @@
 package edu.stanford.math.plex4.homology.barcodes;
 
+import java.io.Serializable;
+
 /**
  * This class implements the functionality of an interval of values of any comparable type. It supports
  * finite, semi-infinite, and infinite intervals with open or closed end points. 
@@ -8,7 +10,11 @@ package edu.stanford.math.plex4.homology.barcodes;
  *
  * @param <T> the underlying type - e.g. most likely Integer, Double, or Float
  */
-public class Interval<T extends Comparable<T>> implements Comparable<Interval<T>> {
+public class Interval<T extends Comparable<T>> implements Comparable<Interval<T>>, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3434702188482864510L;
 	private final T start, end;
 	private final boolean isLeftClosed, isRightClosed;
 	private final boolean isLeftInfinite, isRightInfinite;

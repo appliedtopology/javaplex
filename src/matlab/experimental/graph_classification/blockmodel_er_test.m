@@ -1,7 +1,7 @@
 clc; clear; close all;
 
 n = 64;
-K = 8;
+K = 2;
 
 p = 0.6;
 q = 0.1;
