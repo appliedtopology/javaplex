@@ -1,6 +1,8 @@
 package edu.stanford.math.plex4.streams.multi;
 
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.streams.filter.FilterFunction;
+import edu.stanford.math.plex4.streams.filter.IntFilterFunction;
 
 public class InducedSimplicialFilterFunction implements FilterFunction<Simplex> {
 	private final IntFilterFunction intFilterFunction;
