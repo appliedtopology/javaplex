@@ -3,6 +3,7 @@ package edu.stanford.math.plex4.streams.multi;
 import java.util.Comparator;
 
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
+import edu.stanford.math.plex4.streams.filter.FilterFunction;
 import edu.stanford.math.plex4.streams.interfaces.PrimitiveStream;
 
 public class BifilteredMetricStream<T extends PrimitiveBasisElement> extends PrimitiveMultifilteredStream<T> {
