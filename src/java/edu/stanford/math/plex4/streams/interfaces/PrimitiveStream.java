@@ -124,6 +124,10 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 		return this.storageStructure.getMaximumFiltrationIndex();
 	}
 	
+	public int getMinimumFiltrationIndex() {
+		return this.storageStructure.getMinimumFiltrationIndex();
+	}
+	
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream#getBasisComparator()
 	 */

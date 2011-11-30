@@ -1,8 +1,8 @@
 clc; clear; close all;
 
-n = 64;
+n = 100;
 m = 10;
-K = 1;
+K = 20;
 
 generators = cell(4, 1);
 

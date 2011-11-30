@@ -10,6 +10,7 @@ package edu.stanford.math.plex4.graph.random;
  */
 public class HierarchicalERGraph extends BinaryHierarchicalGraph {
 
+	private static final long serialVersionUID = 3491552989916440763L;
 	protected int rootedGraphSize;
 	protected int hgLeafCount;
 	protected double erParameter;

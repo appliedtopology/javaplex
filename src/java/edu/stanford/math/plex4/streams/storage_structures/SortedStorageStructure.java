@@ -182,4 +182,15 @@ public class SortedStorageStructure<T> implements StreamStorageStructure<T> {
 		
 		return maxIndex;
 	}
+	
+	public int getMinimumFiltrationIndex() {
+		int minIndex = Integer.MAX_VALUE;
+		for (IntObjectPair<T> pair : this.elementFiltrationPairs) {
+			if (pair.getFirst() < minIndex) {
+				minIndex = pair.getFirst();
+			}
+		}
+		
+		return minIndex;
+	}
 }

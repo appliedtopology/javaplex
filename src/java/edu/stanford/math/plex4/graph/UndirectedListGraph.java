@@ -28,6 +28,8 @@ import gnu.trove.TIntObjectHashMap;
  * 
  */
 public class UndirectedListGraph implements AbstractUndirectedGraph {
+	private static final long serialVersionUID = -6877203803491057242L;
+
 	/**
 	 * This is the adjacency set structure
 	 */

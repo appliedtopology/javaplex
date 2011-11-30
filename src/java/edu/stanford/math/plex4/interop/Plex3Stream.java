@@ -24,34 +24,40 @@ public class Plex3Stream implements AbstractFilteredStream<edu.stanford.math.ple
 	private final SimplexStream plex3Stream;
 	private final TObjectIntHashMap<Simplex> filtrationIndexMap = new TObjectIntHashMap<Simplex>();
 	private final Plex3ToPlex4SimplexAdapter simplexAdapter;
-	private final int maxFiltrationIndex;
+	private final int maxFiltrationIndex, minFiltrationIndex;
 	
 	public Plex3Stream(SimplexStream plex3Stream) {
 		this.simplexAdapter = Plex3ToPlex4SimplexAdapter.getInstance();
 		this.plex3Stream = plex3Stream;
 		int tempMaxFiltrationIndex = Integer.MIN_VALUE;
+		int tempMinFiltrationIndex = Integer.MAX_VALUE;
 		
 		for (Iterator<edu.stanford.math.plex.Simplex> iterator = plex3Stream.iterator(); iterator.hasNext(); ) {
 			edu.stanford.math.plex.Simplex plex3Simplex = iterator.next();
 			this.filtrationIndexMap.put(this.simplexAdapter.evaluate(plex3Simplex), plex3Simplex.findex());
 			tempMaxFiltrationIndex = Math.max(tempMaxFiltrationIndex, plex3Simplex.findex());
+			tempMinFiltrationIndex = Math.min(tempMinFiltrationIndex, plex3Simplex.findex());
 		}
 		
 		this.maxFiltrationIndex = tempMaxFiltrationIndex;
+		this.minFiltrationIndex = tempMinFiltrationIndex;
 	}
 	
 	public Plex3Stream(SimplexStream plex3Stream, int[] vertexMapping) {
 		this.simplexAdapter = Plex3ToPlex4SimplexAdapter.getInstance(vertexMapping);
 		this.plex3Stream = plex3Stream;
 		int tempMaxFiltrationIndex = Integer.MIN_VALUE;
+		int tempMinFiltrationIndex = Integer.MAX_VALUE;
 		
 		for (Iterator<edu.stanford.math.plex.Simplex> iterator = plex3Stream.iterator(); iterator.hasNext(); ) {
 			edu.stanford.math.plex.Simplex plex3Simplex = iterator.next();
 			this.filtrationIndexMap.put(this.simplexAdapter.evaluate(plex3Simplex), plex3Simplex.findex());
 			tempMaxFiltrationIndex = Math.max(tempMaxFiltrationIndex, plex3Simplex.findex());
+			tempMinFiltrationIndex = Math.min(tempMinFiltrationIndex, plex3Simplex.findex());
 		}
 		
 		this.maxFiltrationIndex = tempMaxFiltrationIndex;
+		this.minFiltrationIndex = tempMinFiltrationIndex;
 	}
 	
 	public void finalizeStream() { }
@@ -78,6 +84,10 @@ public class Plex3Stream implements AbstractFilteredStream<edu.stanford.math.ple
 
 	public int getMaximumFiltrationIndex() {
 		return this.maxFiltrationIndex;
+	}
+	
+	public int getMinimumFiltrationIndex() {
+		return this.minFiltrationIndex;
 	}
 
 	public int getSize() {

@@ -18,7 +18,7 @@ import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
  * 
  */
 public class BAGraph extends GraphInstanceGenerator {
-
+	private static final long serialVersionUID = -2891811948996610346L;
 	protected int nParam;
 	protected int mParam;
 

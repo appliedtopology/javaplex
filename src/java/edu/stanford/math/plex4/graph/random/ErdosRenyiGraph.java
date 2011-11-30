@@ -18,6 +18,8 @@ import edu.stanford.math.plex4.utility.RandomUtility;
  * 
  */
 public class ErdosRenyiGraph extends GraphInstanceGenerator {
+	
+	private static final long serialVersionUID = 8667419683575090941L;
 	protected int n;
 	protected double p;
 

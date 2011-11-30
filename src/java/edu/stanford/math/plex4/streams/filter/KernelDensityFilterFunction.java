@@ -44,4 +44,8 @@ public class KernelDensityFilterFunction implements IntFilterFunction {
 		
 		this.maxMinComputed = true;
 	}
+	
+	public double[] getValues() {
+		return this.densities;
+	}
 }

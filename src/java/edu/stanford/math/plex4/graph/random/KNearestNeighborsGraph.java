@@ -15,6 +15,8 @@ import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
 
 public class KNearestNeighborsGraph extends ManifoldGraph {
 
+	private static final long serialVersionUID = 8103387342329387307L;
+
 	public KNearestNeighborsGraph(int size, int dimension, int k) {
 		super(size, dimension, k);
 	}

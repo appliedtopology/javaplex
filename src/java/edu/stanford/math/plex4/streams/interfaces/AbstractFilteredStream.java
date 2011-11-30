@@ -144,6 +144,12 @@ public interface AbstractFilteredStream<T> extends Iterable<T> {
 	 * @return the maximum filtration index
 	 */
 	public int getMaximumFiltrationIndex();
+	/**
+	 * This function gets the minimum filtration index in the complex.
+	 * 
+	 * @return the minimum filtration index
+	 */
+	public int getMinimumFiltrationIndex();
 	
 	/**
 	 * This function returns a comparator on the underlying basis type.

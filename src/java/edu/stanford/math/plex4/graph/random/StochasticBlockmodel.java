@@ -7,6 +7,7 @@ import edu.stanford.math.plex4.utility.RandomUtility;
 
 public class StochasticBlockmodel extends GraphInstanceGenerator {
 
+	private static final long serialVersionUID = -4992866715916257875L;
 	protected final double[][] probabilityMatrix;
 	protected final int n;
 

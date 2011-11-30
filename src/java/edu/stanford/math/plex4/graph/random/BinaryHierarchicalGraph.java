@@ -18,6 +18,8 @@ import edu.stanford.math.plex4.utility.RandomUtility;
  */
 public class BinaryHierarchicalGraph extends GraphInstanceGenerator {
 
+	private static final long serialVersionUID = 830228704317022605L;
+
 	/**
 	 * Stores the probabilities that govern edge creation at each hierarchy
 	 * level.

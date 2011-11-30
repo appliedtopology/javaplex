@@ -16,6 +16,7 @@ import edu.stanford.math.plex4.utility.RandomUtility;
 
 public class RandomGeometricGraph extends GraphInstanceGenerator {
 
+	private static final long serialVersionUID = -6990717409349574954L;
 	protected int numNodes;
 	protected int dimension;
 	double radius;

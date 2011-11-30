@@ -1,5 +1,7 @@
 package edu.stanford.math.plex4.graph.random;
 
+import java.io.Serializable;
+
 import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
 import edu.stanford.math.plex4.graph.UndirectedListGraph;
 
@@ -9,7 +11,9 @@ import edu.stanford.math.plex4.graph.UndirectedListGraph;
  * @author Andrew Tausz
  *
  */
-public abstract class GraphInstanceGenerator {
+public abstract class GraphInstanceGenerator implements Serializable {
+	private static final long serialVersionUID = 6049123403450474191L;
+
 	public enum ImplementationType {
 		adjacencyList, matrix, compact
 	}

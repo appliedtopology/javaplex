@@ -10,6 +10,8 @@ import edu.stanford.math.plex4.utility.RandomUtility;
  * @date Dec 20, 2008
  */
 public class CircleGraph extends GraphInstanceGenerator {
+
+	private static final long serialVersionUID = -3618903660728579100L;
 	protected int numNodes; // each node is connected to k neighbours
 	protected int numNeighbors; // probability of rewiring each edge
 	protected double rewiringProbability;

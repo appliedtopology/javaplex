@@ -1,5 +1,6 @@
 package edu.stanford.math.plex4.graph;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 import edu.stanford.math.primitivelib.autogen.pair.IntIntPair;
@@ -13,7 +14,7 @@ import gnu.trove.TIntHashSet;
  * @author Andrew Tausz
  *
  */
-public interface AbstractUndirectedGraph extends Iterable<IntIntPair> {
+public interface AbstractUndirectedGraph extends Iterable<IntIntPair>, Serializable {
 	
 	/**
 	 * Gets the number of vertices in the graph.

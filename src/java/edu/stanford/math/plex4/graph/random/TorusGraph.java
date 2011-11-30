@@ -4,6 +4,8 @@ import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
 
 public class TorusGraph extends ManifoldGraph {
 
+	private static final long serialVersionUID = 101044478862814881L;
+
 	public TorusGraph(int size, int dimension, int k) {
 		super(size, dimension, k);
 	}

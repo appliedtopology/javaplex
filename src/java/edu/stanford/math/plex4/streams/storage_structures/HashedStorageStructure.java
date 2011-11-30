@@ -186,4 +186,16 @@ public class HashedStorageStructure<T extends PrimitiveBasisElement> implements 
 		
 		return maxIndex;
 	}
+	
+	public int getMinimumFiltrationIndex() {
+		int minIndex = Integer.MAX_VALUE;
+		for (TIntObjectIterator<TIntObjectHashMap<List<T>>> filtrationIndexIterator = this.indexDimensionObjectMap.iterator(); filtrationIndexIterator.hasNext(); ) {
+			filtrationIndexIterator.advance();
+			if (filtrationIndexIterator.key() < minIndex) {
+				minIndex = filtrationIndexIterator.key();
+			}
+		}
+		
+		return minIndex;
+	}
 }

@@ -14,6 +14,8 @@ import edu.stanford.math.primitivelib.autogen.array.IntArrayQuery;
  *
  */
 public abstract class ManifoldGraph extends GraphInstanceGenerator {
+
+	private static final long serialVersionUID = -5873098569927731498L;
 	protected double points[][];
 	int size;
 	int dimension;

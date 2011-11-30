@@ -20,6 +20,7 @@ import edu.stanford.math.plex4.utility.RandomUtility;
  */
 public class ClusteredERGraph extends GraphInstanceGenerator {
 
+	private static final long serialVersionUID = -1685211333671788823L;
 	// variables for defining the clusters
 	int[] clusterSizes; // how many nodes in each cluster
 	double[] clusterParams; // the ER-parameter for each cluster

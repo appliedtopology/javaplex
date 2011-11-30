@@ -21,6 +21,7 @@ import gnu.trove.TIntObjectHashMap;
  *
  */
 public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGraph {
+	private static final long serialVersionUID = -4885036152039543245L;
 	private final TIntObjectHashMap<TIntDoubleHashMap> adjacencySets = new TIntObjectHashMap<TIntDoubleHashMap>();
 	private final int numVertices;
 	private final TIntIntHashMap degrees = new TIntIntHashMap();

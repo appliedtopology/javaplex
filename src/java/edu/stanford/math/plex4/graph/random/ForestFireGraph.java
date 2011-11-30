@@ -18,6 +18,8 @@ import gnu.trove.TIntArrayList;
  * @date February 7, 2009
  */
 public class ForestFireGraph extends GraphInstanceGenerator {
+
+	private static final long serialVersionUID = -872184123268309649L;
 	protected double forwardBurningProbability;
 	protected double backwardBurningProbability;
 	protected RandomEngine randomEngine = AbstractDistribution

@@ -1,12 +1,14 @@
 clc; clear; close all;
 
 %%
-n = 64;
-p = 0.4;
-q = 0.02;
+n = 1000;
+p = 0.2;
+q = 0.01;
 K = 10;
 c_min = 1;
-c_max = 3;
+c_max = 4;
+
+
 C = c_max - c_min + 1;
 
 generators = cell(C, 1);

@@ -171,6 +171,10 @@ public class DualStream<T> implements AbstractFilteredStream<T> {
 	public int getMaximumFiltrationIndex() {
 		return this.forwardStream.getMaximumFiltrationIndex();
 	}
+	
+	public int getMinimumFiltrationIndex() {
+		return this.forwardStream.getMinimumFiltrationIndex();
+	}
 
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream#getBasisComparator()

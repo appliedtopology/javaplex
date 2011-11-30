@@ -8,6 +8,7 @@ import edu.stanford.math.plex4.graph.AbstractUndirectedGraph;
  * 
  */
 public class BinaryTreeGraph extends GraphInstanceGenerator {
+	private static final long serialVersionUID = 379015239255681800L;
 	protected int n;
 
 	public BinaryTreeGraph(int n) {

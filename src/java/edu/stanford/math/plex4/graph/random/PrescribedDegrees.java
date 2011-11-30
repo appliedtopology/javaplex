@@ -14,6 +14,8 @@ import edu.stanford.math.primitivelib.autogen.array.IntArrayMath;
  * 
  */
 public class PrescribedDegrees extends GraphInstanceGenerator {
+
+	private static final long serialVersionUID = -5243083558152110213L;
 	protected int[] degreeSequence;
 	protected int numNodes;
 

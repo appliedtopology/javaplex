@@ -9,6 +9,9 @@ import edu.stanford.math.plex4.utility.MathUtility;
  */
 public class SphereGraph extends ManifoldGraph {
 
+
+	private static final long serialVersionUID = 2433480265430826207L;
+
 	public SphereGraph(int size, int k) {
 		super(size, 2, k);
 	}

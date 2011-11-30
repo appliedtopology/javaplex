@@ -48,4 +48,8 @@ public class EccentricityFilterFunction implements IntFilterFunction {
 	public double getMinValue() {
 		return this.minValue;
 	}
+	
+	public double[] getValues() {
+		return this.eccentricities;
+	}
 }

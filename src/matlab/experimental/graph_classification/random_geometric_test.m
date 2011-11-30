@@ -1,14 +1,14 @@
 clc; clear; close all;
 
 n = 100;
-K = 2;
+K = 20;
 
-generators = cell(4, 1);
+generators = cell(3, 1);
 
 generators{1} = edu.stanford.math.plex4.graph.random.RandomGeometricGraph(n, 1, 0.5);
 generators{2} = edu.stanford.math.plex4.graph.random.RandomGeometricGraph(n, 2, 0.5);
 generators{3} = edu.stanford.math.plex4.graph.random.RandomGeometricGraph(n, 3, 0.5);
-generators{4} = edu.stanford.math.plex4.graph.random.RandomGeometricGraph(n, 4, 0.5);
+%generators{4} = edu.stanford.math.plex4.graph.random.RandomGeometricGraph(n, 4, 0.5);
 
 [bottleneck_distances] = pairwise_graph_analysis(generators, K);
 

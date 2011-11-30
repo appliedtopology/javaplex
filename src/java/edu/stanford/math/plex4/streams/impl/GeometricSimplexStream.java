@@ -160,6 +160,10 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 	public int getMaximumFiltrationIndex() {
 		return this.stream.getMaximumFiltrationIndex();
 	}
+	
+	public int getMinimumFiltrationIndex() {
+		return this.stream.getMinimumFiltrationIndex();
+	}
 
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream#getBasisComparator()

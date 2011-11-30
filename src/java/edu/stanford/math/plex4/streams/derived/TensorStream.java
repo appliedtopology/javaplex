@@ -166,6 +166,10 @@ public class TensorStream<T, U> implements AbstractFilteredStream<ObjectObjectPa
 	public int getMaximumFiltrationIndex() {
 		return Math.max(this.stream1.getMaximumFiltrationIndex(), this.stream2.getMaximumFiltrationIndex());
 	}
+	
+	public int getMinimumFiltrationIndex() {
+		return Math.max(this.stream1.getMinimumFiltrationIndex(), this.stream2.getMinimumFiltrationIndex());
+	}
 
 	public Comparator<ObjectObjectPair<T, U>> getBasisComparator() {
 		return new ObjectObjectPairComparator<T, U>(this.stream1.getBasisComparator(), this.stream2.getBasisComparator());
