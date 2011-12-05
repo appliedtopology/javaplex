@@ -13,9 +13,9 @@ points(:, 2) = points(:, 2) - mean(points(:, 2));
 %% Parameters
 
 max_dimension = 0;
-max_filtration_value = 2;
+max_filtration_value = 4;
 sigma = 1;
-principal_direction = [0, 0.01];
+principal_direction = [10, 5000];
 
 metric_space = metric.impl.EuclideanMetricSpace(points);
 
@@ -25,11 +25,11 @@ stream.finalizeStream();
 densityFilterFunction = streams.filter.KernelDensityFilterFunction(metric_space, sigma);
 densities = densityFilterFunction.getValues();
 intFilterFunction = streams.filter.ExplicitIntFilterFunction(-densities);
-simplexFilterFunction = streams.filter.InducedSimplicialFilterFunction(intFilterFunction);
+simplexFilterFunction = streams.filter.MaxSimplicialFilterFunction(intFilterFunction);
 
 multifilteredStream = streams.multi.BifilteredMetricStream(stream, simplexFilterFunction);
 
-flattener = streams.multi.IncreasingOrthantFlattener(principal_direction);
+flattener = streams.multi.HalfplaneFlattener(principal_direction);
 flattened_stream = flattener.collapse(multifilteredStream);
 
 persistenceAlgorithm = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension + 1);
