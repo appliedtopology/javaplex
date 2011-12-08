@@ -11,7 +11,6 @@ import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.interfaces.AbstractPersistenceAlgorithm;
 import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.streams.filter.FilterFunction;
-import edu.stanford.math.plex4.streams.filter.InducedSimplicialFilterFunction;
 import edu.stanford.math.plex4.streams.filter.IntFilterFunction;
 import edu.stanford.math.plex4.streams.filter.KernelDensityFilterFunction;
 import edu.stanford.math.plex4.streams.impl.VietorisRipsStream;

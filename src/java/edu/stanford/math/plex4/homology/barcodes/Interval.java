@@ -362,6 +362,27 @@ public class Interval<T extends Comparable<T>> implements Comparable<Interval<T>
 	}
 
 	public int compareTo(Interval<T> arg0) {
+		
+		if (this.isLeftInfinite && arg0.isLeftInfinite) {
+			if (this.isRightInfinite && arg0.isRightInfinite) {
+				return 0;
+			} else if (this.isRightInfinite) {
+				return 1;
+			} else if (arg0.isRightInfinite) {
+				return -1;
+			} else {
+				return this.end.compareTo(arg0.end);
+			}
+		} else if (this.isLeftInfinite) {
+			return -1;
+		} else if (arg0.isLeftInfinite) {
+			return 1;
+		} else {
+			return this.start.compareTo(arg0.start);
+		}
+	}
+	
+	public int compareTo2(Interval<T> arg0) {
 		int type = getTypeCode(this);
 		int otherType = getTypeCode(arg0);
 

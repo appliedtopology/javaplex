@@ -2,20 +2,27 @@ package edu.stanford.math.plex4.homology.barcodes;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import edu.stanford.math.primitivelib.utility.Infinity;
 
 public class BarcodeUtility {
 
 	/**
-	 * This function returns an array containing the set of endpoint of the intervals.
+	 * This function returns an array containing the set of endpoint of the
+	 * intervals.
 	 * 
 	 * @param <G>
-	 * @param collection the barcode collection
-	 * @param dimension the dimension at which to get the endpoints
-	 * @param skipInfiniteIntervals boolean flag indicating whether to skip infinite intervals
-	 * @return an n x 2 array of doubles containing the endpoints of the intervals
+	 * @param collection
+	 *            the barcode collection
+	 * @param dimension
+	 *            the dimension at which to get the endpoints
+	 * @param skipInfiniteIntervals
+	 *            boolean flag indicating whether to skip infinite intervals
+	 * @return an n x 2 array of doubles containing the endpoints of the
+	 *         intervals
 	 */
 	public static <G> double[][] getEndpoints(AnnotatedBarcodeCollection<Double, G> collection, int dimension, boolean skipInfiniteIntervals) {
 		List<Interval<Double>> list = collection.getIntervalsAtDimension(dimension);
@@ -25,19 +32,24 @@ public class BarcodeUtility {
 	}
 
 	/**
-	 * This function returns an array containing the set of endpoint of the intervals.
+	 * This function returns an array containing the set of endpoint of the
+	 * intervals.
 	 * 
 	 * @param <G>
-	 * @param intervals the list of intervals
-	 * @param dimension the dimension at which to get the endpoints
-	 * @param skipInfiniteIntervals boolean flag indicating whether to skip infinite intervals
-	 * @return an n x 2 array of doubles containing the endpoints of the intervals
+	 * @param intervals
+	 *            the list of intervals
+	 * @param dimension
+	 *            the dimension at which to get the endpoints
+	 * @param skipInfiniteIntervals
+	 *            boolean flag indicating whether to skip infinite intervals
+	 * @return an n x 2 array of doubles containing the endpoints of the
+	 *         intervals
 	 */
-	public static <G> double[][] getEndpoints(List<Interval<Double>> intervals, int dimension, boolean skipInfiniteIntervals) {
+	public static double[][] getEndpoints(List<Interval<Double>> intervals, int dimension, boolean skipInfiniteIntervals) {
 
 		List<double[]> endpointList = new ArrayList<double[]>();
 
-		for (Interval<Double> interval: intervals) {
+		for (Interval<Double> interval : intervals) {
 			if (interval.isInfinite() && skipInfiniteIntervals) {
 				continue;
 			}
@@ -58,7 +70,7 @@ public class BarcodeUtility {
 				end = interval.getEnd();
 			}
 
-			endpointList.add(new double[]{start, end});
+			endpointList.add(new double[] { start, end });
 		}
 
 		double[][] endpointArray = new double[endpointList.size()][];
@@ -67,5 +79,55 @@ public class BarcodeUtility {
 		}
 
 		return endpointArray;
+	}
+
+	public static List<Interval<Double>> getLongestBarcodes(List<Interval<Double>> intervals, int k) {
+		if (k >= intervals.size()) {
+			return intervals;
+		}
+		
+		ArrayList<Interval<Double>> intervalsCopy = new ArrayList<Interval<Double>>(intervals);
+		Collections.sort(intervalsCopy, IntervalLengthComparator.getInstance());
+		Collections.reverse(intervalsCopy);
+
+		ArrayList<Interval<Double>> result = new ArrayList<Interval<Double>>();
+
+		for (int i = 0; i < k; i++) {
+			result.add(intervalsCopy.get(i));
+		}
+
+		intervalsCopy = null;
+
+		return result;
+	}
+
+	public static <G> List<ObjectObjectPair<Interval<Double>, G>> getLongestAnnotatedBarcodes(List<ObjectObjectPair<Interval<Double>, G>> intervals, int k) {
+
+		if (k >= intervals.size()) {
+			return intervals;
+		}
+		
+		final IntervalLengthComparator intervalComparator = IntervalLengthComparator.getInstance();
+
+		Comparator<ObjectObjectPair<Interval<Double>, G>> comparator = new Comparator<ObjectObjectPair<Interval<Double>, G>>() {
+
+			public int compare(ObjectObjectPair<Interval<Double>, G> o1, ObjectObjectPair<Interval<Double>, G> o2) {
+				return intervalComparator.compare(o1.getFirst(), o2.getFirst());
+			}
+		};
+
+		ArrayList<ObjectObjectPair<Interval<Double>, G>> intervalsCopy = new ArrayList<ObjectObjectPair<Interval<Double>, G>>(intervals);
+		Collections.sort(intervalsCopy, comparator);
+		Collections.reverse(intervalsCopy);
+
+		ArrayList<ObjectObjectPair<Interval<Double>, G>> result = new ArrayList<ObjectObjectPair<Interval<Double>, G>>();
+
+		for (int i = 0; i < k; i++) {
+			result.add(intervalsCopy.get(i));
+		}
+
+		intervalsCopy = null;
+
+		return result;
 	}
 }
