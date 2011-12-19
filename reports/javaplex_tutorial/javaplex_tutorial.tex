@@ -48,8 +48,6 @@
 % dump simplicies?
 % how do you display the simplices in a stream?
 
-% TODO: standardize line breaks (overflow) in verbatim sections. MVJ suggests using ...
-
 % TODO: standardize citations in tutorial wiki
 
 % TODO: add endpoint extraction example (as Matlab matrix), which Andrew has made, to tutorial.
@@ -687,9 +685,11 @@ The Matlab script corresponding to this section is \texttt{rips\_example.m}.
 >> num_divisions = 100;
 
 >> point_cloud = examples.PointCloudExamples.getHouseExample();
->> stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension,
+>> stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension, ...
 max_filtration_value, num_divisions);
 \end{verbatim} \end{quote}
+
+The ellipses in the command above should be omitted; they are included only to indicate that this command continues onto the next line. 
 
 The order of the inputs is \texttt{createVietorisRipsStream(}$Z,\ d_{max},\ t_{max},\ N$\texttt{)}. For a Vietoris--Rips stream, the parameter $t_{max}$ is the maximum possible edge length. Since $t_{max} = 4$ is greater than the diameter ($\sqrt{10}$) of our point cloud, all edges will eventually form. 
 
@@ -755,7 +755,7 @@ Load the file \texttt{pointsTorusGrid.mat}. The matrix \texttt{pointsTorusGrid} 
 >> size(point_cloud)
 ans = 400    4                         % 400 points in dimension 4
 
->> stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension,
+>> stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension, ...
 max_filtration_value, num_divisions); 
 >> num_simplices = stream.getSize()
 num_simplices = 82479
@@ -797,7 +797,7 @@ This example makes it clear that the computed ``semi-infinite'' intervals do not
 
 % overflow
 \begin{quote} \begin{verbatim}
->> stream = api.Plex4.createVietorisRipsStream(m_space, max_dimension,
+>> stream = api.Plex4.createVietorisRipsStream(m_space, max_dimension, ...
 max_filtration_value, num_divisions);  
 \end{verbatim} \end{quote}
 
@@ -898,17 +898,13 @@ The Matlab script corresponding to this section is \texttt{witness\_example.m}.
 {\em Torus example.} Let's build a witness stream instance for 10,000 random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 random landmarks.
 
 % overflow
-
-% point_cloud = ...
-% examples.PointCloudExamples.getRandomSphereProductPoints(num_points, 1, 2);
-
 \begin{quote} \begin{verbatim}
 >> num_points = 10000;
 >> num_landmark_points = 50;
 >> max_dimension = 3;
 >> num_divisions = 100;
 
->> point_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(num_points, 
+>> point_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(num_points, ...
 1, 2);
 >> landmark_selector = api.Plex4.createRandomSelector(point_cloud, num_landmark_points);
 \end{verbatim} \end{quote}
@@ -926,13 +922,8 @@ We create the witness stream.
 
 % overflow
 % comment
-
-%stream = api.Plex4.createWitnessStream(landmark_selector, ...
-%                                           max_dimension, ...
-%                                           max_filtration_value, ...
-%                                           num_divisions); 
 \begin{quote} \begin{verbatim}
->> stream = api.Plex4.createWitnessStream(landmark_selector, max_dimension,
+>> stream = api.Plex4.createWitnessStream(landmark_selector, max_dimension, ...
 max_filtration_value, num_divisions); 
 >> num_simplices = stream.getSize()
 num_simplices = 1858                         % Generally close to 2000
@@ -999,7 +990,7 @@ We use parameter $\nu = 1$.
 >> nu = 1;
 >> num_divisions = 100;
 
->> point_cloud = examples.PointCloudExamples.getRandomSpherePoints(num_points, 
+>> point_cloud = examples.PointCloudExamples.getRandomSpherePoints(num_points, ...
 max_dimension - 1);
 >> landmark_selector = api.Plex4.createRandomSelector(point_cloud, num_landmark_points); 
 \end{verbatim} \end{quote}
@@ -1013,7 +1004,7 @@ Often $t_{max}$ is chosen in proportion to \texttt{R}.
 >> R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
 R = 0.6877                         % Generally close to 0.7
 >> max_filtration_value = R;
->> stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), 
+>> stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), ...
 landmark_selector, max_dimension, max_filtration_value, nu, num_divisions); 
 >> stream.finalizeStream()
 >> num_simplices = stream.getSize()
@@ -1100,7 +1091,7 @@ We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, a
 >> R = landmark_selector.getMaxDistanceFromPointsToLandmarks() 
 R = 0.7759                         % Generally close to 0.75
 >> max_filtration_value = R / 3;
->> stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), 
+>> stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), ...
 landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
 >> stream.finalizeStream()
 >> num_simplices = stream.getSize()
