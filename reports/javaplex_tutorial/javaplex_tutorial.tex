@@ -48,8 +48,6 @@
 % dump simplicies?
 % how do you display the simplices in a stream?
 
-% TODO: standardize spacing for "%" comments in verbatim sections
-
 % TODO: standardize line breaks (overflow) in verbatim sections. MVJ suggests using ...
 
 % TODO: standardize citations in tutorial wiki
@@ -71,6 +69,8 @@
 % TODO: is "ensureAllFaces" working as I expect? See representatives_example_HA and try changing dimensions
 
 % TODO: tutorial is not up-to-date with Downloads section of javaPlex site. Run "ant"
+
+% TODO: coloring of wiki tutorial due to ' near "core1".
 
 
 
@@ -127,7 +127,8 @@ Your output should be the same except for the last several characters. Each time
 
 \subsection{Accompanying files}
 
-The following Matlab scripts containing the commands in this tutorial are available in the folder \texttt{matlab\_examples/tutorial\_examples}. This means that you don't need to type in each command individually. % Add note? DONT copy and paste commands from pdf
+The following Matlab scripts containing the commands in this tutorial are available in the folder \texttt{matlab\_examples/tutorial\_examples}. This means that you don't need to type in each command individually.
+% Add note? DONT copy and paste commands from pdf
 \begin{itemize}
 \item \texttt{core\_subsets\_example.m}
 \item \texttt{euler\_characteristic\_example.m}
@@ -605,6 +606,7 @@ sqrt(8),2,0,2,sqrt(2);
 sqrt(10),sqrt(10),sqrt(2),sqrt(2),0]
 
 distances =
+
     0         2.0000    2.8284    2.0000    3.1623
     2.0000    0         2.0000    2.8284    3.1623
     2.8284    2.0000    0         2.0000    1.4142
@@ -751,7 +753,7 @@ Load the file \texttt{pointsTorusGrid.mat}. The matrix \texttt{pointsTorusGrid} 
 >> load pointsTorusGrid.mat
 >> point_cloud = pointsTorusGrid;
 >> size(point_cloud)
-ans = 400    4                                % 400 points in dimension 4
+ans = 400    4                         % 400 points in dimension 4
 
 >> stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension,
 max_filtration_value, num_divisions); 
@@ -916,7 +918,7 @@ The next command returns the landmark covering measure \texttt{R} from Section \
 % comment
 \begin{quote} \begin{verbatim}
 >> R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
-R = 1.1067                                   % Generally close to 1.1
+R = 1.1067                         % Generally close to 1.1
 >> max_filtration_value = R / 8; 
 \end{verbatim} \end{quote}
 
@@ -933,7 +935,7 @@ We create the witness stream.
 >> stream = api.Plex4.createWitnessStream(landmark_selector, max_dimension,
 max_filtration_value, num_divisions); 
 >> num_simplices = stream.getSize()
-num_simplices = 1858                % Generally close to 2000
+num_simplices = 1858                         % Generally close to 2000
 \end{verbatim} \end{quote}
 
 We plot the Betti intervals.
@@ -1009,13 +1011,13 @@ Often $t_{max}$ is chosen in proportion to \texttt{R}.
 % overflow
 \begin{quote} \begin{verbatim} 
 >> R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
-R = 0.6877                               % Generally close to 0.7
+R = 0.6877                         % Generally close to 0.7
 >> max_filtration_value = R;
 >> stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), 
 landmark_selector, max_dimension, max_filtration_value, nu, num_divisions); 
 >> stream.finalizeStream()
 >> num_simplices = stream.getSize()
-num_simplices = 79842                       % Generally between 30000 and 180000
+num_simplices = 79842                         % Generally between 30000 and 180000
 >> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 >> intervals = persistence.computeIntervals(stream);
 
@@ -1096,13 +1098,13 @@ We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, a
 
 >> landmark_selector = api.Plex4.createMaxMinSelector(pointsRange, num_landmark_points);
 >> R = landmark_selector.getMaxDistanceFromPointsToLandmarks() 
-R = 0.7759                            % Generally close to 0.75
+R = 0.7759                         % Generally close to 0.75
 >> max_filtration_value = R / 3;
 >> stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), 
 landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
 >> stream.finalizeStream()
 >> num_simplices = stream.getSize()
-num_simplices = 12036                        % Generally between 10000 and 25000
+num_simplices = 12036                         % Generally between 10000 and 25000
 
 >> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 >> intervals = persistence.computeIntervals(stream);
