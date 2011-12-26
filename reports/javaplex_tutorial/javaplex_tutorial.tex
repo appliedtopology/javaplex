@@ -61,7 +61,8 @@
 
 % TODO: add example which is FLAT double torus. That is, select points at random from an octagon. Then, create explicit metric by identifying sides.
 
-% TODO: is "ensureAllFaces" working as I expect? See representatives_example_HA and try changing dimensions
+% TODO: is "ensureAllFaces" working as I expect? See representatives_example_HA and try changing dimensions.
+% LATEST: see javaplex Issue 20 created by Andrew.
 
 % TODO: tutorial is not up-to-date with Downloads section of javaPlex site. Run "ant"
 
@@ -812,7 +813,7 @@ For larger datasets, if we include every data point as a vertex, as in the Vieto
 
 There are two common methods for selecting landmark points. The first is to choose the landmarks $L$ randomly from point cloud $Z$. The second is a greedy inductive selection process called sequential maxmin. In sequential maxmin, the first landmark is picked randomly from $Z$. Inductively, if $L_{i-1}$ is the set of the first $i-1$ landmarks, then let the $i$-th landmark be the point of $Z$ which maximizes the function $z \mapsto d(z, L_{i-1})$, where $d(z, L_{i-1})$ is the distance between the point $z$ and the set $L_{i-1}$. 
 
-Landmarks chosen using sequential maxmin tend to cover the dataset and to be spread apart from each other. A disadvantage is that outlier points tend to be selected. Sequential maxmin landmarks are used by \citet{Range} and \citet{KleinBottle}. 
+Landmarks chosen using sequential maxmin tend to cover the dataset and to be spread apart from each other. A disadvantage is that outlier points tend to be selected. However, outlier points are less of an issue if one first takes dense core subsets as in Appendix \ref{A:core}. Sequential maxmin landmarks are used by \citet{Range} and \citet{KleinBottle}. 
 
 The Matlab script corresponding to this section is \texttt{landmark\_example.m}.
 
@@ -888,7 +889,7 @@ Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref
 
 The Matlab script corresponding to this section is \texttt{witness\_example.m}.
 
-{\em Torus example.} Let's build a witness stream instance for 10,000 random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 random landmarks.
+{\em Torus example.} Let's build a witness stream instance for 10,000 random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 sequential maxmin landmarks.
 
 \begin{quote} \begin{verbatim}
 >> num_points = 10000;
@@ -898,14 +899,14 @@ The Matlab script corresponding to this section is \texttt{witness\_example.m}.
 
 >> point_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(num_points, ...
 1, 2);
->> landmark_selector = api.Plex4.createRandomSelector(point_cloud, num_landmark_points);
+>> landmark_selector = api.Plex4.createMaxMinSelector(point_cloud, num_landmark_points);
 \end{verbatim} \end{quote}
 
 The next command returns the landmark covering measure \texttt{R} from Section \ref{lands}.  Often the value for $t_{max}$ is chosen in proportion to \texttt{R}.
 
 \begin{quote} \begin{verbatim}
 >> R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
-R = 1.1067                         % Generally close to 1.1
+R = 0.7033                         % Generally close to 0.7
 >> max_filtration_value = R / 8; 
 \end{verbatim} \end{quote}
 
@@ -915,7 +916,7 @@ We create the witness stream.
 >> stream = api.Plex4.createWitnessStream(landmark_selector, max_dimension, ...
 max_filtration_value, num_divisions); 
 >> num_simplices = stream.getSize()
-num_simplices = 1858                         % Generally close to 2000
+num_simplices = 1164                         % Generally close to 1200
 \end{verbatim} \end{quote}
 
 We plot the Betti intervals.
