@@ -15,9 +15,9 @@ num_divisions = 100;
 point_cloud = examples.PointCloudExamples.getRandomSpherePoints(num_points, max_dimension - 1);
 
 % create a randomized landmark selector
-landmark_selector = api.Plex4.createRandomSelector(point_cloud, num_landmark_points);
+landmark_selector = api.Plex4.createMaxMinSelector(point_cloud, num_landmark_points);
 R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
-max_filtration_value = R;
+max_filtration_value = 2 * R;
 % create a lazy witness stream
 stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
 stream.finalizeStream()

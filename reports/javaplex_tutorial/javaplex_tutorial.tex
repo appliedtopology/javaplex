@@ -981,7 +981,7 @@ We use parameter $\nu = 1$.
 
 >> point_cloud = examples.PointCloudExamples.getRandomSpherePoints(num_points, ...
 max_dimension - 1);
->> landmark_selector = api.Plex4.createRandomSelector(point_cloud, num_landmark_points); 
+>> landmark_selector = api.Plex4.createMaxMinSelector(point_cloud, num_landmark_points); 
 \end{verbatim} \end{quote}
 
 Often $t_{max}$ is chosen in proportion to \texttt{R}. 
@@ -989,13 +989,13 @@ Often $t_{max}$ is chosen in proportion to \texttt{R}.
 % Is LazyWitnessStream constructer being added to class api?
 \begin{quote} \begin{verbatim} 
 >> R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
-R = 0.6877                         % Generally close to 0.7
->> max_filtration_value = R;
+R = 0.3841                         % Generally close to 0.38
+>> max_filtration_value = 2 * R;
 >> stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), ...
 landmark_selector, max_dimension, max_filtration_value, nu, num_divisions); 
 >> stream.finalizeStream()
 >> num_simplices = stream.getSize()
-num_simplices = 79842                         % Generally between 30000 and 180000
+num_simplices = 56518                         % Generally close to 50000
 >> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 >> intervals = persistence.computeIntervals(stream);
 
