@@ -71,8 +71,6 @@
 % TODO: coloring of wiki tutorial due to ' near "core1".
 
 % TODO: add exercise numbers to tutorial wiki.
-% Change exercise numbering from 3.2.2 to #16?
-% Add numbers to examples?
 
 
 
@@ -641,7 +639,7 @@ One way to produce a torus is to take a square $[0, 1] \times [0, 1]$ and then i
 $$([0, 1] \times [0, 1]) / \sim,$$
 where $(0, y) \sim (1, y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat torus. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat torus. For example, in the induced metric on the flat torus, the distance between $(0, \frac{1}{2})$ and $(1, \frac{1}{2})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{1}{2})$ and $(\frac{9}{10}, \frac{1}{2})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{1}{2}) \sim (1, \frac{1}{2})$.
 
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix. 
+Write a Matlab script or function that selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix. 
 
 This exercise is continued by Exercise \ref{Ex:flatTorusLazy}. 
 
@@ -653,7 +651,7 @@ One way to produce a Klein bottle is to take a square $[0, 1] \times [0, 1]$ and
 $$([0, 1] \times [0, 1]) / \sim,$$
 where $(0, y) \sim (1, 1 - y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat Klein bottle. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat Klein bottle. For example, in the induced metric on the flat Klein bottle, the distance between $(0, \frac{4}{10})$ and $(1, \frac{6}{10})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{4}{10})$ and $(\frac{9}{10}, \frac{6}{10})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{4}{10}) \sim (1, \frac{6}{10})$.
 
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix. 
+Write a Matlab script or function that selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix. 
 
 This exercise is continued by Exercise \ref{Ex:flatKleinLazy}. 
 \end{exercise}
@@ -663,7 +661,7 @@ One way to produce a projective plane is to take the unit sphere $S^2 \subset \m
 $$S^2 / (x \sim -x)$$
 is a projective plane. The Euclidean metric on $S^2$ induces a metric on the projective plane.
 
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+Write a Matlab script or function that selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
 
 This exercise is continued by Exercise \ref{Ex:quotProjPlaneLazy}. 
 \end{exercise}
@@ -1036,39 +1034,15 @@ The file \texttt{lazySphere.png} is saved to your current directory.
 \FloatBarrier
 
 \begin{exercise}\label{Ex:flatTorusLazy}
-The first part of this exercise is the same as Exercise \ref{Ex:flatTorus}. 
-
-One way to produce a torus is to take a square $[0, 1] \times [0, 1]$ and then identify opposite sides. This is called a flat torus. More explicitly, the quotient space
-$$([0, 1] \times [0, 1]) / \sim,$$
-where $(0, y) \sim (1, y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat torus. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat torus. For example, in the induced metric on the flat torus, the distance between $(0, \frac{1}{2})$ and $(1, \frac{1}{2})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{1}{2})$ and $(\frac{9}{10}, \frac{1}{2})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{1}{2}) \sim (1, \frac{1}{2})$.
-
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix. 
-
-Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a torus. 
+In Exercise \ref{Ex:flatTorus} you created an explicit metric space for 1,000 random points on a flat torus. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a torus. 
 \end{exercise}
 
 \begin{exercise}\label{Ex:flatKleinLazy}
-The first part of this exercise is the same as Exercise \ref{Ex:flatTorus}. 
-
-One way to produce a Klein bottle is to take a square $[0, 1] \times [0, 1]$ and then identify opposite edges, with the left and right sides identified with a twist. This is called a flat Klein bottle. More explicitly, the quotient space 
-$$([0, 1] \times [0, 1]) / \sim,$$
-where $(0, y) \sim (1, 1 - y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat Klein bottle. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat Klein bottle. For example, in the induced metric on the flat Klein bottle, the distance between $(0, \frac{4}{10})$ and $(1, \frac{6}{10})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{4}{10})$ and $(\frac{9}{10}, \frac{6}{10})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{4}{10}) \sim (1, \frac{6}{10})$.
-
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix. 
-
-Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
+In Exercise \ref{Ex:flatTorus} you created an explicit metric space for 1,000 random points on a flat Klein bottle. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
 \end{exercise}
 
 \begin{exercise}\label{Ex:quotProjPlaneLazy}
-The first part of this exercise is the same as Exercise \ref{Ex:quotProjPlane}. 
-
-One way to produce a projective plane is to take the unit sphere $S^2 \subset \mathbb{R}^3$ and then identify antipodal points. More explicitly, the quotient space 
-$$S^2 / (x \sim -x)$$
-is a projective plane. The Euclidean metric on $S^2$ induces a metric on the projective plane.
-
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
-
-Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
+In Exercise \ref{Ex:quotProjPlane} you created an explicit metric space for 1,000 random points on a projective plane. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
 \end{exercise}
 % This exercise was first done by David Eisenbud and Agnes Beadry at MRC.
 
@@ -1367,7 +1341,7 @@ See the Matlab script \texttt{exercise\_3.m} for a solution. We use the minimal 
 \FloatBarrier
 
 \begin{exerciseSol}
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix.
+Write a Matlab script or function that selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1375,7 +1349,7 @@ See the Matlab script \texttt{exercise\_4.m} and the Matlab function \texttt{fla
 \end{solution}
 
 \begin{exerciseSol}
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix.
+Write a Matlab script or function that selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1383,7 +1357,7 @@ See the Matlab script \texttt{exercise\_5.m} and the Matlab function \texttt{fla
 \end{solution}
 
 \begin{exerciseSol}
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+Write a Matlab script or function that selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
 \end{exerciseSol}
 
 \begin{solution}
@@ -1469,9 +1443,7 @@ This follows from the definition of the witness stream and the definition of the
 \end{solution}
 
 \begin{exerciseSol}
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix. 
-
-Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a torus.
+In Exercise \ref{Ex:flatTorus} you created an explicit metric space for 1,000 random points on a flat torus. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a torus. 
 \end{exerciseSol}
 
 \begin{solution}
@@ -1479,9 +1451,7 @@ See the Matlab script \texttt{exercise\_16.m} and the Matlab function \texttt{fl
 \end{solution}
 
 \begin{exerciseSol}
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix. 
-
-Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients.
+In Exercise \ref{Ex:flatTorus} you created an explicit metric space for 1,000 random points on a flat Klein bottle. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1489,9 +1459,7 @@ See the Matlab script \texttt{exercise\_17.m} and the Matlab function \texttt{fl
 \end{solution}
 
 \begin{exerciseSol}
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
-
-Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
+In Exercise \ref{Ex:quotProjPlane} you created an explicit metric space for 1,000 random points on a projective plane. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
