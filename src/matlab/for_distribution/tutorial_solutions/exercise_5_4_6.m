@@ -12,14 +12,19 @@ num_divisions = 100;
 
 % create the set of points
 point_cloud = getDoubleTorusPoints(num_points, 0.001);
-plot3(point_cloud(:,1), point_cloud(:,2), point_cloud(:,3), '.')
-axis equal
 
 % create a sequential maxmin landmark selector
 landmark_selector = api.Plex4.createMaxMinSelector(point_cloud, num_landmark_points);
-max_filtration_value = 0.1;
+landmarks = point_cloud(landmark_selector.getLandmarkPoints() + 1, :);
+
+% plot point cloud in blue and landmarks in red
+hold on;
+plot3(point_cloud(:,1), point_cloud(:,2), point_cloud(:,3), '.')
+plot3(landmarks(:, 1), landmarks(:, 2) , landmarks(:, 3), '.r')
+axis equal
 
 % create a lazy witness stream
+max_filtration_value = 0.1;
 stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
 stream.finalizeStream()
 
