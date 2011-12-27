@@ -4,8 +4,8 @@ function distances = flatKleinDistanceMatrix(numPoints)
 %   numPoints - number of points
 %
 % OUTPUT:
-%   distances - numPoints x numPoints distance matrix for numPoints
-%       randomly chosen points on the flat Klein bottle
+%   distances - numPoints x numPoints distance matrix for randomly chosen 
+%       points on the flat Klein bottle
 %
 % henrya@math.stanford.edu and atausz@stanford.edu
 

@@ -4,8 +4,8 @@ function distances = flatTorusDistanceMatrix(numPoints)
 %   numPoints - number of points
 %
 % OUTPUT:
-%   distances - numPoints x numPoints distance matrix for numPoints
-%       randomly chosen points on the flat torus
+%   distances - numPoints x numPoints distance matrix for randomly chosen 
+%       points on the flat torus
 %
 % henrya@math.stanford.edu and atausz@stanford.edu
 

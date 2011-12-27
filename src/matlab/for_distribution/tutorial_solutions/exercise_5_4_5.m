@@ -8,11 +8,11 @@ num_landmark_points = 50;
 nu = 1;
 num_divisions = 100;
 
-% Select points from the square [0,1] x [0,1] and then compute the distance
+% select points from the square [0,1] x [0,1] and then compute the distance
 % matrix for these points under the induced metric on the flat Klein bottle
 distances = flatKleinDistanceMatrix(num_points);
 
-% Create an explicit metric space from this distance matrix
+% create an explicit metric space from this distance matrix
 m_space = metric.impl.ExplicitMetricSpace(distances);
 
 % create a sequential maxmin landmark selector

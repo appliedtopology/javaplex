@@ -164,14 +164,17 @@ The folder \texttt{matlab\_examples/tutorial\_solutions} contains the following 
 \item \texttt{exercise\_3\_1\_3.m}
 \item \texttt{exercise\_4\_2\_1.m}
 \item \texttt{exercise\_4\_2\_2.m}
+\item \texttt{exercise\_4\_2\_3.m}
 \item \texttt{exercise\_5\_1\_2.m}
 \item \texttt{exercise\_5\_1\_3.m}
 \item \texttt{exercise\_5\_4\_4.m}
 \item \texttt{exercise\_5\_4\_5.m}
 \item \texttt{exercise\_5\_4\_6.m}
+\item \texttt{exercise\_5\_4\_7.m}
 \item \texttt{flatKleinDistanceMatrix.m}
 \item \texttt{flatTorusDistanceMatrix.m}
 \item \texttt{getDoubleTorusPoints.m}
+\item \texttt{projPlaneDistanceMatrix.m}
 \end{itemize}
 See Appendix \ref{A:solutions} for exercise solutions.
 
@@ -636,23 +639,33 @@ ans = 2.8284
 \begin{exercise}\label{Ex:flatTorus}
 One way to produce a torus is to take a square $[0, 1] \times [0, 1]$ and then identify opposite sides. This is called a flat torus. More explicitly, the quotient space
 $$([0, 1] \times [0, 1]) / \sim,$$
-where $(0, y) \sim (1, y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat torus. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat torus. For example, in the induced metric on the flat torus, the distance between $(0, \frac{1}{2})$ and $(1, \frac{1}{2})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{1}{2})$ and $(\frac{9}{10}, \frac{1}{2})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{1}{2}) \sim (1, \frac{1}{2})$. 
-% TODO add figure
+where $(0, y) \sim (1, y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat torus. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat torus. For example, in the induced metric on the flat torus, the distance between $(0, \frac{1}{2})$ and $(1, \frac{1}{2})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{1}{2})$ and $(\frac{9}{10}, \frac{1}{2})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{1}{2}) \sim (1, \frac{1}{2})$.
 
 Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix. 
 
 This exercise is continued by Exercise \ref{Ex:flatTorusLazy}. 
+
+% TODO: Gard Spreeman at MRC gave me a good idea for the Matlab function FlatTorusDistanceMatrix.m: just move one point to the center of the square, and then find the distance in the square to the other point.
 \end{exercise}
 
 \begin{exercise}\label{Ex:flatKlein}
 One way to produce a Klein bottle is to take a square $[0, 1] \times [0, 1]$ and then identify opposite edges, with the left and right sides identified with a twist. This is called a flat Klein bottle. More explicitly, the quotient space 
 $$([0, 1] \times [0, 1]) / \sim,$$
-where $(0, y) \sim (1, 1 - y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat Klein bottle. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat Klein bottle. For example, in the induced metric on the flat Klein bottle, the distance between $(0, \frac{4}{10})$ and $(1, \frac{6}{10})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{4}{10})$ and $(\frac{9}{10}, \frac{6}{10})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{4}{10}) \sim (1, \frac{6}{10})$. 
-% TODO add figure
+where $(0, y) \sim (1, 1 - y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat Klein bottle. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat Klein bottle. For example, in the induced metric on the flat Klein bottle, the distance between $(0, \frac{4}{10})$ and $(1, \frac{6}{10})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{4}{10})$ and $(\frac{9}{10}, \frac{6}{10})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{4}{10}) \sim (1, \frac{6}{10})$.
 
 Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix. 
 
 This exercise is continued by Exercise \ref{Ex:flatKleinLazy}. 
+\end{exercise}
+
+\begin{exercise}\label{Ex:quotProjPlane}
+One way to produce a projective plane is to take the unit sphere $S^2 \subset \mathbb{R}^3$ and then identify antipodal points. More explicitly, the quotient space 
+$$S^2 / (x \sim -x)$$
+is a projective plane. The Euclidean metric on $S^2$ induces a metric on the projective plane.
+
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere square $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+
+This exercise is continued by Exercise \ref{Ex:quotProjPlaneLazy}. 
 \end{exercise}
 
 
@@ -1027,30 +1040,37 @@ The first part of this exercise is the same as Exercise \ref{Ex:flatTorus}.
 
 One way to produce a torus is to take a square $[0, 1] \times [0, 1]$ and then identify opposite sides. This is called a flat torus. More explicitly, the quotient space
 $$([0, 1] \times [0, 1]) / \sim,$$
-where $(0, y) \sim (1, y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat torus. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat torus. For example, in the induced metric on the flat torus, the distance between $(0, \frac{1}{2})$ and $(1, \frac{1}{2})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{1}{2})$ and $(\frac{9}{10}, \frac{1}{2})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{1}{2}) \sim (1, \frac{1}{2})$. 
-% TODO add figure
+where $(0, y) \sim (1, y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat torus. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat torus. For example, in the induced metric on the flat torus, the distance between $(0, \frac{1}{2})$ and $(1, \frac{1}{2})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{1}{2})$ and $(\frac{9}{10}, \frac{1}{2})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{1}{2}) \sim (1, \frac{1}{2})$.
 
 Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix. 
 
 Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a torus. 
 \end{exercise}
 
-% TODO: Gard Spreeman at MRC gave me a good idea for the Matlab function FlatTorusDistanceMatrix.m: just move one point to the center of the square, and then find the distance in the square to the other point.
-
 \begin{exercise}\label{Ex:flatKleinLazy}
 The first part of this exercise is the same as Exercise \ref{Ex:flatTorus}. 
 
 One way to produce a Klein bottle is to take a square $[0, 1] \times [0, 1]$ and then identify opposite edges, with the left and right sides identified with a twist. This is called a flat Klein bottle. More explicitly, the quotient space 
 $$([0, 1] \times [0, 1]) / \sim,$$
-where $(0, y) \sim (1, 1 - y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat Klein bottle. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat Klein bottle. For example, in the induced metric on the flat Klein bottle, the distance between $(0, \frac{4}{10})$ and $(1, \frac{6}{10})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{4}{10})$ and $(\frac{9}{10}, \frac{6}{10})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{4}{10}) \sim (1, \frac{6}{10})$. 
-% TODO add figure
+where $(0, y) \sim (1, 1 - y)$ for all $y \in [0, 1]$ and where $(x, 0) \sim (x, 1)$ for all $x \in [0, 1]$, is a flat Klein bottle. The Euclidean metric on $[0, 1] \times [0, 1]$ induces a metric on the flat Klein bottle. For example, in the induced metric on the flat Klein bottle, the distance between $(0, \frac{4}{10})$ and $(1, \frac{6}{10})$ is zero, since these two points are identified. The distance between $(\frac{1}{10}, \frac{4}{10})$ and $(\frac{9}{10}, \frac{6}{10})$ is $\frac{2}{10}$, by passing through the point $(0, \frac{4}{10}) \sim (1, \frac{6}{10})$.
 
 Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix. 
 
 Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
 \end{exercise}
 
-% Add an exercise in which you sample points from HALF of a sphere in R^3. Then, build the metric space for RP^2 (proj plane) by taking the distance from x and y to be the min distance of x to y and -y. This was done by David Eisenbud and Agnes Beadry at MRC.
+\begin{exercise}\label{Ex:quotProjPlaneLazy}
+The first part of this exercise is the same as Exercise \ref{Ex:quotProjPlane}. 
+
+One way to produce a projective plane is to take the unit sphere $S^2 \subset \mathbb{R}^3$ and then identify antipodal points. More explicitly, the quotient space 
+$$S^2 / (x \sim -x)$$
+is a projective plane. The Euclidean metric on $S^2$ induces a metric on the projective plane.
+
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere square $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+
+Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
+\end{exercise}
+% This exercise was first done by David Eisenbud and Agnes Beadry at MRC.
 
 \begin{exercise}\label{Ex:doubleTorus}
 Sample points from an embedding of a double torus, that is, a surface of genus two, in $\mathbb{R}^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
@@ -1362,6 +1382,14 @@ Write a Matlab script (or function---see Section \ref{matlabFunctions}) that fir
 See the Matlab script \texttt{exercise\_4\_2\_2.m} and the Matlab function \texttt{flatKleinDistanceMatrix.m} for a solution.
 \end{solution}
 
+\begin{exerciseSol}[\ref{Ex:quotProjPlane}]
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere square $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \texttt{exercise\_4\_2\_3.m} and the Matlab function \texttt{projPlaneDistanceMatrix.m} for a solution.
+\end{solution}
+
 \begin{exerciseSol}[\ref{Ex:ripsSize}]
 Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or increasing $d_{max}$ from 3 to 4 roughly doubles the size of the Vietoris--Rips stream.
 \end{exerciseSol}
@@ -1460,12 +1488,26 @@ Build a lazy witness stream on this explicit metric space with 50 landmarks chos
 See the Matlab script \texttt{exercise\_5\_4\_5.m} and the Matlab function \texttt{flatKleinDistanceMatrix.m} for a solution.
 \end{solution}
 
+\begin{exerciseSol}[\ref{Ex:quotProjPlaneLazy}]
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere square $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+
+Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \texttt{exercise\_5\_4\_6.m} and the Matlab function \texttt{projPlaneDistanceMatrix.m} for a solution.
+\end{solution}
+
+\begin{exercise}\label{Ex:doubleTorus}
+Sample points from an embedding of a double torus, that is, a surface of genus two, in $\mathbb{R}^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
+\end{exercise}
+
 \begin{exerciseSol}[\ref{Ex:doubleTorus}]
 Sample points from an embedding of a double torus, that is, a surface of genus two, in $\mathbb{R}^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_5\_4\_6.m} and the Matlab function \texttt{getDoubleTorusPoints.m}. Thanks to Ulrich Bauer for this solution.
+See the Matlab script \texttt{exercise\_5\_4\_7.m} and the Matlab function \texttt{getDoubleTorusPoints.m}. Thanks to Ulrich Bauer for this solution.
 \end{solution}
 
 

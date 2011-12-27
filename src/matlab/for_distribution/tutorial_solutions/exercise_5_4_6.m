@@ -1,47 +1,54 @@
 % Exercise 5.4.6
 
-% Thanks to Ulrich Bauer for this solution.
-
 clc; clear; close all;
 
 max_dimension = 3;
-num_points = 10000;
-num_landmark_points = 200;
+num_points = 1000;
+num_landmark_points = 50;
 nu = 1;
 num_divisions = 100;
 
-% create the set of points
-point_cloud = getDoubleTorusPoints(num_points, 0.001);
+% select points from the unit sphere S^2 and then compute the distance
+% matrix for these points under the induced metric on the projective plane
+distances = projPlaneDistanceMatrix(num_points);
+
+% create an explicit metric space from this distance matrix
+m_space = metric.impl.ExplicitMetricSpace(distances);
 
 % create a sequential maxmin landmark selector
-landmark_selector = api.Plex4.createMaxMinSelector(point_cloud, num_landmark_points);
-landmarks = point_cloud(landmark_selector.getLandmarkPoints() + 1, :);
-
-% plot point cloud in blue and landmarks in red
-hold on;
-plot3(point_cloud(:,1), point_cloud(:,2), point_cloud(:,3), '.')
-plot3(landmarks(:, 1), landmarks(:, 2) , landmarks(:, 3), '.r')
-axis equal
+landmark_selector = api.Plex4. createMaxMinSelector(m_space, num_landmark_points);
+R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
+max_filtration_value = 1.5 * R;
 
 % create a lazy witness stream
-max_filtration_value = 0.1;
 stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
-stream.finalizeStream()
+stream.finalizeStream();
 
 % print out the size of the stream
 num_simplices = stream.getSize()
 
 % get persistence algorithm over Z/2Z
-persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
+Z2_persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 
 % compute the intervals
-intervals = persistence.computeIntervals(stream);
+Z2_intervals = Z2_persistence.computeIntervals(stream);
 
 % create the barcode plots
-options.filename = 'doubleTorus';
+options = struct;
+options.filename = 'lazyWitnessProjPlane_Z2';
 options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
-plot_barcodes(intervals, options);
+plot_barcodes(Z2_intervals, options);
 
-% Note: Between filtration values 0.04 and 0.08, the correct Betti barcodes
-% Betti_0 = 1, Betti_1 = 4, and Betti_2 = 1 are generally obtained.
+% get persistence algorithm over Z/3Z
+Z3_persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 3);
+
+% compute the intervals
+Z3_intervals = Z3_persistence.computeIntervals(stream);
+
+% create the barcode plots
+options = struct;
+options.filename = 'lazyWitnessProjPlane_Z3';
+options.max_filtration_value = max_filtration_value;
+options.max_dimension = max_dimension - 1;
+plot_barcodes(Z3_intervals, options);
