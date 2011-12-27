@@ -16,9 +16,9 @@
 \bibpunct{[}{]}{;}{a}{}{,~}
 
 \theoremstyle{remark}
-\newtheorem{exercise}{Exercise}[subsection]
+\newtheorem{exercise}{Exercise}
 \theoremstyle{remark}
-\newtheorem*{exerciseSol}{Exercise}
+\newtheorem{exerciseSol}{Exercise}
 \theoremstyle{remark}
 \newtheorem*{solution}{Solution}
 
@@ -159,18 +159,18 @@ which are used in this tutorial.
 
 The folder \texttt{matlab\_examples/tutorial\_solutions} contains the following solution scripts to tutorial exercises.
 \begin{itemize}
-\item \texttt{exercise\_3\_1\_1.m}
-\item \texttt{exercise\_3\_1\_2.m}
-\item \texttt{exercise\_3\_1\_3.m}
-\item \texttt{exercise\_4\_2\_1.m}
-\item \texttt{exercise\_4\_2\_2.m}
-\item \texttt{exercise\_4\_2\_3.m}
-\item \texttt{exercise\_5\_1\_2.m}
-\item \texttt{exercise\_5\_1\_3.m}
-\item \texttt{exercise\_5\_4\_4.m}
-\item \texttt{exercise\_5\_4\_5.m}
-\item \texttt{exercise\_5\_4\_6.m}
-\item \texttt{exercise\_5\_4\_7.m}
+\item \texttt{exercise\_1.m}
+\item \texttt{exercise\_2.m}
+\item \texttt{exercise\_3.m}
+\item \texttt{exercise\_4.m}
+\item \texttt{exercise\_5.m}
+\item \texttt{exercise\_6.m}
+\item \texttt{exercise\_8.m}
+\item \texttt{exercise\_9.m}
+\item \texttt{exercise\_16.m}
+\item \texttt{exercise\_17.m}
+\item \texttt{exercise\_18.m}
+\item \texttt{exercise\_19.m}
 \item \texttt{flatKleinDistanceMatrix.m}
 \item \texttt{flatTorusDistanceMatrix.m}
 \item \texttt{getDoubleTorusPoints.m}
@@ -350,15 +350,15 @@ We don't display the output from this command in the tutorial, because the repre
 
 See Appendix \ref{A:solutions} for exercise solutions. 
 
-\begin{exercise}\label{Ex:torus}
+\begin{exercise}
 Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices} \citep[page 107]{Hatcher}{\em . We recommend using a $3\times 3$ grid of 9 vertices.} 
 \end{exercise}
 
-\begin{exercise}\label{Ex:klein}
+\begin{exercise}
 Build a simplicial complex homeomorphic to the Klein bottle. Check that it has the same Betti numbers as the torus over $\mathbb{Z}_2$ coefficients but different Betti numbers over $\mathbb{Z}_3$ coefficients. 
 \end{exercise}
 
-\begin{exercise}\label{Ex:projPlane}
+\begin{exercise}
 Build a simplicial complex homeomorphic to the projective plane. Find its Betti numbers over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
 \end{exercise}
 
@@ -663,7 +663,7 @@ One way to produce a projective plane is to take the unit sphere $S^2 \subset \m
 $$S^2 / (x \sim -x)$$
 is a projective plane. The Euclidean metric on $S^2$ induces a metric on the projective plane.
 
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere square $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
 
 This exercise is continued by Exercise \ref{Ex:quotProjPlaneLazy}. 
 \end{exercise}
@@ -816,15 +816,15 @@ This example makes it clear that the computed ``semi-infinite'' intervals do not
 max_filtration_value, num_divisions);  
 \end{verbatim} \end{quote}
 
-\begin{exercise}\label{Ex:ripsSize}
+\begin{exercise}
 Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or increasing $d_{max}$ from 3 to 4 roughly doubles the size of the Vietoris--Rips stream. 
 \end{exercise}
 
-\begin{exercise}\label{Ex:ripsPlanarBetti2}
+\begin{exercise}
 Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer. 
 \end{exercise}
 
-\begin{exercise}\label{Ex:ripsPlanarBetti6}
+\begin{exercise}
 Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$. 
 \end{exercise}
 
@@ -887,11 +887,11 @@ Sequential maxmin seems to do a better job of choosing landmarks that cover the 
 
 Given point cloud $Z$ and landmark subset $L$, we define $\texttt{R} = \max_{z\in Z}\bigl\{d(z,L)\bigr\}$. Number \texttt{R} reflects how finely the landmarks cover the dataset. We often use it as a guide for selecting the maximum filtration value $t_{max}$ for a witness or lazy witness stream. 
 
-\begin{exercise}\label{Ex:landmarksHouse}
+\begin{exercise}
 Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Suppose we are using sequential maxmin to select a set $L$ of 3 landmarks, and the first (randomly selected) landmark is $(1,0)$. Find by hand the other two landmarks in $L$. 
 \end{exercise}
 
-\begin{exercise}\label{Ex:landmarksR}
+\begin{exercise}
 Let $Z$ be a point cloud and $L$ a landmark subset. Show that if $L$ is chosen via sequential maxmin, then for any $l_i,l_j\in L$, we have $d(l_i,l_j)\geq\texttt{R}$. 
 \end{exercise}
 
@@ -977,15 +977,15 @@ Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\
 \end{itemize}
 Note that $\LW_\nu(Z,L,t) \subset \LW_\nu(Z,L,s)$ whenever $t\leq s$. The adjective {\em lazy} refers to the fact that the lazy witness complex is a flag complex: since the 1-skeleton determines all higher dimensional simplices, less computation is involved. 
 
-\begin{exercise}\label{Ex:lazyHouseNu1}
+\begin{exercise}
 Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? 
 \end{exercise}
 
-\begin{exercise}\label{Ex:lazyHouseNu_0_2}
+\begin{exercise}
 Repeat the above exercise with $\nu = 0$ and with $\nu = 2$. 
 \end{exercise}
 
-\begin{exercise}\label{Ex:lazyFlag}
+\begin{exercise}
 Check that the 1-skeleton of a witness complex $\W(Z,L,t)$ is the same as the 1-skeleton of a lazy witness complex $\LW_2(Z,L,t)$. As a consequence, $\LW_2(Z,L,t)$ is the flag complex of $\W(Z,L,t)$. 
 \end{exercise}
 
@@ -1066,13 +1066,13 @@ One way to produce a projective plane is to take the unit sphere $S^2 \subset \m
 $$S^2 / (x \sim -x)$$
 is a projective plane. The Euclidean metric on $S^2$ induces a metric on the projective plane.
 
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere square $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
 
 Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
 \end{exercise}
 % This exercise was first done by David Eisenbud and Agnes Beadry at MRC.
 
-\begin{exercise}\label{Ex:doubleTorus}
+\begin{exercise}
 Sample points from an embedding of a double torus, that is, a surface of genus two, in $\mathbb{R}^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
 \end{exercise}
 
@@ -1321,12 +1321,12 @@ With $k = 50$, we expect the densest points to be slightly larger than the 25-th
 
 Several exercise solutions are accompanied by Matlab scripts, which are available in the folder \texttt{tutorial\_solutions}.
 
-\begin{exerciseSol}[\ref{Ex:torus}]
+\begin{exerciseSol}
 Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices} \citep[page 107]{Hatcher}{\em . We recommend using a $3\times 3$ grid of 9 vertices.}
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_3\_1\_1.m} in folder \texttt{tutorial\_solutions} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides.
+See the Matlab script \texttt{exercise\_1.m} in folder \texttt{tutorial\_solutions} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides.
 \end{solution}
 
 \begin{figure}[htp]
@@ -1336,12 +1336,12 @@ See the Matlab script \texttt{exercise\_3\_1\_1.m} in folder \texttt{tutorial\_s
 \end{figure}
 \FloatBarrier
 
-\begin{exerciseSol}[\ref{Ex:klein}]
+\begin{exerciseSol}
 Build a simplicial complex homeomorphic to the Klein bottle. Check that it has the same Betti numbers as the torus over $\mathbb{Z}_2$ coefficients but different Betti numbers over $\mathbb{Z}_3$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_3\_1\_2.m} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides, with left and right sides identified with a twist. 
+See the Matlab script \texttt{exercise\_2.m} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides, with left and right sides identified with a twist. 
 \end{solution}
 
 \begin{figure}[htp]
@@ -1351,12 +1351,12 @@ See the Matlab script \texttt{exercise\_3\_1\_2.m} for a solution. We use 9 vert
 \end{figure}
 \FloatBarrier
 
-\begin{exerciseSol}[\ref{Ex:projPlane}]
+\begin{exerciseSol}
 Build a simplicial complex homeomorphic to the projective plane. Find its Betti numbers over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_3\_1\_3.m} for a solution. We use the minimal triangulation for the projective plane, which contains 6 vertices.
+See the Matlab script \texttt{exercise\_3.m} for a solution. We use the minimal triangulation for the projective plane, which contains 6 vertices.
 \end{solution}
 
 \begin{figure}[htp]
@@ -1366,31 +1366,31 @@ See the Matlab script \texttt{exercise\_3\_1\_3.m} for a solution. We use the mi
 \end{figure}
 \FloatBarrier
 
-\begin{exerciseSol}[\ref{Ex:flatTorus}]
+\begin{exerciseSol}
 Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_4\_2\_1.m} and the Matlab function \texttt{flatTorusDistanceMatrix.m} for a solution.
+See the Matlab script \texttt{exercise\_4.m} and the Matlab function \texttt{flatTorusDistanceMatrix.m} for a solution.
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:flatKlein}]
+\begin{exerciseSol}
 Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_4\_2\_2.m} and the Matlab function \texttt{flatKleinDistanceMatrix.m} for a solution.
+See the Matlab script \texttt{exercise\_5.m} and the Matlab function \texttt{flatKleinDistanceMatrix.m} for a solution.
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:quotProjPlane}]
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere square $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+\begin{exerciseSol}
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_4\_2\_3.m} and the Matlab function \texttt{projPlaneDistanceMatrix.m} for a solution.
+See the Matlab script \texttt{exercise\_6.m} and the Matlab function \texttt{projPlaneDistanceMatrix.m} for a solution.
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:ripsSize}]
+\begin{exerciseSol}
 Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or increasing $d_{max}$ from 3 to 4 roughly doubles the size of the Vietoris--Rips stream.
 \end{exerciseSol}
 
@@ -1398,23 +1398,23 @@ Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the siz
 No solution included. 
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:ripsPlanarBetti2}]
+\begin{exerciseSol}
 Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_5\_1\_2.m} for a solution. Our planar dataset is 6 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is an octahedron. 
+See the Matlab script \texttt{exercise\_8.m} for a solution. Our planar dataset is 6 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is an octahedron. 
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:ripsPlanarBetti6}]
+\begin{exerciseSol}
 Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_5\_1\_3.m} for a solution. Our planar dataset is 14 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is homeomorphic to the 6-sphere. It has 14 vertices because it is obtained by suspending the 0-sphere six times, for a total of $2 + (6 \times 2) = 14$ vertices. 
+See the Matlab script \texttt{exercise\_9.m} for a solution. Our planar dataset is 14 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is homeomorphic to the 6-sphere. It has 14 vertices because it is obtained by suspending the 0-sphere six times, for a total of $2 + (6 \times 2) = 14$ vertices. 
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:landmarksHouse}]
+\begin{exerciseSol}
 Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Suppose we are using sequential maxmin to select a set $L$ of 3 landmarks, and the first (randomly selected) landmark is $(1,0)$. Find by hand the other two landmarks in $L$.
 \end{exerciseSol}
 
@@ -1422,7 +1422,7 @@ Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref
 $L$ is the set $\{(1, 0), (0, 3), (-1, 0)\}$. 
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:landmarksR}]
+\begin{exerciseSol}
 Let $Z$ be a point cloud and $L$ a landmark subset. Show that if $L$ is chosen via sequential maxmin, then for any $l_i,l_j\in L$, we have $d(l_i,l_j)\geq\texttt{R}$.
 \end{exerciseSol}
 
@@ -1434,7 +1434,7 @@ $$d(l_j, L_{j-1}) \leq d(l_j, l_i) = d(l_i, l_j) < \texttt{R} = d(z,L) \leq d(z,
 This contradicts the fact that landmark $l_j$ was chosen at the $j$-th step of sequential maxmin. Hence, it must be the case that $d(l_i, l_j) \geq \texttt{R}$. 
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:witnessHouse}]
+\begin{exerciseSol}
 Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$?
 \end{exerciseSol}
 
@@ -1442,7 +1442,7 @@ Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref
 The edge between $(1, 0)$ and $(0, 3)$ has filtration time zero. Points $(1, 2)$ or $(0, 3)$ witness this edge. The lone 2-simplex has filtration time zero. 
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:lazyHouseNu1}]
+\begin{exerciseSol}
 Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$?
 \end{exerciseSol}
 
@@ -1450,7 +1450,7 @@ Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref
 The edge between $(1, 0)$ and $(0, 3)$ has filtration time $2-\sqrt{2}$. Point $(1, 2)$ witnesses this edge. The lone 2-simplex has filtration time $\sqrt{2}$, which is when the edge between $(1, 0)$ and $(-1, 0)$ appears. 
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:lazyHouseNu_0_2}]
+\begin{exerciseSol}
 Repeat the above exercise with $\nu = 0$ and with $\nu = 2$.
 \end{exerciseSol}
 
@@ -1460,7 +1460,7 @@ First we do the case when $\nu = 0$. The edge between $(1, 0)$ and $(0, 3)$ has 
 Next we do the case when $\nu = 2$. The edge between $(1, 0)$ and $(0, 3)$ has filtration time zero. Points $(1, 2)$ or $(0, 3)$ witness this edge. The lone 2-simplex has filtration time zero. 
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:lazyFlag}]
+\begin{exerciseSol}
 Check that the 1-skeleton of a witness complex $\W(Z,L,t)$ is the same as the 1-skeleton of a lazy witness complex $\LW_2(Z,L,t)$. As a consequence, $\LW_2(Z,L,t)$ is the flag complex of $\W(Z,L,t)$.
 \end{exerciseSol}
 
@@ -1468,46 +1468,42 @@ Check that the 1-skeleton of a witness complex $\W(Z,L,t)$ is the same as the 1-
 This follows from the definition of the witness stream and the definition of the lazy witness stream for $\nu = 2$. 
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:flatTorusLazy}]
+\begin{exerciseSol}
 Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat torus. Create an explicit metric space from this distance matrix. 
 
 Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a torus.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_5\_4\_4.m} and the Matlab function \texttt{flatTorusDistanceMatrix.m} for a solution.
+See the Matlab script \texttt{exercise\_16.m} and the Matlab function \texttt{flatTorusDistanceMatrix.m} for a solution.
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:flatKleinLazy}]
+\begin{exerciseSol}
 Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the square $[0, 1] \times [0, 1]$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the flat Klein bottle. Create an explicit metric space from this distance matrix. 
 
 Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_5\_4\_5.m} and the Matlab function \texttt{flatKleinDistanceMatrix.m} for a solution.
+See the Matlab script \texttt{exercise\_17.m} and the Matlab function \texttt{flatKleinDistanceMatrix.m} for a solution.
 \end{solution}
 
-\begin{exerciseSol}[\ref{Ex:quotProjPlaneLazy}]
-Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere square $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+\begin{exerciseSol}
+Write a Matlab script (or function---see Section \ref{matlabFunctions}) that first selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
 
 Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_5\_4\_6.m} and the Matlab function \texttt{projPlaneDistanceMatrix.m} for a solution.
+See the Matlab script \texttt{exercise\_18.m} and the Matlab function \texttt{projPlaneDistanceMatrix.m} for a solution.
 \end{solution}
 
-\begin{exercise}\label{Ex:doubleTorus}
-Sample points from an embedding of a double torus, that is, a surface of genus two, in $\mathbb{R}^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
-\end{exercise}
-
-\begin{exerciseSol}[\ref{Ex:doubleTorus}]
+\begin{exerciseSol}
 Sample points from an embedding of a double torus, that is, a surface of genus two, in $\mathbb{R}^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_5\_4\_7.m} and the Matlab function \texttt{getDoubleTorusPoints.m}. Thanks to Ulrich Bauer for this solution.
+See the Matlab script \texttt{exercise\_19.m} and the Matlab function \texttt{getDoubleTorusPoints.m}. Thanks to Ulrich Bauer for this solution.
 \end{solution}
 
 
