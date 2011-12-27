@@ -1,4 +1,4 @@
-% Exercise 5.1.2
+% Exercise 8
 
 % Our planar dataset is 6 evenly spaced points on the unit circle. We build
 % a Vietoris-Rips stream which, at the correct filtration value, is an 

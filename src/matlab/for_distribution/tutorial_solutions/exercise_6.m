@@ -1,4 +1,4 @@
-% Exercise 4.2.3
+% Exercise 6
 
 % select points from the unit sphere S^2 and then compute the distance
 % matrix for these points under the induced metric on the projective plane

@@ -1,4 +1,4 @@
-% Exercise 4.2.2
+% Exercise 5
 
 % select points from the square [0,1] x [0,1] and then compute the distance
 % matrix for these points under the induced metric on the flat Klein bottle

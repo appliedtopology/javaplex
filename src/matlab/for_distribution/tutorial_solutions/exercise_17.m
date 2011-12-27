@@ -1,4 +1,4 @@
-% Exercise 5.4.5
+% Exercise 17
 
 clc; clear; close all;
 
@@ -35,7 +35,7 @@ Z2_intervals = Z2_persistence.computeIntervals(stream);
 
 % create the barcode plots
 options = struct;
-options.filename = 'lazyWitnessFlatKlein_Z2';
+options.filename = 'lazyWitnessFlatKlein-Z2';
 options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
 plot_barcodes(Z2_intervals, options);
@@ -48,7 +48,7 @@ Z3_intervals = Z3_persistence.computeIntervals(stream);
 
 % create the barcode plots
 options = struct;
-options.filename = 'lazyWitnessFlatKlein_Z3';
+options.filename = 'lazyWitnessFlatKlein-Z3';
 options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
 plot_barcodes(Z3_intervals, options);
