@@ -19,11 +19,11 @@ persistence = api.Plex4.getDefaultSimplicialAlgorithm(max_dimension);
 % indices (which are integers).
 intervals = persistence.computeIntervals(stream);
 
-% The next line extracts the interval endpoints for thhe dimension 0
+% The next line extracts the interval endpoints for the dimension 0
 % barcode. Note that it ignores infinite intervals
-endpoints_dim_0 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 0, false)
+endpoints_dim_0 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 0, true)
 
-% The next line extracts the interval endpoints for thhe dimension 1
+% The next line extracts the interval endpoints for the dimension 1
 % barcode. Note that it ignores infinite intervals
 endpoints_dim_1 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 1, true)
 
