@@ -1,23 +1,23 @@
-% This script calculates the intervals for a lazy witness complex - 
-% Section 5.3
+% Exercise 5.4.6
+
+% Thanks to Ulrich Bauer for this solution.
 
 clc; clear; close all;
 
-%% 2-Sphere Example
-
 max_dimension = 3;
-num_points = 1000;
-num_landmark_points = 50;
+num_points = 10000;
+num_landmark_points = 200;
 nu = 1;
 num_divisions = 100;
 
 % create the set of points
-point_cloud = examples.PointCloudExamples.getRandomSpherePoints(num_points, max_dimension - 1);
+point_cloud = getDoubleTorusPoints(num_points, 0.001);
+plot3(point_cloud(:,1), point_cloud(:,2), point_cloud(:,3), '.')
+axis equal
 
 % create a sequential maxmin landmark selector
 landmark_selector = api.Plex4.createMaxMinSelector(point_cloud, num_landmark_points);
-R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
-max_filtration_value = 2 * R;
+max_filtration_value = 0.1;
 
 % create a lazy witness stream
 stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
@@ -33,7 +33,10 @@ persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-options.filename = 'lazySphere';
+options.filename = 'doubleTorus';
 options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
 plot_barcodes(intervals, options);
+
+% Note: Between filtration values 0.04 and 0.08, the correct Betti barcodes
+% Betti_0 = 1, Betti_1 = 4, and Betti_2 = 1 are generally obtained.

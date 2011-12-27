@@ -52,8 +52,7 @@
 % TODO: add endpoint extraction example (as Matlab matrix), which Andrew has made, to tutorial.
 
 % TODO: the figures for the random trials in this tutorial don't currently match the numbers (number of simplices, etc).
-
-% TODO: The links to the tutorial from my webpage and from the MRC website are to the pre-Snowbird 4.0.0 version. The link from the tutorial wiki is to the latest version.
+%UPDATE: They do for witness_example.m and lazy_witness_example.m
 
 % Ulrich Bauer at Snowbird wrote instructions for how to use javaPlex in mathematica. Figure this out, and add it to the tutorial? See Ulrich's MRC wiki page for instructions?
 
@@ -62,7 +61,7 @@
 % TODO: add example which is FLAT double torus. That is, select points at random from an octagon. Then, create explicit metric by identifying sides.
 
 % TODO: is "ensureAllFaces" working as I expect? See representatives_example_HA and try changing dimensions.
-% LATEST: see javaplex Issue 20 created by Andrew.
+% UPDATE: See javaplex Issue 20 created by Andrew.
 
 % TODO: tutorial is not up-to-date with Downloads section of javaPlex site. Run "ant"
 
@@ -162,8 +161,10 @@ The folder \texttt{matlab\_examples/tutorial\_solutions} contains the following 
 \item \texttt{exercise\_5\_1\_3.m}
 \item \texttt{exercise\_5\_4\_4.m}
 \item \texttt{exercise\_5\_4\_5.m}
+\item \texttt{exercise\_5\_4\_6.m}
 \item \texttt{flatKleinDistanceMatrix.m}
 \item \texttt{flatTorusDistanceMatrix.m}
+\item \texttt{getDoubleTorusPoints.m}
 \end{itemize}
 See Appendix \ref{A:solutions} for exercise solutions.
 
@@ -1044,7 +1045,9 @@ Build a lazy witness stream on this explicit metric space with 50 landmarks chos
 
 % Add an exercise in which you sample points from HALF of a sphere in R^3. Then, build the metric space for RP^2 (proj plane) by taking the distance from x and y to be the min distance of x to y and -y. This was done by David Eisenbud and Agnes Beadry at MRC.
 
-
+\begin{exercise}\label{Ex:doubleTorus}
+Sample points from an embedding of a double torus, that is, a surface of genus two, in $\mathbb{R}^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
+\end{exercise}
 
 
 \section{Example with real data}\label{real}
@@ -1450,39 +1453,15 @@ Build a lazy witness stream on this explicit metric space with 50 landmarks chos
 See the Matlab script \texttt{exercise\_5\_4\_5.m} and the Matlab function \texttt{flatKleinDistanceMatrix.m} for a solution.
 \end{solution}
 
+\begin{exerciseSol}[\ref{Ex:doubleTorus}]
+Sample points from an embedding of a double torus, that is, a surface of genus two, in $\mathbb{R}^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \texttt{exercise\_5\_4\_6.m} and the Matlab function \texttt{getDoubleTorusPoints.m}. Thanks to Ulrich Bauer for this solution.
+\end{solution}
 
 
-
-%\begin{thebibliography}{9}
-
-%\bibitem{Range}
-%{\sc H.~Adams and G.~Carlsson}, {\em On the nonlinear statistics of range image patches}, SIAM J. Img. Sci., 2, (2009), pp.~110-117.
-%	
-%\bibitem{Armstrong}
-%{\sc M.~A.~Armstrong}, {\em Basic Topology}, Springer, New York, Berlin, 1983.
-
-%\bibitem{KleinBottle}
-%{\sc G.~Carlsson, T.~Ishkhanov, V.~de Silva, and A.~Zomorodian}, {\em On the local behavior of spaces of natural images}, Int. J. Computer Vision, 76 (2008), pp.~1--12.
-
-%\bibitem{WitnessComplexes}
-%{\sc V.~de Silva and G.~Carlsson}, {\em Topological estimation using witness complexes}, in Proceedings of the Symposium on Point-Based Graphics, ETH, Z\"urich, Switzerland, 2004, pp.~157--166.
-
-%\bibitem{ComputationalTopology}
-%{\sc H.~Edelsbrunner and J.~Harer}, {\em Computational Topology: An Introduction}, American Mathematical Society, Providence, 2010.
-
-%\bibitem{TopologicalPersistence}
-%{\sc H.~Edelsbrunner, D.~Letscher, and A.~Zomorodian}, {\em Topological persistence and simplification},  Discrete Computat. Geom., 28 (2002), pp.~511--533.
-
-%\bibitem{Hatcher}
-%{\sc A.~Hatcher}, {\em Algebraic Topology}, Cambridge University Press, Cambridge, UK, 2002.
-
-%\bibitem{Mumford}
-%{\sc A.~B.~Lee, K.~S.~Pedersen, and D.~Mumford}, {\em The nonlinear statistics of high-contrast patches in natural images}, Int. J. Computer Vision, 54 (2003), pp.~83--103.
-
-%\bibitem{ComputingPersistent}
-%{\sc A. Zomorodian and G. Carlsson}, {\em Computing persistent homology}, Discrete Computat. Geom., 33 (2005), pp.~247--274. 
-
-%\end{thebibliography}
 
 \bibliographystyle{abbrvnat}
 \bibliography{javaplex_tutorial}

@@ -12,10 +12,11 @@ num_divisions = 100;
 % create the set of points
 point_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(num_points, 1, 2);
 
-% create a randomized landmark selector
+% create a sequential maxmin landmark selector
 landmark_selector = api.Plex4.createMaxMinSelector(point_cloud, num_landmark_points);
 R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
 max_filtration_value = R / 8;
+
 % create a witness stream
 stream = api.Plex4.createWitnessStream(landmark_selector, max_dimension, max_filtration_value, num_divisions);
 
