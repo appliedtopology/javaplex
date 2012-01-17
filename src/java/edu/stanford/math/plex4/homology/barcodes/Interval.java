@@ -2,6 +2,8 @@ package edu.stanford.math.plex4.homology.barcodes;
 
 import java.io.Serializable;
 
+import edu.stanford.math.primitivelib.utility.Infinity;
+
 /**
  * This class implements the functionality of an interval of values of any comparable type. It supports
  * finite, semi-infinite, and infinite intervals with open or closed end points. 
@@ -253,7 +255,7 @@ public class Interval<T extends Comparable<T>> implements Comparable<Interval<T>
 	public boolean isInfinite() {
 		return isLeftInfinite || isRightInfinite;
 	}
-
+	
 	/**
 	 * This function determines whether the given point is a member of 
 	 * the interval.

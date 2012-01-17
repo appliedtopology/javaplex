@@ -130,4 +130,51 @@ public class BarcodeUtility {
 
 		return result;
 	}
+	
+	public static double getLength(Interval<Double> interval) {
+		if (interval.isInfinite()) {
+			return Infinity.Double.getPositiveInfinity();
+		}
+		
+		return (interval.getEnd() - interval.getStart());
+	}
+	
+	/**
+	 * Given a collection of intervals, this function returns those intervals with length greater than or equal to the minimum specified.
+	 * 
+	 * @param intervals the set of intervals
+	 * @param minimumLength the minimum length
+	 * @return those intervals longer than minimumLength
+	 */
+	public static List<Interval<Double>> filterIntervalsByMinimumLength(Iterable<Interval<Double>> intervals, double minimumLength) {
+		ArrayList<Interval<Double>> filteredIntervals = new ArrayList<Interval<Double>>();
+		
+		for (Interval<Double> interval: intervals) {
+			if (getLength(interval) >= minimumLength) {
+				filteredIntervals.add(interval);
+			}
+		}
+		
+		return filteredIntervals;
+	}
+	
+	/**
+	 * Given a collection of intervals object pairs, this function returns those intervals with length greater than or equal to the minimum specified.
+	 * 
+	 * @param intervals the set of intervals
+	 * @param minimumLength the minimum length
+	 * @return those intervals longer than minimumLength
+	 */
+	public static <G> List<ObjectObjectPair<Interval<Double>, G>> filterIntervalPairsByMinimumLength(Iterable<ObjectObjectPair<Interval<Double>, G>> intervals, double minimumLength) {
+		ArrayList<ObjectObjectPair<Interval<Double>, G>> result = new ArrayList<ObjectObjectPair<Interval<Double>, G>>();
+		
+		for (ObjectObjectPair<Interval<Double>, G> pair: intervals) {
+			Interval<Double> interval = pair.getFirst();
+			if (getLength(interval) >= minimumLength) {
+				result.add(pair);
+			}
+		}
+		
+		return result;
+	}
 }
