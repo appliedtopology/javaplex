@@ -13,6 +13,7 @@ import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.streams.filter.FilterFunction;
 import edu.stanford.math.plex4.streams.filter.IntFilterFunction;
 import edu.stanford.math.plex4.streams.filter.KernelDensityFilterFunction;
+import edu.stanford.math.plex4.streams.filter.MaxSimplicialFilterFunction;
 import edu.stanford.math.plex4.streams.impl.VietorisRipsStream;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.multi.AbstractMultifilteredStream;
@@ -50,7 +51,7 @@ public class MultifilteredFlatteningTest {
 
 		// initialize the kernel density function
 		IntFilterFunction intFilterFunction = new KernelDensityFilterFunction(metricSpace, sigma);
-		FilterFunction<Simplex> simplexFilterFunction = new InducedSimplicialFilterFunction(intFilterFunction);
+		FilterFunction<Simplex> simplexFilterFunction = new MaxSimplicialFilterFunction(intFilterFunction);
 
 		// create the bifiltered stream
 		AbstractMultifilteredStream<Simplex> multifilteredStream = new BifilteredMetricStream<Simplex>(stream, simplexFilterFunction);
