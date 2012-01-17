@@ -104,7 +104,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	 * This function ensures that all of the faces of the all of the elements are
 	 * present in the stream. It adds the missing faces with filtration indices that
 	 * are consistent. In other words, it ensures that the filtration indices of an
-	 * element is less than or equal to the filtration values of its cofaces.
+	 * element equals the minimum filtration index of its cofaces.
 	 */
 	public void ensureAllFaces() {
 		List<T> elementQueue = new ArrayList<T>();
@@ -117,7 +117,14 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 		
 		while (!elementQueue.isEmpty()) {
 			T basisElement = elementQueue.remove(elementQueue.size() - 1);
-			int elementFiltrationIndex = this.getFiltrationIndex(basisElement);
+			int elementFiltrationIndex = 0;
+			
+			if (newElements.containsKey(basisElement)) {
+				elementFiltrationIndex = newElements.get(basisElement);
+			} else if (this.storageStructure.containsElement(basisElement)) {
+				elementFiltrationIndex = this.getFiltrationIndex(basisElement);
+			}
+			
 			T[] boundary = this.getBoundary(basisElement);
 			
 			for (T face: boundary) {
@@ -125,7 +132,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 					// do nothing
 				} else {
 					if (newElements.containsKey(face)) {
-						newElements.adjustValue(face, Math.min(elementFiltrationIndex, newElements.get(face)));
+						newElements.put(face, Math.min(elementFiltrationIndex, newElements.get(face)));
 					} else {
 						newElements.put(face, elementFiltrationIndex);
 						if (!elementQueue.contains(face)) {
