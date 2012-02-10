@@ -56,7 +56,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	 */
 	public void addAllElements(AbstractFilteredStream<T> stream) {
 		for (T element: stream) {
-			this.storageStructure.addElement(element, stream.getFiltrationIndex(element));
+			this.addElement(element, stream.getFiltrationIndex(element));
 		}
 	}
 	
@@ -67,6 +67,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	 * @param filtrationIndex the filtration index of the basis element
 	 */
 	public void addElement(T basisElement, int filtrationIndex) {
+		this.removeElementIfPresent(basisElement);
 		this.storageStructure.addElement(basisElement, filtrationIndex);
 	}
 
