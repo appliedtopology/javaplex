@@ -17,8 +17,11 @@
 	<property name="basic.jar" value="${temp.dir}/${project.name}.jar" />
 	<property name="tests.jar" value="${temp.dir}/tests.jar" />
 	<property name="source.tarball" value="${dist.dir}/${project.name}-src-${version.num}.tar.gz" />
+    <property name="source.zipball" value="${dist.dir}/${project.name}-src-${version.num}.zip" />
 	<property name="doc.tarball" value="${dist.dir}/${project.name}-doc-${version.num}.tar.gz" />
+    <property name="doc.zipball" value="${dist.dir}/${project.name}-doc-${version.num}.zip" />
 	<property name="matlab.tarball" value="${dist.dir}/matlab-examples-${version.num}.tar.gz" />
+    <property name="matlab.zipball" value="${dist.dir}/matlab-examples-${version.num}.zip" />
 	<property name="ant.build.javac.source" value="1.5" />
 	<property name="ant.build.javac.target" value="1.5" />
 
@@ -92,7 +95,15 @@
 				<include name="*.html" />
 				<include name="**/*.html" />
 			</tarfileset>
-		</tar>
+        </tar>
+        <zip destfile="${doc.zipball}">
+            <zipfileset dir="doc" prefix="javadoc">
+				<include name="bshmanual.pdf" />
+				<include name="stylesheet.css" />
+				<include name="*.html" />
+				<include name="**/*.html" />
+            </zipfileset>
+        </zip>
 	</target>
 
 	<target name="source_dist">
@@ -102,6 +113,12 @@
 				<exclude name="**.svn/**" />
 			</tarfileset>
 		</tar>
+        <zip destfile="${source.zipball}">
+			<zipfileset dir="${src.dir}/java" prefix="src/java">
+				<include name="**" />
+				<exclude name="**.svn/**" />
+			</zipfileset>
+		</zip>
 	</target>
 
 	<!--Runnable jar file-->
@@ -132,6 +149,11 @@
 				<include name="**" />
 			</tarfileset>
 		</tar>
+        <zip destfile="${matlab.zipball}">
+            <zipfileset dir="src/matlab/for_distribution" prefix="matlab_examples">
+				<include name="**" />
+			</zipfileset>
+		</zip>
 	</target>
 
 	<!--Basic Jar file-->
