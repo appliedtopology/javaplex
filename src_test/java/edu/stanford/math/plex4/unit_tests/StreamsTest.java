@@ -22,7 +22,7 @@ import edu.stanford.math.plex4.utility.RandomUtility;
  */
 public class StreamsTest {
 	private final List<double[][]> pointClouds = new ArrayList<double[][]>();
-	private final int n = 50;
+	private final int n = 100;
 	private final int l = n/2;
 	private final int d = 4;
 	private final int maxDimension = 4;
@@ -57,7 +57,7 @@ public class StreamsTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void testWitness() {
 		for (double[][] pointCloud: pointClouds) {
 			LandmarkSelector<double[]> landmarkSet = new RandomLandmarkSelector<double[]>(new EuclideanMetricSpace(pointCloud), l);
