@@ -22,8 +22,15 @@
     <property name="doc.zipball" value="${dist.dir}/${project.name}-doc-${version.num}.zip" />
 	<property name="matlab.tarball" value="${dist.dir}/matlab-examples-${version.num}.tar.gz" />
     <property name="matlab.zipball" value="${dist.dir}/matlab-examples-${version.num}.zip" />
+        <property name="processing.src.dir" value="src/processing/javaplex" />
+        <property name="processing.build.dir" value="build/processing/javaplex" />
+        <property name="processing.dist.dir" value="dist/processing" />
+        <property name="processing.jar" value="${processing.build.dir}/library/javaplex.jar" />
+        <property name="processing.zipball" value="${processing.dist.dir}/${project.name}.zip" />
 	<property name="ant.build.javac.source" value="1.5" />
 	<property name="ant.build.javac.target" value="1.5" />
+
+        <buildnumber />
 
 	<path id="classpath">
 		<fileset dir="${lib.dir}">
@@ -85,7 +92,7 @@
 	</target>
 
 	<!--Distribution targets-->
-	<target name="dist" depends="clean_dist,runnable_jar,doc_tar,source_dist,matlab_dist" />
+	<target name="dist" depends="clean_dist,runnable_jar,doc_tar,source_dist,matlab_dist,processing_dist" />
 
 	<target name="doc_tar">
 		<tar destfile="${doc.tarball}" compression="gzip">
@@ -142,7 +149,7 @@
 
 	</target>
 
-	<target name="matlab_dist">
+	<target name="matlab_dist" depends="runnable_jar">
 		<copy file="${runnable.jar}" tofile="${matlab.lib.dir}/javaplex.jar" />
 		<tar destfile="${matlab.tarball}" compression="gzip">
 			<tarfileset dir="src/matlab/for_distribution" prefix="matlab_examples" preserveLeadingSlashes="true">
@@ -155,6 +162,23 @@
 			</zipfileset>
 		</zip>
 	</target>
+
+        <target name="processing_dist" depends="runnable_jar">
+          <mkdir dir="${processing.build.dir}" />
+          <copy file="${runnable.jar}" tofile="${processing.jar}" />
+          <copy todir="${processing.build.dir}">
+            <fileset dir="${processing.src.dir}"/>
+            <filterset>
+              <filter token="VERSION" value="${build.number}" />
+              <filter token="PRETTYVERSION" value="${version.num}" />
+            </filterset>
+          </copy>
+          <zip destfile="${processing.zipball}">
+            <zipfileset dir="${processing.build.dir}" prefix="javaplex">
+              <include name="**" />
+            </zipfileset>
+          </zip>
+        </target>
 
 	<!--Basic Jar file-->
 	<target name="basic_jar" depends="classes">
