@@ -1,4 +1,4 @@
-% This script demonstrates the use of plex on a simple "house" example
+% This script shows how to plot barcodes directly to a file
 
 clc; clear; close all;
 
