@@ -29,7 +29,7 @@ int dragX,dragY,oldmouseX,oldmouseY;
 
 double eps = 0.01;
 double f = eps;
-double maxeps = 3;
+double maxeps = 0.3;
 
 State state = State.ADDPOINTS;
 
@@ -162,7 +162,9 @@ void keyPressed() {
       break;  
     case 'c':
     case 'C':
+      state=State.ADDPOINTS;
       resetPoints();
+      setupVRS();
       break;
     case 'v':
     case 'V':
@@ -171,7 +173,9 @@ void keyPressed() {
       break;
     case 'h':
     case 'H':
+      algo = Plex4.getDefaultSimplicialAlgorithm(2);
       ints = algo.computeIntervals(vrs);
+      println(ints);
       break;
     case '+':
       eps *= 10;
@@ -216,7 +220,7 @@ void draw() {
   stroke(0);
   fill(0);
 
-  if(state == State.ANIMATE) {
+  if(state == State.ANIMATE && f < maxeps) {
     f += eps;
     println(f);
   }
