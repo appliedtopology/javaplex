@@ -23,10 +23,12 @@
 	<property name="matlab.tarball" value="${dist.dir}/matlab-examples-${version.num}.tar.gz" />
 	<property name="matlab.zipball" value="${dist.dir}/matlab-examples-${version.num}.zip" />
         <property name="processing.src.dir" value="src/processing/javaplex" />
-        <property name="processing.build.dir" value="build/processing/javaplex" />
+	<property name="processing.demo.src.dir" value="src/processing/javaplexDemo" />
+	<property name="processing.build.dir" value="build/processing/javaplex" />
         <property name="processing.dist.dir" value="dist/processing" />
         <property name="processing.jar" value="${processing.build.dir}/library/javaplex.jar" />
         <property name="processing.zipball" value="${dist.dir}/${project.name}-processing-lib-${version.num}.zip" />
+	<property name="processing.demo.zipball" value="${dist.dir}/${project.name}-processing-demo-${version.num}.zip" />
 	<property name="ant.build.javac.source" value="1.5" />
 	<property name="ant.build.javac.target" value="1.5" />
 
@@ -178,7 +180,12 @@
               <include name="**" />
             </zipfileset>
           </zip>
-        </target>
+	  <zip destfile="${processing.demo.zipball}">
+            <zipfileset dir="${processing.demo.src.dir}" prefix="javaplexDemo">
+	      <include name="**" />
+	    </zipfileset>
+	  </zip>
+	</target>
 
 	<!--Basic Jar file-->
 	<target name="basic_jar" depends="classes">
