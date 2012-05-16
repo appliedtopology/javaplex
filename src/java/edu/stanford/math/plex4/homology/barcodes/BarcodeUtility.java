@@ -57,14 +57,14 @@ public class BarcodeUtility {
 			double start, end;
 
 			if (interval.isLeftInfinite() && interval.isRightInfinite()) {
-				start = Infinity.Double.getNegativeInfinity();
-				end = Infinity.Double.getPositiveInfinity();
+				start = Double.NEGATIVE_INFINITY;
+				end = Double.POSITIVE_INFINITY;
 			} else if (interval.isLeftInfinite()) {
-				start = Infinity.Double.getNegativeInfinity();
+				start = Double.NEGATIVE_INFINITY;
 				end = interval.getEnd();
 			} else if (interval.isRightInfinite()) {
 				start = interval.getStart();
-				end = Infinity.Double.getPositiveInfinity();
+				end = Double.POSITIVE_INFINITY;
 			} else {
 				start = interval.getStart();
 				end = interval.getEnd();

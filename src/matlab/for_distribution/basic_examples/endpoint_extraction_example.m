@@ -21,11 +21,11 @@ intervals = persistence.computeIntervals(stream);
 
 % The next line extracts the interval endpoints for the dimension 0
 % barcode. Note that it ignores infinite intervals
-endpoints_dim_0 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 0, true)
+endpoints_dim_0 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 0, false)
 
 % The next line extracts the interval endpoints for the dimension 1
 % barcode. Note that it ignores infinite intervals
-endpoints_dim_1 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 1, true)
+endpoints_dim_1 = homology.barcodes.BarcodeUtility.getEndpoints(intervals, 1, false)
 
 plot_barcodes(intervals);
 
