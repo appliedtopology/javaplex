@@ -10,11 +10,13 @@ import java.util.List;
 import edu.stanford.math.plex4.homology.barcodes.Interval;
 import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.plex4.homology.chain_basis.PrimitiveBasisElement;
+import edu.stanford.math.plex4.homology.filtration.FiltrationConverter;
 import edu.stanford.math.plex4.homology.filtration.FiltrationUtility;
+import edu.stanford.math.plex4.homology.filtration.IncreasingLinearConverter;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.streams.interfaces.PrimitiveStream;
-import gnu.trove.TObjectIntHashMap;
-import gnu.trove.TObjectIntIterator;
+import gnu.trove.TObjectDoubleHashMap;
+import gnu.trove.TObjectDoubleIterator;
 
 /**
  * This class implements the functionality of a user-defined filtered chain complex.
@@ -25,6 +27,9 @@ import gnu.trove.TObjectIntIterator;
  *
  */
 public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveStream<T> {
+	private FiltrationConverter converter = null;
+	private static int NUM_DIVISIONS = 1000000;
+	
 	/**
 	 * Constructor which accepts a comparator for comparing the type T.
 	 * This comparator defines the ordering on the type T. Thus the overall
@@ -35,6 +40,11 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	 */
 	public ExplicitStream(Comparator<T> comparator) {
 		super(comparator);
+	}
+	
+	public ExplicitStream(Comparator<T> comparator, double maxFiltrationValue) {
+		super(comparator);
+		this.converter = new IncreasingLinearConverter(NUM_DIVISIONS, 0, maxFiltrationValue);
 	}
 	
 	/**
@@ -66,7 +76,15 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	 * @param basisElement the basis element to add
 	 * @param filtrationIndex the filtration index of the basis element
 	 */
-	public void addElement(T basisElement, int filtrationIndex) {
+	public void addElement(T basisElement, double filtrationValue) {
+		int filtrationIndex = 0;
+		
+		if (this.converter != null) {
+			filtrationIndex = this.converter.getFiltrationIndex(filtrationValue);
+		} else {
+			filtrationIndex = (int) filtrationValue;
+		}
+		
 		this.removeElementIfPresent(basisElement);
 		this.storageStructure.addElement(basisElement, filtrationIndex);
 	}
@@ -109,7 +127,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	 */
 	public void ensureAllFaces() {
 		List<T> elementQueue = new ArrayList<T>();
-		TObjectIntHashMap<T> newElements = new TObjectIntHashMap<T>();
+		TObjectDoubleHashMap<T> newElements = new TObjectDoubleHashMap<T>();
 		
 		for (T basisElement: this.storageStructure) {
 			// add element to the queue
@@ -118,12 +136,12 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 		
 		while (!elementQueue.isEmpty()) {
 			T basisElement = elementQueue.remove(elementQueue.size() - 1);
-			int elementFiltrationIndex = 0;
+			double elementFiltrationValue = 0;
 			
 			if (newElements.containsKey(basisElement)) {
-				elementFiltrationIndex = newElements.get(basisElement);
+				elementFiltrationValue = newElements.get(basisElement);
 			} else if (this.storageStructure.containsElement(basisElement)) {
-				elementFiltrationIndex = this.getFiltrationIndex(basisElement);
+				elementFiltrationValue = this.getFiltrationValue(basisElement);
 			}
 			
 			T[] boundary = this.getBoundary(basisElement);
@@ -133,9 +151,9 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 					// do nothing
 				} else {
 					if (newElements.containsKey(face)) {
-						newElements.put(face, Math.min(elementFiltrationIndex, newElements.get(face)));
+						newElements.put(face, Math.min(elementFiltrationValue, newElements.get(face)));
 					} else {
-						newElements.put(face, elementFiltrationIndex);
+						newElements.put(face, elementFiltrationValue);
 						if (!elementQueue.contains(face)) {
 							elementQueue.add(face);
 						}
@@ -144,7 +162,7 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 			}
 		}
 		
-		for (TObjectIntIterator<T> iterator = newElements.iterator(); iterator.hasNext(); ) {
+		for (TObjectDoubleIterator<T> iterator = newElements.iterator(); iterator.hasNext(); ) {
 			iterator.advance();
 			this.addElement(iterator.key(), iterator.value());
 		}
@@ -155,6 +173,11 @@ public class ExplicitStream<T extends PrimitiveBasisElement> extends PrimitiveSt
 	}
 
 	public double getFiltrationValue(T basisElement) {
-		return this.getFiltrationIndex(basisElement);
+		
+		if (this.converter == null) {
+			return this.getFiltrationIndex(basisElement);
+		}
+		
+		return this.converter.getFiltrationValue(this.getFiltrationIndex(basisElement));
 	}
 }

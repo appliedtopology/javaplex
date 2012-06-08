@@ -19,9 +19,17 @@ public class FilteredStreamInterface {
 	public static ExplicitSimplexStream createExplicitSimplexStream() {
 		return new ExplicitSimplexStream();
 	}
+	
+	public static ExplicitSimplexStream createExplicitSimplexStream(double maxFiltrationValue) {
+		return new ExplicitSimplexStream(maxFiltrationValue);
+	}
 
 	public static ExplicitCellStream createExplicitCellStream() {
 		return new ExplicitCellStream();
+	}
+	
+	public static ExplicitCellStream createExplicitCellStream(double maxFiltrationValue) {
+		return new ExplicitCellStream(maxFiltrationValue);
 	}
 
 	public static VietorisRipsStream<double[]> createPlex4VietorisRipsStream(double[][] points, int maxDimension, double maxFiltrationValue, int numDivisions) {

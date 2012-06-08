@@ -28,6 +28,10 @@ public class ExplicitCellStream extends ExplicitStream<Cell> {
 	public ExplicitCellStream() {
 		super(CellComparator.getInstance());
 	}
+	
+	public ExplicitCellStream(double maxFiltrationValue) {
+		super(CellComparator.getInstance(), maxFiltrationValue);
+	}
 
 	/**
 	 * This adds a new vertex to the cell complex.
@@ -86,9 +90,9 @@ public class ExplicitCellStream extends ExplicitStream<Cell> {
 	}
 	
 	@Override
-	public void addElement(Cell basisElement, int filtrationIndex) {
+	public void addElement(Cell basisElement, double filtrationValue) {
+		super.addElement(basisElement, filtrationValue);
 		this.indexCellMap.put(basisElement.getCellId(), basisElement);
-		this.storageStructure.addElement(basisElement, filtrationIndex);
 	}
 	
 	/**

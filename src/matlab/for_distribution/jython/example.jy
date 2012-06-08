@@ -11,6 +11,7 @@ for s in libs:
 import edu.stanford.math.plex4
 import edu.stanford.math.plex4.api
 import edu.stanford.math.plex4.examples
+import edu.stanford.math.plex4.io
 
 print("Starting")
 f8 = edu.stanford.math.plex4.examples.PointCloudExamples.getRandomFigure8Points(50)
@@ -31,3 +32,6 @@ print "Computed intervals for figure 8:\n%s" % repr(f8bc)
 
 tfbc = pH.computeIntervals(trefoils)
 print "Computed intervals for trefoil:\n%s" % repr(tfbc)
+
+edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(tfbc, 0, 3.0, "Trefoil Dimension 0", "trefoil_0.png")
+edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(tfbc, 1, 3.0, "Trefoil Dimension 1", "trefoil_1.png")

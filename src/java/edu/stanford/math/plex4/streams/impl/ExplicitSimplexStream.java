@@ -24,11 +24,19 @@ public class ExplicitSimplexStream extends ExplicitStream<Simplex> {
 		super(comparator);
 	}
 	
+	public ExplicitSimplexStream(Comparator<Simplex> comparator, double maxFiltrationValue) {
+		super(comparator, maxFiltrationValue);
+	}
+	
 	/**
 	 * This constructor initializes the class with the default simplex comparator.
 	 */
 	public ExplicitSimplexStream() {
 		super(SimplexComparator.getInstance());
+	}
+	
+	public ExplicitSimplexStream(double maxFiltrationValue) {
+		super(SimplexComparator.getInstance(), maxFiltrationValue);
 	}
 
 	/**
@@ -48,8 +56,8 @@ public class ExplicitSimplexStream extends ExplicitStream<Simplex> {
 	 * @param index the index of the vertex to add
 	 * @param filtrationIndex the filtration index
 	 */
-	public void addVertex(int index, int filtrationIndex) {
-		this.addElement(new Simplex(new int[]{index}), filtrationIndex);
+	public void addVertex(int index, double filtrationValue) {
+		this.addElement(new Simplex(new int[]{index}), filtrationValue);
 	}
 	
 	/**
@@ -68,8 +76,8 @@ public class ExplicitSimplexStream extends ExplicitStream<Simplex> {
 	 * @param vertices the vertices of the simplex to add
 	 * @param filtrationIndex the filtration index
 	 */
-	public void addElement(int[] vertices, int filtrationIndex) {
-		this.addElement(new Simplex(vertices), filtrationIndex);
+	public void addElement(int[] vertices, double filtrationValue) {
+		this.addElement(new Simplex(vertices), filtrationValue);
 	}
 	
 	public boolean removeElementIfPresent(int[] vertices) {

@@ -90,6 +90,10 @@ public class Plex4 {
 		return new ExplicitSimplexStream();
 	}
 	
+	public static ExplicitSimplexStream createExplicitSimplexStream(double maxFiltrationValue) {
+		return new ExplicitSimplexStream(maxFiltrationValue);
+	}
+	
 	/**
 	 * This function creates a new ExplicitCellStream object.
 	 * 
@@ -97,6 +101,10 @@ public class Plex4 {
 	 */
 	public static ExplicitCellStream createExplicitCellStream() {
 		return new ExplicitCellStream();
+	}
+	
+	public static ExplicitCellStream createExplicitCellStream(double maxFiltrationValue) {
+		return new ExplicitCellStream(maxFiltrationValue);
 	}
 	
 	/**
