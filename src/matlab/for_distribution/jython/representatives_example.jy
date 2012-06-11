@@ -1,0 +1,33 @@
+#!/usr/bin/env jython
+
+import sys
+
+libs = [
+    "../lib/javaplex.jar"
+    ]
+for s in libs:
+    sys.path.append(s)
+
+import edu.stanford.math.plex4
+import edu.stanford.math.plex4.api
+import edu.stanford.math.plex4.examples
+import edu.stanford.math.plex4.io
+
+# get a new ExplicitSimplexStream
+stream = edu.stanford.math.plex4.api.Plex4.createExplicitSimplexStream()
+
+dimension = 5
+
+# construct simplicial sphere
+stream.addElement(range(0, dimension + 2))
+stream.ensureAllFaces()
+stream.removeElementIfPresent(range(0, dimension + 2))
+stream.finalizeStream()
+
+# get the default persistence computation over Z/2Z
+persistence = edu.stanford.math.plex4.api.Plex4.getModularSimplicialAlgorithm(dimension + 1, 2)
+
+# compute and print the intervals
+n_sphere_intervals = persistence.computeAnnotatedIntervals(stream)
+
+print "n-Sphere intervals: \n%s" % repr(n_sphere_intervals)

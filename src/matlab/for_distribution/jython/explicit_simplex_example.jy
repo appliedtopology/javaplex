@@ -1,0 +1,63 @@
+#!/usr/bin/env jython
+
+import sys
+
+libs = [
+    "../lib/javaplex.jar"
+    ]
+for s in libs:
+    sys.path.append(s)
+
+import edu.stanford.math.plex4
+import edu.stanford.math.plex4.api
+import edu.stanford.math.plex4.examples
+import edu.stanford.math.plex4.io
+
+## Manual construction
+
+# get a new ExplicitSimplexStream
+stream = edu.stanford.math.plex4.api.Plex4.createExplicitSimplexStream()
+
+# construct a triangle
+stream.addVertex(0)
+stream.addVertex(1)
+stream.addVertex(2)
+stream.addElement([0, 1])
+stream.addElement([0, 2])
+stream.addElement([1, 2])
+
+# print out the total number of simplices in the complex
+size = stream.getSize()
+
+# get the default persistence computation
+persistence = edu.stanford.math.plex4.api.Plex4.getDefaultSimplicialAlgorithm(3)
+
+# compute and print the intervals
+triangle_intervals = persistence.computeIntervals(stream)
+
+print "Triangle intervals: \n%s" % repr(triangle_intervals)
+
+## Example of n-sphere
+
+# get a new ExplicitSimplexStream
+stream = edu.stanford.math.plex4.api.Plex4.createExplicitSimplexStream()
+
+dimension = 9
+
+# construct simplicial sphere
+stream.addElement(range(0, dimension + 2))
+stream.ensureAllFaces()
+stream.removeElementIfPresent(range(0, dimension + 2))
+stream.finalizeStream()
+
+# print out the total number of simplices in the complex
+size = stream.getSize()
+
+# get the default persistence computation
+persistence = edu.stanford.math.plex4.api.Plex4.getDefaultSimplicialAlgorithm(dimension + 1)
+
+# compute and print the intervals
+n_sphere_intervals = persistence.computeIntervals(stream)
+
+print "n-Sphere intervals: \n%s" % repr(n_sphere_intervals)
+

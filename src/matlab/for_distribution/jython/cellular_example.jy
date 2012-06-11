@@ -1,0 +1,61 @@
+#!/usr/bin/env jython
+
+import sys
+
+libs = [
+    "../lib/javaplex.jar"
+    ]
+for s in libs:
+    sys.path.append(s)
+
+import edu.stanford.math.plex4
+import edu.stanford.math.plex4.api
+import edu.stanford.math.plex4.examples
+import edu.stanford.math.plex4.io
+
+## Cellular Sphere
+
+dimension = 100
+
+# get the cellular sphere of the specified dimension
+stream = edu.stanford.math.plex4.examples.CellStreamExamples.getCellularSphere(dimension)
+
+# get the total number of simplices in the complex
+size = stream.getSize()
+
+Z2_persistence = edu.stanford.math.plex4.api.Plex4.getModularCellularAlgorithm(dimension + 1, 2)
+
+# compute and print the intervals
+intervals = Z2_persistence.computeIntervals(stream)
+
+print "Computed intervals for cellular sphere:\n%s" % repr(intervals)
+
+
+## Klein Bottle
+
+# get the cellular sphere of the specified dimension
+stream = edu.stanford.math.plex4.examples.CellStreamExamples.getCellularKleinBottle()
+
+# get the total number of simplices in the complex
+size = stream.getSize()
+
+# get cellular homology algorithm over Z/2Z
+Z2_persistence = edu.stanford.math.plex4.api.Plex4.getModularCellularAlgorithm(dimension + 1, 2)
+# get cellular homology algorithm over Z/3Z
+Z3_persistence = edu.stanford.math.plex4.api.Plex4.getModularCellularAlgorithm(dimension + 1, 3)
+# get cellular homology algorithm over Q
+Q_persistence = edu.stanford.math.plex4.api.Plex4.getRationalCellularAlgorithm(dimension + 1)
+
+# compute over Z/2Z - should give (1, 2, 1)
+Z2_intervals = Z2_persistence.computeIntervals(stream)
+
+# compute over Z/3Z - should give (1, 1, 0)
+Z3_intervals = Z3_persistence.computeIntervals(stream)
+
+# compute over Q - should give (1, 1, 0)
+Q_intervals = Q_persistence.computeIntervals(stream)
+
+
+print "Computed intervals for Klein bottle (over Z/2Z):\n%s" % repr(Z2_intervals)
+print "Computed intervals for Klein bottle (over Z/3Z):\n%s" % repr(Z3_intervals)
+print "Computed intervals for Klein bottle (over Q):\n%s" % repr(Q_intervals)

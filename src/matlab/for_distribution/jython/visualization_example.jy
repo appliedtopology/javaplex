@@ -1,0 +1,25 @@
+#!/usr/bin/env jython
+
+import sys
+
+libs = [
+    "../lib/javaplex.jar",
+    "../lib/plex-viewer.jar"
+    ]
+for s in libs:
+    sys.path.append(s)
+
+import edu.stanford.math.plex4
+import edu.stanford.math.plex4.api
+import edu.stanford.math.plex4.examples
+import edu.stanford.math.plex4.io
+
+import edu.stanford.math.plex_viewer.pov
+
+torus_points = edu.stanford.math.plex4.examples.PointCloudExamples.getRandomTorusPoints(400, 0.4, 0.8)
+torus_stream = edu.stanford.math.plex4.api.Plex4.createVietorisRipsStream(torus_points, 2, 0.4)
+
+writer = edu.stanford.math.plex_viewer.pov.SimplexStreamPovWriter()
+
+writer.writeToFile(torus_stream, torus_points, 'torus.pov')
+
