@@ -134,7 +134,17 @@ Installation is complete. Confirm that javaPlex is working properly with the fol
 ans = edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream@513fd4
 \end{verbatim} \end{quote}
 
-Your output should be the same except for the last several characters. Each time upon starting a new Matlab session, you will need to run \texttt{load\_javaplex.m}. 
+Your output should be the same except for the last several characters. Each time upon starting a new Matlab session, you will need to run \texttt{load\_javaplex.m}.
+
+
+\subsection{Java heap size}
+Depending on the size of your javaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial.
+
+The following command returns your maximum heap size in bytes.
+\begin{quote} \texttt{>> java.lang.Runtime.getRuntime.maxMemory \index{1}{java.lang.Runtime.getRuntime.maxMemory}\\
+ans = 130875392
+} \end{quote}
+My computer has a heap limit of approximately 128 megabytes. To increase your limit to, say, 256 megabytes, create a file named \texttt{java.opts} in your Matlab directory which contains the text \texttt{-Xmx256m} and then restart Matlab. For more information, please see this link: \url{http://www.mathworks.com/support/solutions/en/data/1-18I2C/}.
 
 
 \subsection{Accompanying files}
