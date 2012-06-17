@@ -2,6 +2,7 @@
 
 import sys
 
+# Todo: make sure that this points to the correct location
 libs = [
     "../lib/javaplex.jar"
     ]
@@ -15,16 +16,14 @@ import edu.stanford.math.plex4.io
 
 print("Starting")
 f8 = edu.stanford.math.plex4.examples.PointCloudExamples.getRandomFigure8Points(50)
-trefoil = edu.stanford.math.plex4.examples.PointCloudExamples.getRandomTrefoilKnotPoints(50)
+trefoil = edu.stanford.math.plex4.examples.PointCloudExamples.getRandomTrefoilKnotPoints(200)
 
 print("Created point sets")
-f8s = edu.stanford.math.plex4.api.Plex4.createVietorisRipsStream(f8, 2, 3.0)
-trefoils = edu.stanford.math.plex4.api.Plex4.createVietorisRipsStream(trefoil, 2, 3.0)
+f8s = edu.stanford.math.plex4.api.Plex4.createVietorisRipsStream(f8, 2, 1.0)
+trefoils = edu.stanford.math.plex4.api.Plex4.createVietorisRipsStream(trefoil, 2, 1.0)
 
 print "Created simplex streams. Figure 8 has %d simplices and Trefoil has %d simplices" % (f8s.getSize(), trefoils.getSize())
-tf_f8 = edu.stanford.math.plex4.api.Plex4.createHomStream(trefoils, f8s)
 
-print "Created hom stream. Size %d" % tf_f8.getSize()
 pH = edu.stanford.math.plex4.api.PersistenceAlgorithmInterface.getBooleanSimplicialAbsoluteHomology(2)
 
 f8bc = pH.computeIntervals(f8s)

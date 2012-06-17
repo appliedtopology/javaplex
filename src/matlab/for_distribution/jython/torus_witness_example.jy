@@ -23,10 +23,10 @@ num_landmark_points = 100
 max_filtration_value = 0.1
 
 # create the set of points
-point_cloud = edu.stanford.math.plex4.examples.PointCloudExamples.getRandomSpherePoints(num_points, dimension)
+point_cloud = edu.stanford.math.plex4.examples.PointCloudExamples.getRandomTorusPoints(num_points, 0.5, 1)
 
 # create a randomized landmark selector
-landmark_selector = edu.stanford.math.plex4.api.Plex4.createRandomSelector(point_cloud, num_landmark_points)
+landmark_selector = edu.stanford.math.plex4.api.Plex4.createMaxMinSelector(point_cloud, num_landmark_points)
 # create a Lazy-Witness Stream - note that this sets the number of
 # divisions to the default value of 20
 stream = edu.stanford.math.plex4.api.Plex4.createLazyWitnessStream(landmark_selector, dimension + 1, max_filtration_value, 1000)
@@ -44,8 +44,8 @@ filtration_value_intervals = persistence.computeIntervals(stream)
 ## Output
 
 # create the barcode plots
-edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(filtration_value_intervals, 0, max_filtration_value, "Lazy-Witness Sphere", "lw_sphere_0.png")
-edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(filtration_value_intervals, 1, max_filtration_value, "Lazy-Witness Sphere", "lw_sphere_1.png")
-edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(filtration_value_intervals, 2, max_filtration_value, "Lazy-Witness Sphere", "lw_sphere_2.png")
+edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(filtration_value_intervals, 0, max_filtration_value, "Lazy-Witness Torus", "lw_torus_0.png")
+edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(filtration_value_intervals, 1, max_filtration_value, "Lazy-Witness Torus", "lw_torus_1.png")
+edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(filtration_value_intervals, 2, max_filtration_value, "Lazy-Witness Torus", "lw_torus_2.png")
 
 

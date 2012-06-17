@@ -2,6 +2,7 @@
 
 import sys
 
+# Todo: make sure that this points to the correct location
 libs = [
     "../lib/javaplex.jar",
     "../lib/plex-viewer.jar"

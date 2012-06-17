@@ -1,0 +1,63 @@
+#!/usr/bin/env jython
+
+import sys
+
+# Todo: make sure that this points to the correct location
+libs = [
+    "../lib/javaplex.jar"
+    ]
+for s in libs:
+    sys.path.append(s)
+
+import edu.stanford.math.plex4
+import edu.stanford.math.plex4.api
+import edu.stanford.math.plex4.examples
+import edu.stanford.math.plex4.io
+
+import csv
+from jarray import array
+import java
+
+file_reader = csv.reader(open('pointsRange.csv'))
+
+data = []
+
+for row in file_reader:
+    d_row = []
+    for entry in row:
+        d_row.append(float(entry))
+    d_row_array = array(d_row, 'd')
+    data.append(d_row_array)
+
+pointsRange = array(data, java.lang.Class.forName('[D'))
+
+
+max_dimension = 3
+num_landmark_points = 50
+nu = 1
+num_divisions = 500
+
+# create a sequential maxmin landmark selector
+landmark_selector = edu.stanford.math.plex4.api.Plex4.createMaxMinSelector(pointsRange, num_landmark_points)
+R = landmark_selector.getMaxDistanceFromPointsToLandmarks()
+max_filtration_value = R / 3
+
+# create a lazy witness stream
+stream = edu.stanford.math.plex4.streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), landmark_selector, max_dimension, max_filtration_value, nu, num_divisions)
+stream.finalizeStream()
+
+# print out the size of the stream - will be quite large since the complex
+# construction is very sensitive to the maximum filtration value
+num_simplices = stream.getSize()
+
+# get persistence algorithm over Z/2Z
+persistence = edu.stanford.math.plex4.api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2)
+
+# compute the intervals
+intervals = persistence.computeIntervals(stream)
+
+# create the barcode plots
+edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(intervals, 0, max_filtration_value, "Lazy-Witness Image Patch Dataset", "lw_im_patch_0.png")
+edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(intervals, 1, max_filtration_value, "Lazy-Witness Image Patch Dataset", "lw_im_patch_1.png")
+edu.stanford.math.plex4.io.BarcodeWriter.getInstance().writeToFile(intervals, 2, max_filtration_value, "Lazy-Witness Image Patch Dataset", "lw_im_patch_2.png")
+
