@@ -5,6 +5,14 @@ function [f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies, opt_
 
     %{
     x = [c_1 ... c_K, s_11 ... s_IJ, t_1 ... t_J, u_1 ... u_I, t, u]
+    
+    Equality constraints:
+
+    for i, j = 1, 1 ... I, J:
+        s_ij = sum_k sum_k c_k H_ij^k + H_ij^0
+
+    
+    
     %}
 
     num_variables = K + I*J + I + J + 2;
@@ -100,7 +108,7 @@ function [f, A, b, Aeq, beq, lb, ub] = create_max_lp(cycle_sum, homotopies, opt_
         f(1:length(opt_f)) = opt_f;
     end
 
-    large = 100;
+    large = 10;
 
     Aeq = [];
     beq = [];

@@ -4,9 +4,6 @@ function [f, A, b, Aeq, beq, lb, ub] = create_positive_lp(cycle_sum, homotopies,
     [I, J] = size(homotopies{1});
 
     %{
-    
-    Variables Explanation:
-    
     x = [c_1 ... c_K, a_11 ... a_IJ, r_1 ... r_I, l_1 ... l_J, r, l]
     a_ij = sum_k c_k H_ij^k + H_ij^0
     r_i = sum_i a_ij (sum over i'th row)
@@ -142,7 +139,7 @@ function [f, A, b, Aeq, beq, lb, ub] = create_positive_lp(cycle_sum, homotopies,
         for j = 1:J
             a_ij_index = K + flatten(i, j, I, J);
             lb(a_ij_index) = 0;
-            ub(a_ij_index) = 1;
+            ub(a_ij_index) = 10;
         end
     end
 

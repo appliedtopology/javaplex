@@ -7,5 +7,4 @@ function mapping = compute_mapping(cycle_sum, homotopies, coefficients)
     for k = 1:K
         mapping = mapping + coefficients(k) * homotopies{k};
     end
-    mapping = mod(mapping, 2);
 end

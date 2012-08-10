@@ -1,6 +1,6 @@
-cd '../..';
+cd '../../for_distribution';
 load_javaplex;
 
-cd './extensions/hom/hom_utility';
+cd '../experimental/hom/hom_utility';
 addpath(pwd);
 cd '..';

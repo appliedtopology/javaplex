@@ -43,6 +43,7 @@ betti_numbers_string = infinite_barcodes.getBettiNumbers()
 % create the barcode plots
 options.filename = 'house';
 options.max_filtration_value = 8;
+options.file_format = 'eps';
 plot_barcodes(intervals, options);
 
 % validate

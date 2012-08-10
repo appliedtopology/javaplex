@@ -9,7 +9,8 @@ num_landmark_points = 100;
 max_filtration_value = 0.01;
 
 % create the set of points
-point_cloud = examples.PointCloudExamples.getRandomSpherePoints(num_points, dimension);
+%point_cloud = examples.PointCloudExamples.getRandomSpherePoints(num_points, dimension);
+point_cloud = examples.PointCloudExamples.getRandomTorusPoints(num_points, 0.4, 0.8);
 
 % create a randomized landmark selector
 landmark_selector = api.Plex4.createMaxMinSelector(point_cloud, num_landmark_points);

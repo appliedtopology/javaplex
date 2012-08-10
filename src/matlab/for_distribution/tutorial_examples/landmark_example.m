@@ -21,9 +21,12 @@ maxmin_points = point_cloud(maxmin_selector.getLandmarkPoints() + 1, :);
 
 % Plot the landmark points
 subplot(1, 2, 1);
-scatter(random_points(:,1), random_points(:, 2));
+scatter(random_points(:,1), random_points(:, 2), '+');
 title('Random landmark selection');
 
 subplot(1, 2, 2);
-scatter(maxmin_points(:,1), maxmin_points(:, 2));
+scatter(maxmin_points(:,1), maxmin_points(:, 2), '+');
 title('Maxmin landmark selection');
+
+print('-depsc', 'landmarks.eps');
+system('epstopdf landmarks.eps')
