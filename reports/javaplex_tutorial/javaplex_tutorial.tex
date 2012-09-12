@@ -489,7 +489,7 @@ The file \texttt{house.png} is saved to your current directory.
 
 The filtration times are on the horizontal axis. The $Betti_k$ number of the stream at filtration time $t$ is the number of intervals in the dimension $k$ plot that intersect a vertical line through $t$. Check that the displayed intervals agree with the filtration times we built into the house stream. At time 0, a connected component and a 1-dimensional hole form. At time 1, a second connected component appears, which joins to the first at time 2. A second 1-dimensional hole forms at time 3, and closes at time 7. 
 
-An important remark is that the methods \texttt{addElement} and \texttt{removeElementIfPresent} do not necessarily enforce the definition of a stream. They allow us to build inconsistent complexes in which some simplex $\sigma \in X(t)$ contains a subsimplex $\sigma' \notin X(t)$, meaning that $X(t)$ is not a simplicial complex. The method \texttt{validateVerbose} returns \texttt{1} if our stream is consistent and returns \texttt{0} with explanation if not. 
+{\em Remark.} The methods \texttt{addElement} and \texttt{removeElementIfPresent} do not necessarily enforce the definition of a stream. They allow us to build inconsistent complexes in which some simplex $\sigma \in X(t)$ contains a subsimplex $\sigma' \notin X(t)$, meaning that $X(t)$ is not a simplicial complex. The method \texttt{validateVerbose} returns \texttt{1} if our stream is consistent and returns \texttt{0} with explanation if not. 
 
 \begin{quote} \begin{verbatim}
 >> stream.validateVerbose()
@@ -499,6 +499,14 @@ ans = 1
 Filtration index of face [4,5] exceeds that of element [1,4,5] (3 > 0)
 Stream does not contain face [1,5] of element [1,4,5]
 ans = 0
+\end{verbatim} \end{quote}
+
+{\em Remark.} If you want to use filtration times that are not integers, then you first need to specify an upper bound on the filtration times in your complex. This is demonstrated below, where the non-integer filtration time is 17.23 and the upper bound is 100.
+
+\begin{quote} \begin{verbatim}
+>> stream = api.Plex4.createExplicitSimplexStream(100);
+>> stream.addVertex(1, 17.23);
+>> stream.finalizeStream();
 \end{verbatim} \end{quote}
 
 %In Section \ref{sfpc} we will create simplex streams that are not also explicit simplex streams. To display or edit such streams, we will first need to use the method \texttt{makeExplicit}. See Exercise \ref{ripsExpl}. 
