@@ -190,6 +190,7 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 		ArrayList<Integer> new_lower_vertices = new ArrayList<Integer>(lower_vertices.size()-1);
 				
 		// iterate through the lower neighborhood
+		outerloop:
 		for (int v : lower_vertices) {
 			// create a new simplex by appending
 			// ie. sigma = tau U {v}
@@ -206,7 +207,7 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 					newFiltrationIndex = Math.max(newFiltrationIndex, this.storageStructure.getFiltrationIndex(ds));					
 				}
 				else {
-					continue;
+					continue outerloop;
 				}
 			}
 			
