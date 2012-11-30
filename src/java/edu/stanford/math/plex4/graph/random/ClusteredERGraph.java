@@ -165,6 +165,7 @@ public class ClusteredERGraph extends GraphInstanceGenerator {
 				sb.append(",");
 			}
 		}
+		f.close();
 		return sb.toString();
 	}
 

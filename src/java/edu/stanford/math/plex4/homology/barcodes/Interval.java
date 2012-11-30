@@ -2,7 +2,7 @@ package edu.stanford.math.plex4.homology.barcodes;
 
 import java.io.Serializable;
 
-import edu.stanford.math.primitivelib.utility.Infinity;
+//import edu.stanford.math.primitivelib.utility.Infinity;
 
 /**
  * This class implements the functionality of an interval of values of any comparable type. It supports
