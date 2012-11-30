@@ -13,8 +13,8 @@ import edu.stanford.math.plex4.homology.filtration.FiltrationUtility;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
 import edu.stanford.math.plex4.streams.interfaces.PrimitiveStream;
 import edu.stanford.math.plex4.streams.storage_structures.StreamStorageStructure;
-import gnu.trove.TIntHashSet;
-import gnu.trove.TIntIterator;
+import edu.stanford.math.primitivelib.autogen.pair.BooleanDoublePair;
+import java.util.ArrayList; 
 
 /**
  * <p>This class implements a simplex stream which is similar to the
@@ -89,7 +89,7 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 	 */
 	protected abstract UndirectedWeightedListGraph constructEdges();
 	
-	protected abstract boolean isMember(Simplex simplex);
+	protected abstract BooleanDoublePair isMember(Simplex simplex);
 	
 	/**
 	 * This returns the neighborhood graph (equivalent to the 1-skeleton) of the complex.
@@ -143,8 +143,14 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 		int n = G.getNumVertices();
 		
 		// inductively add all of the singletons as well as their cofaces
+		ArrayList<Integer> lower_vertices = new ArrayList<Integer>(n-1);
 		for (int u = 0; u < n; u++) {
-			this.addCofaces(G, k, new Simplex(new int[]{u}), G.getLowerNeighbors(u), this.converter.getInitialFiltrationValue());
+			/**
+			 * Daniel: I assigned 0 as the filtration index for vertices.
+			 * Is that always correct? Is 0 always the lowest filtration index?
+			 */
+			this.addCofaces(G, k, new Simplex(new int[]{u}), lower_vertices, 0);
+			lower_vertices.add(u);
 		}
 	}
 	
@@ -159,8 +165,8 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 	 * @param N the lower neighbors to investigate
 	 * @param filtrationValue the filtration value of the current simplex, tau
 	 */
-	protected void addCofaces(UndirectedWeightedListGraph G, int k, Simplex tau, TIntHashSet N, double filtrationValue) {
-		
+	protected void addCofaces(UndirectedWeightedListGraph G, int k, Simplex tau, 
+			ArrayList<Integer> lower_vertices, int filtrationIndex) {
 		Simplex newSimplex = null;
 		if (this.indices != null) {
 			newSimplex = HomologyUtility.convertIndices(tau, this.indices);
@@ -169,48 +175,44 @@ public abstract class ConditionalFlagComplexStream extends PrimitiveStream<Simpl
 		}
 		
 		// add the current simplex to the complex if it satisfies the condition
-		if (this.isMember(tau)) {
-			this.storageStructure.addElement(newSimplex, this.converter.getFiltrationIndex(filtrationValue));
+		BooleanDoublePair member = this.isMember(tau);
+		if (member.getFirst()) {
+			filtrationIndex = Math.max(filtrationIndex, this.converter.getFiltrationIndex(member.getSecond()));
+			this.storageStructure.addElement(newSimplex, filtrationIndex);
 		}
-		
+	
 		// exit if the dimension is the maximum allowed
 		if (tau.getDimension() >= k) {
 			return;
 		}
 		
-		double weight = 0;
-		
-		TIntIterator iterator = N.iterator();
-		TIntHashSet M;
-		
+		if (lower_vertices.size()==0) return;
+		ArrayList<Integer> new_lower_vertices = new ArrayList<Integer>(lower_vertices.size()-1);
+				
 		// iterate through the lower neighborhood
-		while (iterator.hasNext()) {
-			int v = iterator.next();
-			
+		for (int v : lower_vertices) {
 			// create a new simplex by appending
 			// ie. sigma = tau U {v}
 			Simplex sigma = new Simplex(HomologyUtility.appendToArray(tau.getVertices(), v));
+			if (this.indices != null) {
+				newSimplex = HomologyUtility.convertIndices(sigma, this.indices);
+			} else {
+				newSimplex = sigma;
+			}
 			
-			// compute the intersection between N and the lower neighbors of v
-			M = HomologyUtility.computeIntersection(N, G.getLowerNeighbors(v));
-			
-			// compute the weight of the simplex sigma
-			// the weight is defined to be the maximum weight of all of the simplex's
-			// faces
-			if (sigma.getDimension() == 1) {
-				int i = sigma.getVertices()[0];
-				int j = sigma.getVertices()[1];
-				weight = G.getWeight(i, j);
-			} else if (sigma.getDimension() > 1) {
-				weight = filtrationValue;
-				int[] tauVertices = tau.getVertices();
-				for(int tauVertex : tauVertices) {
-					weight = this.converter.computeInducedFiltrationValue(weight, G.getWeight(tauVertex, v));
+			int newFiltrationIndex = filtrationIndex;
+			for (Simplex ds : newSimplex.getBoundaryArray()) {
+				if (this.storageStructure.containsElement(ds)) {
+					newFiltrationIndex = Math.max(newFiltrationIndex, this.storageStructure.getFiltrationIndex(ds));					
+				}
+				else {
+					continue;
 				}
 			}
 			
 			// recurse: add the cofaces of sigma
-			this.addCofaces(G, k, sigma, M, weight);
+			this.addCofaces(G, k, sigma, new_lower_vertices, newFiltrationIndex);
+			new_lower_vertices.add(v);
 		}
 	}
 }

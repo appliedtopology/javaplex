@@ -4,6 +4,7 @@ import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.primitivelib.autogen.pair.IntDoublePair;
+import edu.stanford.math.primitivelib.autogen.pair.BooleanDoublePair;
 
 public class WitnessStream<T> extends AbstractWitnessStream<T> {
 
@@ -16,7 +17,7 @@ public class WitnessStream<T> extends AbstractWitnessStream<T> {
 	}
 
 	@Override
-	protected boolean isMember(Simplex simplex) {
+	protected BooleanDoublePair isMember(Simplex simplex) {
 		boolean isMember = false;
 
 		int[] vertices = simplex.getVertices();
@@ -32,6 +33,6 @@ public class WitnessStream<T> extends AbstractWitnessStream<T> {
 			//}
 		}
 
-		return isMember;
+		return new BooleanDoublePair(isMember, e_ij);
 	}
 }

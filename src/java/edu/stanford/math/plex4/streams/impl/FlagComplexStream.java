@@ -6,6 +6,7 @@ package edu.stanford.math.plex4.streams.impl;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.homology.filtration.FiltrationConverter;
 import edu.stanford.math.plex4.streams.storage_structures.StreamStorageStructure;
+import edu.stanford.math.primitivelib.autogen.pair.BooleanDoublePair;
 
 /**
  * <p>This class implements a simplex stream with the property that
@@ -43,7 +44,7 @@ public abstract class FlagComplexStream extends ConditionalFlagComplexStream {
 		super(maxAllowableDimension, converter);
 	}	
 	
-	protected boolean isMember(Simplex simplex) {
-		return true;
+	protected BooleanDoublePair isMember(Simplex simplex) {
+		return new BooleanDoublePair(true, 0.0);
 	}
 }

@@ -4,6 +4,7 @@ import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.autogen.pair.BooleanDoublePair;
 
 /**
  * This class implements the lazy witness complex described in the paper
@@ -31,7 +32,7 @@ public class LazyWitnessStream<T> extends AbstractWitnessStream<T> {
 	}
 
 	@Override
-	protected boolean isMember(Simplex simplex) {
-		return true;
+	protected BooleanDoublePair isMember(Simplex simplex) {
+		return new BooleanDoublePair(true, 0.0);
 	}
 }
