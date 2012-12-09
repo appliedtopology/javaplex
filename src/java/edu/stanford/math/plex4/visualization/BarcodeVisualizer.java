@@ -8,6 +8,7 @@ import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,8 @@ public class BarcodeVisualizer {
 		if (intervals == null) {
 			throw new IllegalArgumentException();
 		}
+		
+		Collections.sort(intervals);
 
 		// Set the image generation parameters
 		int barHeight = 3;

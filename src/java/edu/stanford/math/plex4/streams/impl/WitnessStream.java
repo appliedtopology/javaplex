@@ -3,8 +3,8 @@ package edu.stanford.math.plex4.streams.impl;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
-import edu.stanford.math.primitivelib.autogen.pair.IntDoublePair;
 import edu.stanford.math.primitivelib.autogen.pair.BooleanDoublePair;
+import edu.stanford.math.primitivelib.autogen.pair.IntDoublePair;
 
 public class WitnessStream<T> extends AbstractWitnessStream<T> {
 

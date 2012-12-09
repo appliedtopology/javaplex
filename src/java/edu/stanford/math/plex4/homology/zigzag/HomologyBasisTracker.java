@@ -3,8 +3,8 @@ package edu.stanford.math.plex4.homology.zigzag;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
 import edu.stanford.math.plex4.homology.barcodes.BarcodeCollection;

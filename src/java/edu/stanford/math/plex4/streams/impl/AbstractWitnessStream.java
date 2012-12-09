@@ -31,13 +31,12 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 	protected final LandmarkSelector<T> landmarkSelector;
 
 	/**
-	 * This is the nu value described in the paper. Note that we use the
- 	 * default value of 2.
-         *
-         * A negative value of nu designates the non-lazy witness formula:
-         * instead of looking for the nu-th nearest landmark to a point,
-         * we use for the (k+1)-th nearest landmark when a witness for a
-         * k-simplex is searched.
+	 * This is the nu value described in the paper. Note that we use the default
+	 * value of 2.
+	 * 
+	 * A negative value of nu designates the non-lazy witness formula: instead
+	 * of looking for the nu-th nearest landmark to a point, we use for the
+	 * (k+1)-th nearest landmark when a witness for a k-simplex is searched.
 	 */
 	protected final int nu;
 
@@ -50,7 +49,8 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 	protected double[] m = null;
 
 	/**
-	 * If (i, sigma) is in witnessSimplexMap, then it means that point i is a a witness for sigma
+	 * If (i, sigma) is in witnessSimplexMap, then it means that point i is a a
+	 * witness for sigma
 	 */
 	private final TIntObjectHashMap<List<Simplex>> witnessSimplexMap = new TIntObjectHashMap<List<Simplex>>();
 
@@ -63,12 +63,16 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 
 	/**
 	 * Constructor which initializes the complex with a metric space.
-	 *
-	 * @param metricSpace the metric space to use in the construction of the complex
-	 * @param maxDistance the maximum allowable distance
-	 * @param maxDimension the maximum dimension of the complex
+	 * 
+	 * @param metricSpace
+	 *            the metric space to use in the construction of the complex
+	 * @param maxDistance
+	 *            the maximum allowable distance
+	 * @param maxDimension
+	 *            the maximum dimension of the complex
 	 */
-	public AbstractWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int nu, int numDivisions) {
+	public AbstractWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance,
+			int nu, int numDivisions) {
 		super(maxDimension, new IncreasingLinearConverter(numDivisions, maxDistance));
 		ExceptionUtility.verifyNonNull(metricSpace);
 		ExceptionUtility.verifyLessThan(nu, landmarkSelector.size());
@@ -80,11 +84,13 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		this.L = this.landmarkSelector.size();
 	}
 
-	public AbstractWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int numDivisions) {
+	public AbstractWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance,
+			int numDivisions) {
 		this(metricSpace, landmarkSelector, maxDimension, maxDistance, 2, numDivisions);
 	}
 
-	public AbstractWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int nu, int[] indices) {
+	public AbstractWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance,
+			int nu, int[] indices) {
 		super(maxDimension, new IncreasingLinearConverter(20, maxDistance), indices);
 		this.metricSpace = metricSpace;
 		this.landmarkSelector = landmarkSelector;
@@ -94,7 +100,8 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		this.L = this.landmarkSelector.size();
 	}
 
-	public AbstractWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance, int[] indices) {
+	public AbstractWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance,
+			int[] indices) {
 		this(metricSpace, landmarkSelector, maxDimension, maxDistance, 2, indices);
 	}
 
@@ -107,11 +114,12 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 	}
 
 	/**
-	 * This function returns the list of simplices such that they have the
-	 * given point as their witness. If there are no such points, this function
+	 * This function returns the list of simplices such that they have the given
+	 * point as their witness. If there are no such points, this function
 	 * returns null;
-	 *
-	 * @param witness the witness point
+	 * 
+	 * @param witness
+	 *            the witness point
 	 * @return a list of simplices with the given point as their witness
 	 */
 	public List<Simplex> getAssociatedSimplices(int witness) {
@@ -134,49 +142,50 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		UndirectedWeightedListGraph graph = new UndirectedWeightedListGraph(L);
 
 		/*
-		 * Let N be the number of points in the metric space, and n the number of
-		 * landmark points. Let D be the L x N matrix of distances between the set
-		 * of landmark points, and the set of all points in the metric space.
-		 *
-		 * The definition of the 1-skeleton of the lazy witness complex is as follows:
-		 *
-		 * - If nu = 0, then define m_i = 0, otherwise define m_i to be the nu-th smallest entry
-		 * in the i-th column of D.
-		 * - The edge [ab] belongs to W(D, R, nu) iff there exists as witness i in {1, ..., N} such
-		 * that max(D(a, i), D(b, i)) <= R + m_i
-		 *
+		 * Let N be the number of points in the metric space, and n the number
+		 * of landmark points. Let D be the L x N matrix of distances between
+		 * the set of landmark points, and the set of all points in the metric
+		 * space.
+		 * 
+		 * The definition of the 1-skeleton of the lazy witness complex is as
+		 * follows:
+		 * 
+		 * - If nu = 0, then define m_i = 0, otherwise define m_i to be the
+		 * nu-th smallest entry in the i-th column of D. - The edge [ab] belongs
+		 * to W(D, R, nu) iff there exists as witness i in {1, ..., N} such that
+		 * max(D(a, i), D(b, i)) <= R + m_i
 		 */
 
 		/**
-		 * Key difference between Plex3 and Plex4:
-		 * - if landmarks[l] == n, Plex3 sets the distance to infinity
-		 * - in Plex4, the distance is just set to 0
-		 *
+		 * Key difference between Plex3 and Plex4: - if landmarks[l] == n, Plex3
+		 * sets the distance to infinity - in Plex4, the distance is just set to
+		 * 0
+		 * 
 		 * !not true anymore!
 		 */
 
 		D = null;
 		/**
-		 * A negative value of this.nu marks the non-lazy witness formula. Here, we need
-                 * an array of sorted distances from all points to all landmarks.
-                 *
+		 * A negative value of this.nu marks the non-lazy witness formula. Here,
+		 * we need an array of sorted distances from all points to all
+		 * landmarks.
+		 * 
 		 */
-                if (this.nu < 0) {
-                    m = DoubleArrayUtility.createArray(L*N);
-                }
-                else {
-                    m = DoubleArrayUtility.createArray(N);
-                }
+		if (this.nu < 0) {
+			m = DoubleArrayUtility.createArray(L * N);
+		} else {
+			m = DoubleArrayUtility.createArray(N);
+		}
 
 		try {
 			D = DoubleArrayUtility.createMatrix(L, N);
 			for (int l = 0; l < L; l++) {
 				for (int n = 0; n < N; n++) {
-					//if (n == this.indices[l]) {
-					//	D[l][n] = Infinity.Double.getPositiveInfinity();
-					//} else {
-						D[l][n] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(l), n);
-					//}
+					// if (n == this.indices[l]) {
+					// D[l][n] = Infinity.Double.getPositiveInfinity();
+					// } else {
+					D[l][n] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(l), n);
+					// }
 				}
 			}
 		} catch (OutOfMemoryError error) {
@@ -199,21 +208,20 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 				m[n] = m_temp[this.nu];
 				assert (m[n] > 0.0);
 			}
-		}
-                else if (this.nu < 0) {
+		} else if (this.nu < 0) {
 			for (int n = 0; n < N; n++) {
 				for (int l = 0; l < L; l++) {
 					if (D == null) {
-						m[n*L + l] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(l), n);
+						m[n * L + l] = this.metricSpace.distance(this.landmarkSelector.getLandmarkIndex(l), n);
 					} else {
-						m[n*L + l] = D[l][n];
+						m[n * L + l] = D[l][n];
 					}
 				}
-				Arrays.sort(m, n*L, (n+1)*L);
+				Arrays.sort(m, n * L, (n + 1) * L);
 			}
-                }
+		}
 
-		//int edge_count = 0;
+		// int edge_count = 0;
 
 		{
 			double e_ij;
@@ -229,7 +237,7 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 					if (e_ij <= this.maxDistance) {
 						this.updateWitnessInformationInternalIndices(n_star, e_ij, i, j);
 						graph.addEdge(i, j, e_ij);
-						//edge_count++;
+						// edge_count++;
 					}
 				}
 			}
@@ -249,8 +257,9 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 
 		int l = landmarkIndices.length - 1;
 		// (1) An empty simplex has no witnesses.
-		// (2) Non-lazy witness complex: No higher-dimensional simplices than the number of landmark points.
-		if (l<0 || (l>=L && this.nu<0)) {
+		// (2) Non-lazy witness complex: No higher-dimensional simplices than
+		// the number of landmark points.
+		if (l < 0 || (l >= L && this.nu < 0)) {
 			return new IntDoublePair(n_star, e_ij);
 		}
 
@@ -275,8 +284,8 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 					}
 				}
 			}
-                        if (this.nu<0) {
-				double m_l = m[n*L + l];
+			if (this.nu < 0) {
+				double m_l = m[n * L + l];
 				if (d_max < m_l) {
 					d_max = 0.0;
 				} else {
@@ -318,7 +327,7 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 
 		TIntHashSet witnesses = this.getAllWitnesses(e_ij, externalIndices);
 
-		for (TIntIterator iterator = witnesses.iterator(); iterator.hasNext(); ) {
+		for (TIntIterator iterator = witnesses.iterator(); iterator.hasNext();) {
 			int witnessIndex = iterator.next();
 			if (!this.witnessSimplexMap.contains(witnessIndex)) {
 				this.witnessSimplexMap.put(witnessIndex, new ArrayList<Simplex>());
@@ -344,7 +353,7 @@ public abstract class AbstractWitnessStream<T> extends ConditionalFlagComplexStr
 		TIntHashSet witnesses = new TIntHashSet();
 
 		int[] landmarkIndices = HomologyUtility.deconvertIndices(externalIndices, this.indices);
-		//landmarkIndices = externalIndices;
+		// landmarkIndices = externalIndices;
 
 		for (int n = 0; n < N; n++) {
 			if (contains(this.indices, n) && !this.plex3Compatible) {

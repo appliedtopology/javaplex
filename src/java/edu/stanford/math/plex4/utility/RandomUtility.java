@@ -1,8 +1,8 @@
 package edu.stanford.math.plex4.utility;
 
+import gnu.trove.TIntHashSet;
 import cern.jet.random.Normal;
 import cern.jet.random.Uniform;
-import gnu.trove.TIntHashSet;
 
 
 /**
