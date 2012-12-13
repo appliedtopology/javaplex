@@ -363,28 +363,44 @@ public class Interval<T extends Comparable<T>> implements Comparable<Interval<T>
 		return true;
 	}
 
-	public int compareTo2(Interval<T> arg0) {
+	public int compareTo(Interval<T> arg0) {
+		
+		// First try to compare ends - the interval that ends later is "bigger"
+		// If the ends cannot be compared, compare the starts
+		
+		int endComparison = 0;
+		
+		if (this.isRightInfinite && arg0.isRightInfinite) {
+			endComparison = 0;
+		} else if (this.isRightInfinite && !arg0.isRightInfinite) {
+			endComparison = 1;
+		} else if (!this.isRightInfinite && arg0.isRightInfinite) {
+			endComparison = -1;
+		} else {
+			// both right-finite
+			endComparison = this.end.compareTo(arg0.end);
+		}
+		
+		if (endComparison != 0) {
+			return endComparison;
+		}
+		
+		int startComparison = 0;
 		
 		if (this.isLeftInfinite && arg0.isLeftInfinite) {
-			if (this.isRightInfinite && arg0.isRightInfinite) {
-				return 0;
-			} else if (this.isRightInfinite) {
-				return 1;
-			} else if (arg0.isRightInfinite) {
-				return -1;
-			} else {
-				return this.end.compareTo(arg0.end);
-			}
-		} else if (this.isLeftInfinite) {
-			return -1;
-		} else if (arg0.isLeftInfinite) {
-			return 1;
+			startComparison = 0;
+		} else if (this.isLeftInfinite && !arg0.isLeftInfinite) {
+			startComparison = -1;
+		} else if (!this.isLeftInfinite && arg0.isLeftInfinite) {
+			startComparison = 1;
 		} else {
-			return this.end.compareTo(arg0.end);
+			startComparison = this.start.compareTo(arg0.start);
 		}
+		
+		return startComparison;
 	}
 	
-	public int compareTo(Interval<T> arg0) {
+	public int compareTo2(Interval<T> arg0) {
 		int type = getTypeCode(this);
 		int otherType = getTypeCode(arg0);
 
