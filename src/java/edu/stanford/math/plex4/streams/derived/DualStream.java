@@ -78,6 +78,15 @@ public class DualStream<T> implements AbstractFilteredStream<T> {
 	}
 
 	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#containsElement(java.lang.Object)
+	 */
+	public boolean containsElement(T basisElement) {
+		// TODO Implement this if you need it.
+		throw new UnsupportedOperationException();
+	}
+	
+	
+	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#getBoundary(java.lang.Object)
 	 */
 	public T[] getBoundary(T basisElement) {

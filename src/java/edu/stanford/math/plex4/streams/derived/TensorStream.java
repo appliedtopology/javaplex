@@ -132,7 +132,15 @@ public class TensorStream<T, U> implements AbstractFilteredStream<ObjectObjectPa
 	public double getFiltrationValue(ObjectObjectPair<T, U> basisElement) {
 		return Math.max(this.stream1.getFiltrationValue(basisElement.getFirst()), this.stream2.getFiltrationValue(basisElement.getSecond()));
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#containsElement(java.lang.Object)
+	 */
+	public boolean containsElement(ObjectObjectPair<T, U> basisElement) {
+		// TODO Implement this if you need it.
+		throw new UnsupportedOperationException();
+	}
+
 	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#finalizeStream()
 	 */

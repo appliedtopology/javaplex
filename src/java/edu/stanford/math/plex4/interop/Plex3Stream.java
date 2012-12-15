@@ -82,6 +82,14 @@ public class Plex3Stream implements AbstractFilteredStream<edu.stanford.math.ple
 		return this.plex3Stream.convert_filtration_index(this.getFiltrationIndex(basisElement));
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#containsElement(java.lang.Object)
+	 */
+	public boolean containsElement(Simplex basisElement) {
+		// TODO Implement this if you need it.
+		throw new UnsupportedOperationException();
+	}
+
 	public int getMaximumFiltrationIndex() {
 		return this.maxFiltrationIndex;
 	}

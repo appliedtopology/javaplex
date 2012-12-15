@@ -104,6 +104,13 @@ public abstract class PrimitiveStream<T extends PrimitiveBasisElement> implement
 	}
 
 	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#containsElement(java.lang.Object)
+	 */
+	public boolean containsElement(T basisElement) {
+		return this.storageStructure.containsElement(basisElement);
+	}
+
+	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#isFinalized()
 	 */
 	public final boolean isFinalized() {

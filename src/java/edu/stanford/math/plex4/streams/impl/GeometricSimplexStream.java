@@ -78,6 +78,14 @@ public class GeometricSimplexStream implements AbstractFilteredStream<Simplex>, 
 	}
 
 	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#containsElement(java.lang.Object)
+	 */
+	public boolean containsElement(Simplex basisElement) {
+		// TODO Implement this if you need it.
+		throw new UnsupportedOperationException();
+	}
+
+	/* (non-Javadoc)
 	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#isFinalized()
 	 */
 	public boolean isFinalized() {

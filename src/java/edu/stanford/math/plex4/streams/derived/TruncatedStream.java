@@ -6,6 +6,7 @@ import java.util.Iterator;
 import edu.stanford.math.plex4.homology.barcodes.Interval;
 import edu.stanford.math.plex4.homology.barcodes.PersistenceInvariantDescriptor;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
+//import edu.stanford.math.primitivelib.autogen.pair.ObjectObjectPair;
 import edu.stanford.math.primitivelib.utility.Infinity;
 
 public class TruncatedStream<T> implements AbstractFilteredStream<T> {
@@ -61,6 +62,14 @@ public class TruncatedStream<T> implements AbstractFilteredStream<T> {
 
 	public double getFiltrationValue(T basisElement) {
 		return this.getFiltrationValue(basisElement);
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.stanford.math.plex4.homology.streams.interfaces.AbstractFilteredStream#containsElement(java.lang.Object)
+	 */
+	public boolean containsElement(T basisElement) {
+		// TODO Implement this if you need it.
+		throw new UnsupportedOperationException();
 	}
 
 	public int getMaximumFiltrationIndex() {
