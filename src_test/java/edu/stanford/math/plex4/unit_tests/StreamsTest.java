@@ -42,14 +42,14 @@ public class StreamsTest {
 	@After
 	public void tearDown() {}
 	
-	//@Test
+	@Test
 	public void testVietorisRips() {
 		for (double[][] pointCloud: pointClouds) {
 			StreamTester.compareVietorisRipsStreams(pointCloud, maxDimension, maxFiltrationValue, numDivisions);
 		}
 	}
 	
-	//@Test
+	@Test
 	public void testLazyWitness() {
 		for (double[][] pointCloud: pointClouds) {
 			LandmarkSelector<double[]> landmarkSet = new RandomLandmarkSelector<double[]>(new EuclideanMetricSpace(pointCloud), l);

@@ -2,17 +2,11 @@ package edu.stanford.math.plex4.homology;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import edu.stanford.math.plex4.api.FilteredStreamInterface;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.streams.interfaces.AbstractFilteredStream;
 import edu.stanford.math.plex4.test_utility.Timing;
-import edu.stanford.math.plex4.utility.ComparisonUtility;
-import edu.stanford.math.primitivelib.collections.utility.CollectionsUtility;
 
 /**
  * This class contains functions for comparing streams (filtered chain
@@ -123,24 +117,10 @@ public class StreamTester {
 	 *            the second stream
 	 */
 	public static <T> void verifyEqual(AbstractFilteredStream<T> stream1, AbstractFilteredStream<T> stream2) {
-		Set<T> stream1Contents = CollectionsUtility.dumpIterable(stream1);
-		Set<T> stream2Contents = CollectionsUtility.dumpIterable(stream2);
-
-		List<T> l1 = new ArrayList<T>();
-		List<T> l2 = new ArrayList<T>();
-		l1.addAll(stream1Contents);
-		l2.addAll(stream2Contents);
-		System.out.println(l1.size());
-		System.out.println(l2.size());
-
-		assertTrue(stream1 + " and " + stream2 + " have different sizes", l1.size() == l2.size());
-		assertTrue(stream1 + " and " + stream2 + " are not equal", ComparisonUtility.setEquals(stream1Contents, stream2Contents));
-
-		// verify the filtration indices
-		for (T element : stream1Contents) {
-			int filtrationIndex1 = stream1.getFiltrationIndex(element);
-			int filtrationIndex2 = stream2.getFiltrationIndex(element);
-			assertTrue("The element " + element + " has differing filtration indices in" + stream1 + " and " + stream2, filtrationIndex1 == filtrationIndex2);
+		assertTrue("Streams have different sizes.", stream1.getSize() == stream2.getSize());
+		for (T S : stream1) {
+			assertTrue("Streams have different simplices.", stream2.containsElement(S));
+			assertTrue("Streams have different filtration indices.", stream1.getFiltrationIndex(S) == stream2.getFiltrationIndex(S));
 		}
 	}
 }
