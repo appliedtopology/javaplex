@@ -385,7 +385,7 @@ public class SimplexStreamExamples {
 		// add edges
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < i; j++) {
-				if (adjacencyMatrix[i][i] != 0) {
+				if (adjacencyMatrix[i][j] != 0) {
 					stream.addElement(new int[]{i, j});
 				}
 			}

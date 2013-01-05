@@ -6,6 +6,7 @@ package edu.stanford.math.plex4.graph;
 import edu.stanford.math.primitivelib.autogen.pair.IntIntPair;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIntHashMap;
+import gnu.trove.TIntIntIterator;
 import gnu.trove.TIntObjectHashMap;
 
 import java.util.Iterator;
@@ -96,6 +97,11 @@ public class UndirectedListGraph implements AbstractUndirectedGraph {
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#addEdge(int, int)
 	 */
 	public void addEdge(int i, int j) {
+		
+		if (this.containsEdge(i, j)) {
+			return;
+		}
+		
 		int x = (i < j ? i : j);
 		int y = (i < j ? j : i);
 		if (!this.adjacencySets.containsKey(y)) {
@@ -134,8 +140,18 @@ public class UndirectedListGraph implements AbstractUndirectedGraph {
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#getNumEdges()
 	 */
 	public int getNumEdges() {
-		// TODO: complete
-		throw new UnsupportedOperationException();
+		// use the fact that: sum deg_j = 2 * |E|
+		
+		int degreeSum = 0;
+		
+		TIntIntIterator iter = this.degrees.iterator();
+		
+		while(iter.hasNext()) {
+			iter.advance();
+			degreeSum += iter.value();
+		}
+		
+		return (degreeSum / 2);
 	}
 
 	/*
