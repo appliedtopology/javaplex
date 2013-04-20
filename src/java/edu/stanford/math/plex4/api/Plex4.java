@@ -224,6 +224,18 @@ public class Plex4 {
 	}
 	
 	/**
+	 * This function creates a new max-min landmark selector on a point cloud.
+	 * 
+	 * @param points the data set
+	 * @param numLandmarkPoints the number of points to include in the selection
+	 * @param firstPoint the initial point in the landmark set
+	 * @return a new MaxMinLandmarkSelector
+	 */
+	public static MaxMinLandmarkSelector<double[]> createMaxMinSelector(double[][] points, int numLandmarkPoints, int firstPoint) {
+		return new MaxMinLandmarkSelector<double[]>(new EuclideanMetricSpace(points), numLandmarkPoints, firstPoint);
+	}
+	
+	/**
 	 * This function creates a new random landmark point selector on a point cloud.
 	 * 
 	 * @param points the data set
@@ -244,6 +256,19 @@ public class Plex4 {
 	 */
 	public static <T> MaxMinLandmarkSelector<T> createMaxMinSelector(AbstractSearchableMetricSpace<T> metricSpace, int numLandmarkPoints) {
 		return new MaxMinLandmarkSelector<T>(metricSpace, numLandmarkPoints);
+	}
+	
+	/**
+	 * This function creates a new max-min landmark selector on an abstract metric space.
+	 * 
+	 * @param <T> the underlying type of the metric space
+	 * @param metricSpace the metric space to select from
+	 * @param numLandmarkPoints the number of points to include in the selection
+	 * @param firstPoint the initial point in the landmark set
+	 * @return a new MaxMinLandmarkSelector
+	 */
+	public static <T> MaxMinLandmarkSelector<T> createMaxMinSelector(AbstractSearchableMetricSpace<T> metricSpace, int numLandmarkPoints, int firstPoint) {
+		return new MaxMinLandmarkSelector<T>(metricSpace, numLandmarkPoints, firstPoint);
 	}
 	
 	/**

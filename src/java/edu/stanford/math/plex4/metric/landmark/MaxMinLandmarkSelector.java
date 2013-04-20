@@ -20,6 +20,8 @@ import gnu.trove.TIntIterator;
  */
 public class MaxMinLandmarkSelector<T> extends LandmarkSelector<T> {
 
+	private int firstPoint;
+	
 	/**
 	 * This constructor initializes the landmark selector with a finite metric space,
 	 * and a size parameter.
@@ -29,6 +31,24 @@ public class MaxMinLandmarkSelector<T> extends LandmarkSelector<T> {
 	 */
 	public MaxMinLandmarkSelector(AbstractSearchableMetricSpace<T> metricSpace, int landmarkSetSize) {
 		super(metricSpace, landmarkSetSize);
+		
+		int metricSpaceSize = this.metricSpace.size();
+
+		// select first point randomly
+		this.firstPoint = RandomUtility.nextUniformInt(0, metricSpaceSize - 1);
+	}
+	
+	/**
+	 * This constructor initializes the landmark selector with a finite metric space,
+	 * and a size parameter.
+	 * 
+	 * @param metricSpace the metric space to build the landmarks set in
+	 * @param landmarkSetSize the size of the landmark set
+	 * @param firstPoint the initial point to use
+	 */
+	public MaxMinLandmarkSelector(AbstractSearchableMetricSpace<T> metricSpace, int landmarkSetSize, int firstPoint) {
+		super(metricSpace, landmarkSetSize);
+		this.firstPoint = firstPoint;
 	}
 
 	@Override
@@ -39,10 +59,8 @@ public class MaxMinLandmarkSelector<T> extends LandmarkSelector<T> {
 
 		TIntHashSet landmarkSet = new TIntHashSet();
 
-		// select first point randomly
-		int first_point = RandomUtility.nextUniformInt(0, metricSpaceSize - 1);
-		landmarkSet.add(first_point);
-		landmarkIndices[0] = first_point;
+		landmarkSet.add(this.firstPoint);
+		landmarkIndices[0] = this.firstPoint;
 
 		/*
 		 * Construct the landmark set inductively. Suppose that
