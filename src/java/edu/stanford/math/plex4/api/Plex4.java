@@ -22,6 +22,7 @@ import edu.stanford.math.plex4.io.BarcodeWriter;
 import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.metric.interfaces.AbstractIntMetricSpace;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
+import edu.stanford.math.plex4.metric.landmark.ExplicitLandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.MaxMinLandmarkSelector;
 import edu.stanford.math.plex4.metric.landmark.RandomLandmarkSelector;
@@ -306,6 +307,28 @@ public class Plex4 {
 	 */
 	public static <T> RandomLandmarkSelector<T> createRandomSelector(AbstractSearchableMetricSpace<T> metricSpace, int numLandmarkPoints) {
 		return new RandomLandmarkSelector<T>(metricSpace, numLandmarkPoints);
+	}
+	
+	/**
+	 * This function creates a new explicit landmark selector on a point cloud.
+	 * 
+	 * @param points the data set
+	 * @param landmarkPoints the set of landmark points
+	 * @return a new ExplicitLandmarkSelector
+	 */
+	public static ExplicitLandmarkSelector<double[]> createExplicitSelector(double[][] points, int[] landmarkPoints) {
+		return new ExplicitLandmarkSelector<double[]>(new EuclideanMetricSpace(points), landmarkPoints);
+	}
+	
+	/**
+	 * This function creates a new explicit landmark selector on an abstract metric space.
+	 * 
+	 * @param metricSpace the metric space to select from
+	 * @param landmarkPoints the set of landmark points
+	 * @return a new ExplicitLandmarkSelector
+	 */
+	public static <T> ExplicitLandmarkSelector<T> createExplicitSelector(AbstractSearchableMetricSpace<T> metricSpace, int[] landmarkPoints) {
+		return new ExplicitLandmarkSelector<T>(metricSpace, landmarkPoints);
 	}
 	
 	/**
