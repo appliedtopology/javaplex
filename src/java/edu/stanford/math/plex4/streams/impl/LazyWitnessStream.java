@@ -6,11 +6,13 @@ import java.util.List;
 
 import edu.stanford.math.plex4.graph.UndirectedWeightedListGraph;
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.homology.filtration.ExternalConverter;
 import edu.stanford.math.plex4.homology.filtration.IncreasingLinearConverter;
 import edu.stanford.math.plex4.homology.utility.HomologyUtility;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
 import edu.stanford.math.plex4.metric.landmark.LandmarkSelector;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
 import edu.stanford.math.primitivelib.autogen.array.DoubleArrayUtility;
 import edu.stanford.math.primitivelib.autogen.pair.IntDoublePair;
 import edu.stanford.math.primitivelib.utility.Infinity;
@@ -117,6 +119,44 @@ public class LazyWitnessStream<T> extends FlagComplexStream {
 	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double maxDistance,
 			int[] indices) {
 		this(metricSpace, landmarkSelector, maxDimension, maxDistance, getDefaultNuValue(), indices);
+	}
+	
+	
+	
+	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double[] filtrationValues, int nu) {
+		super(maxDimension, new ExternalConverter(filtrationValues));
+		ExceptionUtility.verifyNonNull(metricSpace);
+		ExceptionUtility.verifyNonNegative(nu);
+		ExceptionUtility.verifyLessThan(nu, 3);
+		this.metricSpace = metricSpace;
+		this.landmarkSelector = landmarkSelector;
+		this.nu = nu;
+		this.maxDistance = DoubleArrayMath.max(filtrationValues);
+		this.N = this.metricSpace.size();
+		this.L = this.landmarkSelector.size();
+	}
+
+	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double[] filtrationValues) {
+		this(metricSpace, landmarkSelector, maxDimension, filtrationValues, getDefaultNuValue());
+	}
+
+	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double[] filtrationValues, int nu,
+			int[] indices) {
+		super(maxDimension, new ExternalConverter(filtrationValues), indices);
+		ExceptionUtility.verifyNonNull(metricSpace);
+		ExceptionUtility.verifyNonNegative(nu);
+		ExceptionUtility.verifyLessThan(nu, 3);
+		this.metricSpace = metricSpace;
+		this.landmarkSelector = landmarkSelector;
+		this.nu = nu;
+		this.maxDistance = DoubleArrayMath.max(filtrationValues);
+		this.N = this.metricSpace.size();
+		this.L = this.landmarkSelector.size();
+	}
+
+	public LazyWitnessStream(AbstractSearchableMetricSpace<T> metricSpace, LandmarkSelector<T> landmarkSelector, int maxDimension, double[] filtrationValues,
+			int[] indices) {
+		this(metricSpace, landmarkSelector, maxDimension, filtrationValues, getDefaultNuValue(), indices);
 	}
 
 	public void setPlex3Compatbility(boolean value) {

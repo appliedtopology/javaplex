@@ -46,6 +46,21 @@ public class FilteredStreamInterface {
 		stream.finalizeStream();
 		return stream;
 	}
+	
+	public static VietorisRipsStream<double[]> createPlex4VietorisRipsStream(double[][] points, int maxDimension, double[] filtrationValues) {
+
+		AbstractSearchableMetricSpace<double[]> metricSpace = new EuclideanMetricSpace(points);
+		VietorisRipsStream<double[]> stream = new VietorisRipsStream<double[]>(metricSpace, filtrationValues, maxDimension);
+		stream.finalizeStream();
+
+		return stream;
+	}
+
+	public static <T> VietorisRipsStream<T> createPlex4VietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, int maxDimension, double[] filtrationValues) {
+		VietorisRipsStream<T> stream = new VietorisRipsStream<T>(metricSpace, filtrationValues, maxDimension);
+		stream.finalizeStream();
+		return stream;
+	}
 
 	public static AbstractFilteredStream<Simplex> createPlex3VietorisRipsStream(double[][] points, int maxDimension, double maxFiltrationValue, int numDivisions) {
 

@@ -4,11 +4,11 @@
 package edu.stanford.math.plex4.streams.impl;
 
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
+import edu.stanford.math.plex4.homology.filtration.ExternalConverter;
 import edu.stanford.math.plex4.homology.filtration.IncreasingLinearConverter;
 import edu.stanford.math.plex4.metric.interfaces.AbstractSearchableMetricSpace;
-import edu.stanford.math.plex4.streams.impl.FlexibleVietorisRipsStream;
 import edu.stanford.math.plex4.streams.storage_structures.StreamStorageStructure;
-import edu.stanford.math.plex4.utility.ExceptionUtility;
+import edu.stanford.math.primitivelib.autogen.array.DoubleArrayMath;
 
 
 /**
@@ -48,5 +48,9 @@ public class VietorisRipsStream<T> extends FlexibleVietorisRipsStream<T> {
 
 	public VietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, double maxDistance, int maxDimension, int[] indices) {
 	    super(metricSpace, maxDistance, maxDimension, new IncreasingLinearConverter(20, maxDistance), indices);
+	}
+	
+	public VietorisRipsStream(AbstractSearchableMetricSpace<T> metricSpace, double[] filtrationValues, int maxDimension) {
+		super(metricSpace, DoubleArrayMath.max(filtrationValues), maxDimension, new ExternalConverter(filtrationValues));
 	}
 }
