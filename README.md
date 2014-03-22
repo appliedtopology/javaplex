@@ -23,7 +23,7 @@ For persistent homology and its capabilities, we recommend the survey article [T
 
 ## Citing `javaPlex`
 
-To cite `javaPlex`, please consult the [http://code.google.com/p/javaplex/wiki/Citation citation] page.
+To cite `javaPlex`, please consult the [Citation Information](https://github.com/javaplex/javaplex/wiki/Citation-Information) page.
 
 ## Updates
   
