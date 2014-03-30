@@ -21,6 +21,18 @@ For persistent homology and its capabilities, we recommend the survey article [T
 * Read about the [architecture](https://github.com/javaplex/javaplex/wiki/Architecture-Notes) of `javaPlex`
 * Look at the [javadoc](http://javaplex.googlecode.com/svn/trunk/doc/index.html)
 
+## Wiki links
+
+* [Architecture Notes](https://github.com/javaplex/javaplex/wiki/Architecture-Notes)
+* [Citation Information](https://github.com/javaplex/javaplex/wiki/Citation-Information)
+* [Cohomology](https://github.com/javaplex/javaplex/wiki/)
+* [Home](https://github.com/javaplex/javaplex/wiki/Home)
+* [Interoperability](https://github.com/javaplex/javaplex/wiki/Interoperability)
+* [Overview](https://github.com/javaplex/javaplex/wiki/Overview)
+* [Troubleshooting](https://github.com/javaplex/javaplex/wiki/Troubleshooting)
+* [Tutorial](https://github.com/javaplex/javaplex/wiki/Tutorial)
+
+
 ## Citing `javaPlex`
 
 To cite `javaPlex`, please consult the [Citation Information](https://github.com/javaplex/javaplex/wiki/Citation-Information) page.
