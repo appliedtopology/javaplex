@@ -34,6 +34,16 @@ public class BottleneckDistance {
 		return result;
 	}
 
+	public static List<Interval<Double>> filterSmallest(List<Interval<Double>> A, double epsilon) {
+		List<Interval<Double>> result = new ArrayList<Interval<Double>>();
+
+		for (Interval<Double> interval : A)
+			if (distanceToDiagonal(interval) > epsilon)
+				result.add(interval);
+
+		return result;
+	}
+
 	public static List<Interval<Double>> filterLargest(List<Interval<Double>> A, int N) {
 		if (A.size() <= N) {
 			return A;
