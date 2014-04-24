@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import processing.core.PApplet;
 import edu.stanford.math.plex4.api.Plex4;
 import edu.stanford.math.plex4.autogen.homology.BooleanAbsoluteHomology;
 import edu.stanford.math.plex4.homology.barcodes.AnnotatedBarcodeCollection;
@@ -29,6 +30,10 @@ public class HomologyGeneratorVisualizer extends AbstractVisualizer {
 	private final List<Point2D> visibleGeneratorCoordinates = new LinkedList<Point2D>();
 	private final String[] genColors = new String[] { "#6A6BCD", "#9A0798", "#246B5F", "#EC305E", "#3CB43E", "#D16A33", "#71D0AF", "#BFA240" };
 	private AnnotatedBarcodeCollection<Double, BooleanSparseFormalSum<Simplex>> intervals = null;
+
+	public static void main(final String[] args) {
+		PApplet.main(new String[] { "edu.stanford.math.plex4.visualization.HomologyGeneratorVisualizer" });
+	}
 
 	@Override
 	void computeVietorisRipsHomology() {

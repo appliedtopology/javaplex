@@ -16,7 +16,7 @@ import edu.stanford.math.plex4.streams.impl.VietorisRipsStream;
  * 
  * Based on processing code by Michael Vedjemo-Johanson
  * 
- * @author jacobien
+ * @author Jacobien Carstens
  * 
  */
 @SuppressWarnings("serial")
