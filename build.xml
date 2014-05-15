@@ -229,5 +229,38 @@
 			</batchtest>
 		</junit>
 	</target>
+	
+	
+			
+	<!-- Build visualization apps (uses Processing) -->	
+	<target name="homviz_build" depends="runnable_jar" description="Builds a jar for the Homologty Visualizer applet">	
+		<property name="app.dir" value="${src.dir}/homviz" />
+		<property name="app.lib.dir" value="${app.dir}/lib" />
+		<delete dir="${app.dir}"/>
+		<mkdir dir="${app.dir}"/>
+		<mkdir dir="${app.lib.dir}"/>
+		<copy file="${lib.dir}/core.jar" todir="${app.lib.dir}"/>
+		<copy file="${runnable.jar}" tofile="${app.lib.dir}/javaplex.jar" />
+		<jar destfile="${app.dir}/homviz.jar">
+			<fileset dir="bin/edu/stanford/math/plex4/visualization">
+				<include name="**/*.class"/>
+			</fileset>
+			<manifest>
+				<attribute name="Main-Class" value="edu.stanford.math.plex4.visualization.HomologyVisualizer"/>
+				<attribute name="Class-Path" value="lib/core.jar lib/javaplex.jar"/>
+			</manifest>
+		</jar>
+		<jar destfile="${app.dir}/homgenviz.jar">
+					<fileset dir="bin/edu/stanford/math/plex4/visualization">
+						<include name="**/*.class"/>
+					</fileset>
+					<manifest>
+						<attribute name="Main-Class" value="edu.stanford.math.plex4.visualization.HomologyGeneratorVisualizer"/>
+						<attribute name="Class-Path" value="lib/core.jar lib/javaplex.jar"/>
+					</manifest>
+				</jar>	
+	</target> 
+
+
 
 </project>
