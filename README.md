@@ -10,16 +10,16 @@ For persistent homology and its capabilities, we recommend the survey article [T
 
 ## How to get started?
   
-* Start playing around with the latest [matlab examples](http://javaplex.googlecode.com/files/matlab-examples-4.1.0.tar.gz)
-* Read the [tutorial](https://github.com/javaplex/javaplex/wiki/Tutorial)
+* Start playing around with the latest [matlab examples](https://github.com/javaplex/javaplex/blob/master/dist/matlab-examples-4.2.0.tar.gz)
+* Read the [tutorial](https://github.com/javaplex/javaplex/blob/master/reports/javaplex_tutorial/javaplex_tutorial.pdf)
 * Take a look at the [documentation overview](https://github.com/javaplex/javaplex/wiki/Overview)
-* Download the latest [jar file](http://javaplex.googlecode.com/files/javaplex-4.1.0.jar) and start playing with the Java code
+* Download the latest [jar file](https://github.com/javaplex/javaplex/blob/master/dist/javaplex-4.2.0.jar) and start playing with the Java code
 
 ## For more information
 
 * Read the [documentation](https://github.com/javaplex/javaplex/wiki/Overview)
 * Read about the [architecture](https://github.com/javaplex/javaplex/wiki/Architecture-Notes) of `javaPlex`
-* Look at the [javadoc](http://javaplex.googlecode.com/svn/trunk/doc/index.html)
+* Look at the [javadoc](http://javaplex.github.io/javaplex/doc.4.2.0/)
 
 ## Wiki links
 
