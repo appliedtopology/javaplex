@@ -31,10 +31,10 @@
 \title{javaPlex Tutorial}
 
 \author{Henry Adams}
-\email[H.~Adams]{henrya@math.stanford.edu}
+\email[H.~Adams]{henrya@ima.umn.edu}
 
 \author{Andrew Tausz}
-\email[A.~Tausz]{atausz@stanford.edu}
+\email[A.~Tausz]{atausz@alumni.stanford.edu}
 
 \date{\today}
 
@@ -92,20 +92,20 @@
 
 \subsection{javaPlex}
 
-javaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. javaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo Johansson. The main motivation for the development of javaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for javaPlex is \url{http://code.google.com/p/javaplex/} and the javadoc tree for the library is at \url{http://javaplex.googlecode.com/svn/trunk/doc/index.html}.
+javaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. javaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo Johansson. The main motivation for the development of javaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for javaPlex is \url{http://javaplex.github.io/javaplex/} and the javadoc tree for the library is at \url{http://javaplex.googlecode.com/svn/trunk/doc/index.html}.
 
-This tutorial is written for those using javaPlex with Matlab. However, one can run javaPlex without Matlab; see \url{http://code.google.com/p/javaplex/wiki/Interop}.
+This tutorial is written for those using javaPlex with Matlab. However, one can run javaPlex without Matlab; see \url{https://github.com/javaplex/javaplex/wiki/Interoperability}.
 
-If you are interested in javaPlex, then you may also be interested in the software package Dionysus by Dmitriy Morozov, available at \url{http://www.mrzv.org/software/dionysus}. 
+If you are interested in javaPlex, then you may also be interested in the software package Dionysus by Dmitriy Morozov (\url{http://www.mrzv.org/software/dionysus}) or the software package Persus by Vidit Nanda (\url{http://www.sas.upenn.edu/~vnanda/perseus/index.html}).
 
 Some of the exercises in this tutorial are borrowed from Vin de Silva's {\em Plexercises}, available at \url{http://comptop.stanford.edu/u/programs/Plexercises2.pdf}.
 
-Please email Henry at \texttt{henrya@math.stanford.edu} or Andrew at \texttt{atausz@stanford.edu} if you have questions about this tutorial.
+Please email Henry at \texttt{henrya@ima.umn.edu} or Andrew at \texttt{atausz@alumni.stanford.edu} if you have questions about this tutorial.
 
 
 \subsection{License}
 
-javaPlex is an open source software package under the Open BSD License. The source code can be found at \url{http://code.google.com/p/javaplex/}. If you are interested in contributing to the project, we invite you to contact either of the authors. 
+javaPlex is an open source software package under the Open BSD License. The source code can be found at \url{https://github.com/javaplex/javaplex}.
 
 
 \subsection{Installation for Matlab}
@@ -118,10 +118,9 @@ ans = Java 1.5.0_13 with Apple Inc.   Java Hotspot(TM) Client VM mixed mode, sha
 
 javaPlex requires version number \texttt{1.5} or higher. 
 
-To install javaPlex for Matlab, go the the website \url{http://code.google.com/p/javaplex/downloads/list}. Download the zip file containing the Matlab examples. It should be called something like \texttt{matlab-examples\-4.1.0.tar.gz}. Extract the zip file. The resulting folder should be called \texttt{matlab-examples}. 
-% Or, go to folder javaplex/src/matlab/for_distribution
+To install javaPlex for Matlab, go the the website \url{https://github.com/javaplex/javaplex/tree/master/dist}. Download the zip file containing the Matlab examples. It should be called something like \texttt{matlab-examples\-4.2.0.tar.gz}. Extract the zip file. The resulting folder should be called \texttt{matlab\_examples}.
 
-Change directories in Matlab to \texttt{matlab-examples}. Run the \texttt{load\_javaplex.m} file. 
+Change directories in Matlab to \texttt{matlab\_examples}. Run the \texttt{load\_javaplex.m} file. 
 
 \begin{quote} \begin{verbatim} 
 >> load_javaplex
@@ -306,7 +305,7 @@ Dimension: 0
 
 This gives us the expected Betti numbers $Betti_0=1$ and $Betti_1=1$.
 
-We can also compute a representative cycle for each barcode.
+The persistence algorithm computing intervals can also find a representative cycle for each interval. However, there is no guarantee that the produced representative will be geometrically nice.
 
 \begin{quote} \begin{verbatim}
 >> circle_intervals = persistence.computeAnnotatedIntervals(stream)
@@ -434,6 +433,26 @@ Dimension: 0
 \end{verbatim} \end{quote}
 
 There are four intervals. The first is a $Betti_1$ interval, starting at filtration time 3 and ending at 7. This 1-dimensional hole is formed by the three edges of the roof. It forms when edge $[4,5]$ appears at filtration time 3 and closes when 2-simplex $[3,4,5]$ appears at filtration time 7.
+
+We can also store the intervals as Matlab matrices.
+
+\begin{quote} \begin{verbatim}
+>> intervals_dim0 = edu.stanford.math.plex4.homology.barcodes.BarcodeUtility...
+.getEndpoints(intervals, 0, 0)
+intervals_dim0 =
+
+    0    Inf
+    1    2
+    
+>> intervals_dim1 = edu.stanford.math.plex4.homology.barcodes.BarcodeUtility...
+.getEndpoints(intervals, 1, 0)
+intervals_dim1 =
+
+    0    Inf
+    3    7
+\end{verbatim} \end{quote}
+
+The second input of this command is the dimension of the intervals, and the third input is a Boolean flag: 0 to include infinite intervals, and 1 to exclude infinite intervals.
 
 We compute a representative cycle for each barcode.
 
@@ -1207,8 +1226,9 @@ of Betti numbers.
 \end{verbatim} \end{quote}
 
 
-\subsection{Representative cycles}
-The persistence algorithm that computes barcodes can also find a representative cycle for each barcode. We do several examples of this in Section \ref{explicitStream}. However, there is no guarantee that the produced representative will be geometrically nice. 
+\subsection{Displaying the simplices in a stream}
+
+It is possible to display the simplices in a stream, along with their filtration times. You can also obtain the vertices of each simplex as a Matlab matrix. For an example of how to do this, please see the file \href{http://code.google.com/p/javaplex/source/browse/trunk/src/matlab/for_distribution/basic_examples/dump_example.m}{\texttt{dump\_example.m}} in the folder {\texttt{basic\_examples}.
 
 
 %\subsection{Java heap size}
@@ -1245,7 +1265,7 @@ The persistence algorithm that computes barcodes can also find a representative 
 
 A core subset of a dataset is a collection of the densest points, such as $X^5(300,30)$ in Section \ref{real}. Since there are many density estimators, and since we can choose any number of the densest points, a dataset has a variety of core subsets. In this appendix we discuss how to create core subsets. 
 
-Real datasets can be very noisy, and outlier points can signiﬁcantly alter the computed topology. Therefore, instead of trying to approximate the topology of an entire dataset, we often proceed as follows. We create a family of core subsets and identify their topologies. Looking at a variety of core subsets can give a good picture of the entire dataset. 
+Real datasets can be very noisy, and outlier points can significantly alter the computed topology. Therefore, instead of trying to approximate the topology of an entire dataset, we often proceed as follows. We create a family of core subsets and identify their topologies. Looking at a variety of core subsets can give a good picture of the entire dataset. 
 
 See \citet{KleinBottle} and \citet{WitnessComplexes} for an example using multiple core subsets. The dataset contains high-contrast patches from natural images. The authors use three density estimators. As they change from the most global to the most local density estimate, the topologies of the core subsets change from a circle, to three intersecting circles, to a Klein bottle. 
 
@@ -1311,7 +1331,7 @@ core50 =
  
 With $k = 50$, we expect the densest points to be slightly larger than the 25-th prime, which is 97. 
 
-{\em Note:} As its name suggests, the m-file \texttt{kDensitySlow.m} is not the most efficient way to calculate $\rho_k$ for large datasets. There is a faster file \texttt{kDensity.m} for this purpose, which uses the kd-tree data structure. It is not included in the tutorial because it requires one to download a kd-tree package for Matlab, available at \url{http://www.mathworks.com/matlabcentral/fileexchange/21512-kd-tree-for-matlab}. Please email Henry at \texttt{henrya@math.stanford.edu} if you're interested in using \texttt{kDensity.m}. 
+{\em Note:} As its name suggests, the m-file \texttt{kDensitySlow.m} is not the most efficient way to calculate $\rho_k$ for large datasets. There is a faster file \texttt{kDensity.m} for this purpose, which uses the kd-tree data structure. It is not included in the tutorial because it requires one to download a kd-tree package for Matlab, available at \url{http://www.mathworks.com/matlabcentral/fileexchange/21512-kd-tree-for-matlab}. Please email Henry at \texttt{henrya@ima.umn.edu} if you're interested in using \texttt{kDensity.m}. 
 
 % What are the differences in timings between fast and slow versions?
 % It seems that k=300 is surprisingly slow with kDensity.m: 1108 seconds. Slower than kDensitySlow.m. Double check?
