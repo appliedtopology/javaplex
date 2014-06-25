@@ -6,7 +6,7 @@ The `javaPlex` library implements persistent homology and related techniques fro
 
 `javaPlex` is mainly developed by the [Computational Topology workgroup](http://comptop.stanford.edu) at Stanford University, and is based on previous similar packages from the same group.
 
-For persistent homology and its capabilities, we recommend the survey article [Topology and Data](http://comptop.stanford.edu/preprints/topologyAndData.pdf) by Gunnar Carlsson.
+For persistent homology and its capabilities, we recommend the survey article [Topology and Data](http://www.ams.org/journals/bull/2009-46-02/S0273-0979-09-01249-X/S0273-0979-09-01249-X.pdf) by Gunnar Carlsson.
 
 ## How to get started?
   
