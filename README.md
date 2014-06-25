@@ -38,7 +38,8 @@ For persistent homology and its capabilities, we recommend the survey article [T
 To cite `javaPlex`, please consult the [Citation Information](https://github.com/javaplex/javaplex/wiki/Citation-Information) page.
 
 ## Updates
-  
+
+* May, 2014: Version 4.2.0 released and is available in the [dist folder](https://github.com/javaplex/javaplex/tree/master/dist)
 * April, 2014: Google Code hosting abandoned
-* May 10, 2012: Version 4.1.0 has been released and is available in the Downloads section
+* May, 2012: Version 4.1.0 released
 * For frequently asked questions regarding `javaPlex` and troubleshooting information, consult the [troubleshooting](https://github.com/javaplex/javaplex/wiki/Troubleshooting) page.
