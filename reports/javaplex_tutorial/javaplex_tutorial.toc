@@ -24,6 +24,7 @@
 \contentsline {section}{\tocsection {}{7}{Remarks}}{25}{section.7}
 \contentsline {subsection}{\tocsubsection {}{7.1}{Matlab functions with javaPlex commands}}{25}{subsection.7.1}
 \contentsline {subsection}{\tocsubsection {}{7.2}{Displaying the simplices in a stream}}{26}{subsection.7.2}
+\contentsline {subsection}{\tocsubsection {}{7.3}{Computing the bottleneck distance}}{26}{subsection.7.3}
 \contentsline {section}{Appendices}{26}{section*.2}
 \contentsline {section}{\tocsection {Appendix}{A}{Dense core subsets}}{26}{appendix.A}
 \contentsline {section}{\tocsection {Appendix}{B}{Exercise solutions}}{27}{appendix.B}

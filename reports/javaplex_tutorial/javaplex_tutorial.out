@@ -24,7 +24,8 @@
 \BOOKMARK [1][-]{section.7}{7. Remarks}{}% 24
 \BOOKMARK [2][-]{subsection.7.1}{7.1. Matlab functions with javaPlex commands}{section.7}% 25
 \BOOKMARK [2][-]{subsection.7.2}{7.2. Displaying the simplices in a stream}{section.7}% 26
-\BOOKMARK [1][-]{section*.2}{Appendices}{}% 27
-\BOOKMARK [1][-]{appendix.A}{Appendix A. Dense core subsets}{}% 28
-\BOOKMARK [1][-]{appendix.B}{Appendix B. Exercise solutions}{}% 29
-\BOOKMARK [1][-]{section*.3}{References}{}% 30
+\BOOKMARK [2][-]{subsection.7.3}{7.3. Computing the bottleneck distance}{section.7}% 27
+\BOOKMARK [1][-]{section*.2}{Appendices}{}% 28
+\BOOKMARK [1][-]{appendix.A}{Appendix A. Dense core subsets}{}% 29
+\BOOKMARK [1][-]{appendix.B}{Appendix B. Exercise solutions}{}% 30
+\BOOKMARK [1][-]{section*.3}{References}{}% 31

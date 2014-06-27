@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  25 JUN 2014 16:52
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  27 JUN 2014 06:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -468,17 +468,12 @@ he Mat-lab ex-am-ples. It should be called some-thing like \OT1/cmtt/m/n/10 mat
 lab-examples-
  []
 
-[2]
-Underfull \vbox (badness 4467) has occurred while \output is active []
-
- [3]
-<s1.pdf, id=204, 371.85866pt x 410.0921pt>
+[2] [3] <s1.pdf, id=209, 371.85866pt x 410.0921pt>
 File: s1.pdf Graphic file (type pdf)
  <use s1.pdf>
 Package pdftex.def Info: s1.pdf used on input line 258.
 (pdftex.def)             Requested size: 72.26999pt x 79.70169pt.
- [4] [5 <./s1.pdf>]
-[6] <houseFig.pdf, id=238, 52.43018pt x 76.4957pt>
+ [4] [5 <./s1.pdf>] [6] <houseFig.pdf, id=243, 52.43018pt x 76.4957pt>
 File: houseFig.pdf Graphic file (type pdf)
  <use houseFig.pdf>
 Package pdftex.def Info: houseFig.pdf used on input line 393.
@@ -489,13 +484,13 @@ Overfull \hbox (47.59558pt too wide) in paragraph at lines 419--419
  2);[] 
  []
 
-[7 <./houseFig.pdf>] <house.png, id=316, 578.16pt x 433.62pt>
+[7 <./houseFig.pdf>] <house.png, id=321, 578.16pt x 433.62pt>
 File: house.png Graphic file (type png)
  <use house.png>
 Package pdftex.def Info: house.png used on input line 504.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
 
-[8] [9 <./house.png (PNG copy)>] <houseCoord.pdf, id=326, 602.25pt x 521.95pt>
+[8] [9 <./house.png (PNG copy)>] <houseCoord.pdf, id=331, 602.25pt x 521.95pt>
 File: houseCoord.pdf Graphic file (type pdf)
 
 <use houseCoord.pdf>
@@ -507,14 +502,14 @@ Overfull \hbox (16.51888pt too wide) in paragraph at lines 637--637
 eProductPoints(1000, 1, 2);[] 
  []
 
-[11] [12] [13] <ripsHouse.png, id=368, 578.16pt x 433.62pt>
+[11] [12] [13] <ripsHouse.png, id=373, 578.16pt x 433.62pt>
 File: ripsHouse.png Graphic file (type png)
 
 <use ripsHouse.png>
 Package pdftex.def Info: ripsHouse.png used on input line 781.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
  [14 <./ripsHouse.png (PNG copy)>]
-<ripsTorus.png, id=373, 578.16pt x 433.62pt>
+<ripsTorus.png, id=378, 578.16pt x 433.62pt>
 File: ripsTorus.png Graphic file (type png)
  <use ripsTorus.png>
 Package pdftex.def Info: ripsTorus.png used on input line 840.
@@ -531,7 +526,7 @@ Overfull \hbox (16.51888pt too wide) in paragraph at lines 900--900
 loud, num_landmark_points);[] 
  []
 
-<fig8lands.png, id=387, 449.68pt x 337.26pt>
+<fig8lands.png, id=392, 449.68pt x 337.26pt>
 File: fig8lands.png Graphic file (type png)
  <use fig8lands.png>
 Package pdftex.def Info: fig8lands.png used on input line 922.
@@ -548,7 +543,7 @@ Overfull \hbox (27.01878pt too wide) in paragraph at lines 971--971
 _cloud, num_landmark_points);[] 
  []
 
-<witnessTorus.png, id=409, 578.16pt x 433.62pt>
+<witnessTorus.png, id=414, 578.16pt x 433.62pt>
 File: witnessTorus.png Graphic file (type png)
  <use witnessTorus.png>
 Package pdftex.def Info: witnessTorus.png used on input line 1006.
@@ -566,7 +561,7 @@ Overfull \hbox (48.0186pt too wide) in paragraph at lines 1074--1074
 r.getUnderlyingMetricSpace(), ...[] 
  []
 
-<lazySphere.png, id=425, 578.16pt x 433.62pt>
+<lazySphere.png, id=430, 578.16pt x 433.62pt>
 File: lazySphere.png Graphic file (type png)
  <use lazySphere.png>
 Package pdftex.def Info: lazySphere.png used on input line 1080.
@@ -584,25 +579,25 @@ Overfull \hbox (48.0186pt too wide) in paragraph at lines 1144--1144
 r.getUnderlyingMetricSpace(), ...[] 
  []
 
-<lazyRange.png, id=452, 578.16pt x 433.62pt>
+<lazyRange.png, id=457, 578.16pt x 433.62pt>
 File: lazyRange.png Graphic file (type png)
  <use lazyRange.png>
 Package pdftex.def Info: lazyRange.png used on input line 1150.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
  [23]
-<linearGrad.png, id=462, 867.24pt x 281.05pt>
+<linearGrad.png, id=467, 867.24pt x 281.05pt>
 File: linearGrad.png Graphic file (type png)
  <use linearGrad.png>
 Package pdftex.def Info: linearGrad.png used on input line 1172.
 (pdftex.def)             Requested size: 144.54pt x 46.83868pt.
 
-<r5k300c30.png, id=463, 300.12125pt x 291.0875pt>
+<r5k300c30.png, id=468, 300.12125pt x 291.0875pt>
 File: r5k300c30.png Graphic file (type png)
  <use r5k300c30.png>
 Package pdftex.def Info: r5k300c30.png used on input line 1186.
 (pdftex.def)             Requested size: 216.81pt x 210.28905pt.
 
-<primaryCircle.png, id=464, 337.26pt x 329.23pt>
+<primaryCircle.png, id=469, 337.26pt x 329.23pt>
 File: primaryCircle.png Graphic file (type png)
  <use primaryCircle.png>
 Package pdftex.def Info: primaryCircle.png used on input line 1188.
@@ -627,78 +622,74 @@ using the alternating sum[]
  []
 
 [25 <./r5k300c30.png (PNG copy)> <./primaryCircle.png (PNG copy)>] [26]
-Overfull \hbox (26.71925pt too wide) in paragraph at lines 1346--1347
+Overfull \hbox (26.71925pt too wide) in paragraph at lines 1351--1352
 []\OT1/cmr/m/n/10 Several ex-er-cise so-lu-tions are ac-com-pa-nied by Mat-lab 
 scripts, which are avail-able in the folder \OT1/cmtt/m/n/10 tutorial[]solution
 s\OT1/cmr/m/n/10 . 
  []
 
-<torus.png, id=494, 456.2646pt x 472.164pt>
+<torus.png, id=502, 456.2646pt x 472.164pt>
 File: torus.png Graphic file (type png)
  <use torus.png>
-Package pdftex.def Info: torus.png used on input line 1358.
+Package pdftex.def Info: torus.png used on input line 1363.
 (pdftex.def)             Requested size: 180.67499pt x 186.97464pt.
  [27]
-<klein.png, id=501, 456.2646pt x 472.164pt>
+<klein.png, id=509, 456.2646pt x 472.164pt>
 File: klein.png Graphic file (type png)
  <use klein.png>
-Package pdftex.def Info: klein.png used on input line 1373.
+Package pdftex.def Info: klein.png used on input line 1378.
 (pdftex.def)             Requested size: 180.67499pt x 186.97464pt.
 
-<projPlane.png, id=502, 521.7894pt x 439.4016pt>
+<projPlane.png, id=510, 521.7894pt x 439.4016pt>
 File: projPlane.png Graphic file (type png)
  <use projPlane.png>
-Package pdftex.def Info: projPlane.png used on input line 1388.
+Package pdftex.def Info: projPlane.png used on input line 1393.
 (pdftex.def)             Requested size: 180.67499pt x 152.1435pt.
  [28 <./torus.png (PNG copy)> <./klein.png (PNG copy)>] [29 <./projPlane.png (P
 NG copy)>]
 [30] (./javaplex_tutorial.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1532.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1537.
  [31]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1532.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1537.
  (./javaplex_tutorial.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1532.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1532.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1537.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1537.
 
 Package rerunfilecheck Info: File `javaplex_tutorial.out' has not changed.
-(rerunfilecheck)             Checksum: 16B0D6BE59CCC75A31CF40D7D3C4DA3C;2048.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1532.
- )
-(\end occurred inside a group at level 1)
-
-### simple group (level 1) entered at line 1231 ({)
-### bottom level 
+(rerunfilecheck)             Checksum: 8EE90FDCF8201375103AE0DF77CF2C2F;2136.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1537.
+ ) 
 Here is how much of TeX's memory you used:
- 7548 strings out of 493315
- 105813 string characters out of 6137904
+ 7550 strings out of 493315
+ 105843 string characters out of 6137904
  196073 words of memory out of 5000000
- 10603 multiletter control sequences out of 15000+600000
+ 10604 multiletter control sequences out of 15000+600000
  11554 words of font info for 49 fonts, out of 8000000 for 9000
  1118 hyphenation exceptions out of 8191
- 33i,8n,32p,850b,572s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmbx12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmcsc10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmex10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmi10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi5.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-mi7.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
-8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.
-pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb
-></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr
-/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
-local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/lo
-cal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/loc
-al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local
-/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/
-texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/te
-xlive/2013/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on javaplex_tutorial.pdf (31 pages, 920503 bytes).
+ 33i,8n,32p,850b,512s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></us
+r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
+local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
+cal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loca
+l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
+/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/
+2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/20
+13/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/201
+3/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2013/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2013/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on javaplex_tutorial.pdf (31 pages, 920997 bytes).
 PDF statistics:
- 626 PDF objects out of 1000 (max. 8388607)
- 543 compressed objects within 6 object streams
- 114 named destinations out of 1000 (max. 500000)
- 321 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 635 PDF objects out of 1000 (max. 8388607)
+ 552 compressed objects within 6 object streams
+ 115 named destinations out of 1000 (max. 500000)
+ 329 words of extra memory for PDF output out of 10000 (max. 10000000)
 
