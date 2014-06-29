@@ -44,11 +44,7 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{8pt}
 
-% TODO:  Andrew has example code showing how to display the simplices in a filtration. See:
-% http://code.google.com/p/javaplex/source/browse/trunk/src/matlab/for_distribution/basic_examples/dump_example.m
-% Add to tutorial
-
-% TODO: Add javaplex_HA_files/getEndpoints_example.m. Can we return Inf instead of 2^512? See email on 5/15/12 to Violeta Kovacev-Nikolic, titled "JavaPlex: intervals"
+% TODO:  Move dump example up to earlier section of tutorial?
 
 % TODO: test tutorial after making changes to include examples finding representative cycles (For example, getDefaultSimplicialAlgorithm changed everywhere to getModularSimplicialAlgorithm).
 
@@ -57,7 +53,9 @@
 % TODO: the figures for the random trials in this tutorial don't currently match the numbers (number of simplices, etc).
 %UPDATE: They do for witness_example.m and lazy_witness_example.m
 
-% Ulrich Bauer at Snowbird wrote instructions for how to use javaPlex in mathematica. Figure this out, and add it to the tutorial? See Ulrich's MRC wiki page for instructions?
+% "Googlecode Issue": Add primary circle and three circle natural image examples to the tutorial. In particular, these are good examples of how different core subsets can produce different topologies.
+
+% "Googlecode Issue": In the tutorial, explain the new feature that allows the user to specify the initial seed used for sequential maxmin landmark selection. This feature has been added as a result of  Issue 23  (fixed).
 
 % TODO: explain API class and how most commands for users are in this class (API does not contain under-the-hood implementation, but instead shows what the user can do w/ the library.) Check if Lazy Witness is in API; if not, perhaps it should be added.
 
@@ -66,8 +64,6 @@
 
 % TODO: is "ensureAllFaces" working as I expect? See representatives_example_HA and try changing dimensions.
 % UPDATE: See javaplex Issue 20 created by Andrew.
-
-% TODO: coloring of wiki tutorial due to ' near "core1".
 
 % TODO: add exercise numbers to tutorial wiki.
 
@@ -78,11 +74,6 @@
 % Also, see email from Anthony Bak 10-21-11
 
 % TODO: ask Andrew: Move lazy witness to API so that the syntax is more similar to Vietoris-Rips and witness filtrations?
-
-% Andrew has example code showing how to extract the Betti barcodes as Matlab vectors. See:
-% http://code.google.com/p/javaplex/source/browse/trunk/src/matlab/for_distribution/basic_examples/endpoint_extraction_example.m
-% Also see email thread from Mirko Lukovic on 6-23-2011.
-% I don't think this needs to be in the tutorial, but maybe I will change my mind.
 
 
 
@@ -148,9 +139,10 @@ My Matlab installation sets the limit to approximately 128 megabytes by default.
 
 \subsection{Accompanying files}
 
-The following Matlab scripts containing the commands in this tutorial are available in the folder \texttt{matlab\_examples/tutorial\_examples}. This means that you don't need to type in each command individually.
+The following Matlab scripts containing the commands in this tutorial are available in the folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}. This means that you don't need to type in each command individually.
 % Add note? DONT copy and paste commands from pdf
 \begin{itemize}
+\item \texttt{bottleneck\_distance\_example.m}
 \item \texttt{core\_subsets\_example.m}
 \item \texttt{euler\_characteristic\_example.m}
 \item \texttt{explicit\_metric\_space\_example.m}
@@ -163,7 +155,7 @@ The following Matlab scripts containing the commands in this tutorial are availa
 \item \texttt{rips\_example.m}
 \item \texttt{witness\_example.m}
 \end{itemize}
-The folder \texttt{matlab\_examples/tutorial\_examples} also contains the following Matlab functions
+The \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}} also contains the following Matlab functions
 \begin{itemize}
 \item \texttt{coreSubset.m}
 \item \texttt{dct.m}
@@ -176,7 +168,7 @@ and the following Matlab data files
 \end{itemize}
 which are used in this tutorial. 
 
-The folder \texttt{matlab\_examples/tutorial\_solutions} contains the following solution scripts to tutorial exercises.
+The folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} contains the following solution scripts to tutorial exercises.
 \begin{itemize}
 \item \texttt{exercise\_1.m}
 \item \texttt{exercise\_2.m}
@@ -239,13 +231,13 @@ In javaPlex, filtered simplicial complexes (or more generally filtered chain com
 
 \subsection{Computing homology}
 
-You should change your current Matlab directory to \texttt{tutorial\_examples}, perhaps using the following command.
+You should change your current Matlab directory to \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}, perhaps using the following command.
 
 \begin{quote} \begin{verbatim} 
 >> cd tutorial_examples
 \end{verbatim} \end{quote}
 
-The Matlab script corresponding to this section is \texttt{explicit\_simplex\_example.m}, which is in the folder \texttt{tutorial\_examples}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
+The Matlab script corresponding to this section is \texttt{explicit\_simplex\_example.m}, which is in the folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
 
 \begin{quote} \begin{verbatim} 
 >> explicit_simplex_example
@@ -1348,14 +1340,14 @@ With $k = 50$, we expect the densest points to be slightly larger than the 25-th
 
 \section{Exercise solutions}\label{A:solutions}
 
-Several exercise solutions are accompanied by Matlab scripts, which are available in the folder \texttt{tutorial\_solutions}.
+Several exercise solutions are accompanied by Matlab scripts, which are available in the folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}}.
 
 \begin{exerciseSol}
 Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices} \citep[page 107]{Hatcher}{\em . We recommend using a $3\times 3$ grid of 9 vertices.}
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \texttt{exercise\_1.m} in folder \texttt{tutorial\_solutions} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides.
+See the Matlab script \texttt{exercise\_1.m} in folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides.
 \end{solution}
 
 \begin{figure}[htp]
