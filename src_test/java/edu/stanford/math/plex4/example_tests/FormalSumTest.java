@@ -14,7 +14,7 @@ public class FormalSumTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+
 		testIntFormalSum();
 		testBooleanFormalSum();
 		testObjectFormalSum();
@@ -27,11 +27,15 @@ public class FormalSumTest {
 		sum.put(3, "b");
 		sum.put(-4, "z");
 
-		System.out.println(sum);
+		System.out.println("IntSparseFormalSum: " + sum);
 
 		List<String> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
 
-		System.out.println(basisElements);
+		System.out.println("basis elements: " + basisElements);
+
+		List<Integer> coefficients = FormalSumUtility.extractCoefficients(sum);
+
+		System.out.println("coefficients: " + coefficients);
 	}
 
 	public static void testBooleanFormalSum() {
@@ -43,11 +47,11 @@ public class FormalSumTest {
 		sum.put(true, "b");
 		sum.put(true, "z");
 
-		System.out.println(sum);
+		System.out.println("BooleanPrimitiveFreeModule: " + sum);
 
 		List<String> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
 
-		System.out.println(basisElements);
+		System.out.println("basis elements: " + basisElements);
 	}
 
 	public static void testObjectFormalSum() {
@@ -57,11 +61,15 @@ public class FormalSumTest {
 		sum.put(9, "b");
 		sum.put(4, "z");
 
-		System.out.println(sum);
+		System.out.println("ObjectSparseFormalSum: " + sum);
 
 		List<String> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
 
-		System.out.println(basisElements);
+		System.out.println("basis elements: " + basisElements);
+
+		List<Integer> coefficients = FormalSumUtility.extractCoefficients(sum);
+
+		System.out.println("coefficients: " + coefficients);
 	}
 
 }
