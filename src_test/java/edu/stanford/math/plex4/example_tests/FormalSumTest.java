@@ -1,7 +1,9 @@
 package edu.stanford.math.plex4.example_tests;
 
+import java.util.Arrays;
 import java.util.List;
 
+import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.utility.FormalSumUtility;
 import edu.stanford.math.primitivelib.autogen.formal_sum.BooleanPrimitiveFreeModule;
 import edu.stanford.math.primitivelib.autogen.formal_sum.BooleanSparseFormalSum;
@@ -18,6 +20,7 @@ public class FormalSumTest {
 		testIntFormalSum();
 		testBooleanFormalSum();
 		testObjectFormalSum();
+		testSimplices();
 	}
 
 	public static void testIntFormalSum() {
@@ -29,7 +32,7 @@ public class FormalSumTest {
 
 		System.out.println("IntSparseFormalSum: " + sum);
 
-		List<String> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
+		List<?> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
 
 		System.out.println("basis elements: " + basisElements);
 
@@ -49,7 +52,7 @@ public class FormalSumTest {
 
 		System.out.println("BooleanPrimitiveFreeModule: " + sum);
 
-		List<String> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
+		List<?> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
 
 		System.out.println("basis elements: " + basisElements);
 	}
@@ -63,13 +66,34 @@ public class FormalSumTest {
 
 		System.out.println("ObjectSparseFormalSum: " + sum);
 
-		List<String> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
+		List<?> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
 
 		System.out.println("basis elements: " + basisElements);
 
-		List<Integer> coefficients = FormalSumUtility.extractCoefficients(sum);
+		List<?> coefficients = FormalSumUtility.extractCoefficients(sum);
 
 		System.out.println("coefficients: " + coefficients);
 	}
 
+	public static void testSimplices() {
+		IntSparseFormalSum<Simplex> sum = new IntSparseFormalSum<Simplex>();
+
+		sum.put(2, Simplex.makeSimplex(new int[]{0, 1, 3}));
+		sum.put(-5, Simplex.makeSimplex(new int[]{5, 6}));
+		
+		System.out.println("IntSparseFormalSum: " + sum);
+
+		List<Simplex> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
+
+		System.out.println("basis elements: " + basisElements);
+
+		int[][] vertices = FormalSumUtility.extractVertices(basisElements);
+		
+		System.out.println("vertices:");
+		
+		for(int[] v : vertices) {
+			System.out.println(Arrays.toString(v));
+		}
+			
+	}
 }

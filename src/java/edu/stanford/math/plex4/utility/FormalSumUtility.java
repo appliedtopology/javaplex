@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.primitivelib.autogen.formal_sum.BooleanSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.formal_sum.IntSparseFormalSum;
 import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
@@ -121,5 +122,27 @@ public class FormalSumUtility {
 		}
 
 		return coefficients;
+	}
+
+	/**
+	 * This function extracts the set of vertices from a list of simplices and returns a 2-d
+	 * array containing the vertices.
+	 * 
+	 * @param simplices
+	 * @return the vertices for a list of simplices
+	 */
+	public static int[][] extractVertices(List<Simplex> simplices) {
+		if (simplices.size() < 1) {
+			return new int[0][0];
+		}
+
+		int[][] vertices = new int[simplices.size()][];
+
+		int i = 0;
+		for (Simplex s : simplices) {
+			vertices[i++] = s.getVertices();
+		}
+
+		return vertices;
 	}
 }
