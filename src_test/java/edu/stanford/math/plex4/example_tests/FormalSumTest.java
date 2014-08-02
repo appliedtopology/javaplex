@@ -3,6 +3,10 @@ package edu.stanford.math.plex4.example_tests;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import edu.stanford.math.plex4.homology.chain_basis.Simplex;
 import edu.stanford.math.plex4.utility.FormalSumUtility;
 import edu.stanford.math.primitivelib.autogen.formal_sum.BooleanPrimitiveFreeModule;
@@ -12,18 +16,16 @@ import edu.stanford.math.primitivelib.autogen.formal_sum.ObjectSparseFormalSum;
 
 public class FormalSumTest {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-		testIntFormalSum();
-		testBooleanFormalSum();
-		testObjectFormalSum();
-		testSimplices();
+	@Before
+	public void setUp() throws Exception {
 	}
 
-	public static void testIntFormalSum() {
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void test() {
 		IntSparseFormalSum<String> sum = new IntSparseFormalSum<String>();
 
 		sum.put(1, "a");
@@ -78,9 +80,9 @@ public class FormalSumTest {
 	public static void testSimplices() {
 		IntSparseFormalSum<Simplex> sum = new IntSparseFormalSum<Simplex>();
 
-		sum.put(2, Simplex.makeSimplex(new int[]{0, 1, 3}));
-		sum.put(-5, Simplex.makeSimplex(new int[]{5, 6}));
-		
+		sum.put(2, Simplex.makeSimplex(new int[] { 0, 1, 3 }));
+		sum.put(-5, Simplex.makeSimplex(new int[] { 5, 6 }));
+
 		System.out.println("IntSparseFormalSum: " + sum);
 
 		List<Simplex> basisElements = FormalSumUtility.extractActiveBasisElements(sum);
@@ -88,12 +90,12 @@ public class FormalSumTest {
 		System.out.println("basis elements: " + basisElements);
 
 		int[][] vertices = FormalSumUtility.extractVertices(basisElements);
-		
+
 		System.out.println("vertices:");
-		
-		for(int[] v : vertices) {
+
+		for (int[] v : vertices) {
 			System.out.println(Arrays.toString(v));
 		}
-			
+
 	}
 }
