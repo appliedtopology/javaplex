@@ -135,23 +135,23 @@ public class HomologyGeneratorVisualizer extends AbstractVisualizer {
 			switch (simplex.getDimension()) {
 			case 0:
 				pushMatrix();
-				translate((float) pointsViz[ix[0]][0], (float) pointsViz[ix[0]][1], (float) pointsViz[ix[0]][2]);
+				translate(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
 				sphere(r);
 				popMatrix();
 				break;
 			case 1:
 				beginShape();
-				vertex((float) pointsViz[ix[0]][0], (float) pointsViz[ix[0]][1], (float) pointsViz[ix[0]][2]);
-				vertex((float) pointsViz[ix[1]][0], (float) pointsViz[ix[1]][1], (float) pointsViz[ix[1]][2]);
+				vertex(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
+				vertex(pointsViz[ix[1]][0], pointsViz[ix[1]][1], pointsViz[ix[1]][2]);
 				endShape();
 				break;
 			case 2:
 				if (fillTriangles) {
 					beginShape();
-					vertex((float) pointsViz[ix[0]][0], (float) pointsViz[ix[0]][1], (float) pointsViz[ix[0]][2]);
-					vertex((float) pointsViz[ix[1]][0], (float) pointsViz[ix[1]][1], (float) pointsViz[ix[1]][2]);
-					vertex((float) pointsViz[ix[2]][0], (float) pointsViz[ix[2]][1], (float) pointsViz[ix[2]][2]);
-					vertex((float) pointsViz[ix[0]][0], (float) pointsViz[ix[0]][1], (float) pointsViz[ix[0]][2]);
+					vertex(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
+					vertex(pointsViz[ix[1]][0], pointsViz[ix[1]][1], pointsViz[ix[1]][2]);
+					vertex(pointsViz[ix[2]][0], pointsViz[ix[2]][1], pointsViz[ix[2]][2]);
+					vertex(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
 					endShape();
 				}
 				break;

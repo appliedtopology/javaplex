@@ -104,7 +104,7 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 						topMargin);
 				// Compute the bar size
 				final int intCount = ints.size();
-				final float spacing = Math.min(maxBarSpacing, (float) barRegion.height / (2 * intCount - 1));
+				final float spacing = Math.min(maxBarSpacing, barRegion.height / (2 * intCount - 1));
 				final float barHeight = spacing;
 				// Calculate the bar scale
 				final float maxBarWidth = (float) maxFiltrationValue.doubleValue();
@@ -223,25 +223,25 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 				case 0:
 					fill(0);
 					pushMatrix();
-					translate((float) pointsViz[ix[0]][0], (float) pointsViz[ix[0]][1], (float) pointsViz[ix[0]][2]);
+					translate(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
 					sphere(r);
 					popMatrix();
 					break;
 				case 1:
 					fill(0);
 					beginShape();
-					vertex((float) pointsViz[ix[0]][0], (float) pointsViz[ix[0]][1], (float) pointsViz[ix[0]][2]);
-					vertex((float) pointsViz[ix[1]][0], (float) pointsViz[ix[1]][1], (float) pointsViz[ix[1]][2]);
+					vertex(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
+					vertex(pointsViz[ix[1]][0], pointsViz[ix[1]][1], pointsViz[ix[1]][2]);
 					endShape();
 					break;
 				case 2:
 					if (fillTriangles) {
 						fill(0, 0, 255, 20);
 						beginShape();
-						vertex((float) pointsViz[ix[0]][0], (float) pointsViz[ix[0]][1], (float) pointsViz[ix[0]][2]);
-						vertex((float) pointsViz[ix[1]][0], (float) pointsViz[ix[1]][1], (float) pointsViz[ix[1]][2]);
-						vertex((float) pointsViz[ix[2]][0], (float) pointsViz[ix[2]][1], (float) pointsViz[ix[2]][2]);
-						vertex((float) pointsViz[ix[0]][0], (float) pointsViz[ix[0]][1], (float) pointsViz[ix[0]][2]);
+						vertex(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
+						vertex(pointsViz[ix[1]][0], pointsViz[ix[1]][1], pointsViz[ix[1]][2]);
+						vertex(pointsViz[ix[2]][0], pointsViz[ix[2]][1], pointsViz[ix[2]][2]);
+						vertex(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
 						endShape();
 					}
 					break;
