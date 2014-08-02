@@ -38,7 +38,7 @@ To cite `javaPlex`, please consult the [Citation Information](https://github.com
 
 ## Updates
 
-* July, 2014: Version 4.2.1 released and is available in the [here](https://github.com/javaplex/javaplex/releases/tag/4.2.1)
+* July, 2014: Version 4.2.1 released and is available [here](https://github.com/javaplex/javaplex/releases/tag/4.2.1)
 * April, 2014: Google Code hosting abandoned
 * May, 2012: Version 4.1.0 released
 * For frequently asked questions regarding `javaPlex` and troubleshooting information, consult the [troubleshooting](https://github.com/javaplex/javaplex/wiki/Troubleshooting) page.
