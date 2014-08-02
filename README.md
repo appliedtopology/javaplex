@@ -10,10 +10,10 @@ For persistent homology and its capabilities, we recommend the survey article [T
 
 ## How to get started?
   
-* Start playing around with the latest [matlab examples](https://github.com/javaplex/javaplex/blob/master/dist/matlab-examples-4.2.0.tar.gz)
-* Read the [tutorial PDF](https://github.com/javaplex/javaplex/blob/master/reports/javaplex_tutorial/javaplex_tutorial.pdf) or the [tutorial wiki page](https://github.com/javaplex/javaplex/wiki/Tutorial)
+* Start playing around with the latest [matlab examples](https://github.com/javaplex/javaplex/releases/download/4.2.1/matlab-examples-4.2.1.zip)
+* Read the [tutorial PDF](https://github.com/javaplex/javaplex/releases/download/4.2.1/javaplex_tutorial.pdf) or the [tutorial wiki page](https://github.com/javaplex/javaplex/wiki/Tutorial)
 * Take a look at the [documentation overview](https://github.com/javaplex/javaplex/wiki/Overview)
-* Download the latest [jar file](https://github.com/javaplex/javaplex/blob/master/dist/javaplex-4.2.0.jar) and start playing with the Java code
+* Download the latest [jar file](https://github.com/javaplex/javaplex/releases/download/4.2.1/javaplex-4.2.1.jar) and start playing with the Java code
 
 ## For more information
 
@@ -38,7 +38,7 @@ To cite `javaPlex`, please consult the [Citation Information](https://github.com
 
 ## Updates
 
-* May, 2014: Version 4.2.0 released and is available in the [dist folder](https://github.com/javaplex/javaplex/tree/master/dist)
+* July, 2014: Version 4.2.1 released and is available in the [here](https://github.com/javaplex/javaplex/releases/tag/4.2.1)
 * April, 2014: Google Code hosting abandoned
 * May, 2012: Version 4.1.0 released
 * For frequently asked questions regarding `javaPlex` and troubleshooting information, consult the [troubleshooting](https://github.com/javaplex/javaplex/wiki/Troubleshooting) page.
