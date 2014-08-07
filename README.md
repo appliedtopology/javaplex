@@ -1,9 +1,9 @@
-# `javaPlex` Persistent Homology and Topological Data Analysis Library 
+# JavaPlex Persistent Homology and Topological Data Analysis Library 
 
 
-The `javaPlex` library implements persistent homology and related techniques from computational and applied topology, in a library designed for ease of use, ease of access from Matlab and java-based systems, and ease of extensions for further research projects and approaches.
+The `JavaPlex` library implements persistent homology and related techniques from computational and applied topology, in a library designed for ease of use, ease of access from Matlab and java-based systems, and ease of extensions for further research projects and approaches.
 
-`javaPlex` is mainly developed by the [Computational Topology workgroup](http://comptop.stanford.edu) at Stanford University, and is based on previous similar packages from the same group.
+`JavaPlex` is mainly developed by the [Computational Topology workgroup](http://comptop.stanford.edu) at Stanford University, and is based on previous similar packages from the same group.
 
 For persistent homology and its capabilities, we recommend the survey article [Topology and Data](http://www.ams.org/journals/bull/2009-46-02/S0273-0979-09-01249-X/S0273-0979-09-01249-X.pdf) by Gunnar Carlsson.
 
@@ -32,17 +32,17 @@ For persistent homology and its capabilities, we recommend the survey article [T
 * [Tutorial](https://github.com/javaplex/javaplex/wiki/Tutorial)
 
 
-## Citing `javaPlex`
+## Citing JavaPlex
 
-To cite `javaPlex`, please consult the [Citation Information](https://github.com/javaplex/javaplex/wiki/Citation-Information) page.
+To cite `JavaPlex`, please consult the [Citation Information](https://github.com/javaplex/javaplex/wiki/Citation-Information) page.
 
 ## Old Site
 
-`javaPlex` was formerly hosted at [https://code.google.com/p/javaplex/](https://code.google.com/p/javaplex/). As of spring 2014, we have moved to this present page at GitHub.
+`JavaPlex` was formerly hosted at [https://code.google.com/p/javaplex/](https://code.google.com/p/javaplex/). As of spring 2014, we have moved to this present page at GitHub.
 
 ## Updates
 
 * July, 2014: Version 4.2.1 released and is available [here](https://github.com/javaplex/javaplex/releases/tag/4.2.1)
 * April, 2014: Google Code hosting abandoned
 * May, 2012: Version 4.1.0 released
-* For frequently asked questions regarding `javaPlex` and troubleshooting information, consult the [troubleshooting](https://github.com/javaplex/javaplex/wiki/Troubleshooting) page.
+* For frequently asked questions regarding `JavaPlex` and troubleshooting information, consult the [troubleshooting](https://github.com/javaplex/javaplex/wiki/Troubleshooting) page.
