@@ -1,4 +1,6 @@
-# JavaPlex Persistent Homology and Topological Data Analysis Library 
+# JavaPlex
+
+## Persistent Homology and Topological Data Analysis Library 
 
 
 The `JavaPlex` library implements persistent homology and related techniques from computational and applied topology, in a library designed for ease of use, ease of access from Matlab and java-based systems, and ease of extensions for further research projects and approaches.
@@ -7,7 +9,7 @@ The `JavaPlex` library implements persistent homology and related techniques fro
 
 For persistent homology and its capabilities, we recommend the survey article [Topology and Data](http://www.ams.org/journals/bull/2009-46-02/S0273-0979-09-01249-X/S0273-0979-09-01249-X.pdf) by Gunnar Carlsson.
 
-## How to get started?
+## How to get started?
   
 * Start playing around with the latest [matlab examples](https://github.com/javaplex/javaplex/releases/download/4.2.1/matlab-examples-4.2.1.zip)
 * Read the [tutorial PDF](https://github.com/javaplex/javaplex/releases/download/4.2.1/javaplex_tutorial.pdf) or the [tutorial wiki page](https://github.com/javaplex/javaplex/wiki/Tutorial)
