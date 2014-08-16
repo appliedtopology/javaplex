@@ -5,4 +5,6 @@ public interface IntFilterFunction {
 	
 	double getMaxValue();
 	double getMinValue();
+	
+	double[] getValues();
 }

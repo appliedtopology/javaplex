@@ -102,6 +102,36 @@ public class RandomUtility {
 		}
 		return randomInt;
 	}
+	
+	/**
+	 * This function returns an array of normally distributed
+	 * random numbers.
+	 * 
+	 * @param length the length of the array to create
+	 * @param normalize whether to normalize the vector or not
+	 * @return an array containing normally distributed random numbers
+	 */
+	public static double[] normalArray(int length, boolean normalize) {
+		ExceptionUtility.verifyPositive(length);
+		double[] values = new double[length];
+		
+		double squareSum = 0;
+		
+		for (int i = 0; i < length; i++) {
+			values[i] = nextNormal();
+			squareSum += values[i] * values[i];
+		}
+		
+		if (normalize) {
+			double norm = Math.sqrt(squareSum);
+			
+			for (int i = 0; i < length; i++) {
+				values[i] = values[i] / norm;
+			}
+		}
+		
+		return values;
+	}
 
 	/**
 	 * This function returns an array of uniformly distributed

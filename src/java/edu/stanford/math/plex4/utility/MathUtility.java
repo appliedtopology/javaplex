@@ -220,4 +220,15 @@ public class MathUtility {
 	public static double gaussianDensity(double x, double mean, double standardDeviation) {
 		return (gaussianDensity((x - mean) / standardDeviation) / standardDeviation);
 	}
+	
+	
+	public static double dotProduct(double[] a, double[] b) {
+		double result = 0;
+		
+		for(int i = 0; i < a.length && i < b.length; i++) {
+			result += a[i] * b[i];
+		}
+		
+		return result;
+	}
 }
