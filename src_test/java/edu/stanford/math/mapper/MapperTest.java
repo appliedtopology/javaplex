@@ -1,9 +1,11 @@
 package edu.stanford.math.mapper;
 
+import java.io.IOException;
 import java.util.List;
 
 import edu.stanford.math.plex4.examples.PointCloudExamples;
 import edu.stanford.math.plex4.graph.AbstractWeightedUndirectedGraph;
+import edu.stanford.math.plex4.graph.io.GraphDotWriter;
 import edu.stanford.math.plex4.metric.impl.EuclideanMetricSpace;
 import edu.stanford.math.plex4.streams.filter.RandomProjectionFilterFunction;
 import gnu.trove.TIntHashSet;
@@ -30,6 +32,13 @@ public class MapperTest {
 
 		System.out.println(graph);
 		
+		GraphDotWriter writer = new GraphDotWriter();
+		
+		try {
+			writer.writeToFile(graph, "out.dot");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

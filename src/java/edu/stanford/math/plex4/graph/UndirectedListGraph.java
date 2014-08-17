@@ -54,7 +54,12 @@ public class UndirectedListGraph implements AbstractUndirectedGraph {
 		this.numVertices = numVertices;
 		this.adjacencySets = new TIntObjectHashMap<TIntHashSet>();
 	}
-
+	
+	public UndirectedListGraph(final int numVertices, final TIntObjectHashMap<TIntHashSet> adjacencySets) {
+		this.numVertices = numVertices;
+		this.adjacencySets = adjacencySets;
+	}
+	
 	/**
 	 * This constructor initializes the graph with the contents of another
 	 * graph.

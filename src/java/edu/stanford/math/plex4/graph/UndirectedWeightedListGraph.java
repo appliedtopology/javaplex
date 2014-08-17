@@ -6,9 +6,11 @@ package edu.stanford.math.plex4.graph;
 import edu.stanford.math.plex4.utility.ExceptionUtility;
 import edu.stanford.math.primitivelib.autogen.pair.IntIntPair;
 import gnu.trove.TIntDoubleHashMap;
+import gnu.trove.TIntDoubleIterator;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIntHashMap;
 import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TIntObjectIterator;
 
 import java.util.Iterator;
 
@@ -133,9 +135,40 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 		}
 	}
 
+	public TIntObjectHashMap<TIntHashSet> getUnweightedAdjacencySets() {
+		TIntObjectHashMap<TIntHashSet> result = new TIntObjectHashMap<TIntHashSet>();
+		
+		TIntObjectIterator<TIntDoubleHashMap> iterator = adjacencySets.iterator();
+		
+		while(iterator.hasNext()) {
+			iterator.advance();
+			
+			int i = iterator.key();
+			TIntDoubleHashMap value = iterator.value();
+			
+			TIntDoubleIterator iterator2 = value.iterator();
+			
+			TIntHashSet neighbors = new TIntHashSet();
+			
+			while(iterator2.hasNext()) {
+				iterator2.advance();
+				
+				int j = iterator2.key();
+				neighbors.add(j);
+			}
+			
+			result.put(i, neighbors);
+		}
+		
+		return result;
+	}
+	
+	public UndirectedListGraph toUnweightedGraph() {
+		return new UndirectedListGraph(this.numVertices, this.getUnweightedAdjacencySets());
+	}
+	
 	public Iterator<IntIntPair> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new UndirectedListEdgeIterator(this.getUnweightedAdjacencySets());
 	}
 
 	public int getDegree(int v) {
