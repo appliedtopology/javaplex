@@ -28,7 +28,7 @@
 
 \begin{document}
 
-\title{javaPlex Tutorial}
+\title{JavaPlex Tutorial}
 
 \author{Henry Adams}
 \email[H.~Adams]{hadams@math.duke.edu}
@@ -63,7 +63,7 @@
 % UPDATE: added example for double torus embedded in R^3.
 
 % TODO: is "ensureAllFaces" working as I expect? See representatives_example_HA and try changing dimensions.
-% UPDATE: See javaplex Issue 20 created by Andrew.
+% UPDATE: See JavaPlex Issue 20 created by Andrew.
 
 % TODO: add exercise numbers to tutorial wiki.
 
@@ -81,13 +81,13 @@
 \section{Introduction}
 
 
-\subsection{javaPlex}
+\subsection{JavaPlex}
 
-javaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. javaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo Johansson. The main motivation for the development of javaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for javaPlex is \url{http://javaplex.github.io/javaplex/}, the documentation overview is at \url{https://github.com/javaplex/javaplex/wiki/Overview}, and the javadoc tree for the library is at \url{http://javaplex.github.io/javaplex/doc.4.2.0/}.
+JavaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. JavaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo Johansson. The main motivation for the development of JavaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for JavaPlex is \url{http://javaplex.github.io/javaplex/}, the documentation overview is at \url{https://github.com/javaplex/javaplex/wiki/Overview}, and the javadoc tree for the library is at \url{http://javaplex.github.io/javaplex/doc.4.2.0/}.
 
-This tutorial is written for those using javaPlex with Matlab. However, one can run javaPlex without Matlab; see \url{https://github.com/javaplex/javaplex/wiki/Interoperability}.
+This tutorial is written for those using JavaPlex with Matlab. However, one can run JavaPlex without Matlab; see \url{https://github.com/javaplex/javaplex/wiki/Interoperability}.
 
-If you are interested in javaPlex, then you may also be interested in the software package Dionysus by Dmitriy Morozov (\url{http://www.mrzv.org/software/dionysus}) or the software package Persus by Vidit Nanda (\url{http://www.sas.upenn.edu/~vnanda/perseus/index.html}).
+If you are interested in JavaPlex, then you may also be interested in the software package Dionysus by Dmitriy Morozov (\url{http://www.mrzv.org/software/dionysus}) or the software package Persus by Vidit Nanda (\url{http://www.sas.upenn.edu/~vnanda/perseus/index.html}).
 
 Some of the exercises in this tutorial are borrowed from Vin de Silva's {\em Plexercises}, available at \url{http://comptop.stanford.edu/u/programs/Plexercises2.pdf}.
 
@@ -96,7 +96,7 @@ Please email Henry at \texttt{hadams@math.duke.edu} or Andrew at \texttt{andrew.
 
 \subsection{License}
 
-javaPlex is an open source software package under the Open BSD License. The source code can be found at \url{https://github.com/javaplex/javaplex}.
+JavaPlex is an open source software package under the Open BSD License. The source code can be found at \url{https://github.com/javaplex/javaplex}.
 
 
 \subsection{Installation for Matlab}
@@ -107,9 +107,9 @@ Open Matlab and check which version of Java is being used. In this tutorial, the
 ans = Java 1.5.0_13 with Apple Inc.   Java Hotspot(TM) Client VM mixed mode, sharing
 \end{verbatim} \end{quote}
 
-javaPlex requires version number \texttt{1.5} or higher. 
+JavaPlex requires version number \texttt{1.5} or higher. 
 
-To install javaPlex for Matlab, go the the website \url{https://github.com/javaplex/javaplex/tree/master/dist}. Download the zip file containing the Matlab examples. It should be called something like \texttt{matlab-examples\-4.2.0.tar.gz}. Extract the zip file. The resulting folder should be called \texttt{matlab\_examples}.
+To install JavaPlex for Matlab, go the the website \url{https://github.com/javaplex/javaplex/tree/master/dist}. Download the zip file containing the Matlab examples. It should be called something like \texttt{matlab-examples\-4.2.0.tar.gz}. Extract the zip file. The resulting folder should be called \texttt{matlab\_examples}.
 
 Change directories in Matlab to \texttt{matlab\_examples}. Run the \texttt{load\_javaplex.m} file. 
 
@@ -117,7 +117,7 @@ Change directories in Matlab to \texttt{matlab\_examples}. Run the \texttt{load\
 >> load_javaplex
 \end{verbatim} \end{quote}
 
-Installation is complete. Confirm that javaPlex is working properly with the following command.
+Installation is complete. Confirm that JavaPlex is working properly with the following command.
 
 \begin{quote} \begin{verbatim}
 >> api.Plex4.createExplicitSimplexStream()
@@ -128,7 +128,7 @@ Your output should be the same except for the last several characters. Each time
 
 
 \subsection{Java heap size}
-Depending on the size of your javaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial.
+Depending on the size of your JavaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial.
 
 The following command returns your maximum heap size in bytes.
 \begin{quote} \texttt{>> java.lang.Runtime.getRuntime.maxMemory\\
@@ -213,7 +213,7 @@ Betti numbers help describe the homology of a simplicial complex $X$. The value 
 
 
 \subsection{Filtered simplicial complexes}
-A filtration on a simplicial complex $X$ is a collection of subcomplexes $\{X(t) \ |\ t\in \mathbb{R}\}$ of $X$ such that $X(t) \subset X(s)$ whenever $t\leq s$. The filtration time of a simplex $\sigma \in X$ is the smallest $t$ such that $\sigma \in X(t)$. In javaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. 
+A filtration on a simplicial complex $X$ is a collection of subcomplexes $\{X(t) \ |\ t\in \mathbb{R}\}$ of $X$ such that $X(t) \subset X(s)$ whenever $t\leq s$. The filtration time of a simplex $\sigma \in X$ is the smallest $t$ such that $\sigma \in X(t)$. In JavaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. 
 % Introduce filtered chain complexes?
 
 
@@ -227,7 +227,7 @@ Persistent homology depends heavily on functoriality: for $t\leq s$, the inclusi
 
 \section{Explicit simplex streams}\label{explicitStream}
 
-In javaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. The class ExplicitSimplexStream allows one to build a simplicial complex from scratch. In Section \ref{sfpc} we will learn about other automated methods of generating simplicial complexes; namely the Vietoris--Rips, witness, and lazy witness constructions. 
+In JavaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. The class ExplicitSimplexStream allows one to build a simplicial complex from scratch. In Section \ref{sfpc} we will learn about other automated methods of generating simplicial complexes; namely the Vietoris--Rips, witness, and lazy witness constructions. 
 
 
 \subsection{Computing homology}
@@ -253,7 +253,7 @@ The Matlab script corresponding to this section is \href{https://github.com/java
 \end{figure}
 \FloatBarrier
 
-To build a simplicial complex in javaPlex we simply build a stream in which all filtration times are zero. First we create an empty explicit simplex stream. Many command lines in this tutorial will end with a semicolon to supress unwanted output.
+To build a simplicial complex in JavaPlex we simply build a stream in which all filtration times are zero. First we create an empty explicit simplex stream. Many command lines in this tutorial will end with a semicolon to supress unwanted output.
 
 \begin{quote} \begin{verbatim} 
 >> stream = api.Plex4.createExplicitSimplexStream();
@@ -560,7 +560,7 @@ point_cloud =
     0    3
 \end{verbatim} \end{quote}
 
-Or, these coordinates are stored as a javaPlex example.
+Or, these coordinates are stored as a JavaPlex example.
 
 \begin{quote} \begin{verbatim}
 >> point_cloud = examples.PointCloudExamples.getHouseExample();
@@ -1191,8 +1191,8 @@ The projection of $X^5(300,30)$ in Figure (a) shows a circle. It is called the r
 \section{Remarks} 
 
 
-\subsection{Matlab functions with javaPlex commands}\label{matlabFunctions}
-Writing Matlab functions is very useful. In order to include javaPlex commands in an m-file function, include the command \texttt{import edu.stanford.math.plex4.*;} as the second line of the function ---  that is, as the first line underneath the function header. We include the m-file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}} as an example Matlab function.
+\subsection{Matlab functions with JavaPlex commands}\label{matlabFunctions}
+Writing Matlab functions is very useful. In order to include JavaPlex commands in an m-file function, include the command \texttt{import edu.stanford.math.plex4.*;} as the second line of the function ---  that is, as the first line underneath the function header. We include the m-file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}} as an example Matlab function.
 
 {\em Euler characteristic example.}
 The corresponding Matlab script is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/euler_characteristic_example.m}{\texttt{euler\_characteristic\_example.m}}, and it relies on the file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}}. 
@@ -1230,7 +1230,7 @@ It is possible to compute the bottleneck distance between two barcodes. For an e
 
 
 %\subsection{Java heap size}
-%Depending on the size of your javaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial. 
+%Depending on the size of your JavaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial. 
 
 %The following command returns your maximum heap size in bytes.
 %\begin{quote} \begin{verbatim} 
@@ -1241,7 +1241,7 @@ It is possible to compute the bottleneck distance between two barcodes. For an e
 
 
 %\subsection{From Java variables to Matlab variables}
-%Some javaPlex commands return Java variables, when instead one might want output in the form of a Matlab variable, such as a matrix of numbers. One way to transform Java variables into Matlab variables is by using an m-file. For instance, in Section ?? %\ref{explicitStream} 
+%Some JavaPlex commands return Java variables, when instead one might want output in the form of a Matlab variable, such as a matrix of numbers. One way to transform Java variables into Matlab variables is by using an m-file. For instance, in Section ?? %\ref{explicitStream} 
 % no
 %we used the m-file \texttt{interval2mat.m} to take an array of type PersistenceInterval into a Matlab matrix. Similarly, the m-file \texttt{betti2mat.m} accepts input of type \texttt{Plex.BettiNumbers} and returns a Matlab vector of integers. These commands are typically used as shown below, where \texttt{intervals} is an array of type PersistenceInterval.
 
