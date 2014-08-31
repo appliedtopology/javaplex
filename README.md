@@ -11,32 +11,32 @@ For persistent homology and its capabilities, we recommend the survey article [T
 
 ## How to get started?
   
-* Start playing around with the latest [matlab examples](https://github.com/javaplex/javaplex/releases/download/4.2.1/matlab-examples-4.2.1.zip)
-* Read the [tutorial PDF](https://github.com/javaplex/javaplex/releases/download/4.2.1/javaplex_tutorial.pdf) or the [tutorial wiki page](https://github.com/javaplex/javaplex/wiki/Tutorial)
-* Take a look at the [documentation overview](https://github.com/javaplex/javaplex/wiki/Overview)
-* Download the latest [jar file](https://github.com/javaplex/javaplex/releases/download/4.2.1/javaplex-4.2.1.jar) and start playing with the Java code
-* Take a look at the [latest release](https://github.com/javaplex/javaplex/releases/tag/4.2.1)
+* Start playing around with the latest [matlab examples](https://github.com/appliedtopology/javaplex/releases/download/4.2.1/matlab-examples-4.2.1.zip)
+* Read the [tutorial PDF](https://github.com/appliedtopology/javaplex/releases/download/4.2.1/javaplex_tutorial.pdf) or the [tutorial wiki page](https://github.com/appliedtopology/javaplex/wiki/Tutorial)
+* Take a look at the [documentation overview](https://github.com/appliedtopology/javaplex/wiki/Overview)
+* Download the latest [jar file](https://github.com/appliedtopology/javaplex/releases/download/4.2.1/javaplex-4.2.1.jar) and start playing with the Java code
+* Take a look at the [latest release](https://github.com/appliedtopology/javaplex/releases/tag/4.2.1)
 
 ## For more information
 
-* Read the [wiki page documentation](https://github.com/javaplex/javaplex/wiki/Overview)
-* Look at the [javadoc documentation](http://javaplex.github.io/javaplex/doc.4.2.0/)
+* Read the [wiki page documentation](https://github.com/appliedtopology/javaplex/wiki/Overview)
+* Look at the [javadoc documentation](http://appliedtopology.github.io/javaplex/doc.4.2.0/)
 
 ## Wiki links
 
-* [Architecture Notes](https://github.com/javaplex/javaplex/wiki/Architecture-Notes)
-* [Citation Information](https://github.com/javaplex/javaplex/wiki/Citation-Information)
-* [Cohomology](https://github.com/javaplex/javaplex/wiki/)
-* [Home](https://github.com/javaplex/javaplex/wiki/Home)
-* [Interoperability](https://github.com/javaplex/javaplex/wiki/Interoperability)
-* [Overview](https://github.com/javaplex/javaplex/wiki/Overview)
-* [Troubleshooting](https://github.com/javaplex/javaplex/wiki/Troubleshooting)
-* [Tutorial](https://github.com/javaplex/javaplex/wiki/Tutorial)
+* [Architecture Notes](https://github.com/appliedtopology/javaplex/wiki/Architecture-Notes)
+* [Citation Information](https://github.com/appliedtopology/javaplex/wiki/Citation-Information)
+* [Cohomology](https://github.com/appliedtopology/javaplex/wiki/)
+* [Home](https://github.com/appliedtopology/javaplex/wiki/Home)
+* [Interoperability](https://github.com/appliedtopology/javaplex/wiki/Interoperability)
+* [Overview](https://github.com/appliedtopology/javaplex/wiki/Overview)
+* [Troubleshooting](https://github.com/appliedtopology/javaplex/wiki/Troubleshooting)
+* [Tutorial](https://github.com/appliedtopology/javaplex/wiki/Tutorial)
 
 
 ## Citing JavaPlex
 
-To cite `JavaPlex`, please consult the [Citation Information](https://github.com/javaplex/javaplex/wiki/Citation-Information) page.
+To cite `JavaPlex`, please consult the [Citation Information](https://github.com/appliedtopology/javaplex/wiki/Citation-Information) page.
 
 ## Old Site
 
@@ -44,7 +44,7 @@ To cite `JavaPlex`, please consult the [Citation Information](https://github.com
 
 ## Updates
 
-* July, 2014: Version 4.2.1 released and is available [here](https://github.com/javaplex/javaplex/releases/tag/4.2.1)
+* July, 2014: Version 4.2.1 released and is available [here](https://github.com/appliedtopology/javaplex/releases/tag/4.2.1)
 * April, 2014: Google Code hosting abandoned
 * May, 2012: Version 4.1.0 released
-* For frequently asked questions regarding `JavaPlex` and troubleshooting information, consult the [troubleshooting](https://github.com/javaplex/javaplex/wiki/Troubleshooting) page.
+* For frequently asked questions regarding `JavaPlex` and troubleshooting information, consult the [troubleshooting](https://github.com/appliedtopology/javaplex/wiki/Troubleshooting) page.
