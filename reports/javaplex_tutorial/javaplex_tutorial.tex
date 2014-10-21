@@ -83,9 +83,9 @@
 
 \subsection{JavaPlex}
 
-JavaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. JavaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo Johansson. The main motivation for the development of JavaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for JavaPlex is \url{http://javaplex.github.io/javaplex/}, the documentation overview is at \url{https://github.com/javaplex/javaplex/wiki/Overview}, and the javadoc tree for the library is at \url{http://javaplex.github.io/javaplex/doc.4.2.0/}.
+JavaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. JavaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo Johansson. The main motivation for the development of JavaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for JavaPlex is \url{http://appliedtopology.github.io/javaplex/}, the documentation overview is at \url{https://github.com/appliedtopology/javaplex/wiki/Overview}, and the javadoc tree for the library is at \url{http://appliedtopology.github.io/javaplex/doc.4.2.0/}.
 
-This tutorial is written for those using JavaPlex with Matlab. However, one can run JavaPlex without Matlab; see \url{https://github.com/javaplex/javaplex/wiki/Interoperability}.
+This tutorial is written for those using JavaPlex with Matlab. However, one can run JavaPlex without Matlab; see \url{https://github.com/appliedtopology/javaplex/wiki/Interoperability}.
 
 If you are interested in JavaPlex, then you may also be interested in the software package Dionysus by Dmitriy Morozov (\url{http://www.mrzv.org/software/dionysus}) or the software package Persus by Vidit Nanda (\url{http://www.sas.upenn.edu/~vnanda/perseus/index.html}).
 
@@ -96,7 +96,7 @@ Please email Henry at \texttt{hadams@math.duke.edu} or Andrew at \texttt{andrew.
 
 \subsection{License}
 
-JavaPlex is an open source software package under the Open BSD License. The source code can be found at \url{https://github.com/javaplex/javaplex}.
+JavaPlex is an open source software package under the Open BSD License. The source code can be found at \url{https://github.com/appliedtopology/javaplex}.
 
 
 \subsection{Installation for Matlab}
@@ -109,7 +109,7 @@ ans = Java 1.5.0_13 with Apple Inc.   Java Hotspot(TM) Client VM mixed mode, sha
 
 JavaPlex requires version number \texttt{1.5} or higher. 
 
-To install JavaPlex for Matlab, go the the website \url{https://github.com/javaplex/javaplex/tree/master/dist}. Download the zip file containing the Matlab examples. It should be called something like \texttt{matlab-examples\-4.2.0.tar.gz}. Extract the zip file. The resulting folder should be called \texttt{matlab\_examples}.
+To install JavaPlex for Matlab, go the the website \url{https://github.com/appliedtopology/javaplex/}. Download the zip file from the latest release containing the Matlab examples. It should be called something like \texttt{matlab-examples\-4.2.0.tar.gz}. Extract the zip file. The resulting folder should be called \texttt{matlab\_examples}.
 
 Change directories in Matlab to \texttt{matlab\_examples}. Run the \texttt{load\_javaplex.m} file. 
 
@@ -139,54 +139,54 @@ My Matlab installation sets the limit to approximately 128 megabytes by default.
 
 \subsection{Accompanying files}
 
-The following Matlab scripts containing the commands in this tutorial are available in the folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}. This means that you don't need to type in each command individually.
+The following Matlab scripts containing the commands in this tutorial are available in the folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}. This means that you don't need to type in each command individually.
 % Add note? DONT copy and paste commands from pdf
 \begin{itemize}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/bottleneck_distance_example.m}{\texttt{bottleneck\_distance\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/core_subsets_example.m}{\texttt{core\_subsets\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/euler_characteristic_example.m}{\texttt{euler\_characteristic\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_metric_space_example.m}{\texttt{explicit\_metric\_space\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_simplex_example.m}{\texttt{explicit\_simplex\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/house_example.m}{\texttt{house\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/image_patch_example.m}{\texttt{image\_patch\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/landmark_example.m}{\texttt{landmark\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/lazy_witness_example.m}{\texttt{lazy\_witness\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointcloud_example.m}{\texttt{pointcloud\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/rips_example.m}{\texttt{rips\_example.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/witness_example.m}{\texttt{witness\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/bottleneck_distance_example.m}{\texttt{bottleneck\_distance\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/core_subsets_example.m}{\texttt{core\_subsets\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/euler_characteristic_example.m}{\texttt{euler\_characteristic\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_metric_space_example.m}{\texttt{explicit\_metric\_space\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_simplex_example.m}{\texttt{explicit\_simplex\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/house_example.m}{\texttt{house\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/image_patch_example.m}{\texttt{image\_patch\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/landmark_example.m}{\texttt{landmark\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/lazy_witness_example.m}{\texttt{lazy\_witness\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointcloud_example.m}{\texttt{pointcloud\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/rips_example.m}{\texttt{rips\_example.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/witness_example.m}{\texttt{witness\_example.m}}
 \end{itemize}
-The folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}} also contains the following Matlab functions
+The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}} also contains the following Matlab functions
 \begin{itemize}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/coreSubset.m}{\texttt{coreSubset.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/kDensitySlow.m}{\texttt{kDensitySlow.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/coreSubset.m}{\texttt{coreSubset.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/kDensitySlow.m}{\texttt{kDensitySlow.m}}
 \end{itemize}
 and the following Matlab data files
 \begin{itemize}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsTorusGrid.mat}{\texttt{pointsTorusGrid.mat}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsTorusGrid.mat}{\texttt{pointsTorusGrid.mat}}
 \end{itemize}
 which are used in this tutorial. 
 
-The folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} contains the following solution scripts to tutorial exercises.
+The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} contains the following solution scripts to tutorial exercises.
 \begin{itemize}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_1.m}{\texttt{exercise\_1.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_2.m}{\texttt{exercise\_2.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_3.m}{\texttt{exercise\_3.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_4.m}{\texttt{exercise\_4.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_5.m}{\texttt{exercise\_5.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_6.m}{\texttt{exercise\_6.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_8.m}{\texttt{exercise\_8.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_9.m}{\texttt{exercise\_9.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_16.m}{\texttt{exercise\_16.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_17.m}{\texttt{exercise\_17.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_18.m}{\texttt{exercise\_18.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_19.m}{\texttt{exercise\_19.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/getDoubleTorusPoints.m}{\texttt{getDoubleTorusPoints.m}}
-\item \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_1.m}{\texttt{exercise\_1.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_2.m}{\texttt{exercise\_2.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_3.m}{\texttt{exercise\_3.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_4.m}{\texttt{exercise\_4.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_5.m}{\texttt{exercise\_5.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_6.m}{\texttt{exercise\_6.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_8.m}{\texttt{exercise\_8.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_9.m}{\texttt{exercise\_9.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_16.m}{\texttt{exercise\_16.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_17.m}{\texttt{exercise\_17.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_18.m}{\texttt{exercise\_18.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_19.m}{\texttt{exercise\_19.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/getDoubleTorusPoints.m}{\texttt{getDoubleTorusPoints.m}}
+\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}}
 \end{itemize}
 See Appendix \ref{A:solutions} for exercise solutions.
 
@@ -232,13 +232,13 @@ In JavaPlex, filtered simplicial complexes (or more generally filtered chain com
 
 \subsection{Computing homology}
 
-You should change your current Matlab directory to \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}, perhaps using the following command.
+You should change your current Matlab directory to \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}, perhaps using the following command.
 
 \begin{quote} \begin{verbatim} 
 >> cd tutorial_examples
 \end{verbatim} \end{quote}
 
-The Matlab script corresponding to this section is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_simplex_example.m}{\texttt{explicit\_simplex\_example.m}}, which is in the folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
+The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_simplex_example.m}{\texttt{explicit\_simplex\_example.m}}, which is in the folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}. You may copy and paste commands from this script into the Matlab window, or you may run the entire script at once with the following command.
 
 \begin{quote} \begin{verbatim} 
 >> explicit_simplex_example
@@ -379,7 +379,7 @@ Build a simplicial complex homeomorphic to the projective plane. Find its Betti 
 
 Let's build a stream with nontrivial filtration times. If your filtration times are not all integers, then please see the remark at the end of this section.
 
-{\em House example.} The Matlab script corresponding to this section is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/house_example.m}{\texttt{house\_example.m}}.
+{\em House example.} The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/house_example.m}{\texttt{house\_example.m}}.
 
 \begin{wrapfigure}{r}{1in}
 	\begin{center}
@@ -533,7 +533,7 @@ ans = 0
 A point cloud is a finite metric space, that is, a finite set of points equipped with a notion of distance. One can create a Euclidean metric space by specifying the coordinates of points in Euclidean space, or one can create an explicit metric space by specifying all pairwise distances between points. In Section \ref{sfpc} we will learn how to build streams from point cloud data. 
 
 
-\subsection{Euclidean metric spaces}\label{euc} The Matlab script corresponding to this section is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointcloud_example.m}{\texttt{pointcloud\_example.m}}. 
+\subsection{Euclidean metric spaces}\label{euc} The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointcloud_example.m}{\texttt{pointcloud\_example.m}}. 
 
 {\em House example.} Let's give Euclidean coordinates to the points of our house.
 
@@ -641,7 +641,7 @@ Plotting the third and fourth coordinates of each point shows a circle $S^1$.
 \subsection{Explicit metric spaces}
 We can also create a metric space from a distance matrix using the method \texttt{ExplicitMetricSpace}. For a point cloud in Euclidean space, this method is generally less convenient than the command \texttt{EuclideanMetricSpace}. However, method \texttt{ExplicitMetricSpace} can be used for a point cloud in an arbitrary (perhaps non-Euclidean) metric space. 
 
-The Matlab script corresponding to this section is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_metric_space_example.m}{\texttt{explicit\_metric\_space\_example.m}}. 
+The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_metric_space_example.m}{\texttt{explicit\_metric\_space\_example.m}}. 
 
 {\em House example.} The matrix \texttt{distances} summarizes the metric for our house points in Figure \ref{fig:housePointCloud}: entry $(i,j)$ is the distance from point $i$ to point $j$. 
 
@@ -733,7 +733,7 @@ Let  $d(\ \cdot\ ,\ \cdot \ )$ denote the distance between two points in metric 
 \end{itemize}
 Note that $\VR(Z,t) \subset \VR(Z,s)$ whenever $t\leq s$, so the Vietoris--Rips stream is a filtered simplicial complex. Since a Vietoris--Rips complex is the maximal simplicial complex that can be built on top of its 1-skeleton, it is a {\em flag complex}. 
 
-The Matlab script corresponding to this section is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/rips_example.m}{\texttt{rips\_example.m}}. 
+The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/rips_example.m}{\texttt{rips\_example.m}}. 
 
 {\em House example.} Let's build a Vietoris--Rips stream from the house point cloud in Section \ref{euc}. Note this stream is different than the explicit house stream we built in Section \ref{computingPersistentHomology}.
 
@@ -803,7 +803,7 @@ We build the Vietoris--Rips stream.
 >> num_divisions = 100;
 \end{verbatim} \end{quote}
 
-Load the file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsTorusGrid.mat}{\texttt{pointsTorusGrid.mat}}. The matrix \texttt{pointsTorusGrid} appears in your Matlab workspace.
+Load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsTorusGrid.mat}{\texttt{pointsTorusGrid.mat}}. The matrix \texttt{pointsTorusGrid} appears in your Matlab workspace.
 
 \begin{quote} \begin{verbatim}
 >> load pointsTorusGrid.mat
@@ -876,7 +876,7 @@ There are two common methods for selecting landmark points. The first is to choo
 
 Landmarks chosen using sequential maxmin tend to cover the dataset and to be spread apart from each other. A disadvantage is that outlier points tend to be selected. However, outlier points are less of an issue if one first takes dense core subsets as in Appendix \ref{A:core}. Sequential maxmin landmarks are used by \citet{Range} and \citet{KleinBottle}. 
 
-The Matlab script corresponding to this section is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/landmark_example.m}{\texttt{landmark\_example.m}}.
+The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/landmark_example.m}{\texttt{landmark\_example.m}}.
 
 {\em Figure 8 example.} We create a point cloud of 1,000 points from a figure eight.
 
@@ -948,7 +948,7 @@ Note that $\W(Z,L,t) \subset \W(Z,L,s)$ whenever $t\leq s$. Note that a landmark
 Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? 
 \end{exercise}
 
-The Matlab script corresponding to this section is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/witness_example.m}{\texttt{witness\_example.m}}.
+The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/witness_example.m}{\texttt{witness\_example.m}}.
 
 {\em Torus example.} Let's build a witness stream instance for 10,000 random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 sequential maxmin landmarks.
 
@@ -1029,7 +1029,7 @@ Repeat the above exercise with $\nu = 0$ and with $\nu = 2$.
 Check that the 1-skeleton of a witness complex $\W(Z,L,t)$ is the same as the 1-skeleton of a lazy witness complex $\LW_2(Z,L,t)$. As a consequence, $\LW_2(Z,L,t)$ is the flag complex of $\W(Z,L,t)$. 
 \end{exercise}
 
-{\em 2-sphere example.} The Matlab script corresponding to this example is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/lazy_witness_example.m}{\texttt{lazy\_witness\_example.m}}.
+{\em 2-sphere example.} The Matlab script corresponding to this example is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/lazy_witness_example.m}{\texttt{lazy\_witness\_example.m}}.
 
 We use parameter $\nu = 1$.
 
@@ -1095,11 +1095,11 @@ Sample points from an embedding of a double torus, that is, a surface of genus t
 
 \section{Example with real data}\label{real}
 
-We now do an example with real data. The corresponding Matlab script is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/image_patch_example.m}{\texttt{image\_patch\_example.m}}, and it relies on the files \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}} and \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}}. 
+We now do an example with real data. The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/image_patch_example.m}{\texttt{image\_patch\_example.m}}, and it relies on the files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}}. 
 
 In {\em On the nonlinear statistics of range image patches} \citep{Range}, we study a space of range image patches drawn from the Brown database \citep{Mumford}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a vector with 25 coordinates and think of our patches as point cloud data in $\mathbb{R}^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix \ref{A:core}). In \citet{Range} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from \citet{Range}: $X^5(300,30)$ has the topology of a circle. 
 
-Load the file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}}. The matrix \texttt{pointsRange} appears in your Matlab workspace.
+Load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}}. The matrix \texttt{pointsRange} appears in your Matlab workspace.
 
 \begin{quote} \begin{verbatim}
 >> load pointsRange.mat
@@ -1149,7 +1149,7 @@ The file \texttt{lazyRange.png} is saved to your current directory.
 
 The plots above show that for a long range, the circle Betti numbers $Betti_0 = Betti_1 = 1$ are obtained. Your plot should contain a similar range. This is good evidence that the core subset $X^5(300,30)$ is well-approximated by a circle. 
 
-Our $5\times 5$ normalized patches are currently in the pixel basis: every coordinate corresponds to the range value at one of the 25 pixels. The Discrete Cosine Transform (DCT) basis is a useful basis for our patches \citep{Range, Mumford}. We change to this basis in order to plot a projection of the loop evidenced by Figure \ref{fig:rangeBetti}. The method \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}} returns the DCT change-of-basis matrix for square patches of size specified by the input parameter.
+Our $5\times 5$ normalized patches are currently in the pixel basis: every coordinate corresponds to the range value at one of the 25 pixels. The Discrete Cosine Transform (DCT) basis is a useful basis for our patches \citep{Range, Mumford}. We change to this basis in order to plot a projection of the loop evidenced by Figure \ref{fig:rangeBetti}. The method \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}} returns the DCT change-of-basis matrix for square patches of size specified by the input parameter.
 
 %>> size(pointsRangeDct)
 %ans = 15000\quad 24 \hspace{30mm} \% 15000 points in DCT basis (representation)
@@ -1192,10 +1192,10 @@ The projection of $X^5(300,30)$ in Figure (a) shows a circle. It is called the r
 
 
 \subsection{Matlab functions with JavaPlex commands}\label{matlabFunctions}
-Writing Matlab functions is very useful. In order to include JavaPlex commands in an m-file function, include the command \texttt{import edu.stanford.math.plex4.*;} as the second line of the function ---  that is, as the first line underneath the function header. We include the m-file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}} as an example Matlab function.
+Writing Matlab functions is very useful. In order to include JavaPlex commands in an m-file function, include the command \texttt{import edu.stanford.math.plex4.*;} as the second line of the function ---  that is, as the first line underneath the function header. We include the m-file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}} as an example Matlab function.
 
 {\em Euler characteristic example.}
-The corresponding Matlab script is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/euler_characteristic_example.m}{\texttt{euler\_characteristic\_example.m}}, and it relies on the file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}}. 
+The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/euler_characteristic_example.m}{\texttt{euler\_characteristic\_example.m}}, and it relies on the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}}. 
 
 First we create a 6-dimensional sphere. 
 
@@ -1208,7 +1208,7 @@ First we create a 6-dimensional sphere.
 >> stream.finalizeStream();
 \end{verbatim} \end{quote}
 
-The function \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}} accepts an explicit simplex stream and its dimension as input. The function demonstrates two different methods for computing the Euler characteristic.
+The function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}} accepts an explicit simplex stream and its dimension as input. The function demonstrates two different methods for computing the Euler characteristic.
 
 \begin{quote} \begin{verbatim}
 >> eulerCharacteristic(stream, dimension)
@@ -1221,12 +1221,12 @@ of Betti numbers.
 
 \subsection{Displaying the simplices in a stream}
 
-It is possible to display the simplices in a stream, along with their filtration times. You can also obtain the vertices of each simplex as a Matlab matrix. For an example of how to do this, please see the file \href{https://github.com/javaplex/javaplex/blob/master/src/matlab/for_distribution/basic_examples/dump_example.m}{\texttt{dump\_example.m}} in the folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/basic_examples}{\texttt{basic\_examples}}.
+It is possible to display the simplices in a stream, along with their filtration times. You can also obtain the vertices of each simplex as a Matlab matrix. For an example of how to do this, please see the file \href{https://github.com/appliedtopology/javaplex/blob/master/src/matlab/for_distribution/basic_examples/dump_example.m}{\texttt{dump\_example.m}} in the folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/basic_examples}{\texttt{basic\_examples}}.
 
 
 \subsection{Computing the bottleneck distance}
 
-It is possible to compute the bottleneck distance between two barcodes. For an example of how to do this, please see the file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/bottleneck_distance_example.m}{\texttt{bottleneck\_distance\_example.m}} in the folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}.
+It is possible to compute the bottleneck distance between two barcodes. For an example of how to do this, please see the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/bottleneck_distance_example.m}{\texttt{bottleneck\_distance\_example.m}} in the folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}.
 
 
 %\subsection{Java heap size}
@@ -1269,7 +1269,7 @@ See \citet{KleinBottle} and \citet{WitnessComplexes} for an example using multip
 
 One way to estimate the density of a point $z$ in a point cloud $Z$ is as follows. Let $\rho_k(z)$ be the distance from $z$ to its $k$-th closest neighbor. Let the density estimate at $z$ be $\frac{1}{\rho_k(z)}$. Varying parameter $k$ gives a family of density estimates. Using a small value for $k$ gives a local density estimate, and using a larger value for $k$ gives a more global estimate. 
 
-For Euclidean datasets, one can use the m-file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/kDensitySlow.m}{\texttt{kDensitySlow.m}} to produce density estimates $\frac{1}{\rho_k}$. The following command is typical.
+For Euclidean datasets, one can use the m-file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/kDensitySlow.m}{\texttt{kDensitySlow.m}} to produce density estimates $\frac{1}{\rho_k}$. The following command is typical.
 
 \begin{quote} \begin{verbatim}
 >> densities = kDensitySlow(points, k); 
@@ -1277,7 +1277,7 @@ For Euclidean datasets, one can use the m-file \href{https://github.com/javaplex
 
 Input \texttt{points} is an $N\times n$ matrix of $N$ points in $\mathbb{R}^n$. Input $k$ is the density estimate parameter. Output \texttt{densities} is a vertical vertex of length $N$ containing the density estimate at each point. 
 
-M-file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/coreSubset.m}{\texttt{coreSubset.m}} builds a core subset. The following command is typical.
+M-file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/coreSubset.m}{\texttt{coreSubset.m}} builds a core subset. The following command is typical.
 
 \begin{quote} \begin{verbatim}
 >> core = coreSubset(points, densities, numPoints); 
@@ -1285,7 +1285,7 @@ M-file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_dis
 
 Inputs \texttt{points} and \texttt{densities} are as above. Output \texttt{core} is a $\texttt{numPoints}\times n$ matrix representing the \texttt{numPoints} densest points. 
 
-{\em Prime numbers example.} The Matlab script corresponding to this example is \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/core_subsets_example.m}{\texttt{core\_subsets\_example.m}}.
+{\em Prime numbers example.} The Matlab script corresponding to this example is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/core_subsets_example.m}{\texttt{core\_subsets\_example.m}}.
 
 The command \texttt{primes(3571)} returns a vector listing all prime numbers less than or equal to 3571, which is the 500-th prime. We think of these primes as points in $\mathbb{R}$ and build the core subset of the 10 densest points with density parameter $k = 1$.
 \begin{quote} \begin{verbatim} 
@@ -1329,7 +1329,7 @@ core50 =
  
 With $k = 50$, we expect the densest points to be slightly larger than the 25-th prime, which is 97. 
 
-{\em Note:} As its name suggests, the m-file \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/kDensitySlow.m}{\texttt{kDensitySlow.m}} is not the most efficient way to calculate $\rho_k$ for large datasets. There is a faster file \texttt{kDensity.m} for this purpose, which uses the kd-tree data structure. It is not included in the tutorial because it requires one to download a kd-tree package for Matlab, available at \url{http://www.mathworks.com/matlabcentral/fileexchange/21512-kd-tree-for-matlab}. Please email Henry at \texttt{hadams@math.duke.edu} if you're interested in using \texttt{kDensity.m}. 
+{\em Note:} As its name suggests, the m-file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/kDensitySlow.m}{\texttt{kDensitySlow.m}} is not the most efficient way to calculate $\rho_k$ for large datasets. There is a faster file \texttt{kDensity.m} for this purpose, which uses the kd-tree data structure. It is not included in the tutorial because it requires one to download a kd-tree package for Matlab, available at \url{http://www.mathworks.com/matlabcentral/fileexchange/21512-kd-tree-for-matlab}. Please email Henry at \texttt{hadams@math.duke.edu} if you're interested in using \texttt{kDensity.m}. 
 
 % What are the differences in timings between fast and slow versions?
 % It seems that k=300 is surprisingly slow with kDensity.m: 1108 seconds. Slower than kDensitySlow.m. Double check?
@@ -1341,14 +1341,14 @@ With $k = 50$, we expect the densest points to be slightly larger than the 25-th
 
 \section{Exercise solutions}\label{A:solutions}
 
-Several exercise solutions are accompanied by Matlab scripts, which are available in the folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}}.
+Several exercise solutions are accompanied by Matlab scripts, which are available in the folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}}.
 
 \begin{exerciseSol}
 Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices} \citep[page 107]{Hatcher}{\em . We recommend using a $3\times 3$ grid of 9 vertices.}
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_1.m}{\texttt{exercise\_1.m}} in folder \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_1.m}{\texttt{exercise\_1.m}} in folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides.
 \end{solution}
 
 \begin{figure}[htp]
@@ -1363,7 +1363,7 @@ Build a simplicial complex homeomorphic to the Klein bottle. Check that it has t
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_2.m}{\texttt{exercise\_2.m}} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides, with left and right sides identified with a twist. 
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_2.m}{\texttt{exercise\_2.m}} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides, with left and right sides identified with a twist. 
 \end{solution}
 
 \begin{figure}[htp]
@@ -1378,7 +1378,7 @@ Build a simplicial complex homeomorphic to the projective plane. Find its Betti 
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_3.m}{\texttt{exercise\_3.m}} for a solution. We use the minimal triangulation for the projective plane, which contains 6 vertices.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_3.m}{\texttt{exercise\_3.m}} for a solution. We use the minimal triangulation for the projective plane, which contains 6 vertices.
 \end{solution}
 
 \begin{figure}[htp]
@@ -1393,7 +1393,7 @@ Write a Matlab script or function that selects 1,000 random points from the squa
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_4.m}{\texttt{exercise\_4.m}} and the Matlab function \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_4.m}{\texttt{exercise\_4.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1401,7 +1401,7 @@ Write a Matlab script or function that selects 1,000 random points from the squa
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_5.m}{\texttt{exercise\_5.m}} and the Matlab function \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_5.m}{\texttt{exercise\_5.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1409,7 +1409,7 @@ Write a Matlab script or function that selects 1,000 random points from the unit
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_6.m}{\texttt{exercise\_6.m}} and the Matlab function \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_6.m}{\texttt{exercise\_6.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1425,7 +1425,7 @@ Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such t
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_8.m}{\texttt{exercise\_8.m}} for a solution. Our planar dataset is 6 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is an octahedron. 
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_8.m}{\texttt{exercise\_8.m}} for a solution. Our planar dataset is 6 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is an octahedron. 
 \end{solution}
 
 \begin{exerciseSol}
@@ -1433,7 +1433,7 @@ Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such t
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_9.m}{\texttt{exercise\_9.m}} for a solution. Our planar dataset is 14 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is homeomorphic to the 6-sphere. It has 14 vertices because it is obtained by suspending the 0-sphere six times, for a total of $2 + (6 \times 2) = 14$ vertices. 
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_9.m}{\texttt{exercise\_9.m}} for a solution. Our planar dataset is 14 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is homeomorphic to the 6-sphere. It has 14 vertices because it is obtained by suspending the 0-sphere six times, for a total of $2 + (6 \times 2) = 14$ vertices. 
 \end{solution}
 
 \begin{exerciseSol}
@@ -1495,7 +1495,7 @@ In Exercise \ref{Ex:flatTorus} you created an explicit metric space for 1,000 ra
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_16.m}{\texttt{exercise\_16.m}} and the Matlab function \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_16.m}{\texttt{exercise\_16.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1503,7 +1503,7 @@ In Exercise \ref{Ex:flatKlein} you created an explicit metric space for 1,000 ra
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_17.m}{\texttt{exercise\_17.m}} and the Matlab function \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_17.m}{\texttt{exercise\_17.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1511,7 +1511,7 @@ In Exercise \ref{Ex:quotProjPlane} you created an explicit metric space for 1,00
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_18.m}{\texttt{exercise\_18.m}} and the Matlab function \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_18.m}{\texttt{exercise\_18.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1519,7 +1519,7 @@ Sample points from an embedding of a double torus, that is, a surface of genus t
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_19.m}{\texttt{exercise\_19.m}} and the Matlab function \href{https://github.com/javaplex/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/getDoubleTorusPoints.m}{\texttt{getDoubleTorusPoints.m}}. Thanks to Ulrich Bauer for this solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_19.m}{\texttt{exercise\_19.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/getDoubleTorusPoints.m}{\texttt{getDoubleTorusPoints.m}}. Thanks to Ulrich Bauer for this solution.
 \end{solution}
 
 
