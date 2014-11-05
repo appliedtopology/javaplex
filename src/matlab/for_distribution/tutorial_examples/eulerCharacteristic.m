@@ -8,8 +8,6 @@ function  eulerCharacteristic(stream, max_dimension)
 %   This function prints two Euler characteristic calculations: the first
 %   using the alternating sum of cells, and the second using the 
 %   alternating sum of Betti numbers.
-%
-% henrya@math.stanford.edu and atausz@stanford.edu
 
 import edu.stanford.math.plex4.*;
 

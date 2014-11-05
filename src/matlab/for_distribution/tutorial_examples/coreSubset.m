@@ -9,8 +9,6 @@ function core = coreSubset(points, densities, numPoints)
 % OUTPUT:
 %   core - numPoints x n matrix of the top numPoints densest points (as 
 %       ranked by densities)
-%
-% henrya@math.stanford.edu
 
 [A,sortedDensityIndices] = sort(densities,'descend');
 core = points(sortedDensityIndices(1:numPoints),:);

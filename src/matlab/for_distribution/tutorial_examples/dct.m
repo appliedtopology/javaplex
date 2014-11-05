@@ -9,8 +9,6 @@ function changeBasisDct = dct(patchSize)
 %       one, in the pixel basis. We switch to the DCT (discrete cosine 
 %       transform) basis by multiplying by matrix changeBasisDct:
 %           pDct = p * changeBasisDct;
-%
-% henrya@math.stanford.edu
 
 changeBasisDct = zeros(patchSize^2,patchSize^2-1);
 v = zeros(patchSize^2,1);
