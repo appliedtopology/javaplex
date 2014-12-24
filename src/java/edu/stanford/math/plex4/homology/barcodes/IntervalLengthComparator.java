@@ -28,10 +28,10 @@ public class IntervalLengthComparator implements Comparator<Interval<Double>> {
 
 		Double length0 = arg0.getEnd() - arg0.getStart();
 		Double length1 = arg1.getEnd() - arg1.getStart();
-		if (length1 > length0) {
-			return 1;
-		} else if (length1 < length0) {
+		if (length0 < length1) {
 			return -1;
+		} else if (length0 > length1) {
+			return 1;
 		} else {
 			return 0;
 		}

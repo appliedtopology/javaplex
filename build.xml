@@ -22,17 +22,17 @@
 	<property name="doc.zipball" value="${dist.dir}/${project.name}-doc-${version.num}.zip" />
 	<property name="matlab.tarball" value="${dist.dir}/matlab-examples-${version.num}.tar.gz" />
 	<property name="matlab.zipball" value="${dist.dir}/matlab-examples-${version.num}.zip" />
-        <property name="processing.src.dir" value="src/processing/javaplex" />
+	<property name="processing.src.dir" value="src/processing/javaplex" />
 	<property name="processing.demo.src.dir" value="src/processing/javaplexDemo" />
 	<property name="processing.build.dir" value="build/processing/javaplex" />
-        <property name="processing.dist.dir" value="dist/processing" />
-        <property name="processing.jar" value="${processing.build.dir}/library/javaplex.jar" />
-        <property name="processing.zipball" value="${dist.dir}/${project.name}-processing-lib-${version.num}.zip" />
+	<property name="processing.dist.dir" value="dist/processing" />
+	<property name="processing.jar" value="${processing.build.dir}/library/javaplex.jar" />
+	<property name="processing.zipball" value="${dist.dir}/${project.name}-processing-lib-${version.num}.zip" />
 	<property name="processing.demo.zipball" value="${dist.dir}/${project.name}-processing-demo-${version.num}.zip" />
 	<property name="ant.build.javac.source" value="1.5" />
 	<property name="ant.build.javac.target" value="1.5" />
 
-        <buildnumber />
+	<buildnumber />
 
 	<path id="classpath">
 		<fileset dir="${lib.dir}">
@@ -85,7 +85,7 @@
 
 	<!--Bin targets-->
 	<target name="classes" depends="init">
-		<javac destdir="${bin.dir}" classpathref="classpath" debug="${debug.flag}" includeAntRuntime="false" source="1.5" target="1.5" >
+		<javac destdir="${bin.dir}" classpathref="classpath" debug="${debug.flag}" includeAntRuntime="false" source="1.5" target="1.5">
 			<compilerarg value="-Xlint" />
 			<src>
 				<pathelement path="${src.dir}" />
@@ -104,15 +104,15 @@
 				<include name="*.html" />
 				<include name="**/*.html" />
 			</tarfileset>
-        </tar>
-        <zip destfile="${doc.zipball}">
-            <zipfileset dir="doc" prefix="javadoc">
+		</tar>
+		<zip destfile="${doc.zipball}">
+			<zipfileset dir="doc" prefix="javadoc">
 				<include name="bshmanual.pdf" />
 				<include name="stylesheet.css" />
 				<include name="*.html" />
 				<include name="**/*.html" />
-            </zipfileset>
-        </zip>
+			</zipfileset>
+		</zip>
 	</target>
 
 	<target name="source_dist">
@@ -122,7 +122,7 @@
 				<exclude name="**.svn/**" />
 			</tarfileset>
 		</tar>
-        <zip destfile="${source.zipball}">
+		<zip destfile="${source.zipball}">
 			<zipfileset dir="${src.dir}/java" prefix="src/java">
 				<include name="**" />
 				<exclude name="**.svn/**" />
@@ -158,33 +158,33 @@
 				<include name="**" />
 			</tarfileset>
 		</tar>
-        <zip destfile="${matlab.zipball}">
-            <zipfileset dir="src/matlab/for_distribution" prefix="matlab_examples">
+		<zip destfile="${matlab.zipball}">
+			<zipfileset dir="src/matlab/for_distribution" prefix="matlab_examples">
 				<include name="**" />
 			</zipfileset>
 		</zip>
 	</target>
 
-        <target name="processing_dist" depends="runnable_jar">
-          <mkdir dir="${processing.build.dir}" />
-          <copy file="${runnable.jar}" tofile="${processing.jar}" />
-          <copy todir="${processing.build.dir}">
-            <fileset dir="${processing.src.dir}"/>
-            <filterset>
-              <filter token="VERSION" value="${build.number}" />
-              <filter token="PRETTYVERSION" value="${version.num}" />
-            </filterset>
-          </copy>
-          <zip destfile="${processing.zipball}">
-            <zipfileset dir="${processing.build.dir}" prefix="javaplex">
-              <include name="**" />
-            </zipfileset>
-          </zip>
-	  <zip destfile="${processing.demo.zipball}">
-            <zipfileset dir="${processing.demo.src.dir}" prefix="javaplexDemo">
-	      <include name="**" />
-	    </zipfileset>
-	  </zip>
+	<target name="processing_dist" depends="runnable_jar">
+		<mkdir dir="${processing.build.dir}" />
+		<copy file="${runnable.jar}" tofile="${processing.jar}" />
+		<copy todir="${processing.build.dir}">
+			<fileset dir="${processing.src.dir}" />
+			<filterset>
+				<filter token="VERSION" value="${build.number}" />
+				<filter token="PRETTYVERSION" value="${version.num}" />
+			</filterset>
+		</copy>
+		<zip destfile="${processing.zipball}">
+			<zipfileset dir="${processing.build.dir}" prefix="javaplex">
+				<include name="**" />
+			</zipfileset>
+		</zip>
+		<zip destfile="${processing.demo.zipball}">
+			<zipfileset dir="${processing.demo.src.dir}" prefix="javaplexDemo">
+				<include name="**" />
+			</zipfileset>
+		</zip>
 	</target>
 
 	<!--Basic Jar file-->
@@ -229,37 +229,37 @@
 			</batchtest>
 		</junit>
 	</target>
-	
-	
-			
-	<!-- Build visualization apps (uses Processing) -->	
-	<target name="homviz_build" depends="runnable_jar" description="Builds a jar for the Homologty Visualizer applet">	
+
+
+
+	<!-- Build visualization apps (uses Processing) -->
+	<target name="homviz_build" depends="runnable_jar" description="Builds a jar for the Homologty Visualizer applet">
 		<property name="app.dir" value="${src.dir}/homviz" />
 		<property name="app.lib.dir" value="${app.dir}/lib" />
-		<delete dir="${app.dir}"/>
-		<mkdir dir="${app.dir}"/>
-		<mkdir dir="${app.lib.dir}"/>
-		<copy file="${lib.dir}/core.jar" todir="${app.lib.dir}"/>
+		<delete dir="${app.dir}" />
+		<mkdir dir="${app.dir}" />
+		<mkdir dir="${app.lib.dir}" />
+		<copy file="${lib.dir}/core.jar" todir="${app.lib.dir}" />
 		<copy file="${runnable.jar}" tofile="${app.lib.dir}/javaplex.jar" />
 		<jar destfile="${app.dir}/homviz.jar">
 			<fileset dir="bin/edu/stanford/math/plex4/visualization">
-				<include name="**/*.class"/>
+				<include name="**/*.class" />
 			</fileset>
 			<manifest>
-				<attribute name="Main-Class" value="edu.stanford.math.plex4.visualization.HomologyVisualizer"/>
-				<attribute name="Class-Path" value="lib/core.jar lib/javaplex.jar"/>
+				<attribute name="Main-Class" value="edu.stanford.math.plex4.visualization.HomologyVisualizer" />
+				<attribute name="Class-Path" value="lib/core.jar lib/javaplex.jar" />
 			</manifest>
 		</jar>
 		<jar destfile="${app.dir}/homgenviz.jar">
-					<fileset dir="bin/edu/stanford/math/plex4/visualization">
-						<include name="**/*.class"/>
-					</fileset>
-					<manifest>
-						<attribute name="Main-Class" value="edu.stanford.math.plex4.visualization.HomologyGeneratorVisualizer"/>
-						<attribute name="Class-Path" value="lib/core.jar lib/javaplex.jar"/>
-					</manifest>
-				</jar>	
-	</target> 
+			<fileset dir="bin/edu/stanford/math/plex4/visualization">
+				<include name="**/*.class" />
+			</fileset>
+			<manifest>
+				<attribute name="Main-Class" value="edu.stanford.math.plex4.visualization.HomologyGeneratorVisualizer" />
+				<attribute name="Class-Path" value="lib/core.jar lib/javaplex.jar" />
+			</manifest>
+		</jar>
+	</target>
 
 
 
