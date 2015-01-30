@@ -36,7 +36,7 @@ intervals_dim1 = edu.stanford.math.plex4.homology.barcodes.BarcodeUtility.getEnd
 intervals = persistence.computeAnnotatedIntervals(stream)
 
 % get the infinite barcodes
-infinite_barcodes = intervals.getInfiniteIntervals();
+infinite_barcodes = intervals.getInfiniteIntervals()
 
 % print out betti numbers array
 betti_numbers_array = infinite_barcodes.getBettiSequence()
