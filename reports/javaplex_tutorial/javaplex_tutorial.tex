@@ -109,9 +109,9 @@ ans = Java 1.5.0_13 with Apple Inc.   Java Hotspot(TM) Client VM mixed mode, sha
 
 JavaPlex requires version number \texttt{1.5} or higher. 
 
-To install JavaPlex for Matlab, go to the latest release at \url{https://github.com/appliedtopology/javaplex/releases/latest/}. Download the zip file containing the Matlab examples, which should be called something like \texttt{matlab-examples\-4.2.1.tar.gz}. Extract the zip file. The resulting folder should be called \texttt{matlab\_examples}.
+To install JavaPlex for Matlab, go to the latest release at \url{https://github.com/appliedtopology/javaplex/releases/latest/}. Download the zip file containing the Matlab examples, which should be called something like \texttt{matlab-examples-4.2.1.zip}. Extract the zip file. The resulting folder should be called \texttt{matlab\_examples}; make sure you know the location of this folder and that it is not inside the zip file.
 
-Change directories in Matlab to \texttt{matlab\_examples}. Run the \texttt{load\_javaplex.m} file. 
+In Matlab, change Matlab's ``Current Folder" to the directory \texttt{matlab\_examples} that you just extracted from the zip file. Run the \texttt{load\_javaplex.m} file. 
 
 \begin{quote} \begin{verbatim} 
 >> load_javaplex
@@ -127,68 +127,10 @@ ans = edu.stanford.math.plex4.streams.impl.ExplicitSimplexStream@513fd4
 Your output should be the same except for the last several characters. Each time upon starting a new Matlab session, you will need to run \texttt{load\_javaplex.m}.
 
 
-\subsection{Java heap size}
-Depending on the size of your JavaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial.
-
-The following command returns your maximum heap size in bytes.
-\begin{quote} \texttt{>> java.lang.Runtime.getRuntime.maxMemory\\
-ans = 130875392
-} \end{quote}
-My Matlab installation sets the limit to approximately 128 megabytes by default. To increase your limit to, say, 1.5 gigabytes, create a file named \texttt{java.opts} in your Matlab directory which contains the text \texttt{-Xmx1500m} and then restart Matlab. For more information, please see this link: \url{http://www.mathworks.com/support/solutions/en/data/1-18I2C/}.
-
-
 \subsection{Accompanying files}
 
-The following Matlab scripts containing the commands in this tutorial are available in the folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}. This means that you don't need to type in each command individually.
-% Add note? DONT copy and paste commands from pdf
-\begin{itemize}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/bottleneck_distance_example.m}{\texttt{bottleneck\_distance\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/core_subsets_example.m}{\texttt{core\_subsets\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/euler_characteristic_example.m}{\texttt{euler\_characteristic\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_metric_space_example.m}{\texttt{explicit\_metric\_space\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_simplex_example.m}{\texttt{explicit\_simplex\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/house_example.m}{\texttt{house\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/image_patch_example.m}{\texttt{image\_patch\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/landmark_example.m}{\texttt{landmark\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/lazy_witness_example.m}{\texttt{lazy\_witness\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointcloud_example.m}{\texttt{pointcloud\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/rips_example.m}{\texttt{rips\_example.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/witness_example.m}{\texttt{witness\_example.m}}
-\end{itemize}
-The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}} also contains the following Matlab functions
-\begin{itemize}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/coreSubset.m}{\texttt{coreSubset.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/kDensitySlow.m}{\texttt{kDensitySlow.m}}
-\end{itemize}
-and the following Matlab data files
-\begin{itemize}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsTorusGrid.mat}{\texttt{pointsTorusGrid.mat}}
-\end{itemize}
-which are used in this tutorial. 
-
-The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} contains the following solution scripts to tutorial exercises.
-\begin{itemize}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_1.m}{\texttt{exercise\_1.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_2.m}{\texttt{exercise\_2.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_3.m}{\texttt{exercise\_3.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_4.m}{\texttt{exercise\_4.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_5.m}{\texttt{exercise\_5.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_6.m}{\texttt{exercise\_6.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_8.m}{\texttt{exercise\_8.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_9.m}{\texttt{exercise\_9.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_16.m}{\texttt{exercise\_16.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_17.m}{\texttt{exercise\_17.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_18.m}{\texttt{exercise\_18.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_19.m}{\texttt{exercise\_19.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/getDoubleTorusPoints.m}{\texttt{getDoubleTorusPoints.m}}
-\item \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}}
-\end{itemize}
-See Appendix \ref{A:solutions} for exercise solutions.
+The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}} contains Matlab scripts, such as \\ %Space
+\href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_simplex_example.m}{\texttt{explicit\_simplex\_example.m}} or \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/house_example.m}{\texttt{house\_example.m}}, which list all of the commands in this tutorial. This means that you don't need to type in each command individually. The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}} also contains the Matlab data files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsTorusGrid.mat}{\texttt{pointsTorusGrid.mat}} which are used in this tutorial. The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} contains the solution scripts, such as \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_1.m}{\texttt{exercise\_1.m}}, for all of the tutorial exercises. See Appendix \ref{A:solutions} for exercise solutions.
 
 
 
@@ -1195,6 +1137,16 @@ The projection of $X^5(300,30)$ in Figure (a) shows a circle. It is called the r
 
 
 \section{Remarks} 
+
+
+\subsection{Java heap size}
+Depending on the size of your JavaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial.
+
+The following command returns your maximum heap size in bytes.
+\begin{quote} \texttt{>> java.lang.Runtime.getRuntime.maxMemory\\
+ans = 130875392
+} \end{quote}
+My Matlab installation sets the limit to approximately 128 megabytes by default. To increase your limit to, say, 1.5 gigabytes, create a file named \texttt{java.opts} in your Matlab directory which contains the text \texttt{-Xmx1500m} and then restart Matlab. For more information, please see this link: \url{http://www.mathworks.com/support/solutions/en/data/1-18I2C/}.
 
 
 \subsection{Matlab functions with JavaPlex commands}\label{matlabFunctions}
