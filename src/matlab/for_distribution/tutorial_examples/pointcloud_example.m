@@ -32,6 +32,7 @@ point_cloud = examples.PointCloudExamples.getRandomTorusPoints(2000, 1, 2);
 figure
 scatter3(point_cloud(:,1), point_cloud(:,2), point_cloud(:,3), '.')
 axis equal
+view(60,40)
 
 %% Sphere Product Example
 
