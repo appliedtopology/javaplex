@@ -83,7 +83,7 @@
 
 \subsection{JavaPlex}
 
-JavaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. JavaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo Johansson. The main motivation for the development of JavaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for JavaPlex is \url{http://appliedtopology.github.io/javaplex/}, the documentation overview is at \url{https://github.com/appliedtopology/javaplex/wiki/Overview}, and the javadoc tree for the library is at \url{http://appliedtopology.github.io/javaplex/doc/}.
+JavaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis. The main author is Andrew Tausz. JavaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo--Johansson. The main motivation for the development of JavaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for JavaPlex is \url{http://appliedtopology.github.io/javaplex/}, the documentation overview is at \url{https://github.com/appliedtopology/javaplex/wiki/Overview}, and the javadoc tree for the library is at \url{http://appliedtopology.github.io/javaplex/doc/}.
 
 This tutorial is written for those using JavaPlex with Matlab. However, one can run JavaPlex without Matlab; see \url{https://github.com/appliedtopology/javaplex/wiki/Interoperability}.
 
@@ -1048,7 +1048,7 @@ We now do an example with real data. The corresponding Matlab script is \href{ht
 
 In {\em On the nonlinear statistics of range image patches} \citep{Range}, we study a space of range image patches drawn from the Brown database \citep{Mumford}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a vector with 25 coordinates and think of our patches as point cloud data in $\mathbb{R}^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix \ref{A:core}). In \citet{Range} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from \citet{Range}: $X^5(300,30)$ has the topology of a circle. 
 
-Load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}}. The matrix \texttt{pointsRange} appears in your Matlab workspace.
+Make sure you are in the directory \texttt{tutorial\_examples} (you may need to enter the command \texttt{cd tutorial\_examples}), and then load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}}. The matrix \texttt{pointsRange} appears in your Matlab workspace.
 
 \begin{quote} \begin{verbatim}
 >> load pointsRange.mat
@@ -1119,6 +1119,7 @@ Two of the DCT basis vectors are horizontal and linear gradients.
 We plot the projection of \texttt{pointsRangeDct} onto the linear gradient DCT basis vectors.
 
 \begin{quote} \begin{verbatim}
+>> figure
 >> scatter(pointsRangeDct(:,1), pointsRangeDct(:,5), '.')
 >> axis square
 \end{verbatim} \end{quote}
