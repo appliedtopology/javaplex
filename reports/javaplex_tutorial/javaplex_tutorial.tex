@@ -53,8 +53,6 @@
 % TODO: the figures for the random trials in this tutorial don't currently match the numbers (number of simplices, etc).
 %UPDATE: They do for witness_example.m and lazy_witness_example.m
 
-% "Googlecode Issue": Add primary circle and three circle natural image examples to the tutorial. In particular, these are good examples of how different core subsets can produce different topologies.
-
 % "Googlecode Issue": In the tutorial, explain the new feature that allows the user to specify the initial seed used for sequential maxmin landmark selection. This feature has been added as a result of  Issue 23  (fixed).
 
 % TODO: explain API class and how most commands for users are in this class (API does not contain under-the-hood implementation, but instead shows what the user can do w/ the library.) Check if Lazy Witness is in API; if not, perhaps it should be added.
@@ -130,7 +128,7 @@ Your output should be the same except for the last several characters. Each time
 \subsection{Accompanying files}
 
 The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}} contains Matlab scripts, such as \\ %Space
-\href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_simplex_example.m}{\texttt{explicit\_simplex\_example.m}} or \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/house_example.m}{\texttt{house\_example.m}}, which list all of the commands in this tutorial. This means that you don't need to type in each command individually. The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}} also contains the Matlab data files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsTorusGrid.mat}{\texttt{pointsTorusGrid.mat}} which are used in this tutorial. The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} contains the solution scripts, such as \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_1.m}{\texttt{exercise\_1.m}}, for all of the tutorial exercises. See Appendix \ref{A:solutions} for exercise solutions.
+\href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_simplex_example.m}{\texttt{explicit\_simplex\_example.m}} or \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/house_example.m}{\texttt{house\_example.m}}, which list all of the commands in this tutorial. This means that you don't need to type in each command individually. The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}} also contains the Matlab data files, such as \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}} or \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsTorusGrid.mat}{\texttt{pointsTorusGrid.mat}}, which are used in this tutorial. The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} contains the solution scripts, such as \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_1.m}{\texttt{exercise\_1.m}}, for all of the tutorial exercises. See Appendix \ref{A:solutions} for exercise solutions.
 
 
 
@@ -1042,9 +1040,15 @@ Sample points from an embedding of a double torus, that is, a surface of genus t
 \end{exercise}
 
 
-\section{Example with real data}\label{real}
 
-We now do an example with real data. The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/image_patch_example.m}{\texttt{image\_patch\_example.m}}, and it relies on the files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}}. 
+\section{Examples with real data}\label{real}
+
+We now do two examples with real datasets: a data set of range image patches, and a data set of optical image patches
+
+
+\subsection{Range image patches}
+
+The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/range_image_example.m}{\texttt{range\_image\_example.m}}, and it relies on the files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}}. 
 
 In {\em On the nonlinear statistics of range image patches} \citep{Range}, we study a space of range image patches drawn from the Brown database \citep{Mumford}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a vector with 25 coordinates and think of our patches as point cloud data in $\mathbb{R}^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix \ref{A:core}). In \citet{Range} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from \citet{Range}: $X^5(300,30)$ has the topology of a circle. 
 
@@ -1135,6 +1139,152 @@ We plot the projection of \texttt{pointsRangeDct} onto the linear gradient DCT b
 
 The projection of $X^5(300,30)$ in Figure (a) shows a circle. It is called the range primary circle and is parameterized as shown in Figure (b).
 
+
+\subsection{Optical image patches}
+
+The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/optical_image_example.m}{\texttt{optilcal\_image\_example.m}}, and it relies on the files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k300.mat}{\texttt{pointsOpticalDct\_k300.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k15.mat}{\texttt{pointsOpticalDct\_k15.mat}}.
+
+The optical image database collected by \citet{VanHaterenVanDerSchaaf} contains black and white digital photographs from a variety of indoor and outdoor scenes. \citet{Mumford} study $3 \times 3$ patches from these images, and \citet{KleinBottle} continue the analysis of image patches using persistent homology. \citet{KleinBottle} begin with a large collection of high-contrast, normalized $3 \times 3$ pixel patches, each thought of as a point in $\mathbb{R}^9$. They change to the Discrete Cosine Transform (DCT) basis, which maps the patches to the unit sphere $S^7 \subset \mathbb{R}^8$. They select from this space the 30\% densest vectors, based first on the density estimator $\rho_{300}$ (see Appendix \ref{A:core}), and next based on the density estimator $\rho_{15}$. In \citet{KleinBottle} these dense core subset are denoted $X(300,30)$ and $X(15,30)$, and they contain 15,000 points. In the next example we verify two results from \citet{KleinBottle}: $X(300,30)$ has the topology of a circle, and $X(15,30)$ has the topology of a three circle model.
+
+Make sure you are in the directory \texttt{tutorial\_examples} (you may need to enter the command \texttt{cd tutorial\_examples}), and then load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k300.mat}{\texttt{pointsOpticalDct\_k300.mat}}. The matrix \texttt{pointsOpticalDct\_k300} appears in your Matlab workspace.
+
+\begin{quote} \begin{verbatim}
+>> load pointsOpticalDct_k300.mat
+>> size(pointsOpticalDct_k300) 
+ans = 15000    8                         % 15000 points in dimension 8
+\end{verbatim} \end{quote}
+
+Matrix \texttt{pointsOpticalDct\_k300} is in fact $X(300,30)$: each of its rows is a vector in $\mathbb{R}^8$.
+
+We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, and we build the lazy witness stream with parameter $\nu = 1$. 
+
+\begin{quote} \begin{verbatim}
+>> max_dimension = 3;
+>> num_landmark_points = 50;
+>> nu = 1;
+>> num_divisions = 500;
+
+>> landmark_selector = api.Plex4.createMaxMinSelector(pointsOpticalDct_k300, ...
+num_landmark_points);
+>> R = landmark_selector.getMaxDistanceFromPointsToLandmarks() 
+R = 0.5919                         
+>> max_filtration_value = R / 4;
+>> stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), ...
+landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
+>> stream.finalizeStream()
+>> num_simplices = stream.getSize()
+num_simplices = 2351                         
+
+>> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
+>> intervals = persistence.computeIntervals(stream);
+
+>> options.filename = 'lazyOpticalDct-k300';
+>> options.max_filtration_value = max_filtration_value;
+>> options.max_dimension = max_dimension - 1;
+>> plot_barcodes(intervals, options);
+\end{verbatim} \end{quote}
+
+The file \texttt{lazyOpticalDct-k300.png} is saved to your current directory.
+
+\begin{figure}[htp]
+	\begin{center}
+    	\includegraphics[width=6in]{lazyOpticalDct-k300.png}
+   	\end{center}
+	\caption{Betti intervals for the lazy witness complex built from $X(300,30)$}
+  	\label{fig:rangeBetti}
+\end{figure}
+\FloatBarrier
+
+The plots above show that for a long range, the circle Betti numbers $Betti_0 = Betti_1 = 1$ are obtained. Your plot should contain a similar range. This is good evidence that the core subset $X(300,30)$ is well-approximated by a circle. 
+
+We plot the projection of \texttt{pointsOpticalDct\_k300} onto the linear gradient DCT basis vectors.
+
+\begin{quote} \begin{verbatim}
+>> figure
+>> scatter(pointsOpticalDct_k300(:,1), pointsOpticalDct_k300(:,2), '.')
+>> axis square
+\end{verbatim} \end{quote}
+
+\begin{figure}[htp]
+  \begin{center}
+    \subfigure[Projection of $X(300,30)$]{\includegraphics[width=3.0in]{nk300c30}}
+    \quad
+    \subfigure[Optical primary circle]{\includegraphics[width=2.9in]{primaryCircle}}
+   \end{center}
+\end{figure}
+\FloatBarrier
+
+The projection of $X(300,30)$ in Figure (a) shows a circle. It is called the optical primary circle and is parameterized as shown in Figure (b).
+
+We next analyze the core subset $X(15,30)$. Load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k15.mat}{\texttt{pointsOpticalDct\_k15.mat}}. The matrix \texttt{pointsOpticalDct\_k15} appears in your Matlab workspace.
+
+\begin{quote} \begin{verbatim}
+>> load pointsOpticalDct_k15.mat
+>> size(pointsOpticalDct_k15) 
+ans = 15000    8                         % 15000 points in dimension 8
+\end{verbatim} \end{quote}
+
+Matrix \texttt{pointsOpticalDct\_k15} is in fact $X(15,30)$: each of its rows is a vector in $\mathbb{R}^8$.
+
+We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, and we build the lazy witness stream with parameter $\nu = 1$. 
+
+\begin{quote} \begin{verbatim}
+>> max_dimension = 3;
+>> num_landmark_points = 50;
+>> nu = 1;
+>> num_divisions = 500;
+
+>> landmark_selector = api.Plex4.createMaxMinSelector(pointsOpticalDct_k15, ...
+num_landmark_points);
+>> R = landmark_selector.getMaxDistanceFromPointsToLandmarks() 
+R = 0.6554                         
+>> max_filtration_value = R / 4;
+>> stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), ...
+landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
+>> stream.finalizeStream()
+>> num_simplices = stream.getSize()
+num_simplices = 1570                         
+
+>> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
+>> intervals = persistence.computeIntervals(stream);
+
+>> options.filename = 'lazyOpticalDct-k15';
+>> options.max_filtration_value = max_filtration_value;
+>> options.max_dimension = max_dimension - 1;
+>> plot_barcodes(intervals, options);
+\end{verbatim} \end{quote}
+
+The file \texttt{lazyOpticalDct-k15.png} is saved to your current directory.
+
+\begin{figure}[htp]
+	\begin{center}
+    	\includegraphics[width=6in]{lazyOpticalDct-k15.png}
+   	\end{center}
+	\caption{Betti intervals for the lazy witness complex built from $X(15,30)$}
+  	\label{fig:rangeBetti}
+\end{figure}
+\FloatBarrier
+
+The plots above show that for a long range, the Betti numbers $Betti_0 = 1$ and $Betti_1 = 5$ are obtained. Your plot should contain a similar range. This is good evidence that the core subset $X(15,30)$ is well-approximated by a connected space with five loops. 
+
+We plot the projection of \texttt{pointsOpticalDct\_k300} onto the linear gradient DCT basis vectors.
+
+\begin{quote} \begin{verbatim}
+>> figure
+>> scatter(pointsOpticalDct_k15(:,1), pointsOpticalDct_k15(:,2), '.')
+>> axis square
+\end{verbatim} \end{quote}
+
+\begin{figure}[htp]
+  \begin{center}
+    \subfigure[Projection of $X(15,30)$]{\includegraphics[width=3.0in]{nk15c30}}
+    \quad
+    \subfigure[Three circle model]{\includegraphics[width=2.9in]{threeCircle}}
+   \end{center}
+\end{figure}
+\FloatBarrier
+
+Figure (a) shows a projection of $X(15,30)$. The space $X(15,30)$ is parameterized by the three circle model shown in Figure (b). The solid outer circle in the three circle model is the primary circle and contains linear gradients. The dotted and dashed inner circles are the horizontal and vertical secondary circles which contain quadratic gradients. Each secondary circle intersects the primary circle twice, but the secondary circles do not intersect each other; this results in a connected space with $Betti_1 = 5$. The primary circle reflects nature's preference for linear gradients in all directions, and the secondary circles reflect nature's preference for the horizontal and vertical directions.
 
 
 
