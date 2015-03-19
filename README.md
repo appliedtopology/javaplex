@@ -11,11 +11,11 @@ For persistent homology and its capabilities, we recommend the survey article [T
 
 ## How to get started?
   
-* Start playing around with the latest [matlab examples](https://github.com/appliedtopology/javaplex/releases/download/4.2.1/matlab-examples-4.2.1.zip)
-* Read the [tutorial PDF](https://github.com/appliedtopology/javaplex/releases/download/4.2.1/javaplex_tutorial.pdf) or the [tutorial wiki page](https://github.com/appliedtopology/javaplex/wiki/Tutorial)
+* Start playing around with the latest [matlab examples](https://github.com/appliedtopology/javaplex/releases/download/4.2.1/matlab-examples-4.2.2.zip)
+* Read the [tutorial PDF](https://github.com/appliedtopology/javaplex/releases/download/4.2.2/javaplex_tutorial.pdf) or the [tutorial wiki page](https://github.com/appliedtopology/javaplex/wiki/Tutorial)
 * Take a look at the [documentation overview](https://github.com/appliedtopology/javaplex/wiki/Overview)
-* Download the latest [jar file](https://github.com/appliedtopology/javaplex/releases/download/4.2.1/javaplex-4.2.1.jar) and start playing with the Java code
-* Take a look at the [latest release](https://github.com/appliedtopology/javaplex/releases/tag/4.2.1)
+* Download the latest [jar file](https://github.com/appliedtopology/javaplex/releases/download/4.2.2/javaplex-4.2.1.jar) and start playing with the Java code
+* Take a look at the [latest release](https://github.com/appliedtopology/javaplex/releases/)
 
 ## For more information
 
@@ -44,7 +44,8 @@ To cite `JavaPlex`, please consult the [Citation Information](https://github.com
 
 ## Updates
 
-* July, 2014: Version 4.2.1 released and is available [here](https://github.com/appliedtopology/javaplex/releases/tag/4.2.1)
+* March, 2015: [Version 4.2.2](https://github.com/appliedtopology/javaplex/releases/) is released
+* July, 2014: Version 4.2.1 released
 * April, 2014: Google Code hosting abandoned
 * May, 2012: Version 4.1.0 released
 * For frequently asked questions regarding `JavaPlex` and troubleshooting information, consult the [troubleshooting](https://github.com/appliedtopology/javaplex/wiki/Troubleshooting) page.
