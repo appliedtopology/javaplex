@@ -11,16 +11,16 @@ For persistent homology and its capabilities, we recommend the survey article [T
 
 ## How to get started?
   
-* Start playing around with the latest [matlab examples](https://github.com/appliedtopology/javaplex/releases/download/4.2.1/matlab-examples-4.2.2.zip)
+* Start playing around with the latest [matlab examples](https://github.com/appliedtopology/javaplex/releases/download/4.2.2/matlab-examples-4.2.2.zip)
 * Read the [tutorial PDF](https://github.com/appliedtopology/javaplex/releases/download/4.2.2/javaplex_tutorial.pdf) or the [tutorial wiki page](https://github.com/appliedtopology/javaplex/wiki/Tutorial)
 * Take a look at the [documentation overview](https://github.com/appliedtopology/javaplex/wiki/Overview)
-* Download the latest [jar file](https://github.com/appliedtopology/javaplex/releases/download/4.2.2/javaplex-4.2.1.jar) and start playing with the Java code
+* Download the latest [jar file](https://github.com/appliedtopology/javaplex/releases/download/4.2.2/javaplex-4.2.2.jar) and start playing with the Java code
 * Take a look at the [latest release](https://github.com/appliedtopology/javaplex/releases/)
 
 ## For more information
 
 * Read the [wiki page documentation](https://github.com/appliedtopology/javaplex/wiki/Overview)
-* Look at the [javadoc documentation](http://appliedtopology.github.io/javaplex/doc.4.2.0/)
+* Look at the [javadoc documentation](http://appliedtopology.github.io/javaplex/doc/)
 
 ## Wiki links
 
