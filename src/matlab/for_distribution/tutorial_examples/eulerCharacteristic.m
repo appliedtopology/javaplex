@@ -13,9 +13,8 @@ import edu.stanford.math.plex4.*;
 
 persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension + 1, 2);
 
-filtration_value_intervals = persistence.computeIntervals(stream);
-transformer = homology.filtration.IdentityConverter.getInstance();
-infinite_barcodes = filtration_value_intervals.getInfiniteIntervals();
+intervals = persistence.computeIntervals(stream);
+infinite_barcodes = intervals.getInfiniteIntervals();
 
 betti_sequence = infinite_barcodes.getBettiSequence();
 
