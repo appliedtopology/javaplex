@@ -44,7 +44,7 @@ To cite `JavaPlex`, please consult the [Citation Information](https://github.com
 
 ## Updates
 
-* March, 2015: [Version 4.2.3](https://github.com/appliedtopology/javaplex/releases/) is released
+* July, 2015: [Version 4.2.3](https://github.com/appliedtopology/javaplex/releases/) is released
 * March, 2015: Version 4.2.2 released
 * July, 2014: Version 4.2.1 released
 * April, 2014: Google Code hosting abandoned
