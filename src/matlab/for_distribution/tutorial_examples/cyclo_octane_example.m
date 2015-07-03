@@ -6,10 +6,10 @@ load pointsCycloOctane.mat
 size(pointsCycloOctane)
 
 max_dimension = 3;
+num_landmark_points = 100;
 max_filtration_value = 0.5;
 nu = 1;
 num_divisions = 500;
-num_landmark_points = 100;
 
 % create a sequential maxmin landmark selector
 landmark_selector = api.Plex4.createMaxMinSelector(pointsCycloOctane, num_landmark_points);

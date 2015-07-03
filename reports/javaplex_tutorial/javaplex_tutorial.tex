@@ -25,10 +25,14 @@
 \DeclareMathOperator{\VR}{VR}
 \DeclareMathOperator{\W}{W}
 \DeclareMathOperator{\LW}{LW}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\cyclo}{\mathrm{C}_8\mathrm{H}_{16}}
 
 \begin{document}
 
-\title{JavaPlex Tutorial}
+\title{Javaplex Tutorial}
 
 \author{Henry Adams}
 \email[H.~Adams]{hadams@math.duke.edu}
@@ -61,7 +65,7 @@
 % UPDATE: added example for double torus embedded in R^3.
 
 % TODO: is "ensureAllFaces" working as I expect? See representatives_example_HA and try changing dimensions.
-% UPDATE: See JavaPlex Issue 20 created by Andrew.
+% UPDATE: See Javaplex Issue 20 created by Andrew.
 
 % TODO: add exercise numbers to tutorial wiki.
 
@@ -79,22 +83,23 @@
 \section{Introduction}
 
 
-\subsection{JavaPlex}
+\subsection{Javaplex}
 
-JavaPlex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis \citep{Javaplex}. The main author is Andrew Tausz. JavaPlex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo--Johansson. The main motivation for the development of JavaPlex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for JavaPlex is \url{http://appliedtopology.github.io/javaplex/}, the documentation overview is at \url{https://github.com/appliedtopology/javaplex/wiki/Overview}, and the javadoc tree for the library is at \url{http://appliedtopology.github.io/javaplex/doc/}.
+Javaplex is a Java software package for computing the persistent homology of filtered chain complexes, with special emphasis on applications arising in topological data analysis \citep{Javaplex}. The main author is Andrew Tausz. Javaplex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo--Johansson. The main motivation for the development of Javaplex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for Javaplex is \url{http://appliedtopology.github.io/javaplex/}, the documentation overview is at \url{https://github.com/appliedtopology/javaplex/wiki/Overview}, and the javadoc tree for the library is at \url{http://appliedtopology.github.io/javaplex/doc/}.
 
-This tutorial is written for those using JavaPlex with Matlab. However, one can run JavaPlex without Matlab; see \url{https://github.com/appliedtopology/javaplex/wiki/Interoperability}.
+This tutorial is written for those using Javaplex with Matlab. However, one can run Javaplex without Matlab; see \url{https://github.com/appliedtopology/javaplex/wiki/Interoperability}.
 
-If you are interested in JavaPlex, then you may also be interested in the software package Dionysus by Dmitriy Morozov (\url{http://www.mrzv.org/software/dionysus}) or the software package Persus by Vidit Nanda (\url{http://www.sas.upenn.edu/~vnanda/perseus/index.html}).
+If you are interested in Javaplex, then you may also be interested in the software package Dionysus by Dmitriy Morozov (\url{http://www.mrzv.org/software/dionysus}) or the software package Persus by Vidit Nanda (\url{http://www.sas.upenn.edu/~vnanda/perseus/index.html}).
 
-Some of the exercises in this tutorial are borrowed from Vin de Silva's {\em Plexercises}, available at \url{http://comptop.stanford.edu/u/programs/Plexercises2.pdf}.
+% Below link currently broken:
+%Some of the exercises in this tutorial are borrowed from Vin de Silva's {\em Plexercises}, available at \url{http://comptop.stanford.edu/u/programs/Plexercises2.pdf}.
 
 Please email Henry at \texttt{hadams@math.duke.edu} or Andrew at \texttt{andrew.tausz@gmail.com} if you have questions about this tutorial.
 
 
 \subsection{License}
 
-JavaPlex is an open source software package under the Open BSD License. The source code can be found at \url{https://github.com/appliedtopology/javaplex}.
+Javaplex is an open source software package under the Open BSD License. The source code can be found at \url{https://github.com/appliedtopology/javaplex}.
 
 
 \subsection{Installation for Matlab}
@@ -105,9 +110,9 @@ Open Matlab and check which version of Java is being used. In this tutorial, the
 ans = Java 1.5.0_13 with Apple Inc.   Java Hotspot(TM) Client VM mixed mode, sharing
 \end{verbatim} \end{quote}
 
-JavaPlex requires version number \texttt{1.5} or higher. 
+Javaplex requires version number \texttt{1.5} or higher. 
 
-To install JavaPlex for Matlab, go to the latest release at \url{https://github.com/appliedtopology/javaplex/releases/latest/}. Download the zip file containing the Matlab examples, which should be called something like \texttt{matlab-examples-4.2.2.zip}. Extract the zip file. The resulting folder should be called \texttt{matlab\_examples}; make sure you know the location of this folder and that it is not inside the zip file.
+To install Javaplex for Matlab, go to the latest release at \url{https://github.com/appliedtopology/javaplex/releases/latest/}. Download the zip file containing the Matlab examples, which should be called something like \texttt{matlab-examples-4.2.2.zip}. Extract the zip file. The resulting folder should be called \texttt{matlab\_examples}; make sure you know the location of this folder and that it is not inside the zip file.
 
 In Matlab, change Matlab's ``Current Folder" to the directory \texttt{matlab\_examples} that you just extracted from the zip file. Run the \texttt{load\_javaplex.m} file. 
 
@@ -115,7 +120,7 @@ In Matlab, change Matlab's ``Current Folder" to the directory \texttt{matlab\_ex
 >> load_javaplex
 \end{verbatim} \end{quote}
 
-Installation is complete. Confirm that JavaPlex is working properly with the following command.
+Installation is complete. Confirm that Javaplex is working properly with the following command.
 
 \begin{quote} \begin{verbatim}
 >> api.Plex4.createExplicitSimplexStream()
@@ -149,11 +154,11 @@ We think of 0-simplices as vertices, 1-simplices as edges, 2-simplices as triang
 
 
 \subsection{Homology}
-Betti numbers help describe the homology of a simplicial complex $X$. The value $Betti_k$, where $k\in \mathbb{N}$, is equal to the rank of the $k$-th homology group of $X$. Roughly speaking, $Betti_k$ gives the number of $k$-dimensional holes. In particular, $Betti_0$ is the number of connected components. For instance, a $k$-dimensional sphere has all Betti numbers equal to zero except for $Betti_0 = Betti_k = 1$. 
+Betti numbers help describe the homology of a simplicial complex $X$. The value $Betti_k$, where $k\in \N$, is equal to the rank of the $k$-th homology group of $X$. Roughly speaking, $Betti_k$ gives the number of $k$-dimensional holes. In particular, $Betti_0$ is the number of connected components. For instance, a $k$-dimensional sphere has all Betti numbers equal to zero except for $Betti_0 = Betti_k = 1$. 
 
 
 \subsection{Filtered simplicial complexes}
-A filtration on a simplicial complex $X$ is a collection of subcomplexes $\{X(t) \ |\ t\in \mathbb{R}\}$ of $X$ such that $X(t) \subset X(s)$ whenever $t\leq s$. The filtration time of a simplex $\sigma \in X$ is the smallest $t$ such that $\sigma \in X(t)$. In JavaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. 
+A filtration on a simplicial complex $X$ is a collection of subcomplexes $\{X(t) \ |\ t\in \R\}$ of $X$ such that $X(t) \subset X(s)$ whenever $t\leq s$. The filtration time of a simplex $\sigma \in X$ is the smallest $t$ such that $\sigma \in X(t)$. In Javaplex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. 
 % Introduce filtered chain complexes?
 
 
@@ -167,7 +172,7 @@ Persistent homology depends heavily on functoriality: for $t\leq s$, the inclusi
 
 \section{Explicit simplex streams}\label{explicitStream}
 
-In JavaPlex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. The class ExplicitSimplexStream allows one to build a simplicial complex from scratch. In Section \ref{sfpc} we will learn about other automated methods of generating simplicial complexes; namely the Vietoris--Rips, witness, and lazy witness constructions. 
+In Javaplex, filtered simplicial complexes (or more generally filtered chain complexes) are called streams. The class ExplicitSimplexStream allows one to build a simplicial complex from scratch. In Section \ref{sfpc} we will learn about other automated methods of generating simplicial complexes; namely the Vietoris--Rips, witness, and lazy witness constructions. 
 
 
 \subsection{Computing homology}
@@ -193,7 +198,7 @@ The Matlab script corresponding to this section is \href{https://github.com/appl
 \end{figure}
 \FloatBarrier
 
-To build a simplicial complex in JavaPlex we simply build a stream in which all filtration times are zero. First we create an empty explicit simplex stream. Many command lines in this tutorial will end with a semicolon to supress unwanted output.
+To build a simplicial complex in Javaplex we simply build a stream in which all filtration times are zero. First we create an empty explicit simplex stream. Many command lines in this tutorial will end with a semicolon to supress unwanted output.
 
 \begin{quote} \begin{verbatim} 
 >> stream = api.Plex4.createExplicitSimplexStream();
@@ -218,7 +223,7 @@ We print the total number of simplices in the complex.
 num_simplices = 6
 \end{verbatim} \end{quote}
 
-We create an object that will compute the homology of our complex. The first input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3. The second input 2 means that we will compute homology with $\mathbb{Z}_2$ coefficients, and this input can be any prime number.
+We create an object that will compute the homology of our complex. The first input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3. The second input 2 means that we will compute homology with $\Z_2$ coefficients, and this input can be any prime number.
 
 \begin{quote} \begin{verbatim}
 >> persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
@@ -307,11 +312,11 @@ Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers.
 \end{exercise}
 
 \begin{exercise}
-Build a simplicial complex homeomorphic to the Klein bottle. Check that it has the same Betti numbers as the torus over $\mathbb{Z}_2$ coefficients but different Betti numbers over $\mathbb{Z}_3$ coefficients. 
+Build a simplicial complex homeomorphic to the Klein bottle. Check that it has the same Betti numbers as the torus over $\Z_2$ coefficients but different Betti numbers over $\Z_3$ coefficients. 
 \end{exercise}
 
 \begin{exercise}
-Build a simplicial complex homeomorphic to the projective plane. Find its Betti numbers over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
+Build a simplicial complex homeomorphic to the projective plane. Find its Betti numbers over $\Z_2$ and $\Z_3$ coefficients. 
 \end{exercise}
 
 
@@ -346,7 +351,7 @@ We build a house, with the vertices and edges on the square appearing at time 0,
 >> stream.finalizeStream();
 \end{verbatim} \end{quote}
 
-We get the persistence algorithm with $\mathbb{Z}_2$ coefficients
+We get the persistence algorithm with $\Z_2$ coefficients
 \begin{quote} \begin{verbatim}
 >> persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
 \end{verbatim} \end{quote}
@@ -506,7 +511,7 @@ point_cloud =
     0    3
 \end{verbatim} \end{quote}
 
-Or, these coordinates are stored as a JavaPlex example.
+Or, these coordinates are stored as a Javaplex example.
 
 \begin{quote} \begin{verbatim}
 >> point_cloud = examples.PointCloudExamples.getHouseExample();
@@ -541,7 +546,7 @@ A metric space can return the distance between any two points.
 ans = 2.8284
 \end{verbatim} \end{quote}
 
-{\em Figure 8 example.} We select 1,000 points randomly from a figure eight, that is, the union of unit circles centered at $(0,1)$ and $(0,-1)$.
+{\em Figure~8 example.} We select 1,000 points randomly from a figure eight, that is, the union of unit circles centered at $(0,1)$ and $(0,-1)$.
 
 \begin{quote} \begin{verbatim}
 >> point_cloud = examples.PointCloudExamples.getRandomFigure8Points(1000);
@@ -555,7 +560,7 @@ We plot the points.
 >> axis equal
 \end{verbatim} \end{quote}
 
-{\em Torus example.} We select 2,000 points randomly from a torus in $\mathbb{R}^3$ with inner radius 1 and outer radius 2. The first input is the number of points, the second input is the inner radius, and the third input is the outer radius
+{\em Torus example.} We select 2,000 points randomly from a torus in $\R^3$ with inner radius 1 and outer radius 2. The first input is the number of points, the second input is the inner radius, and the third input is the outer radius
 
 \begin{quote} \begin{verbatim}
 >> point_cloud = examples.PointCloudExamples.getRandomTorusPoints(2000, 1, 2);
@@ -570,7 +575,7 @@ We plot the points.
 >> view(60,40)
 \end{verbatim} \end{quote}
 
-{\em Sphere product example.} We select 1,000 points randomly from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$. The first input is the number of points, the second input is the dimension of each sphere, and the third input is the number of sphere factors.
+{\em Sphere product example.} We select 1,000 points randomly from the unit torus $S^1 \times S^1$ in $\R^4$. The first input is the number of points, the second input is the dimension of each sphere, and the third input is the number of sphere factors.
 
 \begin{quote} \begin{verbatim}
 >> point_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(1000, 1, 2);
@@ -590,7 +595,7 @@ We can also create a metric space from a distance matrix using the method \textt
 
 The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/explicit_metric_space_example.m}{\texttt{explicit\_metric\_space\_example.m}}. 
 
-{\em House example.} The matrix \texttt{distances} summarizes the metric for our house points in Figure \ref{fig:housePointCloud}: entry $(i,j)$ is the distance from point $i$ to point $j$. 
+{\em House example.} The matrix \texttt{distances} summarizes the metric for our house points in Figure~\ref{fig:housePointCloud}: entry $(i,j)$ is the distance from point $i$ to point $j$. 
 
 \begin{quote} \begin{verbatim}
 >> distances = [0,2,sqrt(8),2,sqrt(10);
@@ -646,11 +651,11 @@ This exercise is continued by Exercise \ref{Ex:flatKleinLazy}.
 \end{exercise}
 
 \begin{exercise}\label{Ex:quotProjPlane}
-One way to produce a projective plane is to take the unit sphere $S^2 \subset \mathbb{R}^3$ and then identify antipodal points. More explicitly, the quotient space 
+One way to produce a projective plane is to take the unit sphere $S^2 \subset \R^3$ and then identify antipodal points. More explicitly, the quotient space 
 $$S^2 / (x \sim -x)$$
 is a projective plane. The Euclidean metric on $S^2$ induces a metric on the projective plane.
 
-Write a Matlab script or function that selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+Write a Matlab script or function that selects 1,000 random points from the unit sphere $S^2 \subset \R^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
 
 This exercise is continued by Exercise \ref{Ex:quotProjPlaneLazy}. 
 \end{exercise}
@@ -740,7 +745,7 @@ Check that these plots are consistent with the Vietoris--Rips definition: edges 
 
 % Is there a way to print the simplices in a stream (and perhaps their filtration times?
 
-{\em Torus example.} Try the following sequence of commands. We start with 400 points from a $20 \times 20$ grid on the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, and add a small amount of noise to each point.
+{\em Torus example.} Try the following sequence of commands. We start with 400 points from a $20 \times 20$ grid on the unit torus $S^1 \times S^1$ in $\R^4$, and add a small amount of noise to each point.
 % If I select points randomly from the torus instead from the regular grid, then the Vietoris--Rips stream does not seem to be able to recover the correct Betti numbers.
 We build the Vietoris--Rips stream.
 
@@ -808,11 +813,11 @@ Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the siz
 \end{exercise}
 
 \begin{exercise}
-Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer. 
+Find a planar dataset $Z \subset \R^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer. 
 \end{exercise}
 
 \begin{exercise}
-Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$. 
+Find a planar dataset $Z \subset \R^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$. 
 \end{exercise}
 
 
@@ -825,7 +830,7 @@ Landmarks chosen using sequential maxmin tend to cover the dataset and to be spr
 
 The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/landmark_example.m}{\texttt{landmark\_example.m}}.
 
-{\em Figure 8 example.} We create a point cloud of 1,000 points from a figure eight.
+{\em Figure~8 example.} We create a point cloud of 1,000 points from a figure eight.
 
 \begin{quote} \begin{verbatim}
 >> point_cloud = examples.PointCloudExamples.getRandomFigure8Points(1000);
@@ -875,7 +880,7 @@ Sequential maxmin seems to do a better job of choosing landmarks that cover the 
 Given point cloud $Z$ and landmark subset $L$, we define $\texttt{R} = \max_{z\in Z}\bigl\{d(z,L)\bigr\}$. Number \texttt{R} reflects how finely the landmarks cover the dataset. We often use it as a guide for selecting the maximum filtration value $t_{max}$ for a witness or lazy witness stream. 
 
 \begin{exercise}
-Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Suppose we are using sequential maxmin to select a set $L$ of 3 landmarks, and the first (randomly selected) landmark is $(1,0)$. Find by hand the other two landmarks in $L$. 
+Let $Z$ be the point cloud in Figure~\ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Suppose we are using sequential maxmin to select a set $L$ of 3 landmarks, and the first (randomly selected) landmark is $(1,0)$. Find by hand the other two landmarks in $L$. 
 \end{exercise}
 
 \begin{exercise}
@@ -892,12 +897,12 @@ Suppose we are given a point cloud $Z$ and landmark subset $L$. Let $m_k(z)$ be 
 Note that $\W(Z,L,t) \subset \W(Z,L,s)$ whenever $t\leq s$. Note that a landmark point can serve as a witness point. 
 
 \begin{exercise}\label{Ex:witnessHouse}
-Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? 
+Let $Z$ be the point cloud in Figure~\ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? 
 \end{exercise}
 
 The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/witness_example.m}{\texttt{witness\_example.m}}.
 
-{\em Torus example.} Let's build a witness stream instance for 10,000 random points from the unit torus $S^1 \times S^1$ in $\mathbb{R}^4$, with 50 sequential maxmin landmarks.
+{\em Torus example.} Let's build a witness stream instance for 10,000 random points from the unit torus $S^1 \times S^1$ in $\R^4$, with 50 sequential maxmin landmarks.
 
 \begin{quote} \begin{verbatim}
 >> num_points = 10000;
@@ -956,7 +961,7 @@ The witness stream above contains approximately 2,000 simplices, fewer than the 
 \subsection{Lazy witness streams}
 A lazy witness stream is similar to a witness stream. However, there is an extra parameter $\nu$, typically chosen to be 0, 1, or 2, which helps determine how the lazy witness complexes $\LW_\nu(Z,L,t)$ are constructed. See \citet{WitnessComplexes} for more information. 
 
-Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\in\mathbb{N}$. If $\nu = 0$, let $m(z) = 0$ for all $z\in Z$. If $\nu >0$, let $m(z)$ be the distance from $z$ to the $\nu$-th closest landmark point. The lazy witness complex $\LW_\nu(Z,L,t)$ is defined as follows.
+Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\in\N$. If $\nu = 0$, let $m(z) = 0$ for all $z\in Z$. If $\nu >0$, let $m(z)$ be the distance from $z$ to the $\nu$-th closest landmark point. The lazy witness complex $\LW_\nu(Z,L,t)$ is defined as follows.
 \begin{itemize}
 \item{the vertex set is $L$.}
 \item{for vertices $a$ and $b$, edge $[ab]$ is in $\LW_\nu(Z,L,t)$ if there exists a witness $z \in Z$ such that $$\max\bigl\{d(a,z), d(b,z)\bigr\} \leq t+m(z).$$}
@@ -965,7 +970,7 @@ Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\
 Note that $\LW_\nu(Z,L,t) \subset \LW_\nu(Z,L,s)$ whenever $t\leq s$. The adjective {\em lazy} refers to the fact that the lazy witness complex is a flag complex: since the 1-skeleton determines all higher dimensional simplices, less computation is involved. 
 
 \begin{exercise}
-Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? 
+Let $Z$ be the point cloud in Figure~\ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$? 
 \end{exercise}
 
 \begin{exercise}
@@ -1027,16 +1032,16 @@ In Exercise \ref{Ex:flatTorus} you created an explicit metric space for 1,000 ra
 \end{exercise}
 
 \begin{exercise}\label{Ex:flatKleinLazy}
-In Exercise \ref{Ex:flatTorus} you created an explicit metric space for 1,000 random points on a flat Klein bottle. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
+In Exercise \ref{Ex:flatTorus} you created an explicit metric space for 1,000 random points on a flat Klein bottle. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\Z_2$ and $\Z_3$ coefficients. 
 \end{exercise}
 
 \begin{exercise}\label{Ex:quotProjPlaneLazy}
-In Exercise \ref{Ex:quotProjPlane} you created an explicit metric space for 1,000 random points on a projective plane. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients. 
+In Exercise \ref{Ex:quotProjPlane} you created an explicit metric space for 1,000 random points on a projective plane. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\Z_2$ and $\Z_3$ coefficients. 
 \end{exercise}
 % This exercise was first done by David Eisenbud and Agnes Beadry at MRC.
 
 \begin{exercise}
-Sample points from an embedding of a double torus, that is, a surface of genus two, in $\mathbb{R}^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
+Sample points from an embedding of a double torus, that is, a surface of genus two, in $\R^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
 \end{exercise}
 
 
@@ -1050,7 +1055,7 @@ We now do two examples with real datasets: a data set of range image patches, an
 
 The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/range_image_example.m}{\texttt{range\_image\_example.m}}, and it relies on the files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}}. 
 
-In {\em On the nonlinear statistics of range image patches} \citep{Range}, we study a space of range image patches drawn from the Brown database \citep{Mumford}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a vector with 25 coordinates and think of our patches as point cloud data in $\mathbb{R}^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix \ref{A:core}). In \citet{Range} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from \citet{Range}: $X^5(300,30)$ has the topology of a circle. 
+In {\em On the nonlinear statistics of range image patches} \citep{Range}, we study a space of range image patches drawn from the Brown database \citep{Mumford}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a vector with 25 coordinates and think of our patches as point cloud data in $\R^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix \ref{A:core}). In \citet{Range} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from \citet{Range}: $X^5(300,30)$ has the topology of a circle. 
 
 Make sure you are in the directory \texttt{tutorial\_examples} (you may need to enter the command \texttt{cd tutorial\_examples}), and then load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}}. The matrix \texttt{pointsRange} appears in your Matlab workspace.
 
@@ -1060,7 +1065,7 @@ Make sure you are in the directory \texttt{tutorial\_examples} (you may need to 
 ans = 15000    25                         % 15000 points in dimension 25
 \end{verbatim} \end{quote}
 
-Matrix \texttt{pointsRange} is in fact $X^5(300,30)$: each of its rows is a vector in $\mathbb{R}^{25}$. Display some of the coordinates of \texttt{pointsRange}. It is not easy to visualize a circle by looking at these coordinates! 
+Matrix \texttt{pointsRange} is in fact $X^5(300,30)$: each of its rows is a vector in $\R^{25}$. Display some of the coordinates of \texttt{pointsRange}. It is not easy to visualize a circle by looking at these coordinates! 
 
 We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, and we build the lazy witness stream with parameter $\nu = 1$. 
 
@@ -1102,7 +1107,7 @@ The file \texttt{lazyRange.png} is saved to your current directory.
 
 The plots above show that for a long range, the circle Betti numbers $Betti_0 = Betti_1 = 1$ are obtained. Your plot should contain a similar range. This is good evidence that the core subset $X^5(300,30)$ is well-approximated by a circle. 
 
-Our $5\times 5$ normalized patches are currently in the pixel basis: every coordinate corresponds to the range value at one of the 25 pixels. The Discrete Cosine Transform (DCT) basis is a useful basis for our patches \citep{Range, Mumford}. We change to this basis in order to plot a projection of the loop evidenced by Figure \ref{fig:rangeBetti}. The method \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}} returns the DCT change-of-basis matrix for square patches of size specified by the input parameter.
+Our $5\times 5$ normalized patches are currently in the pixel basis: every coordinate corresponds to the range value at one of the 25 pixels. The Discrete Cosine Transform (DCT) basis is a useful basis for our patches \citep{Range, Mumford}. We change to this basis in order to plot a projection of the loop evidenced by Figure~\ref{fig:rangeBetti}. The method \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}} returns the DCT change-of-basis matrix for square patches of size specified by the input parameter.
 
 %>> size(pointsRangeDct)
 %ans = 15000\quad 24 \hspace{30mm} \% 15000 points in DCT basis (representation)
@@ -1137,14 +1142,14 @@ We plot the projection of \texttt{pointsRangeDct} onto the linear gradient DCT b
 \end{figure}
 \FloatBarrier
 
-The projection of $X^5(300,30)$ in Figure (a) shows a circle. It is called the range primary circle and is parameterized as shown in Figure (b).
+The projection of $X^5(300,30)$ in Figure~(a) shows a circle. It is called the range primary circle and is parameterized as shown in Figure~(b).
 
 
 \subsection{Optical image patches}
 
-The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/optical_image_example.m}{\texttt{optilcal\_image\_example.m}}, and it relies on the files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k300.mat}{\texttt{pointsOpticalDct\_k300.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k15.mat}{\texttt{pointsOpticalDct\_k15.mat}}.
+The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/optical_image_example.m}{\texttt{optical\_image\_example.m}}, and it relies on the files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k300.mat}{\texttt{pointsOpticalDct\_k300.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k15.mat}{\texttt{pointsOpticalDct\_k15.mat}}.
 
-The optical image database collected by \citet{VanHaterenVanDerSchaaf} contains black and white digital photographs from a variety of indoor and outdoor scenes. \citet{Mumford} study $3 \times 3$ patches from these images, and \citet{KleinBottle} continue the analysis of image patches using persistent homology. \citet{KleinBottle} begin with a large collection of high-contrast, normalized $3 \times 3$ pixel patches, each thought of as a point in $\mathbb{R}^9$. They change to the Discrete Cosine Transform (DCT) basis, which maps the patches to the unit sphere $S^7 \subset \mathbb{R}^8$. They select from this space the 30\% densest vectors, based first on the density estimator $\rho_{300}$ (see Appendix \ref{A:core}), and next based on the density estimator $\rho_{15}$. In \citet{KleinBottle} these dense core subset are denoted $X(300,30)$ and $X(15,30)$, and they contain 15,000 points. In the next example we verify two results from \citet{KleinBottle}: $X(300,30)$ has the topology of a circle, and $X(15,30)$ has the topology of a three circle model.
+The optical image database collected by \citet{VanHaterenVanDerSchaaf} contains black and white digital photographs from a variety of indoor and outdoor scenes. \citet{Mumford} study $3 \times 3$ patches from these images, and \citet{KleinBottle} continue the analysis of image patches using persistent homology. \citet{KleinBottle} begin with a large collection of high-contrast, normalized $3 \times 3$ pixel patches, each thought of as a point in $\R^9$. They change to the Discrete Cosine Transform (DCT) basis, which maps the patches to the unit sphere $S^7 \subset \R^8$. They select from this space the 30\% densest vectors, based first on the density estimator $\rho_{300}$ (see Appendix \ref{A:core}), and next based on the density estimator $\rho_{15}$. In \citet{KleinBottle} these dense core subset are denoted $X(300,30)$ and $X(15,30)$, and they contain 15,000 points. In the next example we verify two results from \citet{KleinBottle}: $X(300,30)$ has the topology of a circle, and $X(15,30)$ has the topology of a three circle model.
 
 Make sure you are in the directory \texttt{tutorial\_examples} (you may need to enter the command \texttt{cd tutorial\_examples}), and then load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k300.mat}{\texttt{pointsOpticalDct\_k300.mat}}. The matrix \texttt{pointsOpticalDct\_k300} appears in your Matlab workspace.
 
@@ -1154,7 +1159,7 @@ Make sure you are in the directory \texttt{tutorial\_examples} (you may need to 
 ans = 15000    8                         % 15000 points in dimension 8
 \end{verbatim} \end{quote}
 
-Matrix \texttt{pointsOpticalDct\_k300} is in fact $X(300,30)$: each of its rows is a vector in $\mathbb{R}^8$.
+Matrix \texttt{pointsOpticalDct\_k300} is in fact $X(300,30)$: each of its rows is a vector in $\R^8$.
 
 We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, and we build the lazy witness stream with parameter $\nu = 1$. 
 
@@ -1214,7 +1219,7 @@ We plot the projection of \texttt{pointsOpticalDct\_k300} onto the linear gradie
 \end{figure}
 \FloatBarrier
 
-The projection of $X(300,30)$ in Figure (a) shows a circle. It is called the optical primary circle and is parameterized as shown in Figure (b).
+The projection of $X(300,30)$ in Figure~(a) shows a circle. It is called the optical primary circle and is parameterized as shown in Figure~(b).
 
 We next analyze the core subset $X(15,30)$. Load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k15.mat}{\texttt{pointsOpticalDct\_k15.mat}}. The matrix \texttt{pointsOpticalDct\_k15} appears in your Matlab workspace.
 
@@ -1224,7 +1229,7 @@ We next analyze the core subset $X(15,30)$. Load the file \href{https://github.c
 ans = 15000    8                         % 15000 points in dimension 8
 \end{verbatim} \end{quote}
 
-Matrix \texttt{pointsOpticalDct\_k15} is in fact $X(15,30)$: each of its rows is a vector in $\mathbb{R}^8$.
+Matrix \texttt{pointsOpticalDct\_k15} is in fact $X(15,30)$: each of its rows is a vector in $\R^8$.
 
 We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, and we build the lazy witness stream with parameter $\nu = 1$. 
 
@@ -1284,7 +1289,75 @@ We plot the projection of \texttt{pointsOpticalDct\_k300} onto the linear gradie
 \end{figure}
 \FloatBarrier
 
-Figure (a) shows a projection of $X(15,30)$. The space $X(15,30)$ is parameterized by the three circle model shown in Figure (b). The solid outer circle in the three circle model is the primary circle and contains linear gradients. The dotted and dashed inner circles are the horizontal and vertical secondary circles which contain quadratic gradients. Each secondary circle intersects the primary circle twice, but the secondary circles do not intersect each other; this results in a connected space with $Betti_1 = 5$. The primary circle reflects nature's preference for linear gradients in all directions, and the secondary circles reflect nature's preference for the horizontal and vertical directions.
+Figure~(a) shows a projection of $X(15,30)$. The space $X(15,30)$ is parameterized by the three circle model shown in Figure~(b). The solid outer circle in the three circle model is the primary circle and contains linear gradients. The dotted and dashed inner circles are the horizontal and vertical secondary circles which contain quadratic gradients. Each secondary circle intersects the primary circle twice, but the secondary circles do not intersect each other; this results in a connected space with $Betti_1 = 5$. The primary circle reflects nature's preference for linear gradients in all directions, and the secondary circles reflect nature's preference for the horizontal and vertical directions.
+
+
+\subsection{Cyclo-octane molecule conformations}
+
+The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/cyclo_octane_example.m}{\texttt{cyclo\_octane\_example.m}}, and it relies on the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsCycloOctane.mat}{\texttt{pointsCycloOctane.mat}}.
+
+The cyclo-octane molecule $\cyclo$ consists of a ring of 8 carbons atoms, each bonded to a pair of hydrogen atoms (Figure~\ref{fig:cyclo}). A conformation of this molecule is a chemically and physically possible realization in 3D space, modulo translations and rotations. The locations of the carbon atoms in a conformation determine the locations of the hydrogen atoms via energy minimization, and hence each molecule conformation can be mapped to a point in $\R^{24}=\R^{8\cdot 3}$, as there are eight carbon atoms in the molecule and each carbon location is represented by three coordinates $x,y,z$. This map realizes the conformation space of cyclo-octane as a subset of $\R^{24}$. It turns out that the conformation space is a two-dimensional stratefied space, i.e.\ a two-dimensional manifold with singularities. Furthermore, \cite{brown2008algorithmic}, \cite{martin2010topology}, and \cite{martin2011non} show that the conformation space of cyclo-octane is the union of a sphere with a Klein bottle, glued together along two circles of singularities (see Figures~7 and 8 in \cite{martin2011non}). Indeed, the algorithm they develop allows them to triangulate this conformation space from a finite sample.
+
+\begin{figure}[htp]
+	\begin{center}
+    	\includegraphics[width=2in]{Cyclooctane-boat-chair-3D-balls.png}
+   	\end{center}
+	\caption{The cyclo-octane molecule consists of a ring of 8 carbon atoms (black), each bonded to a pair of hydrogen atoms (white).}
+  	\label{fig:cyclo}
+\end{figure}
+
+\cite{zomorodian2012advances} uses the cyclo-octane dataset as an example to show that we can efficiently recover the homology groups of the conformation space using persistent homology. In this section we essentially follow Zomorodian's example. We begin with a sample of 6,040 points on the conformation space (this data is publicly available at Shawn Martin's webpage \url{http://www.sandia.gov/~smartin/software.html}) and compute the resulting persistent homology. We obtain the Betti numbers $Betti_0 = Betti_1 = 1$ and $Betti_2 = 2$, which match the homology groups of the union of a sphere with a Klein bottle, glued together along two circles of singularities.
+
+Make sure you are in the directory \texttt{tutorial\_examples} (you may need to enter the command \texttt{cd tutorial\_examples}), and then load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsCycloOctane.mat}{\texttt{pointsCycloOctane.mat}}. The matrix \texttt{pointsCycloOctane} appears in your Matlab workspace.
+
+\begin{quote} \begin{verbatim}
+>> load pointsCycloOctane.mat
+>> size(pointsCycloOctane)
+ans = 6040    24                         % 6040 points in dimension 24
+\end{verbatim} \end{quote}
+
+Matrix \texttt{pointsCycloOctane} is a sample of 6,040 points from the cyclo-octane conformation space: each of its rows is a vector in $\R^{24}$.
+
+We pick 100 sequential maxmin landmark points, and we build the lazy witness stream with parameter $\nu = 1$. 
+
+\begin{quote} \begin{verbatim}
+>> max_dimension = 3;
+>> num_landmark_points = 100;
+>> max_filtration_value = 0.5;
+>> nu = 1;
+>> num_divisions = 500;
+
+>> landmark_selector = api.Plex4.createMaxMinSelector(pointsCycloOctane, ...
+num_landmark_points);
+>> R = landmark_selector.getMaxDistanceFromPointsToLandmarks() 
+R = 0.8046
+>> stream = streams.impl.LazyWitnessStream(landmark_selector.getUnderlyingMetricSpace(), ...
+landmark_selector, max_dimension, max_filtration_value, nu, num_divisions);
+>> stream.finalizeStream()
+>> num_simplices = stream.getSize()
+num_simplices = 8025                         
+
+>> persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
+>> intervals = persistence.computeIntervals(stream);
+
+>> options.filename = 'lazyCycloOctane';
+>> options.max_filtration_value = max_filtration_value;
+>> options.max_dimension = max_dimension - 1;
+>> plot_barcodes(intervals, options);
+\end{verbatim} \end{quote}
+
+The file \texttt{lazyCycloOctane.png} is saved to your current directory.
+
+\begin{figure}[htp]
+	\begin{center}
+    	\includegraphics[width=6in]{lazyCycloOctane.png}
+   	\end{center}
+	\caption{Betti intervals for the lazy witness complex built from $X(300,30)$}
+  	\label{fig:rangeBetti}
+\end{figure}
+\FloatBarrier
+
+The plots above show that for a long range, the Betti numbers $Betti_0 = Betti_1 = 1$ and $Betti_2 = 2$ are obtained, which matches the homology of the union of a sphere with a Klein bottle, glued together along two circles of singularities.
 
 
 
@@ -1292,7 +1365,7 @@ Figure (a) shows a projection of $X(15,30)$. The space $X(15,30)$ is parameteriz
 
 
 \subsection{Java heap size}
-Depending on the size of your JavaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial.
+Depending on the size of your Javaplex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial.
 
 The following command returns your maximum heap size in bytes.
 \begin{quote} \texttt{>> java.lang.Runtime.getRuntime.maxMemory\\
@@ -1301,8 +1374,8 @@ ans = 130875392
 My Matlab installation sets the limit to approximately 128 megabytes by default. To increase your limit to, say, 1.5 gigabytes, create a file named \texttt{java.opts} in your Matlab directory which contains the text \texttt{-Xmx1500m} and then restart Matlab. For more information, please see this link: \url{http://www.mathworks.com/support/solutions/en/data/1-18I2C/}.
 
 
-\subsection{Matlab functions with JavaPlex commands}\label{matlabFunctions}
-Writing Matlab functions is very useful. In order to include JavaPlex commands in an m-file function, include the command \texttt{import edu.stanford.math.plex4.*;} as the second line of the function ---  that is, as the first line underneath the function header. We include the m-file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}} as an example Matlab function.
+\subsection{Matlab functions with Javaplex commands}\label{matlabFunctions}
+Writing Matlab functions is very useful. In order to include Javaplex commands in an m-file function, include the command \texttt{import edu.stanford.math.plex4.*;} as the second line of the function ---  that is, as the first line underneath the function header. We include the m-file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}} as an example Matlab function.
 
 {\em Euler characteristic example.}
 The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/euler_characteristic_example.m}{\texttt{euler\_characteristic\_example.m}}, and it relies on the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/eulerCharacteristic.m}{\texttt{eulerCharacteristic.m}}. 
@@ -1340,7 +1413,7 @@ It is possible to compute the bottleneck distance between two barcodes. For an e
 
 
 %\subsection{Java heap size}
-%Depending on the size of your JavaPlex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial. 
+%Depending on the size of your Javaplex computations, you may need to increase the maximum Java heap size. This should not be necessary for the examples in this tutorial. 
 
 %The following command returns your maximum heap size in bytes.
 %\begin{quote} \begin{verbatim} 
@@ -1351,13 +1424,19 @@ It is possible to compute the bottleneck distance between two barcodes. For an e
 
 
 %\subsection{From Java variables to Matlab variables}
-%Some JavaPlex commands return Java variables, when instead one might want output in the form of a Matlab variable, such as a matrix of numbers. One way to transform Java variables into Matlab variables is by using an m-file. For instance, in Section ?? %\ref{explicitStream} 
+%Some Javaplex commands return Java variables, when instead one might want output in the form of a Matlab variable, such as a matrix of numbers. One way to transform Java variables into Matlab variables is by using an m-file. For instance, in Section ?? %\ref{explicitStream} 
 % no
 %we used the m-file \texttt{interval2mat.m} to take an array of type PersistenceInterval into a Matlab matrix. Similarly, the m-file \texttt{betti2mat.m} accepts input of type \texttt{Plex.BettiNumbers} and returns a Matlab vector of integers. These commands are typically used as shown below, where \texttt{intervals} is an array of type PersistenceInterval.
 
 %\begin{quote} \begin{verbatim} intervalMatrix = interval2mat(intervals);
 %>> bettiVect = betti2vect(Plex.FilterInfinite(intervals)); 
 %\end{verbatim} \end{quote}
+
+
+
+\section{Acknowledgements}
+
+We would like to thank the authors of  \cite{brown2008algorithmic}, \cite{martin2010topology}, and \cite{martin2011non} for allowing us to use the cyclo-octane dataset in this tutorial.
 
 
 
@@ -1385,7 +1464,7 @@ For Euclidean datasets, one can use the m-file \href{https://github.com/appliedt
 >> densities = kDensitySlow(points, k); 
 \end{verbatim} \end{quote}
 
-Input \texttt{points} is an $N\times n$ matrix of $N$ points in $\mathbb{R}^n$. Input $k$ is the density estimate parameter. Output \texttt{densities} is a vertical vertex of length $N$ containing the density estimate at each point. 
+Input \texttt{points} is an $N\times n$ matrix of $N$ points in $\R^n$. Input $k$ is the density estimate parameter. Output \texttt{densities} is a vertical vertex of length $N$ containing the density estimate at each point. 
 
 M-file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/coreSubset.m}{\texttt{coreSubset.m}} builds a core subset. The following command is typical.
 
@@ -1397,7 +1476,7 @@ Inputs \texttt{points} and \texttt{densities} are as above. Output \texttt{core}
 
 {\em Prime numbers example.} The Matlab script corresponding to this example is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/core_subsets_example.m}{\texttt{core\_subsets\_example.m}}.
 
-The command \texttt{primes(3571)} returns a vector listing all prime numbers less than or equal to 3571, which is the 500-th prime. We think of these primes as points in $\mathbb{R}$ and build the core subset of the 10 densest points with density parameter $k = 1$.
+The command \texttt{primes(3571)} returns a vector listing all prime numbers less than or equal to 3571, which is the 500-th prime. We think of these primes as points in $\R$ and build the core subset of the 10 densest points with density parameter $k = 1$.
 \begin{quote} \begin{verbatim} 
 >> p = primes(3571)';
 >> length(p)
@@ -1469,7 +1548,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \FloatBarrier
 
 \begin{exerciseSol}
-Build a simplicial complex homeomorphic to the Klein bottle. Check that it has the same Betti numbers as the torus over $\mathbb{Z}_2$ coefficients but different Betti numbers over $\mathbb{Z}_3$ coefficients.
+Build a simplicial complex homeomorphic to the Klein bottle. Check that it has the same Betti numbers as the torus over $\Z_2$ coefficients but different Betti numbers over $\Z_3$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1484,7 +1563,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \FloatBarrier
 
 \begin{exerciseSol}
-Build a simplicial complex homeomorphic to the projective plane. Find its Betti numbers over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients.
+Build a simplicial complex homeomorphic to the projective plane. Find its Betti numbers over $\Z_2$ and $\Z_3$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1515,7 +1594,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \end{solution}
 
 \begin{exerciseSol}
-Write a Matlab script or function that selects 1,000 random points from the unit sphere $S^2 \subset \mathbb{R}^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
+Write a Matlab script or function that selects 1,000 random points from the unit sphere $S^2 \subset \R^3$ and then computes the 1,000 $\times$ 1,000 distance matrix for these points under the induced metric on the projective plane. Create an explicit metric space from this distance matrix. 
 \end{exerciseSol}
 
 \begin{solution}
@@ -1531,7 +1610,7 @@ No solution included.
 \end{solution}
 
 \begin{exerciseSol}
-Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer.
+Find a planar dataset $Z \subset \R^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1539,7 +1618,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \end{solution}
 
 \begin{exerciseSol}
-Find a planar dataset $Z \subset \mathbb{R}^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$.
+Find a planar dataset $Z \subset \R^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1547,7 +1626,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \end{solution}
 
 \begin{exerciseSol}
-Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Suppose we are using sequential maxmin to select a set $L$ of 3 landmarks, and the first (randomly selected) landmark is $(1,0)$. Find by hand the other two landmarks in $L$.
+Let $Z$ be the point cloud in Figure~\ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Suppose we are using sequential maxmin to select a set $L$ of 3 landmarks, and the first (randomly selected) landmark is $(1,0)$. Find by hand the other two landmarks in $L$.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1567,7 +1646,7 @@ This contradicts the fact that landmark $l_j$ was chosen at the $j$-th step of s
 \end{solution}
 
 \begin{exerciseSol}
-Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$?
+Let $Z$ be the point cloud in Figure~\ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$?
 \end{exerciseSol}
 
 \begin{solution}
@@ -1575,7 +1654,7 @@ The edge between $(1, 0)$ and $(0, 3)$ has filtration time zero. Points $(1, 2)$
 \end{solution}
 
 \begin{exerciseSol}
-Let $Z$ be the point cloud in Figure \ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$?
+Let $Z$ be the point cloud in Figure~\ref{fig:housePointCloud} from Section \ref{euc}, corresponding to the house point cloud. Let $L = \{(1,0),(0,3),(-1,0)\}$ be the landmark subset. Let $\nu = 1$. Find by hand the filtration time for the edge between vertices $(1,0)$ and $(0,3)$. Which point or points witness this edge? What is the filtration time for the lone 2-simplex $[(1,0),(0,3),(-1,0)]$?
 \end{exerciseSol}
 
 \begin{solution}
@@ -1609,7 +1688,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \end{solution}
 
 \begin{exerciseSol}
-In Exercise \ref{Ex:flatKlein} you created an explicit metric space for 1,000 random points on a flat Klein bottle. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients.
+In Exercise \ref{Ex:flatKlein} you created an explicit metric space for 1,000 random points on a flat Klein bottle. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\Z_2$ and $\Z_3$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1617,7 +1696,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \end{solution}
 
 \begin{exerciseSol}
-In Exercise \ref{Ex:quotProjPlane} you created an explicit metric space for 1,000 random points on a projective plane. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\mathbb{Z}_2$ and $\mathbb{Z}_3$ coefficients.
+In Exercise \ref{Ex:quotProjPlane} you created an explicit metric space for 1,000 random points on a projective plane. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\Z_2$ and $\Z_3$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1625,7 +1704,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \end{solution}
 
 \begin{exerciseSol}
-Sample points from an embedding of a double torus, that is, a surface of genus two, in $\mathbb{R}^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
+Sample points from an embedding of a double torus, that is, a surface of genus two, in $\R^3$. Build a lazy witness stream on this Euclidean metric space. Confirm the barcodes match the homology of a double torus. Choosing suitable parameters will not be easy.
 \end{exerciseSol}
 
 \begin{solution}
