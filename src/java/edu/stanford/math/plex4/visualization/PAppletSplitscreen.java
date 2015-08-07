@@ -4,6 +4,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import processing.core.PApplet;
+import processing.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class PAppletSplitscreen extends PApplet {
@@ -15,6 +16,8 @@ public class PAppletSplitscreen extends PApplet {
 	float distX = 0.0f, distY = 0.0f;
 	int lastX, lastY;
 	float zoomZ = 0.0f;
+	float zoomX = 0.0f;
+	boolean loaded = false;
 
 	/**
 	 * Overwrite this method to setup additional variables
@@ -23,18 +26,20 @@ public class PAppletSplitscreen extends PApplet {
 	}
 
 	@Override
-	final public void setup() {
+	final public void settings(){
 		size(1000, 500, P3D);
-		addMouseWheelListener(new MouseWheelListener() {
-
-			public void mouseWheelMoved(final MouseWheelEvent mwe) {
-				mouseWheel(mwe.getWheelRotation());
-			}
-		});
-		textMode(SCREEN);
+	}
+	
+	
+	@Override
+	final public void setup() {
 		doSetup();
 	}
 
+	public void mouseWheel(final MouseEvent mwe) {
+		mouseWheel(mwe.getCount());
+	}
+	
 	/**
 	 * Overwrite this method to draw 2D objects in your sketch.
 	 */
@@ -49,17 +54,19 @@ public class PAppletSplitscreen extends PApplet {
 
 	@Override
 	final public void draw() {
-		translate(2 * width / 7, height / 2, zoomZ);
+		if(loaded){
+		translate(2 * width / 7 + zoomX, height / 2 , zoomZ);
 		rotateX(rotX + distY);
 		rotateY(rotY + distX);
+		lights();
 		doDraw3D();
 		hint(DISABLE_DEPTH_TEST);
 		camera();
-		noLights();
 		fill(255, 0, 0);
 		translate(width / 2, 0, 0);
 		doDraw2D();
 		hint(ENABLE_DEPTH_TEST);
+		}
 	}
 
 	/**
@@ -79,8 +86,10 @@ public class PAppletSplitscreen extends PApplet {
 	 * @author Rick Companje
 	 */
 	void mouseWheel(final int delta) {
-		if (mouseX <= width / 2)
+		if (mouseX <= width / 2){
 			zoomZ += delta * -15;
+			zoomX += delta * -10;
+		}
 	}
 
 	/**

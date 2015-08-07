@@ -1,5 +1,6 @@
 package edu.stanford.math.plex4.visualization;
 
+import java.io.File;
 import java.util.List;
 
 import edu.stanford.math.plex4.homology.barcodes.Interval;
@@ -27,7 +28,7 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 	 */
 
 	DoubleArrayReaderWriter doubleArrayReaderWriter = DoubleArrayReaderWriter.getInstance();
-	String fileName;
+	String fileName = "/home/jacobien/workspace/javaplex visualizer/coordinate_files/sphere.txt";
 	float[][] pointsViz;
 	double[][] pointsComp;
 	AbstractSearchableMetricSpace<double[]> metricSpace;
@@ -35,23 +36,28 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 	FiltrationConverter fc;
 	final int scale3D = 100;
 
+
 	@Override
 	public void doSetup() {
 		background(255);
-		openNewFile();
 		imgWidth = width / 2;
+		selectInput("Select a file to process:", "fileSelected");
 	}
 
+	public void fileSelected(File selection) {
+		if (selection != null) 
+		    fileName = selection.getAbsolutePath();
+		openNewFile();
+	}
+	
 	void openNewFile() {
-		final String inputFile = selectInput("Select a coordinate file to visualize (comma-separated, no header)");
-		if (inputFile != null)
-			fileName = inputFile;
 		try {
 			pointsComp = doubleArrayReaderWriter.importFromFile(fileName);
 			metricSpace = new EuclideanMetricSpace(pointsComp);
 			setFiltrationParameters(metricSpace);
 			pointsViz = PointCloudScaling.scaleCoordinates(pointsComp, scale3D);
 			computeVietorisRipsHomology();
+			loaded = true;
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
@@ -104,8 +110,9 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 						topMargin);
 				// Compute the bar size
 				final int intCount = ints.size();
-				final float spacing = Math.min(maxBarSpacing, barRegion.height / (2 * intCount - 1));
+				final float spacing = Math.min(maxBarSpacing, ((float) barRegion.height) / ((float)(2 * intCount - 1)));
 				final float barHeight = spacing;
+				print(barHeight);
 				// Calculate the bar scale
 				final float maxBarWidth = (float) maxFiltrationValue.doubleValue();
 				final float barScale = (barRegion.width) / maxBarWidth;
@@ -178,15 +185,10 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 		final int posY = height - 6 * lineHeight;
 		textFont(createFont(font, lineHeight));
 		fill(0);
-		final String[] fileNamePath = fileName.split("/");
-		final String shortFileName = fileNamePath[fileNamePath.length - 1];
-		text("Points from file: " + shortFileName, leftMargin, posY);
+		text("Current filtration value: " + Math.round(filtrationValue*1000)/1000d, leftMargin, posY);
 		text(fillTriangles ? "Coloring triangles blue, press 'f' to switch off." : "Not coloring triangles, press 'f' to switch on.", leftMargin, posY
 				+ lineHeight);
-
-		double rounded = Math.round(maxFiltrationValue * 1000);
-		rounded = rounded / 1000;
-		text("Max filtration value: " + rounded + ". Use '+' and '-' to adjust.", leftMargin, posY + 2 * lineHeight);
+		text("Max filtration value: " + Math.round(maxFiltrationValue * 1000)/1000d + ". Use '+' and '-' to adjust.", leftMargin, posY + 2 * lineHeight);
 		text("Press 'h' to recompute homology", leftMargin, posY + 3 * lineHeight);
 		if (plottype == PlotType.BARCODE)
 			text("Showing barcode for homology in dimension " + dims.maxDimension + ".", posX, posY);
@@ -196,8 +198,11 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 		text("Use left and right arrow to increase filtration value.", posX, posY + 2 * lineHeight);
 		text("Press 't' to switch plot type.", posX, posY + 3 * lineHeight);
 		text("Press 'o' to open new coordinate file.", posX, posY + 4 * lineHeight);
+		
+		
 	}
 
+	
 	/*
 	 * Draw 3D point cloud
 	 */
@@ -209,8 +214,8 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 	@Override
 	public void doDraw3D() {
 		background(255);
-		stroke(0);
-		fill(0);
+		noStroke();
+		
 		if (stream != null)
 			for (final Simplex s : stream) {
 				final double fv = fc.getFiltrationValue(stream.getFiltrationIndex(s));
@@ -220,20 +225,6 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 				ix = s.getVertices();
 
 				switch (s.getDimension()) {
-				case 0:
-					fill(0);
-					pushMatrix();
-					translate(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
-					sphere(r);
-					popMatrix();
-					break;
-				case 1:
-					fill(0);
-					beginShape();
-					vertex(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
-					vertex(pointsViz[ix[1]][0], pointsViz[ix[1]][1], pointsViz[ix[1]][2]);
-					endShape();
-					break;
 				case 2:
 					if (fillTriangles) {
 						fill(0, 0, 255, 20);
@@ -245,6 +236,24 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 						endShape();
 					}
 					break;
+				case 1:
+					fill(0);
+					stroke(0);
+					strokeWeight(1);
+					beginShape(LINES);
+					vertex(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
+					vertex(pointsViz[ix[1]][0], pointsViz[ix[1]][1], pointsViz[ix[1]][2]);
+					endShape();
+					break;
+				case 0:
+					noStroke();
+					fill(122);
+					pushMatrix();
+					translate(pointsViz[ix[0]][0], pointsViz[ix[0]][1], pointsViz[ix[0]][2]);
+					sphere(r);
+					popMatrix();
+					break;
+			
 				default:
 					continue;
 				}
@@ -377,10 +386,14 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 	abstract void computeVietorisRipsHomology();
 
 	enum Dimensions {
-		ZERO(0, new int[] { 0 }, "0(blue)", "0, colors correspond to generators."), ONE(1, new int[] { 1 }, "1(red)", "1, colors correspond to generators."), TWO(
-				2, new int[] { 2 }, "2(green)", "2, colors correspond to generators."), ZEROandONE(1, new int[] { 0, 1 }, "0(blue) and 1(red)",
-				"0 and 1, colors correspond to generators, dimension are not distinguished."), ZEROandTWO(2, new int[] { 0, 2 }, "0(blue) and 2(green)",
-				"0 and 2, colors correspond to generators, dimension are not distinguished."), ONEandTWO(2, new int[] { 1, 2 }, "1(red) and 2(green)",
+		ZERO(0, new int[] { 0 }, "0(blue)", "0, colors correspond to generators."), 
+		ONE(1, new int[] { 1 }, "1(red)", "1, colors correspond to generators."), 
+		TWO(2, new int[] { 2 }, "2(green)", "2, colors correspond to generators."), 
+		ZEROandONE(1, new int[] { 0, 1 }, "0(blue) and 1(red)",
+				"0 and 1, colors correspond to generators, dimension are not distinguished."), 
+		ZEROandTWO(2, new int[] { 0, 2 }, "0(blue) and 2(green)",
+				"0 and 2, colors correspond to generators, dimension are not distinguished."), 
+		ONEandTWO(2, new int[] { 1, 2 }, "1(red) and 2(green)",
 				"1 and 2, colors correspond to generators, dimension are not distinguished."), ZEROandONEandTWO(2, new int[] { 0, 1, 2 },
 				"0(blue), 1(red) and 2(green)", "0, 1 and 2, colors correspond to generators, dimension are not distinguished.");
 
