@@ -112,7 +112,6 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 				final int intCount = ints.size();
 				final float spacing = Math.min(maxBarSpacing, ((float) barRegion.height) / ((float)(2 * intCount - 1)));
 				final float barHeight = spacing;
-				print(barHeight);
 				// Calculate the bar scale
 				final float maxBarWidth = (float) maxFiltrationValue.doubleValue();
 				final float barScale = (barRegion.width) / maxBarWidth;
