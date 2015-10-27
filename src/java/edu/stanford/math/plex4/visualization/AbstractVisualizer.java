@@ -28,7 +28,7 @@ public abstract class AbstractVisualizer extends PAppletSplitscreen {
 	 */
 
 	DoubleArrayReaderWriter doubleArrayReaderWriter = DoubleArrayReaderWriter.getInstance();
-	String fileName = "/home/jacobien/workspace/javaplex visualizer/coordinate_files/sphere.txt";
+	String fileName;
 	float[][] pointsViz;
 	double[][] pointsComp;
 	AbstractSearchableMetricSpace<double[]> metricSpace;
