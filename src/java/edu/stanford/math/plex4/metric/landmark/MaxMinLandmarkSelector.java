@@ -30,12 +30,9 @@ public class MaxMinLandmarkSelector<T> extends LandmarkSelector<T> {
 	 * @param landmarkSetSize the size of the landmark set
 	 */
 	public MaxMinLandmarkSelector(AbstractSearchableMetricSpace<T> metricSpace, int landmarkSetSize) {
-		super(metricSpace, landmarkSetSize);
-		
-		int metricSpaceSize = this.metricSpace.size();
-
-		// select first point randomly
-		this.firstPoint = RandomUtility.nextUniformInt(0, metricSpaceSize - 1);
+		super(metricSpace, landmarkSetSize, false);
+		this.firstPoint = RandomUtility.nextUniformInt(0, this.metricSpace.size() - 1);
+		this.indexMapping = this.computeLandmarkSet();
 	}
 	
 	/**
@@ -47,8 +44,9 @@ public class MaxMinLandmarkSelector<T> extends LandmarkSelector<T> {
 	 * @param firstPoint the initial point to use
 	 */
 	public MaxMinLandmarkSelector(AbstractSearchableMetricSpace<T> metricSpace, int landmarkSetSize, int firstPoint) {
-		super(metricSpace, landmarkSetSize);
+		super(metricSpace, landmarkSetSize, false);
 		this.firstPoint = firstPoint;
+		this.indexMapping = this.computeLandmarkSet();
 	}
 
 	@Override

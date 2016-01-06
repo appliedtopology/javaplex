@@ -45,8 +45,31 @@ public abstract class LandmarkSelector<T> implements AbstractSearchableMetricSpa
 	 * This array holds the mapping between the indices of the landmark points,
 	 * and the indices within the metric space.
 	 */
-	protected final int[] indexMapping;
+	protected int[] indexMapping;
 
+	/**
+	 * This constructor initializes the landmark selector with a finite metric
+	 * space, and a size parameter.
+	 * 
+	 * @param metricSpace
+	 *            the metric space to build the landmarks set in
+	 * @param landmarkSetSize
+	 *            the size of the landmark set
+	 * @param computeIndexMapping
+	 *            whether or not to compute the index mapping or not
+	 */
+	public LandmarkSelector(AbstractSearchableMetricSpace<T> metricSpace, int landmarkSetSize, boolean computeIndexMapping) {
+		ExceptionUtility.verifyNonNull(metricSpace);
+		ExceptionUtility.verifyLessThanOrEqual(landmarkSetSize, metricSpace.size());
+
+		this.metricSpace = metricSpace;
+		this.landmarkSetSize = landmarkSetSize;
+
+		if (computeIndexMapping) {
+			this.indexMapping = this.computeLandmarkSet();
+		}
+	}
+	
 	/**
 	 * This constructor initializes the landmark selector with a finite metric
 	 * space, and a size parameter.
@@ -57,13 +80,7 @@ public abstract class LandmarkSelector<T> implements AbstractSearchableMetricSpa
 	 *            the size of the landmark set
 	 */
 	public LandmarkSelector(AbstractSearchableMetricSpace<T> metricSpace, int landmarkSetSize) {
-		ExceptionUtility.verifyNonNull(metricSpace);
-		ExceptionUtility.verifyLessThanOrEqual(landmarkSetSize, metricSpace.size());
-
-		this.metricSpace = metricSpace;
-		this.landmarkSetSize = landmarkSetSize;
-
-		this.indexMapping = this.computeLandmarkSet();
+		this(metricSpace, landmarkSetSize, true);
 	}
 
 	public LandmarkSelector(AbstractSearchableMetricSpace<T> metricSpace, int[] indices) {
@@ -197,7 +214,7 @@ public abstract class LandmarkSelector<T> implements AbstractSearchableMetricSpa
 
 		for (int i = 0; i < this.landmarkSetSize; i++) {
 			T element = this.getPoint(i);
-			
+
 			if (element.equals(queryPoint)) {
 				continue;
 			}
