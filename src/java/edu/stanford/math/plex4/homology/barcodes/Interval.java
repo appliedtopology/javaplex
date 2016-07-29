@@ -300,7 +300,7 @@ public class Interval<T extends Comparable<T>> implements Comparable<Interval<T>
 		if (this.isLeftInfinite) {
 			builder.append("-infinity");
 		} else {
-			builder.append(start);
+			builder.append(start.toString());
 		}
 
 		builder.append(", ");
@@ -308,7 +308,7 @@ public class Interval<T extends Comparable<T>> implements Comparable<Interval<T>
 		if (this.isRightInfinite) {
 			builder.append("infinity");
 		} else {
-			builder.append(end);
+			builder.append(end.toString());
 		}
 
 		if (this.isRightClosed) {
