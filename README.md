@@ -10,12 +10,10 @@ The `JavaPlex` library implements persistent homology and related techniques fro
 For persistent homology and its capabilities, we recommend the survey article [Topology and Data](http://www.ams.org/journals/bull/2009-46-02/S0273-0979-09-01249-X/S0273-0979-09-01249-X.pdf) by Gunnar Carlsson.
 
 ## How to get started?
-  
-* Start playing around with the latest [matlab examples](https://github.com/appliedtopology/javaplex/releases/download/4.2.5/matlab-examples-4.2.5.zip)
-* Read the [tutorial PDF](https://github.com/appliedtopology/javaplex/releases/download/4.2.5/javaplex_tutorial.pdf) or the [tutorial wiki page](https://github.com/appliedtopology/javaplex/wiki/Tutorial)
-* Take a look at the [documentation overview](https://github.com/appliedtopology/javaplex/wiki/Overview)
-* Download the latest [jar file](https://github.com/appliedtopology/javaplex/releases/download/4.2.5/javaplex-4.2.5.jar) and start playing with the Java code
-* Take a look at the [latest release](https://github.com/appliedtopology/javaplex/releases/)
+
+* Take a look at the [documentation overview](https://github.com/appliedtopology/javaplex/wiki/Overview)  
+* Take a look at the [latest release](https://github.com/appliedtopology/javaplex/releases/). The tutorial PDF is available for download there (and also [here](http://www.math.colostate.edu/~adams/research/javaplex_tutorial.pdf)). There is also a [tutorial wiki page](https://github.com/appliedtopology/javaplex/wiki/Tutorial).
+* From the [latest release](https://github.com/appliedtopology/javaplex/releases/), you can download and start playing with the latest matlab examples.
 
 ## For more information
 

@@ -1653,7 +1653,9 @@ Let $Z$ be the point cloud in Figure~\ref{fig:housePointCloud} from Section~\ref
 \end{exerciseSol}
 
 \begin{solution}
-The edge between $(1, 0)$ and $(0, 3)$ has filtration value zero. Points $(1, 2)$ or $(0, 3)$ witness this edge. The lone 2-simplex has filtration value zero. 
+Since $m_1$ is the distance from a point to its second closest landmark, we have $m_1((\pm1,0))=2=m_1((\pm1,2))$ and $m_1((0,3))=\sqrt{10}$. It follows that the edge between $(1,0)$ and $(0,3)$ has filtration value zero, and that points $(1,2)$ and $(0,3)$ are both witness for this edge at filtration value zero.
+
+Since $m_2$ is the distance from a point to its third closest landmark, we have $m_2((\pm1,0))=\sqrt{10}=m_2((0,3))$ and $m_2((\pm1,2))=2\sqrt{2}$. It follows that the lone 2-simplex has filtration value zero, and that all five points of $Z$ are witnesses for this 2-simplex at filtration value zero.
 \end{solution}
 
 \begin{exerciseSol}
