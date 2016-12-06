@@ -12,7 +12,9 @@ import gnu.trove.TIntIntHashMap;
 import gnu.trove.TIntObjectHashMap;
 import gnu.trove.TIntObjectIterator;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * This class implements the functionality of an undirected weighted graph.
@@ -93,8 +95,10 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 	 * @see edu.stanford.math.plex_plus.graph.AbstractGraph#getNumEdges()
 	 */
 	public int getNumEdges() {
-		// TODO: complete
-		throw new UnsupportedOperationException();
+		int sum = 0;
+		for(int k : degrees.getValues())
+			sum += k;
+		return(sum/2);
 	}
 
 	/* (non-Javadoc)
@@ -198,5 +202,13 @@ public class UndirectedWeightedListGraph implements AbstractWeightedUndirectedGr
 		}
 		
 		return set.toArray();
+	}
+	
+	public Set<Double> getWeights() {
+		Set<Double> weights = new HashSet<Double>();
+		for (Object x : adjacencySets.getValues())
+			for (Double weight : ((TIntDoubleHashMap) x).getValues())
+				weights.add(weight);
+		return weights;
 	}
 }

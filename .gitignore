@@ -5,3 +5,6 @@
 *.war
 *.ear
 /bin/
+
+# Mac system files
+*.DS_Store
