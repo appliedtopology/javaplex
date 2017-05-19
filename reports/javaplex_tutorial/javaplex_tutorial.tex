@@ -11,7 +11,7 @@
 \usepackage{wrapfig}
 \usepackage{hyperref}
 \usepackage{appendix}
-\usepackage{multind}
+%\usepackage{multind}
 \usepackage{natbib}
 \bibpunct{[}{]}{;}{a}{}{,~}
 
@@ -114,10 +114,16 @@ Javaplex requires version number \texttt{1.5} or higher.
 
 To install Javaplex for Matlab, go to the latest release at \url{https://github.com/appliedtopology/javaplex/releases/latest/}. Download the zip file containing the Matlab examples, which should be called something like \texttt{matlab-examples-4.2.3.zip}. Extract the zip file. The resulting folder should be called \texttt{matlab\_examples}; make sure you know the location of this folder and that it is not inside the zip file.
 
-In Matlab, change Matlab's ``Current Folder" to the directory \texttt{matlab\_examples} that you just extracted from the zip file. Run the \texttt{load\_javaplex.m} file. 
+In Matlab, change Matlab's ``Current Folder" to the directory \texttt{matlab\_examples} that you just extracted from the zip file. In the Matlab command window, run the \texttt{load\_javaplex.m} file. 
 
 \begin{quote} \begin{verbatim} 
 >> load_javaplex
+\end{verbatim} \end{quote}
+
+Also in the Matlab command window, type the following command.
+
+\begin{quote} \begin{verbatim} 
+>> import edu.stanford.math.plex4.*;
 \end{verbatim} \end{quote}
 
 Installation is complete. Confirm that Javaplex is working properly with the following command.
