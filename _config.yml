@@ -1,0 +1,8 @@
+title: Javaplex
+description: Persistent Homology and Topological Data Analysis Library
+google_analytics: UA-45825257-1
+show_downloads: true
+theme: jekyll-theme-dinky
+
+gems:
+  - jekyll-mentions
