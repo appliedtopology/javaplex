@@ -1,0 +1,94 @@
+\begin{thebibliography}{15}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Adams and Carlsson(2009)]{Range}
+H.~Adams and G.~Carlsson.
+\newblock On the nonlinear statistics of range image patches.
+\newblock \emph{SIAM J.\ Imag.\ Sci.}, 2:\penalty0 110--117, 2009.
+
+\bibitem[Armstrong(1983)]{Armstrong}
+M.~A. Armstrong.
+\newblock \emph{Basic Topology}.
+\newblock Springer, New York, Berlin, 1983.
+
+\bibitem[Brown et~al.(2008)Brown, Martin, Pollock, Coutsias, and
+  Watson]{brown2008algorithmic}
+M.~W. Brown, S.~Martin, S.~N. Pollock, E.~A. Coutsias, and J.~P. Watson.
+\newblock Algorithmic dimensionality reduction for molecular structure
+  analysis.
+\newblock \emph{Journal of Chemical Physics}, 129:\penalty0 064118, 2008.
+
+\bibitem[Carlsson et~al.(2008)Carlsson, Ishkhanov, de~Silva, and
+  Zomorodian]{KleinBottle}
+G.~Carlsson, T.~Ishkhanov, V.~de~Silva, and A.~Zomorodian.
+\newblock On the local behavior of spaces of natural images.
+\newblock \emph{Int.\ J.\ Comput.\ Vision}, 76:\penalty0 1--12, 2008.
+
+\bibitem[de~Silva and Carlsson(2004)]{WitnessComplexes}
+V.~de~Silva and G.~Carlsson.
+\newblock Topological estimation using witness complexes.
+\newblock In \emph{Eurographics Symposium on Point-Based Graphics}, June 2004.
+
+\bibitem[Edelsbrunner and Harer(2010)]{ComputationalTopology}
+H.~Edelsbrunner and J.~Harer.
+\newblock \emph{Computational Topology: An Introduction}.
+\newblock American Mathematical Society, Providence, 2010.
+
+\bibitem[Edelsbrunner et~al.(2002)Edelsbrunner, Letscher, and
+  Zomorodian]{TopologicalPersistence}
+H.~Edelsbrunner, D.~Letscher, and A.~Zomorodian.
+\newblock Topological persistence and simplification.
+\newblock \emph{Discrete Comput.\ Geom.}, 28:\penalty0 511--533, 2002.
+
+\bibitem[Hatcher(2002)]{Hatcher}
+A.~Hatcher.
+\newblock \emph{Algebraic Topology}.
+\newblock Cambridge University Press, Cambridge, 2002.
+
+\bibitem[Lee et~al.(2003)Lee, Pedersen, and Mumford]{Mumford}
+A.~B. Lee, K.~S. Pedersen, and D.~Mumford.
+\newblock The nonlinear statistics of high-contrast patches in natural images.
+\newblock \emph{Int.\ J.\ Comput.\ Vision}, 54:\penalty0 83--103, 2003.
+
+\bibitem[Martin and Watson(2011)]{martin2011non}
+S.~Martin and J.~P. Watson.
+\newblock Non-manifold surface reconstruction from high-dimensional point cloud
+  data.
+\newblock \emph{Computational Geometry}, 44:\penalty0 427--441, 2011.
+
+\bibitem[Martin et~al.(2010)Martin, Thompson, Coutsias, and
+  Watson]{martin2010topology}
+S.~Martin, A.~Thompson, E.~A. Coutsias, and J.~P. Watson.
+\newblock Topology of cyclo-octane energy landscape.
+\newblock \emph{Journal of Chemical Physics}, 132:\penalty0 234115, 2010.
+
+\bibitem[Tausz et~al.(2014)Tausz, Vejdemo-Johansson, and Adams]{Javaplex}
+A.~Tausz, M.~Vejdemo-Johansson, and H.~Adams.
+\newblock Java{P}lex: {A} research software package for persistent
+  (co)homology.
+\newblock In H.~Hong and C.~Yap, editors, \emph{Proceedings of ICMS 2014},
+  Lecture Notes in Computer Science 8592, pages 129--136, 2014.
+\newblock Software available at
+  \url{http://appliedtopology.github.io/javaplex/}.
+
+\bibitem[van Hateren and van~der Schaaf(1998)]{VanHaterenVanDerSchaaf}
+J.~H. van Hateren and A.~van~der Schaaf.
+\newblock Independent component filters of natural images compared with simple
+  cells in primary visual cortex.
+\newblock \emph{Proc.\ R.\ Soc.\ Lond.\ B}, 265:\penalty0 359--366, 1998.
+
+\bibitem[Zomorodian(2012)]{zomorodian2012advances}
+A.~Zomorodian.
+\newblock \emph{Advances in Applied and Computational Topology}.
+\newblock American Mathematical Society, 2012.
+
+\bibitem[Zomorodian and Carlsson(2005)]{ComputingPersistent}
+A.~Zomorodian and G.~Carlsson.
+\newblock Computing persistent homology.
+\newblock \emph{Discrete Comput.\ Geom.}, 33:\penalty0 249--274, 2005.
+
+\end{thebibliography}
