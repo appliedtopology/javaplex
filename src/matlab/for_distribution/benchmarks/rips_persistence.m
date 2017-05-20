@@ -1,6 +1,8 @@
 %% Rips-complex benchmark example
 % Note: make sure that you give matlab enough heap space to work with
+
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 max_dimension = 4;
 max_filtration_value = 0.3;

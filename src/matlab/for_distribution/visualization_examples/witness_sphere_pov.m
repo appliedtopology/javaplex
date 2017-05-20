@@ -2,6 +2,7 @@
 % from random points on the 2-sphere
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 dimension = 2;
 num_points = 1000;

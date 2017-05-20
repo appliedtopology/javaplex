@@ -3,6 +3,7 @@
 % of plex.
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 dimension = 15;
 

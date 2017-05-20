@@ -1,6 +1,7 @@
 % This shows the optical image patch example - Section 6
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 % k = 300
 load pointsOpticalDct_k300.mat

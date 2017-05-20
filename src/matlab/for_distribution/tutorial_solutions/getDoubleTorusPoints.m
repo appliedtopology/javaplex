@@ -8,6 +8,8 @@ function points = getDoubleTorusPoints(numPoints, tolerance)
 %   distances - numPoints x 3 matrix of random points on a double torus
 %       embedded in R^3.
 
+import edu.stanford.math.plex4.*;
+
 points = zeros(numPoints, 3);
 accepted = 0;
 while (accepted < numPoints)

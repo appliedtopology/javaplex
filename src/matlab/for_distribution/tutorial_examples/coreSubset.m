@@ -10,5 +10,7 @@ function core = coreSubset(points, densities, numPoints)
 %   core - numPoints x n matrix of the top numPoints densest points (as 
 %       ranked by densities)
 
+import edu.stanford.math.plex4.*;
+
 [A,sortedDensityIndices] = sort(densities,'descend');
 core = points(sortedDensityIndices(1:numPoints),:);

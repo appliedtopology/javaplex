@@ -4,6 +4,7 @@
 %% Circle Example
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 % get a new ExplicitSimplexStream
 stream = api.Plex4.createExplicitSimplexStream();

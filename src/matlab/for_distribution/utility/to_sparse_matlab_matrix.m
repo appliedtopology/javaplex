@@ -8,7 +8,9 @@ function matlab_sparse_matrix = to_sparse_matlab_matrix(formal_sum, matrix_conve
 % OUTPUTS:
 % matlab_sparse_matrix: a sparse matrix which represents the same linear
 % transformation as the given formal sum
+
     import edu.stanford.math.plex4.*;
+    
     sparse_matrix_object = matrix_converter.toSparseMatrix(formal_sum);
     matlab_sparse_matrix = convert_sparse_matrix(sparse_matrix_object);
 end

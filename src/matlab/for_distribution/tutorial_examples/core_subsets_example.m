@@ -2,6 +2,7 @@
 % Appendix A
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 %% Prime Numbers Example
 

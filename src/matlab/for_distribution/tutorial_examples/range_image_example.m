@@ -1,6 +1,7 @@
 % This shows the range image patch example - Section 6
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 load pointsRange.mat
 size(pointsRange)

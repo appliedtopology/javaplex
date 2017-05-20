@@ -1,5 +1,6 @@
 %% 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 distances = [0,2,sqrt(8),2,sqrt(10); 2,0,2,sqrt(8),sqrt(10); sqrt(8),2,0,2,sqrt(2); 2,sqrt(8),2,0,sqrt(2); sqrt(10),sqrt(10),sqrt(2),sqrt(2),0];
 m_space = metric.impl.ExplicitMetricSpace(distances);

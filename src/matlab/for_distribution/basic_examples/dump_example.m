@@ -1,6 +1,7 @@
 % This script demonstrates the use of plex on a simple "house" example
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 max_dimension = 2;
 max_filtration_value = 4;

@@ -1,6 +1,7 @@
 % This script computes various cellular homology examples
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 %% Cellular Sphere
 

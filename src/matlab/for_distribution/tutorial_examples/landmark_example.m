@@ -2,6 +2,7 @@
 % selection - Section 5.2
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 %% Figure 8 Example
 

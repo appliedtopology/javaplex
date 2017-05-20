@@ -1,4 +1,5 @@
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 max_dimension = 2;
 num_points = 30;

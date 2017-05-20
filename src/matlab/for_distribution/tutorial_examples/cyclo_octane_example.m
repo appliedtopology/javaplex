@@ -1,6 +1,7 @@
 % This shows the cyclo-octane example - Section 6
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 load pointsCycloOctane.mat
 size(pointsCycloOctane)

@@ -7,7 +7,9 @@ function distances = projPlaneDistanceMatrix(numPoints)
 %   distances - numPoints x numPoints distance matrix for randomly chosen 
 %       points on the projective plane
 %
-% henrya@math.stanford.edu and atausz@stanford.edu
+% henry.adams@colostate.edu and atausz@stanford.edu
+
+import edu.stanford.math.plex4.*;
 
 % sample points from the unit sphere S^2
 point_cloud = zeros(numPoints, 3);

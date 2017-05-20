@@ -1,5 +1,5 @@
 clc; clear; close all;
-
+import edu.stanford.math.plex4.*;
 
 stream = api.Plex4.createExplicitSimplexStream();
 for i=1:4,

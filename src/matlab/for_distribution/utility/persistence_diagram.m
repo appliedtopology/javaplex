@@ -9,7 +9,7 @@ function persistence_diagram(intervals, min_dimension, max_dimension, filename)
 %   max_dimension, and displays it on screen. If a filename is specified,
 %   it also saves it to a file.
 %
-% henrya@math.stanford.edu and atausz@stanford.edu
+% henry.adams@colostate.edu and atausz@stanford.edu
 
     import edu.stanford.math.plex4.*;
 

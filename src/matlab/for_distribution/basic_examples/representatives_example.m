@@ -1,5 +1,7 @@
 % This script shows an example of computing a representative cycle for each barcode
+
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 % get a new ExplicitSimplexStream
 stream = api.Plex4.createExplicitSimplexStream();

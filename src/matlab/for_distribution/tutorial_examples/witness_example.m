@@ -1,6 +1,7 @@
 % This script calculates the intervals for a witness complex - Section 5.3
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 %% Torus Example
 

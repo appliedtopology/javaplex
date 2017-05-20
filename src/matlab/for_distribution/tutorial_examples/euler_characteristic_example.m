@@ -1,6 +1,7 @@
 % This script shows an Euler characteristic example - Section 7.1
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 dimension = 6;
 

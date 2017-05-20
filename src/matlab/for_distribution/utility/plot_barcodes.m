@@ -16,7 +16,9 @@ function [handle] = plot_barcodes(intervals, options)
 %   max_dimension, and displays it on screen. If a filename is specified,
 %   it also saves it to a file. It also returns a handle to the figure drawn.
 %
-% henrya@math.stanford.edu and atausz@stanford.edu
+% henry.adams@colostate.edu and atausz@stanford.edu
+
+    import edu.stanford.math.plex4.*;
     
     if (~exist('options', 'var'))
         options = struct;

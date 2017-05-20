@@ -1,4 +1,5 @@
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 dimension = 1;
 max_filtration_value = 1.3;

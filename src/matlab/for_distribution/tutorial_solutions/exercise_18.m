@@ -1,6 +1,7 @@
 % Exercise 18
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 max_dimension = 3;
 num_points = 1000;

@@ -3,6 +3,7 @@
 %% Bottleneck Distance Example
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 % get new ExplicitSimplexStreams
 streamA = api.Plex4.createExplicitSimplexStream();

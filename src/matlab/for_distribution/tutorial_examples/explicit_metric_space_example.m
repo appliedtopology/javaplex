@@ -2,6 +2,7 @@
 % 4.2
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 %% House example
 

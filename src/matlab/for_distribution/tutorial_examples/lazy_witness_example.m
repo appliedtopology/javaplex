@@ -2,6 +2,7 @@
 % Section 5.3
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 %% 2-Sphere Example
 

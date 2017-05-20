@@ -2,6 +2,7 @@
 % selection.
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 num_points = 1000;
 num_landmark_points = 100;

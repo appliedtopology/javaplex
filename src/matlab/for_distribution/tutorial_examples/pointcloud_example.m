@@ -1,6 +1,7 @@
 % This script demonstrates the use of various point clouds - Section 4.1
 
 clc; clear; close all;
+import edu.stanford.math.plex4.*;
 
 %% House Example
 
