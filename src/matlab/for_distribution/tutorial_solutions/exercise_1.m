@@ -2,7 +2,7 @@
 
 % We use 9 vertices, which we think of as a 3x3 grid numbered as a 
 % telephone keypad. We identify opposite sides. For a picture, see 
-% "javaplex_tutorial_solutions.pdf".
+% Appendix B of the tutorial.
 
 clc; clear; close all;
 import edu.stanford.math.plex4.*;

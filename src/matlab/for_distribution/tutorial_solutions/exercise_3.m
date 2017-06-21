@@ -1,7 +1,7 @@
 % Exercise 3
 
 % We use the minimal triangulation for the projective plane, which contains
-% 6 vertices. For a picture, see "javaplex_tutorial_solutions.pdf".
+% 6 vertices. For a picture, see Appendix B of the tutorial.
 
 clc; clear; close all;
 import edu.stanford.math.plex4.*;
