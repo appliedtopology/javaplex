@@ -7,7 +7,7 @@ max_dimension = 3;
 num_points = 1000;
 num_landmark_points = 50;
 nu = 1;
-num_divisions = 100;
+num_divisions = 1000;
 
 % select points from the unit sphere S^2 and then compute the distance
 % matrix for these points under the induced metric on the projective plane

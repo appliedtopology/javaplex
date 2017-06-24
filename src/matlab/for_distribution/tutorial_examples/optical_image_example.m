@@ -10,7 +10,7 @@ size(pointsOpticalDct_k300)
 max_dimension = 3;
 num_landmark_points = 50;
 nu = 1;
-num_divisions = 500;
+num_divisions = 1000;
 
 % create a sequential maxmin landmark selector
 landmark_selector = api.Plex4.createMaxMinSelector(pointsOpticalDct_k300, num_landmark_points);

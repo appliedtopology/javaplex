@@ -6,8 +6,6 @@ function distances = projPlaneDistanceMatrix(numPoints)
 % OUTPUT:
 %   distances - numPoints x numPoints distance matrix for randomly chosen 
 %       points on the projective plane
-%
-% henry.adams@colostate.edu and atausz@stanford.edu
 
 import edu.stanford.math.plex4.*;
 

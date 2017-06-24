@@ -8,7 +8,7 @@ import edu.stanford.math.plex4.*;
 
 max_dimension = 3;
 max_filtration_value = 4;
-num_divisions = 100;
+num_divisions = 1000;
 
 % create the set of points
 point_cloud = examples.PointCloudExamples.getHouseExample();
@@ -32,7 +32,7 @@ plot_barcodes(intervals, options);
 
 max_dimension = 3;
 max_filtration_value = 0.9;
-num_divisions = 100;
+num_divisions = 1000;
 
 % create the set of points
 load pointsTorusGrid.mat

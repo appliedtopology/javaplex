@@ -35,7 +35,7 @@
 \title{Javaplex Tutorial}
 
 \author{Henry Adams}
-\email[Henry~Adams]{adams@math.colostate.edu}
+\email[Henry~Adams]{henry.adams@colostate.edu}
 
 \author{Andrew Tausz}
 \email[Andrew~Tausz]{andrew.tausz@gmail.com}
@@ -94,7 +94,7 @@ If you are interested in Javaplex, then you may also be interested in the softwa
 % Below link currently broken:
 %Some of the exercises in this tutorial are borrowed from Vin de Silva's {\em Plexercises}, available at \url{http://comptop.stanford.edu/u/programs/Plexercises2.pdf}.
 
-Please email Henry at \texttt{adams@math.colostate.edu} or Andrew at \texttt{andrew.tausz@gmail.com} if you have questions about this tutorial.
+Please email Henry at \texttt{henry.adams@colostate.edu} or Andrew at \texttt{andrew.tausz@gmail.com} if you have questions about this tutorial.
 
 
 \subsection{License}
@@ -231,7 +231,7 @@ We print the total number of simplices in the complex.
 num_simplices = 6
 \end{verbatim} \end{quote}
 
-We create an object that will compute the homology of our complex. The first input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3. The second input 2 means that we will compute homology with $\Z_2$ coefficients, and this input can be any prime number.
+We create an object that will compute the homology of our complex. The first input parameter 3 indicates that homology will be computed in dimensions 0, 1, and 2 --- that is, in all dimensions strictly less than 3. The second input 2 means that we will compute homology with $\Z/2\Z$ coefficients, and this input can be any prime number.
 
 \begin{quote} \begin{verbatim}
 >> persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
@@ -320,11 +320,11 @@ Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers.
 \end{exercise}
 
 \begin{exercise}
-Build a simplicial complex homeomorphic to the Klein bottle. Check that it has the same Betti numbers as the torus over $\Z_2$ coefficients but different Betti numbers over $\Z_3$ coefficients. 
+Build a simplicial complex homeomorphic to the Klein bottle. Check that it has the same Betti numbers as the torus over $\Z/2\Z$ coefficients but different Betti numbers over $\Z/3\Z$ coefficients. 
 \end{exercise}
 
 \begin{exercise}
-Build a simplicial complex homeomorphic to the projective plane. Find its Betti numbers over $\Z_2$ and $\Z_3$ coefficients. 
+Build a simplicial complex homeomorphic to the projective plane. Find its Betti numbers over $\Z/2\Z$ and $\Z/3\Z$ coefficients. 
 \end{exercise}
 
 
@@ -359,7 +359,7 @@ We build a house, with the vertices and edges on the square appearing at value 0
 >> stream.finalizeStream();
 \end{verbatim} \end{quote}
 
-We get the persistence algorithm with $\Z_2$ coefficients
+We get the persistence algorithm with $\Z/2\Z$ coefficients
 \begin{quote} \begin{verbatim}
 >> persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
 \end{verbatim} \end{quote}
@@ -678,9 +678,9 @@ In Section~\ref{S:explicitStream} we built streams explicitly, or by hand. In th
 
 The Vietoris--Rips, witness, and lazy witness streams all take three of the same inputs: the maximum dimension $d_{max}$ of any included simplex, the maximum filtration value $t_{max}$, and the number of divisions $N$. These inputs allow the user to limit the size of the constructed stream, for computational efficiency. No simplices above dimension $d_{max}$ are included. The persistent homology of the resulting stream can be calculated only up to dimension $d_{max} - 1$ since homology in dimension $d_{max}-1$ depends on the boundary matrix from $d_{max}$-simplices to $(d_{max}-1)$-simplices. Also, instead of computing filtered simplcial complex $X(t)$ for all $t \geq 0$, we only compute $X(t)$ for
 $$t \in \Biggl\{ 0,\ \frac{t_{max}}{N-1},\ \frac{2t_{max}}{N-1},\ \frac{3t_{max}}{N-1},\ \dots,\ \frac{(N-2)t_{max}}{N-1},\ t_{max} \Biggr\}.$$
-The number of divisions $N$ is an optional input. If this input parameter is not specified, then the default value $N = 20$ is used. 
+The number of divisions $N$ is an optional input. If this input parameter is not specified, then the default value $N = 20$ is used. In this tutorial, we typically set $N=1000$; the size of $N$ does not affect the computation time very much.
 
-When working with a new dataset, don't choose $d_{max}$ and $t_{max}$ too large initially. First get a feel for how fast the simplicial complexes are growing, and then raise $d_{max}$ and $t_{max}$ nearer to the computational limits. If you ever choose $d_{max}$ or $t_{max}$ too large and Matlab seems to be running forever, pressing the \texttt{control} and \texttt{c} buttons simultaneously may halt the computation. See also the remark in Section~\ref{SS:java-heap-size}.
+{\em Warning.} When working with a new dataset, don't choose $d_{max}$ and $t_{max}$ too large initially. Indeed, it is extremely easy to ask Javaplex to do an infeasible computation. Suppose you have a (quite small) collection of only 266 vertices. If you set $d_{max}$ and $t_{max}$ such that you ask Javaplex to build the full simplicial complex on 266 vertices, then your complex will have $2^{266}-1$ simplices in it. Note that $2^{266}\approx 10^{80}$ is on the order of the number of atoms in the universe, and hence you've asked Javaplex to build something too large. Prevent this problem by limiting the size of the computation by setting $d_{max}$ and $t_{max}$ small at first. Get a feel for how fast the simplicial complexes are growing, and then raise $d_{max}$ and $t_{max}$ nearer to the computational limits. If you ever choose $d_{max}$ or $t_{max}$ too large and Matlab seems to be running forever, pressing the \texttt{control} and \texttt{c} buttons simultaneously may halt the computation. See also the remark in Section~\ref{SS:java-heap-size}.
 
 %The first author is currently working with Jan Segert on interactive visualizations of the Vietoris--Rips and Witness filtrations for the Wolfram Demonstrations Project. We have preliminary drafts of the demonstrations. Please email Henry if you'd like to check them out; in particular, the witness filtrations can be hard to visualize. 
 
@@ -701,7 +701,7 @@ The Matlab script corresponding to this section is \href{https://github.com/appl
 \begin{quote} \begin{verbatim}
 >> max_dimension = 3;
 >> max_filtration_value = 4;
->> num_divisions = 100;
+>> num_divisions = 1000;
 
 >> point_cloud = examples.PointCloudExamples.getHouseExample();
 >> stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension, ...
@@ -761,7 +761,7 @@ We build the Vietoris--Rips stream.
 \begin{quote} \begin{verbatim}
 >> max_dimension = 3;
 >> max_filtration_value = 0.9;
->> num_divisions = 100;
+>> num_divisions = 1000;
 \end{verbatim} \end{quote}
 
 Make sure you are in the directory \texttt{tutorial\_examples} (you may need to enter the command \texttt{cd tutorial\_examples}), and then load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsTorusGrid.mat}{\texttt{pointsTorusGrid.mat}}. The matrix \texttt{pointsTorusGrid} appears in your Matlab workspace.
@@ -917,7 +917,7 @@ The Matlab script corresponding to this section is \href{https://github.com/appl
 >> num_points = 10000;
 >> num_landmark_points = 50;
 >> max_dimension = 3;
->> num_divisions = 100;
+>> num_divisions = 1000;
 
 >> point_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(num_points, ...
 1, 2);
@@ -999,7 +999,7 @@ We use parameter $\nu = 1$.
 >> num_points = 1000;
 >> num_landmark_points = 50;
 >> nu = 1;
->> num_divisions = 100;
+>> num_divisions = 1000;
 
 >> point_cloud = examples.PointCloudExamples.getRandomSpherePoints(num_points, ...
 max_dimension - 1);
@@ -1041,11 +1041,11 @@ In Exercise~\ref{Ex:flatTorus} you created an explicit metric space for 1,000 ra
 \end{exercise}
 
 \begin{exercise}\label{Ex:flatKleinLazy}
-In Exercise~\ref{Ex:flatTorus} you created an explicit metric space for 1,000 random points on a flat Klein bottle. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\Z_2$ and $\Z_3$ coefficients. 
+In Exercise~\ref{Ex:flatTorus} you created an explicit metric space for 1,000 random points on a flat Klein bottle. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\Z/2\Z$ and $\Z/3\Z$ coefficients. 
 \end{exercise}
 
 \begin{exercise}\label{Ex:quotProjPlaneLazy}
-In Exercise~\ref{Ex:quotProjPlane} you created an explicit metric space for 1,000 random points on a projective plane. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\Z_2$ and $\Z_3$ coefficients. 
+In Exercise~\ref{Ex:quotProjPlane} you created an explicit metric space for 1,000 random points on a projective plane. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\Z/2\Z$ and $\Z/3\Z$ coefficients. 
 \end{exercise}
 % This exercise was first done by David Eisenbud and Agnes Beadry at MRC.
 
@@ -1082,7 +1082,7 @@ We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, a
 >> max_dimension = 3;
 >> num_landmark_points = 50;
 >> nu = 1;
->> num_divisions = 500;
+>> num_divisions = 1000;
 
 >> landmark_selector = api.Plex4.createMaxMinSelector(pointsRange, num_landmark_points);
 >> R = landmark_selector.getMaxDistanceFromPointsToLandmarks() 
@@ -1176,7 +1176,7 @@ We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, a
 >> max_dimension = 3;
 >> num_landmark_points = 50;
 >> nu = 1;
->> num_divisions = 500;
+>> num_divisions = 1000;
 
 >> landmark_selector = api.Plex4.createMaxMinSelector(pointsOpticalDct_k300, ...
 num_landmark_points);
@@ -1246,7 +1246,7 @@ We pick 50 sequential maxmin landmark points, we find the value of \texttt{R}, a
 >> max_dimension = 3;
 >> num_landmark_points = 50;
 >> nu = 1;
->> num_divisions = 500;
+>> num_divisions = 1000;
 
 >> landmark_selector = api.Plex4.createMaxMinSelector(pointsOpticalDct_k15, ...
 num_landmark_points);
@@ -1334,7 +1334,7 @@ We pick 100 sequential maxmin landmark points, and we build the lazy witness str
 >> num_landmark_points = 100;
 >> max_filtration_value = 0.5;
 >> nu = 1;
->> num_divisions = 500;
+>> num_divisions = 1000;
 
 >> landmark_selector = api.Plex4.createMaxMinSelector(pointsCycloOctane, ...
 num_landmark_points);
@@ -1527,7 +1527,7 @@ core50 =
  
 With $k = 50$, we expect the densest points to be slightly larger than the 25-th prime, which is 97. 
 
-{\em Note:} As its name suggests, the m-file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/kDensitySlow.m}{\texttt{kDensitySlow.m}} is not the most efficient way to calculate $\rho_k$ for large datasets. There is a faster file \texttt{kDensity.m} for this purpose, which uses the kd-tree data structure. It is not included in the tutorial because it requires one to download a kd-tree package for Matlab, available at \url{http://www.mathworks.com/matlabcentral/fileexchange/21512-kd-tree-for-matlab}. Please email Henry at \texttt{adams@math.colostate.edu} if you're interested in using \texttt{kDensity.m}. 
+{\em Note:} As its name suggests, the m-file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/kDensitySlow.m}{\texttt{kDensitySlow.m}} is not the most efficient way to calculate $\rho_k$ for large datasets. There is a faster file \texttt{kDensity.m} for this purpose, which uses the kd-tree data structure. It is not included in the tutorial because it requires one to download a kd-tree package for Matlab, available at \url{http://www.mathworks.com/matlabcentral/fileexchange/21512-kd-tree-for-matlab}. Please email Henry at \texttt{henry.adams@colostate.edu} if you're interested in using \texttt{kDensity.m}. 
 
 % What are the differences in timings between fast and slow versions?
 % It seems that k=300 is surprisingly slow with kDensity.m: 1108 seconds. Slower than kDensitySlow.m. Double check?
@@ -1557,7 +1557,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \FloatBarrier
 
 \begin{exerciseSol}
-Build a simplicial complex homeomorphic to the Klein bottle. Check that it has the same Betti numbers as the torus over $\Z_2$ coefficients but different Betti numbers over $\Z_3$ coefficients.
+Build a simplicial complex homeomorphic to the Klein bottle. Check that it has the same Betti numbers as the torus over $\Z/2\Z$ coefficients but different Betti numbers over $\Z/3\Z$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1572,7 +1572,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \FloatBarrier
 
 \begin{exerciseSol}
-Build a simplicial complex homeomorphic to the projective plane. Find its Betti numbers over $\Z_2$ and $\Z_3$ coefficients.
+Build a simplicial complex homeomorphic to the projective plane. Find its Betti numbers over $\Z/2\Z$ and $\Z/3\Z$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1699,7 +1699,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \end{solution}
 
 \begin{exerciseSol}
-In Exercise~\ref{Ex:flatKlein} you created an explicit metric space for 1,000 random points on a flat Klein bottle. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\Z_2$ and $\Z_3$ coefficients.
+In Exercise~\ref{Ex:flatKlein} you created an explicit metric space for 1,000 random points on a flat Klein bottle. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a Klein bottle, over $\Z/2\Z$ and $\Z/3\Z$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1707,7 +1707,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \end{solution}
 
 \begin{exerciseSol}
-In Exercise~\ref{Ex:quotProjPlane} you created an explicit metric space for 1,000 random points on a projective plane. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\Z_2$ and $\Z_3$ coefficients.
+In Exercise~\ref{Ex:quotProjPlane} you created an explicit metric space for 1,000 random points on a projective plane. Build a lazy witness stream on this explicit metric space with 50 landmarks chosen via sequential maxmin and with $\nu = 1$.  Confirm the barcodes match the homology of a projective plane, over $\Z/2\Z$ and $\Z/3\Z$ coefficients.
 \end{exerciseSol}
 
 \begin{solution}

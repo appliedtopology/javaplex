@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  19 MAY 2017 13:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  24 JUN 2017 10:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -518,13 +518,13 @@ Overfull \hbox (16.51888pt too wide) in paragraph at lines 591--591
 eProductPoints(1000, 1, 2);[] 
  []
 
-[11] [12] <ripsHouse.png, id=402, 578.16pt x 433.62pt>
+[11] [12] [13] <ripsHouse.png, id=407, 578.16pt x 433.62pt>
 File: ripsHouse.png Graphic file (type png)
- <use ripsHouse.png>
+
+<use ripsHouse.png>
 Package pdftex.def Info: ripsHouse.png used on input line 735.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
 
-[13]
 Overfull \hbox (38.27599pt too wide) in paragraph at lines 767--768
 []\OT1/cmr/m/n/10 Make sure you are in the di-rec-tory \OT1/cmtt/m/n/10 tutoria
 l[]examples \OT1/cmr/m/n/10 (you may need to en-ter the com-mand \OT1/cmtt/m/n/
@@ -543,13 +543,13 @@ Overfull \hbox (16.51888pt too wide) in paragraph at lines 854--854
 loud, num_landmark_points);[] 
  []
 
-
+[16]
 Overfull \hbox (16.51888pt too wide) in paragraph at lines 854--854
  []\OT1/cmtt/m/n/10 >> maxmin_selector = api.Plex4.createMaxMinSelector(point_c
 loud, num_landmark_points);[] 
  []
 
-[16] <fig8lands.png, id=435, 449.68pt x 337.26pt>
+<fig8lands.png, id=435, 449.68pt x 337.26pt>
 File: fig8lands.png Graphic file (type png)
  <use fig8lands.png>
 Package pdftex.def Info: fig8lands.png used on input line 876.
@@ -566,12 +566,12 @@ Overfull \hbox (27.01878pt too wide) in paragraph at lines 925--925
 _cloud, num_landmark_points);[] 
  []
 
-<witnessTorus.png, id=449, 578.16pt x 433.62pt>
+[18] <witnessTorus.png, id=454, 578.16pt x 433.62pt>
 File: witnessTorus.png Graphic file (type png)
  <use witnessTorus.png>
 Package pdftex.def Info: witnessTorus.png used on input line 960.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
- [18]
+
 [19 <./witnessTorus.png (PNG copy)>]
 Overfull \hbox (27.01878pt too wide) in paragraph at lines 1007--1007
  []\OT1/cmtt/m/n/10 >> landmark_selector = api.Plex4.createMaxMinSelector(point
@@ -815,7 +815,7 @@ ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2016/tex
 mf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on javaplex_tutorial.pdf (37 pages, 1509100 bytes).
+Output written on javaplex_tutorial.pdf (37 pages, 1510272 bytes).
 PDF statistics:
  808 PDF objects out of 1000 (max. 8388607)
  706 compressed objects within 8 object streams

@@ -9,7 +9,7 @@ max_dimension = 3;
 num_points = 10000;
 num_landmark_points = 200;
 nu = 1;
-num_divisions = 100;
+num_divisions = 1000;
 
 % create the set of points
 point_cloud = getDoubleTorusPoints(num_points, 0.001);

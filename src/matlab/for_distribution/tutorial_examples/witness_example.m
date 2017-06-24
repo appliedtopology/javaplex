@@ -8,7 +8,7 @@ import edu.stanford.math.plex4.*;
 num_points = 10000;
 num_landmark_points = 50;
 max_dimension = 3;
-num_divisions = 100;
+num_divisions = 1000;
 
 % create the set of points
 point_cloud = examples.PointCloudExamples.getRandomSphereProductPoints(num_points, 1, 2);

@@ -9,7 +9,7 @@ size(pointsRange)
 max_dimension = 3;
 num_landmark_points = 50;
 nu = 1;
-num_divisions = 500;
+num_divisions = 1000;
 
 % create a sequential maxmin landmark selector
 landmark_selector = api.Plex4.createMaxMinSelector(pointsRange, num_landmark_points);

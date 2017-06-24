@@ -5,7 +5,7 @@ import edu.stanford.math.plex4.*;
 
 max_dimension = 2;
 max_filtration_value = 4;
-num_divisions = 100;
+num_divisions = 1000;
 
 % create the set of points
 point_cloud = examples.PointCloudExamples.getHouseExample();

@@ -17,7 +17,7 @@ scatter(pointsS1(:,1), pointsS1(:,2), '.')
 
 max_dimension = 7;
 max_filtration_value = 2;
-num_divisions = 100;
+num_divisions = 1000;
 
 % create a Vietoris-Rips stream 
 stream = api.Plex4.createVietorisRipsStream(pointsS1, max_dimension + 1, max_filtration_value, num_divisions);
