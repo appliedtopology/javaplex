@@ -1,18 +1,15 @@
-% Exercise 9
-
-%% This script demonstrates the Vietoris-Rips complex of 25 points randomly
-%% sampled from a figure 8.
+% Exercise 14
 
 clc; clear; close all;
 import edu.stanford.math.plex4.*;
 
-max_dimension = 3;
-max_filtration_value = 1.1;
+max_dimension = 4;
+max_filtration_value = 5;
 num_divisions = 1000;
 
-% Select 75 random points from the figure 8 space.
-point_cloud = examples.PointCloudExamples.getRandomFigure8Points(75);
-scatter(point_cloud(:,1),point_cloud(:,2)), axis equal
+% Select the 8 vertices of the cube
+point_cloud = [1,1,1;1,1,-1;1,-1,1;1,-1,-1;-1,1,1;-1,1,-1;-1,-1,1;-1,-1,-1];
+scatter3(point_cloud(:,1),point_cloud(:,2),point_cloud(:,3)), view(100,10)
 
 % create a Vietoris-Rips stream 
 stream = api.Plex4.createVietorisRipsStream(point_cloud, max_dimension, max_filtration_value, num_divisions);
@@ -24,7 +21,7 @@ persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-options.filename = 'ripsFigure8';
+options.filename = 'ripsCube';
 options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
 plot_barcodes(intervals, options);

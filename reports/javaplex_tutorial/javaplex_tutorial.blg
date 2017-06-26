@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: javaplex_tutorial.aux
 The style file: abbrvnat.bst
 Database file #1: javaplex_tutorial.bib
-You've used 15 entries,
+You've used 20 entries,
             2773 wiz_defined-function locations,
-            694 strings with 6806 characters,
-and the built_in function-call counts, 6769 in all, are:
-= -- 592
-> -- 380
-< -- 10
-+ -- 128
-- -- 113
-* -- 527
-:= -- 1052
-add.period$ -- 46
-call.type$ -- 15
-change.case$ -- 78
-chr.to.int$ -- 15
-cite$ -- 30
-duplicate$ -- 321
-empty$ -- 574
-format.name$ -- 140
-if$ -- 1414
+            729 strings with 7573 characters,
+and the built_in function-call counts, 9084 in all, are:
+= -- 805
+> -- 519
+< -- 13
++ -- 175
+- -- 155
+* -- 718
+:= -- 1414
+add.period$ -- 61
+call.type$ -- 20
+change.case$ -- 107
+chr.to.int$ -- 20
+cite$ -- 40
+duplicate$ -- 422
+empty$ -- 751
+format.name$ -- 189
+if$ -- 1892
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 19
-newline$ -- 84
-num.names$ -- 62
-pop$ -- 162
+missing$ -- 23
+newline$ -- 109
+num.names$ -- 82
+pop$ -- 210
 preamble$ -- 1
-purify$ -- 67
+purify$ -- 91
 quote$ -- 0
-skip$ -- 240
+skip$ -- 320
 stack$ -- 0
-substring$ -- 257
-swap$ -- 27
-text.length$ -- 1
+substring$ -- 352
+swap$ -- 36
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 145
+type$ -- 200
 warning$ -- 0
-while$ -- 64
+while$ -- 88
 width$ -- 0
-write$ -- 203
+write$ -- 267

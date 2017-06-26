@@ -1,4 +1,4 @@
-% Exercise 17
+% Exercise 21
 
 clc; clear; close all;
 import edu.stanford.math.plex4.*;
@@ -10,8 +10,8 @@ nu = 1;
 num_divisions = 1000;
 
 % select points from the square [0,1] x [0,1] and then compute the distance
-% matrix for these points under the induced metric on the flat Klein bottle
-distances = flatKleinDistanceMatrix(num_points);
+% matrix for these points under the induced metric on the flat torus
+distances = flatTorusDistanceMatrix(num_points);
 
 % create an explicit metric space from this distance matrix
 m_space = metric.impl.ExplicitMetricSpace(distances);
@@ -29,27 +29,13 @@ stream.finalizeStream();
 num_simplices = stream.getSize()
 
 % get persistence algorithm over Z/2Z
-Z2_persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
+persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 
 % compute the intervals
-Z2_intervals = Z2_persistence.computeIntervals(stream);
+intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-options = struct;
-options.filename = 'lazyWitnessFlatKlein-Z2';
+options.filename = 'lazyWitnessFlatTorus';
 options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
-plot_barcodes(Z2_intervals, options);
-
-% get persistence algorithm over Z/3Z
-Z3_persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 3);
-
-% compute the intervals
-Z3_intervals = Z3_persistence.computeIntervals(stream);
-
-% create the barcode plots
-options = struct;
-options.filename = 'lazyWitnessFlatKlein-Z3';
-options.max_filtration_value = max_filtration_value;
-options.max_dimension = max_dimension - 1;
-plot_barcodes(Z3_intervals, options);
+plot_barcodes(intervals, options);

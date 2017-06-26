@@ -1,4 +1,4 @@
-% Exercise 19
+% Exercise 24
 
 % Thanks to Ulrich Bauer for this solution.
 

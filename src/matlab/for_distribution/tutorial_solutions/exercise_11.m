@@ -1,17 +1,18 @@
-% Exercise 9
+% Exercise 11
 
-%% This script demonstrates the Vietoris-Rips complex of 25 points randomly
-%% sampled from a figure 8.
+%% This script demonstrates the Vietoris-Rips complex on n evenly spaced 
+%% points around the circle.
 
 clc; clear; close all;
 import edu.stanford.math.plex4.*;
 
-max_dimension = 3;
-max_filtration_value = 1.1;
+max_dimension = 4;
+max_filtration_value = 2;
 num_divisions = 1000;
 
-% Select 75 random points from the figure 8 space.
-point_cloud = examples.PointCloudExamples.getRandomFigure8Points(75);
+% Select n evenly-spaced points from the circle
+n=15;
+point_cloud = [cos(2*pi/n*(0:n-1)'),sin(2*pi/n*(0:n-1)')];
 scatter(point_cloud(:,1),point_cloud(:,2)), axis equal
 
 % create a Vietoris-Rips stream 
@@ -24,7 +25,7 @@ persistence = api.Plex4.getModularSimplicialAlgorithm(max_dimension, 2);
 intervals = persistence.computeIntervals(stream);
 
 % create the barcode plots
-options.filename = 'ripsFigure8';
+options.filename = 'ripsCircle';
 options.max_filtration_value = max_filtration_value;
 options.max_dimension = max_dimension - 1;
 plot_barcodes(intervals, options);

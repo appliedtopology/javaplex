@@ -1,9 +1,32 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{20}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Adamaszek(2013)]{Adamaszek2013}
+M.~Adamaszek.
+\newblock Clique complexes and graph powers.
+\newblock \emph{Israel Journal of Mathematics}, 196\penalty0 (1):\penalty0
+  295--319, 2013.
+
+\bibitem[Adamaszek and Adams(2017)]{AA-VRS1}
+M.~Adamaszek and H.~Adams.
+\newblock The {V}ietoris--{R}ips complexes of a circle.
+\newblock To appear in Pacific Journal of Mathematics, 2017.
+
+\bibitem[Adamaszek et~al.(2016)Adamaszek, Adams, Frick, Peterson, and
+  Previte-Johnson]{AAFPP-J}
+M.~Adamaszek, H.~Adams, F.~Frick, C.~Peterson, and C.~Previte-Johnson.
+\newblock Nerve complexes of circular arcs.
+\newblock \emph{Discrete \& Computational Geometry}, 56:\penalty0 251--273,
+  2016.
+
+\bibitem[Adamaszek et~al.(2017)Adamaszek, Adams, and Motta]{AAM}
+M.~Adamaszek, H.~Adams, and F.~Motta.
+\newblock Random cyclic dynamical systems.
+\newblock \emph{Advances in Applied Mathematics}, 83:\penalty0 1--23, 2017.
 
 \bibitem[Adams and Carlsson(2009)]{Range}
 H.~Adams and G.~Carlsson.
@@ -27,6 +50,12 @@ M.~W. Brown, S.~Martin, S.~N. Pollock, E.~A. Coutsias, and J.~P. Watson.
 G.~Carlsson, T.~Ishkhanov, V.~de~Silva, and A.~Zomorodian.
 \newblock On the local behavior of spaces of natural images.
 \newblock \emph{Int.\ J.\ Comput.\ Vision}, 76:\penalty0 1--12, 2008.
+
+\bibitem[Chazal et~al.(2013)Chazal, de~Silva, and
+  Oudot]{ChazalDeSilvaOudot2013}
+F.~Chazal, V.~de~Silva, and S.~Oudot.
+\newblock Persistence stability for geometric complexes.
+\newblock \emph{Geometriae Dedicata}, pages 1--22, 2013.
 
 \bibitem[de~Silva and Carlsson(2004)]{WitnessComplexes}
 V.~de~Silva and G.~Carlsson.

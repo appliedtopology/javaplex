@@ -316,6 +316,14 @@ We don't display the output from this command in the tutorial, because the repre
 See Appendix~\ref{A:solutions} for exercise solutions. 
 
 \begin{exercise}
+Build the following simplicial complex in Javaplex.
+\begin{center}
+\includegraphics[width=2in]{smallSimplicialComplex.png}
+\end{center}
+Compute its Betti numbers (i.e.\ the ranks of its homology groups, or the number of holes it has in each dimension).
+\end{exercise}
+
+\begin{exercise}
 Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices} \citep[page 107]{Hatcher}{\em . We recommend using a $3\times 3$ grid of 9 vertices.} 
 \end{exercise}
 
@@ -818,7 +826,29 @@ max_filtration_value, num_divisions);
 \end{verbatim} \end{quote}
 
 \begin{exercise}
-Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or increasing $d_{max}$ from 3 to 4 roughly doubles the size of the Vietoris--Rips stream. 
+Compute the persistent homology of the Vietoris--Rips complex of the collection of points $\{(-1,0),(1,0),(-1,2),(1,2),(0,3),(4,0),(4,2)\}$ in the plane (i.e.\ a house with a garage).
+
+Perturb the points with a small amount of noise. Do the barcodes change a lot or only a little?
+\end{exercise}
+
+\begin{exercise}
+Compute the persistent homology of the Vietoris--Rips complex of 75 points randomly sampled from a ``figure 8" space. You can get these points using the following command:
+
+\begin{verbatim}
+>> point_cloud = examples.PointCloudExamples.getRandomFigure8Points(75);
+\end{verbatim}
+
+We suggest including simplices up to dimension 3, and setting the max filtration value to be 1.1. Does the persistent homology agree with what you would expect?
+\end{exercise}
+
+\begin{exercise}
+In the torus example, slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or increasing $d_{max}$ from 3 to 4 roughly doubles the size of the Vietoris--Rips stream. 
+\end{exercise}
+
+\begin{exercise}
+Write a Matlab script that will select $n$ even-spaced points from the unit circle in the plane. Compute the persistent homology of the Vietoris--Rips complex of 4 points, 6, 9, 12, 15 points, and 20 equally spaced points. We suggest including simplices up to dimension 4 to start.
+
+Do you ever get homology in dimension above 1?
 \end{exercise}
 
 \begin{exercise}
@@ -827,6 +857,12 @@ Find a planar dataset $Z \subset \R^2$ and a filtration value $t$ such that $\VR
 
 \begin{exercise}
 Find a planar dataset $Z \subset \R^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_6$. When building a Vietoris--Rips stream to confirm your answer, don't forget to choose $d_{max} = 7$. 
+\end{exercise}
+
+\begin{exercise}
+Let $X$ be 8 vertices of the cube in $\R^3$: $X=\{(\pm1, \pm1, \pm1)\}$. Equip $X$ with the Euclidean metric. Compute the persistent homology of the Vietoris--Rips complex of $X$. Include simplices up to dimension 7 (i.e.\ all possible simplices).
+
+Do you get ever homology above dimension 2?
 \end{exercise}
 
 
@@ -1542,11 +1578,23 @@ With $k = 50$, we expect the densest points to be slightly larger than the 25-th
 Several exercise solutions are accompanied by Matlab scripts, which are available in the folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}}.
 
 \begin{exerciseSol}
+Build the following simplicial complex in Javaplex.
+\begin{center}
+\includegraphics[width=2in]{smallSimplicialComplex.png}
+\end{center}
+Compute its Betti numbers (i.e.\ the ranks of its homology groups, or the number of holes it has in each dimension).
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_1.m}{\texttt{exercise\_1.m}} in folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} for a solution. You should compute $\beta_0=1$, i.e.\ one connected component, and $\beta_2=1$, i.e.\ two 1-dimensional holes.
+\end{solution}
+
+\begin{exerciseSol}
 Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices} \citep[page 107]{Hatcher}{\em . We recommend using a $3\times 3$ grid of 9 vertices.}
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_1.m}{\texttt{exercise\_1.m}} in folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_2.m}{\texttt{exercise\_2.m}} in folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions}{\texttt{tutorial\_solutions}} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides.
 \end{solution}
 
 \begin{figure}[htp]
@@ -1561,7 +1609,7 @@ Build a simplicial complex homeomorphic to the Klein bottle. Check that it has t
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_2.m}{\texttt{exercise\_2.m}} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides, with left and right sides identified with a twist. 
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_3.m}{\texttt{exercise\_3.m}} for a solution. We use 9 vertices, which we think of as a $3 \times 3$ grid numbered as a telephone keypad. We identify opposite sides, with left and right sides identified with a twist. 
 \end{solution}
 
 \begin{figure}[htp]
@@ -1576,7 +1624,7 @@ Build a simplicial complex homeomorphic to the projective plane. Find its Betti 
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_3.m}{\texttt{exercise\_3.m}} for a solution. We use the minimal triangulation for the projective plane, which contains 6 vertices.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_4.m}{\texttt{exercise\_4.m}} for a solution. We use the minimal triangulation for the projective plane, which contains 6 vertices.
 \end{solution}
 
 \begin{figure}[htp]
@@ -1591,7 +1639,7 @@ Write a Matlab script or function that selects 1,000 random points from the squa
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_4.m}{\texttt{exercise\_4.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_5.m}{\texttt{exercise\_5.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1599,7 +1647,7 @@ Write a Matlab script or function that selects 1,000 random points from the squa
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_5.m}{\texttt{exercise\_5.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_6.m}{\texttt{exercise\_6.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1607,11 +1655,35 @@ Write a Matlab script or function that selects 1,000 random points from the unit
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_6.m}{\texttt{exercise\_6.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_7.m}{\texttt{exercise\_7.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
-Slowly increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or increasing $d_{max}$ from 3 to 4 roughly doubles the size of the Vietoris--Rips stream.
+Compute the persistent homology of the Vietoris--Rips complex of the collection of points $\{(-1,0),(1,0),(-1,2),(1,2),(0,3),(4,0),(4,2)\}$ in the plane (i.e.\ a house with a garage).
+
+Perturb the points with a small amount of noise. Do the barcodes change a lot or only a little?
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_8.m}{\texttt{exercise\_8.m}} for a solution. When a small amount of noise is added, the barcodes should only change by a little bit. This is due to the stability theorem in \cite{ChazalDeSilvaOudot2013}.
+\end{solution}
+
+\begin{exerciseSol}
+Compute the persistent homology of the Vietoris--Rips complex of 75 points randomly sampled from a ``figure 8" space. You can get these points using the following command:
+
+\begin{verbatim}
+>> point_cloud = examples.PointCloudExamples.getRandomFigure8Points(75);
+\end{verbatim}
+
+We suggest including simplices up to dimension 3, and setting the max filtration value to be 1.1. Does the persistent homology agree with what you would expect?
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_9.m}{\texttt{exercise\_9.m}} for a solution.
+\end{solution}
+
+\begin{exerciseSol}
+In the torus example, increase the values for $t_{max}$, $d_{max}$ and note how quickly the size of the Vietoris--Rips stream and the time of computation grow. Either increasing $t_{max}$ from 0.9 to 1 or increasing $d_{max}$ from 3 to 4 roughly doubles the size of the Vietoris--Rips stream.
 \end{exerciseSol}
 
 \begin{solution}
@@ -1619,11 +1691,21 @@ No solution included.
 \end{solution}
 
 \begin{exerciseSol}
+Write a Matlab script that will select $n$ even-spaced points from the unit circle in the plane. Compute the persistent homology of the Vietoris--Rips complex of 4 points, 6, 9, 12, 15 points, and 20 equally spaced points. We suggest including simplices up to dimension 4 to start.
+
+Do you ever get homology in dimension above 1?
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_11.m}{\texttt{exercise\_11.m}} for a solution. Homology above dimension 1 does appear; this and more is explained in the papers \cite{Adamaszek2013,AAFPP-J,AA-VRS1,AAM}.
+\end{solution}
+
+\begin{exerciseSol}
 Find a planar dataset $Z \subset \R^2$ and a filtration value $t$ such that $\VR(Z,t)$ has nonzero $Betti_2$. Build a Vietoris--Rips stream to confirm your answer.
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_8.m}{\texttt{exercise\_8.m}} for a solution. Our planar dataset is 6 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is an octahedron. 
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_12.m}{\texttt{exercise\_12.m}} for a solution. Our planar dataset is 6 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is an octahedron. It is also the boundary of the 3-dimensional cross-polytope on 6 vertices.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1631,7 +1713,17 @@ Find a planar dataset $Z \subset \R^2$ and a filtration value $t$ such that $\VR
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_9.m}{\texttt{exercise\_9.m}} for a solution. Our planar dataset is 14 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is homeomorphic to the 6-sphere. It has 14 vertices because it is obtained by suspending the 0-sphere six times, for a total of $2 + (6 \times 2) = 14$ vertices. 
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_13.m}{\texttt{exercise\_13.m}} for a solution. Our planar dataset is 14 evenly spaced points on the unit circle. We build a Vietoris--Rips stream which, at the correct filtration value, is homeomorphic to the 6-sphere. It is also the boundary of the 7-dimensional cross-polytope on 14 vertices. It has 14 vertices because it is obtained by suspending the 0-sphere six times, for a total of $2 + (6 \times 2) = 14$ vertices. 
+\end{solution}
+
+\begin{exerciseSol}
+Let $X$ be 8 vertices of the cube in $\R^3$: $X=\{(\pm1, \pm1, \pm1)\}$. Equip $X$ with the Euclidean metric. Compute the persistent homology of the Vietoris--Rips complex of $X$. Include simplices up to dimension 7 (i.e.\ all possible simplices).
+
+Do you get ever homology above dimension 2?
+\end{exerciseSol}
+
+\begin{solution}
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_14.m}{\texttt{exercise\_14.m}} for a solution. The 3-dimensional homology appears because for a range of scales, this Vietors--Rips complex is isomorphic to a 3-sphere, in fact the boundary of the 4-dimensional cross-polytope on 8 vertices.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1695,7 +1787,7 @@ In Exercise~\ref{Ex:flatTorus} you created an explicit metric space for 1,000 ra
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_16.m}{\texttt{exercise\_16.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_21.m}{\texttt{exercise\_21.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatTorusDistanceMatrix.m}{\texttt{flatTorusDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1703,7 +1795,7 @@ In Exercise~\ref{Ex:flatKlein} you created an explicit metric space for 1,000 ra
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_17.m}{\texttt{exercise\_17.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_22.m}{\texttt{exercise\_22.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/flatKleinDistanceMatrix.m}{\texttt{flatKleinDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1711,7 +1803,7 @@ In Exercise~\ref{Ex:quotProjPlane} you created an explicit metric space for 1,00
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_18.m}{\texttt{exercise\_18.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}} for a solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_23.m}{\texttt{exercise\_23.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/projPlaneDistanceMatrix.m}{\texttt{projPlaneDistanceMatrix.m}} for a solution.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1719,7 +1811,7 @@ Sample points from an embedding of a double torus, that is, a surface of genus t
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_19.m}{\texttt{exercise\_19.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/getDoubleTorusPoints.m}{\texttt{getDoubleTorusPoints.m}}. Thanks to Ulrich Bauer for this solution.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_24.m}{\texttt{exercise\_24.m}} and the Matlab function \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/getDoubleTorusPoints.m}{\texttt{getDoubleTorusPoints.m}}. Thanks to Ulrich Bauer for this solution.
 \end{solution}
 
 

@@ -1,7 +1,9 @@
 % Exercise 3
 
-% We use the minimal triangulation for the projective plane, which contains
-% 6 vertices. For a picture, see Appendix B of the tutorial.
+% We use 9 vertices, which we think of as a 3x3 grid numbered as a 
+% telephone keypad. We identify opposite sides, with left and right sides 
+% identified with a twist. For a picture, see 
+% Appendix B of the tutorial.
 
 clc; clear; close all;
 import edu.stanford.math.plex4.*;
@@ -10,36 +12,27 @@ import edu.stanford.math.plex4.*;
 stream = api.Plex4.createExplicitSimplexStream();
 
 % add simplices
-for i = 1:6
-    stream.addVertex(i);
-end
+stream.addElement([1, 2, 7]);
+stream.addElement([2, 7, 8]);
+stream.addElement([2, 3, 8]);
+stream.addElement([3, 8, 9]);
+stream.addElement([1, 3, 9]);
+stream.addElement([1, 4, 9]);
+stream.addElement([4, 7, 8]);
+stream.addElement([4, 5, 8]);
+stream.addElement([5, 8, 9]);
+stream.addElement([5, 6, 9]);
+stream.addElement([6, 4, 9]);
+stream.addElement([4, 6, 7]);
 
-stream.addElement([1, 2]);
-stream.addElement([1, 3]);
-stream.addElement([1, 4]);
-stream.addElement([1, 5]);
-stream.addElement([1, 6]);
-stream.addElement([2, 3]);
-stream.addElement([2, 4]);
-stream.addElement([2, 5]);
-stream.addElement([2, 6]);
-stream.addElement([3, 4]);
-stream.addElement([3, 5]);
-stream.addElement([3, 6]);
-stream.addElement([4, 5]);
-stream.addElement([4, 6]);
-stream.addElement([5, 6]);
-
-stream.addElement([1, 2, 5]);
-stream.addElement([1, 2, 6]);
-stream.addElement([1, 3, 4]);
-stream.addElement([1, 3, 6]);
 stream.addElement([1, 4, 5]);
-stream.addElement([2, 3, 4]);
-stream.addElement([2, 3, 5]);
-stream.addElement([2, 4, 6]);
-stream.addElement([3, 5, 6]);
-stream.addElement([4, 5, 6]);
+stream.addElement([1, 2, 5]);
+stream.addElement([2, 5, 6]);
+stream.addElement([2, 3, 6]);
+stream.addElement([3, 6, 7]);
+stream.addElement([1, 3, 7]);
+
+stream.ensureAllFaces();
 
 stream.finalizeStream();
 
@@ -49,7 +42,7 @@ Z2_persistence = api.Plex4.getModularSimplicialAlgorithm(3, 2);
 % compute and print the intervals
 Z2_intervals = Z2_persistence.computeIntervals(stream)
 
-% get persistence algorithm over Z/3Z
+% get persistence  algorithm over Z/3Z
 Z3_persistence = api.Plex4.getModularSimplicialAlgorithm(3, 3);
 
 % compute and print the intervals
