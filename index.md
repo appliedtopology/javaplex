@@ -42,7 +42,8 @@ To cite `JavaPlex`, please consult the [Citation Information](https://github.com
 
 ## Updates
 
-* May, 2017: [Version 4.3.0](https://github.com/appliedtopology/javaplex/releases/) is released. Installation in Matlab 2016 should now work again!
+* June, 2017: [Version 4.3.1](https://github.com/appliedtopology/javaplex/releases/) is released.
+* May, 2017: Version 4.3.0 is released. Installation in Matlab 2016 should now work again!
 * March, 2016: Version 4.2.5 is released
 * Jan, 2016: Version 4.2.4 released
 * July, 2015: Version 4.2.3 released
@@ -51,3 +52,4 @@ To cite `JavaPlex`, please consult the [Citation Information](https://github.com
 * April, 2014: Google Code hosting abandoned
 * May, 2012: Version 4.1.0 released
 * For frequently asked questions regarding `JavaPlex` and troubleshooting information, consult the [troubleshooting](https://github.com/appliedtopology/javaplex/wiki/Troubleshooting) page.
+
