@@ -13,7 +13,7 @@ n = 14;
 
 angles = 2 * pi/n * (1:n)';
 pointsS1 = [cos(angles), sin(angles)];
-scatter(pointsS1(:,1), pointsS1(:,2), '.')
+scatter(pointsS1(:,1), pointsS1(:,2)), axis equal
 
 max_dimension = 7;
 max_filtration_value = 2;
