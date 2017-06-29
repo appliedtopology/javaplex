@@ -240,8 +240,8 @@ We create an object that will compute the homology of our complex. The first inp
 We compute and print the intervals.
 
 \begin{quote} \begin{verbatim}
->> circle_intervals = persistence.computeIntervals(stream)
-circle_intervals =
+>> intervals = persistence.computeIntervals(stream)
+intervals =
 
 Dimension: 1
 [0.0, infinity)
@@ -254,8 +254,8 @@ This gives us the expected Betti numbers $Betti_0=1$ and $Betti_1=1$.
 The persistence algorithm computing intervals can also find a representative cycle for each interval. However, there is no guarantee that the produced representative will be geometrically nice.
 
 \begin{quote} \begin{verbatim}
->> circle_intervals = persistence.computeAnnotatedIntervals(stream)
-circle_intervals =
+>> intervals = persistence.computeAnnotatedIntervals(stream)
+intervals =
 
 Dimension: 1
 [0.0, infinity): [1,2] + [0,2] + [0,1]
@@ -294,8 +294,8 @@ persistence = api.Plex4.getModularSimplicialAlgorithm(dimension + 1, 2);
 and compute and print the intervals.
 
 \begin{quote} \begin{verbatim}
->> n_sphere_intervals = persistence.computeIntervals(stream)
-n_sphere_intervals =
+>> intervals = persistence.computeIntervals(stream)
+intervals =
 
 Dimension: 9
 [0.0, infinity)
@@ -308,7 +308,7 @@ This gives us the expected Betti numbers $Betti_0=1$ and $Betti_9=1$.
 Try computing a representative cycle for each barcode.
 
 \begin{quote} \begin{verbatim}
->> n_sphere_intervals = persistence.computeAnnotatedIntervals(stream)
+>> intervals = persistence.computeAnnotatedIntervals(stream)
 \end{verbatim} \end{quote}
 
 We don't display the output from this command in the tutorial, because the representative 9-cycle is very long and contains all eleven 9-simplices.
