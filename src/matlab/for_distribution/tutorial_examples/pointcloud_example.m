@@ -7,7 +7,6 @@ import edu.stanford.math.plex4.*;
 
 % create the set of points
 point_cloud = [-1,0; 1,0; 1,2; -1,2; 0,3]
-point_cloud = examples.PointCloudExamples.getHouseExample();
 
 % various examples of metric space methods
 m_space = metric.impl.EuclideanMetricSpace(point_cloud);

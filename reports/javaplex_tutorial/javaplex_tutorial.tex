@@ -515,7 +515,7 @@ The Matlab script corresponding to this section is \href{https://github.com/appl
 \end{figure}
 \FloatBarrier
 
-You can enter these coordinates manually.
+You can enter these coordinates manually as a Matlab matrix.
 
 \begin{quote} \begin{verbatim}
 >> point_cloud = [-1,0; 1,0; 1,2; -1,2; 0,3]
@@ -528,11 +528,11 @@ point_cloud =
     0    3
 \end{verbatim} \end{quote}
 
-Or alternatively, these coordinates are stored as a Javaplex example.
+%Or alternatively, these coordinates are stored as a Javaplex example.
 
-\begin{quote} \begin{verbatim}
->> point_cloud = examples.PointCloudExamples.getHouseExample();
-\end{verbatim} \end{quote}
+%\begin{quote} \begin{verbatim}
+%>> point_cloud = examples.PointCloudExamples.getHouseExample();
+%\end{verbatim} \end{quote}
 
 We create a metric space using these coordinates. The input to the \texttt{EuclideanMetricSpace} method is a matrix whose $i$-th row lists the coordinates of the $i$-th point.
 

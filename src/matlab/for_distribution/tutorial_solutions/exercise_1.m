@@ -1,4 +1,4 @@
-% Exercise 2
+% Exercise 1
 
 % We order the vertices in a clockwise fashion, starting with
 % vertex 1 on the top left.

@@ -1,6 +1,6 @@
 % Exercise 9
 
-%% This script demonstrates the Vietoris-Rips complex of 25 points randomly
+%% This script demonstrates the Vietoris-Rips complex of 75 points randomly
 %% sampled from a figure 8.
 
 clc; clear; close all;
