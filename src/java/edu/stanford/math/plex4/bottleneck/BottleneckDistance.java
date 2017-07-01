@@ -62,7 +62,23 @@ public class BottleneckDistance {
 		
 		return result;
 	}
-	
+
+  public static double computeBottleneckDistance(double[][] A, double[][] B) {
+    
+    List<Interval<Double>> intA = new ArrayList<Interval<Double>>();
+    List<Interval<Double>> intB = new ArrayList<Interval<Double>>();
+    
+    for(double[] element : A) {
+      intA.add(Interval.makeFiniteClosedInterval(element[0], element[1]));
+    }
+    
+    for(double[] element : B) {
+      intB.add(Interval.makeFiniteClosedInterval(element[0], element[1]));
+    }
+
+    return computeBottleneckDistance(intA, intB);
+  }
+  
 	public static double computeBottleneckDistance(List<Interval<Double>> A, List<Interval<Double>> B) {
 		
 		int a = A.size();
