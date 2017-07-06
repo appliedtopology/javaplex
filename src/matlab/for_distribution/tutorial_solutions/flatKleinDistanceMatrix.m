@@ -6,8 +6,6 @@ function distances = flatKleinDistanceMatrix(numPoints)
 % OUTPUT:
 %   distances - numPoints x numPoints distance matrix for randomly chosen 
 %       points on the flat Klein bottle
-%
-% henry.adams@colostate.edu and atausz@stanford.edu
 
 import edu.stanford.math.plex4.*;
 
