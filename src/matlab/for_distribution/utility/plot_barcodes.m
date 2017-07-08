@@ -15,8 +15,6 @@ function [handle] = plot_barcodes(intervals, options)
 %   This function produces a plot of the barcodes for dimensions 0, ...,
 %   max_dimension, and displays it on screen. If a filename is specified,
 %   it also saves it to a file. It also returns a handle to the figure drawn.
-%
-% henry.adams@colostate.edu and atausz@stanford.edu
 
     import edu.stanford.math.plex4.*;
     

@@ -8,8 +8,6 @@ function persistence_diagram(intervals, min_dimension, max_dimension, filename)
 %   This function produces a persistence diagram for dimensions 0, ...,
 %   max_dimension, and displays it on screen. If a filename is specified,
 %   it also saves it to a file.
-%
-% henry.adams@colostate.edu and atausz@stanford.edu
 
     import edu.stanford.math.plex4.*;
 
