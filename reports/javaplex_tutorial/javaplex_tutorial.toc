@@ -22,14 +22,14 @@
 \contentsline {section}{\tocsection {}{6}{Examples with real data}}{23}{section.6}
 \contentsline {subsection}{\tocsubsection {}{6.1}{Range image patches}}{23}{subsection.6.1}
 \contentsline {subsection}{\tocsubsection {}{6.2}{Optical image patches}}{26}{subsection.6.2}
-\contentsline {subsection}{\tocsubsection {}{6.3}{Cyclo-octane molecule conformations}}{30}{subsection.6.3}
-\contentsline {section}{\tocsection {}{7}{Remarks}}{32}{section.7}
-\contentsline {subsection}{\tocsubsection {}{7.1}{Java heap size}}{32}{subsection.7.1}
-\contentsline {subsection}{\tocsubsection {}{7.2}{Matlab functions with Javaplex commands}}{33}{subsection.7.2}
-\contentsline {subsection}{\tocsubsection {}{7.3}{Displaying the simplices in a stream}}{33}{subsection.7.3}
-\contentsline {subsection}{\tocsubsection {}{7.4}{Computing the bottleneck distance}}{33}{subsection.7.4}
-\contentsline {section}{\tocsection {}{8}{Acknowledgements}}{33}{section.8}
-\contentsline {section}{Appendices}{33}{section*.2}
-\contentsline {section}{\tocsection {Appendix}{A}{Dense core subsets}}{33}{appendix.A}
-\contentsline {section}{\tocsection {Appendix}{B}{Exercise solutions}}{35}{appendix.B}
-\contentsline {section}{\tocsection {Appendix}{}{References}}{40}{section*.3}
+\contentsline {subsection}{\tocsubsection {}{6.3}{Cyclo-octane molecule conformations}}{31}{subsection.6.3}
+\contentsline {section}{\tocsection {}{7}{Remarks}}{33}{section.7}
+\contentsline {subsection}{\tocsubsection {}{7.1}{Java heap size}}{33}{subsection.7.1}
+\contentsline {subsection}{\tocsubsection {}{7.2}{Matlab functions with Javaplex commands}}{34}{subsection.7.2}
+\contentsline {subsection}{\tocsubsection {}{7.3}{Displaying the simplices in a stream}}{34}{subsection.7.3}
+\contentsline {subsection}{\tocsubsection {}{7.4}{Computing the bottleneck distance}}{34}{subsection.7.4}
+\contentsline {section}{\tocsection {}{8}{Acknowledgements}}{34}{section.8}
+\contentsline {section}{Appendices}{34}{section*.2}
+\contentsline {section}{\tocsection {Appendix}{A}{Dense core subsets}}{34}{appendix.A}
+\contentsline {section}{\tocsection {Appendix}{B}{Exercise solutions}}{36}{appendix.B}
+\contentsline {section}{\tocsection {Appendix}{}{References}}{41}{section*.3}

@@ -1,46 +1,46 @@
-This is BibTeX, Version 0.99d (TeX Live 2016)
-Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: javaplex_tutorial.aux
 The style file: abbrvnat.bst
 Database file #1: javaplex_tutorial.bib
-You've used 20 entries,
+You've used 21 entries,
             2773 wiz_defined-function locations,
-            729 strings with 7573 characters,
-and the built_in function-call counts, 9084 in all, are:
-= -- 805
-> -- 519
+            738 strings with 7740 characters,
+and the built_in function-call counts, 9700 in all, are:
+= -- 861
+> -- 549
 < -- 13
-+ -- 175
-- -- 155
-* -- 718
-:= -- 1414
-add.period$ -- 61
-call.type$ -- 20
-change.case$ -- 107
-chr.to.int$ -- 20
-cite$ -- 40
-duplicate$ -- 422
-empty$ -- 751
-format.name$ -- 189
-if$ -- 1892
++ -- 185
+- -- 164
+* -- 779
+:= -- 1500
+add.period$ -- 64
+call.type$ -- 21
+change.case$ -- 113
+chr.to.int$ -- 21
+cite$ -- 42
+duplicate$ -- 450
+empty$ -- 810
+format.name$ -- 199
+if$ -- 2023
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 23
-newline$ -- 109
-num.names$ -- 82
-pop$ -- 210
+missing$ -- 25
+newline$ -- 114
+num.names$ -- 86
+pop$ -- 223
 preamble$ -- 1
-purify$ -- 91
+purify$ -- 96
 quote$ -- 0
-skip$ -- 320
+skip$ -- 337
 stack$ -- 0
-substring$ -- 352
-swap$ -- 36
+substring$ -- 395
+swap$ -- 38
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 200
+type$ -- 211
 warning$ -- 0
-while$ -- 88
+while$ -- 95
 width$ -- 0
-write$ -- 267
+write$ -- 281
