@@ -85,7 +85,7 @@
 
 \subsection{Javaplex}
 
-Javaplex is a Java software package for computing the persistent homology of filtered simplicial complexes (or more generally, filtered chain complexes), with special emphasis on applications arising in topological data analysis \citep{Javaplex}. The main author is Andrew Tausz. Javaplex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo--Johansson. The main motivation for the development of Javaplex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for Javaplex is \url{http://appliedtopology.github.io/javaplex/}, the documentation overview is at \url{https://github.com/appliedtopology/javaplex/wiki/Overview}, and the javadoc tree for the library is at \url{http://appliedtopology.github.io/javaplex/doc/}.
+Javaplex is a Java software package for computing the persistent homology of filtered simplicial complexes (or more generally, filtered chain complexes), with special emphasis on applications arising in topological data analysis~\citep{Javaplex}. The main author is Andrew Tausz. Javaplex is a re-write of the JPlex package, which was written by Harlan Sexton and Mikael Vejdemo--Johansson. The main motivation for the development of Javaplex was the need for a flexible platform that supported new directions of research in topological data analysis and computational persistent homology. The website for Javaplex is \url{http://appliedtopology.github.io/javaplex/}, the documentation overview is at \url{https://github.com/appliedtopology/javaplex/wiki/Overview}, and the javadoc tree for the library is at \url{http://appliedtopology.github.io/javaplex/doc/}.
 
 This tutorial is written for those using Javaplex with Matlab. However, one can run Javaplex without Matlab; see \url{https://github.com/appliedtopology/javaplex/wiki/Interoperability}.
 
@@ -146,7 +146,7 @@ The folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/mat
 
 \section{Math review}
 
-Below is a brief math review. For more details, see \citet{Armstrong}, \citet{ComputationalTopology}, \citet{TopologicalPersistence}, \citet{Hatcher}, and \citet{ComputingPersistent}. 
+Below is a brief math review. For more details, see~\citet{Armstrong},~\citet{ComputationalTopology},~\citet{TopologicalPersistence},~\citet{Hatcher}, and~\citet{ComputingPersistent}. 
 
 
 \subsection{Simplicial complexes}
@@ -324,7 +324,7 @@ Compute its Betti numbers (i.e.\ the ranks of its homology groups, or the number
 \end{exercise}
 
 \begin{exercise}
-Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices} \citep[page 107]{Hatcher}{\em . We recommend using a $3\times 3$ grid of 9 vertices.} 
+Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices}~\citep[page 107]{Hatcher}{\em . We recommend using a $3\times 3$ grid of 9 vertices.} 
 \end{exercise}
 
 \begin{exercise}
@@ -682,7 +682,7 @@ This exercise is continued by Exercise~\ref{Ex:quotProjPlaneLazy}.
 
 \section{Streams from point cloud data}\label{S:sfpc}
 
-In Section~\ref{S:explicitStream} we built streams explicitly, or by hand. In this section we construct streams from a point cloud $Z$. We build Vietoris--Rips, witness, and lazy witness streams. See \citet{WitnessComplexes} for additional information. 
+In Section~\ref{S:explicitStream} we built streams explicitly, or by hand. In this section we construct streams from a point cloud $Z$. We build Vietoris--Rips, witness, and lazy witness streams. See~\citet{WitnessComplexes} for additional information. 
 
 The Vietoris--Rips, witness, and lazy witness streams all take three of the same inputs: the maximum dimension $d_{max}$ of any included simplex, the maximum filtration value $t_{max}$, and the number of divisions $N$. These inputs allow the user to limit the size of the constructed stream, for computational efficiency. No simplices above dimension $d_{max}$ are included. The persistent homology of the resulting stream can be calculated only up to dimension $d_{max} - 1$ since homology in dimension $d_{max}-1$ depends on the boundary matrix from $d_{max}$-simplices to $(d_{max}-1)$-simplices. Also, instead of computing filtered simplcial complex $X(t)$ for all $t \geq 0$, we only compute $X(t)$ for
 $$t \in \Biggl\{ 0,\ \frac{t_{max}}{N-1},\ \frac{2t_{max}}{N-1},\ \frac{3t_{max}}{N-1},\ \dots,\ \frac{(N-2)t_{max}}{N-1},\ t_{max} \Biggr\}.$$
@@ -871,7 +871,7 @@ For larger datasets, if we include every data point as a vertex, as in the Vieto
 
 There are two common methods for selecting landmark points. The first is to choose the landmarks $L$ randomly from point cloud $Z$. The second is a greedy inductive selection process called sequential maxmin. In sequential maxmin, the first landmark is picked randomly from $Z$. Inductively, if $L_{i-1}$ is the set of the first $i-1$ landmarks, then let the $i$-th landmark be the point of $Z$ which maximizes the function $z \mapsto d(z, L_{i-1})$, where $d(z, L_{i-1})$ is the distance between the point $z$ and the set $L_{i-1}$. 
 
-Landmarks chosen using sequential maxmin tend to cover the dataset and to be spread apart from each other. A disadvantage is that outlier points tend to be selected. However, outlier points are less of an issue if one first takes dense core subsets as in Appendix~\ref{A:core}. Sequential maxmin landmarks are used by \citet{Range} and \citet{KleinBottle}. 
+Landmarks chosen using sequential maxmin tend to cover the dataset and to be spread apart from each other. A disadvantage is that outlier points tend to be selected. However, outlier points are less of an issue if one first takes dense core subsets as in Appendix~\ref{A:core}. Sequential maxmin landmarks are used by~\citet{Range} and~\citet{KleinBottle}. 
 
 The Matlab script corresponding to this section is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/landmark_example.m}{\texttt{landmark\_example.m}}.
 
@@ -1004,7 +1004,7 @@ The witness stream above contains approximately 2,000 simplices, fewer than the 
 
 
 \subsection{Lazy witness streams}
-A lazy witness stream is similar to a witness stream. However, there is an extra parameter $\nu$, typically chosen to be 0, 1, or 2, which helps determine how the lazy witness complexes $\LW_\nu(Z,L,t)$ are constructed. See \citet{WitnessComplexes} for more information. 
+A lazy witness stream is similar to a witness stream. However, there is an extra parameter $\nu$, typically chosen to be 0, 1, or 2, which helps determine how the lazy witness complexes $\LW_\nu(Z,L,t)$ are constructed. See~\citet{WitnessComplexes} for more information. 
 
 Suppose we are given a point cloud $Z$, landmark subset $L$, and parameter $\nu\in\N$. If $\nu = 0$, let $m(z) = 0$ for all $z\in Z$. If $\nu >0$, let $m(z)$ be the distance from $z$ to the $\nu$-th closest landmark point. The lazy witness complex $\LW_\nu(Z,L,t)$ is defined as follows.
 \begin{itemize}
@@ -1100,7 +1100,7 @@ We now do two examples with real datasets: a data set of range image patches, an
 
 The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/range_image_example.m}{\texttt{range\_image\_example.m}}, and it relies on the files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}}. 
 
-In {\em On the nonlinear statistics of range image patches} \citep{Range}, we study a space of range image patches drawn from the Brown database \citep{Mumford}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a vector with 25 coordinates and think of our patches as point cloud data in $\R^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix~\ref{A:core}). In \citet{Range} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from \citet{Range}: $X^5(300,30)$ has the topology of a circle. 
+In {\em On the nonlinear statistics of range image patches}~\citep{Range}, we study a space of range image patches drawn from the Brown database~\citep{Mumford}. A range image is like an optical image, except that each pixel contains a distance instead of a grayscale value. Our space contains high-contrast, normalized, $5 \times5$ pixel patches. We write each $5\times5$ patch as a vector with 25 coordinates and think of our patches as point cloud data in $\R^{25}$. We select from this space the 30\% densest vectors, based on a density estimator called $\rho_{300}$ (see Appendix~\ref{A:core}). In~\citet{Range} this dense core subset is denoted $X^5(300,30)$, and it contains 15,000 points. In the next example we verify a result from~\citet{Range}: $X^5(300,30)$ has the topology of a circle. 
 
 Make sure you are in the directory \texttt{tutorial\_examples} (you may need to enter the command \texttt{cd tutorial\_examples}), and then load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsRange.mat}{\texttt{pointsRange.mat}}. The matrix \texttt{pointsRange} appears in your Matlab workspace.
 
@@ -1152,7 +1152,7 @@ The file \texttt{lazyRange.png} is saved to your current directory.
 
 The plots above show that for a long range, the circle Betti numbers $Betti_0 = Betti_1 = 1$ are obtained. Your plot should contain a similar range. This is good evidence that the core subset $X^5(300,30)$ is well-approximated by a circle. 
 
-Our $5\times 5$ normalized patches are currently in the pixel basis: every coordinate corresponds to the range value at one of the 25 pixels. The Discrete Cosine Transform (DCT) basis is a useful basis for our patches \citep{Range, Mumford}. We change to this basis in order to plot a projection of the loop evidenced by Figure~\ref{fig:rangeBetti}. The method \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}} returns the DCT change-of-basis matrix for square patches of size specified by the input parameter.
+Our $5\times 5$ normalized patches are currently in the pixel basis: every coordinate corresponds to the range value at one of the 25 pixels. The Discrete Cosine Transform (DCT) basis is a useful basis for our patches~\citep{Range, Mumford}. We change to this basis in order to plot a projection of the loop evidenced by Figure~\ref{fig:rangeBetti}. The method \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/dct.m}{\texttt{dct.m}} returns the DCT change-of-basis matrix for square patches of size specified by the input parameter.
 
 %>> size(pointsRangeDct)
 %ans = 15000\quad 24 \hspace{30mm} \% 15000 points in DCT basis (representation)
@@ -1189,12 +1189,14 @@ We plot the projection of \texttt{pointsRangeDct} onto the linear gradient DCT b
 
 The projection of $X^5(300,30)$ in Figure~(a) shows a circle. It is called the range primary circle and is parameterized as shown in Figure~(b).
 
+This dataset is also analyzed using the Nudged Elastic Band (NEB) method and Morse theory in~\citet{adams2015nudged}.
+
 
 \subsection{Optical image patches}
 
 The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/optical_image_example.m}{\texttt{optical\_image\_example.m}}, and it relies on the files \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k300.mat}{\texttt{pointsOpticalDct\_k300.mat}} and \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k15.mat}{\texttt{pointsOpticalDct\_k15.mat}}.
 
-The optical image database collected by \citet{VanHaterenVanDerSchaaf} contains black and white digital photographs from a variety of indoor and outdoor scenes. \citet{Mumford} study $3 \times 3$ patches from these images, and \citet{KleinBottle} continue the analysis of image patches using persistent homology. \citet{KleinBottle} begin with a large collection of high-contrast, normalized $3 \times 3$ pixel patches, each thought of as a point in $\R^9$. They change to the Discrete Cosine Transform (DCT) basis, which maps the patches to the unit sphere $S^7 \subset \R^8$. They select from this space the 30\% densest vectors, based first on the density estimator $\rho_{300}$ (see Appendix~\ref{A:core}), and next based on the density estimator $\rho_{15}$. In \citet{KleinBottle} these dense core subset are denoted $X(300,30)$ and $X(15,30)$, and they contain 15,000 points. In the next example we verify two results from \citet{KleinBottle}: $X(300,30)$ has the topology of a circle, and $X(15,30)$ has the topology of a three circle model.
+The optical image database collected by~\citet{VanHaterenVanDerSchaaf} contains black and white digital photographs from a variety of indoor and outdoor scenes. \citet{Mumford} study $3 \times 3$ patches from these images, and~\citet{KleinBottle} continue the analysis of image patches using persistent homology. \citet{KleinBottle} begin with a large collection of high-contrast, normalized $3 \times 3$ pixel patches, each thought of as a point in $\R^9$. They change to the Discrete Cosine Transform (DCT) basis, which maps the patches to the unit sphere $S^7 \subset \R^8$. They select from this space the 30\% densest vectors, based first on the density estimator $\rho_{300}$ (see Appendix~\ref{A:core}), and next based on the density estimator $\rho_{15}$. In~\citet{KleinBottle} these dense core subset are denoted $X(300,30)$ and $X(15,30)$, and they contain 15,000 points. In the next example we verify two results from~\citet{KleinBottle}: $X(300,30)$ has the topology of a circle, and $X(15,30)$ has the topology of a three circle model.
 
 Make sure you are in the directory \texttt{tutorial\_examples} (you may need to enter the command \texttt{cd tutorial\_examples}), and then load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsOpticalDct_k300.mat}{\texttt{pointsOpticalDct\_k300.mat}}. The matrix \texttt{pointsOpticalDct\_k300} appears in your Matlab workspace.
 
@@ -1341,7 +1343,7 @@ Figure~(a) shows a projection of $X(15,30)$. The space $X(15,30)$ is parameteriz
 
 The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/cyclo_octane_example.m}{\texttt{cyclo\_octane\_example.m}}, and it relies on the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsCycloOctane.mat}{\texttt{pointsCycloOctane.mat}}.
 
-The cyclo-octane molecule $\cyclo$ consists of a ring of 8 carbons atoms, each bonded to a pair of hydrogen atoms (Figure~\ref{fig:cyclo}). A conformation of this molecule is a chemically and physically possible realization in 3D space, modulo translations and rotations. The locations of the carbon atoms in a conformation determine the locations of the hydrogen atoms via energy minimization, and hence each molecule conformation can be mapped to a point in $\R^{24}=\R^{8\cdot 3}$, as there are eight carbon atoms in the molecule and each carbon location is represented by three coordinates $x,y,z$. This map realizes the conformation space of cyclo-octane as a subset of $\R^{24}$. It turns out that the conformation space is a two-dimensional stratefied space, i.e.\ a two-dimensional manifold with singularities. Furthermore, \cite{brown2008algorithmic}, \cite{martin2010topology}, and \cite{martin2011non} show that the conformation space of cyclo-octane is the union of a sphere with a Klein bottle, glued together along two circles of singularities (see Figures~7 and 8 in \cite{martin2011non}). Indeed, the algorithm they develop allows them to triangulate this conformation space from a finite sample.
+The cyclo-octane molecule $\cyclo$ consists of a ring of 8 carbons atoms, each bonded to a pair of hydrogen atoms (Figure~\ref{fig:cyclo}). A conformation of this molecule is a chemically and physically possible realization in 3D space, modulo translations and rotations. The locations of the carbon atoms in a conformation determine the locations of the hydrogen atoms via energy minimization, and hence each molecule conformation can be mapped to a point in $\R^{24}=\R^{8\cdot 3}$, as there are eight carbon atoms in the molecule and each carbon location is represented by three coordinates $x,y,z$. This map realizes the conformation space of cyclo-octane as a subset of $\R^{24}$. It turns out that the conformation space is a two-dimensional stratefied space, i.e.\ a two-dimensional manifold with singularities. Furthermore,~\citet{brown2008algorithmic},~\citet{martin2010topology}, and~\citet{martin2011non} show that the conformation space of cyclo-octane is the union of a sphere with a Klein bottle, glued together along two circles of singularities (see Figures~7 and 8 in~\citet{martin2011non}). Indeed, the algorithm they develop allows them to triangulate this conformation space from a finite sample.
 
 \begin{figure}[htp]
 	\begin{center}
@@ -1351,7 +1353,7 @@ The cyclo-octane molecule $\cyclo$ consists of a ring of 8 carbons atoms, each b
   	\label{fig:cyclo}
 \end{figure}
 
-\cite{zomorodian2012advances} uses the cyclo-octane dataset as an example to show that we can efficiently recover the homology groups of the conformation space using persistent homology. In this section we essentially follow Zomorodian's example. We begin with a sample of 6,040 points on the conformation space (this data is publicly available at Shawn Martin's webpage \url{http://www.sandia.gov/~smartin/software.html}) and compute the resulting persistent homology. We obtain the Betti numbers $Betti_0 = Betti_1 = 1$ and $Betti_2 = 2$, which match the homology groups of the union of a sphere with a Klein bottle, glued together along two circles of singularities.
+\citet{zomorodian2012advances} uses the cyclo-octane dataset as an example to show that we can efficiently recover the homology groups of the conformation space using persistent homology. In this section we essentially follow Zomorodian's example. We begin with a sample of 6,040 points on the conformation space (this data is publicly available at Shawn Martin's webpage \url{http://www.sandia.gov/~smartin/software.html}) and compute the resulting persistent homology. We obtain the Betti numbers $Betti_0 = Betti_1 = 1$ and $Betti_2 = 2$, which match the homology groups of the union of a sphere with a Klein bottle, glued together along two circles of singularities.
 
 Make sure you are in the directory \texttt{tutorial\_examples} (you may need to enter the command \texttt{cd tutorial\_examples}), and then load the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsCycloOctane.mat}{\texttt{pointsCycloOctane.mat}}. The matrix \texttt{pointsCycloOctane} appears in your Matlab workspace.
 
@@ -1481,7 +1483,7 @@ It is possible to compute the bottleneck distance between two barcodes. For an e
 
 \section{Acknowledgements}
 
-We would like to thank the authors of  \cite{brown2008algorithmic}, \cite{martin2010topology}, and \cite{martin2011non} for allowing us to use the cyclo-octane dataset in this tutorial.
+We would like to thank the authors of~\citet{brown2008algorithmic},~\citet{martin2010topology}, and~\citet{martin2011non} for allowing us to use the cyclo-octane dataset in this tutorial.
 
 
 
@@ -1499,7 +1501,7 @@ A core subset of a dataset is a collection of the densest points, such as $X^5(3
 
 Real datasets can be very noisy, and outlier points can significantly alter the computed topology. Therefore, instead of trying to approximate the topology of an entire dataset, we often proceed as follows. We create a family of core subsets and identify their topologies. Looking at a variety of core subsets can give a good picture of the entire dataset. 
 
-See \citet{KleinBottle} and \citet{WitnessComplexes} for an example using multiple core subsets. The dataset contains high-contrast patches from natural images. The authors use three density estimators. As they change from the most global to the most local density estimate, the topologies of the core subsets change from a circle, to three intersecting circles, to a Klein bottle. 
+See~\citet{KleinBottle} and~\citet{WitnessComplexes} for an example using multiple core subsets. The dataset contains high-contrast patches from natural images. The authors use three density estimators. As they change from the most global to the most local density estimate, the topologies of the core subsets change from a circle, to three intersecting circles, to a Klein bottle. 
 
 One way to estimate the density of a point $z$ in a point cloud $Z$ is as follows. Let $\rho_k(z)$ be the distance from $z$ to its $k$-th closest neighbor. Let the density estimate at $z$ be $\frac{1}{\rho_k(z)}$. Varying parameter $k$ gives a family of density estimates. Using a small value for $k$ gives a local density estimate, and using a larger value for $k$ gives a more global estimate. 
 
@@ -1590,7 +1592,7 @@ See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/mas
 \end{solution}
 
 \begin{exerciseSol}
-Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices} \citep[page 107]{Hatcher}{\em . We recommend using a $3\times 3$ grid of 9 vertices.}
+Build a simplicial complex homeomorphic to the torus. Compute its Betti numbers. {\em Hint: You will need at least 7 vertices}~\citep[page 107]{Hatcher}{\em . We recommend using a $3\times 3$ grid of 9 vertices.}
 \end{exerciseSol}
 
 \begin{solution}
@@ -1665,7 +1667,7 @@ Perturb the points with a small amount of noise. Do the barcodes change a lot or
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_8.m}{\texttt{exercise\_8.m}} for a solution. When a small amount of noise is added, the barcodes should only change by a little bit. This is due to the stability theorem in \cite{ChazalDeSilvaOudot2013}.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_8.m}{\texttt{exercise\_8.m}} for a solution. When a small amount of noise is added, the barcodes should only change by a little bit. This is due to the stability theorem in~\citet{ChazalDeSilvaOudot2013}.
 \end{solution}
 
 \begin{exerciseSol}
@@ -1697,7 +1699,7 @@ Do you ever get homology in dimension above 1?
 \end{exerciseSol}
 
 \begin{solution}
-See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_11.m}{\texttt{exercise\_11.m}} for a solution. Homology above dimension 1 does appear; this and more is explained in the papers \cite{Adamaszek2013,AAFPP-J,AA-VRS1,AAM}.
+See the Matlab script \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_solutions/exercise_11.m}{\texttt{exercise\_11.m}} for a solution. Homology above dimension 1 does appear; this and more is explained in the papers~\citep{Adamaszek2013,AAFPP-J,AA-VRS1,AAM}.
 \end{solution}
 
 \begin{exerciseSol}
