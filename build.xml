@@ -29,8 +29,8 @@
 	<property name="processing.jar" value="${processing.build.dir}/library/javaplex.jar" />
 	<property name="processing.zipball" value="${dist.dir}/${project.name}-processing-lib-${version.num}.zip" />
 	<property name="processing.demo.zipball" value="${dist.dir}/${project.name}-processing-demo-${version.num}.zip" />
-	<property name="ant.build.javac.source" value="1.5" />
-	<property name="ant.build.javac.target" value="1.5" />
+	<property name="ant.build.javac.source" value="1.6" />
+	<property name="ant.build.javac.target" value="1.6" />
 
 	<buildnumber />
 
@@ -85,7 +85,7 @@
 
 	<!--Bin targets-->
 	<target name="classes" depends="init">
-		<javac destdir="${bin.dir}" classpathref="classpath" debug="${debug.flag}" includeAntRuntime="false" source="1.5" target="1.5">
+		<javac destdir="${bin.dir}" classpathref="classpath" debug="${debug.flag}" includeAntRuntime="false" source="1.6" target="1.6">
 			<compilerarg value="-Xlint" />
 			<src>
 				<pathelement path="${src.dir}" />
