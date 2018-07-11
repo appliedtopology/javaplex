@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  1 JUL 2018 17:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  11 JUL 2018 09:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -467,212 +467,212 @@ LaTeX Info: Redefining \nameref on input line 33.
 Underfull \vbox (badness 2556) has occurred while \output is active []
 
  [1{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (6.01897pt too wide) in paragraph at lines 109--109
+Overfull \hbox (6.01897pt too wide) in paragraph at lines 116--116
  []\OT1/cmtt/m/n/10 ans = Java 1.5.0_13 with Apple Inc.   Java Hotspot(TM) Clie
 nt VM mixed mode, sharing[] 
  []
 
 
-Overfull \hbox (2.38226pt too wide) in paragraph at lines 113--114
+Overfull \hbox (2.38226pt too wide) in paragraph at lines 120--121
 []\OT1/cmr/m/n/10 To in-stall Javaplex for Mat-lab, go to the lat-est re-lease 
 at []$\OT1/cmtt/m/n/10 https : / / github . com / appliedtopology / javaplex /
  []
 
 
-Overfull \hbox (8.64397pt too wide) in paragraph at lines 113--114
+Overfull \hbox (8.64397pt too wide) in paragraph at lines 120--121
 \OT1/cmr/m/n/10 like \OT1/cmtt/m/n/10 matlab-examples-4.2.3.zip\OT1/cmr/m/n/10 
 . Ex-tract the zip file. The re-sult-ing folder should be called \OT1/cmtt/m/n/
 10 matlab[]examples\OT1/cmr/m/n/10 ;
  []
 
-[2] [3] <s1.pdf, id=247, 371.85866pt x 410.0921pt>
+[2] [3] <s1.pdf, id=252, 371.85866pt x 410.0921pt>
 File: s1.pdf Graphic file (type pdf)
  <use s1.pdf>
-Package pdftex.def Info: s1.pdf used on input line 200.
+Package pdftex.def Info: s1.pdf used on input line 207.
 (pdftex.def)             Requested size: 72.26999pt x 79.70169pt.
  [4 <./s1.pdf>]
-[5] <smallSimplicialComplex.png, id=267, 527.9725pt x 296.10625pt>
+[5] <smallSimplicialComplex.png, id=272, 527.9725pt x 296.10625pt>
 File: smallSimplicialComplex.png Graphic file (type png)
 
 <use smallSimplicialComplex.png>
-Package pdftex.def Info: smallSimplicialComplex.png used on input line 319.
+Package pdftex.def Info: smallSimplicialComplex.png used on input line 326.
 (pdftex.def)             Requested size: 144.54pt x 81.06123pt.
 
-<houseFig.pdf, id=272, 52.43018pt x 76.4957pt>
+<houseFig.pdf, id=277, 52.43018pt x 76.4957pt>
 File: houseFig.pdf Graphic file (type pdf)
  <use houseFig.pdf>
-Package pdftex.def Info: houseFig.pdf used on input line 345.
+Package pdftex.def Info: houseFig.pdf used on input line 352.
 (pdftex.def)             Requested size: 72.26999pt x 105.44159pt.
  [6 <./smallSimplicialComplex.png> <./houseFig.pdf>]
-Overfull \hbox (47.59558pt too wide) in paragraph at lines 371--371
+Overfull \hbox (47.59558pt too wide) in paragraph at lines 378--378
  []\OT1/cmtt/m/n/10 >> persistence = api.Plex4.getModularSimplicialAlgorithm(3,
  2);[] 
  []
 
-[7] <house.png, id=356, 578.16pt x 433.62pt>
+[7] <house.png, id=361, 578.16pt x 433.62pt>
 File: house.png Graphic file (type png)
  <use house.png>
-Package pdftex.def Info: house.png used on input line 462.
+Package pdftex.def Info: house.png used on input line 469.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
- [8] [9 <./house.png (PNG copy)>] <houseCoord.pdf, id=367, 602.25pt x 521.95pt>
+ [8] [9 <./house.png (PNG copy)>] <houseCoord.pdf, id=372, 602.25pt x 521.95pt>
 File: houseCoord.pdf Graphic file (type pdf)
 
 <use houseCoord.pdf>
-Package pdftex.def Info: houseCoord.pdf used on input line 509.
+Package pdftex.def Info: houseCoord.pdf used on input line 516.
 (pdftex.def)             Requested size: 112.0187pt x 97.0769pt.
  [10 <./houseCoord.pdf>]
-Overfull \hbox (16.51888pt too wide) in paragraph at lines 597--597
+Overfull \hbox (16.51888pt too wide) in paragraph at lines 604--604
  []\OT1/cmtt/m/n/10 >> point_cloud = examples.PointCloudExamples.getRandomSpher
 eProductPoints(1000, 1, 2);[] 
  []
 
-[11] [12] [13] <ripsHouse.png, id=412, 578.16pt x 433.62pt>
+[11] [12] [13] <ripsHouse.png, id=417, 578.16pt x 433.62pt>
 File: ripsHouse.png Graphic file (type png)
 
 <use ripsHouse.png>
-Package pdftex.def Info: ripsHouse.png used on input line 741.
+Package pdftex.def Info: ripsHouse.png used on input line 748.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
  [14]
-Overfull \hbox (38.27599pt too wide) in paragraph at lines 773--774
+Overfull \hbox (38.27599pt too wide) in paragraph at lines 780--781
 []\OT1/cmr/m/n/10 Make sure you are in the di-rec-tory \OT1/cmtt/m/n/10 tutoria
 l[]examples \OT1/cmr/m/n/10 (you may need to en-ter the com-mand \OT1/cmtt/m/n/
 10 cd tutorial[]examples\OT1/cmr/m/n/10 ),
  []
 
-[15 <./ripsHouse.png (PNG copy)>] <ripsTorus.png, id=422, 578.16pt x 433.62pt>
+[15 <./ripsHouse.png (PNG copy)>] <ripsTorus.png, id=427, 578.16pt x 433.62pt>
 File: ripsTorus.png Graphic file (type png)
 
 <use ripsTorus.png>
-Package pdftex.def Info: ripsTorus.png used on input line 800.
+Package pdftex.def Info: ripsTorus.png used on input line 807.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
  [16 <./ripsTorus.png (PNG copy)>] [17]
-Overfull \hbox (16.51888pt too wide) in paragraph at lines 888--888
+Overfull \hbox (16.51888pt too wide) in paragraph at lines 895--895
  []\OT1/cmtt/m/n/10 >> random_selector = api.Plex4.createRandomSelector(point_c
 loud, num_landmark_points);[] 
  []
 
 
-Overfull \hbox (16.51888pt too wide) in paragraph at lines 888--888
+Overfull \hbox (16.51888pt too wide) in paragraph at lines 895--895
  []\OT1/cmtt/m/n/10 >> maxmin_selector = api.Plex4.createMaxMinSelector(point_c
 loud, num_landmark_points);[] 
  []
 
-<fig8lands.png, id=446, 449.68pt x 337.26pt>
+<fig8lands.png, id=451, 449.68pt x 337.26pt>
 File: fig8lands.png Graphic file (type png)
  <use fig8lands.png>
-Package pdftex.def Info: fig8lands.png used on input line 910.
+Package pdftex.def Info: fig8lands.png used on input line 917.
 (pdftex.def)             Requested size: 361.34999pt x 271.02286pt.
  [18] [19 <./fig8lands.png (PNG copy)>]
-Overfull \hbox (32.26874pt too wide) in paragraph at lines 959--959
+Overfull \hbox (32.26874pt too wide) in paragraph at lines 966--966
  []\OT1/cmtt/m/n/10 >> point_cloud = examples.PointCloudExamples.getRandomSpher
 eProductPoints(num_points, ...[] 
  []
 
 
-Overfull \hbox (27.01878pt too wide) in paragraph at lines 959--959
+Overfull \hbox (27.01878pt too wide) in paragraph at lines 966--966
  []\OT1/cmtt/m/n/10 >> landmark_selector = api.Plex4.createMaxMinSelector(point
 _cloud, num_landmark_points);[] 
  []
 
-<witnessTorus.png, id=467, 578.16pt x 433.62pt>
+<witnessTorus.png, id=472, 578.16pt x 433.62pt>
 File: witnessTorus.png Graphic file (type png)
  <use witnessTorus.png>
-Package pdftex.def Info: witnessTorus.png used on input line 994.
+Package pdftex.def Info: witnessTorus.png used on input line 1001.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
  [20]
 [21 <./witnessTorus.png (PNG copy)>]
-Overfull \hbox (27.01878pt too wide) in paragraph at lines 1041--1041
+Overfull \hbox (27.01878pt too wide) in paragraph at lines 1048--1048
  []\OT1/cmtt/m/n/10 >> landmark_selector = api.Plex4.createMaxMinSelector(point
 _cloud, num_landmark_points);[] 
  []
 
 
-Overfull \hbox (48.0186pt too wide) in paragraph at lines 1062--1062
+Overfull \hbox (48.0186pt too wide) in paragraph at lines 1069--1069
  []\OT1/cmtt/m/n/10 >> stream = streams.impl.LazyWitnessStream(landmark_selecto
 r.getUnderlyingMetricSpace(), ...[] 
  []
 
-<lazySphere.png, id=483, 578.16pt x 433.62pt>
+<lazySphere.png, id=488, 578.16pt x 433.62pt>
 File: lazySphere.png Graphic file (type png)
  <use lazySphere.png>
-Package pdftex.def Info: lazySphere.png used on input line 1068.
+Package pdftex.def Info: lazySphere.png used on input line 1075.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
  [22]
 [23 <./lazySphere.png (PNG copy)>]
-Overfull \hbox (38.27599pt too wide) in paragraph at lines 1103--1104
+Overfull \hbox (38.27599pt too wide) in paragraph at lines 1110--1111
 []\OT1/cmr/m/n/10 Make sure you are in the di-rec-tory \OT1/cmtt/m/n/10 tutoria
 l[]examples \OT1/cmr/m/n/10 (you may need to en-ter the com-mand \OT1/cmtt/m/n/
 10 cd tutorial[]examples\OT1/cmr/m/n/10 ),
  []
 
 
-Overfull \hbox (27.01878pt too wide) in paragraph at lines 1138--1138
+Overfull \hbox (27.01878pt too wide) in paragraph at lines 1145--1145
  []\OT1/cmtt/m/n/10 >> landmark_selector = api.Plex4.createMaxMinSelector(point
 sRange, num_landmark_points);[] 
  []
 
 
-Overfull \hbox (48.0186pt too wide) in paragraph at lines 1138--1138
+Overfull \hbox (48.0186pt too wide) in paragraph at lines 1145--1145
  []\OT1/cmtt/m/n/10 >> stream = streams.impl.LazyWitnessStream(landmark_selecto
 r.getUnderlyingMetricSpace(), ...[] 
  []
 
-<lazyRange.png, id=512, 578.16pt x 433.62pt>
+<lazyRange.png, id=517, 578.16pt x 433.62pt>
 File: lazyRange.png Graphic file (type png)
  <use lazyRange.png>
-Package pdftex.def Info: lazyRange.png used on input line 1144.
+Package pdftex.def Info: lazyRange.png used on input line 1151.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
  [24]
-<linearGrad.png, id=524, 867.24pt x 281.05pt>
+<linearGrad.png, id=529, 867.24pt x 281.05pt>
 File: linearGrad.png Graphic file (type png)
  <use linearGrad.png>
-Package pdftex.def Info: linearGrad.png used on input line 1166.
+Package pdftex.def Info: linearGrad.png used on input line 1173.
 (pdftex.def)             Requested size: 144.54pt x 46.83868pt.
 
-<r5k300c30.png, id=525, 300.12125pt x 291.0875pt>
+<r5k300c30.png, id=530, 300.12125pt x 291.0875pt>
 File: r5k300c30.png Graphic file (type png)
  <use r5k300c30.png>
-Package pdftex.def Info: r5k300c30.png used on input line 1181.
+Package pdftex.def Info: r5k300c30.png used on input line 1188.
 (pdftex.def)             Requested size: 216.81pt x 210.28905pt.
 
-<primaryCircle.png, id=526, 337.26pt x 329.23pt>
+<primaryCircle.png, id=531, 337.26pt x 329.23pt>
 File: primaryCircle.png Graphic file (type png)
  <use primaryCircle.png>
-Package pdftex.def Info: primaryCircle.png used on input line 1183.
+Package pdftex.def Info: primaryCircle.png used on input line 1190.
 (pdftex.def)             Requested size: 209.58255pt x 204.59773pt.
 
 [25 <./lazyRange.png (PNG copy)> <./linearGrad.png (PNG copy)>]
-Overfull \hbox (38.27599pt too wide) in paragraph at lines 1199--1200
+Overfull \hbox (38.27599pt too wide) in paragraph at lines 1206--1207
 []\OT1/cmr/m/n/10 Make sure you are in the di-rec-tory \OT1/cmtt/m/n/10 tutoria
 l[]examples \OT1/cmr/m/n/10 (you may need to en-ter the com-mand \OT1/cmtt/m/n/
 10 cd tutorial[]examples\OT1/cmr/m/n/10 ),
  []
 
 [26 <./r5k300c30.png (PNG copy)> <./primaryCircle.png (PNG copy)>]
-Overfull \hbox (48.0186pt too wide) in paragraph at lines 1235--1235
+Overfull \hbox (48.0186pt too wide) in paragraph at lines 1242--1242
  []\OT1/cmtt/m/n/10 >> stream = streams.impl.LazyWitnessStream(landmark_selecto
 r.getUnderlyingMetricSpace(), ...[] 
  []
 
-<lazyOpticalDct-k300.png, id=566, 578.16pt x 433.62pt>
+<lazyOpticalDct-k300.png, id=571, 578.16pt x 433.62pt>
 File: lazyOpticalDct-k300.png Graphic file (type png)
 
 <use lazyOpticalDct-k300.png>
-Package pdftex.def Info: lazyOpticalDct-k300.png used on input line 1241.
+Package pdftex.def Info: lazyOpticalDct-k300.png used on input line 1248.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
  [27]
-<nk300c30.png, id=571, 376.40625pt x 368.37625pt>
+<nk300c30.png, id=576, 376.40625pt x 368.37625pt>
 File: nk300c30.png Graphic file (type png)
  <use nk300c30.png>
-Package pdftex.def Info: nk300c30.png used on input line 1260.
+Package pdftex.def Info: nk300c30.png used on input line 1267.
 (pdftex.def)             Requested size: 216.81pt x 212.19128pt.
 File: primaryCircle.png Graphic file (type png)
 
 <use primaryCircle.png>
-Package pdftex.def Info: primaryCircle.png used on input line 1262.
+Package pdftex.def Info: primaryCircle.png used on input line 1269.
 (pdftex.def)             Requested size: 209.58255pt x 204.59773pt.
  [28 <./lazyOpticalDct-k300.png (PNG copy)>]
-Overfull \hbox (57.21542pt too wide) in paragraph at lines 1269--1270
+Overfull \hbox (57.21542pt too wide) in paragraph at lines 1276--1277
 []\OT1/cmr/m/n/10 We next an-a-lyze the core sub-set $\OML/cmm/m/it/10 X\OT1/cm
 r/m/n/10 (15\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 30)$. Load the file []\OT1/cmtt/
 m/n/10 pointsOpticalDct[]k15.mat[]\OT1/cmr/m/n/10 . The ma-trix \OT1/cmtt/m/n/1
@@ -680,82 +680,82 @@ m/n/10 pointsOpticalDct[]k15.mat[]\OT1/cmr/m/n/10 . The ma-trix \OT1/cmtt/m/n/1
  []
 
 
-Overfull \hbox (48.0186pt too wide) in paragraph at lines 1305--1305
+Overfull \hbox (48.0186pt too wide) in paragraph at lines 1312--1312
  []\OT1/cmtt/m/n/10 >> stream = streams.impl.LazyWitnessStream(landmark_selecto
 r.getUnderlyingMetricSpace(), ...[] 
  []
 
-[29 <./nk300c30.png>] <lazyOpticalDct-k15.png, id=585, 578.16pt x 433.62pt>
+[29 <./nk300c30.png>] <lazyOpticalDct-k15.png, id=590, 578.16pt x 433.62pt>
 File: lazyOpticalDct-k15.png Graphic file (type png)
 
 <use lazyOpticalDct-k15.png>
-Package pdftex.def Info: lazyOpticalDct-k15.png used on input line 1311.
+Package pdftex.def Info: lazyOpticalDct-k15.png used on input line 1318.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
- <nk15c30.png, id=586, 377.41pt x 372.39125pt>
+ <nk15c30.png, id=591, 377.41pt x 372.39125pt>
 File: nk15c30.png Graphic file (type png)
 
 <use nk15c30.png>
-Package pdftex.def Info: nk15c30.png used on input line 1330.
+Package pdftex.def Info: nk15c30.png used on input line 1337.
 (pdftex.def)             Requested size: 216.81pt x 213.92442pt.
- <threeCircle.png, id=587, 804.606pt x 805.5696pt>
+ <threeCircle.png, id=592, 804.606pt x 805.5696pt>
 File: threeCircle.png Graphic file (type png)
 
 <use threeCircle.png>
-Package pdftex.def Info: threeCircle.png used on input line 1332.
+Package pdftex.def Info: threeCircle.png used on input line 1339.
 (pdftex.def)             Requested size: 209.58255pt x 209.8242pt.
  [30 <./lazyOpticalDct-k15.png (PNG copy)>]
-Overfull \hbox (11.05464pt too wide) in paragraph at lines 1342--1343
+Overfull \hbox (11.05464pt too wide) in paragraph at lines 1349--1350
  \OT1/cmr/m/n/10 6.3.\OT1/cmr/bx/n/10 Cyclo-octane mol-e-cule con-for-ma-tions.
 [][] \OT1/cmr/m/n/10 The cor-re-spond-ing Mat-lab script is []\OT1/cmtt/m/n/10 
 cyclo[]octane[]example.m[]\OT1/cmr/m/n/10 ,
  []
 
-<Cyclooctane-boat-chair-3D-balls.png, id=604, 1457.445pt x 1505.625pt>
+<Cyclooctane-boat-chair-3D-balls.png, id=609, 1457.445pt x 1505.625pt>
 File: Cyclooctane-boat-chair-3D-balls.png Graphic file (type png)
 
 <use Cyclooctane-boat-chair-3D-balls.png>
 Package pdftex.def Info: Cyclooctane-boat-chair-3D-balls.png used on input line
- 1348.
+ 1355.
 (pdftex.def)             Requested size: 144.54pt x 149.30775pt.
 
-Overfull \hbox (38.27599pt too wide) in paragraph at lines 1356--1357
+Overfull \hbox (38.27599pt too wide) in paragraph at lines 1363--1364
 []\OT1/cmr/m/n/10 Make sure you are in the di-rec-tory \OT1/cmtt/m/n/10 tutoria
 l[]examples \OT1/cmr/m/n/10 (you may need to en-ter the com-mand \OT1/cmtt/m/n/
 10 cd tutorial[]examples\OT1/cmr/m/n/10 ),
  []
 
 [31 <./nk15c30.png> <./threeCircle.png>]
-Overfull \hbox (48.0186pt too wide) in paragraph at lines 1392--1392
+Overfull \hbox (48.0186pt too wide) in paragraph at lines 1399--1399
  []\OT1/cmtt/m/n/10 >> stream = streams.impl.LazyWitnessStream(landmark_selecto
 r.getUnderlyingMetricSpace(), ...[] 
  []
 
-<lazyCycloOctane.png, id=623, 578.16pt x 433.62pt>
+<lazyCycloOctane.png, id=628, 578.16pt x 433.62pt>
 File: lazyCycloOctane.png Graphic file (type png)
  <use lazyCycloOctane.png>
-Package pdftex.def Info: lazyCycloOctane.png used on input line 1398.
+Package pdftex.def Info: lazyCycloOctane.png used on input line 1405.
 (pdftex.def)             Requested size: 433.62pt x 325.2142pt.
 
 [32 <./Cyclooctane-boat-chair-3D-balls.png>]
-Overfull \hbox (10.02187pt too wide) in paragraph at lines 1423--1424
+Overfull \hbox (10.02187pt too wide) in paragraph at lines 1430--1431
 \OT1/cmr/m/n/10 in-clude Javaplex com-mands in an m-file func-tion, in-clude th
 e com-mand \OT1/cmtt/m/n/10 import edu.stanford.math.plex4.*;
  []
 
 [33 <./lazyCycloOctane.png (PNG copy)>]
-Overfull \hbox (11.26892pt too wide) in paragraph at lines 1447--1447
+Overfull \hbox (11.26892pt too wide) in paragraph at lines 1454--1454
  []\OT1/cmtt/m/n/10 The Euler characteristic is 2 = 8 - 28 + 56 - 70 + 56 - 28 
 + 8, using the alternating[] 
  []
 
 
-Overfull \hbox (6.01897pt too wide) in paragraph at lines 1447--1447
+Overfull \hbox (6.01897pt too wide) in paragraph at lines 1454--1454
  []\OT1/cmtt/m/n/10 The Euler characteristic is 2 = 1 - 0 + 0 - 0 + 0 - 0 + 1, 
 using the alternating sum[] 
  []
 
 [34] [35]
-Overfull \hbox (26.71925pt too wide) in paragraph at lines 1578--1579
+Overfull \hbox (26.71925pt too wide) in paragraph at lines 1585--1586
 []\OT1/cmr/m/n/10 Several ex-er-cise so-lu-tions are ac-com-pa-nied by Mat-lab 
 scripts, which are avail-able in the folder []\OT1/cmtt/m/n/10 tutorial[]soluti
 ons[]\OT1/cmr/m/n/10 . 
@@ -763,35 +763,35 @@ ons[]\OT1/cmr/m/n/10 .
 
 File: smallSimplicialComplex.png Graphic file (type png)
 <use smallSimplicialComplex.png>
-Package pdftex.def Info: smallSimplicialComplex.png used on input line 1583.
+Package pdftex.def Info: smallSimplicialComplex.png used on input line 1590.
 (pdftex.def)             Requested size: 144.54pt x 81.06123pt.
- <torus.png, id=676, 456.2646pt x 472.164pt>
+ <torus.png, id=681, 456.2646pt x 472.164pt>
 File: torus.png Graphic file (type png)
 
 <use torus.png>
-Package pdftex.def Info: torus.png used on input line 1602.
+Package pdftex.def Info: torus.png used on input line 1609.
 (pdftex.def)             Requested size: 180.67499pt x 186.97464pt.
- [36] <klein.png, id=686, 456.2646pt x 472.164pt>
+ [36] <klein.png, id=691, 456.2646pt x 472.164pt>
 File: klein.png Graphic file (type png)
 
 <use klein.png>
-Package pdftex.def Info: klein.png used on input line 1617.
+Package pdftex.def Info: klein.png used on input line 1624.
 (pdftex.def)             Requested size: 180.67499pt x 186.97464pt.
- <projPlane.png, id=688, 521.7894pt x 439.4016pt>
+ <projPlane.png, id=693, 521.7894pt x 439.4016pt>
 File: projPlane.png Graphic file (type png)
 
 <use projPlane.png>
-Package pdftex.def Info: projPlane.png used on input line 1632.
+Package pdftex.def Info: projPlane.png used on input line 1639.
 (pdftex.def)             Requested size: 180.67499pt x 152.1435pt.
  [37 <./torus.png (PNG copy)> <./klein.png (PNG copy)>]
 [38 <./projPlane.png (PNG copy)>] [39] (./javaplex_tutorial.bbl [40])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1822.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1829.
  [41]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1822.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1829.
 
 (./javaplex_tutorial.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1822.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1822.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1829.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1829.
 
 Package rerunfilecheck Info: File `javaplex_tutorial.out' has not changed.
 (rerunfilecheck)             Checksum: B86C85020785554FB038538467E84FA3;2432.
@@ -799,7 +799,7 @@ Package rerunfilecheck Info: File `javaplex_tutorial.out' has not changed.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1822.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1829.
  ) 
 Here is how much of TeX's memory you used:
  7694 strings out of 492995
@@ -828,10 +828,10 @@ ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2017/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2017/tex
 mf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on javaplex_tutorial.pdf (41 pages, 1528941 bytes).
+Output written on javaplex_tutorial.pdf (41 pages, 1529450 bytes).
 PDF statistics:
- 867 PDF objects out of 1000 (max. 8388607)
- 759 compressed objects within 8 object streams
+ 872 PDF objects out of 1000 (max. 8388607)
+ 764 compressed objects within 8 object streams
  159 named destinations out of 1000 (max. 500000)
  401 words of extra memory for PDF output out of 10000 (max. 10000000)
 

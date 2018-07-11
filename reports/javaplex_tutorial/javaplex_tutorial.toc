@@ -8,7 +8,7 @@
 \contentsline {subsection}{\tocsubsection {}{2.2}{Homology}}{3}{subsection.2.2}
 \contentsline {subsection}{\tocsubsection {}{2.3}{Filtered simplicial complexes}}{3}{subsection.2.3}
 \contentsline {subsection}{\tocsubsection {}{2.4}{Persistent homology}}{3}{subsection.2.4}
-\contentsline {section}{\tocsection {}{3}{Explicit simplex streams}}{3}{section.3}
+\contentsline {section}{\tocsection {}{3}{Explicit simplex streams}}{4}{section.3}
 \contentsline {subsection}{\tocsubsection {}{3.1}{Computing homology}}{4}{subsection.3.1}
 \contentsline {subsection}{\tocsubsection {}{3.2}{Computing persistent homology}}{6}{subsection.3.2}
 \contentsline {section}{\tocsection {}{4}{Point cloud data}}{10}{section.4}
