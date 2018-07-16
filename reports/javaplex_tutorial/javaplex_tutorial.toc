@@ -27,7 +27,8 @@
 \contentsline {subsection}{\tocsubsection {}{7.1}{Java heap size}}{33}{subsection.7.1}
 \contentsline {subsection}{\tocsubsection {}{7.2}{Matlab functions with Javaplex commands}}{34}{subsection.7.2}
 \contentsline {subsection}{\tocsubsection {}{7.3}{Displaying the simplices in a stream}}{34}{subsection.7.3}
-\contentsline {subsection}{\tocsubsection {}{7.4}{Computing the bottleneck distance}}{34}{subsection.7.4}
+\contentsline {subsection}{\tocsubsection {}{7.4}{Displaying the boundary matrix of a homology computation}}{34}{subsection.7.4}
+\contentsline {subsection}{\tocsubsection {}{7.5}{Computing the bottleneck distance}}{34}{subsection.7.5}
 \contentsline {section}{\tocsection {}{8}{Acknowledgements}}{34}{section.8}
 \contentsline {section}{Appendices}{34}{section*.2}
 \contentsline {section}{\tocsection {Appendix}{A}{Dense core subsets}}{34}{appendix.A}
