@@ -85,16 +85,8 @@ Javaplex is a Java software package for computing the persistent homology of fil
 
 This tutorial is written for those using Javaplex with Matlab. However, one can run Javaplex without Matlab; see \url{https://github.com/appliedtopology/javaplex/wiki/Interoperability}.
 
-If you are interested in Javaplex, then you may also be interested in the software packages.
-\begin{itemize}
-\item GUDHI (\url{http://gudhi.gforge.inria.fr/})
-\item Ripser (\url{https://github.com/Ripser})
-\item PHAT (\url{https://github.com/blazs/phat})
-\item Dionysus (\url{http://www.mrzv.org/software/dionysus})
-\item R-TDA (\url{https://cran.r-project.org/web/packages/TDA/index.html})
-\item Persus (\url{http://www.sas.upenn.edu/~vnanda/perseus/index.html})
-\item Rivet (\url{http://rivet.online/})
-\end{itemize}
+If you are interested in Javaplex, then there are many other software packages that you may also be interested in.
+See \url{https://www.math.colostate.edu/~adams/advising/#software} for one list of applied topology software packages.
 
 % Below link currently broken:
 %Some of the exercises in this tutorial are borrowed from Vin de Silva's {\em Plexercises}, available at \url{http://comptop.stanford.edu/u/programs/Plexercises2.pdf}.
@@ -1348,7 +1340,7 @@ Figure~(a) shows a projection of $X(15,30)$. The space $X(15,30)$ is parameteriz
 
 The corresponding Matlab script is \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/cyclo_octane_example.m}{\texttt{cyclo\_octane\_example.m}}, and it relies on the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/pointsCycloOctane.mat}{\texttt{pointsCycloOctane.mat}}.
 
-The cyclo-octane molecule $\cyclo$ consists of a ring of 8 carbons atoms, each bonded to a pair of hydrogen atoms (Figure~\ref{fig:cyclo}). A conformation of this molecule is a chemically and physically possible realization in 3D space, modulo translations and rotations. The locations of the carbon atoms in a conformation determine the locations of the hydrogen atoms via energy minimization, and hence each molecule conformation can be mapped to a point in $\R^{24}=\R^{8\cdot 3}$, as there are eight carbon atoms in the molecule and each carbon location is represented by three coordinates $x,y,z$. This map realizes the conformation space of cyclo-octane as a subset of $\R^{24}$. It turns out that the conformation space is a two-dimensional stratefied space, i.e.\ a two-dimensional manifold with singularities. Furthermore,~\citet{brown2008algorithmic},~\citet{martin2010topology}, and~\citet{martin2011non} show that the conformation space of cyclo-octane is the union of a sphere with a Klein bottle, glued together along two circles of singularities (see Figures~7 and 8 in~\citet{martin2011non}). Indeed, the algorithm they develop allows them to triangulate this conformation space from a finite sample.
+The cyclo-octane molecule $\cyclo$ consists of a ring of 8 carbons atoms, each bonded to a pair of hydrogen atoms (Figure~\ref{fig:cyclo}). A conformation of this molecule is a chemically and physically possible realization in 3D space, modulo translations and rotations. The locations of the carbon atoms in a conformation determine the locations of the hydrogen atoms via energy minimization, and hence each molecule conformation can be mapped to a point in $\R^{24}=\R^{8\cdot 3}$, as there are eight carbon atoms in the molecule and each carbon location is represented by three coordinates $x,y,z$. This map realizes the conformation space of cyclo-octane as a subset of $\R^{24}$. It turns out that the conformation space is a two-dimensional stratified space, i.e.\ a two-dimensional manifold with singularities. Furthermore,~\citet{brown2008algorithmic},~\citet{martin2010topology}, and~\citet{martin2011non} show that the conformation space of cyclo-octane is the union of a sphere with a Klein bottle, glued together along two circles of singularities (see Figures~7 and 8 in~\citet{martin2011non}). Indeed, the algorithm they develop allows them to triangulate this conformation space from a finite sample.
 
 \begin{figure}[htp]
 	\begin{center}
