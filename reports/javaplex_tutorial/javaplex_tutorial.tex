@@ -485,9 +485,11 @@ ans = 0
 >> stream.finalizeStream();
 \end{verbatim} \end{quote}
 
+{\em Remark.} You should avoid negative filtration values with Javaplex (simply by adding some large constant until all filtration values are nonnegative).
+
 %In Section~\ref{S:sfpc} we will create simplex streams that are not also explicit simplex streams. To display or edit such streams, we will first need to use the method \texttt{makeExplicit}. See Exercise~\ref{ripsExpl}. 
 
-% Henry: At the moment there is no ``make Explicit'' function. 
+% Henry: At the moment there is no ``make Explicit'' function.
 
 
 
@@ -1459,6 +1461,11 @@ It is possible to display the boundary matrix of a homology computation. For an 
 \subsection{Computing the bottleneck distance}
 
 It is possible to compute the bottleneck distance between two barcodes. For an example of how to do this, please see the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/bottleneck_distance_example.m}{\texttt{bottleneck\_distance\_example.m}} in the folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}.
+
+
+\subsection{Computing sublevelset persistence}
+
+It is possible to use Javaplex to compute the sublevelset persistence of a function defined, for example, on a 2-dimensional grid. For an example of how to do this, please see the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/sublevelset\_example.m}{\texttt{sublevelset\_example.m}}, which relies on the file \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples/sublevelset\_persistence.m}{\texttt{sublevelset\_persistence.m}}, both in the folder \href{https://github.com/appliedtopology/javaplex/tree/master/src/matlab/for_distribution/tutorial_examples}{\texttt{tutorial\_examples}}.
 
 
 %\subsection{Java heap size}
